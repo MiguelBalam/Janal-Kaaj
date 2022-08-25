@@ -81,4 +81,34 @@ h1 {
     opacity: 1;
     transition: opacity .3s ease;
 }
-/*Adrian gay*/
+
+.input-IniciarS{
+    
+    background-color: #97EFF7; 
+    border-radius: 10px;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    font-size: 16px;
+   margin-left: auto;
+   margin-right: auto;
+   
+}
+
+.input-Usuario::placeholder{
+  background-image: url(../Img/usuario\ \(2\).png);
+  background-size: 15px 15px;
+  background-repeat: no-repeat;
+  background-position: 1rem center;
+  text-align: center;
+  
+}
+.input-contraseña::placeholder{
+  background-image: url(../Img/bloquear.png);
+  background-size: 15px 15px;
+  background-repeat: no-repeat;
+  background-position: 1rem center;
+  text-align: center;
+  
+}
