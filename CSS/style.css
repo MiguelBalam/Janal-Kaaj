@@ -22,7 +22,6 @@ body {
   position: absolute;
   top: 50%;
   left: 50%;
-  
   transform: translate(-50%, -50%);
   /*background: linear-gradient(rgba(0, 0, 0, ) rgba(0, 0, 0, 0.7));*/
   background-color: #5cbdf2;
@@ -37,6 +36,7 @@ h1 {
   text-transform: uppercase;
   font-size: 2rem;
   text-align: center;
+  color: #ffffff;
 }
 input{
     border-radius: 10px;
@@ -60,7 +60,6 @@ input{
 .control input [type="submit"] {
   background: crimson;
   color: #fff;
-
   font-size: 1.2em;
   opacity: 0.7;
   transition: opacity 0.3s ease;
@@ -76,7 +75,7 @@ input{
 
 .link a {
   text-decoration: none;
-  color: rgb(59, 19, 19);
+  color: rgb(0, 0, 0);
   opacity: 1;
   transition: opacity 0.3s ease;
 }
@@ -90,4 +89,34 @@ input{
     color: rgb(59, 19, 19);
     opacity: 1;
     transition: opacity .3s ease;
+}
+
+.input-IniciarS{ 
+  background-color: #97EFF7; 
+  border-radius: 10px;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  font-size: 16px;
+ margin-left: auto;
+ margin-right: auto;
+ 
+}
+
+.input-Usuario::placeholder{
+background-image: url(../Img/usuario\ \(2\).png);
+background-size: 15px 15px;
+background-repeat: no-repeat;
+background-position: 1rem center;
+text-align: center;
+
+}
+.input-contraseña::placeholder{
+background-image: url(../Img/bloquear.png);
+background-size: 15px 15px;
+background-repeat: no-repeat;
+background-position: 1rem center;
+text-align: center;
+
 }
