@@ -86,9 +86,8 @@ input{
 }
 
 .crearcuenta {
-  text-decoration: none;
-  color: rgb(59, 19, 19);
-  opacity: 1;
-  transition: opacity 0.3s ease;
+    text-decoration: none;
+    color: rgb(59, 19, 19);
+    opacity: 1;
+    transition: opacity .3s ease;
 }
-
