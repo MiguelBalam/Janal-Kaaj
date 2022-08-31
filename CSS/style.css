@@ -49,24 +49,29 @@ input{
 
 .control input {
   width: 100%;
-  display: block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   padding: 10px;
   color: #222;
   border: none;
   outline: none;
   margin: 1em 0;
+  transition: .3s ease all;
 }
 
 .control input [type="submit"] {
-  background: crimson;
   color: #fff;
   font-size: 1.2em;
   opacity: 0.7;
-  transition: opacity 0.3s ease;
+  cursor: pointer;
+
 }
 
 .control input [type="submit"]:hover {
   opacity: 1;
+  color: #5cbdf2;
+  background: linear-gradient(27deg, #34495e);
 }
 
 .link {
@@ -120,3 +125,21 @@ background-position: 1rem center;
 text-align: center;
 
 }
+
+.bodyTitulo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 30px;
+  
+}
+
+/* .estiloSumit{
+content: "";
+width: 100%;
+width: 40px;
+z-index: 1;
+top: 0;
+left: 0;
+background:#FFF;
+} */
