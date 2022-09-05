@@ -13,7 +13,7 @@
 
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap" rel="stylesheet">
     <!-- Contraseña segura -->
-<script type='text/javascript' src='contraseña.js'></script>
+<!--<script type='text/javascript' src='contraseña.js'></script>-->
 <script type='text/html' src='Registro.html'></script>
 </head>
 <!-- prueba -->
@@ -37,7 +37,8 @@
                 
                 <span>  <input type="checkbox" >      Recordar  </span>
                 <div class="control">
-                    <input type="button" class="submit"  onclick="window.location.href='https://www.freecodecamp.org/';" value="INICIAR SESIÓN">
+                    <input type="button" class="submit" onclick="control()" value="INICIAR SESIÓN" >
+                   <!--<input type="button" class="submit" onclick="registrarse()" value="INICIAR SESIÓN2" >--> 
                     <input type="button" class="submit" onclick="window.location.href='Registro.html';" value="REGISTRARSE">
                 </div>
             </form>
@@ -47,6 +48,7 @@
             </div>
         </div>
     </section>
+    <script src="BD/bd.js"></script>
 </body>
 
 </html>
