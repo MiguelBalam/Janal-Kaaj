@@ -17,10 +17,6 @@ request.onupgradeneeded = function (event) {
 
     // creacion de tablas
 
-
-
-
-    
     var opciones = { keyPath: "id", autoIncrement: true };
      db.createObjectStore("Usuario", opciones);
      db.createObjectStore("Autenticasion",{keyPath: "correo"});

@@ -1,42 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registrarse </title>
-    <link rel="stylesheet" href="CSS/style.css">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registrarse </title>
+  <link rel="stylesheet" href="CSS/style.css">
 </head>
+
 <body>
-    <div class="form-container"> 
+  <div class="form-container">
     <form action="#">
 
-        <div class="control"> 
-            <label for="Usuario">  Usuario </label>
-            <input class="input-Usuario" type="email"  Placeholder="Usuario" name=" Usuario" id="Usuario" 
-            required minlength="8"  >
-        </div>
-        <div class="control">
+      <div class="control">
+        <label for="Usuario"> Usuario </label>
+        <input class="input-Usuario" type="email" Placeholder="Usuario" name=" Usuario" id="Usuario" required
+          minlength="8">
+      </div>
+      <div class="control">
         <p>Año de nacimiento: <input type="number" name="nacido" min="1900"></p>
-        </div>
-        <div class="control"> 
-        <p>Contraseña: <input class="input-contraseña" type="password" placeholder="Contraseña" name="Contraseña" id="Contraseña" 
-            required minlength="8" maxlength="16" size="16"></p>
-        </div>
-        <div class="control"> 
-        <p>Ingrese su contraseña nuevamente: <input class="input-contraseña" type="password" placeholder="Contraseña" name="Contraseña" id="Contraseña" 
-            required minlength="8" maxlength="16" size="16"></p>
-        </div>
-    
-        <p>
-        <div class="control"> 
-          <input type="submit" value="Enviar"> 
-        </div>
-        <div class="control"> 
-          <input type="reset" value="Borrar">
-        </div>
-        </p>
-      </form>
-    </div>
+      </div>
+      <div class="control">
+        <p>Contraseña: <input class="input-contraseña" type="password" placeholder="Contraseña" name="Contraseña"
+            id="Contraseña" required minlength="8" maxlength="16" size="16"></p>
+      </div>
+      <div class="control">
+        <p>Ingrese su contraseña nuevamente: <input class="input-contraseña" type="password" placeholder="Contraseña"
+            name="Contraseña" id="Contraseña" required minlength="8" maxlength="16" size="16"></p>
+      </div>
+
+      <p>
+      <div class="control">
+        <input type="submit" value="Enviar">
+      </div>
+      <div class="control">
+        <input type="reset" value="Borrar">
+      </div>
+      </p>
+    </form>
+  </div>
 </body>
+
 </html>
