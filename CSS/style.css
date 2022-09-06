@@ -103,7 +103,7 @@ input{
  margin-right: auto;
  
 }
-
+/* Poner estilos dentro del estilo de la clase formulario-input */
 .input-Usuario::placeholder{
 background-image: url(../Img/usuario\ \(2\).png);
 background-size: 15px 15px;
@@ -111,7 +111,7 @@ background-repeat: no-repeat;
 background-position: 1rem center;
 text-align: center;
 
-}
+}   
 .input-contraseña::placeholder{
 background-image: url(../Img/bloquear.png);
 background-size: 15px 15px;
