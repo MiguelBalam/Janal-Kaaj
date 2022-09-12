@@ -108,7 +108,7 @@ input{
  margin-right: auto;
  
 }
-
+/* Poner estilos dentro del estilo de la clase formulario-input */
 .input-Usuario::placeholder{
 background-image: url(../Img/usuario\ \(2\).png);
 background-size: 15px 15px;
@@ -116,21 +116,88 @@ background-repeat: no-repeat;
 background-position: 1rem center;
 text-align: center;
 
-}
+}   
 .input-contraseña::placeholder{
 background-image: url(../Img/bloquear.png);
 background-size: 15px 15px;
 background-repeat: no-repeat;
 background-position: 1rem center;
 text-align: center;
-
 }
-
-.bodyTitulo {
+/* Termina */
+ .bodyTitulo {
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 30px;
   
+} 
+
+/* Estilo pestaña Admin_escuestado */
+
+.color-titulo{
+  color:rgb(0, 0, 0);
 }
+
+.color-fondo{
+  background-color: #E8EEEB; 
+  
+}
+
+#contra::placeholder{
+  background-image: url(../Img/bloquear.png);
+  background-size: 15px 15px;
+  background-repeat: no-repeat;
+  background-position: 1rem center;
+  text-align: center;
+}
+#tel::placeholder{
+  background-image: url(../Img/Icono-Telefono.png);
+  background-size: 15px 15px;
+  background-repeat: no-repeat;
+  background-position: 1rem center;
+  text-align: center;
+}
+#correo::placeholder{
+  background-image: url(../Img/gmail.png);
+  background-size: 15px 15px;
+  background-repeat: no-repeat;
+  background-position: 1rem center;
+  text-align: center;
+}
+#boton-enviar:hover{ 
+background-color:  #97EFF7 !important;
+color: #000 !important;
+border-color: #97EFF7 !important;
+} 
+.form-control{
+  background-color:#E8EEEB  ;
+  opacity: 0.8;
+}
+/* termina diseño de encuestador*/
+
+/* Diseño de pestaña de escuestado */
+
+#contra-encuestado::placeholder{
+  background-image: url(../Img/bloquear.png);
+  background-size: 15px 15px;
+  background-repeat: no-repeat;
+  background-position: 1rem center;
+  text-align: center;
+}
+#tel-encuestado::placeholder{
+  background-image: url(../Img/Icono-Telefono.png);
+  background-size: 15px 15px;
+  background-repeat: no-repeat;
+  background-position: 1rem center;
+  text-align: center;
+}
+#Email-encuestado::placeholder{
+  background-image: url(../Img/gmail.png);
+  background-size: 15px 15px;
+  background-repeat: no-repeat;
+  background-position: 1rem center;
+  text-align: center;
+}
+
 
