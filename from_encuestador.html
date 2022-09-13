@@ -144,7 +144,7 @@
 
                     <label for="inputEmai1" class="col-sm-4 col-form-label px-4">Correo</label>
                     <div class="col-sm-8">
-                        <input type="email" class="form-control" id="inputEmai1" required>
+                        <input type="email" class="form-control" id="Usuario" required>
                         <div class="valid-feedback">
                             Correcto
                         </div>
@@ -171,7 +171,7 @@
                         <div class="row mb-3">
                             <label for="contra" class="col-sm-4 col-form-label px-4 ">Contraseña</label>
                             <div class="col-sm-8">
-                                <input type="password" class="form-control" placeholder="Contraseña" id="contra"
+                                <input type="password" class="form-control" placeholder="Contraseña" id="Contraseña"
                                     required>
                                 <div class="valid-feedback">
                                     Correcto
@@ -184,7 +184,7 @@
 
                         <div class="row mb-2">
                             <div class="d-grid gap-2 col-6 mx-auto">
-                                <button class="btn btn-outline-success " type="submit" id="boton-enviar">Enviar</button>
+                                <button class="btn btn-outline-success "  onclick= "registrarse()" type="submit" id="boton-enviar">Enviar</button>
                             </div>
                         </div>
 
@@ -224,7 +224,7 @@
             return false;
         }
     </script>
-
+  <script src="BD/bd.js"></script>
 </body>
 
 </html>
