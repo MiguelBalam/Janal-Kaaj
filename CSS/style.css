@@ -3,10 +3,30 @@
   padding: 0;
   box-sizing: border-box;
 }
-
-body {
+:root{
+  --verde_oliva: #c9f2e7;
+  --mostaza: #f2be5c;
+  --menta: #a4ffd8;
+  --azul_cielo: #6be7ed;
+  --verde: #70E0A6;
+  --verde_laguna: #246F75;
+  --opcion: #1b2945;
+  --opcion2: #03a4ac;
+  --opcion3: #235bc4;
+  --celeste: #97EFF7;
+  --white: #ffffff;
+  --black: #000000;
+}
+.Poppins{
   font-family: 'Poppins', sans-serif;
   color: rgb(0, 0, 0);
+}
+.Spartan{
+  font-family: 'League Spartan', sans-serif;
+  color: rgb(0, 0, 0);
+}
+.IBM{
+  font-family: 'IBM Plex Sans', sans-serif;
 }
 
 .section {
@@ -23,9 +43,8 @@ body {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  /*background: linear-gradient(rgba(0, 0, 0, ) rgba(0, 0, 0, 0.7));*/
-  background-color: #5cbdf2;
-  opacity: 0.8;
+  background-color: var(--white);
+  opacity: 0.95;
   width: 380px;
   padding: 50px 30px;
   border-radius: 10px;
@@ -40,11 +59,11 @@ h1 {
 }
 input{
     border-radius: 10px;
-    font-family: 'Open Sans', sans-serif;
     font-size: 0.8rem;
+    border-color: var(--verde_oliva);
 }
 .submit{
-    background-color: #c9f2e7;
+    background-color: var(--verde_oliva);
 }
 
 .control input {
@@ -54,8 +73,7 @@ input{
   justify-content: center;
   padding: 10px;
   color: #222;
-  border: none;
-  outline: none;
+  /*border: none;*/
   margin: 1em 0;
   transition: .3s ease all;
 }
@@ -123,6 +141,7 @@ background-size: 15px 15px;
 background-repeat: no-repeat;
 background-position: 1rem center;
 text-align: center;
+
 }
 /* Termina */
  .bodyTitulo {
@@ -140,9 +159,14 @@ text-align: center;
 }
 
 .color-fondo{
-  background-color: #E8EEEB; 
-  
+  background-color: var(--white);
 }
+.bg-vo{background-color: var(--verde_oliva);}
+.bg-blanco{background-color: var(--white);}
+.bg-text-blanco{color: var(--white) !important;}
+.bg-border-mostaza{border-color: var(--mostaza) !important;}
+.bg-text-mostaza{color: var(--mostaza) !important;}
+.bg-text-black{color: var(--black) !important;}
 
 #contra::placeholder{
   background-image: url(../Img/bloquear.png);
@@ -166,9 +190,9 @@ text-align: center;
   text-align: center;
 }
 #boton-enviar:hover{ 
-background-color:  #97EFF7 !important;
-color: #000 !important;
-border-color: #97EFF7 !important;
+background-color: var(--mostaza) !important;
+color: rgb(255, 255, 255) !important;
+border-color: var(--mostaza) !important;
 } 
 .form-control{
   background-color:#E8EEEB  ;
