@@ -1,110 +1,115 @@
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
-:root{
-  --verde_oliva: #c9f2e7;
-  --mostaza: #f2be5c;
-  --menta: #a4ffd8;
-  --azul_cielo: #6be7ed;
-  --verde: #70E0A6;
-  --verde_laguna: #246F75;
-  --opcion: #1b2945;
-  --opcion2: #03a4ac;
-  --opcion3: #235bc4;
-  --celeste: #97EFF7;
-  --white: #ffffff;
-  --black: #000000;
+
+:root {
+    --verde_oliva: #c9f2e7;
+    --mostaza: #f2be5c;
+    --menta: #a4ffd8;
+    --azul_cielo: #6be7ed;
+    --verde: #70E0A6;
+    --verde_laguna: #246F75;
+    --opcion: #1b2945;
+    --opcion2: #03a4ac;
+    --opcion3: #235bc4;
+    --celeste: #97EFF7;
+    --white: #ffffff;
+    --black: #000000;
 }
-.Poppins{
-  font-family: 'Poppins', sans-serif;
-  color: rgb(0, 0, 0);
+
+.Poppins {
+    font-family: 'Poppins', sans-serif;
+    color: rgb(0, 0, 0);
 }
-.Spartan{
-  font-family: 'League Spartan', sans-serif;
-  color: rgb(0, 0, 0);
+
+.Spartan {
+    font-family: 'League Spartan', sans-serif;
+    color: rgb(0, 0, 0);
 }
-.IBM{
-  font-family: 'IBM Plex Sans', sans-serif;
+
+.IBM {
+    font-family: 'IBM Plex Sans', sans-serif;
 }
 
 .section {
-  position: relative;
-  height: 100vh;
-  width: 100%;
-  background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url(./Fondo.jpg);
-  background-size: cover;
-  background-position: center center;
+    position: relative;
+    height: 100vh;
+    width: 100%;
+    background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url(./Fondo.jpg);
+    background-size: cover;
+    background-position: center center;
 }
 
 .form-container {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: var(--white);
-  opacity: 0.95;
-  width: 380px;
-  padding: 50px 30px;
-  border-radius: 10px;
-  box-shadow: 7px 7px 60px #000;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: var(--white);
+    opacity: 0.95;
+    width: 380px;
+    padding: 50px 30px;
+    border-radius: 10px;
+    box-shadow: 7px 7px 60px #000;
 }
 
 h1 {
-  text-transform: uppercase;
-  font-size: 2rem;
-  text-align: center;
-  color: #ffffff;
+    text-transform: uppercase;
+    font-size: 2rem;
+    text-align: center;
+    color: #ffffff;
 }
-input{
+
+input {
     border-radius: 10px;
     font-size: 0.8rem;
     border-color: var(--verde_oliva);
 }
-.submit{
+
+.submit {
     background-color: var(--verde_oliva);
 }
 
 .control input {
-  width: 100%;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 10px;
-  color: #222;
-  /*border: none;*/
-  margin: 1em 0;
-  transition: .3s ease all;
+    width: 100%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    color: #222;
+    /*border: none;*/
+    margin: 1em 0;
+    transition: .3s ease all;
 }
 
 .control input [type="submit"] {
-  color: #fff;
-  font-size: 1.2em;
-  opacity: 0.7;
-  cursor: pointer;
-
+    color: #fff;
+    font-size: 1.2em;
+    opacity: 0.7;
+    cursor: pointer;
 }
 
 .control input [type="submit"]:hover {
-  opacity: 1;
-  color: #5cbdf2;
-  background: linear-gradient(27deg, #34495e);
+    opacity: 1;
+    color: #5cbdf2;
+    background: linear-gradient(27deg, #34495e);
 }
 
 .link {
-  text-align: center;
+    text-align: center;
 }
 
 .link a {
-  text-decoration: none;
-  color: rgb(0, 0, 0);
-  opacity: 1;
-  transition: opacity 0.3s ease;
+    text-decoration: none;
+    color: rgb(0, 0, 0);
+    opacity: 1;
+    transition: opacity 0.3s ease;
 }
 
 .link a:hover {
-  opacity: 1;
+    opacity: 1;
 }
 
 .crearcuenta {
@@ -114,114 +119,170 @@ input{
     transition: opacity .3s ease;
 }
 
-.input-IniciarS{ 
-  background-color: #97EFF7; 
-  border-radius: 10px;
-  border: none;
-  color: white;
-  padding: 15px 32px;
-  text-align: center;
-  font-size: 16px;
- margin-left: auto;
- margin-right: auto;
- 
+.input-IniciarS {
+    background-color: #97EFF7;
+    border-radius: 10px;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    font-size: 16px;
+    margin-left: auto;
+    margin-right: auto;
 }
+
+
 /* Poner estilos dentro del estilo de la clase formulario-input */
-.input-Usuario::placeholder{
-background-image: url(../Img/usuario\ \(2\).png);
-background-size: 15px 15px;
-background-repeat: no-repeat;
-background-position: 1rem center;
-text-align: center;
 
-}   
-.input-contraseña::placeholder{
-background-image: url(../Img/bloquear.png);
-background-size: 15px 15px;
-background-repeat: no-repeat;
-background-position: 1rem center;
-text-align: center;
-
+.input-Usuario::placeholder {
+    background-image: url(../Img/usuario\ \(2\).png);
+    background-size: 15px 15px;
+    background-repeat: no-repeat;
+    background-position: 1rem center;
+    text-align: center;
 }
+
+.input-contraseña::placeholder {
+    background-image: url(../Img/bloquear.png);
+    background-size: 15px 15px;
+    background-repeat: no-repeat;
+    background-position: 1rem center;
+    text-align: center;
+}
+
+
 /* Termina */
- .bodyTitulo {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 30px;
-  
-} 
+
+.bodyTitulo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 30px;
+}
+
 
 /* Estilo pestaña Admin_escuestado */
 
-.color-titulo{
-  color:rgb(0, 0, 0);
+.color-titulo {
+    color: rgb(0, 0, 0);
 }
 
-.color-fondo{
-  background-color: var(--white);
+.color-fondo {
+    background-color: var(--white);
 }
-.bg-vo{background-color: var(--verde_oliva);}
-.bg-blanco{background-color: var(--white);}
-.bg-text-blanco{color: var(--white) !important;}
-.bg-border-mostaza{border-color: var(--mostaza) !important;}
-.bg-text-mostaza{color: var(--mostaza) !important;}
-.bg-text-black{color: var(--black) !important;}
 
-#contra::placeholder{
-  background-image: url(../Img/bloquear.png);
-  background-size: 15px 15px;
-  background-repeat: no-repeat;
-  background-position: 1rem center;
-  text-align: center;
+.bg-vo {
+    background-color: var(--verde_oliva);
 }
-#tel::placeholder{
-  background-image: url(../Img/Icono-Telefono.png);
-  background-size: 15px 15px;
-  background-repeat: no-repeat;
-  background-position: 1rem center;
-  text-align: center;
+
+.bg-blanco {
+    background-color: var(--white);
 }
-#correo::placeholder{
-  background-image: url(../Img/gmail.png);
-  background-size: 15px 15px;
-  background-repeat: no-repeat;
-  background-position: 1rem center;
-  text-align: center;
+
+.bg-text-blanco {
+    color: var(--white) !important;
 }
-#boton-enviar:hover{ 
-background-color: var(--mostaza) !important;
-color: rgb(255, 255, 255) !important;
-border-color: var(--mostaza) !important;
-} 
-.form-control{
-  background-color:#E8EEEB  ;
-  opacity: 0.8;
+
+.bg-border-mostaza {
+    border-color: var(--mostaza) !important;
 }
+
+.bg-text-mostaza {
+    color: var(--mostaza) !important;
+}
+
+.bg-text-black {
+    color: var(--black) !important;
+}
+
+#contra::placeholder {
+    background-image: url(../Img/bloquear.png);
+    background-size: 15px 15px;
+    background-repeat: no-repeat;
+    background-position: 1rem center;
+    text-align: center;
+}
+
+#tel::placeholder {
+    background-image: url(../Img/Icono-Telefono.png);
+    background-size: 15px 15px;
+    background-repeat: no-repeat;
+    background-position: 1rem center;
+    text-align: center;
+}
+
+#correo::placeholder {
+    background-image: url(../Img/gmail.png);
+    background-size: 15px 15px;
+    background-repeat: no-repeat;
+    background-position: 1rem center;
+    text-align: center;
+}
+
+#boton-enviar:hover {
+    background-color: var(--mostaza) !important;
+    color: rgb(255, 255, 255) !important;
+    border-color: var(--mostaza) !important;
+}
+
+.form-control {
+    background-color: #E8EEEB;
+    opacity: 0.8;
+}
+
+
 /* termina diseño de encuestador*/
+
 
 /* Diseño de pestaña de escuestado */
 
-#contra-encuestado::placeholder{
-  background-image: url(../Img/bloquear.png);
-  background-size: 15px 15px;
-  background-repeat: no-repeat;
-  background-position: 1rem center;
-  text-align: center;
-}
-#tel-encuestado::placeholder{
-  background-image: url(../Img/Icono-Telefono.png);
-  background-size: 15px 15px;
-  background-repeat: no-repeat;
-  background-position: 1rem center;
-  text-align: center;
-}
-#Email-encuestado::placeholder{
-  background-image: url(../Img/gmail.png);
-  background-size: 15px 15px;
-  background-repeat: no-repeat;
-  background-position: 1rem center;
-  text-align: center;
+#contra-encuestado::placeholder {
+    background-image: url(../Img/bloquear.png);
+    background-size: 15px 15px;
+    background-repeat: no-repeat;
+    background-position: 1rem center;
+    text-align: center;
 }
 
+#tel-encuestado::placeholder {
+    background-image: url(../Img/Icono-Telefono.png);
+    background-size: 15px 15px;
+    background-repeat: no-repeat;
+    background-position: 1rem center;
+    text-align: center;
+}
 
+#Email-encuestado::placeholder {
+    background-image: url(../Img/gmail.png);
+    background-size: 15px 15px;
+    background-repeat: no-repeat;
+    background-position: 1rem center;
+    text-align: center;
+}
+
+.logo {
+    background-image: url(../Img/prueba.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 450px;
+    position: relative;
+    margin-bottom: 2rem;
+}
+
+.contenido-logo {
+    position: absolute;
+    background-color: rgb(0, 0, 0, .6);
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+h2 {
+    text-transform: uppercase;
+    font-size: 2rem;
+    text-align: center;
+    color: #ffffff;
+}
