@@ -44,7 +44,7 @@
             </div>
 
 
-            <form class="needs-validation" novalidate>
+            <form name="formEncuestado" action="enviar.IDB" class="needs-validation" id="EncuestadoForm">
                 <div class="row mb-3">
                     <label for="nombrecompletos" class="col-sm-4 col-form-label px-4">Nombres</label>
                     <div class="col-sm-8">
@@ -184,7 +184,7 @@
 
                         <div class="row mb-2">
                             <div class="d-grid gap-2 col-6 mx-auto">
-                                <button class="btn btn-outline-success "  onclick= "registrarse()" type="submit" id="boton-enviar">Enviar</button>
+                                <button class="btn btn-outline-success "  onclick= " registro()" type="submit" id="boton-enviar">Enviar</button>
                             </div>
                         </div>
 
@@ -224,7 +224,7 @@
             return false;
         }
     </script>
-  <script src="BD/bd.js"></script>
+  <script src="BD/app.js"></script>
 </body>
 
 </html>

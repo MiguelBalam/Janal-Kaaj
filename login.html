@@ -32,10 +32,10 @@
 
         <div class="form-container">
             <h1>Login</h1>
-            <form action="#">
+            <form id="log" action="#" name="login" >
                 <div class="control">
                     <label for="Usuario">  Usuario </label>
-                    <input class="input-Usuario" type="email" Placeholder="Usuario" name=" Usuario" id="Usuario" >
+                    <input class="input-Usuario" type="email" Placeholder="Usuario" name="Usuario" id="Usuario" >
 
                 </div>
                 <div class="control">
@@ -49,7 +49,7 @@
                 
                 <div class="control">
 
-                    <input type="button" class="submit" onclick="control()" value="INICIAR SESIÓN" >
+                    <input type="submit" class="submit" onclick="control()" id="controlE" value="INICIAR SESIÓN" >
                     <input type="button" class="submit" onclick="window.location.href='Registro.html';" value="REGISTRARSE">
                 </div>
             </form>
@@ -59,7 +59,8 @@
             </div>
         </div>
     </section>
-    <script src="BD/bd.js"></script>
+    <script src="BD/app.js"></script>
+ 
 </body>
 
 </html>
