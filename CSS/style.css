@@ -152,7 +152,7 @@ text-align: center;
   
 } 
 
-/* Estilo pestaña Admin_escuestado */
+/* Estilo pestaña Admin_escuestador */
 
 .color-titulo{
   color:rgb(0, 0, 0);
@@ -168,7 +168,14 @@ text-align: center;
 .bg-text-mostaza{color: var(--mostaza) !important;}
 .bg-text-black{color: var(--black) !important;}
 
-#contra::placeholder{
+#Contraseña::placeholder{
+  background-image: url(../Img/bloquear.png);
+  background-size: 15px 15px;
+  background-repeat: no-repeat;
+  background-position: 1rem center;
+  text-align: center;
+}
+#Contraseña2::placeholder{
   background-image: url(../Img/bloquear.png);
   background-size: 15px 15px;
   background-repeat: no-repeat;
@@ -182,7 +189,7 @@ text-align: center;
   background-position: 1rem center;
   text-align: center;
 }
-#correo::placeholder{
+#Correo::placeholder{
   background-image: url(../Img/gmail.png);
   background-size: 15px 15px;
   background-repeat: no-repeat;
@@ -203,6 +210,13 @@ border-color: var(--mostaza) !important;
 /* Diseño de pestaña de escuestado */
 
 #contra-encuestado::placeholder{
+  background-image: url(../Img/bloquear.png);
+  background-size: 15px 15px;
+  background-repeat: no-repeat;
+  background-position: 1rem center;
+  text-align: center;
+}
+#contra-encuestado2::placeholder{
   background-image: url(../Img/bloquear.png);
   background-size: 15px 15px;
   background-repeat: no-repeat;
