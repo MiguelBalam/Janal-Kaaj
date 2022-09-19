@@ -55,7 +55,14 @@
     box-shadow: 7px 7px 60px #000;
 }
 
-h1 {
+/* h1 {
+    text-transform: uppercase;
+    font-size: 2rem;
+    text-align: center;
+    color: #ffffff;
+} */
+
+.h1TextoTitulo{
     text-transform: uppercase;
     font-size: 2rem;
     text-align: center;
