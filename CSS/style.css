@@ -178,6 +178,30 @@ input {
     background-color: var(--white);
 }
 
+.bg-vo {
+    background-color: var(--verde_oliva);
+}
+
+.bg-blanco {
+    background-color: var(--white);
+}
+
+.bg-text-blanco {
+    color: var(--white) !important;
+}
+
+.bg-border-mostaza {
+    border-color: var(--mostaza) !important;
+}
+
+.bg-text-mostaza {
+    color: var(--mostaza) !important;
+}
+
+.bg-text-black {
+    color: var(--black) !important;
+}
+
 #Contraseña::placeholder{
   background-image: url(../Img/bloquear.png);
   background-size: 15px 15px;
@@ -193,9 +217,7 @@ input {
   text-align: center;
 }
 
-.bg-blanco {
-    background-color: var(--white);
-}
+
 #Correo::placeholder{
   background-image: url(../Img/gmail.png);
   background-size: 15px 15px;
@@ -204,17 +226,6 @@ input {
   text-align: center;
 }
 
-.bg-border-mostaza {
-    border-color: var(--mostaza) !important;
-}
-
-.bg-text-mostaza {
-    color: var(--mostaza) !important;
-}
-
-.bg-text-black {
-    color: var(--black) !important;
-}
 
 #contra::placeholder {
     background-image: url(../Img/bloquear.png);
