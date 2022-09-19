@@ -168,7 +168,7 @@ input {
 }
 
 
-/* Estilo pestaña Admin_escuestado */
+/* Estilo pestaña Admin_escuestador */
 
 .color-titulo {
     color: rgb(0, 0, 0);
@@ -178,16 +178,30 @@ input {
     background-color: var(--white);
 }
 
-.bg-vo {
-    background-color: var(--verde_oliva);
+#Contraseña::placeholder{
+  background-image: url(../Img/bloquear.png);
+  background-size: 15px 15px;
+  background-repeat: no-repeat;
+  background-position: 1rem center;
+  text-align: center;
+}
+#Contraseña2::placeholder{
+  background-image: url(../Img/bloquear.png);
+  background-size: 15px 15px;
+  background-repeat: no-repeat;
+  background-position: 1rem center;
+  text-align: center;
 }
 
 .bg-blanco {
     background-color: var(--white);
 }
-
-.bg-text-blanco {
-    color: var(--white) !important;
+#Correo::placeholder{
+  background-image: url(../Img/gmail.png);
+  background-size: 15px 15px;
+  background-repeat: no-repeat;
+  background-position: 1rem center;
+  text-align: center;
 }
 
 .bg-border-mostaza {
@@ -243,53 +257,33 @@ input {
 
 /* Diseño de pestaña de escuestado */
 
-#contra-encuestado::placeholder {
-    background-image: url(../Img/bloquear.png);
-    background-size: 15px 15px;
-    background-repeat: no-repeat;
-    background-position: 1rem center;
-    text-align: center;
+#contra-encuestado::placeholder{
+  background-image: url(../Img/bloquear.png);
+  background-size: 15px 15px;
+  background-repeat: no-repeat;
+  background-position: 1rem center;
+  text-align: center;
+}
+#contra-encuestado2::placeholder{
+  background-image: url(../Img/bloquear.png);
+  background-size: 15px 15px;
+  background-repeat: no-repeat;
+  background-position: 1rem center;
+  text-align: center;
+}
+#tel-encuestado::placeholder{
+  background-image: url(../Img/Icono-Telefono.png);
+  background-size: 15px 15px;
+  background-repeat: no-repeat;
+  background-position: 1rem center;
+  text-align: center;
+}
+#Email-encuestado::placeholder{
+  background-image: url(../Img/gmail.png);
+  background-size: 15px 15px;
+  background-repeat: no-repeat;
+  background-position: 1rem center;
+  text-align: center;
 }
 
-#tel-encuestado::placeholder {
-    background-image: url(../Img/Icono-Telefono.png);
-    background-size: 15px 15px;
-    background-repeat: no-repeat;
-    background-position: 1rem center;
-    text-align: center;
-}
-
-#Email-encuestado::placeholder {
-    background-image: url(../Img/gmail.png);
-    background-size: 15px 15px;
-    background-repeat: no-repeat;
-    background-position: 1rem center;
-    text-align: center;
-}
-
-.logo {
-    background-image: url(../Img/prueba.png);
-    background-repeat: no-repeat;
-    background-size: cover;
-    height: 450px;
-    position: relative;
-    margin-bottom: 2rem;
-}
-
-.contenido-logo {
-    position: absolute;
-    background-color: rgb(0, 0, 0, .6);
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
-
-h2 {
-    text-transform: uppercase;
-    font-size: 2rem;
-    text-align: center;
-    color: #ffffff;
-}
+/*Termina */

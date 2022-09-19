@@ -47,7 +47,7 @@
             </div>
 
 
-            <form class="needs-validation" novalidate>
+            <form class="needs-validation" id="formEncuestado" action="enviar.IDB">
                 <div class="row mb-3">
                     <label for="nombrecompletos" class="col-sm-4 col-form-label px-4">Nombres</label>
                     <div class="col-sm-8">
@@ -242,6 +242,20 @@
                     <label for="contra" class="col-sm-4 col-form-label px-4">Contraseña</label>
                     <div class="col-sm-8">
                         <input type="password" class="form-control" placeholder="Contraseña" id="contra-encuestado"
+                            required>
+                        <div class="valid-feedback">
+                            Correcto
+                        </div>
+                        <div class="invalid-feedback">
+                            Llene el campo
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row mb-3">
+                    <label for="contra" class="col-sm-4 col-form-label px-4">Ingrese su contraseña nuevamente</label>
+                    <div class="col-sm-8">
+                        <input type="password" class="form-control" placeholder="Contraseña" id="contra-encuestado2"
                             required>
                         <div class="valid-feedback">
                             Correcto
