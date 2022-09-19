@@ -23,6 +23,7 @@ const IDB =(function init(){
         db.createObjectStore("Localidad", {autoIncrement: true});
         db.createObjectStore("Municipio", {autoIncrement: true});
         db.createObjectStore("Encuestador",{autoIncrement: true});
+        
    
         console.log('upgrade',db);
     });
@@ -42,6 +43,11 @@ const IDB =(function init(){
         var Edad= document.getElementById('edad').value.trim();
         var Proce= document.getElementById('procedencia').value.trim();
         var Telefono = document.getElementById('tel').value.trim();
+        // var localidad =document.getElementById('localidad').value.trim();
+        // var ciudad =document.getElementById('cuidad').value.trim();
+        // var Municipio =document.getElementById('municipio').value.trim();
+        // var Encuestado = document.getElementById('estado').value.trim();
+        // var telefono = document.getElementById('tel-encuestado').value.trim();
 
         let Usuario = {
         Nombre,
@@ -53,8 +59,8 @@ const IDB =(function init(){
         Telefono
         }
         let Autenticasion = {
-            correo:Usuario,
-            contraseña:Contraseña
+            correo,
+            Contraseña
             }
             let Encuestador = {
               Proce
@@ -128,7 +134,7 @@ function validar(){
  document.addEventListener("DOMContentLoaded", function(event) { 
     document.getElementById('EncuestadoForm').addEventListener('submit',manejadorValidacion)
       });
-      manejadorValidacion(e) ;
+      manejadorValidacion(e);
 }
 
 function manejadorValidacion(e) {
@@ -168,7 +174,7 @@ function manejadorValidacion(e) {
               
                   alert("Inicio de sesion exitosa");
               
-                 //control (window.location.href='https://www.youtube.com/');
+                 control (window.location.href='index.html');
                 
                  }
                  
