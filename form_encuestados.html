@@ -20,7 +20,7 @@
     <!-- Barra de navegacion -->
     <nav class="navbar navbar-expand-lg sticky-top bg-vo">
         <div class="container-fluid bg-vo">
-            <a class="navbar-brand" href="#">Janal-Kaaj</a>
+            <a class="navbar-brand">Janal-Kaaj</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -43,7 +43,7 @@
         <div class="card col-sm-6 p-3 shadow-lg mb-5 bg-white rounded">
 
             <div class="row mb-3 text-center">
-                <h1 class="color-titulo mb-4">Datos del escuestado</h1>
+                <h1 class="color-titulo mb-4 h1TextoTitulo">Datos del escuestado</h1>
             </div>
 
 
@@ -266,6 +266,20 @@
                     </div>
                 </div>
 
+                <div class="row mb-3">
+                    <label for="contra" class="col-sm-4 col-form-label px-4">Contraseña</label>
+                    <div class="col-sm-8">
+                        <input type="password" class="form-control" placeholder="Contraseña" id="contra-encuestado"
+                            required>
+                        <div class="valid-feedback">
+                            Correcto
+                        </div>
+                        <div class="invalid-feedback">
+                            Llene el campo
+                        </div>
+                    </div>
+                </div>
+                
                 <div class="row mb-3">
                     <div class="d-grid gap-2 col-6 mx-auto">
                         <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" id="boton-enviar" type="submit">Enviar</button>
