@@ -6,8 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tipos de encuestas</title>
-    <link rel="stylesheet" href="/CSS/bootstrap.min.css">
-    <link rel="stylesheet" href="/CSS/style.css">
+    <link rel="stylesheet" href="../CSS/bootstrap.min.css">
+    <link rel="stylesheet" href="../CSS/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300&display=swap" rel="stylesheet">
@@ -18,6 +18,8 @@
 </head>
 
 <body class="color-fondo IBM">
+
+
     <!-- Barra de navegacion  -->
     <nav class="navbar navbar-expand-lg bg-vo sticky-top">
         <div class="container-fluid bg-vo">
@@ -40,57 +42,159 @@
         </div>
     </nav>
 
-    <div class="container p-3">
-        <div class=" container card col-sm-12 p-3 shadow-lg  bg-white rounded ">
 
-            <h1 class="bg-text-black text-center p-3 text-uppercase text-black">Menú de encuestas</h1>
+    <div class=" container card col-sm-12 p-3 shadow-lg  bg-white rounded ">
 
-            <div class="row">
-                <div class="col-sm-4 text-center mb-3">
-                    <from class="d-flex">
-                        <input class="form-control me-2" type="search" placeholder="Buscar Nombre" aria-label="Search">
-                        <button class="btn btn-outline-success" type="submit">Filtrar</button>
-                    </from>
-                </div>
-                <div class="col-sm-4 text-center mb-3">
+        <h1 class="bg-text-black text-center p-3 text-uppercase text-black">Menú de encuestas</h1>
+
+        <div class="row">
+            <div class="col-sm-6 text-center mb-3">
+                <from class="d-flex">
+                    <input class="form-control me-2" type="search" placeholder="Buscar Nombre" aria-label="Search">
+                    <button class="btn btn-outline-success" type="submit">Filtrar</button>
+                </from>
+            </div>
+            <!-- <div class="col-sm-4 text-center mb-3">
                     <div class="d-grid gap-2 col-6 mx-auto">
                         <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza">Duplicar</button>
-                    </div>
-                </div>
-                <div class="col-sm-4 text-center mb-3">
-                    <div> <label class="px-3 text-success">Crear Formulario </label><button
-                            class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" type="summit"><img
-                                src="/Img/Crear.svg"></button></div>
-                </div>
+                    </div> 
+                </div> -->
+            <div class="col-sm-6 text-center mb-3">
+                <div> <label class="px-3 text-success">Crear Formulario </label><button
+                        class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" type="summit"><img
+                            src="/Img/Crear.svg"></button></div>
             </div>
         </div>
-
     </div>
 
-    <div class="container">
-        <div class="card p-2 shadow-lg  bg-white rounded ">
-            <div class=" row">
 
+    <div class="p-3">
+
+
+        <div class="container card col-sm-12 p-2 shadow-lg  bg-white rounded">
+            <div class="row">
+
+                <!-- Encuesta 1  -->
                 <div class="col-sm-12 col-md-4 col-lg-4 text-center mb-3">
-                    <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza"><img src="/Img/Form1.png"
-                            width="200px" height="320px"></button>
+                    <button type="button" data-bs-toggle="modal" data-bs-target="#mymodal"
+                        class="btn btn-outline-success bg-border-mostaza bg-text-mostaza"><img src="/Img/Form1.png"
+                            width="200px" height="320px">
+                    </button>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="mymodal" tabindex="-1" aria-labelledby="mymodal" aria-modal="true"
+                        style="display: none;" aria-modal="true" role="dialog">
+                        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="mymodel">Formulario 1</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <img src="/Img/Form1.png" width="200px" height="320px">
+                                </div>
+                                <div class="modal-footer">
+
+                                    <button
+                                        class="btn btn-outline-success bg-border-mostaza bg-text-mostaza">Editar</button>
+
+                                    <button
+                                        class="btn btn-outline-success bg-border-mostaza bg-text-mostaza">Duplicar</button>
+
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Close</button>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="p-3">
-                        <label>Formulario 1</label>
+                        <label>Encuesta 1</label>
                     </div>
                 </div>
 
+                <!-- Encuesta 2-->
                 <div class="col-sm-12 col-md-4 col-lg-4 text-center mb-3">
-                    <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza"><img src="/Img/From2.png"
+                    <button type="button" data-bs-toggle="modal" data-bs-target="#mymodal2"
+                        class="btn btn-outline-success bg-border-mostaza bg-text-mostaza"><img src="/Img/From2.png"
                             width="200px" height="320px"></button>
+                    <!-- Modal -->
+                    <div class="modal fade" id="mymodal2" tabindex="-1" aria-labelledby="mymodal2" aria-modal="true"
+                        style="display: none;" aria-modal="true" role="dialog">
+                        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="mymodel">Encuesta 2</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <img src="/Img/From2.png" width="200px" height="320px">
+                                </div>
+                                <div class="modal-footer">
+
+                                    <button
+                                        class="btn btn-outline-success bg-border-mostaza bg-text-mostaza">Editar</button>
+
+                                    <button
+                                        class="btn btn-outline-success bg-border-mostaza bg-text-mostaza">Duplicar</button>
+
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Close</button>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
                     <div class="p-3">
-                        <h6>Formulario 2</h6>
+                        <h6>Encuesta 2</h6>
                     </div>
                 </div>
+
+                <!-- Encuesta 3 -->
                 <div class="col-sm-12 col-md-4 col-lg-4 text-center mb-3">
-                    <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza"><img src="/Img/From3.png"
+                    <button type="button" data-bs-toggle="modal" data-bs-target="#mymodal3"
+                        class="btn btn-outline-success bg-border-mostaza bg-text-mostaza"><img src="/Img/From3.png"
                             width="200px" height="320px"></button>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="mymodal3" tabindex="-1" aria-labelledby="mymodal3" aria-modal="true"
+                        style="display: none;" aria-modal="true" role="dialog">
+                        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="mymodel">Encuesta 3</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <img src="/Img/From3.png" width="200px" height="320px">
+                                </div>
+                                <div class="modal-footer">
+
+                                    <button
+                                        class="btn btn-outline-success bg-border-mostaza bg-text-mostaza">Editar</button>
+
+                                    <button
+                                        class="btn btn-outline-success bg-border-mostaza bg-text-mostaza">Duplicar</button>
+
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Close</button>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="p-2">
-                        <label>Formulario 3</label>
+                        <label>Encuesta 3</label>
                     </div>
                 </div>
             </div>
