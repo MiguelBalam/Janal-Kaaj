@@ -51,14 +51,10 @@
             <div class="col-sm-6 text-center mb-3">
                 <from class="d-flex">
                     <input class="form-control me-2" type="search" placeholder="Buscar Nombre" aria-label="Search">
-                    <button class="btn btn-outline-success" type="submit">Filtrar</button>
+                    <button class="btn btn-outline-success" type="submit" id="boton_filtrar">Filtrar</button>
                 </from>
             </div>
-            <!-- <div class="col-sm-4 text-center mb-3">
-                    <div class="d-grid gap-2 col-6 mx-auto">
-                        <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza">Duplicar</button>
-                    </div> 
-                </div> -->
+
             <div class="col-sm-6 text-center mb-3">
                 <div> <label class="px-3 text-success">Crear Formulario </label><button
                         class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" type="summit"><img
@@ -76,10 +72,9 @@
 
                 <!-- Encuesta 1  -->
                 <div class="col-sm-12 col-md-4 col-lg-4 text-center mb-3">
-                    <button type="button" data-bs-toggle="modal" data-bs-target="#mymodal"
-                        class="btn btn-outline-success bg-border-mostaza bg-text-mostaza"><img src="/Img/Form1.png"
-                            width="200px" height="320px">
-                    </button>
+                    <button  type="button" data-bs-toggle="modal" data-bs-target="#mymodal" class="btn  bg-border-mostaza bg-text-mostaza"><img  src="/Img/Form1.png"
+                            width="200px" height="320px" onclick="encuestas()"></button>
+
 
                     <!-- Modal -->
                     <div class="modal fade" id="mymodal" tabindex="-1" aria-labelledby="mymodal" aria-modal="true"
@@ -93,23 +88,19 @@
                                         aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
-                                    <img src="/Img/Form1.png" width="200px" height="320px">
+                                    <img src="../Img/Form1.png" width="200px" height="320px">
                                 </div>
                                 <div class="modal-footer">
 
-                                    <button
-                                        class="btn btn-outline-success bg-border-mostaza bg-text-mostaza">Editar</button>
-
-                                    <button
-                                        class="btn btn-outline-success bg-border-mostaza bg-text-mostaza">Duplicar</button>
-
-                                    <button type="button" class="btn btn-secondary"
-                                        data-bs-dismiss="modal">Close</button>
+                                    <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza"  type="submit" id="botonEmergente_editar">Editar</button>
+                                    <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" type="summit" id="botonEmergente_duplicar">Duplicar</button>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
 
                                 </div>
                             </div>
                         </div>
                     </div>
+
 
                     <div class="p-3">
                         <label>Encuesta 1</label>
@@ -119,7 +110,7 @@
                 <!-- Encuesta 2-->
                 <div class="col-sm-12 col-md-4 col-lg-4 text-center mb-3">
                     <button type="button" data-bs-toggle="modal" data-bs-target="#mymodal2"
-                        class="btn btn-outline-success bg-border-mostaza bg-text-mostaza"><img src="/Img/From2.png"
+                        class="btn  bg-border-mostaza bg-text-mostaza"><img src="../Img/From2.png"
                             width="200px" height="320px"></button>
                     <!-- Modal -->
                     <div class="modal fade" id="mymodal2" tabindex="-1" aria-labelledby="mymodal2" aria-modal="true"
@@ -133,18 +124,13 @@
                                         aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
-                                    <img src="/Img/From2.png" width="200px" height="320px">
+                                    <img src="../Img/From2.png" width="200px" height="320px">
                                 </div>
                                 <div class="modal-footer">
 
-                                    <button
-                                        class="btn btn-outline-success bg-border-mostaza bg-text-mostaza">Editar</button>
-
-                                    <button
-                                        class="btn btn-outline-success bg-border-mostaza bg-text-mostaza">Duplicar</button>
-
-                                    <button type="button" class="btn btn-secondary"
-                                        data-bs-dismiss="modal">Close</button>
+                                    <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" id="botonEmergente_editar">Editar</button>
+                                    <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" id="botonEmergente_duplicar">Duplicar</button>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
 
                                 </div>
                             </div>
@@ -160,8 +146,7 @@
                 <!-- Encuesta 3 -->
                 <div class="col-sm-12 col-md-4 col-lg-4 text-center mb-3">
                     <button type="button" data-bs-toggle="modal" data-bs-target="#mymodal3"
-                        class="btn btn-outline-success bg-border-mostaza bg-text-mostaza"><img src="/Img/From3.png"
-                            width="200px" height="320px"></button>
+                        class="btn  bg-border-mostaza bg-text-mostaza"><img src="../Img/From3.png"width="200px" height="320px"></button>
 
                     <!-- Modal -->
                     <div class="modal fade" id="mymodal3" tabindex="-1" aria-labelledby="mymodal3" aria-modal="true"
@@ -175,15 +160,15 @@
                                         aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
-                                    <img src="/Img/From3.png" width="200px" height="320px">
+                                    <img src="../Img/From3.png" width="200px" height="320px">
                                 </div>
                                 <div class="modal-footer">
 
                                     <button
-                                        class="btn btn-outline-success bg-border-mostaza bg-text-mostaza">Editar</button>
+                                        class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" type="summit" id="botonEmergente_editar">Editar</button>
 
                                     <button
-                                        class="btn btn-outline-success bg-border-mostaza bg-text-mostaza">Duplicar</button>
+                                        class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" type="summit" id="botonEmergente_duplicar">Duplicar</button>
 
                                     <button type="button" class="btn btn-secondary"
                                         data-bs-dismiss="modal">Close</button>
@@ -200,6 +185,9 @@
             </div>
         </div>
     </div>
+
+<script src="encuestas.js"></script>
+
 
 
 </body>
