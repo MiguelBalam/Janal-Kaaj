@@ -1,18 +1,15 @@
 
 // creacion de la base de datos
 var db;
-const IDB =(function init(){
+ const IDB =(function init(){
     
-    let objectStore = null;
+   // let objectStore = null;
     let DBOpenReq =indexedDB.open('Janal',1);
 
     DBOpenReq.addEventListener('error',(err)=>{
         console.warn(err);
     });
-    DBOpenReq.addEventListener('success',(ev)=>{
-        db= ev.target.result;
-        console.log('suscess',db);
-    });
+    
     //Creacion de tablas u objetos
     DBOpenReq.addEventListener('upgradeneeded',(ev)=>{
         db = ev.target.result;
@@ -23,17 +20,87 @@ const IDB =(function init(){
         db.createObjectStore("Localidad", {autoIncrement: true});
         db.createObjectStore("Municipio", {autoIncrement: true});
         db.createObjectStore("Encuestador",{autoIncrement: true});
+        //Encuestas
+        db.createObjectStore("Encuesta", {autoIncrement: true});
+        db.createObjectStore("Encuesta_Reactivo", {autoIncrement: true});
+        db.createObjectStore("Reactivos", {autoIncrement: true});
+        db.createObjectStore("Categoria_encuesta", {autoIncrement: true});
         
+        //Encuestas
+        //db.createObjectStore("Encuesta", {autoIncrement: true});
    
         console.log('upgrade',db);
     });
+    DBOpenReq.addEventListener('success',(ev)=>{
+
+      db= ev.target.result;
+
+      var   encuesta_prototipo = [
+        { id: "1", Titulo: "Encuesta_Apicultura", 
+        Objetivo: "conocer_la_produccion_apicola", 
+        instrucciones: "responder todo los reactivos" }
+      ];
+
+      var reactivos =[
+        { id:"1", Descripcion: "La miel que vende ¿en qué periodo del año se produjo (meses del año)?"},
+         { id: "2", Descripcion: "¿Cuantos años lleva trabajando con las abejas ?"},
+          {id: "3", Descripcion: "¿Cuantas cajas tiene?"},
+          {id: "4", Descripcion: "¿Cuanta miel produce anualmente?"},
+          {id: "5", Descripcion: "¿Cuantas veces al año extrae miel en una colmena?"},
+          { id: "6", Descripcion: "¿Su produccion comparte espacio con otros animales domesticos?¿Cuales?"},
+          {id: "7", Descripcion: "¿Como sabe cuando es el momento de la cosecha"}
+        
+    ];
+
+      var Categoria =[
+      { id: "1", descripcion:"Apicultura"}
+       ];
+
+      var IniciarSesionTransac = db.transaction(["Encuesta"],'readwrite');
+      IniciarSesionTransac.onerror = function (event) {
+          console.log("error", event.target.error);
+      };
+      var IniciarSesionTransac2 = db.transaction(["Encuesta_Reactivo"], "readwrite");
+      IniciarSesionTransac2.onerror = function (event) {
+          console.log("error", event.target.error);
+      };
+      var IniciarSesionTransac3 = db.transaction(["Categoria_encuesta"], "readwrite");
+      IniciarSesionTransac3.onerror = function (event) {
+          console.log("error", event.target.error);
+      };
+
+      IniciarSesionTransac = IniciarSesionTransac.objectStore(["Encuesta"]);
+      IniciarSesionTransac2 = IniciarSesionTransac2.objectStore(["Encuesta_Reactivo"]);
+      IniciarSesionTransac3 = IniciarSesionTransac3.objectStore(["Categoria_encuesta"]);
+   
+   for ( var Encuesta of encuesta_prototipo ) {
+       IniciarSesionTransac.add( Encuesta );
+   }
+   for(var Encuesta_Reactivo of reactivos){
+    IniciarSesionTransac2.add( Encuesta_Reactivo);
+   }
+   for(var Categoria_encuesta of Categoria){
+    IniciarSesionTransac3.add( Categoria_encuesta);
+   }
+   IniciarSesionTransac.onsucces = function (event) {
+       console.log('Nuevo item agregado a la base de datos');
+   };
+   
+
+      console.log('suscess',db);
+  
+  });
+    
+    
+
+
 
 // registro de datos
 
     document.formEncuestado.addEventListener('submit',(ev)=>{
         
         ev.preventDefault();
-        var correo = document.getElementById('Usuario').value.trim();
+        var correo = document.getElementById('Correo').value.trim();
         var Contraseña = document.getElementById('Contraseña').value.trim();
         var Nombre= document.getElementById('nombrecompletos').value.trim();
         var ApellidoP = document.getElementById('apellidopaterno').value.trim();
@@ -129,12 +196,14 @@ const IDB =(function init(){
    
 
 })();
+
 // validar que los campos esten completos y evitar registro
 function validar(){
  document.addEventListener("DOMContentLoaded", function(event) { 
     document.getElementById('EncuestadoForm').addEventListener('submit',manejadorValidacion)
       });
       manejadorValidacion(e);
+      e.preventDefault();
 }
 
 function manejadorValidacion(e) {
@@ -146,7 +215,7 @@ function manejadorValidacion(e) {
 
      this.submit();
     }
-    
+   
     // control de logueo 
    
     
@@ -186,5 +255,6 @@ function manejadorValidacion(e) {
               
         }
 
+    
  
    
