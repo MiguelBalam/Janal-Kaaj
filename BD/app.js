@@ -1,7 +1,7 @@
 
 // creacion de la base de datos
 var db;
- const IDB =(function init(){
+ (function conectarDB(){
     
    // let objectStore = null;
     let DBOpenReq =indexedDB.open('Janal',1);
@@ -13,9 +13,12 @@ var db;
     //Creacion de tablas u objetos
     DBOpenReq.addEventListener('upgradeneeded',(ev)=>{
         db = ev.target.result;
+        buscar()
+        ObjectStore= db.createObjectStore("Usuario", {autoIncrement: true});
+        ObjectStore.createIndex("Nombre","Nombre",{unique:true});
 
-        db.createObjectStore("Usuario", {autoIncrement: true});
-        db.createObjectStore("Autenticasion",{keyPath : "correo"});
+        ObjectStore=db.createObjectStore("Autenticasion",{keyPath : "correo"});
+        ObjectStore.createIndex("Correo","Correo",{unique:true});
         db.createObjectStore("Encuestado",{autoIncrement: true});
         db.createObjectStore("Localidad", {autoIncrement: true});
         db.createObjectStore("Municipio", {autoIncrement: true});
@@ -32,66 +35,11 @@ var db;
         console.log('upgrade',db);
     });
     DBOpenReq.addEventListener('success',(ev)=>{
-
+      buscar()
       db= ev.target.result;
 
-      var   encuesta_prototipo = [
-        { id: "1", Titulo: "Encuesta_Apicultura", 
-        Objetivo: "conocer_la_produccion_apicola", 
-        instrucciones: "responder todo los reactivos" }
-      ];
+    })
 
-      var reactivos =[
-        { id:"1", Descripcion: "La miel que vende ¿en qué periodo del año se produjo (meses del año)?"},
-         { id: "2", Descripcion: "¿Cuantos años lleva trabajando con las abejas ?"},
-          {id: "3", Descripcion: "¿Cuantas cajas tiene?"},
-          {id: "4", Descripcion: "¿Cuanta miel produce anualmente?"},
-          {id: "5", Descripcion: "¿Cuantas veces al año extrae miel en una colmena?"},
-          { id: "6", Descripcion: "¿Su produccion comparte espacio con otros animales domesticos?¿Cuales?"},
-          {id: "7", Descripcion: "¿Como sabe cuando es el momento de la cosecha"}
-        
-    ];
-
-      var Categoria =[
-      { id: "1", descripcion:"Apicultura"}
-       ];
-
-      var IniciarSesionTransac = db.transaction(["Encuesta"],'readwrite');
-      IniciarSesionTransac.onerror = function (event) {
-          console.log("error", event.target.error);
-      };
-      var IniciarSesionTransac2 = db.transaction(["Encuesta_Reactivo"], "readwrite");
-      IniciarSesionTransac2.onerror = function (event) {
-          console.log("error", event.target.error);
-      };
-      var IniciarSesionTransac3 = db.transaction(["Categoria_encuesta"], "readwrite");
-      IniciarSesionTransac3.onerror = function (event) {
-          console.log("error", event.target.error);
-      };
-
-      IniciarSesionTransac = IniciarSesionTransac.objectStore(["Encuesta"]);
-      IniciarSesionTransac2 = IniciarSesionTransac2.objectStore(["Encuesta_Reactivo"]);
-      IniciarSesionTransac3 = IniciarSesionTransac3.objectStore(["Categoria_encuesta"]);
-   
-   for ( var Encuesta of encuesta_prototipo ) {
-       IniciarSesionTransac.add( Encuesta );
-   }
-   for(var Encuesta_Reactivo of reactivos){
-    IniciarSesionTransac2.add( Encuesta_Reactivo);
-   }
-   for(var Categoria_encuesta of Categoria){
-    IniciarSesionTransac3.add( Categoria_encuesta);
-   }
-   IniciarSesionTransac.onsucces = function (event) {
-       console.log('Nuevo item agregado a la base de datos');
-   };
-   
-
-      console.log('suscess',db);
-  
-  });
-    
-    
 
 
 
@@ -115,6 +63,7 @@ var db;
         // var Municipio =document.getElementById('municipio').value.trim();
         // var Encuestado = document.getElementById('estado').value.trim();
         // var telefono = document.getElementById('tel-encuestado').value.trim();
+        
 
         let Usuario = {
         Nombre,
@@ -199,6 +148,7 @@ var db;
 
 // validar que los campos esten completos y evitar registro
 function validar(){
+ 
  document.addEventListener("DOMContentLoaded", function(event) { 
     document.getElementById('EncuestadoForm').addEventListener('submit',manejadorValidacion)
       });
@@ -254,6 +204,131 @@ function manejadorValidacion(e) {
                }
               
         }
+// Encuesta predeterminada 1
+        function Encuesta1(){
+          var   encuesta_prototipo = [
+            { id: "1", Titulo: "Encuesta_Apicultura", 
+            Objetivo: "conocer_la_produccion_apicola", 
+            instrucciones: "responder todo los reactivos" }
+          ];
+    
+          var reactivos =[
+            { id:"1", Descripcion: "La miel que vende ¿en qué periodo del año se produjo (meses del año)?"},
+             { id: "2", Descripcion: "¿Cuantos años lleva trabajando con las abejas ?"},
+              {id: "3", Descripcion: "¿Cuantas cajas tiene?"},
+              {id: "4", Descripcion: "¿Cuanta miel produce anualmente?"},
+              {id: "5", Descripcion: "¿Cuantas veces al año extrae miel en una colmena?"},
+              { id: "6", Descripcion: "¿Su produccion comparte espacio con otros animales domesticos?¿Cuales?"},
+              {id: "7", Descripcion: "¿Como sabe cuando es el momento de la cosecha"}
+            
+        ];
+    
+          var Categoria =[
+          { id: "1", descripcion:"Apicultura"}
+           ];
+    
+          var IniciarSesionTransac = db.transaction(["Encuesta"],'readwrite');
+          IniciarSesionTransac.onerror = function (event) {
+              console.log("error", event.target.error);
+          };
+          var IniciarSesionTransac2 = db.transaction(["Encuesta_Reactivo"], "readwrite");
+          IniciarSesionTransac2.onerror = function (event) {
+              console.log("error", event.target.error);
+          };
+          var IniciarSesionTransac3 = db.transaction(["Categoria_encuesta"], "readwrite");
+          IniciarSesionTransac3.onerror = function (event) {
+              console.log("error", event.target.error);
+          };
+    
+          IniciarSesionTransac = IniciarSesionTransac.objectStore(["Encuesta"]);
+          IniciarSesionTransac2 = IniciarSesionTransac2.objectStore(["Encuesta_Reactivo"]);
+          IniciarSesionTransac3 = IniciarSesionTransac3.objectStore(["Categoria_encuesta"]);
+       
+       for ( var Encuesta of encuesta_prototipo ) {
+           IniciarSesionTransac.add(Encuesta);
+       }
+       for(var Encuesta_Reactivo of reactivos){
+        IniciarSesionTransac2.add(Encuesta_Reactivo);
+       }
+       for(var Categoria_encuesta of Categoria){
+        IniciarSesionTransac3.add(Categoria_encuesta);
+       }
+       IniciarSesionTransac.onsucces = function (event) {
+           console.log('Nuevo item agregado a la base de datos');
+       };
+       
+    
+          console.log('suscess',db);
+      
+      };
+    
+      //Crear encuesta
+      
+        function CrearEncuesta(){
+
+          var titulo = document.getElementById("Titulo").value;
+          var Objetivo = document.getElementById("floatingTextarea2").value;
+          var Instrucciones = document.getElementById('floatingTextarea2').value;
+         
+          var request = db.transaction(["Encuesta"], "readwrite")
+          .objectStore("Encuesta")
+          .add({Titulo:titulo, Objetivo:Objetivo, Instrucciones:Instrucciones});
+
+          request.onsuccess = function(e){
+             console.log(e);
+             alert("se inserto los datos");
+          };
+         
+         
+         
+         }
+        function buscar(){
+          data_array =[]
+          var filtro;
+          var asc = "next"
+          var objectStore = db.transaction("Encuesta_Reactivo").objectStore("Encuesta_Reactivo");
+          objectStore.openCursor(filtro,asc).onsucces= function(e){
+            var cursor = e.target.result;
+            if(cursor){
+              data_array.push(cursor.value);
+              cursor.continue();
+            }else{
+              alert("No se abrio el cursor");
+            }
+          }
+        }
+        function Listado(data_array){
+          Lista_array=[]
+          for(var i= 0; i<data_array.length; i++){
+            var f = Lista_array.indexOf(data_array[i].Encuesta_Reactivo);
+            if(f==1){
+              Lista_array.push(data_array[i].Encuesta_Reactivo)
+            }
+          }
+
+        }
+        // function AgregarFormulario(db,DBOpenReq){
+          
+          
+        //     var transaction = db.transaction(['Encuesta'], "readwrite");
+        //     var objectStore = transaction.objectStore('Encuesta');
+    
+        //     objectStore.add(DBOpenReq);
+        //     transaction.onerror = () => {
+        //         alert('Hubo un error', 'error');
+        //         transaction.db.close();
+        //     }
+        //     transaction.oncomplete = () => {
+        //         alert('El cliente se creo correctamente');
+        //         transaction.db.close();
+        //         setTimeout(() => {
+        //             window.location.href = 'index.html';
+        //         }, 3000);
+        //     }
+    
+        // }
+          
+        
 
     
  

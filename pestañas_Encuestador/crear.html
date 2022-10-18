@@ -46,11 +46,11 @@
             <div class="card col-sm-7 p-3 shadow-lg mb-5 bg-white rounded">
 
                 <h1 class="bg-text-black text-center p-3 text-uppercase text-black">Crear Encuesta</h1>
-
+<form id="formulario" action="">
                 <div class="row mb-4">
                     <label class="col-sm-4 col-form-label px-5">Titulo: </label>
                     <div class="col-sm-8">
-                        <input type="text" class="form-control">
+                        <input type="text" class="form-control" id="Titulo" name="Titulo">
                     </div>
                 </div>
 
@@ -59,7 +59,7 @@
                     <div class="col-sm-8">
                         <div class="form-floating">
                             <textarea class="form-control" placeholder="Leave a comment here"
-                                id="floatingTextarea2"></textarea>
+                                id="floatingTextarea2" name="objetivo"></textarea>
                             <label for="floatingTextarea2">Agregar objetivo</label>
                         </div>
                     </div>
@@ -69,7 +69,7 @@
                     <label class="col-sm-4 col-form-label px-5">Instruciones:</label>
                     <div class="col-sm-8">
                         <div class="form-floating">
-                            <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2"
+                            <textarea class="form-control" placeholder="Leave a comment here" name="Intruccion" id="floatingTextarea2"
                                 style="height: 100px"></textarea>
                             <label for="floatingTextarea2">Agregar Instrución</label>
                         </div>
@@ -79,7 +79,11 @@
                 <div class="row mb-4">
                     <label class="col-sm-4 col-form-label px-5">Reactivos:</label>
                     <div class="col-sm-4 text-center">
+<<<<<<< HEAD
+                        <button onclick="CrearEncuesta()" class="btn btn-outline-success bg-border-mostaza bg-text-mostaza">Crear</button>
+=======
                         <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" onclick="location.href='../pestañas_Encuestador/reactivos.html'" id="boton_crear">Crear</button>
+>>>>>>> 2832b3b8df6b2367ae0a14d24f73189c1448bf30
                     </div>
 
                     <div class="col-sm-4 text-center">
@@ -91,6 +95,23 @@
                 <div class="row mb-4">
 
 
+<<<<<<< HEAD
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                    <label class="form-check-label" for="flexCheckDefault">
+                      Pregunta 1
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
+                    <label class="form-check-label" for="flexCheckChecked">
+                      Pregunta 2
+                    </label>
+                  </div>
+                </form>
+               
+            </div>
+=======
                     <div class=" col-sm-12 col-form-label px-5">
                         <div class="card-header ">
                             Selecciones las preguntas
@@ -110,11 +131,18 @@
                         </div>
 
                     </div>
+>>>>>>> 2832b3b8df6b2367ae0a14d24f73189c1448bf30
 
                 </div>
-
+                
         </section>
+        <!-- <tbody id="Encuestas"></tbody> -->
     </div>
+    
+    <!-- <script src="../BD/funciones.js"></script>
+    <script src="../BD/NuevoFormulario.js"></script> -->
+    <Script src="../BD/app.js"></Script>
+  
 </body>
 
 </html>
