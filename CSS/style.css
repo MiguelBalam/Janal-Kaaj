@@ -262,6 +262,7 @@ input {
     color: rgb(255, 255, 255) !important;
     border-color: var(--mostaza) !important;
 }
+
 #boton_filtrar:hover {
     background-color: var(--mostaza) !important;
     color: rgb(255, 255, 255) !important;
@@ -273,6 +274,11 @@ input {
     border-color: var(--mostaza) !important;
 }
 #boton_agregar:hover {
+    background-color: var(--mostaza) !important;
+    color: rgb(255, 255, 255) !important;
+    border-color: var(--mostaza) !important;
+}
+#boton_listo:hover {
     background-color: var(--mostaza) !important;
     color: rgb(255, 255, 255) !important;
     border-color: var(--mostaza) !important;
@@ -331,3 +337,13 @@ background-color: var(--mostaza) !important;
 }
 
 /*Termina */
+/* codigo menu de componentes index */
+#menu_sidebar{
+    text-decoration-color: #000 !important;
+    color: #000 !important;
+}
+#menu_plegable_sidebar{
+    background-color: var(--mostaza) !important;
+    color: rgb(255, 255, 255) !important;
+    border-color: var(--mostaza) !important;
+}
