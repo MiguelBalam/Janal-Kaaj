@@ -24,7 +24,7 @@ const IDB =(function init(){
         db.createObjectStore("Municipio", {autoIncrement: true});
         db.createObjectStore("Encuestador",{autoIncrement: true});
         
-   
+  
         console.log('upgrade',db);
     });
 
