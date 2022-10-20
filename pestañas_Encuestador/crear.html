@@ -28,7 +28,7 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/login.html">Login</a>
+                        <a class="nav-link active" aria-current="page" href="../login.html">Login</a>
                     </li>
                 </ul>
                 <from class="d-flex">
@@ -79,11 +79,18 @@
                 <div class="row mb-4">
                     <label class="col-sm-4 col-form-label px-5">Reactivos:</label>
                     <div class="col-sm-4 text-center">
+<<<<<<< HEAD
                         <button onclick=" CrearReactivo()" class="btn btn-outline-success bg-border-mostaza bg-text-mostaza">Crear</button>
+=======
+           
+                        <button  class="btn btn-outline-success bg-border-mostaza bg-text-mostaza"  type="button" id="boton_crear" 
+                        onclick="location.href='../pestañas_Encuestador/reactivos.html'">Crear</button>
+>>>>>>> 49efedb67450a80b1419c0d5f4b1e27ea93a6d7b
                     </div>
-
+                 
                     <div class="col-sm-4 text-center">
-                        <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" onclick="location.href='../pestañas_Encuestador/categoria.html'" id="boton_agregar">Agregar</button>
+                        <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" id="boton_agregar" type="button"
+                        onclick="window.location.href='../pestañas_Encuestador/categoria.html'" > Agregar </button>
                     </div>
 
                 </div>
@@ -91,35 +98,48 @@
                 <div class="row mb-4">
 
 
-                <div id="p1" class="form-check">
-                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                    <label  class="form-check-label" for="flexCheckDefault">
-                      Pregunta 1
-                    </label>
-                  </div>
-                  <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
-                    <label class="form-check-label" for="flexCheckChecked">
-                      Pregunta 2
-                    </label>
-                  </div>
-                  <div id="salida"></div>
+                
+
+                    <div class=" col-sm-12 col-form-label px-5">
+                        <div class="card-header ">
+                            Selecciones las preguntas
+                        
+                    
+
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                            <label class="form-check-label" for="flexCheckDefault">
+                                Pregunta 1
+                            </label>
+
+                            <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" id="boton_crear" type="button"
+                            onclick="window.location.href='../pestañas_Encuestador/reactivos.html'" > <img src="../Img/edit.svg"  height="18px" width="18px"></button>
+                            
+                        </div>
+
+                        
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
+                            <label class="form-check-label" for="flexCheckChecked">
+                                Pregunta 2
+                            </label>
+                        </div>
+                    </div>
+                </div>
                 </form>
-               
+            </section>
             </div>
+
 
                 </div>
                 
-        </section>
+        
         <!-- <tbody id="Encuestas"></tbody> -->
-    </div>
     
     <!-- <script src="../BD/funciones.js"></script>
     <script src="../BD/NuevoFormulario.js"></script> -->
     <Script src="../BD/app.js"></Script>
-   
+    
 </body>
-<br><br>
-
 
 </html>
