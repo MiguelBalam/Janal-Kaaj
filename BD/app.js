@@ -17,16 +17,24 @@ var db;
         ObjectStore= db.createObjectStore("Usuario", {autoIncrement: true});
         ObjectStore.createIndex("Nombre","Nombre",{unique:true});
 
-        ObjectStore=db.createObjectStore("Autenticasion",{keyPath : "correo"});
-        ObjectStore.createIndex("Correo","Correo",{unique:true});
+        ObjectStore=db.createObjectStore("Autenticasion",{autoIncrement: true});
+        ObjectStore.createIndex("correo","correo",{unique:true});
+
         db.createObjectStore("Encuestado",{autoIncrement: true});
         db.createObjectStore("Localidad", {autoIncrement: true});
         db.createObjectStore("Municipio", {autoIncrement: true});
         db.createObjectStore("Encuestador",{autoIncrement: true});
         //Encuestas
-        db.createObjectStore("Encuesta", {autoIncrement: true});
-        db.createObjectStore("Encuesta_Reactivo", {autoIncrement: true});
-        db.createObjectStore("Reactivos", {autoIncrement: true});
+        ObjectStore= db.createObjectStore("Encuesta", {autoIncrement: true});
+        ObjectStore.createIndex("Titulo","Titulo",{unique:true});
+
+        ObjectStore=db.createObjectStore("Encuesta_Reactivo", {autoIncrement: true});
+        ObjectStore.createIndex("Descripcion","Descripcion",{unique:true});
+        
+
+
+        ObjectStore=db.createObjectStore("Reactivos", {autoIncrement: true});
+        ObjectStore.createIndex("categoria","categoria",{unique:true});
         db.createObjectStore("Categoria_encuesta", {autoIncrement: true});
         
         //Encuestas
@@ -37,6 +45,7 @@ var db;
     DBOpenReq.addEventListener('success',(ev)=>{
      
       db= ev.target.result;
+      buscar2();
       buscar();
 
     })
@@ -65,6 +74,7 @@ var db;
         // var Municipio =document.getElementById('municipio').value.trim();
         // var Encuestado = document.getElementById('estado').value.trim();
         // var telefono = document.getElementById('tel-encuestado').value.trim();
+        
         verificarPasswords();
 
         let Usuario = {
@@ -92,8 +102,13 @@ var db;
 
         tx.oncomplete = (ev)=>{
             console.log (ev);
+            var elementos = document.getElementsByName("inlineRadioOptions");
+            for(var i=0; i<elementos.length; i++) {
+              alert(" Elemento: " + elementos[i].value + "\n Seleccionado: " + elementos[i].checked);
         };
+      }
         txA.oncomplete = (ev)=>{
+
           verificarPasswords();
             console.log (ev);
         };
@@ -106,7 +121,7 @@ var db;
         
         validar();
         request.onsuccess = (ev) => {
-          
+          check();  
           console.log('successfully added an object',ev);
         };
         request.onerror = (eve) => {
@@ -152,6 +167,7 @@ var db;
 
 })();
 //Verificar que las dos contraseñas coincidan
+
 function verificarPasswords() {
  
  var pass1 = document.getElementById('Contraseña').value;
@@ -305,7 +321,9 @@ function manejadorValidacion(e) {
           request.onsuccess = function(e){
              console.log(e);
              alert("se inserto los datos");
+             buscar2();
              buscar();
+             
           };
          
      
@@ -314,24 +332,26 @@ function manejadorValidacion(e) {
 
          //Crear Reactivos
          function CrearReactivo(){
-          var reactivo = document.getElementById("Reactivo").value.trim();
+          var Reactivo = document.getElementById("Reactivo").value.trim();
           var categoria = document.getElementById("categoria").value.trim();
 
           var request = db.transaction(["Reactivos"], "readwrite")
           .objectStore("Reactivos")
-          .add({Reactivo:reactivo, Categoria:categoria});
+          .add({Reactivo:Reactivo, Categoria:categoria});
 
           request.onsuccess = function(e){
              console.log(e);
              alert("se inserto los datos");
-             buscar()
+             buscar2();
+             buscar();
+            
           };
          }
 
-       
+       //cursor con preguntas ya predeterminadas
         function buscar(){
-           var cadena ="<table botrder ='1'>"
-           cadena += "<tr><th>Descripcion</th><th>Editar</th>";
+           var cadena = "";
+           cadena += "";
            var num =0;
            var id_array = new Array();
 
@@ -341,16 +361,16 @@ function manejadorValidacion(e) {
             var cursor = e.target.result;
             if(cursor){
               Descripcion = cursor.value.Descripcion;
-              cadena += "<tr>";
-              cadena += "<td>"+cursor.value.Descripcion+"</td>";
-              cadena += "<td>+<button id='m"+Descripcion+"'>Editar</button></td></tr>";
+              cadena += "";
+              cadena += "<input class='form-check-input' type='radio' name='flexRadioDefault' id='flexRadioDefault1' checked>"+cursor.value.Descripcion+"<label class='form-check-label' for='flexRadioDefault1'>";
+              //cadena += "<td>+<button id='m"+Descripcion+"'>Seleccionar</button></td></tr>";
               id_array.push(Descripcion);
               num ++;
               //continuamos siguiente objeto
               cursor.continue();
 
             }else{
-              cadena += "</table>";
+              cadena += "";
               document.getElementById("salida").innerHTML = cadena;
 
               for(var i=0; i<id_array.length; i++){
@@ -360,47 +380,39 @@ function manejadorValidacion(e) {
               }
             }
            }
-
-          // var filtro;
-          // var asc = "next"
-          // var objectStore = db.transaction("Encuesta_Reactivo").objectStore("Encuesta_Reactivo");
-          // objectStore.openCursor().onsucces= function(e){
-          //   var cursor = e.target.result;
-          //   if(cursor){
-          //     data_array.push(cursor.value);
-          //     cursor.continue();
-          //   }else{
-          //     alert("No se abrio el cursor");
-          //   }
-          // }
         }
-        // function Listado(data_array){
-        //   Lista_array=[]
-        //   for(var i= 0; i<data_array.length; i++){
-        //     var f = Lista_array.indexOf(data_array[i].Encuesta_Reactivo);
-        //     if(f==1){
-        //       Lista_array.push(data_array[i].Encuesta_Reactivo)
-        //     }
-        //   }
+          
+          function buscar2(){
+            var cadena2 =""
+            cadena2 += "";
+            var num =0;
+            var id_array = new Array();
+ 
+            //leer cursor
+            var objectStore = db.transaction("Reactivos").objectStore("Reactivos");
+            objectStore.openCursor().onsuccess= function(e){
+             var cursor = e.target.result;
+             if(cursor){
+               Reactivo = cursor.value.Reactivo;
+               cadena2 += "";
+               cadena2 += "<input class='form-check-input' type='checkbox' value='' id='flexCheckDefault'>"+cursor.value.Reactivo+"</td>";
+               //cadena2 += "<td>+<button id='m"+Reactivo+"'>Seleccionar</button></td></tr>";
+               id_array.push(Reactivo);
+               num ++;
+               //continuamos siguiente objeto
+               cursor.continue();
+ 
+             }else{
+               cadena2 += "";
+               document.getElementById("salida2").innerHTML = cadena2;
+ 
+               for(var i=0; i<id_array.length; i++){
+                 id = id_array[i];
+                 document.getElementById("m"+id).onclick= Editar;
+ 
+               }
+             }
+            }
+          } 
 
-        // }
-        // function AgregarFormulario(db,DBOpenReq){
           
-          
-        //     var transaction = db.transaction(['Encuesta'], "readwrite");
-        //     var objectStore = transaction.objectStore('Encuesta');
-    
-        //     objectStore.add(DBOpenReq);
-        //     transaction.onerror = () => {
-        //         alert('Hubo un error', 'error');
-        //         transaction.db.close();
-        //     }
-        //     transaction.oncomplete = () => {
-        //         alert('El cliente se creo correctamente');
-        //         transaction.db.close();
-        //         setTimeout(() => {
-        //             window.location.href = 'index.html';
-        //         }, 3000);
-        //     }
-    
-        // }
