@@ -404,9 +404,3 @@ function manejadorValidacion(e) {
         //     }
     
         // }
-          
-        
-
-    
- 
-   
