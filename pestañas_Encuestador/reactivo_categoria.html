@@ -51,12 +51,13 @@
                     <h6>Categoria</h6>
                 </div>
                 <div class="col-sm-5 text-center mb-3">
-                    <select class="form-select" aria-label="Default select example">
-                        <option selected>Categoria</option>
-                        <option value="1">Pregunta 1</option>
-                        <option value="2">Pregunta 2</option>
-                        <option value="3">Pregunta 3</option>
+                    <select onclick=" porCategoria()" id="Categorias_R" class="form-select" aria-label="Default select example" required>
+                        <option value="0">Categoria...</option>
+                        <option value="1">Miel</option>
+                        <option value="2">Agricultura</option>
+                        <option value="3">Ganaderia </option>
                     </select>
+                    
                 </div>
             </div>
         </div>
@@ -84,7 +85,9 @@
                     <label class="form-check-label" for="flexRadioDefault2">
                         Pregunta 2
                     </label>
+                    <div id="salida"></div>
                 </div>
+               
             </div>
 
             <div class="p-4 col-form-label px-5 text-center">
@@ -98,7 +101,7 @@
             
         </div>
     </div>
-
+    <script src="../BD/app.js"></script>
 </body>
 
 </html>
