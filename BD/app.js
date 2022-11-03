@@ -34,7 +34,7 @@ var db;
 
 
         ObjectStore=db.createObjectStore("Reactivos", {autoIncrement: true});
-        ObjectStore.createIndex("categoria","categoria",{unique:true});
+        ObjectStore.createIndex("Categoria","Categoria",{unique:true});
         db.createObjectStore("Categoria_encuesta", {autoIncrement: true});
         
         //Encuestas
@@ -375,7 +375,7 @@ function manejadorValidacion(e) {
 
               for(var i=0; i<id_array.length; i++){
                 id = id_array[i];
-                document.getElementById("m"+id).onclick= Editar;
+                //document.getElementById("m"+id).onclick= Editar;
 
               }
             }
@@ -408,7 +408,7 @@ function manejadorValidacion(e) {
  
                for(var i=0; i<id_array.length; i++){
                  id = id_array[i];
-                 document.getElementById("m"+id).onclick= Editar;
+                 //document.getElementById("m"+id).onclick= Editar;
  
                }
              }
@@ -416,3 +416,26 @@ function manejadorValidacion(e) {
           } 
 
           
+          // buscar por categoria
+
+          // function porCategoria(){
+          //   var id_array= new Array();
+          //   var tipo= document.getElementById("Categorias_R").selectedIndex;
+            
+          //   if(tipo==""){
+          //     alert("categoria nula");
+          //   }else{
+          //     var filtro=IDBKeyRange.only(tipo);
+          //     var ObjectStore= db.transaction("Reactivos").objectStore("Reactivos");
+          //     var index=ObjectStore.index("Categoria");
+          //     index.openCursor(filtro).onsuccess = function(e){
+          //       var cursor= e.target.result
+          //       if(cursor){
+          //         id_array.push(cursor.value)
+          //         cursor.continue()
+          //       }else{
+          //         buscarC(id_array);
+          //       }
+          //     }
+          //   }
+          // }
