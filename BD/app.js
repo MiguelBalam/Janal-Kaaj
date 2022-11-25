@@ -43,7 +43,6 @@ var db;
         //ObjectStore.createIndex("Categoria","Categoria",{unique:true});
         //Encuestas
         //db.createObjectStore("Encuesta", {autoIncrement: true});
-       
         console.log('upgrade',db);
     });
     DBOpenReq.addEventListener('success',(ev)=>{
@@ -53,10 +52,6 @@ var db;
       buscar();
 
     })
-
-
-
-
 // registro de datos
 
     document.formEncuestado.addEventListener('submit',(ev)=>{
