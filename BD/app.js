@@ -30,16 +30,19 @@ var db;
 
         ObjectStore=db.createObjectStore("Encuesta_Reactivo", {autoIncrement: true});
         ObjectStore.createIndex("Descripcion","Descripcion",{unique:true});
+        ObjectStore.createIndex("Cate","Cate",{unique:false});
         
 
 
         ObjectStore=db.createObjectStore("Reactivos", {autoIncrement: true});
-        ObjectStore.createIndex("Categoria","Categoria",{unique:true});
+        ObjectStore.createIndex("Reactivo","Reactivo",{unique:true});
+  
         db.createObjectStore("Categoria_encuesta", {autoIncrement: true});
         
+        ObjectStore=db.createObjectStore("Categorias", {autoIncrement: true});
+        //ObjectStore.createIndex("Categoria","Categoria",{unique:true});
         //Encuestas
         //db.createObjectStore("Encuesta", {autoIncrement: true});
-       
         console.log('upgrade',db);
     });
     DBOpenReq.addEventListener('success',(ev)=>{
@@ -49,10 +52,6 @@ var db;
       buscar();
 
     })
-
-
-
-
 // registro de datos
 
     document.formEncuestado.addEventListener('submit',(ev)=>{
@@ -256,13 +255,14 @@ function manejadorValidacion(e) {
           ];
     
           var reactivos =[
-            { id:"1", Descripcion: "La miel que vende ¿en qué periodo del año se produjo (meses del año)?"},
-             { id: "2", Descripcion: "¿Cuantos años lleva trabajando con las abejas ?"},
-              {id: "3", Descripcion: "¿Cuantas cajas tiene?"},
-              {id: "4", Descripcion: "¿Cuanta miel produce anualmente?"},
-              {id: "5", Descripcion: "¿Cuantas veces al año extrae miel en una colmena?"},
-              { id: "6", Descripcion: "¿Su produccion comparte espacio con otros animales domesticos?¿Cuales?"},
-              {id: "7", Descripcion: "¿Como sabe cuando es el momento de la cosecha"}
+            {id:"1",Descripcion:"La miel que vende ¿en qué periodo del año se produjo (meses del año)?",Cate:"Miel"},
+            {id:"2",Descripcion:"¿Cuantos años lleva trabajando con las abejas ?",Cate:"Miel"},
+            {id:"3",Descripcion:"¿Cuantas cajas tiene?",Cate:"Ganaderia"},
+            {id:"4",Descripcion:"¿Cuanta miel produce anualmente?",Cate:"Ganaeria"},
+            {id:"5",Descripcion:"¿Cuantas veces al año extrae miel en una colmena?",Cate:"Otro"},
+            {id:"6",Descripcion:"¿Su produccion comparte espacio con otros animales domesticos?",Cate:"Miel"},
+            {id:"7",Descripcion:"¿Cuales?",Cate:"Miel"},
+            {id:"8",Descripcion:"¿Como sabe cuando es el momento de la cosecha",Cate:"Agricultura"}
             
         ];
     
@@ -298,6 +298,8 @@ function manejadorValidacion(e) {
        }
        IniciarSesionTransac.onsucces = function (event) {
         buscar();
+       
+        
            console.log('Nuevo item agregado a la base de datos');
        };
        
@@ -321,8 +323,10 @@ function manejadorValidacion(e) {
           request.onsuccess = function(e){
              console.log(e);
              alert("se inserto los datos");
-             buscar2();
              buscar();
+             buscar2();
+             
+        
              
           };
          
@@ -337,13 +341,17 @@ function manejadorValidacion(e) {
 
           var request = db.transaction(["Reactivos"], "readwrite")
           .objectStore("Reactivos")
-          .add({Reactivo:Reactivo, Categoria:categoria});
+          .add({Reactivo:Reactivo});
+          var request = db.transaction(["Categorias"], "readwrite")
+          .objectStore("Categorias")
+          .add({Categoria:categoria});
 
           request.onsuccess = function(e){
              console.log(e);
              alert("se inserto los datos");
              buscar2();
              buscar();
+             
             
           };
          }
@@ -362,7 +370,7 @@ function manejadorValidacion(e) {
             if(cursor){
               Descripcion = cursor.value.Descripcion;
               cadena += "";
-              cadena += "<input class='form-check-input' type='radio' name='flexRadioDefault' id='flexRadioDefault1' checked>"+cursor.value.Descripcion+"<label class='form-check-label' for='flexRadioDefault1'>";
+              cadena += "<input class='form-check-input' type='radio' name='flexRadioDefault' id='flexRadioDefault1' checked>"+cursor.value.Descripcion+"<label class='form-check-label' for='flexRadioDefault1'><br>";
               //cadena += "<td>+<button id='m"+Descripcion+"'>Seleccionar</button></td></tr>";
               id_array.push(Descripcion);
               num ++;
@@ -380,6 +388,7 @@ function manejadorValidacion(e) {
               }
             }
            }
+    
         }
           
           function buscar2(){
@@ -395,7 +404,7 @@ function manejadorValidacion(e) {
              if(cursor){
                Reactivo = cursor.value.Reactivo;
                cadena2 += "";
-               cadena2 += "<input class='form-check-input' type='checkbox' value='' id='flexCheckDefault'>"+cursor.value.Reactivo+"</td>";
+               cadena2 += "<input class='form-check-input' type='checkbox' value='' id='flexCheckDefault'>"+cursor.value.Reactivo+"<br></td>";
                //cadena2 += "<td>+<button id='m"+Reactivo+"'>Seleccionar</button></td></tr>";
                id_array.push(Reactivo);
                num ++;
@@ -417,25 +426,166 @@ function manejadorValidacion(e) {
 
           
           // buscar por categoria
-
-          // function porCategoria(){
-          //   var id_array= new Array();
-          //   var tipo= document.getElementById("Categorias_R").selectedIndex;
+          function buscar3(){
+            var cadena3 = "";
+            cadena3 += "";
+            var num =0;
+            var id_array = new Array();
+ 
+            //leer cursor
+            var objectStore = db.transaction("Encuesta_Reactivo").objectStore("Encuesta_Reactivo");
+            var index = objectStore.index("Cate");
+            var tipo= document.getElementById("Categorias_R").selectedIndex;
             
-          //   if(tipo==""){
-          //     alert("categoria nula");
-          //   }else{
-          //     var filtro=IDBKeyRange.only(tipo);
-          //     var ObjectStore= db.transaction("Reactivos").objectStore("Reactivos");
-          //     var index=ObjectStore.index("Categoria");
-          //     index.openCursor(filtro).onsuccess = function(e){
-          //       var cursor= e.target.result
-          //       if(cursor){
-          //         id_array.push(cursor.value)
-          //         cursor.continue()
-          //       }else{
-          //         buscarC(id_array);
-          //       }
-          //     }
-          //   }
-          // }
+             if(tipo==""){
+              alert("categoria no encontrada")
+
+             } else{
+              if(tipo== 1){
+                document.getElementById("salida").style.display ="none"
+                index.openCursor("Miel").onsuccess= function(e){
+
+                  var cursor = e.target.result;
+                  if(cursor){
+                    index = cursor.value.Descripcion;
+                    cadena3 += "";
+                    cadena3+= "<input class='form-check-input' type='radio' name='flexRadioDefault' id='flexRadioDefault1' checked>"+cursor.value.Descripcion+"<label class='form-check-label' for='flexRadioDefault1'><br>";
+                    //cadena += "<td>+<button id='m"+Descripcion+"'>Seleccionar</button></td></tr>";
+                    id_array.push(index);
+                    num ++;
+                    //continuamos siguiente objeto
+                    cursor.continue();
+      
+                  }else{
+                    cadena3 += "";
+                    document.getElementById("salida3").innerHTML = cadena3;
+      
+                    for(var i=0; i<id_array.length; i++){
+                      id = id_array[i];
+                      //document.getElementById("m"+id).onclick= Editar;
+      
+                    }
+                  }
+                 }
+            
+              }
+              if(tipo==2){
+             
+                //document.getElementById("salida3").style.display ="none"
+                //document.getElementById("salida").style.display ="none"
+                index.openCursor("Agricultura").onsuccess= function(e){
+
+                  var cursor = e.target.result;
+                  if(cursor){
+                    index = cursor.value.Descripcion;
+                    cadena3 += "";
+                    cadena3 += "<input class='form-check-input' type='radio' name='flexRadioDefault' id='flexRadioDefault1' checked>"+cursor.value.Descripcion+"<label class='form-check-label' for='flexRadioDefault1'><br>";
+                    //cadena += "<td>+<button id='m"+Descripcion+"'>Seleccionar</button></td></tr>";
+                    id_array.push(index);
+                    num ++;
+                    //continuamos siguiente objeto
+                    cursor.continue();
+      
+                  }else{
+                    cadena3 += "";
+                    document.getElementById("salida3").innerHTML = cadena3;
+      
+                    for(var i=0; i<id_array.length; i++){
+                      id = id_array[i];
+                      //document.getElementById("m"+id).onclick= Editar;
+      
+                    }
+                  }
+                 }
+              }
+              if(tipo==3){
+             
+                //document.getElementById("salida3").style.display ="none"
+                //document.getElementById("salida").style.display ="none"
+                index.openCursor("Ganaderia").onsuccess= function(e){
+
+                  var cursor = e.target.result;
+                  if(cursor){
+                    index = cursor.value.Descripcion;
+                    cadena3 += "";
+                    cadena3 += "<input class='form-check-input' type='radio' name='flexRadioDefault' id='flexRadioDefault1' checked>"+cursor.value.Descripcion+"<label class='form-check-label' for='flexRadioDefault1'><br>";
+                    //cadena += "<td>+<button id='m"+Descripcion+"'>Seleccionar</button></td></tr>";
+                    id_array.push(index);
+                    num ++;
+                    //continuamos siguiente objeto
+                    cursor.continue();
+      
+                  }else{
+                    cadena3 += "";
+                    document.getElementById("salida3").innerHTML = cadena3;
+      
+                    for(var i=0; i<id_array.length; i++){
+                      id = id_array[i];
+                      //document.getElementById("m"+id).onclick= Editar;
+      
+                    }
+                  }
+                 }
+              }
+              if(tipo==4){
+             
+                //document.getElementById("salida3").style.display ="none"
+                //document.getElementById("salida").style.display ="none"
+                index.openCursor("Otro").onsuccess= function(e){
+
+                  var cursor = e.target.result;
+                  if(cursor){
+                    index = cursor.value.Descripcion;
+                    cadena3 += "";
+                    cadena3 += "<input class='form-check-input' type='radio' name='flexRadioDefault' id='flexRadioDefault1' checked>"+cursor.value.Descripcion+"<label class='form-check-label' for='flexRadioDefault1'><br>";
+                    //cadena += "<td>+<button id='m"+Descripcion+"'>Seleccionar</button></td></tr>";
+                    id_array.push(index);
+                    num ++;
+                    //continuamos siguiente objeto
+                    cursor.continue();
+      
+                  }else{
+                    cadena3 += "";
+                    document.getElementById("salida3").innerHTML = cadena3;
+      
+                    for(var i=0; i<id_array.length; i++){
+                      id = id_array[i];
+                      //document.getElementById("m"+id).onclick= Editar;
+      
+                    }
+                  }
+                 }
+              }
+             }      
+             
+         }
+        //   function buscarobjeto(){       
+        //     mostrarDatos.innerHTML="";
+        //     var Categorias = document.getElementById("Categorias_R").value;
+        //     var transaction = bd.transaction(["Encuesta_Reactivo"],"readonly");
+        //     var objectStore = transaction.objectStore("Encuesta_Reactivo"); 
+        //     var index = objectStore.index("Categoria");
+        //     var ob = index.openCursor(Categorias);
+        //     ob.addEventListener("success", mostrarDatos, false);
+        // }
+        
+       
+
+//       function mostrarPorCategoria(){
+//       document.getElementById('Categorias_R').addEventListener('change', function() {
+//         if($(`#Categorias_R`).value.length<3) //si la opcion seleccionada es activo
+//           {
+//             //categoria().hide(); //oculta el boton agregar
+//          alert ("elEmento no encontrado");
+//           }
+//           else // en caso contrario, que sea jubilado etc
+//           {
+//             alert ("elEmento encontrado");
+//             categoria().show(); //oculta el boton agregar
+//             alert.hide()
+//             //oculta el boton siguiente
+//           }
+//       });
+//       categoria();
+//       }
+         
