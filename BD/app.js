@@ -426,17 +426,7 @@ function manejadorValidacion(e) {
 
           
           // buscar por categoria
-          function buscar3(){
-            var cadena3 = "";
-            cadena3 += "";
-            var num =0;
-            var id_array = new Array();
- 
-            //leer cursor
-            var objectStore = db.transaction("Encuesta_Reactivo").objectStore("Encuesta_Reactivo");
-            var index = objectStore.index("Cate");
-            var tipo= document.getElementById("Categorias_R").selectedIndex;
-            
+      
 
           //   if(tipo==""){
           //     alert("categoria nula");
@@ -615,20 +605,20 @@ function pro () {
 }
 
      
-      for( contador=1;contador<=5;contador++){
-          if(contador<=1){
+      // for( contador=1;contador<=5;contador++){
+      //     if(contador<=1){
           
-          } else if(contador<=2){
+      //     } else if(contador<=2){
            
-          } else if(contador <= 3){
+      //     } else if(contador <= 3){
 
-          } else if (s){
+      //     } else if (s){
 
-          } else {
+      //     } else {
                 
-          }
-          contador++;
-      }
+      //     }
+      //     contador++;
+      // }
 //   });
 
 // });
@@ -657,7 +647,17 @@ function pro () {
 //   destino=document.getElementById("añadir_nueva_respuesta");
 //   destino.appendChild(nuevo).reset();
 //  }
+function buscar3(){
+  var cadena3 = "";
+  cadena3 += "";
+  var num =0;
+  var id_array = new Array();
 
+  //leer cursor
+  var objectStore = db.transaction("Encuesta_Reactivo").objectStore("Encuesta_Reactivo");
+  var index = objectStore.index("Cate");
+  var tipo= document.getElementById("Categorias_R").selectedIndex;
+  
              if(tipo==""){
               alert("categoria no encontrada")
 
