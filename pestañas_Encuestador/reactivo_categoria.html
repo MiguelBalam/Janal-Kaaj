@@ -51,14 +51,16 @@
                     <h6>Categoria</h6>
                 </div>
                 <div class="col-sm-5 text-center mb-3">
-                    <select onclick=" porCategoria()" id="Categorias_R" class="form-select" aria-label="Default select example" required>
+                    <select onchange="buscar3()" id="Categorias_R" class="form-select" aria-label="Default select example" required>
                         <option value="0">Categoria...</option>
                         <option value="1">Miel</option>
                         <option value="2">Agricultura</option>
                         <option value="3">Ganaderia </option>
+                        <option value="4">Otro </option>
                     </select>
                     
                 </div>
+              
             </div>
         </div>
     </div>
@@ -75,10 +77,13 @@
                 </div>
 
                 <div class="form-check">
-                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
-                    <label class="form-check-label" for="flexRadioDefault1">
-                        Pregunta 1
+                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" >
+                    <label class="form-check-label" for="flexCheckDefault">
+                        <div id="salida"></div>
                     </label>
+<<<<<<< HEAD
+                    
+=======
                 </div>
                 <div class="form-check">
                     <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
@@ -86,6 +91,9 @@
                         Pregunta 2
                     </label>
                     <div id="salida"></div>
+                    <div id="salida3"></div>
+                
+>>>>>>> 8562dc856cc42479c414536d852fdad92b6c56b7
                 </div>
                
             </div>
