@@ -13,7 +13,7 @@ var db;
     //Creacion de tablas u objetos
     DBOpenReq.addEventListener('upgradeneeded',(ev)=>{
         db = ev.target.result;
-      
+        
         ObjectStore= db.createObjectStore("Usuario", {autoIncrement: true});
         ObjectStore.createIndex("Nombre","Nombre",{unique:true});
 
@@ -41,16 +41,28 @@ var db;
         
         ObjectStore=db.createObjectStore("Categorias", {autoIncrement: true});
         //ObjectStore.createIndex("Categoria","Categoria",{unique:true});
-        //Encuestas
-        //db.createObjectStore("Encuesta", {autoIncrement: true});
+        
+        ObjectStore= db.createObjectStore("Variables", {autoIncrement: true});
+        ObjectStore.createIndex("NombreVar","NombreVar", {unique: true});
+        ObjectStore= db.createObjectStore("Variables2", {autoIncrement: true});
+        ObjectStore.createIndex("NombreVar2","NombreVar2", {unique: true});
+
+        ObjectStore= db.createObjectStore("Encuesta_Variables", {autoIncrement: true});
+        ObjectStore= db.createObjectStore("VariableC", {autoIncrement: true});
+
+
         console.log('upgrade',db);
     });
     DBOpenReq.addEventListener('success',(ev)=>{
      
       db= ev.target.result;
+      Variables()
+      Variables2()
+      
       buscar2();
       buscar();
-
+      buscarV();
+      BusVa()
     })
 // registro de datos
 
@@ -559,33 +571,297 @@ function manejadorValidacion(e) {
              }      
              
          }
-        //   function buscarobjeto(){       
-        //     mostrarDatos.innerHTML="";
-        //     var Categorias = document.getElementById("Categorias_R").value;
-        //     var transaction = bd.transaction(["Encuesta_Reactivo"],"readonly");
-        //     var objectStore = transaction.objectStore("Encuesta_Reactivo"); 
-        //     var index = objectStore.index("Categoria");
-        //     var ob = index.openCursor(Categorias);
-        //     ob.addEventListener("success", mostrarDatos, false);
-        // }
-        
-       
 
-//       function mostrarPorCategoria(){
-//       document.getElementById('Categorias_R').addEventListener('change', function() {
-//         if($(`#Categorias_R`).value.length<3) //si la opcion seleccionada es activo
-//           {
-//             //categoria().hide(); //oculta el boton agregar
-//          alert ("elEmento no encontrado");
-//           }
-//           else // en caso contrario, que sea jubilado etc
-//           {
-//             alert ("elEmento encontrado");
-//             categoria().show(); //oculta el boton agregar
-//             alert.hide()
-//             //oculta el boton siguiente
-//           }
-//       });
-//       categoria();
-//       }
+         function CrearEncuestaV(){
          
+          var titulo = document.getElementById("Titulo").value;
+          var Objetivo = document.getElementById("floatingTextarea2").value;
+          var Instrucciones = document.getElementById('floatingTextarea2').value;
+         
+          var request = db.transaction(["Encuesta_Variables"], "readwrite")
+          .objectStore("Encuesta_Variables")
+          .add({Titulo:titulo, Objetivo:Objetivo, Instrucciones:Instrucciones});
+
+          request.onsuccess = function(e){
+             console.log(e);
+             alert("se inserto los datos");
+             
+        
+             
+          };
+        }
+
+        function CrearVariable(){
+          var VariableNombre = document.getElementById("NomV").value.trim();
+          var sigla = document.getElementById("SiglaV").value.trim();
+          var descripcion = document.getElementById("desV").value.trim();
+          
+          var request = db.transaction(["VariableC"], "readwrite")
+          .objectStore("VariableC")
+          .add({VariableNombre:VariableNombre, sigla:sigla, descripcion:descripcion});
+          
+
+          request.onsuccess = function(e){
+             console.log(e);
+             alert("se inserto los datos");
+      
+             
+            
+          };
+         }
+//VARIABLE
+function Variables(){
+ 
+
+  var variables =[
+    {id:"1",NombreVar:"Experiencia", Siglas:"T.P",Descripcion:"Experiencia del apicultor dónde se desarrolla la actividad (rentada, propia o ejido)"},
+    {id:"2",NombreVar:"Tipo de producción de la miel.", Siglas:"P.M.",Descripcion:"Tipo de producción de miel en las zonas de estudio."},
+    {id:"3",NombreVar:"Las Políticas Públicas en el sector.", Siglas:"P.P.",Descripcion:"Acciones y apoyos que el gobierno ofrece a este sector primario."},
+    {id:"4",NombreVar:"Nivel de ingresos del Jornalero.", Siglas:"I.J.",Descripcion:"Rango de ingresos mensuales que percibe "},
+    {id:"5",NombreVar:"Tipo de práctica empleada en el campo", Siglas:"P.E.",Descripcion:"Tipo de manejo de prácticas que se utilizan en esta actividad."},
+    {id:"6",NombreVar:"Prácticas culturales", Siglas:"P.C",Descripcion:"prácticas culturales es usada y cuantas veces se realiza al año."},
+    {id:"7",NombreVar:"Sanidad.", Siglas:"S",Descripcion:"Control y prevención de la presencia de plagas y enfermedades en la producción"},
+    {id:"8",NombreVar:"Documentación de procesos.", Siglas:"D.P.",Descripcion:"D de manuales de procedimientos y certificaciones como parte del proceso de esta actividad."},
+    {id:"9",NombreVar:"Tecnología especializada.", Siglas:"T.E.",Descripcion:"Maquinaria especializada para esta actividad o si aún se carece de ella."},
+    {id:"10",NombreVar:"Acceso a los medios de publicidad.", Siglas:"A.P.",Descripcion:"Publicidad entre ellos uso de internet, periódicos o algún medio que difunda sus productos"}
+    
+];
+
+ 
+  var IniciarSesionTransac = db.transaction(["Variables"],'readwrite');
+ 
+
+  IniciarSesionTransac = IniciarSesionTransac.objectStore(["Variables"]);
+  
+
+for ( var Variables of variables ) {
+   IniciarSesionTransac.add(Variables);
+}
+
+IniciarSesionTransac.onsucces = function (event) {
+  crearTabla();
+  buscarV();
+  BusVa();
+  //BusVa2();
+
+   console.log('Nuevo item agregado a la base de datos');
+};
+
+
+  console.log('suscess',db);
+
+};
+function Variables2(){
+ 
+
+  var variables =[
+    {id:"1",NombreVar2:"Experiencia", Siglas:"T.P",Descripcion:"Experiencia del apicultor dónde se desarrolla la actividad (rentada, propia o ejido)"},
+    {id:"2",NombreVar2:"Tipo de producción de la miel.", Siglas:"P.M.",Descripcion:"Tipo de producción de miel en las zonas de estudio."},
+    {id:"3",NombreVar2:"Las Políticas Públicas en el sector.", Siglas:"P.P.",Descripcion:"Acciones y apoyos que el gobierno ofrece a este sector primario."},
+    {id:"4",NombreVar2:"Nivel de ingresos del Jornalero.", Siglas:"I.J.",Descripcion:"Rango de ingresos mensuales que percibe "},
+    {id:"5",NombreVar2:"Tipo de práctica empleada en el campo", Siglas:"P.E.",Descripcion:"Tipo de manejo de prácticas que se utilizan en esta actividad."},
+    {id:"6",NombreVar2:"Prácticas culturales", Siglas:"P.C",Descripcion:"prácticas culturales es usada y cuantas veces se realiza al año."},
+    {id:"7",NombreVar2:"Sanidad.", Siglas:"S",Descripcion:"Control y prevención de la presencia de plagas y enfermedades en la producción"},
+    {id:"8",NombreVar2:"Documentación de procesos.", Siglas:"D.P.",Descripcion:"D de manuales de procedimientos y certificaciones como parte del proceso de esta actividad."},
+    {id:"9",NombreVar2:"Tecnología especializada.", Siglas:"T.E.",Descripcion:"Maquinaria especializada para esta actividad o si aún se carece de ella."},
+    {id:"10",NombreVar2:"Acceso a los medios de publicidad.", Siglas:"A.P.",Descripcion:"Publicidad entre ellos uso de internet, periódicos o algún medio que difunda sus productos"}
+    
+];
+
+ 
+  var IniciarSesionTransac = db.transaction(["Variables2"],'readwrite');
+ 
+
+  IniciarSesionTransac = IniciarSesionTransac.objectStore(["Variables2"]);
+  
+
+for ( var Variables2 of variables ) {
+   IniciarSesionTransac.add(Variables2);
+}
+
+IniciarSesionTransac.onsucces = function (event) {
+
+  buscarV();
+  //BusVa2();
+  BusVa();
+ 
+
+   console.log('Nuevo item agregado a la base de datos');
+};
+
+
+  console.log('suscess',db);
+
+};
+
+function buscarV(){
+  var cadena = "";
+  cadena += "";
+  var num =0;
+  var id_array = new Array();
+
+  //leer cursor
+  var objectStore = db.transaction("Variables").objectStore("Variables");
+  objectStore.openCursor().onsuccess= function(e){
+   var cursor = e.target.result;
+   if(cursor){
+     NombreVar = cursor.value.NombreVar;
+     cadena += "";
+     cadena += "<input class='form-check-input' type='checkbox' value='' id='flexCheckDefault'>"+cursor.value.NombreVar+"<br></input>";
+     //cadena += "<td>+<button id='m"+Descripcion+"'>Seleccionar</button></td></tr>";
+     
+     id_array.push(NombreVar);
+     num ++;
+     //continuamos siguiente objeto
+     cursor.continue();
+     
+   }else{
+    
+     cadena += "";
+     document.getElementById("salida").innerHTML = cadena;
+     
+     for(var i=0; i<id_array.length; i++){
+       id = id_array[i];
+       //document.getElementById("m"+id).onclick= Editar;
+
+     }
+     var checkbox = document.getElementById('flexCheckDefault');
+        checkbox.addEventListener("change", validaCheckbox, false);
+ 
+        function validaCheckbox(){
+        var checked = checkbox.checked;
+        if(checked){
+            alert('checkbox esta seleccionado');
+            //BusVa()
+        }
+        } 
+   }
+  }
+
+}
+
+
+
+//BusVa()
+//CHECAR TABLA PARA ENCUESTA
+function BusVa(){
+    var columnas = parseInt(prompt("columnas"));
+ var filas= parseInt(prompt("colum"));  
+  var cadena ="<table class= 'table table-bordered'>"
+  var cadena2 = document.querySelector("table>tbody")
+  
+  var num = 0;
+  
+
+  var ids_array = new Array();
+  cadena +="<th>#</th>"
+
+  var objectStore = db.transaction("Variables").objectStore("Variables");
+
+  
+  objectStore.openCursor().onsuccess= function(e){
+   
+
+    
+   var cursor = e.target.result;
+   if(cursor){
+   
+ 
+    
+
+   var columna = cursor.value.NombreVar;
+ console.log(cursor.value.NombreVar);
+        
+  
+
+  cadena += "<th>"+cursor.value.NombreVar+"</th>"
+  //cadena+="<tr><td>"+ "<select class='form-select form-select-sm' aria-label='.form-select-sm example'></select>"+"</td></tr>"
+  
+ 
+       
+  for(i=0; i<filas;i++){
+   cadena2 +="<tr>"
+   
+   // cadena += "<th>"+cursor.value.NombreVar+"</th>"
+  
+    for(j=0; j<columnas;j++){
+      //"<th>"+cursor.value.NombreVar+"</th>"
+      cadena2 += "<td>"+cursor.value.NombreVar+"</td>";
+       
+      // if((filas>= 1 && filas<=2) && (columna >=1 && columna <=2)){
+      //   let celdas = document.querySelector("table>tbody")
+      // celdas[columna -1].innerHTML = "<td>"+ "<select class='form-select form-select-sm' aria-label='.form-select-sm example'></select>"+"</td>"
+      // }
+      //cadena +="<th>"+curRes.value.NombreVar+","+curRes.value.NombreVar+"</th>"
+       
+    }
+      }
+      cadena2 +="</tr>"
+   
+    cursor.continue();
+   }else{
+   
+document.getElementById("salidaV").innerHTML= cadena+cadena2;
+    cadena +="</table>";
+   
+    
+  
+   }
+   
+  
+
+  
+  } 
+}
+
+  // function BusVa2(){
+  //   let idb = indexedDB.open('Janal',1);
+
+  //   idb.onsuccess =()=>{
+      
+      
+  //     const tbody = document.querySelector("table>tbody");
+  //     let res = idb.result;
+  //     let tx = res.transaction('Variables','readonly');
+  //     let store = tx.objectStore('Variables');
+  //     let cursor = store.openCursor()
+  //     cursor.onsuccess =()=>{
+       
+  //       let curRes = cursor.result;
+  //       if(curRes){
+  //         console.log(curRes.value.NombreVar);
+        
+  //            var filas  =parseInt(prompt("filas")) ;
+  //            var columnas = parseInt(prompt("columnas"));
+          
+  //       var cadena ="<table class='table table-bordered'><tbody>";
+           
+  // for(i=0; i<filas; i++){
+  //   cadena +="<tr>"
+    
+  //   //cadena2 += "<th>"+curRes.value.NombreVar+"</th>"
+   
+    
+
+  //   for(j=0; j<columnas; j++){
+  //     "<th>"+curRes.value.NombreVar+"</th>"
+  //     tbody.innerHTML +=`
+     
+  //     <td>${curRes.value.NombreVar}</td>
+   
+  //     `;
+  //     cadena +="<td>"+i+curRes.value.NombreVar+","+j+curRes.value.NombreVar+"</td>"
+  //     cadena +="<th>"+curRes.value.NombreVar+","+curRes.value.NombreVar+"</th>"
+  //   }
+  //   cadena +="</tr>"
+  //     }
+  //     cadena +="</tbody></table>" 
+  //      document.getElementById("salidaV").innerHTML =cadena;
+  //  curRes.continue();
+  
+  //   } 
+         
+  //       }
+  //     }
+  //   }
+  // }
