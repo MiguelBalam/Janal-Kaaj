@@ -438,17 +438,238 @@ function manejadorValidacion(e) {
 
           
           // buscar por categoria
-          function buscar3(){
-            var cadena3 = "";
-            cadena3 += "";
-            var num =0;
-            var id_array = new Array();
- 
-            //leer cursor
-            var objectStore = db.transaction("Encuesta_Reactivo").objectStore("Encuesta_Reactivo");
-            var index = objectStore.index("Cate");
-            var tipo= document.getElementById("Categorias_R").selectedIndex;
-            
+      
+
+          //   if(tipo==""){
+          //     alert("categoria nula");
+          //   }else{
+          //     var filtro=IDBKeyRange.only(tipo);
+          //     var ObjectStore= db.transaction("Reactivos").objectStore("Reactivos");
+          //     var index=ObjectStore.index("Categoria");
+          //     index.openCursor(filtro).onsuccess = function(e){
+          //       var cursor= e.target.result
+          //       if(cursor){
+          //         id_array.push(cursor.value)
+          //         cursor.continue()
+          //       }else{
+          //         buscarC(id_array);
+          //       }
+          //     }
+          //   }
+          // }
+
+          // Funcion para mostrar contenido de select 
+          
+          function TiposOnChange(sel) {
+        
+            if (sel.value=="3"){ 
+              var   divC = document.getElementById("Opcion");
+                 divC.style.display = "";
+
+                 divT = document.getElementById("Respuestas");
+                 divT.style.display = "none";
+
+      
+            }else if (sel.value=="4"){
+         
+              var   divC = document.getElementById("Respuestas");
+                 divC.style.display="none";
+      
+                 divT = document.getElementById("Opcion");
+                 divT.style.display = "";
+                   
+            }else {
+             var divC = document.getElementById("Respuestas");
+                 divC.style.display="none";
+      
+                 divT = document.getElementById("Opcion");
+                 divT.style.display = "none";
+            }
+      }
+     
+
+
+
+//Guardamos en una variable 
+var   idSelec = document.getElementById("respuestasSelec");
+var pro = idSelec.options[idSelect.selectedIndex].value;
+//Creamos un nodo de texto que agregaremos al div.
+pro.addEventListener('change', 
+
+function pro () {
+  var proOpcion = this.options[pro.selectedIndex];
+ // console.log(proOpcion.value + ': ' + proOpcion.value);
+
+  var CadeNumero = proOpcion ;
+
+  CadeNumero  = Number.parseFloat(proOpcion);
+  console.log(CadeNumero);
+
+
+// $(document).ready(function(){
+
+//   $(CadeNumero).click(function(){
+
+});
+     var contador = CadeNumero;
+
+     function TiposOpciones(sel) {
+        
+      if (sel.value=="11"){ 
+        var   divC = document.getElementById("Opcion1");
+           divC.style.display = "";
+
+       var   divT = document.getElementById("Opcion2");
+           divT.style.display = "none";
+
+       var    divX = document.getElementById("Opcion3");
+           divX.style.display = "none";
+
+       var    divA = document.getElementById("Opcion4");
+           divA.style.display = "none";
+           
+       var    divT = document.getElementById("Opcion5");
+           divT.style.display = "none";
+
+
+      }else if (sel.value=="12"){
+   
+      var  divC = document.getElementById("Opcion1");
+        divC.style.display = "";
+
+      var divT = document.getElementById("Opcion2");
+        divT.style.display = "";
+
+      var  divX = document.getElementById("Opcion3");
+        divX.style.display = "none";
+
+      var  divA = document.getElementById("Opcion4");
+        divA.style.display = "none";
+        
+      var  divT = document.getElementById("Opcion5");
+        divT.style.display = "none";
+
+             
+      }else if (sel.value=="13") {
+        divC = document.getElementById("Opcion1");
+           divC.style.display = "";
+
+           divT = document.getElementById("Opcion2");
+           divT.style.display = "";
+
+           divX = document.getElementById("Opcion3");
+           divX.style.display = "";
+
+           divA = document.getElementById("Opcion4");
+           divA.style.display = "none";
+           
+           divT = document.getElementById("Opcion5");
+           divT.style.display = "none";
+
+      }else if (sel.value=="14") {
+        divC = document.getElementById("Opcion1");
+           divC.style.display = "";
+
+           divT = document.getElementById("Opcion2");
+           divT.style.display = "";
+
+           divX = document.getElementById("Opcion3");
+           divX.style.display = "";
+
+           divA = document.getElementById("Opcion4");
+           divA.style.display = "";
+           
+           divT = document.getElementById("Opcion5");
+           divT.style.display = "none";
+
+      }else if (sel.value=="15") {
+        divC = document.getElementById("Opcion1");
+           divC.style.display = "";
+
+           divT = document.getElementById("Opcion2");
+           divT.style.display = "";
+
+           divX = document.getElementById("Opcion3");
+           divX.style.display = "";
+
+           divA = document.getElementById("Opcion4");
+           divA.style.display = "";
+           
+           divT = document.getElementById("Opcion5");
+           divT.style.display = "";
+
+      }else{
+        divC = document.getElementById("Opcion1");
+           divC.style.display = "none";
+
+           divT = document.getElementById("Opcion2");
+           divT.style.display = "none";
+
+           divX = document.getElementById("Opcion3");
+           divX.style.display = "none";
+
+           divA = document.getElementById("Opcion4");
+           divA.style.display = "none";
+           
+           divT = document.getElementById("Opcion5");
+           divT.style.display = "none";
+      }
+}
+
+     
+      // for( contador=1;contador<=5;contador++){
+      //     if(contador<=1){
+          
+      //     } else if(contador<=2){
+           
+      //     } else if(contador <= 3){
+
+      //     } else if (s){
+
+      //     } else {
+                
+      //     }
+      //     contador++;
+      // }
+//   });
+
+// });
+
+
+
+// var pro_valor = document.createTextNode("Provincia: "+pro);
+// //Añadimos el nuevo nodo al final de la lista.
+// div.appendChild(pro_valor);
+
+
+
+//   var select = document.getElementById('respuestasSelec');
+//   select.addEventListener('change',
+//     function(){
+//       var selectedOption = this.options[select.selectedIndex];
+//       console.log(selectedOption.value + ': ' + selectedOption.text);
+//     });
+
+
+
+// function clonarNodo(indice) {
+//   var original=document.getElementById("añadir");
+//   var nuevo=original.cloneNode(true);
+//   nuevo.id=indice;
+//   destino=document.getElementById("añadir_nueva_respuesta");
+//   destino.appendChild(nuevo).reset();
+//  }
+function buscar3(){
+  var cadena3 = "";
+  cadena3 += "";
+  var num =0;
+  var id_array = new Array();
+
+  //leer cursor
+  var objectStore = db.transaction("Encuesta_Reactivo").objectStore("Encuesta_Reactivo");
+  var index = objectStore.index("Cate");
+  var tipo= document.getElementById("Categorias_R").selectedIndex;
+  
              if(tipo==""){
               alert("categoria no encontrada")
 
@@ -572,6 +793,7 @@ function manejadorValidacion(e) {
              
          }
 
+<<<<<<< HEAD
          function CrearEncuestaV(){
          
           var titulo = document.getElementById("Titulo").value;
@@ -865,3 +1087,22 @@ document.getElementById("salidaV").innerHTML= cadena+cadena2;
   //     }
   //   }
   // }
+=======
+//       function mostrarPorCategoria(){
+//       document.getElementById('Categorias_R').addEventListener('change', function() {
+//         if($(`#Categorias_R`).value.length<3) //si la opcion seleccionada es activo
+//           {
+//             //categoria().hide(); //oculta el boton agregar
+//          alert ("elEmento no encontrado");
+//           }
+//           else // en caso contrario, que sea jubilado etc
+//           {
+//             alert ("elEmento encontrado");
+//             categoria().show(); //oculta el boton agregar
+//             alert.hide()
+//             //oculta el boton siguiente
+//           }
+//       });
+//       categoria();
+//       }
+>>>>>>> 9b46a56ce9623d72048ee5ccdeaebb49db42ba9b
