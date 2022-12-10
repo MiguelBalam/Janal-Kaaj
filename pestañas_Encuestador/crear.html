@@ -46,110 +46,128 @@
             <div class="card col-sm-7 p-3 shadow-lg mb-5 bg-white rounded">
 
                 <h1 class="bg-text-black text-center p-3 text-uppercase text-black">Crear Encuesta</h1>
-<form id="formulario" action="">
-                <div class="row mb-4">
-                    <label class="col-sm-4 col-form-label px-5">Titulo: </label>
-                    <div class="col-sm-8">
-                        <input type="text" class="form-control" id="Titulo" name="Titulo">
-                    </div>
-                </div>
-
-                <div class="row mb-4">
-                    <label class="col-sm-4 col-form-label px-5">Objetivo:</label>
-                    <div class="col-sm-8">
-                        <div class="form-floating">
-                            <textarea class="form-control" placeholder="Leave a comment here"
-                                id="floatingTextarea2" name="objetivo"></textarea>
-                            <label for="floatingTextarea2">Agregar objetivo</label>
+                <form id="formulario" action="">
+                    <div class="row mb-4">
+                        <label class="col-sm-4 col-form-label px-5">Titulo: </label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="Titulo" name="Titulo">
                         </div>
                     </div>
-                </div>
 
-                <div class="row mb-4">
-                    <label class="col-sm-4 col-form-label px-5">Instruciones:</label>
-                    <div class="col-sm-8">
-                        <div class="form-floating">
-                            <textarea class="form-control" placeholder="Leave a comment here" name="Intruccion" id="floatingTextarea2"
-                                style="height: 100px"></textarea>
-                            <label for="floatingTextarea2">Agregar Instrución</label>
+                    <div class="row mb-4">
+                        <label class="col-sm-4 col-form-label px-5">Objetivo:</label>
+                        <div class="col-sm-8">
+                            <div class="form-floating">
+                                <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2"
+                                    name="objetivo"></textarea>
+                                <label for="floatingTextarea2">Agregar objetivo</label>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="row mb-4">
-                    <label class="col-sm-4 col-form-label px-5">Reactivos:</label>
-                    <div class="col-sm-4 text-center">
-
-                        <button  class="btn btn-outline-success bg-border-mostaza bg-text-mostaza"  type="button" id="boton_crear" 
-                        onclick="location.href='../pestañas_Encuestador/reactivo_crear_reactivos.html'">Crear</button>
-
-                    </div>
-                 
-                    <div class="col-sm-4 text-center">
-                        <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" id="boton_agregar" type="button"
-                        onclick=" Encuesta1();window.location.href='../pestañas_Encuestador/reactivo_categoria.html'" > Agregar </button>
+                    <div class="row mb-4">
+                        <label class="col-sm-4 col-form-label px-5">Instruciones:</label>
+                        <div class="col-sm-8">
+                            <div class="form-floating">
+                                <textarea class="form-control" placeholder="Leave a comment here" name="Intruccion"
+                                    id="floatingTextarea2" style="height: 100px"></textarea>
+                                <label for="floatingTextarea2">Agregar Instrución</label>
+                            </div>
+                        </div>
                     </div>
 
-                </div>
+                    <div class="row mb-4">
+                        <label class="col-sm-4 col-form-label px-5">Reactivos:</label>
+                        <div class="col-sm-4 text-center">
 
-                <div class="row mb-4">
+                            <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" type="button"
+                                id="boton_crear"
+                                onclick="location.href='../pestañas_Encuestador/reactivo_crear_reactivos.html'">Crear</button>
 
-
-                
-
-                    <div class=" col-sm-12 col-form-label px-5">
-                        <div class="card-header ">
-                            Reactivos de la encuesta
-                        
-                    
-
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                            <label class="form-check-label" for="flexCheckDefault">
-                                Pregunta 1
-                            </label>
-
-                            <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" id="boton_crear" type="button"
-                            onclick="window.location.href='../pestañas_Encuestador/reactivos.html'" > <img src="../Img/edit.svg"  height="18px" width="18px"></button>
-
-                            <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" id="boton_borrar" type="button" > 
-                            <img src="../Img/borrar.png"  height="18px" width="18px" > </button> 
-                            
                         </div>
 
-                        
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
-                            <label class="form-check-label" for="flexCheckChecked">
-                                Pregunta 2
-                            </label>
-                            <div id="salida2"></div>
+                        <div class="col-sm-4 text-center">
+                            <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" id="boton_agregar"
+                                type="button"
+                                onclick=" Encuesta1();window.location.href='../pestañas_Encuestador/reactivo_categoria.html'">
+                                Agregar </button>
                         </div>
-                       
+
                     </div>
-                   
-                    <div class=" row mb-4 p-3" >
-                        <div class="col-sm-12 text-center"> 
-                    <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" id="boton_borrar" type="button" >  Crear Encuesta</button> 
-                </div>
-            </div>
-                </div>
-                
+
+                    <div class="row mb-4">
+
+             
+
+
+                        <div class=" col-sm-12 col-form-label px-5">
+                            <div class="card-header ">
+                                Reactivos de la encuesta
+
+
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-10">
+                                            <input class="form-check-input" type="checkbox" value=""
+                                                id="flexCheckDefault">
+                                            <label class="form-check-label" for="flexCheckDefault">
+                                                Pregunta 1
+                                            </label>
+                                        </div>
+                                        <div class="col-1">
+                                            <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza"
+                                                id="boton_editar_image" type="button"
+                                                onclick="window.location.href='../pestañas_Encuestador/reactivos.html'">
+                                                <img src="../Img/edit.svg"  height="18px"
+                                                    width="18px"></button>
+                                        </div>
+                                        <div class="col-1">
+                                            <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza"
+                                                id="boton_borrar_image" type="button">
+                                                <img src="../Img/borrar.png" height="18px" width="18px"> </button>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="container">
+                                    <div class="row">  
+                                        <div  class="col-10">
+                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked"
+                                        checked>
+                                    <label class="form-check-label" for="flexCheckChecked">
+                                        Pregunta 2
+                                    </label>
+                                </div>
+                                    <div id="salida2"></div>
+                                </div>
+                            </div>
+                            </div>
+
+                            <div class=" row mb-4 p-3">
+                                <div class="col-sm-12 text-center">
+                                    <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza"
+                                        id="boton-crear-encuesta" type="button"> Crear Encuesta</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </form>
-                
-            </section>
-            </div>
+
+        </section>
+    </div>
 
 
-                </div>
-                
-        
-        <!-- <tbody id="Encuestas"></tbody> -->
-    
+    </div>
+
+
+    <!-- <tbody id="Encuestas"></tbody> -->
+
     <!-- <script src="../BD/funciones.js"></script>
     <script src="../BD/NuevoFormulario.js"></script> -->
     <Script src="../BD/app.js"></Script>
-    
+
 </body>
 
 </html>

@@ -73,31 +73,100 @@
                 <div class="row mb-4">
                     <label class="col-sm-4 col-form-label px-5">Tipo respuesta:</label>
                     <div class="col-sm-6">
-                        <select class="form-select" aria-label="Default select example">
-                            <option selected>Opciones</option>
-                            <option value="1">Abiertas</option>
+                        <select class="form-select"  aria-placeholder="Opciones" aria-label="Default select example" NAME="Tipos" onChange="TiposOnChange(this)">
+                            <option selected  value="4">Opciones</option>
+                            <option value="1" >Abiertas</option>
                             <option value="2">Cerradas</option>
-                            <option value="3">Opcion 3</option>
+                            <option value="3">Opcion Multiple</option>
+                            <option value="4">Opcion Multiple respuesta unica</option>
                         </select>
+                    
+                        </div>
+            <div class="p-3">    </div>
+                       <div id="Respuestas" style="display:none;">
+   
+                   </div>
+                   
+                       <div id="Opcion" style="display: none;"> 
+                        <div class="row mb-4">
+                            <label class="col-8 col-form-label px-5">Elija el número de respuestas que desea: </label>
+                            <div class="col-4">
+                                <select  class="form-select" id="respuestasSelec" aria-label="Default select example" NAME="respuestasSelec" onChange="TiposOpciones(this)" >
+                                    <option selected value="16" >Número de opciones </option> 
+                                    <option value="11">1</option> 
+                                    <option value="12">2</option>
+                                    <option value="13">3</option>
+                                    <option value="14">4</option>
+                                    <option value="15">5</option>
+                                </select>
+                            
+                            </div> 
+                       </div>
+                       <div id="DivInputs"> </div>
+                       <div class="input-group flex-nowrap, row mb-4"  id="Opcion1" style="display: none;" >
+                        <label class="col-6 col-form-label px-5">Escriba su primera respuesta: </label>
+                        <div class="col-6"> 
+                        <input type="text" class="form-control" id="Respuesta1" placeholder="Escriba su respuesta" aria-label="Escriba su respuesta" aria-describedby="addon-wrapping">
+                    </div>
+                    </div>
+
+                    <div class="input-group flex-nowrap, row mb-4" id="Opcion2" style="display: none;">
+                        <label class="col-6 col-form-label px-5">Escriba su segunda respuesta: </label>
+                        <div class="col-6"> 
+                        <input type="text" class="form-control" id="Respuesta2" placeholder="Escriba su respuesta" aria-label="Escriba su respuesta" aria-describedby="addon-wrapping">
+                    </div>
+                    </div>
+
+                    <div class="input-group flex-nowrap, row mb-4" id="Opcion3" style="display: none;">
+                        <label class="col-6 col-form-label px-5">Escriba su tercera respuesta: </label>
+                        <div class="col-6"> 
+                        <input type="text" class="form-control" id="Respuesta3" placeholder="Escriba su respuesta" aria-label="Escriba su respuesta" aria-describedby="addon-wrapping">
+                    </div>
+                    </div>
+
+                    <div class="input-group flex-nowrap, row mb-4" id="Opcion4" style="display: none;">
+                        <label class="col-6 col-form-label px-5">Escriba su cuarta respuesta: </label>
+                        <div class="col-6"> 
+                        <input type="text" class="form-control"  id="Respuesta4" placeholder="Escriba su respuesta" aria-label="Escriba su respuesta" aria-describedby="addon-wrapping">
+                    </div>
+                    </div>
+
+                    <div class="input-group flex-nowrap, row mb-4" id="Opcion5" style="display: none;">
+                        <label class="col-6 col-form-label px-5">Escriba su quinta respuesta: </label>
+                        <div class="col-6"> 
+                        <input type="text"  class="form-control" id="Respuesta5" placeholder="Escriba su respuesta" aria-label="Escriba su respuesta" aria-describedby="addon-wrapping">
+                    </div>
+                    </div>
+                    
+
+                          <!-- <div id="añadir_nueva_respuesta"></div>
+                          <div class="row">
+                            <div class="col-8"> </div>
+                          <div class="col-4 ">
+                            <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza"
+                                id="Añadir_nuevo" type="button"  onclick="clonarNodo()"> Añadir Nuevo 
+                                </button>
+                          </div>
+                          </div> -->
+                       
+                       </div>
+
+           
+
+              </div>
                         
-                        
-                                <div class="p-4 col-sm-8 px-3 text-center">
+                                <div class="p-4 col-sm-12 px-3 text-center">
                 
-<<<<<<< HEAD:pestañas_Encuestador/reactivos.html
                                     <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" id="boton_guardar"
-                                    type="submit" onclick="location.href='../pestañas_Encuestador/crear.html'" >Guardar</button>
+                                    type="submit" onclick="CrearReactivo(),location.href='../pestañas_Encuestador/crear.html'" >Guardar</button>
 
                                     <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" id="boton_cancelar"
                                  >Cancelar</button>
-=======
-                                    <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" id="boton_listo"
-                                    type="submit" onclick="CrearReactivo();location.href='../pestañas_Encuestador/crear.html'" >Listo</button>
->>>>>>> a7c7eae48ca87bf1383fd9feb9d26bc85866f112:pestañas_Encuestador/reactivo_crear_reactivos.html
                             
                     </div>
                 </div>
                 
-
+            </div>
             </div>
         </section>
     </div>

@@ -283,9 +283,33 @@ input {
     color: rgb(255, 255, 255) !important;
     border-color: var(--mostaza) !important;
 }
+#boton_borrar_image:hover{
+    background-color: var(--mostaza) !important;
+    color: rgb(255, 255, 255) !important;
+    border: 0px !important;
+    /* border-color: var(--mostaza) !important; */
+}
 #boton_borrar:hover{
     background-color: var(--mostaza) !important;
     color: rgb(255, 255, 255) !important;
+    /* border: 0px !important; */
+    border-color: var(--mostaza) !important;
+}
+#boton-crear-encuesta:hover{
+    background-color: var(--mostaza) !important;
+    color: rgb(255, 255, 255) !important;
+    border-color: var(--mostaza) !important;
+}
+#boton_editar_image:hover{
+    background-color: var(--mostaza) !important;
+    color: rgb(255, 255, 255) !important;
+    border: 0;
+    /* border-color: var(--mostaza) !important; */
+}
+#boton_editar:hover{
+    background-color: var(--mostaza) !important;
+    color: rgb(255, 255, 255) !important;
+    /* border: 0; */
     border-color: var(--mostaza) !important;
 }
 #boton_guardar:hover{
@@ -309,6 +333,12 @@ background-color: var(--mostaza) !important;
     color: rgb(255, 255, 255) !important;
     border-color: var(--mostaza) !important;
 }
+#Añadir_nuevo:hover{
+    background-color: var(--mostaza) !important;
+        color: rgb(255, 255, 255) !important;
+        border-color: var(--mostaza) !important;
+    }
+
 
 /* Termina */
 .form-control {
@@ -361,4 +391,35 @@ background-color: var(--mostaza) !important;
     background-color: var(--mostaza) !important;
     color: rgb(255, 255, 255) !important;
     border-color: var(--mostaza) !important;
+}
+
+/* diagonal de la tabla */
+/* variable seleccionar variable */
+
+
+.linea {
+  margin: auto;
+  width: 90%;
+  border-top: 1px solid #000;
+  -webkit-transform: rotate(-15deg);
+  -ms-transform: rotate(-15deg);
+  transform: rotate(10deg);
+}
+
+.diagonal {
+  width: 130px;
+  height: 40px;
+}
+
+.diagonal span.arriba {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+}
+
+.diagonal span.abajo {
+ position:absolute;
+  bottom: 2px;
+  right: 2px;
+  z-index: 2;
 }
