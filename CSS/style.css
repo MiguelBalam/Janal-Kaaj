@@ -423,3 +423,10 @@ background-color: var(--mostaza) !important;
   right: 2px;
   z-index: 2;
 }
+
+/* scroll de la tabla - variables */
+
+.table-responsibe{
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
