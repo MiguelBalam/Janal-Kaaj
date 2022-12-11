@@ -282,7 +282,9 @@ function manejadorValidacion(e) {
         ];
     
           var Categoria =[
-          { id: "1", descripcion:"Apicultura"}
+          { id: "1", descripcion:"Apicultura"},
+          { id: "2", descripcion:"Agricultura"},
+          { id: "3", descripcion:"Ganderia"}
            ];
            
           var IniciarSesionTransac = db.transaction(["Encuesta"],'readwrite');
@@ -534,6 +536,9 @@ function ResOpMul(){
              }
             }
           } 
+          function busquedaCategoria(){
+
+          }
 
 
           // Funcion para mostrar contenido de select 
