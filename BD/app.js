@@ -36,6 +36,10 @@ var db;
 
         ObjectStore=db.createObjectStore("Reactivos", {autoIncrement: true});
         ObjectStore.createIndex("Reactivo","Reactivo",{unique:true});
+
+        ObjectStore=db.createObjectStore("TipoRes", {autoIncrement: true});
+        ObjectStore=db.createObjectStore("ReacOpMul", {autoIncrement: true});
+        ObjectStore=db.createObjectStore("ReOpM", {autoIncrement: true});
   
         db.createObjectStore("Categoria_encuesta", {autoIncrement: true});
         
@@ -58,7 +62,6 @@ var db;
       db= ev.target.result;
       Variables()
       Variables2()
-      
       buscar2();
       buscar();
       buscarV();
@@ -286,7 +289,7 @@ function manejadorValidacion(e) {
           IniciarSesionTransac.onerror = function (event) {
               console.log("error", event.target.error);
           };
-          var IniciarSesionTransac2 = db.transaction(["Encuesta_Reactivo"], "readwrite");
+          var IniciarSesionTransac2 = db.transaction(["Encuesta_Reactivo"],"readwrite");
           IniciarSesionTransac2.onerror = function (event) {
               console.log("error", event.target.error);
           };
@@ -350,6 +353,7 @@ function manejadorValidacion(e) {
          function CrearReactivo(){
           var Reactivo = document.getElementById("Reactivo").value.trim();
           var categoria = document.getElementById("categoria").value.trim();
+          
 
           var request = db.transaction(["Reactivos"], "readwrite")
           .objectStore("Reactivos")
@@ -358,6 +362,7 @@ function manejadorValidacion(e) {
           .objectStore("Categorias")
           .add({Categoria:categoria});
 
+          
           request.onsuccess = function(e){
              console.log(e);
              alert("se inserto los datos");
@@ -367,6 +372,100 @@ function manejadorValidacion(e) {
             
           };
          }
+//Función para gusrdar tipo de respuesta
+         function tipoR(){
+          var TipoRes= document.getElementById("TipoRes").selectedIndex;
+         
+          var TipoR = db.transaction(["TipoRes"], "readwrite")
+          .objectStore("TipoRes")
+          if(TipoR == ''){
+          TipoR.add({TipoRes:TipoRes});
+          }else{
+            if(TipoRes == 1){
+              TipoR.add({TipoRes:'Abierta'});
+            }
+            if(TipoRes == 2){
+              TipoR.add({TipoRes:'Cerrada'});
+            }
+            if(TipoRes == 3){
+              TipoR.add({TipoRes:'Opcion_Mul'});
+             
+          }
+            if(TipoRes == 4){
+              TipoR.add({TipoRes:'Opcion_Mul_Uno'});
+            }
+          }
+          OpMul.onsuccess = function NumOp(){
+
+          }
+          TipoR.onsuccess = function(e){
+            console.log(e);
+          }
+         }
+
+         function NumOpMul(){  
+              var Res= document.getElementById("respuestasSelec").selectedIndex;
+               var NumOpMul = db.transaction(["ReacOpMul"], "readwrite")
+          .objectStore("ReacOpMul")
+          if(Res == ''){
+           alert('selecciones cantidad de posibles respuestas');
+            }else{
+              if(Res == 1){
+                NumOpMul.add({Res:'1'});
+            
+                
+              }
+              if(Res == 2){
+                NumOpMul.add({Res:'2'});
+                
+              }
+              if(Res == 3){
+                NumOpMul.add({Res:'3'});
+               
+              }
+              if(Res == 4){
+                NumOpMul.add({Res:'4'});
+               
+              if(Res == 5){
+                NumOpMul.add({Res:'5'});
+              }
+            }
+          
+            NumOpMul.onsuccess = function(e){
+              console.log(e);
+            }
+         }
+        
+        }
+function ResOpMul(){
+  var respuesta = document.getElementById("Respuesta1").value;
+  var respuesta2 = document.getElementById("Respuesta2").value;
+  var respuesta3 = document.getElementById("Respuesta3").value;
+  var respuesta4 = document.getElementById("Respuesta4").value;
+  var respuesta5 = document.getElementById("Respuesta5").value;
+  var ResOpMul = db.transaction(["ReOpM"], "readwrite")
+  .objectStore("ReOpM")
+  if(respuesta == ''){
+    alert("Escriba una respuesta")
+  }else{
+      ResOpMul.add({Respuesta:respuesta, Respuesta2: respuesta2, 
+        Respuesta3: respuesta3, Respuesta4: respuesta4, Respuesta5: respuesta5})
+  } 
+
+    // if(respuesta == 3){
+    //   ResOpMul.add({Respuesta1:respuesta,Respuesta2:respuesta2,Respuesta3:respuesta3})
+    // }
+    // if(respuesta == 4){
+    //   ResOpMul.add({Respuesta1:respuesta,Respuesta2:respuesta2,Respuesta3:respuesta3,Respuesta4:respuesta4})
+    // }
+    // if(respuesta == 5){
+    //   ResOpMul.add({Respuesta1:respuesta,Respuesta2:respuesta2,Respuesta3:respuesta3,Respuesta4:respuesta4,Respuesta5:respuesta5})
+    // }
+    ResOpMul.onsuccess = function(e){
+    console.log(e);
+  }
+}
+
 
        //cursor con preguntas ya predeterminadas
         function buscar(){
@@ -436,32 +535,11 @@ function manejadorValidacion(e) {
             }
           } 
 
-          
-          // buscar por categoria
-      
-
-          //   if(tipo==""){
-          //     alert("categoria nula");
-          //   }else{
-          //     var filtro=IDBKeyRange.only(tipo);
-          //     var ObjectStore= db.transaction("Reactivos").objectStore("Reactivos");
-          //     var index=ObjectStore.index("Categoria");
-          //     index.openCursor(filtro).onsuccess = function(e){
-          //       var cursor= e.target.result
-          //       if(cursor){
-          //         id_array.push(cursor.value)
-          //         cursor.continue()
-          //       }else{
-          //         buscarC(id_array);
-          //       }
-          //     }
-          //   }
-          // }
 
           // Funcion para mostrar contenido de select 
           
           function TiposOnChange(sel) {
-        
+          
             if (sel.value=="3"){ 
               var   divC = document.getElementById("Opcion");
                  divC.style.display = "";
@@ -485,6 +563,7 @@ function manejadorValidacion(e) {
                  divT = document.getElementById("Opcion");
                  divT.style.display = "none";
             }
+            tipoR();
       }
      
 
@@ -614,6 +693,7 @@ function pro () {
            divT = document.getElementById("Opcion5");
            divT.style.display = "none";
       }
+      NumOpMul();
 }
 
      
@@ -793,7 +873,6 @@ function buscar3(){
              
          }
 
-<<<<<<< HEAD
          function CrearEncuestaV(){
          
           var titulo = document.getElementById("Titulo").value;
@@ -1009,6 +1088,7 @@ function BusVa(){
     for(j=0; j<columnas;j++){
       //"<th>"+cursor.value.NombreVar+"</th>"
       cadena2 += "<td>"+cursor.value.NombreVar+"</td>";
+      cadena2 += "<td>"+cursor.value.NombreVar+"</td>";
        
       // if((filas>= 1 && filas<=2) && (columna >=1 && columna <=2)){
       //   let celdas = document.querySelector("table>tbody")
@@ -1087,22 +1167,3 @@ document.getElementById("salidaV").innerHTML= cadena+cadena2;
   //     }
   //   }
   // }
-=======
-//       function mostrarPorCategoria(){
-//       document.getElementById('Categorias_R').addEventListener('change', function() {
-//         if($(`#Categorias_R`).value.length<3) //si la opcion seleccionada es activo
-//           {
-//             //categoria().hide(); //oculta el boton agregar
-//          alert ("elEmento no encontrado");
-//           }
-//           else // en caso contrario, que sea jubilado etc
-//           {
-//             alert ("elEmento encontrado");
-//             categoria().show(); //oculta el boton agregar
-//             alert.hide()
-//             //oculta el boton siguiente
-//           }
-//       });
-//       categoria();
-//       }
->>>>>>> 9b46a56ce9623d72048ee5ccdeaebb49db42ba9b
