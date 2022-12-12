@@ -28,7 +28,7 @@
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="/login.html">Login</a>
+            <a class="nav-link active" aria-current="page" href="../login.html">Login</a>
           </li>
         </ul>
         <from class="d-flex">
@@ -42,24 +42,26 @@
 
   <div class="p-4">
 
-    <div class=" container card col-sm-12 p-3 shadow-lg  bg-white rounded ">
+    <div class=" container card col-sd-12 p-3 shadow-lg  bg-white rounded ">
 
-      <table class="table table-bordered">
+      <div class="table-responsibe">
+      <table id="TablaV" class="table table-bordered">
+      <!-- <table id="TablaV" class="table table-bordered"> -->
         <thead>
-          <tr>
+        
             <!-- <th scope="row">
               <span class="arriba diagonal" onclick="arriba1()">50</span>
               <span class="abajo diagonal" onclick="abajo1()">20</span>
               <div class="linea"></div>
             </th>  -->
-            <th scope="col">#</th> 
+            <!-- <th scope="col">#</th> 
             <th scope="col">Experiencia</th>
             <th scope="col">Tipo Producción</th>
-            <th scope="col">Politicas Publicas</th>
-          </tr>
+            <th scope="col">Politicas Publicas</th> -->
+        
         </thead>
         <tbody>
-          <tr>
+          <!-- <tr>
             <th scope="row">Experiencia</th>
             <td>
               <select class="form-select form-select-sm" aria-label=".form-select-sm example">
@@ -148,14 +150,19 @@
               <option value="3">P</option>
             </select>
           </td>
-          </tr>
+          </tr> -->
         </tbody>
       </table>
+    </div>
 
+      <div id="salidaV2"></div>
+      <div id="salidaV"></div>
+      
+    
       <div class="row mb-4">
 
         <div class="col-sm-12 text-center">
-            <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza">Guardar</button>
+            <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" id="boton_guardar">Guardar</button>
         </div>
 
     </div>
@@ -208,6 +215,7 @@
                     </tr>
                   </tbody>
                   </thead>
+                </table>
 
               </div>
             </div>
@@ -230,7 +238,7 @@
       console.log('abajo1');
     }
   </script>
-
+<script src="../BD/app.js"></script>
 </body>
 
 </html>

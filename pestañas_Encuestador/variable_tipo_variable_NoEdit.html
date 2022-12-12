@@ -28,7 +28,7 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/login.html">Login</a>
+                        <a class="nav-link active" aria-current="page" href="../login.html">Login</a>
                     </li>
                 </ul>
                 <from class="d-flex">
@@ -54,77 +54,27 @@
                             Selecciones las variables
                         </div>
 
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" disabled>
-                            <label class="form-check-label" for="flexCheckDefault">
-                                Experiencia.
-                            </label>
-                        </div>
-                        <div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked"
-                                disabled>
-                                <label class="form-check-label" for="flexCheckChecked">
-                                    Tipo de producción de la miel.
-                                </label>
+                        <div class="row mb-4">
+
+
+
+                            <div class="col-3 text-center">
+                                <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza"
+                                    onclick="location.href='../pestañas_Encuestador/reactivos.html'"
+                                    id="boton_crear"><img src="../Img/borrar.png" height="18px" width="18px"> </button>
                             </div>
                         </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" disabled>
-                            <label class="form-check-label" for="flexCheckDefault">
-                                Las políticas Públicas en el sector.
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" disabled>
-                            <label class="form-check-label" for="flexCheckDefault">
-                                Nivel de ngresos del Jornalero.
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" disabled>
-                            <label class="form-check-label" for="flexCheckDefault">
-                                Tipo de práctia empleada en el campo
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" disabled>
-                            <label class="form-check-label" for="flexCheckDefault">
-                                Prácticas culturales.
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" disabled>
-                            <label class="form-check-label" for="flexCheckDefault">
-                                Sanidad.
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" disabled>
-                            <label class="form-check-label" for="flexCheckDefault">
-                                Documentación de procesos.
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" disabled>
-                            <label class="form-check-label" for="flexCheckDefault">
-                                Tecnología especializada.
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" disabled>
-                            <label class="form-check-label" for="flexCheckDefault">
-                                Acceso a los medios de publicidad.
-                            </label>
-                        </div>
-
+                        <div id="salida"></div>
 
                         <div class="row mb-4">
 
                             <div class="col-sm-12 text-center">
-                                <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza">Editar</button>
+                                <button
+                                    class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" id="boton_volver">Volver</button>
+                                <button onclick="Variables()" class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" 
+                                id="boton_editar">Editar</button>
                             </div>
-    
+
                         </div>
 
                     </div>
@@ -134,7 +84,7 @@
         </section>
     </div>
 
-
+    <script src="../BD/app.js"></script>
 
 </body>
 

@@ -262,6 +262,26 @@ input {
     color: rgb(255, 255, 255) !important;
     border-color: var(--mostaza) !important;
 }
+#boton_añadir:hover {
+    background-color: var(--mostaza) !important;
+    color: rgb(255, 255, 255) !important;
+    border-color: var(--mostaza) !important;
+}
+#boton_guardar:hover {
+    background-color: var(--mostaza) !important;
+    color: rgb(255, 255, 255) !important;
+    border-color: var(--mostaza) !important;
+}
+#boton_volver:hover {
+    background-color: var(--mostaza) !important;
+    color: rgb(255, 255, 255) !important;
+    border-color: var(--mostaza) !important;
+}
+#tip_encuesta:hover {
+    background-color: var(--mostaza) !important;
+    color: rgb(255, 255, 255) !important;
+    border-color: var(--mostaza) !important;
+}
 
 #boton_filtrar:hover {
     background-color: var(--mostaza) !important;
@@ -422,4 +442,11 @@ background-color: var(--mostaza) !important;
   bottom: 2px;
   right: 2px;
   z-index: 2;
+}
+
+/* scroll de la tabla - variables */
+
+.table-responsibe{
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
 }

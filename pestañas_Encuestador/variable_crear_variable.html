@@ -28,7 +28,7 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/login.html">Login</a>
+                        <a class="nav-link active" aria-current="page" href="../login.html">Login</a>
                     </li>
                 </ul>
                 <from class="d-flex">
@@ -50,32 +50,32 @@
                     <div class="row mb-4">
                         <label class="col-sm-4 col-form-label px-5">Nombre: </label>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control">
+                            <input id="NomV" type="text" class="form-control">
                         </div>
                     </div>
 
                     <div class="row mb-4">
                         <label class="col-sm-4 col-form-label px-5">Sigla</label>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control">
+                            <input id="SiglaV" type="text" class="form-control">
                         </div>
                     </div>
 
                     <div class="row mb-4">
                         <label class="col-sm-4 col-form-label px-5">Descripción:</label>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control">
+                            <input id="desV" type="text" class="form-control">
                         </div>
                     </div>
 
                     <div class="row mb-4">
                         
                         <div class="col-sm-12 text-center">
-                            <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza">Añadir</button>
+                            <button onclick="CrearVariable()" class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" id="boton_añadir">Añadir</button>
                         </div>
 
                     </div>
 
-                    
+                    <script src="../BD/app.js"></script>
 </body>
 </html>
