@@ -165,6 +165,7 @@ var db;
    
 
 })();
+
 //Verificar que las dos contraseñas coincidan
 
 function verificarPasswords() {
@@ -478,28 +479,28 @@ function manejadorValidacion(e) {
 
 
 
-//Guardamos en una variable 
-var   idSelec = document.getElementById("respuestasSelec");
-var pro = idSelec.options[idSelect.selectedIndex].value;
-//Creamos un nodo de texto que agregaremos al div.
-pro.addEventListener('change', 
+// //Guardamos en una variable 
+// var   idSelec = document.getElementById("respuestasSelec");
+// var pro = idSelec.options[idSelect.selectedIndex].value;
+// //Creamos un nodo de texto que agregaremos al div.
+// pro.addEventListener('change', 
 
-function pro () {
-  var proOpcion = this.options[pro.selectedIndex];
- // console.log(proOpcion.value + ': ' + proOpcion.value);
+// function pro () {
+//   var proOpcion = this.options[pro.selectedIndex];
+//  // console.log(proOpcion.value + ': ' + proOpcion.value);
 
-  var CadeNumero = proOpcion ;
+//   var CadeNumero = proOpcion ;
 
-  CadeNumero  = Number.parseFloat(proOpcion);
-  console.log(CadeNumero);
+//   CadeNumero  = Number.parseFloat(proOpcion);
+//   console.log(CadeNumero);
 
 
-// $(document).ready(function(){
+// // $(document).ready(function(){
 
-//   $(CadeNumero).click(function(){
+// //   $(CadeNumero).click(function(){
 
-});
-     var contador = CadeNumero;
+// });
+//      var contador = CadeNumero;
 
      function TiposOpciones(sel) {
         
