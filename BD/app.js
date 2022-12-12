@@ -882,7 +882,7 @@ function buscar3(){
          
           var titulo = document.getElementById("Titulo").value;
           var Objetivo = document.getElementById("floatingTextarea2").value;
-          var Instrucciones = document.getElementById('floatingTextarea2').value;
+          var Instrucciones = document.getElementById('floatingTextarea21').value;
          
           var request = db.transaction(["Encuesta_Variables"], "readwrite")
           .objectStore("Encuesta_Variables")
@@ -945,7 +945,7 @@ for ( var Variables of variables ) {
 }
 
 IniciarSesionTransac.onsucces = function (event) {
-  crearTabla();
+  //crearTabla();
   buscarV();
   BusVa();
   //BusVa2();
@@ -1052,7 +1052,7 @@ function buscarV(){
 //CHECAR TABLA PARA ENCUESTA
 function BusVa(){
     var columnas = parseInt(prompt("columnas"));
- var filas= parseInt(prompt("colum"));  
+    var filas= parseInt(prompt("colum"));  
   var cadena ="<table class= 'table table-bordered'>"
   var cadena2 = document.querySelector("table>tbody")
   
@@ -1093,7 +1093,7 @@ function BusVa(){
     for(j=0; j<columnas;j++){
       //"<th>"+cursor.value.NombreVar+"</th>"
       cadena2 += "<td>"+cursor.value.NombreVar+"</td>";
-      cadena2 += "<td>"+cursor.value.NombreVar+"</td>";
+      //cadena2 += "<td>"+cursor.value.NombreVar+"</td>";
        
       // if((filas>= 1 && filas<=2) && (columna >=1 && columna <=2)){
       //   let celdas = document.querySelector("table>tbody")
