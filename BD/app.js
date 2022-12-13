@@ -60,6 +60,7 @@ var db;
     DBOpenReq.addEventListener('success',(ev)=>{
      
       db= ev.target.result;
+      Encuesta1();
       Variables()
       Variables2()
       buscar2();
@@ -1081,7 +1082,7 @@ function buscarV(){
         } 
    }
   }
-
+BusVa();
 }
 
 
@@ -1093,10 +1094,7 @@ function BusVa(){
     var filas= parseInt(prompt("colum"));  
   var cadena ="<table class= 'table table-bordered'>"
   var cadena2 = document.querySelector("table>tbody")
-  
   var num = 0;
-  
-
   var ids_array = new Array();
   cadena +="<th>#</th>"
 
@@ -1140,6 +1138,10 @@ function BusVa(){
       //cadena +="<th>"+curRes.value.NombreVar+","+curRes.value.NombreVar+"</th>"
        
     }
+    for(i= 0; i<filas;i++){
+      cadena2+= "<td>"+"<select class='form-select form-select-sm' aria-label='.form-select-sm example'></select>"+"</td>";
+
+    }
       }
       cadena2 +="</tr>"
    
@@ -1158,6 +1160,7 @@ document.getElementById("salidaV").innerHTML= cadena+cadena2;
   
   } 
 }
+
 
   // function BusVa2(){
   //   let idb = indexedDB.open('Janal',1);
