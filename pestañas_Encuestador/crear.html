@@ -43,7 +43,7 @@
             <div class="card col-sm-7 p-3 shadow-lg mb-5 bg-white rounded">
 
                 <h1 class="bg-text-black text-center p-3 text-uppercase text-black">Crear Encuesta</h1>
-                <form id="formulario" action="">
+                <form name="form" id="formulario" action="">
                     <div class="row mb-4">
                         <label class="col-sm-4 col-form-label px-5">Titulo: </label>
                         <div class="col-sm-8">
@@ -114,12 +114,12 @@
                                         <div class="col-1">
                                             <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza"
                                                 id="boton_editar_image" type="button"
-                                                onclick="window.location.href='../pestañas_Encuestador/reactivo_crear_reactivos.html'">
+                                                onclick=" window.location.href='../pestañas_Encuestador/reactivo_crear_reactivos.html'">
                                                 <img src="../Img/edit.svg"  height="18px"
                                                     width="18px"></button>
                                         </div>
                                         <div class="col-1">
-                                            <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza"
+                                            <button  class="btn btn-outline-success bg-border-mostaza bg-text-mostaza"
                                                 id="boton_borrar_image" type="button">
                                                 <img src="../Img/borrar.png" height="18px" width="18px"> </button>
 
@@ -131,7 +131,7 @@
                                 <div class="container">
                                     <div class="row">  
                                         <div  class="col-10">
-                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked"
+                                    <input class="form-check-input" type="checkbox" name="checkR" value="" id="flexCheckChecked"
                                         checked>
                                     <label class="form-check-label" for="flexCheckChecked">
                                         Pregunta 2
@@ -144,7 +144,7 @@
 
                             <div class=" row mb-4 p-3">
                                 <div class="col-sm-12 text-center">
-                                    <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza"
+                                    <button onclick="CrearEncuesta(),buscarE()" class="btn btn-outline-success bg-border-mostaza bg-text-mostaza"
                                         id="boton-crear-encuesta" type="button"> Crear Encuesta</button>
                                 </div>
                             </div>

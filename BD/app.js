@@ -65,7 +65,8 @@ var db;
       buscar2();
       buscar();
       buscarV();
-      BusVa()
+      buscarE();
+      //BusVa()
     })
 // registro de datos
 
@@ -343,6 +344,7 @@ function manejadorValidacion(e) {
              alert("se inserto los datos");
              buscar();
              buscar2();
+             buscarE();
              
         
              
@@ -398,9 +400,7 @@ function manejadorValidacion(e) {
               TipoR.add({TipoRes:'Opcion_Mul_Uno'});
             }
           }
-          OpMul.onsuccess = function NumOp(){
 
-          }
           TipoR.onsuccess = function(e){
             console.log(e);
           }
@@ -470,6 +470,7 @@ function ResOpMul(){
 }
 
 
+
        //cursor con preguntas ya predeterminadas
         function buscar(){
            var cadena = "";
@@ -504,7 +505,42 @@ function ResOpMul(){
            }
     
         }
-          
+        function buscarE(){
+          var cadena = "";
+          cadena += "";
+          var num =0;
+          var id_array = new Array();
+
+          //leer cursor
+          var objectStore = db.transaction("Encuesta").objectStore("Encuesta");
+          objectStore.openCursor().onsuccess= function(e){
+           var cursor = e.target.result;
+           if(cursor){
+             Descripcion = cursor.value.Titulo;
+             cadena += "";
+             cadena += "<label>"+cursor.value.Titulo+"</label>"
+             //cadena += "<div class= 'modal fade' id='mymodal3' tabindex='-1' aria-labelledby='mymodal3' aria-modal='true' style='display: none;' aria-modal='true' role='dialog'><div class='modal-dialog modal-dialog-centered modal-dialog-scrollable'><div class='modal-content'></div></div></div>";
+            cadena += "<div class='modal-body'><img src='../Img/From3.png' width='200px' height='320px'></div>";
+             
+             //cadena += "<td>+<button id='m"+Descripcion+"'>Seleccionar</button></td></tr>";
+             id_array.push(Descripcion);
+             num ++;
+             //continuamos siguiente objeto
+             cursor.continue();
+
+           }else{
+             cadena += "";
+             document.getElementById("crear_encuesta").innerHTML = cadena;
+
+             for(var i=0; i<id_array.length; i++){
+               id = id_array[i];
+               //document.getElementById("m"+id).onclick= Editar;
+
+             }
+           }
+          }
+   
+       }
           function buscar2(){
             var cadena2 =""
             cadena2 += "";
@@ -518,7 +554,7 @@ function ResOpMul(){
              if(cursor){
                Reactivo = cursor.value.Reactivo;
                cadena2 += "";
-               cadena2 += "<input class='form-check-input' type='checkbox' value='' id='flexCheckDefault'>"+cursor.value.Reactivo+"<br></td>";
+               cadena2 += "<input name='checkR'class='form-check-input' type='checkbox' value='' id='flexCheckDefault'>"+cursor.value.Reactivo+"<br></td>";
                //cadena2 += "<td>+<button id='m"+Reactivo+"'>Seleccionar</button></td></tr>";
                id_array.push(Reactivo);
                num ++;
@@ -569,6 +605,7 @@ function ResOpMul(){
                  divT = document.getElementById("Opcion");
                  divT.style.display = "none";
             }
+
             tipoR();
       }
      
