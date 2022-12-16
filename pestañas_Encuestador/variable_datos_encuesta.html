@@ -31,10 +31,6 @@
                         <a class="nav-link active" aria-current="page" href="../login.html">Login</a>
                     </li>
                 </ul>
-                <from class="d-flex">
-                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-success" type="submit">Search</button>
-                </from>
             </div>
         </div>
     </nav>
@@ -45,12 +41,14 @@
 
             <div class="card col-sm-7 p-3 shadow-lg mb-5 bg-white rounded">
 
-                <h1 class="bg-text-black text-center p-3 text-uppercase text-black">Crear Encuesta</h1>
-                <form id="formulario" action="">
+                <h1 class="bg-text-black text-center p-3 text-uppercase text-black">Crear Encuesta Variables</h1>
+
+                <form name="formV" id="formularioV" action="">
+
                     <div class="row mb-4">
                         <label class="col-sm-4 col-form-label px-5">Titulo: </label>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control" id="Titulo" name="Titulo">
+                            <input type="text" class="form-control" id="TituloV" name="TituloV" required>
                         </div>
                     </div>
 
@@ -58,9 +56,9 @@
                         <label class="col-sm-4 col-form-label px-5">Objetivo:</label>
                         <div class="col-sm-8">
                             <div class="form-floating">
-                                <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2"
-                                    name="objetivo"></textarea>
-                                <label for="floatingTextarea2">Agregar objetivo</label>
+                                <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea21"
+                                    name="objetivo" required></textarea>
+                                <label for="floatingTextarea21">Agregar objetivo</label>
                             </div>
                         </div>
                     </div>
@@ -70,23 +68,32 @@
                         <div class="col-sm-8">
                             <div class="form-floating">
                                 <textarea class="form-control" placeholder="Leave a comment here" name="Intruccion"
-                                    id="floatingTextarea21" style="height: 100px"></textarea>
-                                <label for="floatingTextarea2">Agregar Instrución</label>
+                                    id="floatingTextarea22" style="height: 100px" required></textarea>
+                                <label for="floatingTextarea22">Agregar Instrución</label>
                             </div>
                         </div>
                     </div>
 
-
-                    <div class="row mb-4">
-
+                    <!-- <div class="row mb-4">
+                   
                         <div class="col-sm-12 text-center">
-                            <button onclick="CrearEncuestaV()" class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" id="boton_crear">Crear</button>
-                            <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" id="boton_seleccionar"
-                            onclick="window.location.href='../pestañas_Encuestador/variable_selec_variable.html'">Seleccionar Variables</button>
+                            <button onclick="CrearEncuestaV()" class="btn btn-outline-success bg-border-mostaza bg-text-mostaza"
+                                        id="boton-crear" type="submit"> Crear Encuesta</button> 
                         </div>
-
+                    </div> -->
+                </form>
+           
+                    <div class="row mb-4">
+                        <div class="col-sm-12 text-center">
+                            <button onclick=" buscarV(),window.location.href='../pestañas_Encuestador/variable_tipo_variable.html'" class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" id="boton_seleccionar">Seleccionar Variables</button>
+                        </div>
                     </div>
-                    <script src="../BD/app.js"></script>
+                   
+                </section>
+                
+    </div>
+</div>
+      <script src="../BD/app.js"></script>
 </body>
 
 </html>
