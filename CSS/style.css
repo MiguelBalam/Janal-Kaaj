@@ -250,6 +250,16 @@ input {
     background-position: 1rem center;
     text-align: center;
 }
+#floatingTextarea2::placeholder{
+    color: #646464;
+}
+#floatingTextarea21::placeholder{
+    color: #646464;
+}
+#floatingTextarea22::placeholder{
+    color: #646464;
+}
+
 /* Estilos de botones */
 
 #boton-enviar:hover {
