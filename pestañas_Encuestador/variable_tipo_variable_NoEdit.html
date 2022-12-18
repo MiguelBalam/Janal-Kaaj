@@ -28,9 +28,13 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/login.html">Login</a>
+                        <a class="nav-link active" aria-current="page" href="../login.html">Login</a>
                     </li>
                 </ul>
+                <from class="d-flex">
+                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success" type="submit">Search</button>
+                </from>
             </div>
         </div>
     </nav>
@@ -41,47 +45,46 @@
 
             <div class="card col-sm-7 p-3 shadow-lg mb-5 bg-white rounded">
 
-                <h1 class="bg-text-black text-center p-3 text-uppercase text-black">Todas las variables</h1>
+                <h1 class="bg-text-black text-center p-3 text-uppercase text-black">seleccione las variables</h1>
 
                 <div class="row mb-4">
 
-                    <div class=" col-sm-12 col-form-label px-5" data-bs-spy="scroll">
+                    <div class=" col-sm-12 col-form-label px-5">
                         <div class="card-header ">
                             Seleccione las variables
                         </div>
-                        <div class="p-3">
-                           
-                            <table name="tabla_checkboxes">
-                                 <div id="salida4"></div>
-                            </table>
-                           
-                        
 
-                        <div class="p-4 col-sm-12 px-3 text-center">
+                        <div class="row mb-4">
 
-                                <button onclick="window.location.href='../pestañas_Encuestador/variable_selec_variable.html'" class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" id="boton_guardar" name="boton_guardar"
-                                >Guardar</button>
-            
-                                 <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" id="boton_crear"
-                                onclick="window.location.href='../pestañas_Encuestador/variable_crear_variable.html'">Crear variables</button>                           
-                         
+
+
+                            <div class="col-3 text-center">
                                 <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza"
                                     onclick="location.href='../pestañas_Encuestador/reactivos.html'"
                                     id="boton_crear"><img src="../Img/borrar.png" height="18px" width="18px"> </button>
-                      
+                            </div>
+                        </div>
+                        <div id="salida4"></div>
+
+                        <div class="row mb-4">
+
+                            <div class="col-sm-12 text-center">
+                                <button
+                                    class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" id="boton_volver">Volver</button>
                                 <button onclick="Variables()" class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" 
                                 id="boton_editar">Editar</button>
+                            </div>
 
                         </div>
-                        </div>
+
                     </div>
                 </div>
 
             </div>
         </section>
     </div>
-    <script src="../BD/app.js"></script>
 
+    <script src="../BD/app.js"></script>
 
 </body>
 
