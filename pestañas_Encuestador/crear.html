@@ -42,12 +42,12 @@
 
             <div class="card col-sm-7 p-3 shadow-lg mb-5 bg-white rounded">
 
-                <h1 class="bg-text-black text-center p-3 text-uppercase text-black">Crear Encuesta</h1>
-                <form name="form" id="formularioC" action="">
+                <h1 class="bg-text-black text-center p-3 text-uppercase text-black">Crear Encuesta de Reactivos</h1>
+                <form name="form" id="formulario" action="">
                     <div class="row mb-4">
-                        <label class="col-sm-4 col-form-label px-5">Titulo: </label>
+                        <label class="col-sm-4 col-form-label px-5">Título : </label>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control" id="Titulo" name="Titulo" required>
+                            <input type="text" class="form-control" id="Titulo" name="Titulo" placeholder="Agregar Título">
                         </div>
                     </div>
 
@@ -55,9 +55,9 @@
                         <label class="col-sm-4 col-form-label px-5">Objetivo:</label>
                         <div class="col-sm-8">
                             <div class="form-floating">
-                                <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2"
-                                    name="objetivo" required></textarea>
-                                <label for="floatingTextarea2">Agregar objetivo</label>
+                                <textarea class="form-control" placeholder="Agregar Objetivo" id="floatingTextarea2"
+                                    name="objetivo"></textarea>
+                                
                             </div>
                         </div>
                     </div>
@@ -66,9 +66,9 @@
                         <label class="col-sm-4 col-form-label px-5">Instrucciones:</label>
                         <div class="col-sm-8">
                             <div class="form-floating">
-                                <textarea class="form-control" placeholder="Leave a comment here" name="Intruccion"
-                                    id="floatingTextarea2" style="height: 100px" required></textarea>
-                                <label for="floatingTextarea2">Agregar Instrución</label>
+                                <textarea class="form-control" placeholder="Agregar Instrucción" name="Intruccion"
+                                    id="floatingTextarea2" style="height: 100px"></textarea>
+                              
                             </div>
                         </div>
                     </div>
@@ -158,11 +158,16 @@
                         
                             <div class=" row mb-4 p-3">
                                 <div class="col-sm-12 text-center">
+<<<<<<< HEAD
                                     <button onclick="creEncuestaR(),buscarE()" class="btn btn-outline-success bg-border-mostaza bg-text-mostaza"
                                         id="boton-crear-encuesta" type="submit"> Crear Encuesta</button>
+=======
+                                    <button onclick="CrearEncuesta(),buscarE()" class="btn btn-outline-success bg-border-mostaza bg-text-mostaza"
+                                        id="boton-crear-encuesta" type="button"> Crear Encuesta</button>
+>>>>>>> 47b79dc702122c0bfe3b795d085fbdd65bca4756
                                 </div>
-
                             </div>
+                        </div>
                     </div>
                    
                 </form>
