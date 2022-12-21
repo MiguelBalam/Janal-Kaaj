@@ -455,3 +455,15 @@ background-color: var(--mostaza) !important;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
 }
+
+ol {
+    list-style-type: none;
+    text-align: center
+  }
+  
+  li {
+    background-color: #fffffe;
+    border: #a9e8db 1px solid;
+    display: line;
+    margin-right: 10px;
+  }

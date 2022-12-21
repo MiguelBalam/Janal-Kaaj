@@ -75,6 +75,8 @@
 
                     <div class="row mb-4">
                         <label class="col-sm-4 col-form-label px-5">Reactivos:</label>
+                        
+                       
                         <div class="col-sm-4 text-center">
 
                             <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" type="button"
@@ -82,13 +84,25 @@
                                 onclick="location.href='../pestañas_Encuestador/reactivo_crear_reactivos.html'">Crear</button>
 
                         </div>
+                        
 
                         <div class="col-sm-4 text-center">
+
                             <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" id="boton_agregar"
                                 type="button"
-                                onclick=" Encuesta1();window.location.href='../pestañas_Encuestador/reactivo_categoria.html'">
+                                onclick=" Encuesta1(),window.location.href='../pestañas_Encuestador/reactivo_categoria.html'">
                                 Agregar </button>
+                                <div>
+                                   <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" type="button"
+                                id="boton_crear"
+                                onclick="location.href='../pestañas_Encuestador/editar_Reactivos.html'">Editar</button>  
+                                </div>
+                               
                         </div>
+
+                        
+
+                     
 
                     </div>
 
@@ -100,7 +114,6 @@
                         <div class=" col-sm-12 col-form-label px-5">
                             <div class="card-header ">
                                 Reactivos de la encuesta
-
 
                                 <div class="container">
                                     <div class="row">
@@ -138,20 +151,22 @@
                                     </label>
                                 </div>
                                     <div id="salida2"></div>
+                                    
                                 </div>
                             </div>
                             </div>
-
+                        
                             <div class=" row mb-4 p-3">
                                 <div class="col-sm-12 text-center">
-                                    <button onclick="CrearEncuesta(),buscarE()" class="btn btn-outline-success bg-border-mostaza bg-text-mostaza"
+                                    <button onclick="creEncuestaR(),buscarE()" class="btn btn-outline-success bg-border-mostaza bg-text-mostaza"
                                         id="boton-crear-encuesta" type="submit"> Crear Encuesta</button>
                                 </div>
 
                             </div>
                     </div>
+                   
                 </form>
-
+               
         </section>
     </div>
 

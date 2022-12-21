@@ -42,9 +42,17 @@
 
             <div class="card col-sm-7 p-3 shadow-lg mb-5 bg-white rounded">
                 
-                <h1 class="bg-text-black text-center p-3 text-uppercase text-black">Crear Reactivos</h1>
-<form id="formularioRC" name="formularioRC">
-
+                <h1 class="bg-text-black text-center p-3 text-uppercase text-black">Editar Reactivos</h1>
+                  
+                <form id="formularioRC" name="formularioRC">
+    
+                
+      <!-- build list here -->
+     
+      
+            <!-- <div id="salida2"></div> -->
+           
+    
                 <div class="row mb-4">
                     <label class="col-sm-4 col-form-label px-5">Reactivo: </label>
                     <div class="col-sm-8">
@@ -146,6 +154,7 @@
                           </div> -->
                        
                        </div>
+                       
 
            
 
@@ -153,23 +162,18 @@
              
               
             </form>
-            
                                 <div class="p-4 col-sm-12 px-3 text-center">
                 
                                     <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" id="boton_guardar"
-                                     onclick="ResOpMul(),CrearReactivo(),window.location.href='../pestañas_Encuestador/crear.html'" >Crear</button>
-                                     <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" id="boton_guardar"
-                                     onclick="window.location.href='../pestañas_Encuestador/crear.html'" >Guardar</button>
+                                     onclick="ResOpMul(),CrearReactivo()" >Actualizar</button>
+
                                     <button onclick="window.location.href='../pestañas_Encuestador/crear.html'" class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" id="boton_cancelar"
-                                 >Cancelar</button>
+                                 >Guardar</button>
                             
                     </div>
-                  
-                    <h3 class="bg-text-black text-center p-3 text-uppercase text-black">Vista Previa Reactivos</h3>
-                   
                     <table id="tabla1" class="table align-middle">
                         <tr>
-                       
+                          <th><h3 class="bg-text-black text-center p-3 text-uppercase text-black">Reactivos Creados</h3></th>
                           
                         </tr>
                         <tr>
@@ -178,6 +182,8 @@
                               </ol></td>
                         </tr>
                             </table>
+                  
+                    
             </div>
            
            
@@ -188,6 +194,3 @@
     </div>
     <script src="../BD/app.js"></script>
 </body>
-
-
-</html>

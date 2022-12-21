@@ -1,6 +1,7 @@
-
 // creacion de la base de datos
 var db;
+var ObjectStore
+var ObjectStoreReac
  (function conectarDB(){
     
    // let objectStore = null;
@@ -34,16 +35,20 @@ var db;
         
 
 
-        ObjectStore=db.createObjectStore("Reactivos", {autoIncrement: true});
-        ObjectStore.createIndex("Reactivo","Reactivo",{unique:true});
+        ObjectStore=db.createObjectStore("Reactivos", {keyPath: 'id',autoIncrement:true});
+        // ObjectStore.createIndex("Reactivo","Reactivo",{unique:false});
+        // ObjectStore.createIndex("CategoriaReactivo","CategoriaReactivo", {unique:false});
 
         ObjectStore=db.createObjectStore("TipoRes", {autoIncrement: true});
         ObjectStore=db.createObjectStore("ReacOpMul", {autoIncrement: true});
         ObjectStore=db.createObjectStore("ReOpM", {autoIncrement: true});
   
         db.createObjectStore("Categoria_encuesta", {autoIncrement: true});
-        
-        ObjectStore=db.createObjectStore("Categorias", {autoIncrement: true});
+
+        ObjectStore=db.createObjectStore("preguntaReactivos", {autoIncrement: true});
+        ObjectStore=db.createObjectStore("selecVariables", {autoIncrement: true});
+        //ObjectStoreReac=db.createObjectStore("Categorias", {autoIncrement: true});
+       
         //ObjectStore.createIndex("Categoria","Categoria",{unique:true});
         
         ObjectStore= db.createObjectStore("Variables", {autoIncrement: true});
@@ -53,7 +58,7 @@ var db;
 
         ObjectStore= db.createObjectStore("Encuesta_Variables", {autoIncrement: true});
         ObjectStore.createIndex("Titulo","Titulo",{unique:true});
-        ObjectStore= db.createObjectStore("VariableC", {autoIncrement: true});
+        ObjectStore= db.createObjectStore("VariableC", {keyPath:"id",autoIncrement: true});
 
 
         console.log('upgrade',db);
@@ -61,14 +66,17 @@ var db;
     DBOpenReq.addEventListener('success',(ev)=>{
      
       db= ev.target.result;
-      Encuesta1();
+       
+      Encuesta1()
       Variables()
       Variables2()
-      buscar2();
-      buscar();
-      buscarV();
-      buscarE();
-      //BusVa()
+      buscar2()
+      buscar()
+      buscarV()
+      buscarE()
+      buscarVar()
+      buildList()
+      buildList2()
     })
 // registro de datos
 
@@ -363,64 +371,266 @@ function manejadorValidacion(e) {
         //validarER() 
        }
 
-        function CrearEncuesta() {
+      //   function CrearEncuesta() {
         
-          var titulo = document.getElementById("Titulo").value.trim();
-          var Objetivo = document.getElementById("floatingTextarea2").value.trim();
-          var Instrucciones = document.getElementById('floatingTextarea2').value.trim();
-          var form = document.getElementById('formularioC');
+      //     var Titulo = document.getElementById("Titulo").value.trim();
+      //     var Objetivo = document.getElementById("floatingTextarea2").value.trim();
+      //     var Instrucciones = document.getElementById('floatingTextarea2').value.trim();
+      //     var form = document.getElementById('formularioC');
 
-        form.addEventListener('submit', function(eve){
-        eve.preventDefault();
-        var request = db.transaction(["Encuesta"], "readwrite")
-        .objectStore("Encuesta")
-        .add({Titulo:titulo, Objetivo:Objetivo, Instrucciones:Instrucciones});
+      //   form.addEventListener('submit', function(eve){
+      //   eve.preventDefault();
+      //   var request = db.transaction(["Encuesta"], "readwrite")
+      //   .objectStore("Encuesta")
+      //   .add({Titulo:Titulo, Objetivo:Objetivo, Instrucciones:Instrucciones});
 
-        request.onsuccess = function(e){
+      //   request.onsuccess = function(e){
         
-           console.log(e);
-           alert("se inserto los datos");
-           buscar();
-           buscar2();
-           buscarE();   
-        };
-        if(titulo.value === null ||  titulo.value === ''){
-          alert("Ingrese un titulo");
-        }
-        if(Objetivo.value === null ||  Objetivo.value === ''){
-          alert("Ingrese un Objetivo");
-        }
-        if(Instrucciones.value === null ||  Instrucciones.value === ''){
-          alert("Ingrese Instrucciones");
-        }
-        return false;
+      //      console.log(e);
+      //      alert("se inserto los datos");
+      //      buscar();
+      //      buscar2();
+      //      buscarE();   
+      //   };
+      //   if(Titulo.value === null ||  Titulo.value === ''){
+      //     alert("Ingrese un titulo");
+      //   }
+      //   if(Objetivo.value === null ||  Objetivo.value === ''){
+      //     alert("Ingrese un Objetivo");
+      //   }
+      //   if(Instrucciones.value === null ||  Instrucciones.value === ''){
+      //     alert("Ingrese Instrucciones");
+      //   }
+      //   return false;
 
-      })
-          //validarER() 
-         }
-
+      // })
+      //     //validarER() 
+      //    }
+        
          function CrearReactivo(){
-          var Reactivo = document.getElementById("Reactivo").value.trim();
-          var categoria = document.getElementById("categoria").value.trim();
-
-          var request = db.transaction(["Reactivos"], "readwrite")
-          .objectStore("Reactivos")
-          .add({Reactivo:Reactivo});
-          var request = db.transaction(["Categorias"], "readwrite")
-          .objectStore("Categorias")
-          .add({Categoria:categoria});
-          
-          request.onsuccess = function(e){
-             console.log(e);
-             alert("se inserto los datos");
-             buscar2();
-             buscar();
-          }
-            
-          
+          var id = document.getElementById("ReactivoCre").value.trim();
+          var CategoriaReactivo=document.getElementById("CategoriaReactivos").value.trim()
+          var owned = document.getElementById('inlineCheckbox1').checked;
+          let Crear = {
+   
+           id,
+           CategoriaReactivo,
+            owned,
           };
+          let tx = makeTX('Reactivos','readwrite');
+          tx.oncomplete = (ev) =>{
+              console.log (ev);
+          };
+          let store = tx.objectStore('Reactivos');
+          let request = store.put(Crear);
+
+          request.onsuccess = (ev) => {
+            
+            buscar2()
+            console.log('successfully added an object',ev);
+          }
+
+          function makeTX(storeName, mode) {
+            let tx = db.transaction(storeName, mode);
+            tx.onerror = (eve) => {
+              console.warn(eve);
+            };
+            return tx;
+        }
+        buildList()
+      }
+
+            //request an insert/add
+    function buildList() {
+      //use getAll to get an array of objects from our store
+      let list = document.querySelector('.wList');
+      list.innerHTML = `<li>Loading...</li>`;
+      let tx = db.transaction('Reactivos', 'readwrite');
+      tx.oncomplete = (ev) => {
+        //transaction for reading all objects is complete
+      };
+      let store = tx.objectStore('Reactivos');
+      let getReq = store.getAll();
+      //returns an array
+      //option can pass in a key or a keyRange
+      getReq.onsuccess = (ev) => {
+        //getAll was successful
+        let request = ev.target; //request === getReq === ev.target
+        console.log({ request });
+        list.innerHTML = request.result
+          .map((Crear) => {
+            return `<li data-key="${Crear.id}"><span>${Crear.id}</span></li>`;
+          })
+          .join('\n');
+      };
+      getReq.onerror = (err) => {
+        console.warn(err);
+      };
+      document.querySelector('.wList').addEventListener('click', (ev) => {
+        let li = ev.target.closest('[data-key]');
+        let id = li.getAttribute('data-key')  ;
+        console.log(li, id);
+    
+        let tx = db.transaction('Reactivos', 'readwrite');
+        let store = tx.objectStore('Reactivos');
+        let req = store.get(id);
+  
+        req.onsuccess = (ev) => {
+          let request = ev.target.result;
+          document.getElementById("ReactivoCre").value=request.id;
+          document.getElementById("CategoriaReactivos").value=request.CategoriaReactivo;
+        document.getElementById('inlineCheckbox1').checked =request.owned;
+   
+          //document.whiskeyForm.setAttribute('data-key', request.id);
+        };
+        req.onerror = (err) => {
+          console.warn(err);
+        };
+      });
+    
+     buscar2();
+
+     borrar();
+
+     
+    }
+
+    function CrearVariable(){
+      var id = document.getElementById("NomV").value.trim();
+          var sigla = document.getElementById("SiglaV").value.trim();
+          var descripcion = document.getElementById("desV").value.trim();
+      let Crear = {
+
+       id,
+       sigla,
+        descripcion,
+      };
+
+      let tx = makeTX('VariableC','readwrite');
+      tx.oncomplete = (ev) =>{
+          console.log (ev);
+      };
+      let store = tx.objectStore('VariableC');
+      let request = store.put(Crear);
+
+      request.onsuccess = (ev) => {
+        console.log('successfully added an object',ev);
+      }
+
+      function makeTX(storeName, mode) {
+        let tx = db.transaction(storeName, mode);
+        tx.onerror = (eve) => {
+          console.warn(eve);
+        };
+        return tx;
+    }
+    buildList2()
+  }
+
+        //request an insert/add
+function buildList2() {
+  //use getAll to get an array of objects from our store
+  let list = document.querySelector('.wListV');
+  list.innerHTML = `<li>Loading...</li>`;
+  let tx = db.transaction('VariableC', 'readwrite');
+  tx.oncomplete = (ev) => {
+    //transaction for reading all objects is complete
+  };
+  let store = tx.objectStore('VariableC');
+  let getReq = store.getAll();
+  //returns an array
+  //option can pass in a key or a keyRange
+  getReq.onsuccess = (ev) => {
+    //getAll was successful
+    let request = ev.target; //request === getReq === ev.target
+    console.log({ request });
+    list.innerHTML = request.result
+      .map((Crear) => {
+        return `<li data-key="${Crear.id}"><span>${Crear.id}</span></li>`;
+      })
+      .join('\n');
+  };
+  getReq.onerror = (err) => {
+    console.warn(err);
+  };
+  document.querySelector('.wListV').addEventListener('click', (ev) => {
+    let li = ev.target.closest('[data-key]');
+    let id = li.getAttribute('data-key')  ;
+    console.log(li, id);
+
+    let tx = db.transaction('VariableC', 'readwrite');
+    let store = tx.objectStore('VariableC');
+    let req = store.get(id);
+
+    req.onsuccess = (ev) => {
+      let request = ev.target.result;
+     
+   document.getElementById("NomV").value= request.id;
+     document.getElementById("SiglaV").value= request.sigla;
+     document.getElementById("desV").value= request.descripcion;
+      //document.whiskeyForm.setAttribute('data-key', request.id);
+    };
+    req.onerror = (err) => {
+      console.warn(err);
+    };
+  });
+  buscarVar()
+
+}
+function buscarVar(){
+  var cadena ="<table class= 'table table-bordered'>";
+  var num= 0;
+  var ids_array = new Array();
+  var objectStore = db.transaction("VariableC").objectStore("VariableC");
+  objectStore.openCursor().onsuccess = function(e){
+    var cursor = e.target.result;
+    if(cursor){
+      id= cursor.value.id;
+      cadena += "<tr>";
+      //cadena +="<td><input type ='checkbox' id='s"+id+"'></input></td>";
+      cadena +="<td>"+cursor.value.id+"</td>";
+      cadena += "<td><button class='btn btn-outline-success bg-border-mostaza bg-text-mostaza' id= 'bo"+id+"'><img src='../Img/borrar.png' height='18px width='18px'></button></td>";
+      //cadena += "<td><button id= 'e"+id+"'>Editar</button></td>"
+      //cadena +="<td><button id='m"+id+"'<img src='../Img/edit.svg'  height='18px'width='18px'>></button></td>";
+      cadena += "</tr>";
+      ids_array.push(id);
+      num++;
+      cursor.continue();
+
+    }else{
+      cadena += "</table>"
+      document.getElementById("salidaVarC").innerHTML = cadena;
+
+      for(var i=0; i<ids_array.length; i++){
+        id = ids_array[i];
+        //document.getElementById("s"+id).onclick= selec;
+        document.getElementById("bo"+id).onclick= borrarV;
+      }
+    }
+   
+}
 
 
+
+}
+function borrarV(e){
+  console.log ('borrar',e)
+  var id = e.target.id;
+  var llave = id.substr(1)
+
+  console.log(id,llave);
+  if(llave){
+    var tx= db.transaction('VariableC','readwrite')
+    var objectStore =tx.objectStore('VariableC')
+    var request= objectStore.delete(llave);
+    
+  request.onsuccess =function (e){
+    alert("eliminado"+llave)
+   buscarVar()
+  }
+  
+  }
+  }
 //Función para gusrdar tipo de respuesta
          function tipoR(){
           var TipoRes= document.getElementById("TipoRes").selectedIndex;
@@ -449,6 +659,7 @@ function manejadorValidacion(e) {
           TipoR.onsuccess = function(e){
             console.log(e);
           }
+          ResOpMul();
          }
 
          function NumOpMul(){  
@@ -460,8 +671,7 @@ function manejadorValidacion(e) {
             }else{
               if(Res == 1){
                 NumOpMul.add({Res:'1'});
-            
-                
+          
               }
               if(Res == 2){
                 NumOpMul.add({Res:'2'});
@@ -484,7 +694,7 @@ function manejadorValidacion(e) {
              
             }
          }
-         
+         ResOpMul()
         }
 
 function ResOpMul(){
@@ -499,8 +709,7 @@ function ResOpMul(){
   if(respuesta ==''){
     alert("Escriba una respuesta");
   }else{
-      ResOpMul.add({Respuesta:respuesta, Respuesta2: respuesta2, 
-        Respuesta3: respuesta3, Respuesta4: respuesta4, Respuesta5: respuesta5})
+      ResOpMul.add({Respuesta:respuesta,Respuesta2:respuesta2,Respuesta3:respuesta3,Respuesta4:respuesta4,Respuesta5:respuesta5})
   } 
     ResOpMul.onsuccess = function(e){
     console.log(e);
@@ -509,7 +718,7 @@ function ResOpMul(){
 
        //cursor con preguntas ya predeterminadas
         function buscar(){
-          var cadena = "";
+          var cadena ="<table class= 'table table-bordered'>";
            //cadena += "";
            var num =0;
            var id_array = new Array();
@@ -519,20 +728,24 @@ function ResOpMul(){
            objectStore.openCursor().onsuccess= function(e){
             var cursor = e.target.result;
             if(cursor){
-              Descripcion = cursor.value.Descripcion;
+              id = cursor.value.Descripcion;
               //cadena += "";
-              cadena +="<input name='checkR'class='form-check-input' type='checkbox' value='' id='flexCheckDefault'>"+cursor.value.Descripcion+"<br></td>";
+              cadena += "<tr>";
+              cadena +="<td><input type ='checkbox' id='s"+id+"'></input></td>";
+              cadena +="<td>"+cursor.value.Descripcion+"</td>";
+              cadena += "<tr>";
               //cadena += "<td>+<button id='m"+Descripcion+"'>Seleccionar</button></td></tr>";
-              id_array.push(Descripcion);
+              id_array.push(id);
               num ++;
               //continuamos siguiente objeto
               cursor.continue();
 
             }else{
-              cadena += "";
+              cadena += "</table>";
               document.getElementById("salida").innerHTML = cadena;
 
               for(var i=0; i<id_array.length; i++){
+                document.getElementById("s"+id).onclick= selec;
                 id = id_array[i];
                 //document.getElementById("m"+id).onclick= Editar;
 
@@ -541,6 +754,7 @@ function ResOpMul(){
            }
     
         }
+
         function buscarE(){
           var cadena = "";
           cadena += "";
@@ -577,43 +791,111 @@ function ResOpMul(){
           }
    
        }
+
           function buscar2(){
-            var cadena2 =""
-            cadena2 += "";
-            var num =0;
-            var id_array = new Array();
- 
-            //leer cursor
+            var cadena ="<table class= 'table table-bordered'>";
+            var num= 0;
+            var ids_array = new Array();
             var objectStore = db.transaction("Reactivos").objectStore("Reactivos");
-            objectStore.openCursor().onsuccess= function(e){
-             var cursor = e.target.result;
-             if(cursor){
-               Reactivo = cursor.value.Reactivo;
-               cadena2 += "";
-               cadena2 += "<input name='checkR'class='form-check-input' type='checkbox' value='' id='flexCheckDefault'>"+cursor.value.Reactivo+"<br></td>";
-               //cadena2 += "<td>+<button id='m"+Reactivo+"'>Seleccionar</button></td></tr>";
-               id_array.push(Reactivo);
-               num ++;
-               //continuamos siguiente objeto
-               cursor.continue();
- 
-             }else{
-               cadena2 += "";
-               document.getElementById("salida2").innerHTML = cadena2;
- 
-               for(var i=0; i<id_array.length; i++){
-                 id = id_array[i];
-                 //document.getElementById("m"+id).onclick= Editar;
- 
-               }
-             }
-            }
-          } 
-          function busquedaCategoria(){
+            objectStore.openCursor().onsuccess = function(e){
+              var cursor = e.target.result;
+              if(cursor){
+                id= cursor.value.id;
+                cadena += "<tr>";
+                cadena +="<td><input type ='checkbox' id='s"+id+"'></input></td>";
+                cadena +="<td>"+cursor.value.id+"</td>";
+                cadena += "<td><button class='btn btn-outline-success bg-border-mostaza bg-text-mostaza' id= 'b"+id+"'><img src='../Img/borrar.png' height='18px width='18px'></button></td>";
+                //cadena += "<td><button id= 'e"+id+"'>Editar</button></td>"
+                //cadena +="<td><button id='m"+id+"'<img src='../Img/edit.svg'  height='18px'width='18px'>></button></td>";
+                cadena += "</tr>";
+                ids_array.push(id);
+                num++;
+                cursor.continue();
+          
+              }else{
+                cadena += "</table>"
+                document.getElementById("salida2").innerHTML = cadena;
+          
+                for(var i=0; i<ids_array.length; i++){
+                  id = ids_array[i];
+                  document.getElementById("s"+id).onclick= selec;
+                  document.getElementById("b"+id).onclick= borrar;
+                }
+              }
+             
+        }
 
+
+        function borrar(e){
+          console.log ('borrar',e)
+          var id = e.target.id;
+          var llave = id.substr(1)
+          console.log(id,llave);
+          if(llave){
+            db.transaction('Reactivos','readwrite')
+            .objectStore('Reactivos')
+            .delete(llave);
+            
           }
+  
+          request.onsuccess =function (e){
+            alert("eliminado"+llave)
+           
+          }
+      buscar2()
+         }
+        
+        }
+        function selec(e){
+          console.log("seleccionar",e);
+          var id= e.target.id;
+          var llave = id.substring(1);
+          console.log(id,llave);
+        
+          if(confirm(llave)){
+            var tx =db.transaction("Reactivos","readwrite");
+            var objectStore = tx.objectStore("Reactivos");
+            var request = objectStore.get(llave)
+            request.onsuccess =function(){
+            
+              alert ("Elementos seleccionados"+llave);
+              
+            }
+          
+          }
+          if(llave){
+            var tx =db.transaction("preguntaReactivos","readwrite");
+            var objectStore = tx.objectStore("preguntaReactivos");
+             objectStore.add(llave)
+           }
+        }
 
+        
+      function creEncuestaR(){
 
+        var Titulo = document.getElementById("Titulo").value.trim();
+        var Objetivo = document.getElementById("floatingTextarea2").value.trim();
+        var Instrucciones = document.getElementById('floatingTextarea2').value.trim();
+        var form = document.getElementById('formularioC');
+
+      form.addEventListener('submit', function(eve){
+      eve.preventDefault();
+      var request = db.transaction(["Encuesta"], "readwrite")
+      .objectStore("Encuesta")
+      .add({Titulo:Titulo, Objetivo:Objetivo, Instrucciones:Instrucciones});
+
+      request.onsuccess = function(e){
+      
+         console.log(e);
+         alert("se inserto los datos");
+         buscar();
+         //buscar2();
+         buscarE();   
+      };
+      
+    })
+   
+    }
           // Funcion para mostrar contenido de select 
           
           function TiposOnChange(sel) {
@@ -773,51 +1055,10 @@ function ResOpMul(){
            divT.style.display = "none";
       }
       NumOpMul();
+
 }
 
-     
-      // for( contador=1;contador<=5;contador++){
-      //     if(contador<=1){
-          
-      //     } else if(contador<=2){
-           
-      //     } else if(contador <= 3){
-
-      //     } else if (s){
-
-      //     } else {
-                
-      //     }
-      //     contador++;
-      // }
-//   });
-
-// });
-
-
-
-// var pro_valor = document.createTextNode("Provincia: "+pro);
-// //Añadimos el nuevo nodo al final de la lista.
-// div.appendChild(pro_valor);
-
-
-
-//   var select = document.getElementById('respuestasSelec');
-//   select.addEventListener('change',
-//     function(){
-//       var selectedOption = this.options[select.selectedIndex];
-//       console.log(selectedOption.value + ': ' + selectedOption.text);
-//     });
-
-
-
-// function clonarNodo(indice) {
-//   var original=document.getElementById("añadir");
-//   var nuevo=original.cloneNode(true);
-//   nuevo.id=indice;
-//   destino=document.getElementById("añadir_nueva_respuesta");
-//   destino.appendChild(nuevo).reset();
-//  }
+   
 function buscar3(){
   var cadena3 = "";
   cadena3 += "";
@@ -951,24 +1192,24 @@ function buscar3(){
              
          };
 
-        function CrearVariable(){
-          var VariableNombre = document.getElementById("NomV").value.trim();
-          var sigla = document.getElementById("SiglaV").value.trim();
-          var descripcion = document.getElementById("desV").value.trim();
+        // function CrearVariable(){
+        //   var VariableNombre = document.getElementById("NomV").value.trim();
+        //   var sigla = document.getElementById("SiglaV").value.trim();
+        //   var descripcion = document.getElementById("desV").value.trim();
           
-          var request = db.transaction(["VariableC"], "readwrite")
-          .objectStore("VariableC")
-          .add({VariableNombre:VariableNombre, sigla:sigla, descripcion:descripcion});
+        //   var request = db.transaction(["VariableC"], "readwrite")
+        //   .objectStore("VariableC")
+        //   .add({VariableNombre:VariableNombre, sigla:sigla, descripcion:descripcion});
           
 
-          request.onsuccess = function(e){
-             console.log(e);
-             alert("se inserto los datos");
+        //   request.onsuccess = function(e){
+        //      console.log(e);
+        //      alert("se inserto los datos");
       
              
             
-          };
-         }
+        //   };
+        //  }
 //VARIABLE
 function Variables(){
  
@@ -1055,7 +1296,8 @@ IniciarSesionTransac.onsucces = function (event) {
 };
 
 function buscarV(){
-  var cadena = "";
+   var cadena ="<table class= 'table table-bordered'>";
+  
   cadena += "";
   var num =0;
   var id_array = new Array();
@@ -1065,15 +1307,18 @@ function buscarV(){
   objectStore.openCursor().onsuccess= function(e){
    var cursor =e.target.result;
    if(cursor){
-     NombreVar = cursor.value.NombreVar;
-  
-     cadena += "";
-  
-     cadena += "<input class='form-check-input' type='checkbox' id='NomV' name='NomV' value='yes'><label for='NomV'>"+cursor.value.NombreVar+"</label><br>";
+      id = cursor.value.NombreVar;
+      cadena += "<tr>";
+      cadena +="<td><input type ='checkbox' name='checkbox[]' id='c"+id+"'></input></td>";
+      cadena +="<td>"+cursor.value.NombreVar+"</td>";
+     //cadena += "<td><button class='btn btn-outline-success bg-border-mostaza bg-text-mostaza' id= 'b"+id+"'><img src='../Img/borrar.png' height='18px width='18px'></button></td>";
+                //cadena += "<td><button id= 'e"+id+"'>Editar</button></td>"
+                //cadena +="<td><button id='m"+id+"'<img src='../Img/edit.svg'  height='18px'width='18px'>></button></td>";
+       cadena += "</tr>";
      
      //cadena += "<td>+<button id='m"+Descripcion+"'>Seleccionar</button></td></tr>";
      
-     id_array.push(NombreVar);
+     id_array.push(id);
      num ++;
      //continuamos siguiente objeto
      cursor.continue();
@@ -1085,32 +1330,49 @@ function buscarV(){
      
      for(var i=0; i<id_array.length; i++){
        id = id_array[i];
-       //document.getElementById("m"+id).onclick= Editar;
+       document.getElementById("c"+id).onclick= selecVariables;
 
      }
-
-    //  var checkbox = document.getElementById('flexCheckDefault');
-    //     checkbox.addEventListener("change", validaCheckbox, false);
- 
-    //     function validaCheckbox(){
-    //     var checked = checkbox.checked;
-    //     if(checked){
-    //         alert('checkbox esta seleccionado');
-    //         //BusVa()
-    //     }
-    //     } 
+   
    }
+  
   }
-//BusVa();
+BusVa();
+
 }
 
+function selecVariables(e){
+          console.log("seleccionar",e);
+          var id= e.target.id;
+          var llave = id;
+          console.log(id,llave);
+        
+          if(confirm(llave)){
+            var tx =db.transaction("selecVariables","readwrite");
+            var objectStore = tx.objectStore("selecVariables");
+            var request = objectStore.add(llave)
 
+            request.onsuccess =function(){
+            console.log(llave)
+            }
+       
+          }
+          //guardar()
+      }
+     
+      
+      //   var fila="<tr><td>"+id+"</td></tr>";
+      //   var fila2="<th>"+id+"</th>";
+      //   var btn = document.createElement("TR");
+      //   btn.innerHTML=fila+fila2;
+      //  document.getElementById("tablita").appendChild(btn);
+          
+      // }
 
-//BusVa()
 //CHECAR TABLA PARA ENCUESTA
 function BusVa(){
-    var columnas = parseInt(prompt("columnas"));
-    var filas= parseInt(prompt("colum"));  
+  // var columnas = parseInt(prompt("columnas"));
+  // var filas= parseInt(prompt("colum"));  
   var cadena ="<table class= 'table table-bordered'>"
   var cadena2 = document.querySelector("table>tbody")
   var cadenaX = "<select class="+"form-select form-select-sm"+" aria-label="+".form-select-sm example"+">"+"<option selected>Opciones</option>"
@@ -1123,6 +1385,7 @@ function BusVa(){
 
   var num = 0;
   var ids_array = new Array();
+
   cadena +="<th>#</th>"
 
   var objectStore = db.transaction("Variables").objectStore("Variables");
@@ -1138,11 +1401,9 @@ function BusVa(){
  
     
 
-   var columna = cursor.value.NombreVar;
+  var columna = cursor.value.NombreVar;
  console.log(cursor.value.NombreVar);
         
-  
-
   cadena += "<th>"+cursor.value.NombreVar+"</th>"
   //cadena+="<tr><td>"+ "<select class='form-select form-select-sm' aria-label='.form-select-sm example'></select>"+"</td></tr>"
   
@@ -1173,6 +1434,7 @@ function BusVa(){
       cadena2 +="</tr>"
    
     cursor.continue();
+    num++
    }else{
    
 document.getElementById("salidaV").innerHTML= cadena+cadena2;
@@ -1212,7 +1474,4 @@ document.getElementById("salidaV").innerHTML= cadena+cadena2;
      //}
    }}
 }
-
-
-
 

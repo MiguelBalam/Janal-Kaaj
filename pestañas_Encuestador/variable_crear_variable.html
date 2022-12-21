@@ -67,13 +67,26 @@
                     <div class="row mb-4">
                         
                         <div class="col-sm-12 text-center">
-                            <button onclick="CrearVariable(),window.location.href='../pestañas_Encuestador/variable_tipo_variable.html'" class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" 
-                              id="boton_añadir">Guardar</button>
-
-                            <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" id="boton_cancelar"
+                            <button onclick="CrearVariable()" 
+                              id="boton_añadir">Crear</button>
+                              <button onclick="window.location.href='../pestañas_Encuestador/variable_tipo_variable.html'" 
+                              id="boton_guardar">Guardar</button>
+                            <button onclick="window.location.href='../pestañas_Encuestador/crear_Evariables.html'" class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" id="boton_cancelar"
                             >Cancelar</button>
                         </div>
-
+                        <h3 class="bg-text-black text-center p-3 text-uppercase text-black">Vista Previa Variables</h3>
+                   
+                        <table id="tabla1" class="table align-middle">
+                            <tr>
+                           
+                              
+                            </tr>
+                            <tr>
+                                <td><ol class="wListV">
+                                    <!-- build list here -->
+                                  </ol></td>
+                            </tr>
+                                </table>
                     </div>
 
                     <script src="../BD/app.js"></script>
