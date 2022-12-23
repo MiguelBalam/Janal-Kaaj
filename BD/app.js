@@ -1486,49 +1486,46 @@ function buscar3(){
         //  }
         //Funcion para habilitar boton crear encuesta
 
-  //       function habilitarbtn(){
-  //         Titulo = document.getElementById("Titulo").value;
-  //         floatingTextarea2 = document.getElementById("floatingTextarea2").value;
-  //  const btncrear = document.getElementById('boton-crear-encuestar');
+        function habilitarbtn(){
+          Titulo = document.getElementById("Titulo").value;
+          floatingTextarea2 = document.getElementById("floatingTextarea2").value;
+          val = 0;
+          if(Titulo == ""){
+            val++;
 
+          }if(floatingTextarea2 == ""){
+            val++;
+          }if(val == 0){
+           document.getElementById("boton-crear-encuesta").disabled = false;
+          }else {
+            document.getElementById("boton-crear-encuesta").disabled = true;
+          }}
 
-  //         val = 0;
-  //         if(Titulo == ""){
-  //           val++;
+            document.getElementById("Titulo").addEventListener("keyup", habilitarbtn);
+            document.getElementById("floatingTextarea2").addEventListener("keyup", habilitarbtn);
+            document.getElementById("boton-crear-encuesta").addEventListener("", () => {
+         alert("Se ha llenado todo")
+            });
 
-  //         }if(floatingTextarea2 == ""){
-  //           val++;
-  //         }if(val == 0){
-  //           btncrear.disabled = false; 
-  //         }else {
-  //           btncrear.disabled = true; 
-  //         }}
+  // let form = document.querySelector("#formulario");
+  // let btn = document.querySelector("#boton-crear-encuesta");
 
-  //           document.getElementById("Titulo").addEventListener("keyup", habilitarbtn);
-  //           document.getElementById("floatingTextarea2").addEventListener("keyup", habilitarbtn);
-  //           document.getElementById("boton-crear-encuesta").addEventListener("click", () => {
-  //        alert("Se ha llenado todo")
-  //           });
+  // function validarbtn (){
+  //   let desabilitar = false;
 
-  let form = document.querySelector("#formulario");
-  let btn = document.querySelector("#boton-crear-encuesta");
-
-  function validarbtn (){
-    let desabilitar = false;
-
-    if(form.Titulo.value === ""){
-      desabilitar = true;
-    }
-    if(desabilitar === true){
-      btn.disabled = true;
-    }else {
-      btn.disabled = false;
-    }
-  }
+  //   if(form.Titulo.value === ""){
+  //     desabilitar = true;
+  //   }
+  //   if(desabilitar === true){
+  //     btn.disabled = true;
+  //   }else {
+  //     btn.disabled = false;
+  //   }
+  // }
   
-  form.addEventListener("keyup", validarbtn)
+  // form.addEventListener("keyup", validarbtn)
           
-          
+
         
 
 //VARIABLE
