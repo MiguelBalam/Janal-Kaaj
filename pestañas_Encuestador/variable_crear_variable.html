@@ -64,43 +64,42 @@
                         </div>
                     </div>
                 </form>
-                    <div class="row mb-4">
-                        
-                        <div class="col-sm-12 text-center">
-<<<<<<< HEAD
-                            <button onclick="CrearVariable()" id="boton_añadir" class="btn btn-outline-success bg-border-mostaza bg-text-mostaza">Crear</button>
-                              <button onclick="window.location.href='../pestañas_Encuestador/variable_tipo_variable.html'" 
-                              id="boton_guardar" class="btn btn-outline-success bg-border-mostaza bg-text-mostaza">Guardar</button>
-                            <button onclick="window.location.href='../pestañas_Encuestador/crear_Evariables.html'" class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" id="boton_cancelar"
-=======
-                            <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" onclick="CrearVariable()" id="boton_añadir">Crear</button>
-                            <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" onclick="window.location.href='../pestañas_Encuestador/variable_tipo_variable.html'" 
-                              id="boton_guardar">Guardar</button>
-                            <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" onclick="window.location.href='../pestañas_Encuestador/crear_Evariables.html'" class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" id="boton_cancelar"
->>>>>>> 2f483f0333ebba2d7262b2557ba28f16d2c24009
-                            >Cancelar</button>
-                        </div>
+                <div class="row mb-4">
 
+                    <div class="col-sm-12 text-center">
+                        <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza"
+                            onclick="CrearVariable()" id="boton_añadir">Crear</button>
+                        <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza"
+                            onclick="window.location.href='../pestañas_Encuestador/variable_tipo_variable.html'"
+                            id="boton_guardar">Guardar</button>
+                        <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza"
+                            onclick="cancelar3()" class="btn btn-outline-success bg-border-mostaza bg-text-mostaza">Cancelar</button>
                     </div>
 
-                    <h3 class="bg-text-black text-center p-3 text-uppercase text-black">Vista Previa Variables</h3>
-                   
-                    <table id="tabla1" class="table align-middle">
-                        <tr>
-                       
-                          
-                        </tr>
-                        <tr>
-                            <td>
-                                <ol class="listV">
+                </div>
+
+                <h3 class="bg-text-black text-center p-3 text-uppercase text-black">Vista Previa Variables</h3>
+
+                <table id="tabla1" class="table align-middle">
+                    <tr>
+
+
+                    </tr>
+                    <tr>
+                        <td>
+                            <ol class="listV">
                                 <!-- build list here -->
-                              </ol></td>
-                        </tr>
-                            </table>
+                            </ol>
+                        </td>
+                    </tr>
+                </table>
             </div>
-            </div>
-        </section>  
-        </div>
-                    <script src="../BD/app.js"></script>
+    </div>
+    </section>
+    </div>
+    <script src="../BD/app.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="/CSS/SweetAlert.js"></script>
 </body>
+
 </html>
