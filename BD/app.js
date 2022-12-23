@@ -15,7 +15,7 @@ var ObjectStoreReac
     DBOpenReq.addEventListener('upgradeneeded',(ev)=>{
         db = ev.target.result;
         
-        ObjectStore= db.createObjectStore("Usuario", {autoIncrement: true});
+        ObjectStore = db.createObjectStore("Usuario", {autoIncrement: true});
         ObjectStore.createIndex("Nombre","Nombre",{unique:true});
 
         ObjectStore=db.createObjectStore("Autenticasion",{autoIncrement: true});
@@ -58,26 +58,27 @@ var ObjectStoreReac
 
         ObjectStore= db.createObjectStore("Encuesta_Variables", {autoIncrement: true});
         ObjectStore.createIndex("Titulo","Titulo",{unique:true});
-        ObjectStore= db.createObjectStore("VariableC", {keyPath:"id",autoIncrement: true});
+        ObjectStore= db.createObjectStore("VariableC", {keyPath:"creV",autoIncrement: true});
 
 
         console.log('upgrade',db);
+       
     });
     DBOpenReq.addEventListener('success',(ev)=>{
      
       db= ev.target.result;
-       
+     
       Encuesta1()
       Variables()
-      Variables2()
-      buscar2()
       buscar()
       buscarV()
       buscarE()
+      buscar2()
       buscarVar()
-      buildList()
-      buildList2()
-    })
+      
+     // buscarLista();
+      buildList();
+    });
 // registro de datos
 
 
@@ -336,7 +337,406 @@ function manejadorValidacion(e) {
           console.log('suscess',db);
       
       };
+      function Variables(){
+ 
+
+        var variables =[
+          {id:"1",NombreVar:"Experiencia", Siglas:"T.P",Descripcion:"Experiencia del apicultor dónde se desarrolla la actividad (rentada, propia o ejido)"},
+          {id:"2",NombreVar:"Tipo de producción de la miel.", Siglas:"P.M.",Descripcion:"Tipo de producción de miel en las zonas de estudio."},
+          {id:"3",NombreVar:"Las Políticas Públicas en el sector.", Siglas:"P.P.",Descripcion:"Acciones y apoyos que el gobierno ofrece a este sector primario."},
+          {id:"4",NombreVar:"Nivel de ingresos del Jornalero.", Siglas:"I.J.",Descripcion:"Rango de ingresos mensuales que percibe "},
+          {id:"5",NombreVar:"Tipo de práctica empleada en el campo", Siglas:"P.E.",Descripcion:"Tipo de manejo de prácticas que se utilizan en esta actividad."},
+          {id:"6",NombreVar:"Prácticas culturales", Siglas:"P.C",Descripcion:"prácticas culturales es usada y cuantas veces se realiza al año."},
+          {id:"7",NombreVar:"Sanidad.", Siglas:"S",Descripcion:"Control y prevención de la presencia de plagas y enfermedades en la producción"},
+          {id:"8",NombreVar:"Documentación de procesos.", Siglas:"D.P.",Descripcion:"D de manuales de procedimientos y certificaciones como parte del proceso de esta actividad."},
+          {id:"9",NombreVar:"Tecnología especializada.", Siglas:"T.E.",Descripcion:"Maquinaria especializada para esta actividad o si aún se carece de ella."},
+          {id:"10",NombreVar:"Acceso a los medios de publicidad.", Siglas:"A.P.",Descripcion:"Publicidad entre ellos uso de internet, periódicos o algún medio que difunda sus productos"}
+          
+      ];
+      
+       
+        var IniciarSesionTransac = db.transaction(["Variables"],'readwrite');
+       
+      
+        IniciarSesionTransac = IniciarSesionTransac.objectStore(["Variables"]);
+        
+      
+      for ( var Variables of variables ) {
+         IniciarSesionTransac.add(Variables);
+      }
+      
+      IniciarSesionTransac.onsucces = function (event) {
+        //crearTabla();
+        buscarV();
+        BusVa();
+        //BusVa2();
+      
+         console.log('Nuevo item agregado a la base de datos');
+      };
+      
+      
+        console.log('suscess',db);
+      
+      };
+
+
+
+      function buscar2(){
+        var cadena ="<table class= 'table table-bordered'>";
+        var num= 0;
+        var ids_array = new Array();
+        var objectStore = db.transaction("Reactivos").objectStore("Reactivos");
+        objectStore.openCursor().onsuccess = function(e){
+          var cursor = e.target.result;
+          if(cursor){
+            id= cursor.value.id;
+            cadena += "<tr>";
+            cadena +="<td><input type ='checkbox' id='s"+id+"'></input></td>";
+            cadena +="<td>"+cursor.value.id+"</td>";
+            cadena += "<td><button class='btn btn-outline-success bg-border-mostaza bg-text-mostaza' id= 'b"+id+"'><img src='../Img/borrar.png' height='18px width='18px'></button></td>";
+            //cadena += "<td><button id= 'e"+id+"'>Editar</button></td>"
+            //cadena +="<td><button id='m"+id+"'<img src='../Img/edit.svg'  height='18px'width='18px'>></button></td>";
+            cadena += "</tr>";
+            ids_array.push(id);
+            num++;
+            cursor.continue();
+      
+          }else{
+            cadena += "</table>"
+            document.getElementById("salida2").innerHTML = cadena;
+      
+            for(var i=0; i<ids_array.length; i++){
+              id = ids_array[i];
+              document.getElementById("s"+id).onclick= selec;
+              document.getElementById("b"+id).onclick= borrar;
+            }
+          }
+         
+    }
+
+
+    function borrar(e){
+      console.log ('borrar',e)
+      var id = e.target.id;
+      var llave = id.substr(1)
+      console.log(id,llave);
+      if(llave){
+        db.transaction('Reactivos','readwrite')
+        .objectStore('Reactivos')
+        .delete(llave);
+        
+      }
+
+      request.onsuccess =function (e){
+        alert("eliminado"+llave)
+       
+      }
+  buscar2()
+     }
     
+    }
+    function selec(e){
+      console.log("seleccionar",e);
+      var id= e.target.id;
+      var llave = id.substring(1);
+      console.log(id,llave);
+    
+      if(confirm(llave)){
+        var tx =db.transaction("Reactivos","readwrite");
+        var objectStore = tx.objectStore("Reactivos");
+        var request = objectStore.get(llave)
+        request.onsuccess =function(){
+        
+          alert ("Elementos seleccionados"+llave);
+          
+        }
+      
+      }
+      if(llave){
+        var tx =db.transaction("preguntaReactivos","readwrite");
+        var objectStore = tx.objectStore("preguntaReactivos");
+         objectStore.add(llave)
+       }
+    }
+
+
+    function buscar(){
+      var cadena ="<table class= 'table table-bordered'>";
+       //cadena += "";
+       var num =0;
+       var id_array = new Array();
+
+       //leer cursor
+       var objectStore = db.transaction("Encuesta_Reactivo").objectStore("Encuesta_Reactivo");
+       objectStore.openCursor().onsuccess= function(e){
+        var cursor = e.target.result;
+        if(cursor){
+          id = cursor.value.Descripcion;
+          //cadena += "";
+          cadena += "<tr>";
+          cadena +="<td><input type ='checkbox' id='s"+id+"'></input></td>";
+          cadena +="<td>"+cursor.value.Descripcion+"</td>";
+          cadena += "<tr>";
+          //cadena += "<td>+<button id='m"+Descripcion+"'>Seleccionar</button></td></tr>";
+          id_array.push(id);
+          num ++;
+          //continuamos siguiente objeto
+          cursor.continue();
+
+        }else{
+          cadena += "</table>";
+          document.getElementById("salida").innerHTML = cadena;
+
+          for(var i=0; i<id_array.length; i++){
+            document.getElementById("s"+id).onclick= selec;
+            id = id_array[i];
+            //document.getElementById("m"+id).onclick= Editar;
+
+          }
+        }
+       }
+
+    }
+
+    function buscarV(){
+      var cadena ="<table class= 'table table-bordered'>";
+     
+     cadena += "";
+     var num =0;
+     var id_array = new Array();
+   
+     //leer cursor
+     var objectStore = db.transaction("Variables").objectStore("Variables");
+     objectStore.openCursor().onsuccess= function(e){
+      var cursor =e.target.result;
+      if(cursor){
+         id = cursor.value.NombreVar;
+         cadena += "<tr>";
+         cadena +="<td><input type ='checkbox' name='checkbox[]' id='c"+id+"'></input></td>";
+         cadena +="<td>"+cursor.value.NombreVar+"</td>";
+        //cadena += "<td><button class='btn btn-outline-success bg-border-mostaza bg-text-mostaza' id= 'b"+id+"'><img src='../Img/borrar.png' height='18px width='18px'></button></td>";
+                   //cadena += "<td><button id= 'e"+id+"'>Editar</button></td>"
+                   //cadena +="<td><button id='m"+id+"'<img src='../Img/edit.svg'  height='18px'width='18px'>></button></td>";
+          cadena += "</tr>";
+        
+        //cadena += "<td>+<button id='m"+Descripcion+"'>Seleccionar</button></td></tr>";
+        
+        id_array.push(id);
+        num ++;
+        //continuamos siguiente objeto
+        cursor.continue();
+        
+      }else{
+       
+        cadena += "";
+        document.getElementById("salida4").innerHTML = cadena;
+        
+        for(var i=0; i<id_array.length; i++){
+          id = id_array[i];
+          document.getElementById("c"+id).onclick= selecVariables;
+   
+        }
+      
+      }
+     
+     }
+   //BusVa();
+   
+   }
+   
+   function selecVariables(e){
+             console.log("seleccionar",e);
+             var id= e.target.id;
+             var llave = id;
+             console.log(id,llave);
+           
+             if(confirm(llave)){
+               var tx =db.transaction("selecVariables","readwrite");
+               var objectStore = tx.objectStore("selecVariables");
+               var request = objectStore.add(llave)
+   
+               request.onsuccess =function(){
+               console.log(llave)
+               }
+          
+             }
+             //guardar()
+         }
+
+
+
+         function buscarE(){
+          var cadena = "";
+          cadena += "";
+          var num =0;
+          var id_array = new Array();
+
+          //leer cursor
+          var objectStore = db.transaction("Encuesta").objectStore("Encuesta");
+          objectStore.openCursor().onsuccess= function(e){
+           var cursor = e.target.result;
+           if(cursor){
+             Descripcion = cursor.value.Titulo;
+             cadena += "";
+             
+             //cadena += "<div class= 'modal fade' id='mymodal3' tabindex='-1' aria-labelledby='mymodal3' aria-modal='true' style='display: none;' aria-modal='true' role='dialog'><div class='modal-dialog modal-dialog-centered modal-dialog-scrollable'><div class='modal-content'></div></div></div>";
+            cadena += "<button data-bs-toggle='modal' data-bs-target='#mymodal' ><img src=../Img/Form1.png width=200px height=320px></button>";
+            //cadena += "<label>"+cursor.value.Titulo+"</label>"
+            cadena += "<div class='p-3'> <label>"+cursor.value.Titulo+"</label></div>"
+             //cadena += "<td>+<button id='m"+Descripcion+"'>Seleccionar</button></td></tr>";
+             id_array.push(Descripcion);
+             num ++;
+             //continuamos siguiente objeto
+             cursor.continue();
+
+           }else{
+             cadena += "";
+             document.getElementById("crear_encuesta").innerHTML = cadena;
+
+             for(var i=0; i<id_array.length; i++){
+               id = id_array[i];
+               //document.getElementById("m"+id).onclick= Editar;
+
+             }
+           }
+          }
+   
+       }
+
+
+
+      //  function buscarVar(){
+      //   var cadena ="<table class= 'table table-bordered'>";
+      //   var num= 0;
+      //   var ids_array = new Array();
+      //   var objectStore = db.transaction("VariableC").objectStore("VariableC");
+      //   objectStore.openCursor().onsuccess = function(e){
+      //     var cursor = e.target.result;
+      //     if(cursor){
+      //       creV= cursor.value.creV;
+      //       cadena += "<tr>";
+      //       //cadena +="<td><input type ='checkbox' id='s"+id+"'></input></td>";
+      //       cadena +="<td>"+cursor.value.creV+"</td>";
+      //       cadena += "<td><button class='btn btn-outline-success bg-border-mostaza bg-text-mostaza' id= 'bo"+creV+"'><img src='../Img/borrar.png' height='18px width='18px'></button></td>";
+      //       //cadena += "<td><button id= 'e"+id+"'>Editar</button></td>"
+      //       //cadena +="<td><button id='m"+id+"'<img src='../Img/edit.svg'  height='18px'width='18px'>></button></td>";
+      //       cadena += "</tr>";
+      //       ids_array.push(creV);
+      //       num++;
+      //       cursor.continue();
+      
+      //     }else{
+      //       cadena += "</table>"
+      //       document.getElementById("salidaVarC").innerHTML = cadena;
+      
+      //       for(var i=0; i<ids_array.length; i++){
+      //         creV = ids_array[i];
+      //         //document.getElementById("s"+id).onclick= selec;
+      //         document.getElementById("bo"+id).onclick= borrarV;
+      //       }
+      //     }
+         
+      // }
+      // function borrarV(e){
+      //   console.log ('borrar',e)
+      //   var creV = e.target.creV;
+      //   var seguro = creV.substr(1)
+      
+      //   console.log(creV,seguro);
+      //   if(seguro){
+      //     var tx= db.transaction('VariableC','readwrite')
+      //     var objectStore =tx.objectStore('VariableC')
+      //     var request= objectStore.delete(seguro);
+          
+      //   request.onsuccess =function (e){
+      //     alert("eliminado"+seguro)
+         
+      //   }
+      
+      //   }
+      //   buscarVar()
+       
+      //   }
+        
+      // }
+
+      function buscarVar(){
+        var cadena ="<table class= 'table table-bordered'>";
+        var num= 0;
+        var ids_array = new Array();
+        var objectStore = db.transaction("VariableC").objectStore("VariableC");
+        objectStore.openCursor().onsuccess = function(e){
+          var cursor = e.target.result;
+          if(cursor){
+            creV= cursor.value.creV;
+            cadena += "<tr>";
+            cadena +="<td><input type ='checkbox' id='s"+creV+"'></input></td>";
+            cadena +="<td>"+cursor.value.creV+"</td>";
+            cadena += "<td><button class='btn btn-outline-success bg-border-mostaza bg-text-mostaza' id= 'b"+creV+"'><img src='../Img/borrar.png' height='18px width='18px'></button></td>";
+            cadena += "<td><button class='btn btn-outline-success bg-border-mostaza bg-text-mostaza' id= 'e"+creV+"'><img src='../Img/edit.svg' height='18px width='18px'></button></td>";
+            //cadena +="<td><button id='m"+id+"'<img src='../Img/edit.svg'  height='18px'width='18px'>></button></td>";
+            cadena += "</tr>";
+            ids_array.push(creV);
+            num++;
+            cursor.continue();
+      
+          }else{
+            cadena += "</table>"
+            document.getElementById("salidaVarC").innerHTML = cadena;
+      
+            for(var i=0; i<ids_array.length; i++){
+              id = ids_array[i];
+              document.getElementById("s"+id).onclick= selec;
+              document.getElementById("e"+id).onclick= modificar;
+              document.getElementById("b"+id).onclick= borrar;
+            }
+          }
+         
+    }
+
+
+    function borrar(e){
+      console.log ('borrar',e)
+      var id = e.target.id;
+      var llave = id.substr(1)
+      console.log(id,llave);
+      if(llave){
+        db.transaction('VariableC','readwrite')
+        .objectStore('VariableC')
+        .delete(llave);
+        
+      }
+
+      request.onsuccess =function (e){
+        alert("eliminado"+llave)
+       
+      }
+  buscarVar()
+     }
+    
+    }
+    function modificar(e){
+      var id = e.target.id;
+      var llave = id.substr(1)
+      console.log(id,llave);
+
+      var tx = db.transaction(["VariableC"],"readonly");
+      var objectStore = tx.objectStore("VariableC")
+      var request = objectStore.get(llave)
+      request.onerror = function(e){
+        alert("No se puedelos datos de la llave"+llave)
+      }
+      request.onsuccess = function(e){
+        if(request.result){
+          document.getElementById("NomV").value= request.result.creV;
+     document.getElementById("SiglaV").value= request.result.sigla;
+     document.getElementById("desV").value= request.result.descripcion;
+        }
+else{
+  alert("No se puede leer" +llave)
+}
+      }
+    } 
       //Crear encuesta
       function CrearEncuestaV() {
         
@@ -408,16 +808,16 @@ function manejadorValidacion(e) {
       //    }
         
          function CrearReactivo(){
-          //llamar id cursor
           var id = document.getElementById("ReactivoCre").value.trim();
-          var CategoriaReactivo=document.getElementById("CategoriaReactivos").value.trim()
+          var CategoriaReactivo=document.getElementById("CategoriaReactivos").value.trim();
           var owned = document.getElementById('inlineCheckbox1').checked;
-          let Crear = {
-   
+          
+          var Crear = {
            id,
            CategoriaReactivo,
             owned,
           };
+
           let tx = makeTX('Reactivos','readwrite');
           tx.oncomplete = (ev) =>{
               console.log (ev);
@@ -426,10 +826,9 @@ function manejadorValidacion(e) {
           let request = store.put(Crear);
 
           request.onsuccess = (ev) => {
-            
-            buscar2()
+            buscar2();
             console.log('successfully added an object',ev);
-          }
+          };
 
           function makeTX(storeName, mode) {
             let tx = db.transaction(storeName, mode);
@@ -440,27 +839,29 @@ function manejadorValidacion(e) {
         }
         buildList()
       }
-
+      
             //request an insert/add
     function buildList() {
       //use getAll to get an array of objects from our store
       let list = document.querySelector('.wList');
-      list.innerHTML = `<li>Loading...</li>`;
+      list.innerHTML = '<li>Loading...</li>';
       let tx = db.transaction('Reactivos', 'readwrite');
       tx.oncomplete = (ev) => {
         //transaction for reading all objects is complete
       };
       let store = tx.objectStore('Reactivos');
       let getReq = store.getAll();
+      console.log(getReq);
       //returns an array
       //option can pass in a key or a keyRange
       getReq.onsuccess = (ev) => {
         //getAll was successful
         let request = ev.target; //request === getReq === ev.target
-        console.log({ request });
-        list.innerHTML = request.result
-          .map((Crear) => {
+        console.log({request});
+        var Crear=[];
+        list.innerHTML = request.result.map((Crear) => {
             return `<li data-key="${Crear.id}"><span>${Crear.id}</span></li>`;
+            //return `<p>hola</p>`;
           })
           .join('\n');
       };
@@ -491,147 +892,167 @@ function manejadorValidacion(e) {
     
      buscar2();
 
-     borrar();
+    // borrar();
 
      
     }
 
     function CrearVariable(){
-      var id = document.getElementById("NomV").value.trim();
-          var sigla = document.getElementById("SiglaV").value.trim();
-          var descripcion = document.getElementById("desV").value.trim();
-      let Crear = {
-
-       id,
+      var creV = document.getElementById("NomV").value.trim();
+      var sigla = document.getElementById("SiglaV").value.trim();
+      var descripcion = document.getElementById("desV").value.trim();
+      let CrearV = {
+       creV,
        sigla,
         descripcion,
       };
 
-      let tx = makeTX('VariableC','readwrite');
-      tx.oncomplete = (ev) =>{
+      let xt = makeXT('VariableC','readwrite');
+      xt.oncomplete = (ev) =>{
           console.log (ev);
       };
-      let store = tx.objectStore('VariableC');
-      let request = store.put(Crear);
+      let object = xt.objectStore('VariableC');
+      let request = object.put(CrearV);
 
       request.onsuccess = (ev) => {
         console.log('successfully added an object',ev);
       }
 
-      function makeTX(storeName, mode) {
-        let tx = db.transaction(storeName, mode);
-        tx.onerror = (eve) => {
+      function makeXT(storeName, mode) {
+        let xt = db.transaction(storeName, mode);
+        xt.onerror = (eve) => {
           console.warn(eve);
         };
-        return tx;
+        return xt;
     }
-    buildList2()
+    buscarVar()
+    busVaC()
+   // buscarLista()
   }
 
         //request an insert/add
-function buildList2() {
-  //use getAll to get an array of objects from our store
-  let list = document.querySelector('.wListV');
-  list.innerHTML = `<li>Loading...</li>`;
-  let tx = db.transaction('VariableC', 'readwrite');
-  tx.oncomplete = (ev) => {
-    //transaction for reading all objects is complete
-  };
-  let store = tx.objectStore('VariableC');
-  let getReq = store.getAll();
-  //returns an array
-  //option can pass in a key or a keyRange
-  getReq.onsuccess = (ev) => {
-    //getAll was successful
-    let request = ev.target; //request === getReq === ev.target
-    console.log({ request });
-    list.innerHTML = request.result
-      .map((Crear) => {
-        return `<li data-key="${Crear.id}"><span>${Crear.id}</span></li>`;
-      })
-      .join('\n');
-  };
-  getReq.onerror = (err) => {
-    console.warn(err);
-  };
-  document.querySelector('.wListV').addEventListener('click', (ev) => {
-    let li = ev.target.closest('[data-key]');
-    let id = li.getAttribute('data-key')  ;
-    console.log(li, id);
+// function buscarLista() {
+//   //use getAll to get an array of objects from our store
+//   var list2 = document.querySelector('.listV');
+//   list2.innerHTML = `<li>Loading...</li>`;
+//   var xt = db.transaction('VariableC', 'readwrite');
+//   xt.oncomplete = (ev) => {
+//     //transaction for reading all objects is complete
+//   };
+//   let object = xt.objectStore('VariableC');
+//   let req = object.getAll();
+//   //returns an array
+//   //option can pass in a key or a keyRange
+//   req.onsuccess = (ev) => {
+//     //getAll was successful
+//     var request2 = ev.target; //request === getReq === ev.target
+//     console.log({ request2 });
+//     list2.innerHTML = request2.result
+//       .map((CrearV) => {
+//         return `<li data-key="${CrearV.creV}"><span>${CrearV.creV}</span></li>`;
+//       })
+//       .join('\n');
+//   };
+//   req.onerror = (err) => {
+//     console.warn(err);
+//   };
+//   document.querySelector('.listV').addEventListener('click', (ev) => {
+//     var li2 = ev.target.closest('[data-key]');
+//     var creV = li2.getAttribute('data-key')  ;
+//     console.log(li2, creV);
 
-    let tx = db.transaction('VariableC', 'readwrite');
-    let store = tx.objectStore('VariableC');
-    let req = store.get(id);
-
-    req.onsuccess = (ev) => {
-      let request = ev.target.result;
+//     var xt = db.transaction('VariableC', 'readwrite');
+//     var object = xt.objectStore('VariableC');
+//     var req = object.get(creV);
+//     req.onsuccess = (ev) => {
+//       var request = ev.target.result;
      
-   document.getElementById("NomV").value= request.id;
-     document.getElementById("SiglaV").value= request.sigla;
-     document.getElementById("desV").value= request.descripcion;
-      //document.whiskeyForm.setAttribute('data-key', request.id);
-    };
-    req.onerror = (err) => {
-      console.warn(err);
-    };
-  });
-  buscarVar()
-
-}
-function buscarVar(){
-  var cadena ="<table class= 'table table-bordered'>";
-  var num= 0;
+//    document.getElementById("NomV").value= request.creV;
+//      document.getElementById("SiglaV").value= request.sigla;
+//      document.getElementById("desV").value= request.descripcion;
+//       //document.whiskeyForm.setAttribute('data-key', request.id);
+//     };
+//     req.onerror = (err) => {
+//       console.warn(err);
+//     }
+//   })
+//   buscarVar()
+//   busVaC()
+// }
+//busVaC()
+function busVaC(){
+  var columnas = parseInt(prompt("columnas"));
+  var filas= parseInt(prompt("colum"));  
+  var cadena ="<table class= 'table table-bordered'>"
+  var cadena2 = document.querySelector("table>tbody")
+  // var cadenaX = "<select class="+"form-select form-select-sm"+" aria-label="+".form-select-sm example"+">"+"<option selected>Opciones</option>"
+  // +"<option value="+"0"+">0</option>"
+  // +"<option value="+"1"+">1</option>"
+  // +"<option value="+"2"+">2</option>"
+  // +"<option value="+"3"+">3</option>"
+  // +"<option value="+"4"+">P</option>"+
+  // "</select>"
+  var num = 0;
   var ids_array = new Array();
+
+  cadena +="<th>#</th>"
+
   var objectStore = db.transaction("VariableC").objectStore("VariableC");
-  objectStore.openCursor().onsuccess = function(e){
-    var cursor = e.target.result;
-    if(cursor){
-      id= cursor.value.id;
-      cadena += "<tr>";
-      //cadena +="<td><input type ='checkbox' id='s"+id+"'></input></td>";
-      cadena +="<td>"+cursor.value.id+"</td>";
-      cadena += "<td><button class='btn btn-outline-success bg-border-mostaza bg-text-mostaza' id= 'bo"+id+"'><img src='../Img/borrar.png' height='18px width='18px'></button></td>";
-      //cadena += "<td><button id= 'e"+id+"'>Editar</button></td>"
-      //cadena +="<td><button id='m"+id+"'<img src='../Img/edit.svg'  height='18px'width='18px'>></button></td>";
-      cadena += "</tr>";
-      ids_array.push(id);
-      num++;
-      cursor.continue();
 
-    }else{
-      cadena += "</table>"
-      document.getElementById("salidaVarC").innerHTML = cadena;
-
-      for(var i=0; i<ids_array.length; i++){
-        id = ids_array[i];
-        //document.getElementById("s"+id).onclick= selec;
-        document.getElementById("bo"+id).onclick= borrarV;
-      }
-    }
-   
-}
-
-
-
-}
-function borrarV(e){
-  console.log ('borrar',e)
-  var id = e.target.id;
-  var llave = id.substr(1)
-
-  console.log(id,llave);
-  if(llave){
-    var tx= db.transaction('VariableC','readwrite')
-    var objectStore =tx.objectStore('VariableC')
-    var request= objectStore.delete(llave);
-    
-  request.onsuccess =function (e){
-    alert("eliminado"+llave)
-   buscarVar()
-  }
   
-  }
-  }
+  objectStore.openCursor().onsuccess= function(e){
+   
+
+    
+   var cursor = e.target.result;
+   if(cursor){
+   
+ 
+    
+
+  var columna = cursor.value.creV;
+ console.log(cursor.value.creV);
+        
+  cadena += "<th>"+cursor.value.creV+"</th>"
+  //cadena+="<tr><td>"+ "<select class='form-select form-select-sm' aria-label='.form-select-sm example'></select>"+"</td></tr>"
+  
+ 
+       
+  for(i=0; i<filas;i++){
+   cadena2 +="<tr>"
+   
+   // cadena += "<th>"+cursor.value.NombreVar+"</th>"
+  
+    for(j=0; j<columnas;j++){
+      //"<th>"+cursor.value.NombreVar+"</th>"
+      cadena2 += "<td>"+cursor.value.creV+"</td>";
+      //cadena2 += "<td>"+cursor.value.NombreVar+"</td>";
+       
+      // if((filas>= 1 && filas<=2) && (columna >=1 && columna <=2)){
+      //   let celdas = document.querySelector("table>tbody")
+      // celdas[columna -1].innerHTML = "<td>"+ "<select class='form-select form-select-sm' aria-label='.form-select-sm example'></select>"+"</td>"
+      // }
+      //cadena +="<th>"+curRes.value.NombreVar+","+curRes.value.NombreVar+"</th>"
+       
+    }
+    for(i= 0; i<filas;i++){
+      cadena2+= "<td>"+"<select class='form-select form-select-sm' aria-label='.form-select-sm example'></select>"+"</td>";
+
+    }
+      }
+      cadena2 +="</tr>"
+   
+    cursor.continue();
+    num++
+   }else{
+   
+document.getElementById("salidaV").innerHTML= cadena+cadena2;
+    cadena +="</table>";
+  
+   }
+  
+  } 
+}
 //Función para gusrdar tipo de respuesta
          function tipoR(){
           var TipoRes= document.getElementById("TipoRes").selectedIndex;
@@ -718,159 +1139,11 @@ function ResOpMul(){
 }
 
        //cursor con preguntas ya predeterminadas
-        function buscar(){
-          var cadena ="<table class= 'table table-bordered'>";
-           //cadena += "";
-           var num =0;
-           var id_array = new Array();
-
-           //leer cursor
-           var objectStore = db.transaction("Encuesta_Reactivo").objectStore("Encuesta_Reactivo");
-           objectStore.openCursor().onsuccess= function(e){
-            var cursor = e.target.result;
-            if(cursor){
-              id = cursor.value.Descripcion;
-              //cadena += "";
-              cadena += "<tr>";
-              cadena +="<td><input type ='checkbox' id='s"+id+"'></input></td>";
-              cadena +="<td>"+cursor.value.Descripcion+"</td>";
-              cadena += "<tr>";
-              //cadena += "<td>+<button id='m"+Descripcion+"'>Seleccionar</button></td></tr>";
-              id_array.push(id);
-              num ++;
-              //continuamos siguiente objeto
-              cursor.continue();
-
-            }else{
-              cadena += "</table>";
-              document.getElementById("salida").innerHTML = cadena;
-
-              for(var i=0; i<id_array.length; i++){
-                document.getElementById("s"+id).onclick= selec;
-                id = id_array[i];
-                //document.getElementById("m"+id).onclick= Editar;
-
-              }
-            }
-           }
-    
-        }
-
-        function buscarE(){
-          var cadena = "";
-          cadena += "";
-          var num =0;
-          var id_array = new Array();
-
-          //leer cursor
-          var objectStore = db.transaction("Encuesta").objectStore("Encuesta");
-          objectStore.openCursor().onsuccess= function(e){
-           var cursor = e.target.result;
-           if(cursor){
-             Descripcion = cursor.value.Titulo;
-             cadena += "";
-             cadena += "<label>"+cursor.value.Titulo+"</label>"
-             //cadena += "<div class= 'modal fade' id='mymodal3' tabindex='-1' aria-labelledby='mymodal3' aria-modal='true' style='display: none;' aria-modal='true' role='dialog'><div class='modal-dialog modal-dialog-centered modal-dialog-scrollable'><div class='modal-content'></div></div></div>";
-            cadena += "<div class='modal-body'><img src='../Img/From3.png' width='200px' height='320px'></div>";
-             
-             //cadena += "<td>+<button id='m"+Descripcion+"'>Seleccionar</button></td></tr>";
-             id_array.push(Descripcion);
-             num ++;
-             //continuamos siguiente objeto
-             cursor.continue();
-
-           }else{
-             cadena += "";
-             document.getElementById("crear_encuesta").innerHTML = cadena;
-
-             for(var i=0; i<id_array.length; i++){
-               id = id_array[i];
-               //document.getElementById("m"+id).onclick= Editar;
-
-             }
-           }
-          }
-   
-       }
-
-          function buscar2(){
-            var cadena ="<table class= 'table table-bordered'>";
-            var num= 0;
-            var ids_array = new Array();
-            var objectStore = db.transaction("Reactivos").objectStore("Reactivos");
-            objectStore.openCursor().onsuccess = function(e){
-              var cursor = e.target.result;
-              if(cursor){
-                id= cursor.value.id;
-                cadena += "<tr>";
-                cadena +="<td><input type ='checkbox' id='s"+id+"'></input></td>";
-                cadena +="<td>"+cursor.value.id+"</td>";
-                cadena += "<td><button class='btn btn-outline-success bg-border-mostaza bg-text-mostaza' id= 'b"+id+"'><img src='../Img/borrar.png' height='18px width='18px'></button></td>";
-                //cadena += "<td><button id= 'e"+id+"'>Editar</button></td>"
-                //cadena +="<td><button id='m"+id+"'<img src='../Img/edit.svg'  height='18px'width='18px'>></button></td>";
-                cadena += "</tr>";
-                ids_array.push(id);
-                num++;
-                cursor.continue();
-          
-              }else{
-                cadena += "</table>"
-                document.getElementById("salida2").innerHTML = cadena;
-          
-                for(var i=0; i<ids_array.length; i++){
-                  id = ids_array[i];
-                  document.getElementById("s"+id).onclick= selec;
-                  document.getElementById("b"+id).onclick= borrar;
-                }
-              }
-             
-        }
-
-
-        function borrar(e){
-          console.log ('borrar',e)
-          var id = e.target.id;
-          var llave = id.substr(1)
-          console.log(id,llave);
-          if(llave){
-            db.transaction('Reactivos','readwrite')
-            .objectStore('Reactivos')
-            .delete(llave);
-            
-          }
-  
-          request.onsuccess =function (e){
-            alert("eliminado"+llave)
-           
-          }
-      buscar2()
-         }
         
-        }
-        function selec(e){
-          console.log("seleccionar",e);
-          var id= e.target.id;
-          var llave = id.substring(1);
-          console.log(id,llave);
-        
-          if(confirm(llave)){
-            var tx =db.transaction("Reactivos","readwrite");
-            var objectStore = tx.objectStore("Reactivos");
-            var request = objectStore.get(llave)
-            request.onsuccess =function(){
-            
-              alert ("Elementos seleccionados"+llave);
-              
-            }
-          
-          }
-          if(llave){
-            var tx =db.transaction("preguntaReactivos","readwrite");
-            var objectStore = tx.objectStore("preguntaReactivos");
-             objectStore.add(llave)
-           }
-        }
 
+      
+
+          
         
       function creEncuestaR(){
 
@@ -1259,154 +1532,10 @@ function buscar3(){
         
 
 //VARIABLE
-function Variables(){
- 
-
-  var variables =[
-    {id:"1",NombreVar:"Experiencia", Siglas:"T.P",Descripcion:"Experiencia del apicultor dónde se desarrolla la actividad (rentada, propia o ejido)"},
-    {id:"2",NombreVar:"Tipo de producción de la miel.", Siglas:"P.M.",Descripcion:"Tipo de producción de miel en las zonas de estudio."},
-    {id:"3",NombreVar:"Las Políticas Públicas en el sector.", Siglas:"P.P.",Descripcion:"Acciones y apoyos que el gobierno ofrece a este sector primario."},
-    {id:"4",NombreVar:"Nivel de ingresos del Jornalero.", Siglas:"I.J.",Descripcion:"Rango de ingresos mensuales que percibe "},
-    {id:"5",NombreVar:"Tipo de práctica empleada en el campo", Siglas:"P.E.",Descripcion:"Tipo de manejo de prácticas que se utilizan en esta actividad."},
-    {id:"6",NombreVar:"Prácticas culturales", Siglas:"P.C",Descripcion:"prácticas culturales es usada y cuantas veces se realiza al año."},
-    {id:"7",NombreVar:"Sanidad.", Siglas:"S",Descripcion:"Control y prevención de la presencia de plagas y enfermedades en la producción"},
-    {id:"8",NombreVar:"Documentación de procesos.", Siglas:"D.P.",Descripcion:"D de manuales de procedimientos y certificaciones como parte del proceso de esta actividad."},
-    {id:"9",NombreVar:"Tecnología especializada.", Siglas:"T.E.",Descripcion:"Maquinaria especializada para esta actividad o si aún se carece de ella."},
-    {id:"10",NombreVar:"Acceso a los medios de publicidad.", Siglas:"A.P.",Descripcion:"Publicidad entre ellos uso de internet, periódicos o algún medio que difunda sus productos"}
-    
-];
-
- 
-  var IniciarSesionTransac = db.transaction(["Variables"],'readwrite');
- 
-
-  IniciarSesionTransac = IniciarSesionTransac.objectStore(["Variables"]);
-  
-
-for ( var Variables of variables ) {
-   IniciarSesionTransac.add(Variables);
-}
-
-IniciarSesionTransac.onsucces = function (event) {
-  //crearTabla();
-  buscarV();
-  BusVa();
-  //BusVa2();
-
-   console.log('Nuevo item agregado a la base de datos');
-};
 
 
-  console.log('suscess',db);
-
-};
-function Variables2(){
- 
-
-  var variables =[
-    {id:"1",NombreVar2:"Experiencia", Siglas:"T.P",Descripcion:"Experiencia del apicultor dónde se desarrolla la actividad (rentada, propia o ejido)"},
-    {id:"2",NombreVar2:"Tipo de producción de la miel.", Siglas:"P.M.",Descripcion:"Tipo de producción de miel en las zonas de estudio."},
-    {id:"3",NombreVar2:"Las Políticas Públicas en el sector.", Siglas:"P.P.",Descripcion:"Acciones y apoyos que el gobierno ofrece a este sector primario."},
-    {id:"4",NombreVar2:"Nivel de ingresos del Jornalero.", Siglas:"I.J.",Descripcion:"Rango de ingresos mensuales que percibe "},
-    {id:"5",NombreVar2:"Tipo de práctica empleada en el campo", Siglas:"P.E.",Descripcion:"Tipo de manejo de prácticas que se utilizan en esta actividad."},
-    {id:"6",NombreVar2:"Prácticas culturales", Siglas:"P.C",Descripcion:"prácticas culturales es usada y cuantas veces se realiza al año."},
-    {id:"7",NombreVar2:"Sanidad.", Siglas:"S",Descripcion:"Control y prevención de la presencia de plagas y enfermedades en la producción"},
-    {id:"8",NombreVar2:"Documentación de procesos.", Siglas:"D.P.",Descripcion:"D de manuales de procedimientos y certificaciones como parte del proceso de esta actividad."},
-    {id:"9",NombreVar2:"Tecnología especializada.", Siglas:"T.E.",Descripcion:"Maquinaria especializada para esta actividad o si aún se carece de ella."},
-    {id:"10",NombreVar2:"Acceso a los medios de publicidad.", Siglas:"A.P.",Descripcion:"Publicidad entre ellos uso de internet, periódicos o algún medio que difunda sus productos"}
-    
-];
-
- 
-  var IniciarSesionTransac = db.transaction(["Variables2"],'readwrite');
- 
-
-  IniciarSesionTransac = IniciarSesionTransac.objectStore(["Variables2"]);
-  
-
-for ( var Variables2 of variables ) {
-   IniciarSesionTransac.add(Variables2);
-}
-
-IniciarSesionTransac.onsucces = function (event) {
-
-  buscarV();
-  //BusVa2();
-  BusVa();
- 
-
-   console.log('Nuevo item agregado a la base de datos');
-};
 
 
-  console.log('suscess',db);
-
-};
-
-function buscarV(){
-   var cadena ="<table class= 'table table-bordered'>";
-  
-  cadena += "";
-  var num =0;
-  var id_array = new Array();
-
-  //leer cursor
-  var objectStore = db.transaction("Variables").objectStore("Variables");
-  objectStore.openCursor().onsuccess= function(e){
-   var cursor =e.target.result;
-   if(cursor){
-      id = cursor.value.NombreVar;
-      cadena += "<tr>";
-      cadena +="<td><input type ='checkbox' name='checkbox[]' id='c"+id+"'></input></td>";
-      cadena +="<td>"+cursor.value.NombreVar+"</td>";
-     //cadena += "<td><button class='btn btn-outline-success bg-border-mostaza bg-text-mostaza' id= 'b"+id+"'><img src='../Img/borrar.png' height='18px width='18px'></button></td>";
-                //cadena += "<td><button id= 'e"+id+"'>Editar</button></td>"
-                //cadena +="<td><button id='m"+id+"'<img src='../Img/edit.svg'  height='18px'width='18px'>></button></td>";
-       cadena += "</tr>";
-     
-     //cadena += "<td>+<button id='m"+Descripcion+"'>Seleccionar</button></td></tr>";
-     
-     id_array.push(id);
-     num ++;
-     //continuamos siguiente objeto
-     cursor.continue();
-     
-   }else{
-    
-     cadena += "";
-     document.getElementById("salida4").innerHTML = cadena;
-     
-     for(var i=0; i<id_array.length; i++){
-       id = id_array[i];
-       document.getElementById("c"+id).onclick= selecVariables;
-
-     }
-   
-   }
-  
-  }
-BusVa();
-
-}
-
-function selecVariables(e){
-          console.log("seleccionar",e);
-          var id= e.target.id;
-          var llave = id;
-          console.log(id,llave);
-        
-          if(confirm(llave)){
-            var tx =db.transaction("selecVariables","readwrite");
-            var objectStore = tx.objectStore("selecVariables");
-            var request = objectStore.add(llave)
-
-            request.onsuccess =function(){
-            console.log(llave)
-            }
-       
-          }
-          //guardar()
-      }
      
       
       //   var fila="<tr><td>"+id+"</td></tr>";
@@ -1522,4 +1651,5 @@ document.getElementById("salidaV").innerHTML= cadena+cadena2;
      //}
    }}
 }
+
 

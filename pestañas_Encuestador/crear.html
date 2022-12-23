@@ -48,7 +48,8 @@
                     <div class="row mb-4">
                         <label class="col-sm-4 col-form-label px-5">Título : </label>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control" id="Titulo" name="Titulo" placeholder="Agregar Título">
+                            <input type="text" class="form-control" id="Titulo" name="Titulo"
+                                placeholder="Agregar Título">
                         </div>
                     </div>
 
@@ -58,7 +59,7 @@
                             <div class="form-floating">
                                 <textarea class="form-control" placeholder="Agregar Objetivo" id="floatingTextarea2"
                                     name="objetivo"></textarea>
-                                
+
                             </div>
                         </div>
                     </div>
@@ -69,105 +70,66 @@
                             <div class="form-floating">
                                 <textarea class="form-control" placeholder="Agregar Instrucción" name="Intruccion"
                                     id="floatingTextarea2" style="height: 100px"></textarea>
-                              
+
                             </div>
                         </div>
                     </div>
 
                     <div class="row mb-4">
                         <label class="col-sm-4 col-form-label px-5">Reactivos:</label>
-                        
-                       
+
+
                         <div class="col-sm-4 text-center">
 
                             <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" type="button"
                                 id="boton_crear"
                                 onclick="location.href='../pestañas_Encuestador/reactivo_crear_reactivos.html'">Crear</button>
 
-                        </div>
-                        
-
-                        <div class="col-sm-4 text-center">
 
                             <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" id="boton_agregar"
                                 type="button"
                                 onclick=" Encuesta1(),window.location.href='../pestañas_Encuestador/reactivo_categoria.html'">
                                 Agregar </button>
-                                <div>
-                                   <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" type="button"
-                                id="boton_crear"
-                                onclick="location.href='../pestañas_Encuestador/editar_Reactivos.html'">Editar</button>  
-                                </div>
-                               
+    
+                                <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" type="button"
+                                    id="boton_crear"
+                                    onclick="location.href='../pestañas_Encuestador/editar_Reactivos.html'">Editar</button>
+                            
+
                         </div>
 
-                        
 
-                     
+
+
 
                     </div>
 
                     <div class="row mb-4">
 
-             
-
-
                         <div class=" col-sm-12 col-form-label px-5">
                             <div class="card-header ">
                                 Reactivos de la encuesta
-
                                 <div class="container">
                                     <div class="row">
-                                        <div class="col-10">
-                                            <input class="form-check-input" type="checkbox" value=""
-                                                id="flexCheckDefault">
-                                            <label class="form-check-label" for="flexCheckDefault">
-                                                Pregunta 1
-                                            </label>
-                                        </div>
-                                        <div class="col-1">
-                                            <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza"
-                                                id="boton_editar_image" type="button"
-                                                onclick=" window.location.href='../pestañas_Encuestador/reactivo_crear_reactivos.html'">
-                                                <img src="../Img/edit.svg"  height="18px"
-                                                    width="18px"></button>
-                                        </div>
-                                        <div class="col-1">
-                                            <button  class="btn btn-outline-success bg-border-mostaza bg-text-mostaza"
-                                                id="boton_borrar_image" type="button">
-                                                <img src="../Img/borrar.png" height="18px" width="18px"> </button>
-
-                                        </div>
+                                        <div id="salida2"></div>
                                     </div>
                                 </div>
-
-
-                                <div class="container">
-                                    <div class="row">  
-                                        <div  class="col-10">
-                                    <input class="form-check-input" type="checkbox" name="checkR" value="" id="flexCheckChecked"
-                                        checked>
-                                    <label class="form-check-label" for="flexCheckChecked">
-                                        Pregunta 2
-                                    </label>
-                                </div>
-                                    <div id="salida2"></div>
-                                    
-                                </div>
                             </div>
-                            </div>
-                        
                             <div class=" row mb-4 p-3">
                                 <div class="col-sm-12 text-center">
-                                    <button  class="btn btn-outline-success bg-border-mostaza bg-text-mostaza"
-                                        id="boton-crear-encuesta" type="submit" disabled> Crear Encuesta</button>
+                                
+
+                                    <button onclick="CrearEncuesta(),buscarE()"
+                                        class="btn btn-outline-success bg-border-mostaza bg-text-mostaza"
+                                        id="boton-crear-encuesta" type="button" disabled> Crear Encuesta</button>
+
                                 </div>
                             </div>
                         </div>
                     </div>
-                   
+
                 </form>
-               
+
         </section>
     </div>
 
