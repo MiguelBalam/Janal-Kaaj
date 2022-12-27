@@ -379,8 +379,8 @@ function manejadorValidacion(e) {
       
       };
 
-
-
+  
+//salida para las preguntas de reactivos en crear.html
       function buscar2(){
         var cadena ="<table class= 'table table-bordered'>";
         var num= 0;
@@ -396,7 +396,7 @@ function manejadorValidacion(e) {
             cadena += "<td><button class='btn btn-outline-success bg-border-mostaza bg-text-mostaza' id= 'b"+id+"'><img src='../Img/borrar.png' height='18px width='18px'></button></td>";
             //cadena += "<td><button id= 'e"+id+"'>Editar</button></td>"
             //cadena +="<td><button id='m"+id+"'<img src='../Img/edit.svg'  height='18px'width='18px'>></button></td>";
-            cadena += "</tr>";
+            cadena += "</tr>"; 
             ids_array.push(id);
             num++;
             cursor.continue();
@@ -562,7 +562,7 @@ function manejadorValidacion(e) {
              }
              //guardar()
          }
-
+// salida de tipos encuesta
 
 
          function buscarE(){
@@ -742,7 +742,7 @@ else{
         
         var titulo = document.getElementById("Titulo").value.trim();
         var Objetivo = document.getElementById("floatingTextarea2").value.trim();
-        var Instrucciones = document.getElementById('floatingTextarea2').value.trim();
+        var Instrucciones = document.getElementById('floatingTextarea21').value.trim();
         var form = document.getElementById('formularioCR');
 
       form.addEventListener('submit', function(eve){
@@ -807,8 +807,7 @@ else{
       //     //validarER() 
       //    }
         
-         function CrearReactivo() {
-
+         function CrearReactivo(){
           var id = document.getElementById("ReactivoCre").value.trim();
           var CategoriaReactivo=document.getElementById("CategoriaReactivos").value.trim();
           var owned = document.getElementById('inlineCheckbox1').checked;
@@ -1150,7 +1149,7 @@ function ResOpMul(){
 
         var Titulo = document.getElementById("Titulo").value.trim();
         var Objetivo = document.getElementById("floatingTextarea2").value.trim();
-        var Instrucciones = document.getElementById('floatingTextarea2').value.trim();
+        var Instrucciones = document.getElementById('floatingTextarea21').value.trim();
         var form = document.getElementById('formularioC');
 
       form.addEventListener('submit', function(eve){
@@ -1485,6 +1484,28 @@ function buscar3(){
             
         //   };
         //  }
+        //Funcion para habilitar boton crear encuesta
+  // let form = document.querySelector("#formulario");
+  // let btn = document.querySelector("#boton-crear-encuesta");
+
+  // function validarbtn (){
+  //   let desabilitar = false;
+
+  //   if(form.Titulo.value === ""){
+  //     desabilitar = true;
+  //   }
+  //   if(desabilitar === true){
+  //     btn.disabled = true;
+  //   }else {
+  //     btn.disabled = false;
+  //   }
+  // }
+  
+  // form.addEventListener("keyup", validarbtn)
+          
+
+        
+
 //VARIABLE
 
 
