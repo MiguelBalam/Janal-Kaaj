@@ -74,8 +74,8 @@ var ObjectStoreReac
       buscarV()
       buscarE()
       buscar2()
-      buscarVar()
-      
+      //buscarVar()
+      //busVaC()
      // buscarLista();
       buildList();
     });
@@ -980,7 +980,7 @@ else{
 //   buscarVar()
 //   busVaC()
 // }
-//busVaC()
+
 function busVaC(){
   var columnas = parseInt(prompt("columnas"));
   var filas= parseInt(prompt("colum"));  
@@ -1151,7 +1151,11 @@ function ResOpMul(){
         var Titulo = document.getElementById("Titulo").value.trim();
         var Objetivo = document.getElementById("floatingTextarea2").value.trim();
         var Instrucciones = document.getElementById('floatingTextarea21').value.trim();
+<<<<<<< HEAD
+        var form = document.getElementById('formulario');
+=======
         var form = document.getElementById('formularioC');
+>>>>>>> f37d8607956177b901fb21696a8744fb79b38191
 
       form.addEventListener('submit', function(eve){
       eve.preventDefault();
