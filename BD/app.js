@@ -337,6 +337,7 @@ function manejadorValidacion(e) {
           console.log('suscess',db);
       
       };
+
       function Variables(){
  
 
