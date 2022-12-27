@@ -65,16 +65,18 @@
                     </div>
                 </form>
                     <div class="row mb-4">
-                        
-                        <div class="col-sm-12 text-center">
-                            <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" onclick="CrearVariable()" id="boton_añadir">Crear</button>
-                            <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" onclick="window.location.href='../pestañas_Encuestador/variable_tipo_variable.html'" 
-                              id="boton_guardar">Guardar</button>
-                            <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" onclick="window.location.href='../pestañas_Encuestador/crear_Evariables.html'" class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" id="boton_cancelar"
-                            >Cancelar</button>
-                        </div>
+                
 
+                    <div class="col-sm-12 text-center">
+                        <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza"
+                            onclick="CrearVariable(), notiCrearVariables()" id="boton_añadir">Crear</button>
+                        <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza"
+                            onclick="window.location.href='../pestañas_Encuestador/variable_tipo_variable.html'"
+                            id="boton_guardar">Guardar</button>
+                        <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza"
+                            onclick="return cancelar3()" class="btn btn-outline-success bg-border-mostaza bg-text-mostaza">Cancelar</button>
                     </div>
+<<<<<<< HEAD
                       
                     <h3 class="bg-text-black text-center p-3 text-uppercase text-black">Vista Previa Variables</h3>
                     <div id="salidaVarC"></div>
@@ -86,14 +88,33 @@
                         <tr>
                             <td>
                                 <ol class="listV">
+=======
+
+                </div>
+
+                <h3 class="bg-text-black text-center p-3 text-uppercase text-black">Vista Previa Variables</h3>
+
+                <table id="tabla1" class="table align-middle">
+                    <tr>
+
+                    </tr>
+                    <tr>
+                        <td>
+                            <ol class="listV">
+>>>>>>> f37d8607956177b901fb21696a8744fb79b38191
                                 <!-- build list here -->
-                              </ol></td>
-                        </tr>
-                            </table>
+                            </ol>
+                        </td>
+                    </tr>
+                </table>
             </div>
-            </div>
-        </section>  
-        </div>
-                    <script src="../BD/app.js"></script>
+    </div>
+    </section>
+    </div>
+    <script src="../BD/app.js"></script>
+    <link rel="stylesheet" href="../node_modules/@sweetalert2/themes/bootstrap-4/bootstrap-4.min.css">
+    <script src="../node_modules/sweetalert2/dist/sweetalert2.all.js"></script>
+    <script src="../CSS/SweetAlert.js"></script>
 </body>
+
 </html>
