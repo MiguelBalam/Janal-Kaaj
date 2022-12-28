@@ -40,22 +40,22 @@
 
         <section class="d-flex justify-content-center my-4">
 
-            <div class="card col-sm-7 p-3 shadow-lg mb-5 bg-white rounded">
+            <div class="card col-md-7 p-3 shadow-lg mb-5 bg-white rounded">
 
                 <h1 class="bg-text-black text-center p-3 text-uppercase text-black">Crear Encuesta de Reactivos</h1>
-                
+
                 <form name="form" id="formulario" action="">
                     <div class="row mb-4">
-                        <label class="col-sm-4 col-form-label px-5">Título : </label>
-                        <div class="col-sm-8">
+                        <label class="col-md-4 col-form-label px-5">Título : </label>
+                        <div class="col-md-8">
                             <input type="text" class="form-control" id="Titulo" name="Titulo"
                                 placeholder="Agregar Título">
                         </div>
                     </div>
 
                     <div class="row mb-4">
-                        <label class="col-sm-4 col-form-label px-5">Objetivo:</label>
-                        <div class="col-sm-8">
+                        <label class="col-md-4 col-form-label px-5">Objetivo:</label>
+                        <div class="col-md-8">
                             <div class="form-floating">
                                 <textarea class="form-control" placeholder="Agregar Objetivo" id="floatingTextarea2"
                                     name="objetivo"></textarea>
@@ -65,21 +65,20 @@
                     </div>
 
                     <div class="row mb-4">
-                        <label class="col-sm-4 col-form-label px-5">Instrucciones:</label>
-                        <div class="col-sm-8">
+                        <label class="col-md-4 col-form-label px-5">Instrucciones:</label>
+                        <div class="col-md-8">
                             <div class="form-floating">
                                 <textarea class="form-control" placeholder="Agregar Instrucción" name="Intruccion"
                                     id="floatingTextarea21" style="height: 100px"></textarea>
-
                             </div>
                         </div>
                     </div>
 
                     <div class="row mb-4">
-                        <label class="col-sm-4 col-form-label px-5">Reactivos:</label>
+                        <label class="col-md-4 col-form-label px-5">Reactivos:</label>
 
 
-                        <div class="col-sm-4 text-center">
+                        <div class="col-md-12 text-center">
 
                             <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" type="button"
                                 id="boton_crear"
@@ -90,18 +89,13 @@
                                 type="button"
                                 onclick=" Encuesta1(),window.location.href='../pestañas_Encuestador/reactivo_categoria.html'">
                                 Agregar </button>
-    
-                                <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" type="button"
-                                    id="boton_crear"
-                                    onclick="location.href='../pestañas_Encuestador/editar_Reactivos.html'">Editar</button>
-                            
+
+                            <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" type="button"
+                                id="boton_crear"
+                                onclick="location.href='../pestañas_Encuestador/editar_Reactivos.html'">Editar</button>
+
 
                         </div>
-
-
-
-
-
                     </div>
 
                     <div class="row mb-4">
@@ -115,21 +109,32 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class=" row mb-4 p-3">
-                                <div class="col-sm-12 text-center">
-                                
 
-                                    <button    onclick="CrearEncuesta(),buscarE()"
-                                        class="btn btn-outline-success bg-border-mostaza bg-text-mostaza"
-                                        id="boton-crear-encuesta" type="button" disabled="true" > Crear Encuesta</button>
-
-                                     
-                                </div>
-                            </div>
                         </div>
+                </form>
+            </div>
+
+            <div class=" row mb-4 p-3">
+                <div class="col-sm-12 text-center">
+                    <button onclick="creEncuestaR()" class="btn btn-outline-success bg-border-mostaza bg-text-mostaza"
+                        id="boton-crear-encuesta" type="submit"> Crear Encuesta</button>
+                    <div class=" row mb-4 p-3">
+                        <div class="col-sm-12 text-center">
+
+
+                            <button onclick="CrearEncuesta(),buscarE()"
+                                class="btn btn-outline-success bg-border-mostaza bg-text-mostaza"
+                                id="boton-crear-encuesta" type="button" disabled="true"> Crear Encuesta</button>
+
+
+                        </div>
+
                     </div>
 
-                </form>
+                </div>
+            </div>
+
+            </form>
 
         </section>
     </div>
