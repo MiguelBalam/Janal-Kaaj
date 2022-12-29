@@ -68,15 +68,15 @@ var ObjectStoreReac
     DBOpenReq.addEventListener('success',(ev)=>{
      
       db= ev.target.result;
-     
+      buscar2()
       Encuesta1()
       Variables()
       buscar()
-      buscarV()
-      buscarE()
-      buscar2()
-      //buscarVar()
-      //busVaC()
+      // buscarV()
+      // buscarE()
+      // buscar2()
+      buscarVar()
+      busVaC()
      // buscarLista();
       buildList();
     });
