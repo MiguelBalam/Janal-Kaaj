@@ -64,18 +64,19 @@ var ObjectStoreReac
         console.log('upgrade',db);
        
     });
+    //funciones para cursores
     DBOpenReq.addEventListener('success',(ev)=>{
      
       db= ev.target.result;
-     
+      buscar2()
       Encuesta1()
       Variables()
       buscar()
-      buscarV()
-      buscarE()
-      buscar2()
-      //buscarVar()
-      //busVaC()
+      // buscarV()
+      // buscarE()
+      // buscar2()
+      buscarVar()
+      busVaC()
      // buscarLista();
       buildList();
     });
@@ -274,6 +275,7 @@ function manejadorValidacion(e) {
               
         }
 // Encuesta predeterminada 1
+//almacena predetermidos
         function Encuesta1(){
           var   encuesta_prototipo = [
             { id: "1", Titulo: "Encuesta_Apicultura", 
@@ -336,6 +338,8 @@ function manejadorValidacion(e) {
           console.log('suscess',db);
       
       };
+      //termina
+
       function Variables(){
  
 
@@ -396,7 +400,7 @@ function manejadorValidacion(e) {
             //cadena += "<td><button id= 'e"+id+"'>Editar</button></td>"
             //cadena +="<td><button id='m"+id+"'<img src='../Img/edit.svg'  height='18px'width='18px'>></button></td>";
             cadena += "</tr>"; 
-            ids_array.push(id);
+            ids_array.push(id); //para guardar / correr espacio
             num++;
             cursor.continue();
       
@@ -406,8 +410,8 @@ function manejadorValidacion(e) {
       
             for(var i=0; i<ids_array.length; i++){
               id = ids_array[i];
-              document.getElementById("s"+id).onclick= selec;
-              document.getElementById("b"+id).onclick= borrar;
+              document.getElementById("s"+id).onclick= selec;  // s para seleccionar checkbox
+              document.getElementById("b"+id).onclick= borrar; 
             }
           }
          
@@ -434,6 +438,7 @@ function manejadorValidacion(e) {
      }
     
     }
+    // funcion para seleccionar checkbox
     function selec(e){
       console.log("seleccionar",e);
       var id= e.target.id;
@@ -458,7 +463,9 @@ function manejadorValidacion(e) {
        }
     }
 
+// termina 
 
+//para mostrar reactivos predeterminados pestaña reactivo_categoria
     function buscar(){
       var cadena ="<table class= 'table table-bordered'>";
        //cadena += "";
@@ -496,7 +503,8 @@ function manejadorValidacion(e) {
        }
 
     }
-
+//termina 
+//variables predeterminadas
     function buscarV(){
       var cadena ="<table class= 'table table-bordered'>";
      
@@ -539,7 +547,7 @@ function manejadorValidacion(e) {
       }
      
      }
-   //BusVa();
+   BusVa();
    
    }
    
@@ -561,8 +569,9 @@ function manejadorValidacion(e) {
              }
              //guardar()
          }
-// salida de tipos encuesta
 
+// salida de tipos encuesta
+//mostrar 
 
          function buscarE(){
           var cadena = "";
@@ -806,6 +815,7 @@ else{
       //     //validarER() 
       //    }
         
+      
          function CrearReactivo(){
           var id = document.getElementById("ReactivoCre").value.trim();
           var CategoriaReactivo=document.getElementById("CategoriaReactivos").value.trim();
@@ -839,6 +849,7 @@ else{
         buildList()
       }
       
+      //para mostrar vista previa de reactivos creados / habilitado para editar
             //request an insert/add
     function buildList() {
       //use getAll to get an array of objects from our store
@@ -978,7 +989,8 @@ else{
 //   buscarVar()
 //   busVaC()
 // }
-
+//busVaC()
+//mostrar pestaña variable_crear_variable pulsando boton guardar 
 function busVaC(){
   var columnas = parseInt(prompt("columnas"));
   var filas= parseInt(prompt("colum"));  
@@ -1143,7 +1155,7 @@ function ResOpMul(){
       
 
           
-        
+        //guardar en base de datos
       function creEncuestaR(){
 
         var Titulo = document.getElementById("Titulo").value.trim();
@@ -1331,7 +1343,7 @@ function ResOpMul(){
 
 }
 
-   
+   //mostrar reactivo segun categoria
 function buscar3(){
   var cadena3 = "";
   cadena3 += "";
@@ -1521,6 +1533,7 @@ function buscar3(){
       // }
 
 //CHECAR TABLA PARA ENCUESTA
+//mostrar variables predeterminadas con formato
 function BusVa(){
   // var columnas = parseInt(prompt("columnas"));
   // var filas= parseInt(prompt("colum"));  
