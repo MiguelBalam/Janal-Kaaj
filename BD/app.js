@@ -18,7 +18,7 @@ var ObjectStoreReac
         ObjectStore = db.createObjectStore("Usuario", {autoIncrement: true});
         ObjectStore.createIndex("Nombre","Nombre",{unique:true});
 
-        ObjectStore=db.createObjectStore("Autenticasion",{autoIncrement: true});
+        ObjectStore=db.createObjectStore("Autenticasion",{keyPath:"correo", autoIncrement: true});
         ObjectStore.createIndex("correo","correo",{unique:true});
 
         db.createObjectStore("Encuestado",{autoIncrement: true});
@@ -86,8 +86,8 @@ var ObjectStoreReac
         
         ev.preventDefault();
         var correo = document.getElementById('Correo').value.trim();
-        var Contraseña = document.getElementById('Contraseña').value.trim();
-        var Contraseña2 = document.getElementById('Contraseña2').value.trim();
+        var Contrasenia = document.getElementById('contrasenia').value.trim();
+        var Contrasenia2 = document.getElementById('contrasenia2').value.trim();
         var Nombre= document.getElementById('nombrecompletos').value.trim();
         var ApellidoP = document.getElementById('apellidopaterno').value.trim();
         var ApellidoM= document.getElementById('apellidomaterno').value.trim();
@@ -115,8 +115,8 @@ var ObjectStoreReac
         }
         let Autenticasion = {
             correo,
-            Contraseña,
-            Contraseña2
+            Contrasenia,
+            Contrasenia2
             }
             let Encuestador = {
               Proce
@@ -137,6 +137,7 @@ var ObjectStoreReac
         txA.oncomplete = (ev)=>{
 
           verificarPasswords();
+         
             console.log (ev);
         };
         let store = tx.objectStore('Usuario');
@@ -155,8 +156,8 @@ var ObjectStoreReac
           console.log('error in request to add',eve);
         };
         request2.onsuccess = (ev) => {
-          
             console.log('successfully added an object',ev);
+        
           };
           request2.onerror = (eve) => {
             console.log('error in request to add',eve);
@@ -197,8 +198,8 @@ var ObjectStoreReac
 
 function verificarPasswords() {
  
- var pass1 = document.getElementById('Contraseña').value;
-  var pass2 = document.getElementById('Contraseña2').value;
+ var pass1 = document.getElementById('contrasenia').value;
+  var pass2 = document.getElementById('contrasenia2').value;
   
   if (pass1 != pass2) {
 
@@ -211,7 +212,7 @@ function verificarPasswords() {
   alert("Contarseña Correcta");
 
 }
-return true;
+//return true;
 }
 
 // validar que los campos esten completos y evitar registro
@@ -240,15 +241,13 @@ function manejadorValidacion(e) {
    
     
     function control(){
-        document.getElementById('controlE').addEventListener('submit',control);
-       
-           
+        //document.getElementById('controlE').addEventListener('submit',control);
             
             var Usuario= document.querySelector("#Usuario").value;
-            var Contraseña = document.querySelector("#Contraseña").value;
-            console.log("apunto de iniciar"+Usuario);
+            var Contrasenia = document.querySelector("#contraseniaL").value;
+            console.log("apunto de iniciar"+ Usuario);
            
-            var transaction = db.transaction(["Autenticasion"]); //readonly
+            var transaction = db.transaction(["Autenticasion"],"readonly"); //readonly
             var objectStore = transaction.objectStore("Autenticasion");
             var request = objectStore.get(Usuario);
             
@@ -259,15 +258,15 @@ function manejadorValidacion(e) {
                };
                request.onsuccess = function () {
                 
-                if(Contraseña == request.result.Contraseña){
+                if(Contrasenia == request.result.Contrasenia){
               
                   alert("Inicio de sesion exitosa");
               
-                 control (window.location.href='index.html');
+                 control (window.location.href='/index.html');
                 
                  }
                  
-                 else if ( Contraseña !== request.result ) {
+                 else if ( Contrasenia !== request.result ) {
                   alert("Verifique su contraseña");
                 }
                 
@@ -1150,11 +1149,7 @@ function ResOpMul(){
         var Titulo = document.getElementById("Titulo").value.trim();
         var Objetivo = document.getElementById("floatingTextarea2").value.trim();
         var Instrucciones = document.getElementById('floatingTextarea21').value.trim();
-<<<<<<< HEAD
         var form = document.getElementById('formulario');
-=======
-        var form = document.getElementById('formularioC');
->>>>>>> f37d8607956177b901fb21696a8744fb79b38191
 
       form.addEventListener('submit', function(eve){
       eve.preventDefault();
