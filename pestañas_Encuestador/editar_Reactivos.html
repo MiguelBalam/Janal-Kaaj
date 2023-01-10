@@ -81,7 +81,7 @@
                                 aria-label="Default select example" NAME="Tipos" onChange="TiposOnChange(this)">
                                 <option selected value="6">Opciones</option>
                                 <option value="1">Abiertas</option>
-                                <option value="2">Cerradas</option>
+                                <option value="2">Si / No</option>
                                 <option value="3">Opción Multiple</option>
                                 <option value="4">Opción Multiple respuesta unica</option>
                             </select>
@@ -178,7 +178,7 @@
                 <div class="p-4 col-sm-12 px-3 text-center">
 
                     <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" id="boton_guardar"
-                        onclick="ResOpMul(),CrearReactivo()">Actualizar</button>
+                        onclick="ResOpMul(), editReactivos()">Actualizar</button>
 
                     <button onclick="window.location.href='../pestañas_Encuestador/crear.html'"
                         class="btn btn-outline-success bg-border-mostaza bg-text-mostaza">Guardar</button>
@@ -210,4 +210,7 @@
 
     </div>
     <script src="../BD/app.js"></script>
+    <link rel="stylesheet" href="../node_modules/@sweetalert2/themes/bootstrap-4/bootstrap-4.min.css">
+    <script src="../node_modules/sweetalert2/dist/sweetalert2.all.js"></script>
+    <script src="/CSS/SweetAlert.js"></script>
 </body>

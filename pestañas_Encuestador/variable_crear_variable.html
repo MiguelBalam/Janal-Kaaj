@@ -68,31 +68,33 @@
                 
 
                     <div class="col-sm-12 text-center">
+                        <button type="button" class="btn btn-outline-success bg-border-mostaza bg-text-mostaza"
+                            onclick="CrearVariable(), notiCrearVariables(), limpiarFormulario()" id="boton_crear_variable" disabled>Crear</button>
+
+                        <button type="button" class="btn btn-outline-success bg-border-mostaza bg-text-mostaza"
+                            onclick="editarvariable(),notiEditarVariables(), limpiarFormulario()"
+                            id="boton_guardar_variable" disabled>Guardar</button>
+
                         <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza"
-                            onclick="CrearVariable(), notiCrearVariables()" id="boton_añadir">Crear</button>
-                        <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza"
-                            onclick="window.location.href='../pestañas_Encuestador/variable_tipo_variable.html'"
-                            id="boton_guardar">Guardar</button>
-                        <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza"
-                            onclick="return cancelar3()" class="btn btn-outline-success bg-border-mostaza bg-text-mostaza">Cancelar</button>
+                            onclick="return cancelar3()" class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" id="boton_cancelar">Cancelar</button>
                     </div>
 
                 </div>
 
                 <h3 class="bg-text-black text-center p-3 text-uppercase text-black">Vista Previa Variables</h3>
 
-                <table id="tabla1" class="table align-middle">
-                    <tr>
+                <div class=" col-sm-12 col-form-label px-5">
+                <div class="card-header ">
+                    Variables de la encuesta
+                    <div class="container">
+                        <div class="row">
+                            <div id="salidaVarC"></div>
+                        </div>
+                    </div>
+                </div>
 
-                    </tr>
-                    <tr>
-                        <td>
-                            <ol class="listV">
-                                <!-- build list here -->
-                            </ol>
-                        </td>
-                    </tr>
-                </table>
+            </div>
+                
             </div>
     </div>
     </section>
