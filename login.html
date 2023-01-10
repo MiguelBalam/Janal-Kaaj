@@ -18,10 +18,10 @@
     <!-- Contraseña segura -->
 
 <!--<script type='text/javascript' src='contraseña.js'></script>-->
-<script type='text/html' src='Registro.html'></script>
+<!-- <script type='text/html' src='Registro.html'></script>
 
     
-    <script type='text/html' src='Registro.html'></script>
+    <script type='text/html' src='Registro.html'></script> -->
 
 </head>
 <!-- prueba -->
@@ -31,7 +31,7 @@
 
         <div class="form-container ">
             <h1 class="bg-text-black h1TextoTitulo">Janal-Kaaj</h1>
-            <form action="#">
+            <form>
 
                 <div class="control">
                     <label for="Usuario">  Usuario </label>
@@ -39,31 +39,28 @@
 
                 </div>
                 <div class="control">
-                    <label for="Contraseña">Contraseña</label>
-
-                    <input class="input-contraseña" type="password" placeholder="Contraseña" name="Contraseña" id="Contraseña" required>
+                    <label for="contraseniaL">Contraseña</label>
+                    <input class="input-contraseña" type="password" placeholder="Contraseña" name="contraseniaL" id="contraseniaL" required>
                 </div>
-
-                
-                <!-- <span>  <input type="checkbox" > Recordar </span> -->
-                
+            
             </form>
+                <span>  <input type="checkbox" > Recordar </span>
+          
+                <div class="control">
 
-            <div class="control">
 
+                    <input type="submit" id="controlE" class="submit" onclick="control()" value="INICIAR SESIÓN" >
+                    <input type="button" class="submit" onclick="window.location.href='form_encuestador.html' ;" value="REGISTRARSE">
 
-                <input type="submit" id="controlE" onclick="control()" value="INICIAR SESIÓN" >
-                <input type="button" class="submit" onclick="window.location.href='form_encuestador.html' ;" value="REGISTRARSE">
-
-            </div>
-
+                </div>
+            
             <div class="link">
                 <a href="https://drive.google.com/drive/u/0/shared-with-me"> ¿Olvidaste tu Contraseña?</a>
 
             </div>
         </div>
     </section>
-    <script src="../BD/app.js"></script>
+    <script  src="BD/app.js"></script>
  
 </body>
 
