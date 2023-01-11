@@ -374,6 +374,23 @@ background-color: var(--mostaza) !important;
             border-color: var(--mostaza) !important;
         }
 
+#disenio_boton:hover{
+background-color: var(--mostaza) !important;
+color: rgb(255, 255, 255) !important;
+border-color: var(--mostaza) !important;
+}
+
+#boton_crear_variable:hover{
+background-color: var(--mostaza) !important;
+color: rgb(255, 255, 255) !important;
+border-color: var(--mostaza) !important;
+}
+
+#boton_guardar_variable:hover{
+background-color: var(--mostaza) !important;
+color: rgb(255, 255, 255) !important;
+border-color: var(--mostaza) !important;
+}
 
 /* Termina */
 .form-control {
@@ -459,12 +476,6 @@ background-color: var(--mostaza) !important;
   z-index: 2;
 }
 
-/* scroll de la tabla - variables */
-
-.table-responsibe{
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-}
 
 ol {
     list-style-type: none;

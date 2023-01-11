@@ -50,35 +50,43 @@
                             Seleccione las variables
                         </div>
                         <div class="p-3">
-                           
-                            
-                            <div id="salidaVarC"></div> 
-                        
 
-                        <div class="p-4 col-sm-12 px-3 text-center">
 
-                                <button onclick="window.location.href='../pestañas_Encuestador/variable_selec_variable.html'" class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" id="boton_guardar" name="boton_guardar"
-                                >Guardar</button>
-            
-                                 <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" id="boton_crear"
-                                onclick="window.location.href='../pestañas_Encuestador/variable_crear_variable.html'">Crear variables</button>                           
-                         
+                            <div id="salidaVarC"></div>
+
+
+                            <!-- <div class="col-md-3 text-center">
                                 <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza"
                                     onclick="location.href='../pestañas_Encuestador/reactivos.html'"
                                     id="boton_crear"><img src="../Img/borrar.png" height="18px" width="18px"> </button>
-                      
-                                <button onclick="Variables(), window.location.href='../pestañas_Encuestador/editar_Variables.html'" class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" 
-                                id="boton_editar">Editar</button>
+                            </div>
 
-                        </div>
+                            <div class="col-md-3 text-center">
+                                <button type="button" onclick="" class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" 
+                                id="boton_editar">Editar</button> -->
+
+                                <div class="row mb-4">
+
+                                    <div class="col-sm-12 text-center">
+                                        <button onclick="window.location.href='../pestañas_Encuestador/crear_Evariables.html'"  class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" id="boton_volver">Guardar</button>
+                                        <!-- <button onclick="Variables()" class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" id="boton_editar">Editar</button> -->
+                                        <!-- <button onclick="activar()" class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" id="guardarV">Guardar</button> -->
+                                    </div>
+        
+                                </div>
+
                         </div>
                     </div>
                 </div>
-
             </div>
-        </section>
+
+    </div>
+    </section>
     </div>
     <script src="../BD/app.js"></script>
+    <link rel="stylesheet" href="../node_modules/@sweetalert2/themes/bootstrap-4/bootstrap-4.min.css">
+    <script src="../node_modules/sweetalert2/dist/sweetalert2.all.js"></script>
+    <script src="../CSS/SweetAlert.js"></script>
 
 
 </body>

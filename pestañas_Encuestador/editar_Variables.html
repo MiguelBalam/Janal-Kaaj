@@ -67,12 +67,12 @@
                 <div class="row mb-4">
 
                     <div class="col-sm-12 text-center">
-                        <button onclick="CrearVariable()" id="boton_añadir"
+                        <button onclick="CrearVariable(), actuVariable()" id="boton_añadir"
                             class="btn btn-outline-success bg-border-mostaza bg-text-mostaza">Actualizar</button>
                         <button onclick="window.location.href='../pestañas_Encuestador/variable_tipo_variable.html'"
                             id="boton_guardar"
                             class="btn btn-outline-success bg-border-mostaza bg-text-mostaza">Guardar</button>
-                        <button onclick="cancelar2()"
+                        <button onclick="return cancelar2()"
                             class="btn btn-outline-success bg-border-mostaza bg-text-mostaza">Cancelar</button>
                     </div>
 
@@ -98,7 +98,8 @@
     </section>
     </div>
     <script src="../BD/app.js"></script>
-    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="../node_modules/@sweetalert2/themes/bootstrap-4/bootstrap-4.min.css">
+    <script src="../node_modules/sweetalert2/dist/sweetalert2.all.js"></script>
     <script src="/CSS/SweetAlert.js"></script>
 </body>
 
