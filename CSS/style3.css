@@ -1,0 +1,306 @@
+.Poppins {
+  font-family: 'Poppins', sans-serif;
+  color: rgb(0, 0, 0);
+}
+
+.Spartan {
+  font-family: 'League Spartan', sans-serif;
+  color: rgb(0, 0, 0);
+}
+
+.IBM {
+  font-family: 'IBM Plex Sans', sans-serif;
+}
+.navbar {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 0.4rem;
+  padding-bottom: 0.4rem;
+}
+  #mainNav {
+    background-color: #ffffff;
+  }
+  .sticky-top{
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    z-index: 1030;
+  }
+  .navbar .nav-item .nav-link {
+    color: rgb(0, 0, 0);
+  }
+.nav-link{
+    display: block;
+    padding: 0.5rem 1rem;
+    color: #f2be5c;
+    text-decoration: none;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .nav-link {
+      transition: none;
+    }
+  }
+  #mainNav  .nav-link:hover, .nav-link:focus {
+    color: #f2be5c;
+  }
+  #mainNav .nav-link.disabled {
+    color: #6c757d;
+    pointer-events: none;
+    cursor: default;
+  }
+
+#mainNav .navbar-toggler {
+  padding: 0.75rem;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  font-weight: 700;
+
+}
+#mainNav .navbar-brand {
+  color: #f2be5c;
+  font-weight: 700;
+  padding: 0.75rem;
+  letter-spacing: 0.0625em;
+  text-transform: uppercase;
+}
+
+#mainNav .navbar-nav .nav-item .nav-link {
+  font-size: 0.95rem;
+  color: rgb(0, 0, 0);
+  letter-spacing: 0.0625em;
+}
+#mainNav .navbar-nav .nav-item .nav-link.active, #mainNav .navbar-nav .nav-item .nav-link:hover {
+  color: #f2be5c;
+}
+
+
+.navbar-toggler {
+  padding: 0.25rem 0.75rem;
+  font-size: 1.25rem;
+  line-height: 1;
+  background-color: #f2be5c;
+  border: 1px solid transparent;
+  border-radius: 0.25rem;
+  transition: box-shadow 0.15s ease-in-out;
+}
+  
+  .masthead {
+    position: relative;
+    background-image: url("../pestanas_Encuestado/Img/5.jpg");
+    background-size: cover;
+    background-position: center center;
+    min-height: 550px;
+  }
+  .masthead2 {
+    position: relative;
+    background-image: url("../pestanas_Encuestado/Img/4.jpg");
+    background-size: cover;
+    background-position: center center;
+    min-height: 550px;
+  }
+  
+  .background-overlay {
+    background: rgba(47, 54, 64, 0.4);
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    position: absolute;
+  }
+  
+  .form-control, .btn{
+    border-radius: 0;
+  }
+  
+  .team, footer {
+    background: #c9f2e7;
+  }
+  .footerB{
+    background: #f2be5c;
+    color: #f2be5c;
+  }
+
+  .btn {
+    background-color: #f2be5c;
+    border: #f2be5c;
+    width: 150px;
+    height: 40px;
+    margin: 4px 2px;
+    border-radius: 1rem;
+  }
+
+  .btn-dark {
+    color: rgb(0, 0, 0);
+    background-color: #ffffff;
+    border-color: #ffffff;
+  }
+  .btn-dark:hover {
+    color: rgb(0, 0, 0);
+    background-color: #ffffff;
+    border-color: #ffffff;
+  }
+  .btn-social {
+    height: 2.5rem;
+    width: 2.5rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border-radius: 100%;
+  }
+  .section {
+    position: relative;
+    height: 100vh;
+    width: 100%;
+    background-size: cover;
+    background-position: center center;
+    background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url(/pestanas_Encuestado/Img/2.jpg);
+    
+}
+
+.form-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #ffffff;
+    opacity: 0.95;
+    width: 680px;
+    padding: 50px 30px;
+    border-radius: 10px;
+    box-shadow: 1px 1px 10px rgb(0, 0, 0);
+}
+.form-control {
+  background-color: #E8EEEB;
+  opacity: 0.8;
+}
+
+
+.main{
+  margin: auto;
+  width: 90%;
+  max-width: 1000px;
+  background-image: linear-gradient(to left, rgba(255, 255, 255, 0.472), rgba(255, 255, 255, 0.365));
+  overflow: hidden;
+  padding: .7em;
+  border-radius: 1em;
+  display: grid;
+  grid-auto-rows: max-content;
+  grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+  gap: .6em;
+
+  animation: mostrar 1.5s ease-in-out;
+}
+
+@keyframes mostrar {
+  0%{
+      opacity: 0;
+  }
+
+  100%{
+      opacity: 1;
+  }
+}
+
+.main__figure{
+  overflow: hidden;
+  border-radius: 1em;
+  background-color: #D798F8;
+  display: flex;
+}
+
+.main__img{
+  margin: auto;
+  width: 80%;
+  max-width: 60vw;
+}
+
+.main__contact{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1.5em;
+  padding: 3em .7em;
+  text-align: center;
+}
+
+.main__form{
+  display: grid;
+  justify-items: center;
+  gap: 1.5em;
+}
+
+.main__input{
+  width: 80%;
+  max-width: 500px;
+  outline: none;
+  border: none;
+  padding: 1em;
+  font: inherit;
+  border-radius: .6em;
+  background-color: #eeeeee;
+  
+}
+
+.form-control{
+  display: block;
+  width: 80%;
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #212529;
+  background-color: #eeeeee;
+  background-clip: padding-box;
+  border: 1px solid #ced4da;
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  border-radius: 0.25rem;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.main__input--send{
+  background-color: #DC3F31;
+  color: #fff;
+  font-weight: 600;
+}
+
+.main__title{
+  font-size: 2.3rem;
+}
+
+.main__paragraph{
+  margin: .3em 0;
+}
+
+
+.main__social{
+  display: grid;
+  grid-auto-flow: column;
+  justify-content: center;
+  grid-auto-columns: max-content;
+  gap: 1em;
+}
+
+.main__link{
+  border: 1px solid #fff;
+  border-radius: 10px;
+  padding: .6em 1.5em;
+}
+
+.main__link:hover{
+  background-color: #fff;
+}
+
+.main__icon{
+  width: 30px;
+  height: 30px;
+}
+
+  
+ 
