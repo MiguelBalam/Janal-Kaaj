@@ -298,6 +298,11 @@ input {
     color: rgb(255, 255, 255) !important;
     border-color: var(--mostaza) !important; 
 }
+.btn:hover {
+    background-color: var(--mostaza) !important;
+    color: rgb(255, 255, 255) !important;
+    border-color: var(--mostaza) !important; 
+}
 #boton_crear:hover {
     background-color: var(--mostaza) !important;
     color: rgb(255, 255, 255) !important;

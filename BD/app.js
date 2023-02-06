@@ -71,14 +71,16 @@ var ObjectStoreReac
       Encuesta1()
       Variables()
       buscar()
-      // buscarV()
-      // buscarE()
-      // buscar2()
+      buscarE()
       buscarVar()
       buscarVar2()
       busVaC()
-     // buscarLista();
+      creEncuestaR();
+     // buscarLista(); 
       buildList();
+      mostrarSelecReac();
+      BusVa();
+    
     });
 
 
@@ -408,13 +410,13 @@ function manejadorValidacion(e) {
             cadena +="<td>"+cursor.value.id+"</td>";
             // cadena +="<td>"+cursor.value.CategoriaReactivo+"</td>";
             // cadena +="<td>"+cursor.value.owned+"</td>";
-            // cadena +="<td>"+cursor.value.TipoRes+"</td>";
-            cadena += "<td><button class='btn btn-outline-success bg-border-mostaza bg-text-mostaza' id= 'b"+id+"'><img src='../Img/borrar.png' height='18px width='18px'></button></td>";
+            // cadena +="<td>"+cursor.value.TipoRes+"</td>"; 
+            cadena += "<td><button class='btn btn-outline-success bg-border-mostaza bg-text-mostaza  ' id='b" +id+"'><img src='../Img/borrar.png' height='18px width='18px'></button></td>";
             //cadena += "<td><button id= 'e"+id+"'>Editar</button></td>"
             //cadena +="<td><button id='m"+id+"'<img src='../Img/edit.svg'  height='18px'width='18px'>></button></td>";
             cadena += "</tr>"; 
             ids_array.push(id); //para guardar / correr espacio
-            num++;
+            num++; 
             cursor.continue();
       
           }else{
@@ -454,7 +456,44 @@ function manejadorValidacion(e) {
      }
     
     }
+ 
+    function mostrarSelecReac(){
+      var cadena ="<table class= 'table table-bordered'>";
+       //cadena += "";
+       var num =0;
+       var id_array = new Array();
 
+       //leer cursor
+       var objectStore = db.transaction("preguntaReactivos").objectStore("preguntaReactivos");
+       objectStore.openCursor().onsuccess= function(e){
+        var cursor = e.target.result;
+        if(cursor){
+          id = cursor.value.value;
+          //cadena += "";
+          cadena += "<tr>";
+          //cadena +="<td><input type ='checkbox' id='s"+id+"'></input></td>";
+          cadena +="<td>"+cursor.value.value+"</td>";
+          cadena += "<tr>";
+          //cadena += "<td>+<button id='m"+Descripcion+"'>Seleccionar</button></td></tr>";
+          id_array.push(id);
+          num ++;
+          //continuamos siguiente objeto
+          cursor.continue();
+
+        }else{
+          cadena += "</table>";
+          document.getElementById("salidaSelec").innerHTML = cadena;
+
+          for(var i=0; i<id_array.length; i++){
+            document.getElementById("s"+id).onclick= selec;
+            id = id_array[i];
+            //document.getElementById("m"+id).onclick= Editar;
+
+          }
+        }
+       }
+
+    }
 
     // funcion para seleccionar checkbox
 //-----------------------------------------------------------------------------------------------------------------------
@@ -464,7 +503,6 @@ function manejadorValidacion(e) {
       var id= e.target.id;
       var llave = id.substring(1);
       // console.log(id,llave);
-    
       if(confirm(llave)){
         var tx =db.transaction("Reactivos","readwrite");
         var objectStore = tx.objectStore("Reactivos");
@@ -479,7 +517,7 @@ function manejadorValidacion(e) {
       if(llave){
         var tx =db.transaction("preguntaReactivos","readwrite");
         var objectStore = tx.objectStore("preguntaReactivos");
-         objectStore.add(llave)
+         objectStore.add(llave )
        }
     }
 
@@ -582,7 +620,7 @@ function manejadorValidacion(e) {
              if(confirm(llave)){
                var tx =db.transaction("selecVariables","readwrite");
                var objectStore = tx.objectStore("selecVariables");
-               var request = objectStore.add(llave);
+               var request = objectStore.add(llave, );
    
                request.onsuccess =function(){
               //  console.log(llave)
@@ -596,7 +634,7 @@ function manejadorValidacion(e) {
 // salida de tipos encuesta
 //mostrar 
 //-----------------------------------------------------------------------------------------------------------------------
-         function buscarE(){
+         function buscarE(){ 
           var cadena = "";
           cadena += "";
           var num =0;
@@ -775,42 +813,45 @@ function manejadorValidacion(e) {
     })
         //validarER() 
        }
-
-      //   function CrearEncuesta() {
+// crear encuesta reactivos ------------------------------------------------------------------------------
+        // function CrearEncuesta() {
         
-      //     var Titulo = document.getElementById("Titulo").value.trim();
-      //     var Objetivo = document.getElementById("floatingTextarea2").value.trim();
-      //     var Instrucciones = document.getElementById('floatingTextarea2').value.trim();
-      //     var form = document.getElementById('formularioC');
+        //   var Titulo = document.getElementById("Titulo").value.trim();
+        //   var Objetivo = document.getElementById("floatingTextarea2").value.trim();
+        //   var Instrucciones = document.getElementById('floatingTextarea21').value.trim();
 
-      //   form.addEventListener('submit', function(eve){
-      //   eve.preventDefault();
-      //   var request = db.transaction(["Encuesta"], "readwrite")
-      //   .objectStore("Encuesta")
-      //   .add({Titulo:Titulo, Objetivo:Objetivo, Instrucciones:Instrucciones});
 
-      //   request.onsuccess = function(e){
+        //   // Variable form confirmar funcionamiento
+        //   // var form = document.getElementById('formularioR');
+
+        // // form.addEventListener('submit', function(eve){
+        // // eve.preventDefault();
+        // var request = db.transaction(["Encuesta"], "readwrite").objectStore("Encuesta")
+        // .add({Titulo:Titulo, Objetivo:Objetivo, Instrucciones:Instrucciones});
+
+        // request.onsuccess = function(e){
         
-      //      console.log(e);
-      //      alert("se inserto los datos");
-      //      buscar();
-      //      buscar2();
-      //      buscarE();   
-      //   };
-      //   if(Titulo.value === null ||  Titulo.value === ''){
-      //     alert("Ingrese un titulo");
-      //   }
-      //   if(Objetivo.value === null ||  Objetivo.value === ''){
-      //     alert("Ingrese un Objetivo");
-      //   }
-      //   if(Instrucciones.value === null ||  Instrucciones.value === ''){
-      //     alert("Ingrese Instrucciones");
-      //   }
-      //   return false;
+        //    console.log(e);
+        //    alert("Datos insertados", request.result);
+        //   //  buscar();
+        //   //  buscar2();
+        //   //  buscarE();   
+        // };
+        // if(Titulo.value === null ||  Titulo.value === ''){
+        //   alert("Ingrese un titulo");
+        // }
+        // if(Objetivo.value === null ||  Objetivo.value === ''){
+        //   alert("Ingrese un Objetivo");
+        // }
+        // if(Instrucciones.value === null ||  Instrucciones.value === ''){
+        //   alert("Ingrese Instrucciones");
+        // } 
+        // return false;
 
-      // })
-      //     //validarER() 
-      //    }
+
+      
+        //   //validarER() 
+        //  }
         
       
          function CrearReactivo(){
