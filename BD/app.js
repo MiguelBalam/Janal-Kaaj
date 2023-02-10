@@ -17,6 +17,7 @@ var ObjectStoreReac
         
         ObjectStore = db.createObjectStore("Usuario", {autoIncrement: true});
         ObjectStore.createIndex("Nombre","Nombre",{unique:true});
+        ObjectStore = db.createObjectStore("relacionReactivo", { keyPath:"correo", autoIncrement: true});
 
         ObjectStore=db.createObjectStore("Autenticasion",{keyPath:"correo", autoIncrement: true});
         ObjectStore.createIndex("correo","correo",{unique:true});
@@ -67,6 +68,7 @@ var ObjectStoreReac
     DBOpenReq.addEventListener('success',(ev)=>{
      
       db= ev.target.result;
+      mostrarSelecReac()
       buscar2()
       Encuesta1()
       Variables()
@@ -75,11 +77,13 @@ var ObjectStoreReac
       buscarVar()
       buscarVar2()
       busVaC()
-      creEncuestaR();
+      creEncuestaR()
      // buscarLista(); 
-      buildList();
-      mostrarSelecReac();
-      BusVa();
+      buildList()
+      mostrarSelecReac()
+      BusVa()
+      buscarReacCat()
+      selecReacCat()
     
     });
 
@@ -430,7 +434,48 @@ function manejadorValidacion(e) {
             }
           }
          
-    }
+    }}
+
+
+    function buscarReacCat(){
+      var cadena ="<table class= 'table table-bordered'>";
+      var num= 0;
+      var ids_array = new Array();
+      var objectStore = db.transaction("Encuesta_Reactivo").objectStore("Encuesta_Reactivo");
+      objectStore.openCursor().onsuccess = function(e){
+        var cursor = e.target.result;
+        if(cursor){
+          id= cursor.value.id;
+          CategoriaReactivo=cursor.value.Cate;
+          Descripcion=cursor.value.Descripcion;
+          // TipoRes=cursor.value.TipoRes;
+          cadena += "<tr>";
+          cadena +="<td><input type ='checkbox' id='flexCheckDefault"+id+"'></input></td>";
+          cadena +="<td>"+cursor.value.id+"</td>";
+          // cadena +="<td>"+cursor.value.CategoriaReactivo+"</td>";
+          // cadena +="<td>"+cursor.value.owned+"</td>";
+          // cadena +="<td>"+cursor.value.TipoRes+"</td>"; 
+          cadena += "<td><button class='btn btn-outline-success bg-border-mostaza bg-text-mostaza  ' id='b" +id+"'><img src='../Img/borrar.png' height='18px width='18px'></button></td>";
+          //cadena += "<td><button id= 'e"+id+"'>Editar</button></td>"
+          //cadena +="<td><button id='m"+id+"'<img src='../Img/edit.svg'  height='18px'width='18px'>></button></td>";
+          cadena += "</tr>"; 
+          ids_array.push(id); //para guardar / correr espacio
+          num++; 
+          cursor.continue();
+    
+        }else{
+          cadena += "</table>"
+          document.getElementById("salida2").innerHTML = cadena;
+    
+          for(var i=0; i<ids_array.length; i++){
+            id = ids_array[i];
+            document.getElementById("flexCheckDefault"+id).onclick= selecReacCat;  // s para seleccionar checkbox
+            document.getElementById("b"+id).onclick= borrar; 
+          }
+        }
+       
+  }
+
 
 
     function borrar(e){
@@ -485,7 +530,7 @@ function manejadorValidacion(e) {
           document.getElementById("salidaSelec").innerHTML = cadena;
 
           for(var i=0; i<id_array.length; i++){
-            document.getElementById("s"+id).onclick= selec;
+            document.getElementById("s"+id2).onclick= selec;
             id = id_array[i];
             //document.getElementById("m"+id).onclick= Editar;
 
@@ -501,16 +546,26 @@ function manejadorValidacion(e) {
     function selec(e){
       // console.log("seleccionar",e);
       var id= e.target.id;
+
+      var llave = id;
+      console.log(id,llave);
+
       var llave = id.substring(1);
       // console.log(id,llave);
+    
+
       if(confirm(llave)){
         var tx =db.transaction("Reactivos","readwrite");
         var objectStore = tx.objectStore("Reactivos");
         var request = objectStore.get(llave)
         request.onsuccess =function(){
         
-          // alert ("Elementos seleccionados"+llave);
-          
+          alert ("Elementos seleccionados"+llave);
+          var id2 = llave.value
+          var tx =db.transaction("preguntaReactivos","readwrite");
+          var objectStore = tx.objectStore("preguntaReactivos");
+           objectStore.add({id2:llave})
+
         }
       
       }
@@ -520,6 +575,37 @@ function manejadorValidacion(e) {
          objectStore.add(llave )
        }
     }
+
+    
+    function selecReacCat(e){
+      // console.log("seleccionar",e);
+      var id= e.target.id;
+    
+      var llave = id;
+      console.log(id,llave);
+
+      var llave = id.substring(1);
+      // console.log(id,llave);
+    
+
+      if(confirm(llave)){
+        var tx =db.transaction("Encuesta_Reactivo","readwrite");
+        var objectStore = tx.objectStore("Encuesta_Reactivo");
+        var request = objectStore.get(llave)
+        request.onsuccess =function(){
+        
+          alert ("Elementos seleccionados"+llave);
+
+        }
+      
+      }
+      if(llave){
+        var tx =db.transaction("preguntaReactivos","readwrite");
+        var objectStore = tx.objectStore("preguntaReactivos");
+         objectStore.add(llave )
+       }
+    }
+
 
 // termina 
 //-----------------------------------------------------------------------------------------------------------------------
@@ -560,7 +646,47 @@ function manejadorValidacion(e) {
         }
        }
 
+
     }
+
+
+    // function mostrarSelecReac(){
+    //   var cadena ="<table class= 'table table-bordered'>";
+    //    //cadena += "";
+    //    var num =0;
+    //    var id_array = new Array();
+
+    //    //leer cursor
+    //    var objectStore = db.transaction("preguntaReactivos").objectStore("preguntaReactivos");
+    //    objectStore.openCursor().onsuccess= function(e){
+    //     var cursor = e.target.result;
+    //     if(cursor){
+    //       id = cursor.value.value;
+    //       //cadena += "";
+    //       cadena += "<tr>";
+    //       //cadena +="<td><input type ='checkbox' id='s"+id+"'></input></td>";
+    //       cadena +="<td>"+cursor.value.value+"</td>";
+    //       cadena += "<tr>";
+    //       //cadena += "<td>+<button id='m"+Descripcion+"'>Seleccionar</button></td></tr>";
+    //       id_array.push(id);
+    //       num ++;
+    //       //continuamos siguiente objeto
+    //       cursor.continue();
+
+    //     }else{
+    //       cadena += "</table>";
+    //       document.getElementById("salidaSelec").innerHTML = cadena;
+
+    //       for(var i=0; i<id_array.length; i++){
+    //         document.getElementById("s"+id).onclick= selec;
+    //         id = id_array[i];
+    //         //document.getElementById("m"+id).onclick= Editar;
+
+    //       }
+    //     }
+    //    }
+
+    // }
 //termina 
 //variables predeterminadas
 //-----------------------------------------------------------------------------------------------------------------------
@@ -853,7 +979,20 @@ function manejadorValidacion(e) {
         //   //validarER() 
         //  }
         
+      function relacionReactivo(){
+        
+        var correo = document.getElementById('Usuario').value;
+        //var id = document.getElementById("ReactivoCre").value.trim();
+      var request = db.transaction(["relacionReactivo"], "readwrite").objectStore("relacionReactivo").add({correo:correo});
+      request.onsuccess = function(e){
+      if(correo == success){
+       
+      }
+        console.log(e);
       
+      }
+
+      }
          function CrearReactivo(){
           var id = document.getElementById("ReactivoCre").value.trim();
           var CategoriaReactivo=document.getElementById("CategoriaReactivos").value.trim();
@@ -877,6 +1016,7 @@ function manejadorValidacion(e) {
           request.onsuccess = (ev) => {
             buscar2();
             console.log('successfully added an object',ev);
+
           };
 
           function makeTX(storeName, mode) {
