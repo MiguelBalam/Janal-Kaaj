@@ -14,6 +14,7 @@ var ObjectStoreReac
     //Creacion de tablas u objetos
     DBOpenReq.addEventListener('upgradeneeded',(ev)=>{
         db = ev.target.result;
+       
         
         ObjectStore = db.createObjectStore("Usuario", {autoIncrement: true});
         ObjectStore.createIndex("Nombre","Nombre",{unique:true});
@@ -49,7 +50,7 @@ var ObjectStoreReac
         ObjectStore=db.createObjectStore("preguntaReactivos", {autoIncrement: true});
         ObjectStore=db.createObjectStore("selecVariables", {autoIncrement: true});
         //ObjectStoreReac=db.createObjectStore("Categorias", {autoIncrement: true});
-       
+        ObjectStore = db.createObjectStore("predeSelec", {autoIncrement: true});
         //ObjectStore.createIndex("Categoria","Categoria",{unique:true});
         
         ObjectStore= db.createObjectStore("Variables", {autoIncrement: true});
@@ -69,6 +70,7 @@ var ObjectStoreReac
      
       db= ev.target.result;
       mostrarSelecReac()
+      
       buscar2()
       Encuesta1()
       Variables()
@@ -464,13 +466,13 @@ function manejadorValidacion(e) {
     function selec(e){
       // console.log("seleccionar",e);
       var id= e.target.id;
-<<<<<<< HEAD
+
       var llave = id;
       console.log(id,llave);
-=======
+
       var llave = id.substring(1);
       // console.log(id,llave);
->>>>>>> 90b4b85709de12f36287249e7b3b2d127eb57d8e
+
     
       if(confirm(llave)){
         var tx =db.transaction("Reactivos","readwrite");
@@ -478,16 +480,16 @@ function manejadorValidacion(e) {
         var request = objectStore.get(llave)
         request.onsuccess =function(){
         
-<<<<<<< HEAD
+
           alert ("Elementos seleccionados"+llave);
           var id2 = llave.value
           var tx =db.transaction("preguntaReactivos","readwrite");
           var objectStore = tx.objectStore("preguntaReactivos");
            objectStore.add({id2:llave})
-=======
+
           // alert ("Elementos seleccionados"+llave);
           
->>>>>>> 90b4b85709de12f36287249e7b3b2d127eb57d8e
+
         }
       
       }
@@ -527,17 +529,86 @@ function manejadorValidacion(e) {
           document.getElementById("salida").innerHTML = cadena;
 
           for(var i=0; i<id_array.length; i++){
-            document.getElementById("s"+id).onclick= selec;
+            document.getElementById("s"+id).onclick= selec2;
             id = id_array[i];
             //document.getElementById("m"+id).onclick= Editar;
 
           }
         }
        }
-
-
+      
     }
 
+    function selec2(e){
+      // console.log("seleccionar",e);
+      var id= e.target.id;
+
+      var llave = id;
+      console.log(id,llave);
+
+      var llave = id.substring(1);
+      // console.log(id,llave);
+
+    
+      if(confirm(llave)){
+        var tx =db.transaction("Encuesta_Reactivo","readwrite");
+        var objectStore = tx.objectStore("Encuesta_Reactivo");
+        var request = objectStore.get(llave)
+        request.onsuccess =function(){
+        
+
+          alert ("Elementos seleccionados"+llave);
+          var idP = llave.value
+          var tx = db.transaction("predeSelec","readwrite");
+          var objectStore = tx.objectStore("predeSelec");
+           objectStore.add({idP:llave})
+
+          // alert ("Elementos seleccionados"+llave);
+        }
+      
+      }
+      // if(llave){
+      
+      //  }
+    }
+
+    function predeSelecMos(){
+      var cadena ="<table class= 'table table-bordered'>";
+       //cadena += "";
+       var num =0;
+       var id_array = new Array();
+
+       //leer cursor
+       var objectStore = db.transaction("predeSelec").objectStore("predeSelec");
+       objectStore.openCursor().onsuccess= function(e){
+        var cursor = e.target.result;
+        if(cursor){
+          id = cursor.value.idP;
+          //cadena += "";
+          cadena += "<tr>";
+          //cadena +="<td><input type ='checkbox' id='s"+id+"'></input></td>";
+          cadena +="<td>"+cursor.value.idP+"</td>";
+          cadena += "<tr>";
+          //cadena += "<td>+<button id='m"+Descripcion+"'>Seleccionar</button></td></tr>";
+          id_array.push(id);
+          num ++;
+          //continuamos siguiente objeto
+          cursor.continue();
+
+        }else{
+          cadena += "</table>";
+          document.getElementById("salidapredeSelec").innerHTML = cadena;
+
+          // for(var i=0; i<id_array.length; i++){
+          //   document.getElementById("s"+id).onclick= selec;
+          //   id = id_array[i];
+          //   //document.getElementById("m"+id).onclick= Editar;
+
+          // }
+        }
+       }
+
+    }
 
     function mostrarSelecReac(){
       var cadena ="<table class= 'table table-bordered'>";
@@ -550,11 +621,11 @@ function manejadorValidacion(e) {
        objectStore.openCursor().onsuccess= function(e){
         var cursor = e.target.result;
         if(cursor){
-          id = cursor.value.value;
+          id = cursor.value.id2;
           //cadena += "";
           cadena += "<tr>";
           //cadena +="<td><input type ='checkbox' id='s"+id+"'></input></td>";
-          cadena +="<td>"+cursor.value.value+"</td>";
+          cadena +="<td>"+cursor.value.id2+"</td>";
           cadena += "<tr>";
           //cadena += "<td>+<button id='m"+Descripcion+"'>Seleccionar</button></td></tr>";
           id_array.push(id);
@@ -1575,7 +1646,8 @@ function ResOpMul(){
 
    //mostrar reactivo segun categoria
 function buscar3(){
-  var cadena3 = "";
+  
+  var cadena3 ="<table class= 'table table-bordered'>";
   cadena3 += "";
   var num =0;
   var id_array = new Array();
@@ -1595,11 +1667,15 @@ function buscar3(){
 
                   var cursor = e.target.result;
                   if(cursor){
-                    index = cursor.value.Descripcion;
+                    cadena3+= "<tr>"
+                    id = cursor.value.Descripcion;
+                    cadena3 +="<td><input type ='checkbox' id='s"+index+"'></input></td>";
+                    cadena3 +="<td>"+cursor.value.Descripcion+"</td>";
+                    cadena3+= "<tr>";
                     //cadena3 += "";
-                    cadena3+="<input name='checkR'class='form-check-input' type='checkbox' value='' id='flexCheckDefault'>"+cursor.value.Descripcion+"<br></td>"
+                    // cadena3+="<input name='checkR'class='form-check-input' type='checkbox' value='' id='flexCheckDefault'>"+cursor.value.Descripcion+"<br></td>"
                     //cadena += "<td>+<button id='m"+Descripcion+"'>Seleccionar</button></td></tr>";
-                    id_array.push(index);
+                    id_array.push(id);
                     num ++;
                     //continuamos siguiente objeto
                     cursor.continue();
@@ -1609,6 +1685,7 @@ function buscar3(){
                     document.getElementById("salida3").innerHTML = cadena3;
       
                     for(var i=0; i<id_array.length; i++){
+                      document.getElementById("s"+index).onclick= selec2;
                       id = id_array[i];
                       //document.getElementById("m"+id).onclick= Editar;
       
