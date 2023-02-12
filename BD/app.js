@@ -14,9 +14,11 @@ var ObjectStoreReac;
     //Creacion de tablas u objetos
     DBOpenReq.addEventListener('upgradeneeded',(ev)=>{
         db = ev.target.result;
+       
         
         ObjectStore = db.createObjectStore("Usuario", {autoIncrement: true});
         ObjectStore.createIndex("Nombre","Nombre",{unique:true});
+        ObjectStore = db.createObjectStore("relacionReactivo", { keyPath:"correo", autoIncrement: true});
 
         ObjectStore=db.createObjectStore("Autenticasion",{keyPath:"correo", autoIncrement: true});
         ObjectStore.createIndex("correo","correo",{unique:true});
@@ -48,7 +50,7 @@ var ObjectStoreReac;
         ObjectStore=db.createObjectStore("preguntaReactivos", {autoIncrement: true});
         ObjectStore=db.createObjectStore("selecVariables", {autoIncrement: true});
         //ObjectStoreReac=db.createObjectStore("Categorias", {autoIncrement: true});
-       
+        ObjectStore = db.createObjectStore("predeSelec", {autoIncrement: true});
         //ObjectStore.createIndex("Categoria","Categoria",{unique:true});
         
         ObjectStore= db.createObjectStore("Variables", {autoIncrement: true});
@@ -67,8 +69,14 @@ var ObjectStoreReac;
     DBOpenReq.addEventListener('success',(ev)=>{
      
       db= ev.target.result;
+<<<<<<< HEAD
       reactivoscrear()
       seleccionarvar()
+=======
+      mostrarSelecReac()
+      
+      buscar2()
+>>>>>>> b887682ad10399e2ae8abe298f55b3fc513253bd
       Encuesta1()
       Variables()
       buscar()
@@ -463,8 +471,13 @@ function manejadorValidacion(e) {
     function selec(e){
       // console.log("seleccionar",e);
       var id= e.target.id;
+
+      var llave = id;
+      console.log(id,llave);
+
       var llave = id.substring(1);
       // console.log(id,llave);
+
     
       if(confirm(llave)){
         var tx =db.transaction("Reactivos","readwrite");
@@ -472,16 +485,22 @@ function manejadorValidacion(e) {
         var request = objectStore.get(llave);
         request.onsuccess =function(){
         
+
+          alert ("Elementos seleccionados"+llave);
+          var id2 = llave.value
+          var tx =db.transaction("preguntaReactivos","readwrite");
+          var objectStore = tx.objectStore("preguntaReactivos");
+           objectStore.add({id2:llave})
+
           // alert ("Elementos seleccionados"+llave);
           
+
         }
       
       }
-      if(llave){
-        var tx =db.transaction("preguntaReactivos","readwrite");
-        var objectStore = tx.objectStore("preguntaReactivos");
-         objectStore.add(llave)
-       }
+      // if(llave){
+      
+      //  }
     }
 
 // termina 
@@ -513,6 +532,115 @@ function manejadorValidacion(e) {
         }else{
           cadena += "</table>";
           document.getElementById("salida").innerHTML = cadena;
+
+          for(var i=0; i<id_array.length; i++){
+            document.getElementById("s"+id).onclick= selec2;
+            id = id_array[i];
+            //document.getElementById("m"+id).onclick= Editar;
+
+          }
+        }
+       }
+      
+    }
+
+    function selec2(e){
+      // console.log("seleccionar",e);
+      var id= e.target.id;
+
+      var llave = id;
+      console.log(id,llave);
+
+      var llave = id.substring(1);
+      // console.log(id,llave);
+
+    
+      if(confirm(llave)){
+        var tx =db.transaction("Encuesta_Reactivo","readwrite");
+        var objectStore = tx.objectStore("Encuesta_Reactivo");
+        var request = objectStore.get(llave)
+        request.onsuccess =function(){
+        
+
+          alert ("Elementos seleccionados"+llave);
+          var idP = llave.value
+          var tx = db.transaction("predeSelec","readwrite");
+          var objectStore = tx.objectStore("predeSelec");
+           objectStore.add({idP:llave})
+
+          // alert ("Elementos seleccionados"+llave);
+        }
+      
+      }
+      // if(llave){
+      
+      //  }
+    }
+
+    function predeSelecMos(){
+      var cadena ="<table class= 'table table-bordered'>";
+       //cadena += "";
+       var num =0;
+       var id_array = new Array();
+
+       //leer cursor
+       var objectStore = db.transaction("predeSelec").objectStore("predeSelec");
+       objectStore.openCursor().onsuccess= function(e){
+        var cursor = e.target.result;
+        if(cursor){
+          id = cursor.value.idP;
+          //cadena += "";
+          cadena += "<tr>";
+          //cadena +="<td><input type ='checkbox' id='s"+id+"'></input></td>";
+          cadena +="<td>"+cursor.value.idP+"</td>";
+          cadena += "<tr>";
+          //cadena += "<td>+<button id='m"+Descripcion+"'>Seleccionar</button></td></tr>";
+          id_array.push(id);
+          num ++;
+          //continuamos siguiente objeto
+          cursor.continue();
+
+        }else{
+          cadena += "</table>";
+          document.getElementById("salidapredeSelec").innerHTML = cadena;
+
+          // for(var i=0; i<id_array.length; i++){
+          //   document.getElementById("s"+id).onclick= selec;
+          //   id = id_array[i];
+          //   //document.getElementById("m"+id).onclick= Editar;
+
+          // }
+        }
+       }
+
+    }
+
+    function mostrarSelecReac(){
+      var cadena ="<table class= 'table table-bordered'>";
+       //cadena += "";
+       var num =0;
+       var id_array = new Array();
+
+       //leer cursor
+       var objectStore = db.transaction("preguntaReactivos").objectStore("preguntaReactivos");
+       objectStore.openCursor().onsuccess= function(e){
+        var cursor = e.target.result;
+        if(cursor){
+          id = cursor.value.id2;
+          //cadena += "";
+          cadena += "<tr>";
+          //cadena +="<td><input type ='checkbox' id='s"+id+"'></input></td>";
+          cadena +="<td>"+cursor.value.id2+"</td>";
+          cadena += "<tr>";
+          //cadena += "<td>+<button id='m"+Descripcion+"'>Seleccionar</button></td></tr>";
+          id_array.push(id);
+          num ++;
+          //continuamos siguiente objeto
+          cursor.continue();
+
+        }else{
+          cadena += "</table>";
+          document.getElementById("salidaSelec").innerHTML = cadena;
 
           for(var i=0; i<id_array.length; i++){
             document.getElementById("s"+id).onclick= selec;
@@ -813,7 +941,20 @@ function manejadorValidacion(e) {
       //     //validarER() 
       //    }
         
+      function relacionReactivo(){
+        
+        var correo = document.getElementById('Usuario').value;
+        //var id = document.getElementById("ReactivoCre").value.trim();
+      var request = db.transaction(["relacionReactivo"], "readwrite").objectStore("relacionReactivo").add({correo:correo});
+      request.onsuccess = function(e){
+      if(correo == success){
+       
+      }
+        console.log(e);
       
+      }
+
+      }
          function CrearReactivo(){
           var id = document.getElementById("ReactivoCre").value.trim();
           var CategoriaReactivo=document.getElementById("CategoriaReactivos").value.trim();
@@ -837,6 +978,7 @@ function manejadorValidacion(e) {
           request.onsuccess = (ev) => {
             reactivoscrear();
             console.log('successfully added an object',ev);
+
           };
 
           function makeTX(storeName, mode) {
@@ -1580,7 +1722,8 @@ function ResOpMul(){
 
    //mostrar reactivo segun categoria
 function buscar3(){
-  var cadena3 = "";
+  
+  var cadena3 ="<table class= 'table table-bordered'>";
   cadena3 += "";
   var num =0;
   var id_array = new Array();
@@ -1600,11 +1743,15 @@ function buscar3(){
 
                   var cursor = e.target.result;
                   if(cursor){
-                    index = cursor.value.Descripcion;
+                    cadena3+= "<tr>"
+                    id = cursor.value.Descripcion;
+                    cadena3 +="<td><input type ='checkbox' id='s"+index+"'></input></td>";
+                    cadena3 +="<td>"+cursor.value.Descripcion+"</td>";
+                    cadena3+= "<tr>";
                     //cadena3 += "";
-                    cadena3+="<input name='checkR'class='form-check-input' type='checkbox' value='' id='flexCheckDefault'>"+cursor.value.Descripcion+"<br></td>"
+                    // cadena3+="<input name='checkR'class='form-check-input' type='checkbox' value='' id='flexCheckDefault'>"+cursor.value.Descripcion+"<br></td>"
                     //cadena += "<td>+<button id='m"+Descripcion+"'>Seleccionar</button></td></tr>";
-                    id_array.push(index);
+                    id_array.push(id);
                     num ++;
                     //continuamos siguiente objeto
                     cursor.continue();
@@ -1614,6 +1761,7 @@ function buscar3(){
                     document.getElementById("salida3").innerHTML = cadena3;
       
                     for(var i=0; i<id_array.length; i++){
+                      document.getElementById("s"+index).onclick= selec2;
                       id = id_array[i];
                       //document.getElementById("m"+id).onclick= Editar;
       
