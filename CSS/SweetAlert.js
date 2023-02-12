@@ -263,13 +263,13 @@ document.getElementById("boton-crear-encuesta").addEventListener("click", () => 
 
 
 
-function activarGuardar(){
- if( document.getElementById("boton_guardar_variable").disabled = false){
- }else{
-  document.getElementById("boton-crear-encuesta").disabled = true;
- }
+// function activarGuardar(){
+//  if( document.getElementById("boton_guardar_variable").disabled = false){
+//  }else{
+//   document.getElementById("boton-crear-encuesta").disabled = true;
+//  }
 
-}
+// }
 // -----------------------------------------------------------------
 
 function limpiarFormulario() {
