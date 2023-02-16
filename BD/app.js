@@ -1,7 +1,7 @@
 // creacion de la base de datos
 var db;
-var ObjectStore
-var ObjectStoreReac
+var ObjectStore;
+var ObjectStoreReac;
  (function conectarDB(){
     
    // let objectStore = null;
@@ -19,6 +19,12 @@ var ObjectStoreReac
         ObjectStore = db.createObjectStore("Usuario", {autoIncrement: true});
         ObjectStore.createIndex("Nombre","Nombre",{unique:true});
         ObjectStore = db.createObjectStore("relacionReactivo", { keyPath:"correo", autoIncrement: true});
+
+        //usuario
+
+        ObjectStore = db.createObjectStore("Usuariosactivo", {keyPath: "id"});
+        ObjectStore = db.createObjectStore("Usuarios", {autoIncrement: true});
+
 
         ObjectStore=db.createObjectStore("Autenticasion",{keyPath:"correo", autoIncrement: true});
         ObjectStore.createIndex("correo","correo",{unique:true});
@@ -69,9 +75,16 @@ var ObjectStoreReac
     DBOpenReq.addEventListener('success',(ev)=>{
      
       db= ev.target.result;
+<<<<<<< HEAD
       mostrarSelecReac()
       predeSelecMos()
       buscar2()
+=======
+    
+      Usuariosactivo()
+      reactivoscrear()
+      seleccionarvar()
+>>>>>>> e82cae26188f6c39f56307e8168c8608691d77d6
       Encuesta1()
       Variables()
       buscar()
@@ -138,8 +151,8 @@ var ObjectStoreReac
             var elementos = document.getElementsByName("inlineRadioOptions");
             for(var i=0; i<elementos.length; i++) {
               alert(" Elemento: " + elementos[i].value + "\n Seleccionado: " + elementos[i].checked);
-        };
-      }
+        }
+      };
         txA.oncomplete = (ev)=>{
 
           verificarPasswords();
@@ -254,7 +267,7 @@ function manejadorValidacion(e) {
             
             var Usuario= document.querySelector("#Usuario").value;
             var Contrasenia = document.querySelector("#contraseniaL").value;
-            console.log("apunto de iniciar"+ Usuario);
+            // console.log("apunto de iniciar"+ Usuario);
            
             var transaction = db.transaction(["Autenticasion"],"readonly"); //readonly
             var objectStore = transaction.objectStore("Autenticasion");
@@ -269,15 +282,15 @@ function manejadorValidacion(e) {
                 
                 if(Contrasenia == request.result.Contrasenia){
               
-                  alert("Inicio de sesion exitosa");
+                  // alert("Inicio de sesion exitosa");
               
-                 control (window.location.href='/index.html');
+                 control (window.location.href='../pestañas_Encuestador/reactivo_tipos_Encuestas.html');
                 
                  } else if ( Contrasenia !== request.result ) {
                   alert("Verifique su contraseña");
                 }
                 
-               }
+               };
               
         }
 
@@ -388,14 +401,110 @@ function manejadorValidacion(e) {
       };
       
       
-        console.log('suscess',db);
+        // console.log('suscess',db);
       
-      };
+      }
 
   //salida para las preguntas de reactivos en crear.html
   //-----------------------------------------------------------------------------------------------------------------------
 
-      function buscar2(){
+  function Usuariosactivo (){
+
+  
+
+
+  var iniciotran = db.transaction(["Usuariosactivo"],'readwrite');
+  iniciotran = iniciotran.objectStore(["Usuariosactivo"]);
+  var request = iniciotran.add({ id: 1, nombre: "Juan" });
+
+ iniciotran.onsucces = function (event) {
+  
+   console.log('Nuevo item agregado a la base de datos');
+};
+
+  }
+
+//   //iniciar sesion
+  
+//   function iniciarSesion(idUsuario) {
+//     var transaction = db.transaction(["Usuariosactivo"], "readwrite");
+//     var objectStore = transaction.objectStore("Usuariosactivo");
+//     var request = objectStore.get(idUsuario);
+//     request.onsuccess = function(event) {
+//       var data = event.target.result;
+//       data.activo = true;
+//       objectStore.put(data);
+//     };
+//   }
+
+// //para cerrar sesion
+
+//   function cerrarSesion(idUsuario) {
+//     var transaction = db.transaction(["Usuariosactivo"], "readwrite");
+//     var objectStore = transaction.objectStore("Usuariosactivo");
+//     var request = objectStore.get(idUsuario);
+//     request.onsuccess = function(event) {
+//       var data = event.target.result;
+//       data.activo = false;
+//       objectStore.put(data);
+//     };
+//   }
+
+//   function verUsuarioActivo() {
+//     var transaction = db.transaction(["Usuariosactivo"], "readonly");
+//     var objectStore = transaction.objectStore("Usuariosactivo");
+//     var index = objectStore.index("activo");
+//     var request = index.openCursor(IDBKeyRange.only(true));
+//     request.onsuccess = function(event) {
+//       var cursor = event.target.result;
+//       if (cursor) {
+//         console.log("Usuario activo: " + cursor.value.id);
+//         cursor.continue();
+//       } else {
+//         console.log("No hay ningún usuario activo");
+//       }
+//     };
+//   }
+
+function iniciarSesion() {
+  var transaction2 = db.transaction(["Usuariosactivo"], "readwrite");
+  var usuarioA = transaction2.objectStore("Usuariosactivo");
+ 
+ 
+   var request = usuarioA.get(id);
+
+  request.onsuccess = function(event) {
+
+    var usuarioEncontrado = event.target.id;
+
+    if (usuarioEncontrado) {
+
+      var transaction = db.transaction(["Usuarios"], "readwrite");
+      var usuarioS = transaction.objectStore("Usuarios");
+    
+      var request2 = usuarioS.add(id);
+      request2.onsuccess = function(event) {
+        console.log("Usuario " + usuarioEncontrado.nombre + " ha iniciado sesión" + event.target.result);
+      };
+    } else {
+      console.log("El usuario no existe");
+    }
+  };
+}
+
+function cerrarSesion(idUsuarioActivo) {
+  var transaction = db.transaction(["Usuariosactivo"], "readwrite");
+  var activos = transaction.objectStore("Usuariosactivo");
+  var request = activos.delete(idUsuarioActivo);
+  request.onsuccess = function(event) {
+    console.log("Usuario " + idUsuarioActivo + " ha cerrado sesión");
+  };
+}
+  
+
+
+  // 
+      function reactivoscrear(){
         var cadena ="<table class= 'table table-bordered'>";
         var num= 0;
         var ids_array = new Array();
@@ -432,7 +541,7 @@ function manejadorValidacion(e) {
             }
           }
          
-    }
+    };
 
 
     function borrar(e){
@@ -453,8 +562,8 @@ function manejadorValidacion(e) {
       request.onsuccess =function (e){
         // alert("eliminado"+llave)
         
-      }
-  buscar2()
+      };
+      reactivoscrear()
      }
     
     }
@@ -477,7 +586,7 @@ function manejadorValidacion(e) {
       if(confirm(llave)){
         var tx =db.transaction("Reactivos","readwrite");
         var objectStore = tx.objectStore("Reactivos");
-        var request = objectStore.get(llave)
+        var request = objectStore.get(llave);
         request.onsuccess =function(){
         
 
@@ -691,7 +800,7 @@ function manejadorValidacion(e) {
       
       }
      
-     }
+     };
    BusVa();
    
    }
@@ -710,7 +819,7 @@ function manejadorValidacion(e) {
    
                request.onsuccess =function(){
               //  console.log(llave)
-               }
+               };
           
              }
              //guardar()
@@ -754,7 +863,7 @@ function manejadorValidacion(e) {
 
              }
            }
-          }
+          };
    
        }
 
@@ -971,7 +1080,7 @@ function manejadorValidacion(e) {
           let request = store.put(Crear);
 
           request.onsuccess = (ev) => {
-            buscar2();
+            reactivoscrear();
             console.log('successfully added an object',ev);
 
           };
@@ -1040,7 +1149,7 @@ function manejadorValidacion(e) {
         };
       });
     
-     buscar2();
+      CrearReactivo();
 
     // borrar();
 
@@ -1208,7 +1317,7 @@ function borrar(e){
 buscarVar();
  }
 
-}
+
 
 
 
@@ -1234,11 +1343,82 @@ function modificar(e){
  activarGuardar();
     }
 else{
-alert("No se puede leer" +llave)
+  //  alert("No se puede leer" +llave);
 }
   };
 
 } 
+  }
+//selecionar las variables 
+//-----------------------------------------------------------------------------------------------------------------------
+function seleccionarvar(){
+  var cadena ="<table class= 'table table-bordered'>";
+  var num= 0;
+  var ids_array = new Array();
+  var objectStore = db.transaction("VariableC").objectStore("VariableC");
+  // var ObjectStore = db.transaction("Usuario").objectStore("Usuario");
+
+  objectStore.openCursor().onsuccess = function(e){
+    var cursor = e.target.result;
+    if(cursor){
+      creV= cursor.value.creV;
+      cadena += "<tr>";
+      cadena +="<td><input type ='checkbox' id='s"+creV+"'></input></td>";
+      cadena +="<td>"+cursor.value.creV+"</td>";
+      // cadena += "<td><button class='btn btn-outline-success bg-border-mostaza bg-text-mostaza' id= 'b"+creV+"'><img src='../Img/borrar.png' height='18px width='18px'></button></td>";
+      // cadena += "<td><button class='btn btn-outline-success bg-border-mostaza bg-text-mostaza' id= 'e"+creV+"'><img src='../Img/edit.svg' height='18px width='18px'></button></td>";
+      //cadena +="<td><button id='m"+id+"'<img src='../Img/edit.svg'  height='18px'width='18px'>></button></td>";
+      cadena += "</tr>";
+      ids_array.push(creV);
+      num++;
+      cursor.continue();
+
+    }else{
+      cadena += "</table>";
+      document.getElementById("salidaseleccionar").innerHTML = cadena;
+
+      for(var i=0; i<ids_array.length; i++){
+        id = ids_array[i];
+        document.getElementById("s"+id).onclick= seleccionarr;
+
+      }
+    }
+  };
+
+}
+
+
+function seleccionarr(e){
+  // console.log("seleccionar",e);
+  var id= e.target.id;
+  var llave = id.substring(1);
+  // console.log(id,llave);
+
+  if(confirm(llave)){
+    var tx =db.transaction("Reactivos","readwrite");
+    var objectStore = tx.objectStore("Reactivos");
+    var request = objectStore.get(llave);
+    request.onsuccess =function(){
+      let  nombres = [llave];
+
+      for(var i=0; i<nombres.length; i++){
+        nom = nombres[i];
+        console.log(nom);
+      }
+     
+    };
+  
+  }
+  //  if(confirm(llave)){
+  //   var tx =db.transaction("preguntaReactivos","readwrite");
+  //   var objectStore = tx.objectStore("preguntaReactivos");
+  //   var request = objectStore.get(llave);
+  //   request.onsucces = function(){
+  //     alert("No se puede leer" +llave)
+  //   }
+  //  }
+}
+//-----------------------------------------------------------------------------------------------------
 
         //request an insert/add
 // function buscarLista() {
@@ -1322,15 +1502,15 @@ function busVaC(){
     
 
   var columna = cursor.value.creV;
- console.log(cursor.value.creV);
+//  console.log(cursor.value.creV);
         
-  cadena += "<th>"+cursor.value.creV+"</th>"
+  cadena += "<th>"+cursor.value.creV+"</th>";
   //cadena+="<tr><td>"+ "<select class='form-select form-select-sm' aria-label='.form-select-sm example'></select>"+"</td></tr>"
   
  
        
   for(i=0; i<filas;i++){
-   cadena2 +="<tr>"
+   cadena2 +="<tr>";
    
    // cadena += "<th>"+cursor.value.NombreVar+"</th>"
   
