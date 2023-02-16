@@ -20,6 +20,12 @@ var ObjectStoreReac;
         ObjectStore.createIndex("Nombre","Nombre",{unique:true});
         ObjectStore = db.createObjectStore("relacionReactivo", { keyPath:"correo", autoIncrement: true});
 
+        //usuario
+
+        ObjectStore = db.createObjectStore("Usuariosactivo", {keyPath: "id"});
+        ObjectStore = db.createObjectStore("Usuarios", {autoIncrement: true});
+
+
         ObjectStore=db.createObjectStore("Autenticasion",{keyPath:"correo", autoIncrement: true});
         ObjectStore.createIndex("correo","correo",{unique:true});
 
@@ -69,14 +75,10 @@ var ObjectStoreReac;
     DBOpenReq.addEventListener('success',(ev)=>{
      
       db= ev.target.result;
-<<<<<<< HEAD
+    
+      Usuariosactivo()
       reactivoscrear()
       seleccionarvar()
-=======
-      mostrarSelecReac()
-      
-      buscar2()
->>>>>>> b887682ad10399e2ae8abe298f55b3fc513253bd
       Encuesta1()
       Variables()
       buscar()
@@ -400,6 +402,102 @@ function manejadorValidacion(e) {
   //salida para las preguntas de reactivos en crear.html
   //-----------------------------------------------------------------------------------------------------------------------
 
+  function Usuariosactivo (){
+
+  
+
+
+  var iniciotran = db.transaction(["Usuariosactivo"],'readwrite');
+  iniciotran = iniciotran.objectStore(["Usuariosactivo"]);
+  var request = iniciotran.add({ id: 1, nombre: "Juan" });
+
+ iniciotran.onsucces = function (event) {
+  
+   console.log('Nuevo item agregado a la base de datos');
+};
+
+  }
+
+//   //iniciar sesion
+  
+//   function iniciarSesion(idUsuario) {
+//     var transaction = db.transaction(["Usuariosactivo"], "readwrite");
+//     var objectStore = transaction.objectStore("Usuariosactivo");
+//     var request = objectStore.get(idUsuario);
+//     request.onsuccess = function(event) {
+//       var data = event.target.result;
+//       data.activo = true;
+//       objectStore.put(data);
+//     };
+//   }
+
+// //para cerrar sesion
+
+//   function cerrarSesion(idUsuario) {
+//     var transaction = db.transaction(["Usuariosactivo"], "readwrite");
+//     var objectStore = transaction.objectStore("Usuariosactivo");
+//     var request = objectStore.get(idUsuario);
+//     request.onsuccess = function(event) {
+//       var data = event.target.result;
+//       data.activo = false;
+//       objectStore.put(data);
+//     };
+//   }
+
+//   function verUsuarioActivo() {
+//     var transaction = db.transaction(["Usuariosactivo"], "readonly");
+//     var objectStore = transaction.objectStore("Usuariosactivo");
+//     var index = objectStore.index("activo");
+//     var request = index.openCursor(IDBKeyRange.only(true));
+//     request.onsuccess = function(event) {
+//       var cursor = event.target.result;
+//       if (cursor) {
+//         console.log("Usuario activo: " + cursor.value.id);
+//         cursor.continue();
+//       } else {
+//         console.log("No hay ningún usuario activo");
+//       }
+//     };
+//   }
+
+function iniciarSesion() {
+  var transaction2 = db.transaction(["Usuariosactivo"], "readwrite");
+  var usuarioA = transaction2.objectStore("Usuariosactivo");
+ 
+ 
+   var request = usuarioA.get(id);
+
+  request.onsuccess = function(event) {
+
+    var usuarioEncontrado = event.target.id;
+
+    if (usuarioEncontrado) {
+
+      var transaction = db.transaction(["Usuarios"], "readwrite");
+      var usuarioS = transaction.objectStore("Usuarios");
+    
+      var request2 = usuarioS.add(id);
+      request2.onsuccess = function(event) {
+        console.log("Usuario " + usuarioEncontrado.nombre + " ha iniciado sesión" + event.target.result);
+      };
+    } else {
+      console.log("El usuario no existe");
+    }
+  };
+}
+
+function cerrarSesion(idUsuarioActivo) {
+  var transaction = db.transaction(["Usuariosactivo"], "readwrite");
+  var activos = transaction.objectStore("Usuariosactivo");
+  var request = activos.delete(idUsuarioActivo);
+  request.onsuccess = function(event) {
+    console.log("Usuario " + idUsuarioActivo + " ha cerrado sesión");
+  };
+}
+  
+
+
+  // 
       function reactivoscrear(){
         var cadena ="<table class= 'table table-bordered'>";
         var num= 0;
