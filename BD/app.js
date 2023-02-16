@@ -70,7 +70,7 @@ var ObjectStoreReac
      
       db= ev.target.result;
       mostrarSelecReac()
-      
+      predeSelecMos()
       buscar2()
       Encuesta1()
       Variables()
@@ -1645,144 +1645,150 @@ function ResOpMul(){
 }
 
    //mostrar reactivo segun categoria
-function buscar3(){
+// function buscar3(){
   
-  var cadena3 ="<table class= 'table table-bordered'>";
-  cadena3 += "";
-  var num =0;
-  var id_array = new Array();
+//   var cadena3 ="<table class= 'table table-bordered'>";
+//   cadena3 += "";
+//   var num =0;
+//   var id_array = new Array();
 
-  //leer cursor
-  var objectStore = db.transaction("Encuesta_Reactivo").objectStore("Encuesta_Reactivo");
-  var index = objectStore.index("Cate");
-  var tipo= document.getElementById("Categorias_R").selectedIndex;
+//   //leer cursor
+//   var objectStore = db.transaction("Encuesta_Reactivo").objectStore("Encuesta_Reactivo");
+//   var index = objectStore.index("Cate");
+//   var tipo= document.getElementById("Categorias_R").selectedIndex;
   
-             if(tipo==""){
-              alert("categoria no encontrada")
+//              if(tipo==""){
+//               alert("categoria no encontrada")
 
-             } else{
-              if(tipo==1){
-                document.getElementById("salida").style.display ="none"
-                index.openCursor("Miel").onsuccess= function(e){
+//              } else{
+//               if(tipo==1){
+//                 document.getElementById("salida").style.display ="none"
+//                 index.openCursor("Miel").onsuccess= function(e){
 
-                  var cursor = e.target.result;
-                  if(cursor){
-                    cadena3+= "<tr>"
-                    id = cursor.value.Descripcion;
-                    cadena3 +="<td><input type ='checkbox' id='s"+index+"'></input></td>";
-                    cadena3 +="<td>"+cursor.value.Descripcion+"</td>";
-                    cadena3+= "<tr>";
-                    //cadena3 += "";
-                    // cadena3+="<input name='checkR'class='form-check-input' type='checkbox' value='' id='flexCheckDefault'>"+cursor.value.Descripcion+"<br></td>"
-                    //cadena += "<td>+<button id='m"+Descripcion+"'>Seleccionar</button></td></tr>";
-                    id_array.push(id);
-                    num ++;
-                    //continuamos siguiente objeto
-                    cursor.continue();
+//                   var cursor = e.target.result;
+//                   if(cursor){
+//                     cadena3+= "<tr>"
+//                     id = cursor.value.Descripcion;
+//                     cadena3 +="<td><input type ='checkbox' id='s"+index+"'></input></td>";
+//                    // cadena3 +="<td><input type ='checkbox' id='s"+id+"'></input></td>";
+//                     cadena3 +="<td>"+cursor.value.Descripcion+"</td>";
+//                     cadena3+= "<tr>";
+//                     //cadena3 += "";
+//                     // cadena3+="<input name='checkR'class='form-check-input' type='checkbox' value='' id='flexCheckDefault'>"+cursor.value.Descripcion+"<br></td>"
+//                     //cadena += "<td>+<button id='m"+Descripcion+"'>Seleccionar</button></td></tr>";
+//                     id_array.push(id);
+//                     num ++;
+//                     //continuamos siguiente objeto
+//                     cursor.continue();
       
-                  }else{
-                    cadena3 += "";
-                    document.getElementById("salida3").innerHTML = cadena3;
+//                   }else{
+//                     cadena3 += "";
+//                     document.getElementById("salida3").innerHTML = cadena3;
       
-                    for(var i=0; i<id_array.length; i++){
-                      document.getElementById("s"+index).onclick= selec2;
-                      id = id_array[i];
-                      //document.getElementById("m"+id).onclick= Editar;
+//                     for(var i=0; i<id_array.length; i++){
+//                       document.getElementById("s"+index).onclick= selec2;
+//                       id = id_array[i];
+//                       //document.getElementById("m"+id).onclick= Editar;
       
-                    }
-                  }
-                 }
+//                     }
+//                   }
+//                  }
             
-              }
-              if(tipo==2){
+//               }
+//               if(tipo==2){
              
-                //document.getElementById("salida3").style.display ="none"
-                //document.getElementById("salida").style.display ="none"
-                index.openCursor("Agricultura").onsuccess= function(e){
+//                 //document.getElementById("salida3").style.display ="none"
+//                 //document.getElementById("salida").style.display ="none"
+//                 index.openCursor("Agricultura").onsuccess= function(e){
 
-                  var cursor = e.target.result;
-                  if(cursor){
-                    index = cursor.value.Descripcion;
-                    cadena3 += "";
-                    cadena3+="<input name='checkR'class='form-check-input' type='checkbox' value='' id='flexCheckDefault'>"+cursor.value.Descripcion+"<br></td>"
-                    //cadena += "<td>+<button id='m"+Descripcion+"'>Seleccionar</button></td></tr>";
-                    id_array.push(index);
-                    num ++;
-                    //continuamos siguiente objeto
-                    cursor.continue();
+//                   var cursor = e.target.result;
+//                   if(cursor){
+//                     index = cursor.value.Descripcion;
+//                     cadena3 += "";
+//                     cadena3 +="<td><input type ='checkbox' id='s"+index+"'></input></td>";
+//                     cadena3 +="<td>"+cursor.value.Descripcion+"</td>";
+//                     //cadena3+="<input name='checkR'class='form-check-input' type='checkbox' value='' id='flexCheckDefault'>"+cursor.value.Descripcion+"<br></td>"
+//                     //cadena += "<td>+<button id='m"+Descripcion+"'>Seleccionar</button></td></tr>";
+//                     id_array.push(index);
+//                     num ++;
+//                     //continuamos siguiente objeto
+//                     cursor.continue();
       
-                  }else{
-                    cadena3 += "";
-                    document.getElementById("salida3").innerHTML = cadena3;
+//                   }else{
+//                     cadena3 += "";
+//                     document.getElementById("salida3").innerHTML = cadena3;
       
-                    for(var i=0; i<id_array.length; i++){
-                      id = id_array[i];
-                      //document.getElementById("m"+id).onclick= Editar;
+//                     for(var i=0; i<id_array.length; i++){
+//                       id = id_array[i];
+//                       document.getElementById("s"+index).onclick= selec2;
+//                       id = id_array[i];
+//                       //document.getElem
+//                       //document.getElementById("m"+id).onclick= Editar;
       
-                    }
-                  }
-                 }
-              }
-              if(tipo==3){
+//                     }
+//                   }
+//                  }
+//               }
+//               if(tipo==3){
              
-                //document.getElementById("salida3").style.display ="none"
-                //document.getElementById("salida").style.display ="none"
-                index.openCursor("Ganaderia").onsuccess= function(e){
+//                 //document.getElementById("salida3").style.display ="none"
+//                 //document.getElementById("salida").style.display ="none"
+//                 index.openCursor("Ganaderia").onsuccess= function(e){
 
-                  var cursor = e.target.result;
-                  if(cursor){
-                    index = cursor.value.Descripcion;
-                    cadena3 += "";
-                    cadena3+="<input name='checkR'class='form-check-input' type='checkbox' value='' id='flexCheckDefault'>"+cursor.value.Descripcion+"<br></td>"
-                    //cadena += "<td>+<button id='m"+Descripcion+"'>Seleccionar</button></td></tr>";
-                    id_array.push(index);
-                    num ++;
-                    //continuamos siguiente objeto
-                    cursor.continue();
+//                   var cursor = e.target.result;
+//                   if(cursor){
+//                     index = cursor.value.Descripcion;
+//                     cadena3 += "";
+//                     cadena3+="<input name='checkR'class='form-check-input' type='checkbox' value='' id='flexCheckDefault'>"+cursor.value.Descripcion+"<br></td>"
+//                     //cadena += "<td>+<button id='m"+Descripcion+"'>Seleccionar</button></td></tr>";
+//                     id_array.push(index);
+//                     num ++;
+//                     //continuamos siguiente objeto
+//                     cursor.continue();
       
-                  }else{
-                    cadena3 += "";
-                    document.getElementById("salida3").innerHTML = cadena3;
+//                   }else{
+//                     cadena3 += "";
+//                     document.getElementById("salida3").innerHTML = cadena3;
       
-                    for(var i=0; i<id_array.length; i++){
-                      id = id_array[i];
-                      //document.getElementById("m"+id).onclick= Editar;
+//                     for(var i=0; i<id_array.length; i++){
+//                       id = id_array[i];
+//                       //document.getElementById("m"+id).onclick= Editar;
       
-                    }
-                  }
-                 }
-              }
-              if(tipo==4){
+//                     }
+//                   }
+//                  }
+//               }
+//               if(tipo==4){
              
-                //document.getElementById("salida3").style.display ="none"
-                //document.getElementById("salida").style.display ="none"
-                index.openCursor("Otro").onsuccess= function(e){
+//                 //document.getElementById("salida3").style.display ="none"
+//                 //document.getElementById("salida").style.display ="none"
+//                 index.openCursor("Otro").onsuccess= function(e){
 
-                  var cursor = e.target.result;
-                  if(cursor){
-                    index = cursor.value.Descripcion;
-                    cadena3 += "";
-                    cadena3+="<input name='checkR'class='form-check-input' type='checkbox' value='' id='flexCheckDefault'>"+cursor.value.Descripcion+"<br></td>"
-                    id_array.push(index);
-                    num ++;
-                    //continuamos siguiente objeto
-                    cursor.continue();
+//                   var cursor = e.target.result;
+//                   if(cursor){
+//                     index = cursor.value.Descripcion;
+//                     cadena3 += "";
+//                     cadena3+="<input name='checkR'class='form-check-input' type='checkbox' value='' id='flexCheckDefault'>"+cursor.value.Descripcion+"<br></td>"
+//                     id_array.push(index);
+//                     num ++;
+//                     //continuamos siguiente objeto
+//                     cursor.continue();
       
-                  }else{
-                    cadena3 += "";
-                    document.getElementById("salida3").innerHTML = cadena3;
+//                   }else{
+//                     cadena3 += "";
+//                     document.getElementById("salida3").innerHTML = cadena3;
       
-                    for(var i=0; i<id_array.length; i++){
-                      id = id_array[i];
-                      //document.getElementById("m"+id).onclick= Editar;
+//                     for(var i=0; i<id_array.length; i++){
+//                       id = id_array[i];
+//                       //document.getElementById("m"+id).onclick= Editar;
       
-                    }
-                  }
-                 }
-              }
-             }      
+//                     }
+//                   }
+//                  }
+//               }
+//              }      
              
-         };
+//          };
 
         // function CrearVariable(){
         //   var VariableNombre = document.getElementById("NomV").value.trim();
