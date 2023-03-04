@@ -22,8 +22,8 @@ var ObjectStoreReac;
 
         //usuario
 
-        ObjectStore = db.createObjectStore("Usuariosactivo", {keyPath: "id"});
-        ObjectStore = db.createObjectStore("Usuarios", {autoIncrement: true});
+        ObjectStore = db.createObjectStore("Usuariosactivo", {keyPath: "correoUs",autoIncrement:true});
+        ObjectStore = db.createObjectStore("Usuarios", {keyPath: "correoUs", autoIncrement: true});
 
 
         ObjectStore=db.createObjectStore("Autenticasion",{keyPath:"correo", autoIncrement: true});
@@ -75,16 +75,13 @@ var ObjectStoreReac;
     DBOpenReq.addEventListener('success',(ev)=>{
      
       db= ev.target.result;
-<<<<<<< HEAD
+      cargarPagina()
       mostrarSelecReac()
       predeSelecMos()
-      buscar2()
-=======
-    
+      //buscar2()
       Usuariosactivo()
       reactivoscrear()
       seleccionarvar()
->>>>>>> e82cae26188f6c39f56307e8168c8608691d77d6
       Encuesta1()
       Variables()
       buscar()
@@ -267,11 +264,13 @@ function manejadorValidacion(e) {
             
             var Usuario= document.querySelector("#Usuario").value;
             var Contrasenia = document.querySelector("#contraseniaL").value;
+           
             // console.log("apunto de iniciar"+ Usuario);
            
             var transaction = db.transaction(["Autenticasion"],"readonly"); //readonly
             var objectStore = transaction.objectStore("Autenticasion");
             var request = objectStore.get(Usuario);
+           
             
     
             request.onerror = function() {
@@ -285,15 +284,36 @@ function manejadorValidacion(e) {
                   // alert("Inicio de sesion exitosa");
               
                  control (window.location.href='../pestañas_Encuestador/reactivo_tipos_Encuestas.html');
+                 //var correo = document.getElementById('Usuario').value;
+                 //var idR = document.getElementById("ReactivoCre").value.trim();
+               //var request2 = db.transaction(["Reactivos"], "readwrite").objectStore("Reactivos").put({creador:Usuario});
+                //var request3 = db.transaction(["relacionReactivo"], "readwrite").objectStore("relacionReactivo")
+                
+          // var CategoriaReactivo=document.getElementById("CategoriaReactivos").value.trim();
+          // var owned = document.getElementById('inlineCheckbox1').checked;
+          // var TipoRes = document.getElementById('TipoRes').selectedIndex;
                 
                  } else if ( Contrasenia !== request.result ) {
                   alert("Verifique su contraseña");
                 }
-                
-               };
               
         }
+      }
 
+      function enviarFormulario() {
+        var valorInput1 = document.getElementById("Usuario").value;
+        localStorage.setItem("valorInput1", valorInput1);
+      }
+    
+      function cargarPagina() {
+        var valorInput1 = localStorage.getItem("valorInput1");
+        document.getElementById("aqui").value = valorInput1;
+      }
+     
+      
+      
+      
+      
 // Encuesta predeterminada 1
 //almacena predetermidos
 
@@ -415,9 +435,9 @@ function manejadorValidacion(e) {
 
   var iniciotran = db.transaction(["Usuariosactivo"],'readwrite');
   iniciotran = iniciotran.objectStore(["Usuariosactivo"]);
-  var request = iniciotran.add({ id: 1, nombre: "Juan" });
+  var request = iniciotran.add({ correoUs:1, nombre: "Juan" });
 
- iniciotran.onsucces = function (event) {
+ request.onsucces = function (event) {
   
    console.log('Nuevo item agregado a la base de datos');
 };
@@ -466,40 +486,41 @@ function manejadorValidacion(e) {
 //     };
 //   }
 
-function iniciarSesion() {
-  var transaction2 = db.transaction(["Usuariosactivo"], "readwrite");
-  var usuarioA = transaction2.objectStore("Usuariosactivo");
- 
- 
-   var request = usuarioA.get(id);
+// function iniciarSesion() {
+  
+//   var transaction2 = db.transaction(["Usuariosactivo"]);
+//   var usuarioA = transaction2.objectStore("Usuariosactivo");
 
-  request.onsuccess = function(event) {
+//  var request =usuarioA.get(1);
+//  console.log(request)
 
-    var usuarioEncontrado = event.target.id;
-
-    if (usuarioEncontrado) {
-
-      var transaction = db.transaction(["Usuarios"], "readwrite");
-      var usuarioS = transaction.objectStore("Usuarios");
+//   request.onsuccess = function(event) {
     
-      var request2 = usuarioS.add(id);
-      request2.onsuccess = function(event) {
-        console.log("Usuario " + usuarioEncontrado.nombre + " ha iniciado sesión" + event.target.result);
-      };
-    } else {
-      console.log("El usuario no existe");
-    }
-  };
-}
+//     var usuarioEncontrado = event.target.id;
 
-function cerrarSesion(idUsuarioActivo) {
-  var transaction = db.transaction(["Usuariosactivo"], "readwrite");
-  var activos = transaction.objectStore("Usuariosactivo");
-  var request = activos.delete(idUsuarioActivo);
-  request.onsuccess = function(event) {
-    console.log("Usuario " + idUsuarioActivo + " ha cerrado sesión");
-  };
-}
+//     if (usuarioEncontrado) {
+
+//       var transaction = db.transaction(["Usuarios"], "readwrite");
+//       var usuarioS = transaction.objectStore("Usuarios");
+    
+//       var request2 = usuarioS.add(id);
+//       request2.onsuccess = function(event) {
+//         console.log("Usuario " + usuarioEncontrado.nombre + " ha iniciado sesión" + event.target.id);
+//       };
+//     } else {
+//       console.log("El usuario no existe");
+//     }
+//   };
+// }
+
+// function cerrarSesion(idUsuarioActivo) {
+//   var transaction = db.transaction(["Usuariosactivo"], "readwrite");
+//   var activos = transaction.objectStore("Usuariosactivo");
+//   var request = activos.delete(idUsuarioActivo);
+//   request.onsuccess = function(event) {
+//     console.log("Usuario " + idUsuarioActivo + " ha cerrado sesión");
+//   };
+// }
   
 
 
@@ -1045,31 +1066,56 @@ function cerrarSesion(idUsuarioActivo) {
       //     //validarER() 
       //    }
         
-      function relacionReactivo(){
-        
-        var correo = document.getElementById('Usuario').value;
-        //var id = document.getElementById("ReactivoCre").value.trim();
-      var request = db.transaction(["relacionReactivo"], "readwrite").objectStore("relacionReactivo").add({correo:correo});
-      request.onsuccess = function(e){
-      if(correo == success){
-       
-      }
-        console.log(e);
+      // function relacionReactivo(){
       
-      }
+      // var correo = document.getElementById('Usuario').value;
+      
+      // var request = db.transaction(["relacionReactivo"], "readwrite").objectStore("relacionReactivo").put({correo:correo});
+      
 
-      }
+      // request.onsuccess = function(e){
+      //  if (correo == request.value.correo){
+      //   relacionReactivo (window.location.href='../pestañas_Encuestador/crear.html')
+      //  }
+      // //   var request2 = db.transaction(["relacionReactivo"], "readwrite").objectStore("relacionReactivo")
+      // // .put({idR})
+      // // var idR = document.getElementById("ReactivoCre").value.trim();
+      // // request2.onsuccess = function(e){
+        
+      // //   console.log(e);
+      
+      // // }
+      // //   console.log(e);
+      
+      // }
+     
+ 
+      // }
          function CrearReactivo(){
+          //control();
+          // var url_string = window.location.href="/pestañas_Encuestador/reactivo_crear_reactivos.html"; //
+          // var url = new URL(url_string);
+          // var c = url.searchParams.get("Usuario");
+          // document.getElementById("aqui").value = c;
+
+         var creador = document.getElementById("aqui").value; 
           var id = document.getElementById("ReactivoCre").value.trim();
           var CategoriaReactivo=document.getElementById("CategoriaReactivos").value.trim();
           var owned = document.getElementById('inlineCheckbox1').checked;
           var TipoRes = document.getElementById('TipoRes').selectedIndex;
           
+          // var transaction = db.transaction(["Autenticasion"],"readonly");
+          // var store2 = transaction.objectStore("Autenticasion");
+          //var request2 = store2.get(Usuario)
+          
+          
           var Crear = {
            id,
            CategoriaReactivo,
             owned,
-            TipoRes
+            TipoRes,
+            creador
+           // request2
           };
 
           let tx = makeTX('Reactivos','readwrite');
@@ -1093,7 +1139,7 @@ function cerrarSesion(idUsuarioActivo) {
             return tx;
         }
         buildList()
-        crearReactivos()
+        //crearReactivos()
       }
       
       //para mostrar vista previa de reactivos creados / habilitado para editar
@@ -1149,7 +1195,7 @@ function cerrarSesion(idUsuarioActivo) {
         };
       });
     
-      CrearReactivo();
+      //CrearReactivo();
 
     // borrar();
 
