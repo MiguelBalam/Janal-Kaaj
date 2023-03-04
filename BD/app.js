@@ -20,6 +20,12 @@ var ObjectStoreReac;
         ObjectStore.createIndex("Nombre","Nombre",{unique:true});
         ObjectStore = db.createObjectStore("relacionReactivo", { keyPath:"correo", autoIncrement: true});
 
+        //usuario
+
+        ObjectStore = db.createObjectStore("Usuariosactivo", {keyPath: "correoUs",autoIncrement:true});
+        ObjectStore = db.createObjectStore("Usuarios", {keyPath: "correoUs", autoIncrement: true});
+
+
         ObjectStore=db.createObjectStore("Autenticasion",{keyPath:"correo", autoIncrement: true});
         ObjectStore.createIndex("correo","correo",{unique:true});
 
@@ -259,11 +265,13 @@ function manejadorValidacion(e) {
             
             var Usuario= document.querySelector("#Usuario").value;
             var Contrasenia = document.querySelector("#contraseniaL").value;
+           
             // console.log("apunto de iniciar"+ Usuario);
            
             var transaction = db.transaction(["Autenticasion"],"readonly"); //readonly
             var objectStore = transaction.objectStore("Autenticasion");
             var request = objectStore.get(Usuario);
+           
             
     
             request.onerror = function() {
@@ -277,15 +285,36 @@ function manejadorValidacion(e) {
                   // alert("Inicio de sesion exitosa");
               
                  control (window.location.href='../pestañas_Encuestador/reactivo_tipos_Encuestas.html');
+                 //var correo = document.getElementById('Usuario').value;
+                 //var idR = document.getElementById("ReactivoCre").value.trim();
+               //var request2 = db.transaction(["Reactivos"], "readwrite").objectStore("Reactivos").put({creador:Usuario});
+                //var request3 = db.transaction(["relacionReactivo"], "readwrite").objectStore("relacionReactivo")
+                
+          // var CategoriaReactivo=document.getElementById("CategoriaReactivos").value.trim();
+          // var owned = document.getElementById('inlineCheckbox1').checked;
+          // var TipoRes = document.getElementById('TipoRes').selectedIndex;
                 
                  } else if ( Contrasenia !== request.result ) {
                   alert("Verifique su contraseña");
                 }
-                
-               };
               
         }
+      }
 
+      function enviarFormulario() {
+        var valorInput1 = document.getElementById("Usuario").value;
+        localStorage.setItem("valorInput1", valorInput1);
+      }
+    
+      function cargarPagina() {
+        var valorInput1 = localStorage.getItem("valorInput1");
+        document.getElementById("aqui").value = valorInput1;
+      }
+     
+      
+      
+      
+      
 // Encuesta predeterminada 1
 //almacena predetermidos
 
@@ -1024,31 +1053,56 @@ function manejadorValidacion(e) {
         //   //validarER() 
         //  }
         
-      function relacionReactivo(){
-        
-        var correo = document.getElementById('Usuario').value;
-        //var id = document.getElementById("ReactivoCre").value.trim();
-      var request = db.transaction(["relacionReactivo"], "readwrite").objectStore("relacionReactivo").add({correo:correo});
-      request.onsuccess = function(e){
-      if(correo == success){
-       
-      }
-        console.log(e);
+      // function relacionReactivo(){
       
-      }
+      // var correo = document.getElementById('Usuario').value;
+      
+      // var request = db.transaction(["relacionReactivo"], "readwrite").objectStore("relacionReactivo").put({correo:correo});
+      
 
-      }
+      // request.onsuccess = function(e){
+      //  if (correo == request.value.correo){
+      //   relacionReactivo (window.location.href='../pestañas_Encuestador/crear.html')
+      //  }
+      // //   var request2 = db.transaction(["relacionReactivo"], "readwrite").objectStore("relacionReactivo")
+      // // .put({idR})
+      // // var idR = document.getElementById("ReactivoCre").value.trim();
+      // // request2.onsuccess = function(e){
+        
+      // //   console.log(e);
+      
+      // // }
+      // //   console.log(e);
+      
+      // }
+     
+ 
+      // }
          function CrearReactivo(){
+          //control();
+          // var url_string = window.location.href="/pestañas_Encuestador/reactivo_crear_reactivos.html"; //
+          // var url = new URL(url_string);
+          // var c = url.searchParams.get("Usuario");
+          // document.getElementById("aqui").value = c;
+
+         var creador = document.getElementById("aqui").value; 
           var id = document.getElementById("ReactivoCre").value.trim();
           var CategoriaReactivo=document.getElementById("CategoriaReactivos").value.trim();
           var owned = document.getElementById('inlineCheckbox1').checked;
           var TipoRes = document.getElementById('TipoRes').selectedIndex;
           
+          // var transaction = db.transaction(["Autenticasion"],"readonly");
+          // var store2 = transaction.objectStore("Autenticasion");
+          //var request2 = store2.get(Usuario)
+          
+          
           var Crear = {
            id,
            CategoriaReactivo,
             owned,
-            TipoRes
+            TipoRes,
+            creador
+           // request2
           };
 
           let tx = makeTX('Reactivos','readwrite');
@@ -1072,7 +1126,7 @@ function manejadorValidacion(e) {
             return tx;
         }
         buildList()
-        crearReactivos()
+        //crearReactivos()
       }
       
       //para mostrar vista previa de reactivos creados / habilitado para editar
@@ -1128,7 +1182,7 @@ function manejadorValidacion(e) {
         };
       });
     
-      CrearReactivo();
+      //CrearReactivo();
 
     // borrar();
 
@@ -1805,144 +1859,150 @@ function ResOpMul(){
 }
 
    //mostrar reactivo segun categoria
-function buscar3(){
+// function buscar3(){
   
-  var cadena3 ="<table class= 'table table-bordered'>";
-  cadena3 += "";
-  var num =0;
-  var id_array = new Array();
+//   var cadena3 ="<table class= 'table table-bordered'>";
+//   cadena3 += "";
+//   var num =0;
+//   var id_array = new Array();
 
-  //leer cursor
-  var objectStore = db.transaction("Encuesta_Reactivo").objectStore("Encuesta_Reactivo");
-  var index = objectStore.index("Cate");
-  var tipo= document.getElementById("Categorias_R").selectedIndex;
+//   //leer cursor
+//   var objectStore = db.transaction("Encuesta_Reactivo").objectStore("Encuesta_Reactivo");
+//   var index = objectStore.index("Cate");
+//   var tipo= document.getElementById("Categorias_R").selectedIndex;
   
-             if(tipo==""){
-              alert("categoria no encontrada")
+//              if(tipo==""){
+//               alert("categoria no encontrada")
 
-             } else{
-              if(tipo==1){
-                document.getElementById("salida").style.display ="none"
-                index.openCursor("Miel").onsuccess= function(e){
+//              } else{
+//               if(tipo==1){
+//                 document.getElementById("salida").style.display ="none"
+//                 index.openCursor("Miel").onsuccess= function(e){
 
-                  var cursor = e.target.result;
-                  if(cursor){
-                    cadena3+= "<tr>"
-                    id = cursor.value.Descripcion;
-                    cadena3 +="<td><input type ='checkbox' id='s"+index+"'></input></td>";
-                    cadena3 +="<td>"+cursor.value.Descripcion+"</td>";
-                    cadena3+= "<tr>";
-                    //cadena3 += "";
-                    // cadena3+="<input name='checkR'class='form-check-input' type='checkbox' value='' id='flexCheckDefault'>"+cursor.value.Descripcion+"<br></td>"
-                    //cadena += "<td>+<button id='m"+Descripcion+"'>Seleccionar</button></td></tr>";
-                    id_array.push(id);
-                    num ++;
-                    //continuamos siguiente objeto
-                    cursor.continue();
+//                   var cursor = e.target.result;
+//                   if(cursor){
+//                     cadena3+= "<tr>"
+//                     id = cursor.value.Descripcion;
+//                     cadena3 +="<td><input type ='checkbox' id='s"+index+"'></input></td>";
+//                    // cadena3 +="<td><input type ='checkbox' id='s"+id+"'></input></td>";
+//                     cadena3 +="<td>"+cursor.value.Descripcion+"</td>";
+//                     cadena3+= "<tr>";
+//                     //cadena3 += "";
+//                     // cadena3+="<input name='checkR'class='form-check-input' type='checkbox' value='' id='flexCheckDefault'>"+cursor.value.Descripcion+"<br></td>"
+//                     //cadena += "<td>+<button id='m"+Descripcion+"'>Seleccionar</button></td></tr>";
+//                     id_array.push(id);
+//                     num ++;
+//                     //continuamos siguiente objeto
+//                     cursor.continue();
       
-                  }else{
-                    cadena3 += "";
-                    document.getElementById("salida3").innerHTML = cadena3;
+//                   }else{
+//                     cadena3 += "";
+//                     document.getElementById("salida3").innerHTML = cadena3;
       
-                    for(var i=0; i<id_array.length; i++){
-                      document.getElementById("s"+index).onclick= selec2;
-                      id = id_array[i];
-                      //document.getElementById("m"+id).onclick= Editar;
+//                     for(var i=0; i<id_array.length; i++){
+//                       document.getElementById("s"+index).onclick= selec2;
+//                       id = id_array[i];
+//                       //document.getElementById("m"+id).onclick= Editar;
       
-                    }
-                  }
-                 }
+//                     }
+//                   }
+//                  }
             
-              }
-              if(tipo==2){
+//               }
+//               if(tipo==2){
              
-                //document.getElementById("salida3").style.display ="none"
-                //document.getElementById("salida").style.display ="none"
-                index.openCursor("Agricultura").onsuccess= function(e){
+//                 //document.getElementById("salida3").style.display ="none"
+//                 //document.getElementById("salida").style.display ="none"
+//                 index.openCursor("Agricultura").onsuccess= function(e){
 
-                  var cursor = e.target.result;
-                  if(cursor){
-                    index = cursor.value.Descripcion;
-                    cadena3 += "";
-                    cadena3+="<input name='checkR'class='form-check-input' type='checkbox' value='' id='flexCheckDefault'>"+cursor.value.Descripcion+"<br></td>"
-                    //cadena += "<td>+<button id='m"+Descripcion+"'>Seleccionar</button></td></tr>";
-                    id_array.push(index);
-                    num ++;
-                    //continuamos siguiente objeto
-                    cursor.continue();
+//                   var cursor = e.target.result;
+//                   if(cursor){
+//                     index = cursor.value.Descripcion;
+//                     cadena3 += "";
+//                     cadena3 +="<td><input type ='checkbox' id='s"+index+"'></input></td>";
+//                     cadena3 +="<td>"+cursor.value.Descripcion+"</td>";
+//                     //cadena3+="<input name='checkR'class='form-check-input' type='checkbox' value='' id='flexCheckDefault'>"+cursor.value.Descripcion+"<br></td>"
+//                     //cadena += "<td>+<button id='m"+Descripcion+"'>Seleccionar</button></td></tr>";
+//                     id_array.push(index);
+//                     num ++;
+//                     //continuamos siguiente objeto
+//                     cursor.continue();
       
-                  }else{
-                    cadena3 += "";
-                    document.getElementById("salida3").innerHTML = cadena3;
+//                   }else{
+//                     cadena3 += "";
+//                     document.getElementById("salida3").innerHTML = cadena3;
       
-                    for(var i=0; i<id_array.length; i++){
-                      id = id_array[i];
-                      //document.getElementById("m"+id).onclick= Editar;
+//                     for(var i=0; i<id_array.length; i++){
+//                       id = id_array[i];
+//                       document.getElementById("s"+index).onclick= selec2;
+//                       id = id_array[i];
+//                       //document.getElem
+//                       //document.getElementById("m"+id).onclick= Editar;
       
-                    }
-                  }
-                 }
-              }
-              if(tipo==3){
+//                     }
+//                   }
+//                  }
+//               }
+//               if(tipo==3){
              
-                //document.getElementById("salida3").style.display ="none"
-                //document.getElementById("salida").style.display ="none"
-                index.openCursor("Ganaderia").onsuccess= function(e){
+//                 //document.getElementById("salida3").style.display ="none"
+//                 //document.getElementById("salida").style.display ="none"
+//                 index.openCursor("Ganaderia").onsuccess= function(e){
 
-                  var cursor = e.target.result;
-                  if(cursor){
-                    index = cursor.value.Descripcion;
-                    cadena3 += "";
-                    cadena3+="<input name='checkR'class='form-check-input' type='checkbox' value='' id='flexCheckDefault'>"+cursor.value.Descripcion+"<br></td>"
-                    //cadena += "<td>+<button id='m"+Descripcion+"'>Seleccionar</button></td></tr>";
-                    id_array.push(index);
-                    num ++;
-                    //continuamos siguiente objeto
-                    cursor.continue();
+//                   var cursor = e.target.result;
+//                   if(cursor){
+//                     index = cursor.value.Descripcion;
+//                     cadena3 += "";
+//                     cadena3+="<input name='checkR'class='form-check-input' type='checkbox' value='' id='flexCheckDefault'>"+cursor.value.Descripcion+"<br></td>"
+//                     //cadena += "<td>+<button id='m"+Descripcion+"'>Seleccionar</button></td></tr>";
+//                     id_array.push(index);
+//                     num ++;
+//                     //continuamos siguiente objeto
+//                     cursor.continue();
       
-                  }else{
-                    cadena3 += "";
-                    document.getElementById("salida3").innerHTML = cadena3;
+//                   }else{
+//                     cadena3 += "";
+//                     document.getElementById("salida3").innerHTML = cadena3;
       
-                    for(var i=0; i<id_array.length; i++){
-                      id = id_array[i];
-                      //document.getElementById("m"+id).onclick= Editar;
+//                     for(var i=0; i<id_array.length; i++){
+//                       id = id_array[i];
+//                       //document.getElementById("m"+id).onclick= Editar;
       
-                    }
-                  }
-                 }
-              }
-              if(tipo==4){
+//                     }
+//                   }
+//                  }
+//               }
+//               if(tipo==4){
              
-                //document.getElementById("salida3").style.display ="none"
-                //document.getElementById("salida").style.display ="none"
-                index.openCursor("Otro").onsuccess= function(e){
+//                 //document.getElementById("salida3").style.display ="none"
+//                 //document.getElementById("salida").style.display ="none"
+//                 index.openCursor("Otro").onsuccess= function(e){
 
-                  var cursor = e.target.result;
-                  if(cursor){
-                    index = cursor.value.Descripcion;
-                    cadena3 += "";
-                    cadena3+="<input name='checkR'class='form-check-input' type='checkbox' value='' id='flexCheckDefault'>"+cursor.value.Descripcion+"<br></td>"
-                    id_array.push(index);
-                    num ++;
-                    //continuamos siguiente objeto
-                    cursor.continue();
+//                   var cursor = e.target.result;
+//                   if(cursor){
+//                     index = cursor.value.Descripcion;
+//                     cadena3 += "";
+//                     cadena3+="<input name='checkR'class='form-check-input' type='checkbox' value='' id='flexCheckDefault'>"+cursor.value.Descripcion+"<br></td>"
+//                     id_array.push(index);
+//                     num ++;
+//                     //continuamos siguiente objeto
+//                     cursor.continue();
       
-                  }else{
-                    cadena3 += "";
-                    document.getElementById("salida3").innerHTML = cadena3;
+//                   }else{
+//                     cadena3 += "";
+//                     document.getElementById("salida3").innerHTML = cadena3;
       
-                    for(var i=0; i<id_array.length; i++){
-                      id = id_array[i];
-                      //document.getElementById("m"+id).onclick= Editar;
+//                     for(var i=0; i<id_array.length; i++){
+//                       id = id_array[i];
+//                       //document.getElementById("m"+id).onclick= Editar;
       
-                    }
-                  }
-                 }
-              }
-             }      
+//                     }
+//                   }
+//                  }
+//               }
+//              }      
              
-         };
+//          };
 
         // function CrearVariable(){
         //   var VariableNombre = document.getElementById("NomV").value.trim();

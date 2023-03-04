@@ -47,9 +47,15 @@
                 <form id="formularioRC" name="formularioRC">
 
                     <div class="row mb-4">
+                        <label class="col-sm-4 col-form-label px-5">Usuario: </label>
+                        <div class="col-sm-8">
+                            <input id="aqui" name="aqui"  type="text" class="form-control">
+                        </div>
+                    </div>
+                    <div class="row mb-4">
                         <label class="col-sm-4 col-form-label px-5">Reactivo: </label>
                         <div class="col-sm-8">
-                            <input id="ReactivoCre" type="text" class="form-control">
+                            <input id="ReactivoCre" name="ReactivoCre"  type="text" class="form-control">
                         </div>
                     </div>
 
@@ -173,7 +179,7 @@
                 <div class="p-4 col-sm-12 px-3 text-center">
 
                     <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" id="boton_guardar"
-                        onclick="ResOpMul(),CrearReactivo(),limpiarFormulario2()">Crear</button>
+                        onclick="ResOpMul(),CrearReactivo()">Crear</button>
                     <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" id="boton_guardar"
                         onclick="window.location.href='../pestañas_Encuestador/crear.html'">Guardar</button>
                     <button onclick=" return cancelar()"
