@@ -124,6 +124,18 @@ function notiCrearVariables() {
   });
 }
 
+function notiEnviarForm() {
+  Swal.fire({
+    title: 'Se han enviado los datos',
+    text: 'Datos enviados correctamente',
+    icon: 'success',
+    timer: 2000,
+    timerProgressBar: true,
+    confirmButtonColor: '#3085d6',
+    confirmButtonText: 'Confirmar',
+  });
+}
+
 function editReactivos() {
   Swal.fire({
     title: 'Se ha editado el reactivo ',
@@ -236,6 +248,36 @@ function habilitarbtn2() {
 
 }
 
+function habilitarbtn3() {
+  nombre = document.getElementById("nombre").value;
+  apellido = document.getElementById("apellido").value;
+  email = document.getElementById("email").value;
+  tel = document.getElementById("tele").value;
+  mensaje = document.getElementById("mensaje").value;
+  v = 0;
+  if (nombre == "") {
+    v++;
+  }
+  if (apellido == "") {
+    v++;
+  }
+  if (email == "") {
+    v++;
+  }
+  if (tel == "") {
+    v++;
+  }
+  if (mensaje == "") {
+    v++;
+  }
+  if (v == 0) {
+    document.getElementById("enviarMensaje").disabled = false;
+  } else {
+    document.getElementById("enviarMensaje").disabled = true;
+  }
+
+}
+
 document.getElementById("NomV").addEventListener("keyup", habilitarbtn2);
 document.getElementById("SiglaV").addEventListener("keyup", habilitarbtn2);
 document.getElementById("desV").addEventListener("keyup", habilitarbtn2);
@@ -252,6 +294,12 @@ document.getElementById("desV").addEventListener("keyup", habilitarbtn2);
 document.getElementById("Titulo").addEventListener("keyup", habilitarbtn);
 document.getElementById("floatingTextarea2").addEventListener("keyup", habilitarbtn);
 document.getElementById("floatingTextarea21").addEventListener("keyup", habilitarbtn);
+
+document.getElementById("nombre").addEventListener("keyup", habilitarbtn3);
+document.getElementById("apellido").addEventListener("keyup", habilitarbtn3);
+document.getElementById("email").addEventListener("keyup", habilitarbtn3);
+document.getElementById("tele").addEventListener("keyup", habilitarbtn3);
+document.getElementById("mensaje").addEventListener("keyup", habilitarbtn3);
 
 
 // document.getElementById("s").addEventListener("keyup", habilitarbtn);
@@ -279,6 +327,10 @@ function limpiarFormulario() {
 
 function limpiarFormulario2() {
   document.getElementById("formularioRC").reset();
+
+}
+function limpiarFormularioContact() {
+  document.getElementById("formularioCT").reset();
 
 }
 

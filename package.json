@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@supercharge/strings": "^2.0.0",
     "@sweetalert2/themes": "^5.0.15",
     "sweetalert2": "^11.6.16"
   }
