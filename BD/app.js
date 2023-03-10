@@ -75,11 +75,13 @@ var ObjectStoreReac;
     DBOpenReq.addEventListener('success',(ev)=>{
      
       db= ev.target.result;
-      cargarPagina()
+      
       mostrarSelecReac()
       predeSelecMos()
+      
       //buscar2()
-      Usuariosactivo()
+     // Usuariosactivo()
+    
       reactivoscrear()
       seleccionarvar()
       Encuesta1()
@@ -91,8 +93,11 @@ var ObjectStoreReac;
       buscarVar()
       buscarVar2()
       busVaC()
+      buildList()
+      cargarPagina()
      // buscarLista();
-      buildList();
+      
+     
     });
 
 
@@ -303,11 +308,15 @@ function manejadorValidacion(e) {
       function enviarFormulario() {
         var valorInput1 = document.getElementById("Usuario").value;
         localStorage.setItem("valorInput1", valorInput1);
+        var valorInput2 = document.getElementById("Usuario").value;
+        localStorage.setItem("valorInput2", valorInput2);
       }
     
       function cargarPagina() {
         var valorInput1 = localStorage.getItem("valorInput1");
         document.getElementById("aqui").value = valorInput1;
+        var valorInput2 = localStorage.getItem("valorInput2");
+        document.getElementById("aqui2").value = valorInput2;
       }
      
       
