@@ -114,12 +114,13 @@
                                     <div class="row">
                                         <div id="salida2"></div>
                                         <div id="salidapredeSelec"></div>
+                                    
                                     </div>
                                 </div>
                             </div>
 
                         </div>
-                </form>
+              
             </div>
 <!-- 
             <div class=" row mb-4 p-3">
@@ -130,26 +131,56 @@
                         <div class="col-sm-12 text-center">
 
 
-                            <button onclick="creEncuestaR(),buscarE()"
+                            <button onclick="creEncuestaR(), refrescarAlmacen()"
                                 class="btn btn-outline-success bg-border-mostaza bg-text-mostaza"
-                                id="boton-crear-encuesta" type="button" disabled="true"> Crear Encuesta</button>
+                                id="boton-crear-encuesta" type="submit" disabled data-bs-toggle="modal" data-bs-target="#Modal_vistaPrevia"> Crear Encuesta</button>
 
 
                         </div>
 
                     </div>
-
+                        
                 <!-- </div>
             </div> -->
-
+               
             </form>
-
+             
         </section>
     </div>
 
 
     </div>
 
+    <!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Modal_vistaPrevia">
+        Lanzar demo de modal
+      </button> -->
+         <!-- Modal -->
+<div class="modal fade" id="Modal_vistaPrevia" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        
+        <div class="modal-header text-center">
+          <h5 class="modal-title text-center" id="ModalLabel" > Vista previa</h5>
+          <!-- <div id="salidapredeSelec"></div>  -->
+
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div >   <img src="../Img/lOGOCONACYT.png" height=60px width=60px > </div>
+        <div id="Encabezado">   </div>
+        <div class="modal-body" id="modalcuerpo">
+
+            <!-- <div id="salidapredeSelec"> </div>  -->
+            <!-- <div id="salidaSelec"></div> -->
+
+        </div> 
+        <div id="salidapredeSelec2"> </div> 
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+          <button type="button" class="btn btn-primary">Guardar cambios</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
     <!-- <tbody id="Encuestas"></tbody> -->
 
@@ -158,7 +189,7 @@
     <Script src="../BD/app.js"></Script>
     <link rel="stylesheet" href="../node_modules/@sweetalert2/themes/bootstrap-4/bootstrap-4.min.css">
     <script src="../node_modules/sweetalert2/dist/sweetalert2.all.js"></script>
-    <script src="/CSS/SweetAlert.js"></script>
+    <script src="../CSS/SweetAlert.js"></script>
 
 </body>
 

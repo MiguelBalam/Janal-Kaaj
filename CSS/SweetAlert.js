@@ -124,6 +124,18 @@ function notiCrearVariables() {
   });
 }
 
+function notiEnviarForm() {
+  Swal.fire({
+    title: 'Se han enviado los datos',
+    text: 'Datos enviados correctamente',
+    icon: 'success',
+    timer: 2000,
+    timerProgressBar: true,
+    confirmButtonColor: '#3085d6',
+    confirmButtonText: 'Confirmar',
+  });
+}
+
 function editReactivos() {
   Swal.fire({
     title: 'Se ha editado el reactivo ',
@@ -172,6 +184,8 @@ function notiEditarVariables(){
   });
 }
 
+
+
 //desabilitar boton
 function habilitarbtn() {
   Titulo = document.getElementById("Titulo").value;
@@ -202,7 +216,11 @@ function habilitarbtn() {
   } else {
     document.getElementById("boton-crear-encuesta").disabled = true;
   }
+
 }
+document.getElementById("Titulo").addEventListener("keyup", function () { habilitarbtn() } );
+document.getElementById("floatingTextarea2").addEventListener("keyup", function () { habilitarbtn() } );
+document.getElementById("floatingTextarea21").addEventListener("keyup", function () { habilitarbtn() } );
 
 function habilitarbtn2() {
   nombre = document.getElementById("NomV").value;
@@ -211,27 +229,56 @@ function habilitarbtn2() {
   // salida2 = document.getElementById("salida2").value;
   //  s =  document.getElementById("s").value;
   //  $btnVerEstado = document.getElementById("estado").value;
-  v = 0;
+  val = 0;
   if (nombre == "") {
-    v++;
+    val++;
 
   }
   if (sigla == "") {
-    v++;
+    val++;
   }
   if (descrip == "") {
-    v++;
+    val++;
   }
-  // if(salida2 == ""){
-  //     val++;
-  // }
-  // if(s == ""){
-  //     val++;
-  // }
-  if (v == 0) {
+  if (val == 0) {
     document.getElementById("boton_crear_variable").disabled = false;
   } else {
     document.getElementById("boton_crear_variable").disabled = true;
+  }
+  
+}
+document.getElementById("NomV").addEventListener("keyup", function () { habilitarbtn2() } );
+  document.getElementById("SiglaV").addEventListener("keyup", function () { habilitarbtn2() } );
+  document.getElementById("desV").addEventListener("keyup", function () { habilitarbtn2() } );
+  
+
+
+function habilitarbtn3() {
+  nombre = document.getElementById("nombre").value;
+  apellido = document.getElementById("apellido").value;
+  email = document.getElementById("email").value;
+  tel = document.getElementById("tele").value;
+  mensaje = document.getElementById("mensaje").value;
+  v = 0;
+  if (nombre == "") {
+    v++;
+  }
+  if (apellido == "") {
+    v++;
+  }
+  if (email == "") {
+    v++;
+  }
+  if (tel == "") {
+    v++;
+  }
+  if (mensaje == "") {
+    v++;
+  }
+  if (v == 0) {
+    document.getElementById("enviarMensaje").disabled = false;
+  } else {
+    document.getElementById("enviarMensaje").disabled = true;
   }
 
 }
@@ -239,6 +286,17 @@ function habilitarbtn2() {
 document.getElementById("NomV").addEventListener("keyup", habilitarbtn2);
 document.getElementById("SiglaV").addEventListener("keyup", habilitarbtn2);
 document.getElementById("desV").addEventListener("keyup", habilitarbtn2);
+
+
+
+
+// document.getElementById("s").addEventListener("keyup", habilitarbtn);
+
+// document.getElementById("salida2").addEventListener("keyup", habilitarbtn);
+// document.getElementById("boton-crear-encuesta").addEventListener("click", () => {
+//   alert("Se ha llenado todo");
+// });
+
 
 
 // document.getElementById("estado").addEventListener("click", () => {
@@ -249,9 +307,16 @@ document.getElementById("desV").addEventListener("keyup", habilitarbtn2);
 // 	}
 // })
 
+
 document.getElementById("Titulo").addEventListener("keyup", habilitarbtn);
 document.getElementById("floatingTextarea2").addEventListener("keyup", habilitarbtn);
 document.getElementById("floatingTextarea21").addEventListener("keyup", habilitarbtn);
+
+document.getElementById("nombre").addEventListener("keyup", habilitarbtn3);
+document.getElementById("apellido").addEventListener("keyup", habilitarbtn3);
+document.getElementById("email").addEventListener("keyup", habilitarbtn3);
+document.getElementById("tele").addEventListener("keyup", habilitarbtn3);
+document.getElementById("mensaje").addEventListener("keyup", habilitarbtn3);
 
 
 // document.getElementById("s").addEventListener("keyup", habilitarbtn);
@@ -260,6 +325,7 @@ document.getElementById("floatingTextarea21").addEventListener("keyup", habilita
 document.getElementById("boton-crear-encuesta").addEventListener("click", () => {
   alert("Se ha llenado todo");
 });
+
 
 
 
@@ -279,6 +345,10 @@ function limpiarFormulario() {
 
 function limpiarFormulario2() {
   document.getElementById("formularioRC").reset();
+
+}
+function limpiarFormularioContact() {
+  document.getElementById("formularioCT").reset();
 
 }
 
@@ -336,3 +406,4 @@ async function callerFun(){
 callerFun();
 
 }
+
