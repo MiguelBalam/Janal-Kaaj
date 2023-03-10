@@ -184,6 +184,8 @@ function notiEditarVariables(){
   });
 }
 
+
+
 //desabilitar boton
 function habilitarbtn() {
   Titulo = document.getElementById("Titulo").value;
@@ -214,7 +216,11 @@ function habilitarbtn() {
   } else {
     document.getElementById("boton-crear-encuesta").disabled = true;
   }
+
 }
+document.getElementById("Titulo").addEventListener("keyup", function () { habilitarbtn() } );
+document.getElementById("floatingTextarea2").addEventListener("keyup", function () { habilitarbtn() } );
+document.getElementById("floatingTextarea21").addEventListener("keyup", function () { habilitarbtn() } );
 
 function habilitarbtn2() {
   nombre = document.getElementById("NomV").value;
@@ -223,30 +229,29 @@ function habilitarbtn2() {
   // salida2 = document.getElementById("salida2").value;
   //  s =  document.getElementById("s").value;
   //  $btnVerEstado = document.getElementById("estado").value;
-  v = 0;
+  val = 0;
   if (nombre == "") {
-    v++;
+    val++;
 
   }
   if (sigla == "") {
-    v++;
+    val++;
   }
   if (descrip == "") {
-    v++;
+    val++;
   }
-  // if(salida2 == ""){
-  //     val++;
-  // }
-  // if(s == ""){
-  //     val++;
-  // }
-  if (v == 0) {
+  if (val == 0) {
     document.getElementById("boton_crear_variable").disabled = false;
   } else {
     document.getElementById("boton_crear_variable").disabled = true;
   }
-
+  
 }
+document.getElementById("NomV").addEventListener("keyup", function () { habilitarbtn2() } );
+  document.getElementById("SiglaV").addEventListener("keyup", function () { habilitarbtn2() } );
+  document.getElementById("desV").addEventListener("keyup", function () { habilitarbtn2() } );
+  
+
 
 function habilitarbtn3() {
   nombre = document.getElementById("nombre").value;
@@ -283,6 +288,17 @@ document.getElementById("SiglaV").addEventListener("keyup", habilitarbtn2);
 document.getElementById("desV").addEventListener("keyup", habilitarbtn2);
 
 
+
+
+// document.getElementById("s").addEventListener("keyup", habilitarbtn);
+
+// document.getElementById("salida2").addEventListener("keyup", habilitarbtn);
+// document.getElementById("boton-crear-encuesta").addEventListener("click", () => {
+//   alert("Se ha llenado todo");
+// });
+
+
+
 // document.getElementById("estado").addEventListener("click", () => {
 // 	if (s.checked) {
 // 		alert("Marcado");
@@ -290,6 +306,7 @@ document.getElementById("desV").addEventListener("keyup", habilitarbtn2);
 // 		alert("Desmarcado");
 // 	}
 // })
+
 
 document.getElementById("Titulo").addEventListener("keyup", habilitarbtn);
 document.getElementById("floatingTextarea2").addEventListener("keyup", habilitarbtn);
@@ -311,13 +328,14 @@ document.getElementById("boton-crear-encuesta").addEventListener("click", () => 
 
 
 
-function activarGuardar(){
- if( document.getElementById("boton_guardar_variable").disabled = false){
- }else{
-  document.getElementById("boton-crear-encuesta").disabled = true;
- }
 
-}
+// function activarGuardar(){
+//  if( document.getElementById("boton_guardar_variable").disabled = false){
+//  }else{
+//   document.getElementById("boton-crear-encuesta").disabled = true;
+//  }
+
+// }
 // -----------------------------------------------------------------
 
 function limpiarFormulario() {
@@ -388,3 +406,4 @@ async function callerFun(){
 callerFun();
 
 }
+
