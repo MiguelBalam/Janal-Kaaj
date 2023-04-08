@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .limitado{
+  background-color: #333;
+  color: #fff;
+  width: 300px;
+  min-height: 60px;
+  padding: 20px;
+}
+    </style>
+</head>
+<body>
+    <div class="limitado">
+        Este div contiene más de 100 caracteres por lo tanto la función ellipsis_box(".limitado", 100) limitará su contenido, en un máximo de 100 caracteres + sus correspondientes puntos suspensivos, ¿fácil no?
+        </div>
+</body>
+</html>
+<script>
+    function ellipsis_box(elemento, max_chars){
+      limite_text = $(elemento).text();
+      if (limite_text.length > max_chars)
+      {
+      limite = limite_text.substr(0, max_chars)+" ...";
+      $(elemento).text(limite);
+      }
+      }
+      $(function()
+      {
+      ellipsis_box(".limitado", 40);
+      });
+  </script>
