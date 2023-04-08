@@ -1,5 +1,12 @@
+var url = window.location.href;
+var swLocation = 'Janal-Kaaj/sw.js';
+
 if (navigator.serviceWorker){
-  navigator.serviceWorker.register('/sw.js');
+
+  if (url.includes('localhost')){
+    swLocation = '/sw.js';
+  }
+  navigator.serviceWorker.register(swLocation);
 }
 
 // creacion de la base de datos
@@ -79,21 +86,11 @@ var ObjectStoreReac;
     DBOpenReq.addEventListener('success',(ev)=>{
      
       db= ev.target.result;
-<<<<<<< HEAD
-      
-      mostrarSelecReac()
-      predeSelecMos()
-      
-      //buscar2()
-     // Usuariosactivo()
-    
-=======
       predeSelecMos()
       ReacPredeVista()
       mostrarSelecReac()
       EncaEncuestaVista()
       // refrescarAlmacen()
->>>>>>> 76d45e0a5da9e77ec4bb323882cb23400d3b752a
       reactivoscrear()
       // Encuesta1()
       Variables()
@@ -102,20 +99,12 @@ var ObjectStoreReac;
       buscarVar()
       buscarVar2()
       busVaC()
-<<<<<<< HEAD
-      buildList()
-      cargarPagina()
-     // buscarLista();
-      
-     
-=======
       creEncuestaR()
      // buscarLista(); 
       buildList()
       BusVa()
       
       // refrescarAlmacen()
->>>>>>> 76d45e0a5da9e77ec4bb323882cb23400d3b752a
     });
 
 

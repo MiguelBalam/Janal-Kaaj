@@ -1,45 +1,11 @@
 
-// ------------------------------ v1 de sw ---------------------------------
-// const CACHE_NAME = 'my-site-cache-v1';
-// const urlsToCache = [
-//   '/',
-//   '/styles.css',
-//   '/index.html',
-//   '/image.png'
-// ];
-
-// self.addEventListener('install', function(event) {
-//   // Perform install steps
-//   event.waitUntil(
-//     caches.open(CACHE_NAME)
-//       .then(function(cache) {
-//         console.log('Cache abierto');
-//         return cache.addAll(urlsToCache);
-//       })
-//   );
-// });
-
-// self.addEventListener('fetch', function(event) {
-//   event.respondWith(
-//     caches.match(event.request)
-//       .then(function(response) {
-//         // Cache hit - return response
-//         if (response) {
-//           return response;
-//         }
-
-//         return fetch(event.request);
-//       })
-//   );
-// });
-
 const STATIC_CACHE = 'static-v1';
 // const DYNAMIC_CACHE = 'dynamic-v1';
 const INMUTABLE_CACHE = 'inmutable-v1';
 
 // cosas que si van a cambiar
 const APP_SHELL = [
-    '/',
+    // '/',
     'login.html',
     'index.html',
     'form_encuestador.html',
@@ -57,7 +23,6 @@ const APP_SHELL = [
     'pestañas_Encuestador/variable_selec_variable.html',
     'pestañas_Encuestador/variable_tipo_variable_NoEdit.html',
     'pestañas_Encuestador/variable_tipo_variable.html',
-    'pestañas_Encuestador/reactivo_categoria.html',
     'BD/app.js'
 ];
 
