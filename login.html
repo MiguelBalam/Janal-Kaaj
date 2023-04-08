@@ -31,12 +31,12 @@
 
         <div class="form-container ">
             <h1 class="bg-text-black h1TextoTitulo">Janal-Kaaj</h1>
-            <form>
+            <form id="login" method="post">
 
                 <div class="control">
                     <label for="Usuario">  Usuario </label>
                     <input class="input-Usuario" type="email" Placeholder="Usuario" name="Usuario" id="Usuario" required>
-
+                    
                 </div>
                 <div class="control">
                     <label for="contraseniaL">Contraseña</label>
@@ -44,12 +44,13 @@
                 </div>
             
             </form>
-                <span>  <input type="checkbox" > Recordar </span>
+                <!-- <span>  <input type="checkbox" > Recordar </span> -->
           
                 <div class="control">
 
 
-                    <input type="submit" id="controlE" class="submit" onclick="control(),relacionReactivo()" value="INICIAR SESIÓN" >
+                    <input type="submit" id="controlE" class="submit" onclick="control(),enviarFormulario()" value="INICIAR SESIÓN" >
+                    
                     <input type="button" class="submit" onclick="window.location.href='form_encuestador.html' ;" value="REGISTRARSE">
 
                 </div>
@@ -60,7 +61,7 @@
             </div>
         </div>
     </section>
-    <script  src="BD/app.js"></script>
+    <script  src="../Janal-Kaaj/BD/app.js"></script>
  
 </body>
 
