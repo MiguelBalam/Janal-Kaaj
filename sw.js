@@ -42,7 +42,6 @@ const APP_SHELL_INMUTABLE = [
     'Img/Fondo Transparente.png',
     'Img/gmail.png',
     'Img/Icono-Telefono.png',
-    'Img/OP1.png',
     'Img/usuario (2).png',
     'CSS/bootstrap.min.css',
     'CSS/style.css',
