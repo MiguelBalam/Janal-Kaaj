@@ -1,3 +1,14 @@
+var url = window.location.href;
+var swLocation = '/Janal-Kaaj/sw.js';
+
+if (navigator.serviceWorker){
+
+  if (url.includes('localhost')){
+        swLocation = '/sw.js';
+    }
+  navigator.serviceWorker.register(swLocation);
+}
+
 // creacion de la base de datos
 var db;
 var ObjectStore;
@@ -16,14 +27,14 @@ var ObjectStoreReac;
         db = ev.target.result;
        
         
-        ObjectStore = db.createObjectStore("Usuario", {autoIncrement: true});
+        ObjectStore = db.createObjectStore("Usuario", { keyPath : 'id', autoIncrement: true});
         ObjectStore.createIndex("Nombre","Nombre",{unique:true});
         ObjectStore = db.createObjectStore("relacionReactivo", { keyPath:"correo", autoIncrement: true});
 
         //usuario
 
-        ObjectStore = db.createObjectStore("Usuariosactivo", {keyPath: "correoUs",autoIncrement:true});
-        ObjectStore = db.createObjectStore("Usuarios", {keyPath: "correoUs", autoIncrement: true});
+        ObjectStore = db.createObjectStore("Usuariosactivo", {keyPath: "id"});
+        ObjectStore = db.createObjectStore("Usuarios", {autoIncrement: true});
 
 
         ObjectStore=db.createObjectStore("Autenticasion",{keyPath:"correo", autoIncrement: true});
@@ -189,6 +200,7 @@ var ObjectStoreReac;
             console.log('error in request to add',eve);
           }; 
     })
+
     function makeTX(storeName, mode) {
         let tx = db.transaction(storeName, mode);
         tx.onerror = (eve) => {
@@ -213,6 +225,42 @@ var ObjectStoreReac;
     }
 
 })();
+
+function load(id) {
+                
+
+  var active;
+  var data = active.transaction(["Usuario"], "readonly");
+  var object = data.objectStore("Usuario");
+  
+  var request = object.get(parseInt(id));
+  
+  request.onsuccess = function () {
+      
+      var result = request.result;
+
+      const input = "result.name";
+  document.getElementById("xd").innerHTML = input;
+  
+  console.log('Dato obtenido:', result.name);
+
+  
+  if (result !== undefined) {
+          alert("ID: " + result.id + "\n\
+          DNI: " + result.ApellidoM + "\n\
+          Name: " + result.name + "\n\
+          Surname: " + result.ApellidoP);
+      }
+
+  };
+  
+}
+
+
+
+
+
+
 
 //Verificar que las dos contraseñas coincidan
 //-----------------------------------------------------------------------------------------------------------------------
@@ -307,11 +355,15 @@ function manejadorValidacion(e) {
       function enviarFormulario() {
         var valorInput1 = document.getElementById("Usuario").value;
         localStorage.setItem("valorInput1", valorInput1);
+        var valorInput2 = document.getElementById("Usuario").value;
+        localStorage.setItem("valorInput2", valorInput2);
       }
     
       function cargarPagina() {
         var valorInput1 = localStorage.getItem("valorInput1");
         document.getElementById("aqui").value = valorInput1;
+        var valorInput2 = localStorage.getItem("valorInput2");
+        document.getElementById("aqui2").value = valorInput2;
       }
      
       
@@ -2168,7 +2220,6 @@ document.getElementById("salidaV").innerHTML= cadena+cadena2;
      //}
    }}
 }
-
 
 //actualizar bd para vista previa 
 

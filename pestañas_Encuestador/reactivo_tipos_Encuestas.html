@@ -53,7 +53,7 @@
                 </from>
             </div>
 
-            
+           
 
             <div class="col-sm-6 text-center mb-3">
                 <div> <label class="px-3 text-success">Crear Formulario </label><button
@@ -61,15 +61,17 @@
                         data-bs-toggle="modal" data-bs-target="#mymodalcrear">
                         <img src="../Img/Crear.svg">
                     </button>
+                </div>
 
                     <div class="col-sm-6 text-center mb-3">
-                        <from class="d-flex">
-
-                                    <input class="form-control me-2" id="aqui" name="aqui"  type="text" >
+                        <from>
+                
+                            <input id="aqui" name="aqui"  type="text" class="form-control">
                             
-        
+                
                         </from>
                     </div>
+                    
 
                     <!-- Modal -->
                     <div class="modal fade" id="mymodalcrear" tabindex="-1" aria-labelledby="mymodalcrear"
@@ -97,12 +99,12 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                
             </div>
         </div>
     </div>
     
-
+   
 
     <div class="p-3">
 
@@ -240,7 +242,18 @@
 
 
     <script src="../BD/app.js"></script>
+<script>
+    if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/sw.js')
+    .then(function(registration) {
+      console.log('Service Worker registrado con éxito:', registration.scope);
+    })
+    .catch(function(err) {
+      console.error('Error al registrar el Service Worker:', err);
+    });
+}
 
+</script>
 
 
 
