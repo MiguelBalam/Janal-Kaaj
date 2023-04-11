@@ -90,29 +90,6 @@ var ObjectStoreReac;
     DBOpenReq.addEventListener('success',(ev)=>{
      
       db= ev.target.result;
-<<<<<<< HEAD
-      //EncaEncuestaVista()
-    
-     EncuestaVistaPV2()
-      buscar()
-     //mostrarPreguntas();
-      reactivoscrear()
-     
-    // EncuestaVistaP()
-      //mostrarSelecReac()
-      predeSelecMos()
-      cargarPagina()
-      //buscar2()
-     // Usuariosactivo()
-    
-    
-      //ReacPredeVista()
-      // refrescarAlmacen()
-      
-       mostrarPreguntas();
-     
-      Encuesta1()
-=======
       predeSelecMos()
       buscar3()
       ReacPredeVista()
@@ -123,7 +100,6 @@ var ObjectStoreReac;
       reactivoscrear()
       CrearReactivo()
       // Encuesta1()
->>>>>>> c20cf47cded1843b2d446aa6d4bf129bf5ff817c
       Variables()
      
       
@@ -132,25 +108,12 @@ var ObjectStoreReac;
       buscarVar()
       buscarVar2()
       busVaC()
-<<<<<<< HEAD
-      //buildList()
-      buildList()
-     
-     // buscarLista();
-      
-      
-=======
       creEncuestaR()
->>>>>>> c20cf47cded1843b2d446aa6d4bf129bf5ff817c
      // buscarLista(); 
       //buildList()
       //BusVa()
       
       // refrescarAlmacen()
-<<<<<<< HEAD
-
-=======
->>>>>>> c20cf47cded1843b2d446aa6d4bf129bf5ff817c
     });
 
 
@@ -2130,15 +2093,9 @@ function buscar3(){
                   }
                  }
               }
-<<<<<<< HEAD
-   }      
-             
-};
-=======
              }      
              
          };
->>>>>>> c20cf47cded1843b2d446aa6d4bf129bf5ff817c
 
         // function CrearVariable(){
         //   var VariableNombre = document.getElementById("NomV").value.trim();
@@ -2353,152 +2310,6 @@ miBoton.onclick = function() {
 //   miModal.style.display = 'none';
 // };
 
-<<<<<<< HEAD
-function mostrarElementosPorCategoria() {
-  // Obtener el tipo de categoría seleccionada
-  var tablaHTML = "<table class= 'table table-bordered'>";
-  var tipoCategoria = document.getElementById("Categorias_R").value;
-  var id_array = new Array();
-  // Obtener la referencia al almacén de objetos
-  var transaction = db.transaction(["Encuesta_Reactivo"], "readonly");
-  var store = transaction.objectStore("Encuesta_Reactivo");
-
-  // Crear un índice en la propiedad de categoría del objeto
-  var index = store.index("Cate");
-
-
-  // Iniciar la búsqueda de elementos por categoría
-  var range = IDBKeyRange.only(tipoCategoria);
-  var cursor = index.openCursor(range);
- 
-
-  // Construir la tabla HTML
- 
-
-  // Iterar sobre los resultados de la búsqueda y agregarlos a la tabla
-  cursor.onsuccess = function(event) {
-    var result = event.target.result;
-    if(result) {
-      document.getElementById("salida").style.display ="none";
-       reactivoMostrado = result.value.Descripcion;
-      //cadena3 +="<tr><td>" + id + "</td></tr>";
-      tablaHTML += "<tr>";
-      tablaHTML +="<td><input type ='checkbox' id='S"+reactivoMostrado+"'></input></td>";
-      tablaHTML += "<td>" + reactivoMostrado+ "</td>";
-      tablaHTML += "</tr>";
-      result.continue();
-    } 
-    else {
-      // Finalizar la construcción de la tabla y mostrarla en la página
-      tablaHTML += "</table>";
-      document.getElementById("tablaElementos").innerHTML = tablaHTML;
-      document.getElementById("S"+reactivoMostrado).onclick= selec3;
-      
-    }
-  
-     
-      //document.getElementById("m"+id).onclick= Editar;
-
-    
-  };
-  
-}
-function selec3(e){
-  // console.log("seleccionar",e);
-  var reactivoMostrado= e.target.id;
-
-  var llaveCate = id;
-  console.log(llaveCate);
-
-   llaveCate = id.substring(1);
-  //console.log(id,llave);
-
-
-  if(confirm(llaveCate)){
-    var tx =db.transaction("Encuesta_Reactivo","readwrite");
-    var objectStore = tx.objectStore("Encuesta_Reactivo");
-    var request = objectStore.get(llaveCate)
-    request.onsuccess =function(){
-    
-
-     // alert ("Elementos seleccionados"+llave);
-      var idP = llaveCate.value
-      var tx = db.transaction("predeSelec","readwrite");
-      var objectStore = tx.objectStore("predeSelec");
-       objectStore.add({idP:llaveCate})
-
-      // alert ("Elementos seleccionados"+llave);
-    }
-  
-  }
-  // if(llave){
-  
-  //  }
-}
-
-function mostrarPreguntas() {
-
-  var objectStore = db.transaction("preguntaReactivos").objectStore("preguntaReactivos");
-
-  objectStore.openCursor().onsuccess = function(event) {
-    var cursor = event.target.result;
-
-    if (cursor) {
-      var pregunta = cursor.value.id2;
-      var tipoRespuesta = cursor.value.TipoRes;
-
-      var preguntaDiv = document.createElement("div");
-      var preguntaLabel = document.createElement("label");
-      var preguntaInput = document.createElement("TEXTAREA");
-
-      var respuestaDiv = document.createElement("div");
-
-      var respuestaSi = document.createElement("input");
-      var respuestaSiLabel = document.createElement("label");
-      respuestaSiLabel.textContent ='Sí';
-      var respuestaNo = document.createElement("input");
-      var respuestaNoLabel = document.createElement("label");
-      respuestaNoLabel.textContent = "No";
-      preguntaLabel.textContent = pregunta + ": ";
-      
-      if (tipoRespuesta === 1) {
-        preguntaDiv.appendChild(preguntaLabel);
-        preguntaDiv.appendChild(preguntaInput);
-        preguntaInput.setAttribute("type", "text");
-        
-      } else if (tipoRespuesta === 2) {
-        preguntaDiv.appendChild(preguntaLabel);
-      
-        respuestaSi.setAttribute("type", "radio");
-        respuestaSi.setAttribute("name", "respuesta");
-        respuestaSi.setAttribute("value", "si");
-        respuestaDiv.appendChild(respuestaSiLabel);
-        respuestaDiv.appendChild(respuestaSi);
-       
-        respuestaNo.setAttribute("type", "radio");
-        respuestaNo.setAttribute("name", "respuesta");
-        respuestaNo.setAttribute("value", "no");
-        respuestaDiv.appendChild(respuestaNoLabel);
-        respuestaDiv.appendChild(respuestaNo);
-        
-        preguntaDiv.appendChild(respuestaDiv);
-
-       
-      } else if (tipoRespuesta === 3) {
-        preguntaInput.setAttribute("type", "select");
-      }
-
-      document.getElementById("preguntas-container").appendChild(preguntaDiv);
-
-      cursor.continue();
-    }
-  };
-
-}
-
-
-
-=======
 //Agrega identificador para reactivo y encuesta
 function uuidv4() {
   return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
@@ -2531,4 +2342,3 @@ encuestasRequest.onsuccess = function(event) {
   console.log("Encuesta agregada con éxito.");
   crearReactivo(encuesta.identificador); // Crea un reactivo con el identificador de la encuesta
 };
->>>>>>> c20cf47cded1843b2d446aa6d4bf129bf5ff817c
