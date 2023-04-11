@@ -52,6 +52,7 @@
                 </div>
 
                 <form name="form" id="formulario" action="">
+                    <input type="hidden" name="fechaCreacionE" id="fechaCreacionE">
                     <div class="row mb-4">
                         <label class="col-md-4 col-form-label px-5">Título : </label>
                         <div class="col-md-8">
@@ -99,7 +100,7 @@
 
                             <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" type="button"
                                 id="boton_crear"
-                                onclick="location.href='../pestañas_Encuestador/editar_Reactivos.html'">Editar</button>
+                                onclick="location.href='../pestañas_Encuestador/editR.html'">Editar</button>
 
 
                         </div>
@@ -131,15 +132,17 @@
                         <div class="col-sm-12 text-center">
 
 
-                            <button onclick="creEncuestaR(), refrescarAlmacen()"
+                            <button onclick="creEncuestaR(),refrescarAlmacen()"
                                 class="btn btn-outline-success bg-border-mostaza bg-text-mostaza"
                                 id="boton-crear-encuesta" type="submit" disabled data-bs-toggle="modal" data-bs-target="#Modal_vistaPrevia"> Crear Encuesta</button>
 
-
+    
                         </div>
-
-                    </div>
-                        
+                     
+                        <div>
+                            <button onclick="creEncuestaR(),location.href='../pestañas_Encuestador/vistaPreguntas.html'"
+                            class="btn btn-outline-success bg-border-mostaza bg-text-mostaza"> Crear EncuestaP</button>
+                        </div>
                 <!-- </div>
             </div> -->
                
@@ -148,7 +151,7 @@
         </section>
     </div>
 
-
+   
     </div>
 
     <!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Modal_vistaPrevia">
@@ -166,14 +169,17 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div >   <img src="../Img/lOGOCONACYT.png" height=60px width=60px > </div>
-        <div id="Encabezado">   </div>
+        
+        <div id="Encabezado">  
+             </div>
         <div class="modal-body" id="modalcuerpo">
-
+        <div id="preguntas-container"></div>
+        <!-- <div class="modal-body" id="salidapredeSelec"></div>  -->
             <!-- <div id="salidapredeSelec"> </div>  -->
-            <!-- <div id="salidaSelec"></div> -->
+            <!-- <div id="salidaSelec"></div>  -->
 
         </div> 
-        <div id="salidapredeSelec2"> </div> 
+       <!--  <div id="salidapredeSelec2"> </div>  -->
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
           <button type="button" class="btn btn-primary">Guardar cambios</button>
