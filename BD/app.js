@@ -1951,15 +1951,9 @@ function buscar3(){
   var cadena3 ="<table class= 'table table-bordered'>";
   cadena3 += "";
   var num =0;
-<<<<<<< HEAD
-   var id_array = new Array();
-
-//   //leer cursor
-=======
   var id_array = new Array();
 
   //leer cursor
->>>>>>> c20cf47cded1843b2d446aa6d4bf129bf5ff817c
   var objectStore = db.transaction("Encuesta_Reactivo").objectStore("Encuesta_Reactivo");
   var index = objectStore.index("Cate");
   var tipo= document.getElementById("Categorias_R").selectedIndex;
