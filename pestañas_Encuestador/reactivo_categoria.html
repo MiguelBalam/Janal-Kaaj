@@ -47,12 +47,13 @@
                     <h6>Categoría: </h6>
                 </div>
                 <div class="col-sm-5 text-center mb-3">
-                    <select onchange="buscar3()" id="Categorias_R" class="form-select" aria-label="Default select example" required>
-                        <option value="0">Seleccione una categoría...</option>
-                        <option value="1">Miel</option>
-                        <option value="2">Agricultura</option>
-                        <option value="3">Ganaderia </option>
-                        <option value="4">Otro </option>
+                    <select onchange=" mostrarElementosPorCategoria()" id="Categorias_R" class="form-select" aria-label="Default select example" required>
+                        <option value="">Seleccione una categoría...</option>
+                        <option value="Miel">Miel</option>
+                        <option value="Agricultura">Agricultura</option>
+                        <option value="Ganaderia">Ganaderia </option>
+                        <option value="Otro">Otro </option>
+                        <option value= "todo">Todo Los Reactivos</option>
                     </select>
                     
                 </div>
@@ -77,11 +78,16 @@
                     <label class="form-check-label" for="flexCheckDefault">
                         <div id="salida"></div>
                         <div id="salida3"></div>
+                        <div id="tablaElementos"></div>
                     </label>
                     
                 </div>
+
+               <!--  <table id="tablaElementos">
+                  
+                </table>
                
-            </div>
+            </div> -->
 
             <div class="p-4 col-form-label px-5 text-center">
                 
