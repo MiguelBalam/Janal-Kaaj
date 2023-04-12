@@ -91,6 +91,7 @@ var ObjectStoreReac;
      
       db= ev.target.result;
       predeSelecMos()
+      buscar()
       buscar3()
       ReacPredeVista()
       mostrarSelecReac()
