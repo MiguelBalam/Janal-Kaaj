@@ -91,7 +91,6 @@ var ObjectStoreReac;
     DBOpenReq.addEventListener('success',(ev)=>{
      
       db= ev.target.result;
-<<<<<<< HEAD
       //EncaEncuestaVista()
      
      EncuestaVistaPV2()
@@ -113,19 +112,6 @@ var ObjectStoreReac;
        mostrarPreguntas();
      
       Encuesta1()
-=======
-      predeSelecMos()
-      buscar()
-      buscar3()
-      ReacPredeVista()
-      mostrarSelecReac()
-      EncaEncuestaVista()
-      cargarPagina()
-      // refrescarAlmacen()
-      reactivoscrear()
-      CrearReactivo()
-      // Encuesta1()
->>>>>>> 413d1acfd20c80d77eaf4599ed245a26e9dfc60b
       Variables()
      
       
@@ -134,16 +120,12 @@ var ObjectStoreReac;
       buscarVar()
       buscarVar2()
       busVaC()
-<<<<<<< HEAD
       //buildList()
       buildList()
      
      // buscarLista();
       
       
-=======
-      creEncuestaR()
->>>>>>> 413d1acfd20c80d77eaf4599ed245a26e9dfc60b
      // buscarLista(); 
       //buildList()
       //BusVa()
@@ -1997,15 +1979,9 @@ function buscar3(){
   var cadena3 ="<table class= 'table table-bordered'>";
   cadena3 += "";
   var num =0;
-<<<<<<< HEAD
    var id_array = new Array();
 
 //   //leer cursor
-=======
-  var id_array = new Array();
-
-  //leer cursor
->>>>>>> 413d1acfd20c80d77eaf4599ed245a26e9dfc60b
   var objectStore = db.transaction("Encuesta_Reactivo").objectStore("Encuesta_Reactivo");
   var index = objectStore.index("Cate");
   var tipo= document.getElementById("Categorias_R").selectedIndex;
@@ -2139,15 +2115,9 @@ function buscar3(){
                   }
                  }
               }
-<<<<<<< HEAD
    }      
              
 };
-=======
-             }      
-             
-         };
->>>>>>> 413d1acfd20c80d77eaf4599ed245a26e9dfc60b
 
         // function CrearVariable(){
         //   var VariableNombre = document.getElementById("NomV").value.trim();
@@ -2362,7 +2332,6 @@ miBoton.onclick = function() {
 //   miModal.style.display = 'none';
 // };
 
-<<<<<<< HEAD
 function mostrarElementosPorCategoria() {
   // Obtener el tipo de categoría seleccionada
   var tablaHTML = "<table class= 'table table-bordered'>";
@@ -2506,37 +2475,3 @@ function mostrarPreguntas() {
 }
 
 
-=======
-//Agrega identificador para reactivo y encuesta
-function uuidv4() {
-  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-    var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
-    return v.toString(16);
-  });
-}
-
-function crearReactivo(encuesta_id) {
-  var reactivo = {
-    identificador: uuidv4(), // Agrega un identificador único al objeto de reactivo
-    pregunta: "¿Te gusta la pizza?",
-    opciones: ["Sí", "No"],
-    encuesta_id: encuesta_id
-  };
-  
-  var reactivosStore = db.transaction(["reactivos"], "readwrite").objectStore("reactivos");
-  var reactivosRequest = reactivosStore.add(reactivo);
-  
-  reactivosRequest.onsuccess = function(event) {
-    console.log("Reactivo agregado con éxito.");
-  };
-}
-
-var encuesta = { titulo: "Encuesta sobre pizza", identificador: "abc123" };
-var encuestasStore = db.transaction(["encuestas"], "readwrite").objectStore("encuestas");
-var encuestasRequest = encuestasStore.add(encuesta);
-
-encuestasRequest.onsuccess = function(event) {
-  console.log("Encuesta agregada con éxito.");
-  crearReactivo(encuesta.identificador); // Crea un reactivo con el identificador de la encuesta
-};
->>>>>>> 413d1acfd20c80d77eaf4599ed245a26e9dfc60b
