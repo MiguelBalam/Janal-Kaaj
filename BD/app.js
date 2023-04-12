@@ -36,6 +36,7 @@ var ObjectStoreReac;
         ObjectStore = db.createObjectStore("Usuariosactivo", {keyPath: "id"});
         ObjectStore = db.createObjectStore("Usuarios", {autoIncrement: true});
 
+        ObjectStore = db.createObjectStore("EncuestaFinal", {keyPath: "id"});
 
         ObjectStore=db.createObjectStore("Autenticasion",{keyPath:"correo", autoIncrement: true});
         ObjectStore.createIndex("correo","correo",{unique:true});
@@ -90,9 +91,8 @@ var ObjectStoreReac;
     DBOpenReq.addEventListener('success',(ev)=>{
      
       db= ev.target.result;
-<<<<<<< HEAD
       //EncaEncuestaVista()
-    
+     
      EncuestaVistaPV2()
       buscar()
      //mostrarPreguntas();
@@ -112,18 +112,6 @@ var ObjectStoreReac;
        mostrarPreguntas();
      
       Encuesta1()
-=======
-      predeSelecMos()
-      buscar3()
-      ReacPredeVista()
-      mostrarSelecReac()
-      EncaEncuestaVista()
-      cargarPagina()
-      // refrescarAlmacen()
-      reactivoscrear()
-      CrearReactivo()
-      // Encuesta1()
->>>>>>> c20cf47cded1843b2d446aa6d4bf129bf5ff817c
       Variables()
      
       
@@ -132,25 +120,17 @@ var ObjectStoreReac;
       buscarVar()
       buscarVar2()
       busVaC()
-<<<<<<< HEAD
       //buildList()
       buildList()
      
      // buscarLista();
       
       
-=======
-      creEncuestaR()
->>>>>>> c20cf47cded1843b2d446aa6d4bf129bf5ff817c
      // buscarLista(); 
       //buildList()
       //BusVa()
       
       // refrescarAlmacen()
-<<<<<<< HEAD
-
-=======
->>>>>>> c20cf47cded1843b2d446aa6d4bf129bf5ff817c
     });
 
 
@@ -378,7 +358,7 @@ function manejadorValidacion(e) {
               
                   // alert("Inicio de sesion exitosa");
               
-                 control (window.location.href='form_encuestador.html');
+                 control (window.location.href='/pestañas_Encuestador/reactivo_tipos_Encuestas.html');
                  //var correo = document.getElementById('Usuario').value;
                  //var idR = document.getElementById("ReactivoCre").value.trim();
                //var request2 = db.transaction(["Reactivos"], "readwrite").objectStore("Reactivos").put({creador:Usuario});
@@ -570,22 +550,31 @@ function manejadorValidacion(e) {
     function borrar(e){
       // console.log ('borrar',e)
       var id = e.target.id;
+      
       var llave = id.substr(1)
       // console.log(id,llave);
       if(llave){
         db.transaction('Reactivos','readwrite')
         .objectStore('Reactivos')
         .delete(llave),
+        
         borraactu2()
        
         
       }
 
       request.onsuccess =function (e){
+     
+       
+       
         // alert("eliminado"+llave)
         
       };
+      deleteRequest.onsuccess = function(event) {
+        console.log("Registro eliminado con éxito");
+      };
       reactivoscrear()
+      mostrarPreguntas()
      }
     
     
@@ -869,7 +858,9 @@ function manejadorValidacion(e) {
         document.getElementById("Encabezado").innerHTML = cadena;
 
 }
+
 };
+
 }
 
 
@@ -934,7 +925,7 @@ function manejadorValidacion(e) {
              if(confirm(llave)){
                var tx =db.transaction("selecVariables","readwrite");
                var objectStore = tx.objectStore("selecVariables");
-               var request = objectStore.add(llave, );
+               var request = objectStore.add(llave );
    
                request.onsuccess =function(){
               //  console.log(llave)
@@ -1841,7 +1832,7 @@ function ResOpMul(){
          //buscar();
          //buscar2();
          buscarE();   
-         //EncaEncuestaVista();
+       
         EncuestaVistaPV2()
       
          //EncuestaVistaP();
@@ -1988,15 +1979,9 @@ function buscar3(){
   var cadena3 ="<table class= 'table table-bordered'>";
   cadena3 += "";
   var num =0;
-<<<<<<< HEAD
    var id_array = new Array();
 
 //   //leer cursor
-=======
-  var id_array = new Array();
-
-  //leer cursor
->>>>>>> c20cf47cded1843b2d446aa6d4bf129bf5ff817c
   var objectStore = db.transaction("Encuesta_Reactivo").objectStore("Encuesta_Reactivo");
   var index = objectStore.index("Cate");
   var tipo= document.getElementById("Categorias_R").selectedIndex;
@@ -2130,15 +2115,9 @@ function buscar3(){
                   }
                  }
               }
-<<<<<<< HEAD
    }      
              
 };
-=======
-             }      
-             
-         };
->>>>>>> c20cf47cded1843b2d446aa6d4bf129bf5ff817c
 
         // function CrearVariable(){
         //   var VariableNombre = document.getElementById("NomV").value.trim();
@@ -2353,7 +2332,6 @@ miBoton.onclick = function() {
 //   miModal.style.display = 'none';
 // };
 
-<<<<<<< HEAD
 function mostrarElementosPorCategoria() {
   // Obtener el tipo de categoría seleccionada
   var tablaHTML = "<table class= 'table table-bordered'>";
@@ -2497,38 +2475,3 @@ function mostrarPreguntas() {
 }
 
 
-
-=======
-//Agrega identificador para reactivo y encuesta
-function uuidv4() {
-  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-    var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
-    return v.toString(16);
-  });
-}
-
-function crearReactivo(encuesta_id) {
-  var reactivo = {
-    identificador: uuidv4(), // Agrega un identificador único al objeto de reactivo
-    pregunta: "¿Te gusta la pizza?",
-    opciones: ["Sí", "No"],
-    encuesta_id: encuesta_id
-  };
-  
-  var reactivosStore = db.transaction(["reactivos"], "readwrite").objectStore("reactivos");
-  var reactivosRequest = reactivosStore.add(reactivo);
-  
-  reactivosRequest.onsuccess = function(event) {
-    console.log("Reactivo agregado con éxito.");
-  };
-}
-
-var encuesta = { titulo: "Encuesta sobre pizza", identificador: "abc123" };
-var encuestasStore = db.transaction(["encuestas"], "readwrite").objectStore("encuestas");
-var encuestasRequest = encuestasStore.add(encuesta);
-
-encuestasRequest.onsuccess = function(event) {
-  console.log("Encuesta agregada con éxito.");
-  crearReactivo(encuesta.identificador); // Crea un reactivo con el identificador de la encuesta
-};
->>>>>>> c20cf47cded1843b2d446aa6d4bf129bf5ff817c
