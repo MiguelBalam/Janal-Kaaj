@@ -1,4 +1,3 @@
-// imports
 importScripts('BD/sw-utils.js');
 
 const STATIC_CACHE = 'static-v1';
@@ -39,7 +38,7 @@ const APP_SHELL_INMUTABLE = [
     'https://code.jquery.com/jquery-3.3.1.slim.min.js',
     'https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js',
     'https://fonts.gstatic.com/s/ibmplexsans/v14/zYX9KVElMYYaJe8bpLHnCwDKjXr8AIFsdP3pBms.woff2',
-    'favicon.ico', 
+    'pestanas_Encuestado/Img/1.jpg',
     'pestanas_Encuestado/Img/2.jpg',
     'pestanas_Encuestado/Img/3.jpg',
     'pestanas_Encuestado/Img/4.jpg',
