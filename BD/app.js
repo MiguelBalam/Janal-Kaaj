@@ -24,8 +24,7 @@ var ObjectStoreReac;
     
     //Creacion de tablas u objetos
     DBOpenReq.addEventListener('upgradeneeded',(ev)=>{
-        db = ev.target.result;
-       
+        db = ev.target.result;       
         
         ObjectStore = db.createObjectStore("Usuario", { keyPath : 'id', autoIncrement: true});
         ObjectStore.createIndex("Nombre","Nombre",{unique:true});
