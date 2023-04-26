@@ -46,7 +46,7 @@ var ObjectStoreReac;
         db.createObjectStore("Municipio", {autoIncrement: true});
         db.createObjectStore("Encuestador",{autoIncrement: true});
         //Encuestas
-        ObjectStore= db.createObjectStore("Encuesta", {keyPath:"TituloE",autoIncrement: true});
+        ObjectStore= db.createObjectStore("Encuesta", {keyPath:"IdEn",autoIncrement: true});
         ObjectStore.createIndex("EncuestaTitulo","Titulo",{unique:true});
         ObjectStore.createIndex("EncuestaObjetivo","ObjetivoER",{unique:true});
         ObjectStore.createIndex("EncuestaInstruccion","Instrucciones",{unique:true});
@@ -69,7 +69,8 @@ var ObjectStoreReac;
   
         db.createObjectStore("Categoria_encuesta", {autoIncrement: true});
 
-        ObjectStore=db.createObjectStore("preguntaReactivos", {autoIncrement: true});
+        ObjectStore=db.createObjectStore("preguntaReactivos", {keypth:"idPreg",autoIncrement: true});
+        ObjectStore.createIndex("Encuesta_Id","Encuesta_Id", {unique: true});
         ObjectStore=db.createObjectStore("selecVariables", {autoIncrement: true});
         //ObjectStoreReac=db.createObjectStore("Categorias", {autoIncrement: true});
         ObjectStore = db.createObjectStore("predeSelec", {autoIncrement: true});
@@ -92,7 +93,7 @@ var ObjectStoreReac;
      
       db= ev.target.result;
       //EncaEncuestaVista()
-     
+   
      EncuestaVistaPV2()
       buscar()
      //mostrarPreguntas();
@@ -122,7 +123,7 @@ var ObjectStoreReac;
       busVaC()
       //buildList()
       buildList()
-     
+      Ef()
      // buscarLista();
       
       
@@ -130,7 +131,7 @@ var ObjectStoreReac;
       //buildList()
       //BusVa()
       
-      // refrescarAlmacen()
+     // refrescarAlmacen()
     });
 
 
@@ -505,7 +506,7 @@ function manejadorValidacion(e) {
   //salida para las preguntas de reactivos en crear.html
   //-----------------------------------------------------------------------------------------------------------------------
   //buscar 2
-      function reactivoscrear(){
+      function reactivoscrear(encuestaId){
         var cadena ="<table class= 'table table-bordered'>";
         var num= 0;
         var ids_array = new Array();
@@ -622,7 +623,7 @@ function manejadorValidacion(e) {
     // funcion para seleccionar checkbox
 //-----------------------------------------------------------------------------------------------------------------------
 
-    function selec(e){
+    function selec(e,encuestaId){
       // console.log("seleccionar",e);
       var id = e.target.id;
       //var id2= e.target.result;
@@ -648,7 +649,7 @@ function manejadorValidacion(e) {
         request.onsuccess =function(e){
         var reactivo = e.target.result;
         console.log("Elementos seleccionados: ", reactivo.id, reactivo.TipoRes);
-        storeOtroObjeto.add({id2:reactivo.id, TipoRes: reactivo.TipoRes, fechaCreacion: Date.now()});
+        storeOtroObjeto.add({id2:reactivo.id, TipoRes: reactivo.TipoRes, fechaCreacion: Date.now(), encuestaId:encuestaId});
           //alert ("Elementos seleccionados"+llave);
           //var id2 = llave.value
           
@@ -826,18 +827,20 @@ function manejadorValidacion(e) {
       var newestItem = null;
       var newestItem2 = null
       var newestItem3 = null
+      var newestItem4 = null
 // Crear un cursor para recorrer los objetos en el índice
         var request = index.openCursor(null,'prev');
         var request = index2.openCursor(null,'prev');
         var request = index3.openCursor(null,'prev');
       request.onsuccess = function(event) {
         var cursor = event.target.result;
-        
+        newestItem4 = cursor.value.TituloE;
 
       if (!newestItem || Titulo.fechaCreacionE > newestItem.fechaCreacionE && !newestItem2 || floatingTextarea2.fechaCreacionE > newestItem2.fechaCreacionE  && !newestItem3 || floatingTextarea21.fechaCreacionE > newestItem3.fechaCreacionE ) {
         newestItem = Titulo;
        newestItem2 = floatingTextarea2;
-       newestItem3 = floatingTextarea21
+       newestItem3 = floatingTextarea21;
+       //newestItem4 = TituloE;
        //newestItem3 = cursor.value.Instrucciones;
         cursor.continue();
       }
@@ -853,10 +856,11 @@ function manejadorValidacion(e) {
         cadena += "<tr>";
         // Mostrar el objeto más reciente en la pantalla
         console.log(newestItem);
+        console.log(newestItem4);
         console.log(newestItem2);
         cadena += "</table>";
         document.getElementById("Encabezado").innerHTML = cadena;
-        encuestaF()
+        
 
 }
 
@@ -1827,15 +1831,18 @@ function ResOpMul(){
       .add({creador:creador,Titulo:Titulo, Objetivo:Objetivo, Instrucciones:Instrucciones,fechaCreacionE:value=Date.now()});
 
       request.onsuccess = function(e){
+        var encuestaId = e.target.result;
+        console.log("Encuesta creada con id: ", encuestaId);
+        reactivoscrear(encuestaId);
       
          console.log(e);
          alert("se inserto los datos");
          //buscar();
          //buscar2();
          buscarE();   
-         encuestaF()
+        // encuestaF()
         EncuestaVistaPV2()
-      
+       // Ef()
          //EncuestaVistaP();
       };
       
@@ -2475,20 +2482,89 @@ function mostrarPreguntas() {
 
 }
 
+// function Ef() {
+//   // Iniciar la transacción
+//   var transaction = db.transaction(["Encuesta", "preguntaReactivos", "EncuestaFinal"], "readwrite");
 
-function encuestaF(){
-  var transaction = db.transaction(['Encuesta', 'EncuestaFinal'], 'readwrite');
-  var cursorRequest = transaction.objectStore('Encuesta').openCursor();
+//   // Obtener los object stores
+//   var encuestaStore = transaction.objectStore("Encuesta");
+//   var preguntasStore = transaction.objectStore("preguntaReactivos");
+//   var encuestaFinalStore = transaction.objectStore("EncuestaFinal");
+
+//   // Obtener la encuesta
+//   var encuestaRequest = encuestaStore.get(IdEn);
+//   encuestaRequest.onerror = function(event) {
+//     console.log("Error al obtener la encuesta:", event.target.error);
+//   };
+//   encuestaRequest.onsuccess = function(event) {
+//     var encuesta = event.target.result;
+
+//     // Obtener las preguntas
+//     var preguntasIndex = preguntasStore.index("Encuesta_Id");
+//     var preguntasRequest = preguntasIndex.getAll(encuesta.IdEn);
+//     preguntasRequest.onerror = function(event) {
+//       console.log("Error al obtener las preguntas:", event.target.error);
+//     };
+//     preguntasRequest.onsuccess = function(event) {
+//       var preguntas = event.target.result;
+
+//       // Agregar la encuesta final y sus preguntas
+//       var encuestaFinal = { titulo: encuesta.titulo, preguntas: preguntas };
+//       var encuestaFinalRequest = encuestaFinalStore.add(encuestaFinal);
+//       encuestaFinalRequest.onerror = function(event) {
+//         console.log("Error al agregar la encuesta final:", event.target.error);
+//       };
+//       encuestaFinalRequest.onsuccess = function(event) {
+//         console.log("Encuesta final agregada correctamente.");
+//       };
+//     };
+//   };
+
+//   // Finalizar la transacción
+//   transaction.onerror = function(event) {
+//     console.log("Error al realizar la transacción:", event.target.error);
+//   };
+//   transaction.oncomplete = function(event) {
+//     console.log("Transacción realizada correctamente.");
+//   };
+// }
+
+ 
+  // Crear un evento de botón que llame a la función combinarDatos()
+
+
+
+
+
   
-  cursorRequest.onsuccess = function(event) {
-    var cursor = event.target.result;
-    if (cursor) {
-      var registro = cursor.value;
-      var objetoGuardado = {campo1:registro.TituloE};
-      var objetoStore = transaction.objectStore('EncuestaFinal');
-      objetoStore.put(objetoGuardado);
-      cursor.continue();
-    }
 
-  };
-}
+
+
+
+  function crearEncuestaFinal() {
+    var transaccion = db.transaction(["Encuesta", "preguntaReactivos", "EncuestaFinal"], "readwrite");
+    var almacenTitulo = transaccion.objectStore("Encuesta");
+    var almacenReactivos = transaccion.objectStore("preguntaReactivos");
+    var almacenEncuestaFinal = transaccion.objectStore("EncuestaFinal");
+
+    var objetoEncuestaFinal = {};
+
+    almacenTitulo.get(1).onsuccess = function(event) {
+      objetoEncuestaFinal.titulo = event.target.result.Titulo;
+    };
+
+    almacenReactivos.openCursor().onsuccess = function(event) {
+      var cursor = event.target.result;
+      if (cursor) {
+        if (cursor.value.seleccionado) {
+          objetoEncuestaFinal.reactivos = objetoEncuestaFinal.id2 || [];
+          objetoEncuestaFinal.reactivos.push(cursor.value.id2);
+        }
+        cursor.continue();
+      }
+    };
+
+    transaccion.oncomplete = function() {
+      almacenEncuestaFinal.put(objetoEncuestaFinal);
+    };
+  }
