@@ -1,5 +1,6 @@
+
 var url = window.location.href;
-var swLocation = '/Janal-Kaaj/sw.js';
+var swLocation = '../Janal-Kaaj/sw.js';
 
 if (navigator.serviceWorker){
 
@@ -9,7 +10,7 @@ if (navigator.serviceWorker){
   navigator.serviceWorker.register(swLocation);
 }
 
-// creacion de la base de datos
+//creacion de la base de datos
 var db;
 var ObjectStore;
 var ObjectStoreReac;
@@ -2567,3 +2568,5 @@ function mostrarPreguntas() {
       almacenEncuestaFinal.put(objetoEncuestaFinal);
     };
   }
+
+
