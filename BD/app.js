@@ -36,7 +36,7 @@ var ObjectStoreReac;
         ObjectStore = db.createObjectStore("Usuariosactivo", {keyPath: "id"});
         ObjectStore = db.createObjectStore("Usuarios", {autoIncrement: true});
 
-        ObjectStore = db.createObjectStore("EncuestaFinal", {keyPath:"TituloE",});
+        ObjectStore = db.createObjectStore("EncuestaFinal", {autoIncrement: true});
 
         ObjectStore=db.createObjectStore("Autenticasion",{keyPath:"correo", autoIncrement: true});
         ObjectStore.createIndex("correo","correo",{unique:true});
@@ -123,7 +123,7 @@ var ObjectStoreReac;
       busVaC()
       //buildList()
       buildList()
-      Ef()
+      
      // buscarLista();
       
       
@@ -506,7 +506,7 @@ function manejadorValidacion(e) {
   //salida para las preguntas de reactivos en crear.html
   //-----------------------------------------------------------------------------------------------------------------------
   //buscar 2
-      function reactivoscrear(encuestaId){
+      function reactivoscrear(){
         var cadena ="<table class= 'table table-bordered'>";
         var num= 0;
         var ids_array = new Array();
@@ -623,7 +623,7 @@ function manejadorValidacion(e) {
     // funcion para seleccionar checkbox
 //-----------------------------------------------------------------------------------------------------------------------
 
-    function selec(e,encuestaId){
+    function selec(e){
       // console.log("seleccionar",e);
       var id = e.target.id;
       //var id2= e.target.result;
@@ -649,7 +649,7 @@ function manejadorValidacion(e) {
         request.onsuccess =function(e){
         var reactivo = e.target.result;
         console.log("Elementos seleccionados: ", reactivo.id, reactivo.TipoRes);
-        storeOtroObjeto.add({id2:reactivo.id, TipoRes: reactivo.TipoRes, fechaCreacion: Date.now(), encuestaId:encuestaId});
+        storeOtroObjeto.add({id2:reactivo.id, TipoRes: reactivo.TipoRes, fechaCreacion: Date.now()});
           //alert ("Elementos seleccionados"+llave);
           //var id2 = llave.value
           
@@ -837,7 +837,7 @@ function manejadorValidacion(e) {
         newestItem4 = cursor.value.TituloE;
 
       if (!newestItem || Titulo.fechaCreacionE > newestItem.fechaCreacionE && !newestItem2 || floatingTextarea2.fechaCreacionE > newestItem2.fechaCreacionE  && !newestItem3 || floatingTextarea21.fechaCreacionE > newestItem3.fechaCreacionE ) {
-        newestItem = Titulo;
+       newestItem = Titulo;
        newestItem2 = floatingTextarea2;
        newestItem3 = floatingTextarea21;
        //newestItem4 = TituloE;
@@ -1813,7 +1813,7 @@ function ResOpMul(){
         
 
       
-
+       var encuestaId;
           
         //guardar en base de datos
       function creEncuestaR(){
@@ -1831,7 +1831,7 @@ function ResOpMul(){
       .add({creador:creador,Titulo:Titulo, Objetivo:Objetivo, Instrucciones:Instrucciones,fechaCreacionE:value=Date.now()});
 
       request.onsuccess = function(e){
-        var encuestaId = e.target.result;
+       encuestaId = e.target.result;
         console.log("Encuesta creada con id: ", encuestaId);
         reactivoscrear(encuestaId);
       
@@ -1844,6 +1844,7 @@ function ResOpMul(){
         EncuestaVistaPV2()
        // Ef()
          //EncuestaVistaP();
+         selec(encuestaId);
       };
       
     })
@@ -2536,33 +2537,238 @@ function mostrarPreguntas() {
 
 
 
+
+//Almacen de relación E-R-RP
+// var encuestaId;
+//   function crearEncuestaFinal() {
   
+//       var creador = document.getElementById("aqui").value; 
+//       var Titulo = document.getElementById("Titulo").value.trim();
+//       var Objetivo = document.getElementById("floatingTextarea2").value.trim();
+//       var Instrucciones = document.getElementById('floatingTextarea21').value.trim();
+//       var fechaCreacionE = document.getElementById("fechaCreacionE");
+//       var form = document.getElementById('formulario');
+  
+//       form.addEventListener('submit', function(eve){
+//         eve.preventDefault();
+//         var request = db.transaction(["Encuesta"], "readwrite")
+//           .objectStore("Encuesta")
+//           .add({creador:creador,Titulo:Titulo, Objetivo:Objetivo, Instrucciones:Instrucciones,fechaCreacionE:value=Date.now()});
+  
+//         request.onsuccess = function(e){
+//          encuestaId = e.target.result;
+//          console.log("Encuesta creada con id: ", encuestaId,Titulo);
+//         var reactivosSeleccionados = obtenerReactivosSeleccionados(); //función que obtiene los reactivos seleccionados por el usuario
+//       var tx = db.transaction(["EncuestaFinal"], "readwrite");
+//       var store = tx.objectStore("EncuestaFinal");
+     
+//         store.add({encuestaId:encuestaId,reactivoId:reactivosSeleccionados});
+      
+//       tx.oncomplete = function() {
+//         console.log("Relación entre la encuesta y los reactivos creada correctamente");
+//       };
+        
+//         // var tx = db.transaction(["EncuestaFinal"], "readwrite");
+//         // var store = tx.objectStore("EncuestaFinal");
+      
+//         //   store.add({encuestaId:encuestaId});
+       
+//         // tx.oncomplete = function() {
+//         //   console.log("Relación entre la encuesta y los reactivos creada correctamente");
+//         // };
+          
+//           console.log(e);
+//           alert("se inserto los datos");
+  
+//           buscarE();   
+      
+//           EncuestaVistaPV2()
+  
+//         };
+        
+//       })
+
+//   }
+// var encuestaId;
+// function crearEncuestaFinal() {
+//   var creador = document.getElementById("aqui").value; 
+//   var Titulo = document.getElementById("Titulo").value.trim();
+//   var Objetivo = document.getElementById("floatingTextarea2").value.trim();
+//   var Instrucciones = document.getElementById('floatingTextarea21').value.trim();
+//   var fechaCreacionE = Date.now();
+//   var form = document.getElementById('formulario');
+
+//   form.addEventListener('submit', function(eve){
+//     eve.preventDefault();
+
+//     // Agregar la encuesta a la tienda "Encuesta"
+//     var encuestaRequest = db.transaction("Encuesta", "readwrite")
+//       .objectStore("Encuesta")
+//       .add({creador:creador, Titulo:Titulo, Objetivo:Objetivo, Instrucciones:Instrucciones, fechaCreacionE:fechaCreacionE});
+
+//     encuestaRequest.onsuccess = function(e) {
+//       var encuestaId = e.target.result;
+
+//       // Obtener los reactivos seleccionados
+//       var reactivosSeleccionados = obtenerReactivosSeleccionados();
+
+//       // Agregar la relación entre la encuesta y los reactivos a la tienda "EncuestaFinal"
+//       var relacionRequest = db.transaction("EncuestaFinal", "readwrite")
+//         .objectStore("EncuestaFinal");
+
+//       reactivosSeleccionados.forEach(function(reactivo) {
+//         relacionRequest.add({encuestaId:encuestaId, reactivoId:reactivo.id, id:encuestaId+"_"+reactivo.id});
+//       });
+
+//       relacionRequest.onsuccess = function() {
+//         console.log("Relación entre la encuesta y los reactivos creada correctamente");
+//         alert("se insertaron los datos");
+//         buscarE();
+//         EncuestaVistaPV2();
+//       };
+
+//       relacionRequest.onerror = function() {
+//         console.error("Error al crear la relación entre la encuesta y los reactivos");
+//       };
+//     };
+
+//     encuestaRequest.onerror = function() {
+//       console.error("Error al crear la encuesta");
+//     };
+//   });
+// }
 
 
+// function obtenerReactivosSeleccionados() {
+//   var reactivosSeleccionados = [];
+//   var checkboxes = document.querySelectorAll("input[type='checkbox'][id^='s']:checked");
 
+//   var tx = db.transaction("preguntaReactivos", "readonly");
+//   var store = tx.objectStore("preguntaReactivos");
+//   var request = store.openCursor();
+//   request.onsuccess = function(event) {
+//     var cursor = event.target.result;
+//     if (cursor) {
+//       var reactivoId = cursor.value.id2;
 
-  function crearEncuestaFinal() {
-    var transaccion = db.transaction(["Encuesta", "preguntaReactivos", "EncuestaFinal"], "readwrite");
-    var almacenTitulo = transaccion.objectStore("Encuesta");
-    var almacenReactivos = transaccion.objectStore("preguntaReactivos");
-    var almacenEncuestaFinal = transaccion.objectStore("EncuestaFinal");
+//       checkboxes.forEach(function(checkbox) {
+//         if (checkbox.value == reactivoId && checkbox.checked) {
+//           reactivosSeleccionados.push({Reac: reactivoId});
+//         }
+//       });
 
-    var objetoEncuestaFinal = {};
+//       cursor.continue();
+//     } else {
+//       // cuando se termina el cursor, puedes utilizar la matriz "reactivosSeleccionados"
+//       console.log(reactivosSeleccionados);
+//       return reactivosSeleccionados;
+//     }
+//   };
+// }
 
-    almacenTitulo.get(1).onsuccess = function(event) {
-      objetoEncuestaFinal.titulo = event.target.result.Titulo;
+  // function obtenerReactivosSeleccionados() {
+  //   var reactivosSeleccionados = [];
+  //   var checkboxes = document.querySelectorAll("input[type='checkbox'][id^='s']:checked");
+
+  //   var tx = db.transaction("preguntaReactivos", "readonly");
+  // var store = tx.objectStore("preguntaReactivos");
+  // var request = store.openCursor();request.onsuccess = function(event) {
+  //   var cursor = event.target.result;
+  //   if (cursor) {
+  //     var reactivoId = cursor.value.id2;
+ 
+      
+  //     checkboxes.forEach(function(checkbox) {
+  //       if (checkbox.value == reactivoId && checkbox.checked) {
+  //         reactivosSeleccionados.push({id2:reactivoId});
+  //       }
+  //     });
+      
+  //     cursor.continue();
+  //   } else {
+  //     // cuando se termina el cursor, puedes utilizar la matriz "reactivosSeleccionados"
+  //     console.log(reactivosSeleccionados);
+  //     return reactivosSeleccionados;
+  //   }
+  // };
+
+  // }
+ 
+  var encuestaId;
+
+function crearEncuestaFinal() {
+  var creador = document.getElementById("aqui").value;
+  var Titulo = document.getElementById("Titulo").value.trim();
+  var Objetivo = document.getElementById("floatingTextarea2").value.trim();
+  var Instrucciones = document.getElementById('floatingTextarea21').value.trim();
+  var fechaCreacionE = Date.now(); // Obtener la fecha actual en milisegundos
+
+  var form = document.getElementById('formulario');
+
+  form.addEventListener('submit', async function(eve) {
+    eve.preventDefault();
+
+    var request = db.transaction(["Encuesta"], "readwrite")
+      .objectStore("Encuesta")
+      .add({
+        creador: creador,
+        Titulo: Titulo,
+        Objetivo: Objetivo,
+        Instrucciones: Instrucciones,
+        fechaCreacionE: fechaCreacionE
+      });
+
+    request.onsuccess = async function(e) {
+      encuestaId = e.target.result;
+      console.log("Encuesta creada con id: ", encuestaId, Titulo);
+      var reactivosSeleccionados = await obtenerReactivosSeleccionados() 
+     
+      var tx = db.transaction(["EncuestaFinal"], "readwrite");
+      var store = tx.objectStore("EncuestaFinal");
+
+      reactivosSeleccionados.forEach(function(reactivoId) {
+        store.add({
+          encuestaId: encuestaId,
+          reactivoId: reactivoId
+        });
+      });
+      
+      tx.oncomplete = function() {
+        console.log("Relación entre la encuesta y los reactivos creada correctamente");
+      };
+
+      console.log(e);
+      alert("Se insertaron los datos");
+
+      buscarE();
+
+      EncuestaVistaPV2();
     };
+  });
+}
 
-    almacenReactivos.openCursor().onsuccess = function(event) {
+async function obtenerReactivosSeleccionados() {
+  var reactivosSeleccionados = [];
+  var checkboxes = document.querySelectorAll("input[type='checkbox'][id^='s']:checked");
+
+  var transaction = db.transaction(["preguntaReactivos"], "readonly");
+  var objectStore = transaction.objectStore("preguntaReactivos");
+  var cursor = objectStore.openCursor(null, "prev");
+
+  await new Promise((resolve) => {
+    cursor.onsuccess = function(event) {
       var cursor = event.target.result;
       if (cursor) {
-        if (cursor.value.seleccionado) {
-          objetoEncuestaFinal.reactivos = objetoEncuestaFinal.id2 || [];
-          objetoEncuestaFinal.reactivos.push(cursor.value.id2);
+        var valor = cursor.value.id2;
+        if (!reactivosSeleccionados.includes(valor) && contieneCheckboxId(checkboxes, valor)) {
+          reactivosSeleccionados.push(valor);
         }
         cursor.continue();
+      } else {
+        resolve();
       }
     };
+  });
 
     transaccion.oncomplete = function() {
       almacenEncuestaFinal.put(objetoEncuestaFinal);
