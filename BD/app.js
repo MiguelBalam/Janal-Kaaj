@@ -99,13 +99,7 @@ var ObjectStoreReac;
      
       db= ev.target.result;
       //EncaEncuestaVista()
-<<<<<<< HEAD
       mostrarEncuesta()
-=======
-      // crearEncuestaFinal()
-      
-      // compararValores()
->>>>>>> bdb424fc1df3c238489dafcf1c78a9044dd6c3a0
      EncuestaVistaPV2()
       buscar()
      //mostrarPreguntas();
@@ -119,13 +113,8 @@ var ObjectStoreReac;
      // Usuariosactivo()
       //ReacPredeVista()
       // refrescarAlmacen()
-<<<<<<< HEAD
      
        mostrarPreguntas();
-=======
-       mostrarPreguntas()
-  
->>>>>>> bdb424fc1df3c238489dafcf1c78a9044dd6c3a0
      
       Encuesta1()
       Variables()
@@ -975,13 +964,8 @@ function manejadorValidacion(e) {
              //cadena += "<div class= 'modal fade' id='mymodal3' tabindex='-1' aria-labelledby='mymodal3' aria-modal='true' style='display: none;' aria-modal='true' role='dialog'><div class='modal-dialog modal-dialog-centered modal-dialog-scrollable'><div class='modal-content'></div></div></div>";
             cadena += " <div id='valorla'> <label class='label2' id='valorid'>"+cursor.value.Titulo+"</label> <button class='btn btn-outline-success bg-border-mostaza bg-text-mostaza'   id=''>Editar</button> </div> "
             //cadena += "<label>"+cursor.value.Titulo+"</label>"
-<<<<<<< HEAD
             cadena += "<div class='p-3'> <label>"+cursor.value.Titulo+"</label></div>"
             //cadena += "<div class='p-3'> <button onclick='location.href='../pestañas_Encuestador/EncuestaApi.html'>"+cursor.value.Instrucciones+"</button></div>"
-=======
-            cadena += "<div class='p-3' id='ValorDiv'>  </div>"
-            // cadena += "<div class='p-3'> <label>"+cursor.value.IdEn+"</label></div>"
->>>>>>> bdb424fc1df3c238489dafcf1c78a9044dd6c3a0
              //cadena += "<td>+<button id='m"+Descripcion+"'>Seleccionar</button></td></tr>";
              id_array.push(Descripcion);
              num ++;
@@ -2815,7 +2799,6 @@ function obtenerValorYVerificarLabel() {
   }
 }
 
-<<<<<<< HEAD
 
 
 
@@ -3000,8 +2983,3 @@ function obtenerValorYVerificarLabel() {
   // Llamar a la función para mostrar la encuesta
 
   
-=======
-// // Asociar el evento de clic al botóns
-// const boton = document.getElementById('34');
-// boton.addEventListener('click', obtenerValorLabelEnDiv);
->>>>>>> bdb424fc1df3c238489dafcf1c78a9044dd6c3a0
