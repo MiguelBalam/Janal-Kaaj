@@ -1,5 +1,6 @@
+
 var url = window.location.href;
-var swLocation = '/Janal-Kaaj/sw.js';
+var swLocation = '../Janal-Kaaj/sw.js';
 
 if (navigator.serviceWorker){
 
@@ -9,7 +10,7 @@ if (navigator.serviceWorker){
   navigator.serviceWorker.register(swLocation);
 }
 
-// creacion de la base de datos
+//creacion de la base de datos
 var db;
 var ObjectStore;
 var ObjectStoreReac;
@@ -87,12 +88,24 @@ var ObjectStoreReac;
         console.log('upgrade',db);
        
     });
+
+    
+    document.addEventListener('DOMContentLoaded', function() {
+      obtenerValorYVerificarLabel();
+      console.log("triste");
+    });
     //funciones para cursores
     DBOpenReq.addEventListener('success',(ev)=>{
      
       db= ev.target.result;
       //EncaEncuestaVista()
+<<<<<<< HEAD
       mostrarEncuesta()
+=======
+      // crearEncuestaFinal()
+      
+      // compararValores()
+>>>>>>> bdb424fc1df3c238489dafcf1c78a9044dd6c3a0
      EncuestaVistaPV2()
       buscar()
      //mostrarPreguntas();
@@ -104,12 +117,15 @@ var ObjectStoreReac;
       cargarPagina()
       //buscar2()
      // Usuariosactivo()
-    
-    
       //ReacPredeVista()
       // refrescarAlmacen()
+<<<<<<< HEAD
      
        mostrarPreguntas();
+=======
+       mostrarPreguntas()
+  
+>>>>>>> bdb424fc1df3c238489dafcf1c78a9044dd6c3a0
      
       Encuesta1()
       Variables()
@@ -124,8 +140,6 @@ var ObjectStoreReac;
       buildList()
     
      // buscarLista();
-      
-      
      // buscarLista(); 
       //buildList()
       //BusVa()
@@ -955,13 +969,19 @@ function manejadorValidacion(e) {
            var cursor = e.target.result;
            if(cursor){
              Descripcion = cursor.value.Titulo;
+             EncuestaId = cursor.value.IdEn;
              cadena += "";
              
              //cadena += "<div class= 'modal fade' id='mymodal3' tabindex='-1' aria-labelledby='mymodal3' aria-modal='true' style='display: none;' aria-modal='true' role='dialog'><div class='modal-dialog modal-dialog-centered modal-dialog-scrollable'><div class='modal-content'></div></div></div>";
-            cadena += "<button data-bs-toggle='modal' data-bs-target='#mymodal' ><img src=../Img/Form1.png width=200px height=320px></button>";
+            cadena += " <div id='valorla'> <label class='label2' id='valorid'>"+cursor.value.Titulo+"</label> <button class='btn btn-outline-success bg-border-mostaza bg-text-mostaza'   id=''>Editar</button> </div> "
             //cadena += "<label>"+cursor.value.Titulo+"</label>"
+<<<<<<< HEAD
             cadena += "<div class='p-3'> <label>"+cursor.value.Titulo+"</label></div>"
             //cadena += "<div class='p-3'> <button onclick='location.href='../pestañas_Encuestador/EncuestaApi.html'>"+cursor.value.Instrucciones+"</button></div>"
+=======
+            cadena += "<div class='p-3' id='ValorDiv'>  </div>"
+            // cadena += "<div class='p-3'> <label>"+cursor.value.IdEn+"</label></div>"
+>>>>>>> bdb424fc1df3c238489dafcf1c78a9044dd6c3a0
              //cadena += "<td>+<button id='m"+Descripcion+"'>Seleccionar</button></td></tr>";
              id_array.push(Descripcion);
              num ++;
@@ -2781,8 +2801,21 @@ function contieneCheckboxId(checkboxes, id) {
   }
   return false;
 }
+//VistaPrevia desde tipos encuestas
+function obtenerValorYVerificarLabel() {
+  const div = document.getElementById('valorla');
+  const label = div.getElementById('#valorid');
 
+  if (label) {
+    label = null
+    // const valorLabel = label.textContent;
+    console.log("El valor del label es: ");
+  } else {
+    console.log("El div no contiene un label.");
+  }
+}
 
+<<<<<<< HEAD
 
 
 
@@ -2967,3 +3000,8 @@ function contieneCheckboxId(checkboxes, id) {
   // Llamar a la función para mostrar la encuesta
 
   
+=======
+// // Asociar el evento de clic al botóns
+// const boton = document.getElementById('34');
+// boton.addEventListener('click', obtenerValorLabelEnDiv);
+>>>>>>> bdb424fc1df3c238489dafcf1c78a9044dd6c3a0

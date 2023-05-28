@@ -39,7 +39,7 @@
     </nav>
 
 
-    <div class=" container card col-sm-12 p-3 shadow-lg  bg-white rounded ">
+    <div class=" container col-sm-12 p-3 shadow-lg  bg-white rounded ">
 
         <h1 class="bg-text-black text-center p-3 text-uppercase text-black">Menú de encuestas</h1>
 
@@ -109,7 +109,7 @@
     <div class="p-3">
 
 
-        <div class="container card col-sm-12 p-2 shadow-lg  bg-white rounded">
+        <div class="container col-sm-12 p-2 shadow-lg  bg-white rounded">
             <div class="row">
 
                 <!-- Encuesta 1  -->
@@ -146,6 +146,9 @@
 
                                     <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza"
                                         id="botonEmergente_duplicar">Duplicar</button>
+
+                                        <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza"
+                                        id="botonEmergente_duplicar" onclick="window.location.href='../pestañas_Encuestador/crear.html'">Vista Previa</button>   
 
                                 </div>
                             </div>
@@ -213,6 +216,7 @@
                                 </div>
                                 <div class="modal-body">
                                     <img src="../Img/From3.png" width="200px" height="320px">
+
                                 </div>
                                 <div class="modal-footer">
 
@@ -221,6 +225,9 @@
 
                                     <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza"
                                         type="summit" id="botonEmergente_duplicar">Duplicar</button>
+
+                                    <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza"
+                                        type="summit" id="botonEmergente_VistaPrevia">Vista previa</button>
 
                                 </div>
                             </div>
@@ -232,8 +239,17 @@
                     </div>
                 </div>
                 </div>
+<<<<<<< HEAD
                 <div id="crear_encuesta"></div>
               
+=======
+                <div  id="crear_encuesta">
+    
+                </div>
+                
+            </div>
+           
+>>>>>>> bdb424fc1df3c238489dafcf1c78a9044dd6c3a0
         </div>
         
             </div>
@@ -246,6 +262,7 @@
 
 
     <script src="../BD/app.js"></script>
+    <script src="../CSS/SweetAlert.js"></script>
 <script>
     if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('/sw.js')
