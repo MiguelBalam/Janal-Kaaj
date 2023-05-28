@@ -817,7 +817,6 @@ function manejadorValidacion(e) {
  
 
     function EncuestaVistaPV2(){
-      var cadena ="<table class= 'table table-bordered'>";
       var transaction = db.transaction(["Encuesta"], "readwrite");
       var objectStore = transaction.objectStore("Encuesta");
       var index = objectStore.index("EncuestaTitulo");
@@ -844,15 +843,33 @@ function manejadorValidacion(e) {
         cursor.continue();
       }
       else {
-       
-        cadena += "<tr>";
-        //cadena +="<td><input type ='checkbox' id='s"+id+"'></input></td>";
-        cadena +="<td> Titulo: "+newestItem+"</td>"; cadena += "<tr>";
-        cadena +="<td> Objetivo: "+newestItem2+"</td>"; cadena += "<tr>";
-        cadena +="<td> Instrucciones: "+newestItem3+"</td>"; cadena += "<tr>";
-      //  cadena += "<tr>"; cadena +="<td> Objetivo: "+Objetivo+"</td>"; cadena += "<tr>";
-        //cadena += "<tr>"; cadena +="<td> Instrucciones: "+newestItem3+"</td>";
-        cadena += "<tr>";
+      //   cadena += "<tr>";
+      //   //cadena +="<td><input type ='checkbox' id='s"+id+"'></input></td>";
+      //   cadena +="<td> Titulo: "+newestItem+"</td>"; cadena += "<tr>";
+      //   cadena +="<td> Objetivo: "+newestItem2+"</td>"; cadena += "<tr>";
+      //   cadena +="<td> Instrucciones: "+newestItem3+"</td>"; cadena += "<tr>";
+      // //  cadena += "<tr>"; cadena +="<td> Objetivo: "+Objetivo+"</td>"; cadena += "<tr>";
+      //   //cadena += "<tr>"; cadena +="<td> Instrucciones: "+newestItem3+"</td>";
+      //   cadena += "<tr>";
+        var cadena ="<table>";
+        cadena += "<table class='table'>";
+        cadena += "<div class='row'>";
+        cadena += "<div class='col'>";
+        cadena += "<h5>Título:</h5>";
+        cadena += "<p>" + newestItem + "</p>";
+        cadena += "</div>";
+        cadena += "<div class='row'>";
+        cadena += "<div class='col'>";
+        cadena += "<h5>Objetivo:</h5>";
+        cadena += "<p>" + newestItem2 + "</p>";
+        cadena += "</div>";
+        cadena += "<div class='row'>";
+        cadena += "<div class='col'>";
+        cadena += "<h5>Instrucciones:</h5>";
+        cadena += "<p>" + newestItem3 + "</p>";
+        cadena += "</div>";
+        cadena += "</div>";
+        cadena += "</table>";
         // Mostrar el objeto más reciente en la pantalla
         console.log(newestItem);
         console.log(newestItem4);
