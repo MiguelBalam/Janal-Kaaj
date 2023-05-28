@@ -138,6 +138,7 @@
                                 class="btn btn-outline-success bg-border-mostaza bg-text-mostaza"
                                 id="boton-crear-encuesta" type="submit" disabled data-bs-toggle="modal"
                                 data-bs-target="#Modal_vistaPrevia"> Crear Encuesta</button>
+                                
 
 
                         </div>
@@ -169,11 +170,33 @@
       </button> -->
     <!-- Modal -->
     <div class="modal fade" id="Modal_vistaPrevia" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="ModalLabel">Vista previa</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-header text-center">
+                    <h5 class="modal-title text-center" id="ModalLabel"> Vista previa</h5>
+                    <!-- <div id="salidapredeSelec"></div>  -->
+
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div> <img src="../Img/lOGOCONACYT.png" height=60px width=60px> </div>
+
+                <div id="Encabezado">
+                    
+                </div>
+                <div class="modal-body" id="modalcuerpo">
+
+                    <!-- <div class="modal-body" id="salidapredeSelec"></div>  -->
+                    <!-- <div id="salidapredeSelec"> </div>  -->
+                    <!-- <div id="salidaSelec"></div>  -->
+
+                </div>
+                <div id="preguntas-container"></div>
+                <!--  <div id="salidapredeSelec2"> </div>  -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="button" onclick="crearEncuestaFinal()" class="btn btn-primary" >Guardar cambios</button>
+                </div>
             </div>
             <div class="modal-body">
               <div class="text-center">
