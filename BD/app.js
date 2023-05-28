@@ -92,7 +92,7 @@ var ObjectStoreReac;
      
       db= ev.target.result;
       //EncaEncuestaVista()
-   
+      mostrarEncuesta()
      EncuestaVistaPV2()
       buscar()
      //mostrarPreguntas();
@@ -108,7 +108,7 @@ var ObjectStoreReac;
     
       //ReacPredeVista()
       // refrescarAlmacen()
-      
+     
        mostrarPreguntas();
      
       Encuesta1()
@@ -122,7 +122,7 @@ var ObjectStoreReac;
       busVaC()
       //buildList()
       buildList()
-      
+    
      // buscarLista();
       
       
@@ -961,6 +961,7 @@ function manejadorValidacion(e) {
             cadena += "<button data-bs-toggle='modal' data-bs-target='#mymodal' ><img src=../Img/Form1.png width=200px height=320px></button>";
             //cadena += "<label>"+cursor.value.Titulo+"</label>"
             cadena += "<div class='p-3'> <label>"+cursor.value.Titulo+"</label></div>"
+            //cadena += "<div class='p-3'> <button onclick='location.href='../pestañas_Encuestador/EncuestaApi.html'>"+cursor.value.Instrucciones+"</button></div>"
              //cadena += "<td>+<button id='m"+Descripcion+"'>Seleccionar</button></td></tr>";
              id_array.push(Descripcion);
              num ++;
@@ -2900,3 +2901,69 @@ function contieneCheckboxId(checkboxes, id) {
   //   });
   //   return reactivosSeleccionados;
   // }
+
+ 
+  // Llamar a la función para mostrar la encuesta
+  function mostrarEncuesta() {
+    var transaction = db.transaction(["Encuesta", "Encuesta_Reactivo"], "readonly");
+    var encuestaStore = transaction.objectStore("Encuesta");
+    var reactivosStore = transaction.objectStore("Encuesta_Reactivo");
+  
+    var encuestaRequest = encuestaStore.getAll();
+    encuestaRequest.onsuccess = function(event) {
+      var encuestas = event.target.result;
+  
+      var reactivosRequest = reactivosStore.getAll();
+      reactivosRequest.onsuccess = function(event) {
+        var reactivos = event.target.result;
+  
+        construirFormulario(encuestas, reactivos);
+      };
+    };
+  }
+  
+  function construirFormulario(encuestas, reactivosEncuestaFiltrados) {
+    var form = document.getElementById("encuestaFormA");
+  
+    // Recorrer las encuestas y agregar los campos al formulario
+    encuestas.forEach(function(encuesta) {
+      // Crear el elemento de título de la encuesta
+      var tituloElement = document.createElement("h2");
+      tituloElement.textContent = encuesta.Titulo;
+      form.appendChild(tituloElement);
+  
+      // Crear el contenedor de reactivos
+      var reactivoContainer = document.createElement("div");
+      reactivoContainer.className = "p-3";
+      form.appendChild(reactivoContainer);
+    
+  
+      // Recorrer los reactivos y agregarlos al contenedor
+      reactivosEncuestaFiltrados.forEach(function(reactivo) {
+        // Crear un div para cada pregunta
+        var preguntaDiv = document.createElement("div");
+        preguntaDiv.className = "p-3";
+  
+        // Crear los elementos de etiqueta y campo de entrada
+        var labelElement = document.createElement("label");
+       // labelElement.className = "col-md-4 col-form-label px-5";
+        labelElement.textContent = reactivo.Descripcion;
+  
+        var inputElement = document.createElement("input");
+        inputElement.type = "text";
+        inputElement.name = "respuesta-" + reactivo.id; // Agregar un nombre único al input
+  
+        // Agregar los elementos al contenedor de pregunta
+        preguntaDiv.appendChild(labelElement);
+        preguntaDiv.appendChild(inputElement);
+  
+        // Agregar el div de pregunta al contenedor principal
+        reactivoContainer.appendChild(preguntaDiv);
+      });
+    });
+  }
+  
+  
+  // Llamar a la función para mostrar la encuesta
+
+  
