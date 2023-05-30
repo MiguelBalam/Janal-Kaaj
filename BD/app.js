@@ -1,6 +1,5 @@
-
 var url = window.location.href;
-var swLocation = '../Janal-Kaaj/sw.js';
+var swLocation = '/Janal-Kaaj/sw.js';
 
 if (navigator.serviceWorker){
 
@@ -10,7 +9,7 @@ if (navigator.serviceWorker){
   navigator.serviceWorker.register(swLocation);
 }
 
-//creacion de la base de datos
+// creacion de la base de datos
 var db;
 var ObjectStore;
 var ObjectStoreReac;
@@ -100,11 +99,12 @@ var ObjectStoreReac;
      
       db= ev.target.result;
       //EncaEncuestaVista()
-      mostrarEncuesta()
+     // mostrarEncuesta()
      EncuestaVistaPV2()
       buscar()
      //mostrarPreguntas();
       reactivoscrear()
+    
      
     // EncuestaVistaP()
       //mostrarSelecReac()
@@ -112,6 +112,8 @@ var ObjectStoreReac;
       cargarPagina()
       //buscar2()
      // Usuariosactivo()
+    
+    
       //ReacPredeVista()
       // refrescarAlmacen()
      
@@ -119,8 +121,7 @@ var ObjectStoreReac;
      
       Encuesta1()
       Variables()
-     
-      
+  
       buscarE()  
 
       buscarVar()
@@ -128,8 +129,11 @@ var ObjectStoreReac;
       busVaC()
       //buildList()
       buildList()
-    
+      mostrarEncuesta()
+      
      // buscarLista();
+      
+      
      // buscarLista(); 
       //buildList()
       //BusVa()
@@ -314,7 +318,7 @@ function verificarPasswords() {
 // validar que los campos esten completos y evitar registro
 function validar(){
   
- document.addEventListener("DOMContentLoaded", function(event) { 
+ document.addEventListener("DOMContentLoaded", function(e) { 
     document.getElementById('EncuestadoForm').addEventListener('submit',manejadorValidacion)
       });
       
@@ -978,11 +982,10 @@ function manejadorValidacion(e) {
            var cursor = e.target.result;
            if(cursor){
              Descripcion = cursor.value.Titulo;
-             EncuestaId = cursor.value.IdEn;
              cadena += "";
              
              //cadena += "<div class= 'modal fade' id='mymodal3' tabindex='-1' aria-labelledby='mymodal3' aria-modal='true' style='display: none;' aria-modal='true' role='dialog'><div class='modal-dialog modal-dialog-centered modal-dialog-scrollable'><div class='modal-content'></div></div></div>";
-            // cadena += " <div id='valorla'> <label class='label2' id='valorid'>"+cursor.value.Titulo+"</label> <button class='btn btn-outline-success bg-border-mostaza bg-text-mostaza'   id=''>Editar</button> </div> "
+            cadena += "<button data-bs-toggle='modal' data-bs-target='#mymodal' ><img src=../Img/Form1.png width=200px height=320px></button>";
             //cadena += "<label>"+cursor.value.Titulo+"</label>"
             cadena += "<tbody id=tbody>";
             cadena += "<tr>";
@@ -992,6 +995,9 @@ function manejadorValidacion(e) {
             cadena += "<td align='center'> <button class='btn btn-outline-success bg-border-mostaza bg-text-mostaza' id=''>Editar</button> </td>";  
             cadena += "<td align='center'> <button class='btn btn-outline-success bg-border-mostaza bg-text-mostaza' id=''>Duplicar</button> </td>"; 
             cadena += "<td align='center'> <button type='button'class='btn btn-outline-success bg-border-mostaza bg-text-mostaza' id='ver'>Ver</button> </td>";
+
+            cadena += "<td> <div class='col-md-12 d-flex justify-content-end'> <button class='btn btn-outline-success bg-border-mostaza bg-text-mostaza' id=''>Editar</button> <button class='btn btn-outline-success bg-border-mostaza bg-text-mostaza' id=''>Duplicar</button> <button class='btn btn-outline-success bg-border-mostaza bg-text-mostaza' id=''>Ver</button> </div> </div></td>";
+
             //cadena += "<div class='p-3'> <button onclick='location.href='../pestañas_Encuestador/EncuestaApi.html'>"+cursor.value.Instrucciones+"</button></div>"
              //cadena += "<td>+<button id='m"+Descripcion+"'>Seleccionar</button></td></tr>";
              cadena += "<tr>";
