@@ -361,7 +361,7 @@ function manejadorValidacion(e) {
               
                   // alert("Inicio de sesion exitosa");
               
-                 control (window.location.href='/pestañas_Encuestador/reactivo_tipos_Encuestas.html');
+                 control (window.location.href='pestañas_Encuestador/reactivo_tipos_Encuestas.html');
                  //var correo = document.getElementById('Usuario').value;
                  //var idR = document.getElementById("ReactivoCre").value.trim();
                //var request2 = db.transaction(["Reactivos"], "readwrite").objectStore("Reactivos").put({creador:Usuario});
@@ -964,6 +964,7 @@ function manejadorValidacion(e) {
 //mostrar 
 //-----------------------------------------------------------------------------------------------------------------------
          function buscarE(){ 
+          var cadena ="<table class= 'table table-bordered'>";
           var cadena = "";
           cadena += "";
           var num =0;
@@ -972,6 +973,7 @@ function manejadorValidacion(e) {
           //leer cursor
           var objectStore = db.transaction("Encuesta").objectStore("Encuesta");
           objectStore.openCursor().onsuccess= function(e){
+            
            var cursor = e.target.result;
            if(cursor){
              Descripcion = cursor.value.Titulo;
@@ -981,9 +983,13 @@ function manejadorValidacion(e) {
              //cadena += "<div class= 'modal fade' id='mymodal3' tabindex='-1' aria-labelledby='mymodal3' aria-modal='true' style='display: none;' aria-modal='true' role='dialog'><div class='modal-dialog modal-dialog-centered modal-dialog-scrollable'><div class='modal-content'></div></div></div>";
             // cadena += " <div id='valorla'> <label class='label2' id='valorid'>"+cursor.value.Titulo+"</label> <button class='btn btn-outline-success bg-border-mostaza bg-text-mostaza'   id=''>Editar</button> </div> "
             //cadena += "<label>"+cursor.value.Titulo+"</label>"
-            cadena += "<div class='p-3'> <label>"+cursor.value.Titulo+"</label> <div class='col-md-12 d-flex justify-content-end'> <button class='btn btn-outline-success bg-border-mostaza bg-text-mostaza' id=''>Editar</button> <button class='btn btn-outline-success bg-border-mostaza bg-text-mostaza' id=''>Duplicar</button> <button class='btn btn-outline-success bg-border-mostaza bg-text-mostaza' id=''>Ver</button> </div> </div>"
+            cadena += "<tr>";
+            cadena += "<td> <div class='p-3'> <label>"+cursor.value.Titulo+"</label> </td>";
+            
+            cadena += "<td> <div class='col-md-12 d-flex justify-content-end'> <button class='btn btn-outline-success bg-border-mostaza bg-text-mostaza' id=''>Editar</button> <button class='btn btn-outline-success bg-border-mostaza bg-text-mostaza' id=''>Duplicar</button> <button class='btn btn-outline-success bg-border-mostaza bg-text-mostaza' id=''>Ver</button> </div> </div></td>";
             //cadena += "<div class='p-3'> <button onclick='location.href='../pestañas_Encuestador/EncuestaApi.html'>"+cursor.value.Instrucciones+"</button></div>"
              //cadena += "<td>+<button id='m"+Descripcion+"'>Seleccionar</button></td></tr>";
+             cadena += "<tr>";
              id_array.push(Descripcion);
              num ++;
              //continuamos siguiente objeto
@@ -991,6 +997,7 @@ function manejadorValidacion(e) {
 
            }else{
              cadena += "";
+             cadena += "</table>"
              document.getElementById("crear_encuesta").innerHTML = cadena;
 
              for(var i=0; i<id_array.length; i++){
@@ -3024,13 +3031,12 @@ function obtenerValorYVerificarLabel() {
   
       // Buscar el valor de IdEn
       var encuestaIdEn;
-      var encuestaEncontrada = encuestas.find(encuesta => encuesta.IdEn === 1);
-      if (encuestaEncontrada) {
-        encuestaIdEn = encuestaEncontrada.IdEn;
-      }
-      console.log(encuestaIdEn);
-      
-      if (encuestaIdEn <= 1) {
+var encuestaEncontrada = encuestas.find(encuesta => encuesta.IdEn === 1);
+if (encuestaEncontrada) {
+  encuestaIdEn = encuestaEncontrada.IdEn;
+}
+    console.log(encuestaIdEn);
+      if (encuestaIdEn === 1) {
         var reactivosRequest = reactivosStore.getAll();
         reactivosRequest.onsuccess = function(event) {
           var reactivos = event.target.result;
@@ -3040,7 +3046,6 @@ function obtenerValorYVerificarLabel() {
       }
     };
   }
-
 
   function construirFormulario(encuestas, reactivosEncuestaFiltrados ) {
       var form = document.getElementById("encuestaFormA");
