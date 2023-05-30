@@ -88,10 +88,11 @@ var ObjectStoreReac;
         console.log('upgrade',db);
        
     });
-
+    
     
     document.addEventListener('DOMContentLoaded', function() {
       obtenerValorYVerificarLabel();
+      obtenerValorTd();
       console.log("triste");
     });
     //funciones para cursores
@@ -965,8 +966,8 @@ function manejadorValidacion(e) {
 //-----------------------------------------------------------------------------------------------------------------------
          function buscarE(){ 
           var cadena ="<table class= 'table table-bordered'>";
-          var cadena = "";
-          cadena += "";
+          // var cadena = "";
+          // cadena += "";
           var num =0;
           var id_array = new Array();
 
@@ -983,20 +984,25 @@ function manejadorValidacion(e) {
              //cadena += "<div class= 'modal fade' id='mymodal3' tabindex='-1' aria-labelledby='mymodal3' aria-modal='true' style='display: none;' aria-modal='true' role='dialog'><div class='modal-dialog modal-dialog-centered modal-dialog-scrollable'><div class='modal-content'></div></div></div>";
             // cadena += " <div id='valorla'> <label class='label2' id='valorid'>"+cursor.value.Titulo+"</label> <button class='btn btn-outline-success bg-border-mostaza bg-text-mostaza'   id=''>Editar</button> </div> "
             //cadena += "<label>"+cursor.value.Titulo+"</label>"
+            cadena += "<tbody id=tbody>";
             cadena += "<tr>";
-            cadena += "<td> <div class='p-3'> <label>"+cursor.value.Titulo+"</label> </td>";
+            cadena += "<td>"+cursor.value.IdEn+"</td>";
+            cadena += "<td id='vtitulo' align='center'> "+cursor.value.Titulo+"</td>";
             
-            cadena += "<td> <div class='col-md-12 d-flex justify-content-end'> <button class='btn btn-outline-success bg-border-mostaza bg-text-mostaza' id=''>Editar</button> <button class='btn btn-outline-success bg-border-mostaza bg-text-mostaza' id=''>Duplicar</button> <button class='btn btn-outline-success bg-border-mostaza bg-text-mostaza' id=''>Ver</button> </div> </div></td>";
+            cadena += "<td align='center'> <button class='btn btn-outline-success bg-border-mostaza bg-text-mostaza' id=''>Editar</button> </td>";  
+            cadena += "<td align='center'> <button class='btn btn-outline-success bg-border-mostaza bg-text-mostaza' id=''>Duplicar</button> </td>"; 
+            cadena += "<td align='center'> <button type='button'class='btn btn-outline-success bg-border-mostaza bg-text-mostaza' id='ver'>Ver</button> </td>";
             //cadena += "<div class='p-3'> <button onclick='location.href='../pestañas_Encuestador/EncuestaApi.html'>"+cursor.value.Instrucciones+"</button></div>"
              //cadena += "<td>+<button id='m"+Descripcion+"'>Seleccionar</button></td></tr>";
              cadena += "<tr>";
+             cadena+= "</tbody>";
              id_array.push(Descripcion);
              num ++;
              //continuamos siguiente objeto
              cursor.continue();
 
            }else{
-             cadena += "";
+            //  cadena += "";
              cadena += "</table>"
              document.getElementById("crear_encuesta").innerHTML = cadena;
 
@@ -2809,22 +2815,6 @@ function contieneCheckboxId(checkboxes, id) {
   }
   return false;
 }
-//VistaPrevia desde tipos encuestas
-function obtenerValorYVerificarLabel() {
-  const div = document.getElementById('valorla');
-  const label = div.getElementById('#valorid');
-
-  if (label) {
-    label = null
-    // const valorLabel = label.textContent;
-    console.log("El valor del label es: ");
-  } else {
-    console.log("El div no contiene un label.");
-  }
-}
-
-
-
 
 //  var encuestaId;
 //   function crearEncuestaFinal() {
@@ -3097,3 +3087,20 @@ if (encuestaEncontrada) {
     });
   }
   
+  function obtenerValorTd(event) {
+    var boton = event.target;
+    var botonId = boton.id;
+    var td = document.getElementById(botonId + '-td');
+    var valor = td.innerText;
+    console.log(valor);
+  }
+  
+  var tablaBody = document.getElementById('tbody');
+  
+  // Agregar el listener de eventos al <tbody> para capturar los eventos de los botones generados dinámicamente
+  tablaBody.addEventListener('click', function(event) {
+    // Verificar si el elemento que desencadenó el evento es un botón
+    if (event.target && event.target.nodeName === 'BUTTON') {
+      obtenerValorTd(event);
+    }
+  });
