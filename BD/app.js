@@ -1,4 +1,3 @@
-
 var url = window.location.href;
 var swLocation = '/Janal-Kaaj/sw.js';
 
@@ -10,7 +9,7 @@ if (navigator.serviceWorker){
   navigator.serviceWorker.register(swLocation);
 }
 
-//creacion de la base de datos
+// creacion de la base de datos
 var db;
 var ObjectStore;
 var ObjectStoreReac;
@@ -88,10 +87,11 @@ var ObjectStoreReac;
         console.log('upgrade',db);
        
     });
-
+    
     
     document.addEventListener('DOMContentLoaded', function() {
       obtenerValorYVerificarLabel();
+      obtenerValorTd();
       console.log("triste");
     });
     //funciones para cursores
@@ -99,11 +99,12 @@ var ObjectStoreReac;
      
       db= ev.target.result;
       //EncaEncuestaVista()
-      mostrarEncuesta()
+     // mostrarEncuesta()
      EncuestaVistaPV2()
       buscar()
      //mostrarPreguntas();
       reactivoscrear()
+    
      
     // EncuestaVistaP()
       //mostrarSelecReac()
@@ -111,6 +112,8 @@ var ObjectStoreReac;
       cargarPagina()
       //buscar2()
      // Usuariosactivo()
+    
+    
       //ReacPredeVista()
       // refrescarAlmacen()
      
@@ -118,8 +121,7 @@ var ObjectStoreReac;
      
       Encuesta1()
       Variables()
-     
-      
+  
       buscarE()  
 
       buscarVar()
@@ -127,8 +129,11 @@ var ObjectStoreReac;
       busVaC()
       //buildList()
       buildList()
-    
+      mostrarEncuesta()
+      
      // buscarLista();
+      
+      
      // buscarLista(); 
       //buildList()
       //BusVa()
@@ -313,7 +318,7 @@ function verificarPasswords() {
 // validar que los campos esten completos y evitar registro
 function validar(){
   
- document.addEventListener("DOMContentLoaded", function(event) { 
+ document.addEventListener("DOMContentLoaded", function(e) { 
     document.getElementById('EncuestadoForm').addEventListener('submit',manejadorValidacion)
       });
       
@@ -361,7 +366,7 @@ function manejadorValidacion(e) {
               
                   // alert("Inicio de sesion exitosa");
               
-                 control (window.location.href='/pestañas_Encuestador/reactivo_tipos_Encuestas.html');
+                 control (window.location.href='pestañas_Encuestador/reactivo_tipos_Encuestas.html');
                  //var correo = document.getElementById('Usuario').value;
                  //var idR = document.getElementById("ReactivoCre").value.trim();
                //var request2 = db.transaction(["Reactivos"], "readwrite").objectStore("Reactivos").put({creador:Usuario});
@@ -964,33 +969,47 @@ function manejadorValidacion(e) {
 //mostrar 
 //-----------------------------------------------------------------------------------------------------------------------
          function buscarE(){ 
-          var cadena = "";
-          cadena += "";
+          var cadena ="<table class= 'table table-bordered'>";
+          // var cadena = "";
+          // cadena += "";
           var num =0;
           var id_array = new Array();
 
           //leer cursor
           var objectStore = db.transaction("Encuesta").objectStore("Encuesta");
           objectStore.openCursor().onsuccess= function(e){
+            
            var cursor = e.target.result;
            if(cursor){
              Descripcion = cursor.value.Titulo;
-             EncuestaId = cursor.value.IdEn;
              cadena += "";
              
              //cadena += "<div class= 'modal fade' id='mymodal3' tabindex='-1' aria-labelledby='mymodal3' aria-modal='true' style='display: none;' aria-modal='true' role='dialog'><div class='modal-dialog modal-dialog-centered modal-dialog-scrollable'><div class='modal-content'></div></div></div>";
-            cadena += " <div id='valorla'> <label class='label2' id='valorid'>"+cursor.value.Titulo+"</label> <button class='btn btn-outline-success bg-border-mostaza bg-text-mostaza'   id=''>Editar</button> </div> "
+            cadena += "<button data-bs-toggle='modal' data-bs-target='#mymodal' ><img src=../Img/Form1.png width=200px height=320px></button>";
             //cadena += "<label>"+cursor.value.Titulo+"</label>"
-            cadena += "<div class='p-3'> <label>"+cursor.value.Titulo+"</label></div>"
+            cadena += "<tbody id=tbody>";
+            cadena += "<tr>";
+            cadena += "<td>"+cursor.value.IdEn+"</td>";
+            cadena += "<td id='vtitulo' align='center'> "+cursor.value.Titulo+"</td>";
+            
+            cadena += "<td align='center'> <button class='btn btn-outline-success bg-border-mostaza bg-text-mostaza' id=''>Editar</button> </td>";  
+            cadena += "<td align='center'> <button class='btn btn-outline-success bg-border-mostaza bg-text-mostaza' id=''>Duplicar</button> </td>"; 
+            cadena += "<td align='center'> <button type='button'class='btn btn-outline-success bg-border-mostaza bg-text-mostaza' id='ver'>Ver</button> </td>";
+
+            cadena += "<td> <div class='col-md-12 d-flex justify-content-end'> <button class='btn btn-outline-success bg-border-mostaza bg-text-mostaza' id=''>Editar</button> <button class='btn btn-outline-success bg-border-mostaza bg-text-mostaza' id=''>Duplicar</button> <button class='btn btn-outline-success bg-border-mostaza bg-text-mostaza' id=''>Ver</button> </div> </div></td>";
+
             //cadena += "<div class='p-3'> <button onclick='location.href='../pestañas_Encuestador/EncuestaApi.html'>"+cursor.value.Instrucciones+"</button></div>"
              //cadena += "<td>+<button id='m"+Descripcion+"'>Seleccionar</button></td></tr>";
+             cadena += "<tr>";
+             cadena+= "</tbody>";
              id_array.push(Descripcion);
              num ++;
              //continuamos siguiente objeto
              cursor.continue();
 
            }else{
-             cadena += "";
+            //  cadena += "";
+             cadena += "</table>"
              document.getElementById("crear_encuesta").innerHTML = cadena;
 
              for(var i=0; i<id_array.length; i++){
@@ -2802,22 +2821,6 @@ function contieneCheckboxId(checkboxes, id) {
   }
   return false;
 }
-//VistaPrevia desde tipos encuestas
-function obtenerValorYVerificarLabel() {
-  const div = document.getElementById('valorla');
-  const label = div.getElementById('#valorid');
-
-  if (label) {
-    label = null
-    // const valorLabel = label.textContent;
-    console.log("El valor del label es: ");
-  } else {
-    console.log("El div no contiene un label.");
-  }
-}
-
-
-
 
 //  var encuestaId;
 //   function crearEncuestaFinal() {
@@ -2937,6 +2940,82 @@ function obtenerValorYVerificarLabel() {
 
  
   // Llamar a la función para mostrar la encuesta
+  // function mostrarEncuesta() {
+  //   var transaction = db.transaction(["Encuesta", "Encuesta_Reactivo"], "readonly");
+  //   var encuestaStore = transaction.objectStore("Encuesta");
+  //   var reactivosStore = transaction.objectStore("Encuesta_Reactivo");
+  
+  //   var encuestaRequest = encuestaStore.getAll();
+  //   encuestaRequest.onsuccess = function(event) {
+  //     var encuestas = event.target.result;
+      
+  //     // Buscar el valor de IdEn
+  //     var encuestaIdEn = encuestas.find(encuesta => encuesta.IdEn === 1);
+  
+  //     if (encuestaIdEn && !window.construirFormularioEjecutado) {
+  //       window.construirFormularioEjecutado = true;
+        
+  //       var reactivosRequest = reactivosStore.getAll();
+  //       reactivosRequest.onsuccess = function(event) {
+  //         var reactivos = event.target.result;
+  
+  //         construirFormulario(encuestas, reactivos);
+  //       };
+  //     }
+  //   };
+  // }
+  // function construirFormulario(encuestas, reactivosEncuestaFiltrados) {
+  //   var form = document.getElementById("encuestaFormA");
+  
+  //   // Recorrer las encuestas y agregar los campos al formulario
+  //   encuestas.forEach(function(encuesta) {
+  //     // Crear el elemento de título de la encuesta
+  //     var tituloElement = document.createElement("h2");
+  //     tituloElement.className= "bg-text-black text-center p-3 text-uppercase text-black";
+  //     tituloElement.textContent = encuesta.Titulo;
+  //     form.appendChild(tituloElement);
+  
+  //     // Crear el contenedor de reactivos
+  //     var reactivoContainer = document.createElement("div");
+  //     reactivoContainer.className = "p-3 ";
+  //     form.appendChild(reactivoContainer);
+    
+  
+  //     // Recorrer los reactivos y agregarlos al contenedor
+  //     reactivosEncuestaFiltrados.forEach(function(reactivo) {
+  //       // Crear un div para cada pregunta
+  //       var preguntaDiv = document.createElement("div");
+  //       preguntaDiv.className = " p-3";
+  
+  //       // Crear los elementos de etiqueta y campo de entrada
+  //       var labelElement = document.createElement("label");
+  //      // labelElement.className = "col-md-4 col-form-label px-5";
+  //       labelElement.textContent = reactivo.Descripcion;
+  
+  //       var divInput = document.createElement("div");
+  //       // divInput.className = "p-3";
+
+  //       var inputElement = document.createElement("input");
+  //       inputElement.className = "form-control";
+  //       inputElement.type = "text";
+  //       inputElement.name = "respuesta-" + reactivo.id; // Agregar un nombre único al input
+  
+  //       // Agregar los elementos al contenedor de pregunta
+  //       divInput.appendChild(labelElement);
+  //       divInput.appendChild(inputElement);
+
+
+  //       preguntaDiv.appendChild(divInput);
+  //       // divInput.appendChild(inputElement);
+  
+  //       // Agregar el div de pregunta al contenedor principal
+  //       reactivoContainer.appendChild(preguntaDiv);
+  //     });
+  //   });
+  // }
+  
+  // window.construirFormularioEjecutado = false;
+  // Llamar a la función para mostrar la encuesta
   function mostrarEncuesta() {
     var transaction = db.transaction(["Encuesta", "Encuesta_Reactivo"], "readonly");
     var encuestaStore = transaction.objectStore("Encuesta");
@@ -2946,28 +3025,38 @@ function obtenerValorYVerificarLabel() {
     encuestaRequest.onsuccess = function(event) {
       var encuestas = event.target.result;
   
-      var reactivosRequest = reactivosStore.getAll();
-      reactivosRequest.onsuccess = function(event) {
-        var reactivos = event.target.result;
+      // Buscar el valor de IdEn
+      var encuestaIdEn;
+var encuestaEncontrada = encuestas.find(encuesta => encuesta.IdEn === 1);
+if (encuestaEncontrada) {
+  encuestaIdEn = encuestaEncontrada.IdEn;
+}
+    console.log(encuestaIdEn);
+      if (encuestaIdEn === 1) {
+        var reactivosRequest = reactivosStore.getAll();
+        reactivosRequest.onsuccess = function(event) {
+          var reactivos = event.target.result;
   
-        construirFormulario(encuestas, reactivos);
-      };
+          construirFormulario(encuestas, reactivos);
+        };
+      }
     };
   }
-  
-  function construirFormulario(encuestas, reactivosEncuestaFiltrados) {
-    var form = document.getElementById("encuestaFormA");
-  
-    // Recorrer las encuestas y agregar los campos al formulario
+
+  function construirFormulario(encuestas, reactivosEncuestaFiltrados ) {
+      var form = document.getElementById("encuestaFormA");
+
+      // Recorrer las encuestas y agregar los campos al formulario
     encuestas.forEach(function(encuesta) {
       // Crear el elemento de título de la encuesta
       var tituloElement = document.createElement("h2");
+      tituloElement.className= "bg-text-black text-center p-3 text-uppercase text-black";
       tituloElement.textContent = encuesta.Titulo;
       form.appendChild(tituloElement);
   
       // Crear el contenedor de reactivos
       var reactivoContainer = document.createElement("div");
-      reactivoContainer.className = "p-3";
+      reactivoContainer.className = "p-3 ";
       form.appendChild(reactivoContainer);
     
   
@@ -2975,20 +3064,28 @@ function obtenerValorYVerificarLabel() {
       reactivosEncuestaFiltrados.forEach(function(reactivo) {
         // Crear un div para cada pregunta
         var preguntaDiv = document.createElement("div");
-        preguntaDiv.className = "p-3";
+        preguntaDiv.className = " p-3";
   
         // Crear los elementos de etiqueta y campo de entrada
         var labelElement = document.createElement("label");
        // labelElement.className = "col-md-4 col-form-label px-5";
         labelElement.textContent = reactivo.Descripcion;
   
+        var divInput = document.createElement("div");
+        // divInput.className = "p-3";
+
         var inputElement = document.createElement("input");
+        inputElement.className = "form-control";
         inputElement.type = "text";
         inputElement.name = "respuesta-" + reactivo.id; // Agregar un nombre único al input
   
         // Agregar los elementos al contenedor de pregunta
-        preguntaDiv.appendChild(labelElement);
-        preguntaDiv.appendChild(inputElement);
+        divInput.appendChild(labelElement);
+        divInput.appendChild(inputElement);
+
+
+        preguntaDiv.appendChild(divInput);
+        // divInput.appendChild(inputElement);
   
         // Agregar el div de pregunta al contenedor principal
         reactivoContainer.appendChild(preguntaDiv);
@@ -2996,7 +3093,20 @@ function obtenerValorYVerificarLabel() {
     });
   }
   
+  function obtenerValorTd(event) {
+    var boton = event.target;
+    var botonId = boton.id;
+    var td = document.getElementById(botonId + '-td');
+    var valor = td.innerText;
+    console.log(valor);
+  }
   
-  // Llamar a la función para mostrar la encuesta
-
+  var tablaBody = document.getElementById('tbody');
   
+  // Agregar el listener de eventos al <tbody> para capturar los eventos de los botones generados dinámicamente
+  tablaBody.addEventListener('click', function(event) {
+    // Verificar si el elemento que desencadenó el evento es un botón
+    if (event.target && event.target.nodeName === 'BUTTON') {
+      obtenerValorTd(event);
+    }
+  });
