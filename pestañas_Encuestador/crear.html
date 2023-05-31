@@ -139,10 +139,14 @@
                                 id="boton-crear-encuesta" type="submit" disabled data-bs-toggle="modal"
                                 data-bs-target="#Modal_vistaPrevia"> Crear Encuesta</button>
                                 
-
+                              
 
                         </div>
-
+                        <button
+                        onclick="mostrarFormularioEncuestaEnNuevaPestana()"
+                        class="btn btn-outline-success bg-border-mostaza bg-text-mostaza"
+                      
+                        data-bs-target="#Modal_vistaPrevia"> Ver</button>
                     </div>
 
                     <!-- <div>
@@ -191,7 +195,7 @@
               </div>
             </div>
             <div class="modal-footer">
-              <button type="button" onclick="crearEncuestaFinal()" class="btn btn-primary">Guardar cambios</button>
+              <button type="button" onclick="mostrarEncuestaCRE(), window.location.href='/pestañas_Encuestador/EncuestasFinales.html'" class="btn btn-primary">Guardar cambios</button>
             </div>
           </div>
         </div>

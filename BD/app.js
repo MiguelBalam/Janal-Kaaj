@@ -36,7 +36,7 @@ var ObjectStoreReac;
         ObjectStore = db.createObjectStore("Usuarios", {autoIncrement: true});
 
         ObjectStore = db.createObjectStore("EncuestaFinal", {autoIncrement: true});
-
+        ObjectStore.createIndex("encuestaId","",{unique:true});
         ObjectStore=db.createObjectStore("Autenticasion",{keyPath:"correo", autoIncrement: true});
         ObjectStore.createIndex("correo","correo",{unique:true});
 
@@ -92,7 +92,8 @@ var ObjectStoreReac;
      
       db= ev.target.result;
       //EncaEncuestaVista()
-     // mostrarEncuesta()
+      buscarE()
+     mostrarEncuesta()
      EncuestaVistaPV2()
       buscar()
      //mostrarPreguntas();
@@ -115,14 +116,14 @@ var ObjectStoreReac;
       Encuesta1()
       Variables()
   
-      buscarE()  
+  
 
       buscarVar()
       buscarVar2()
       busVaC()
       //buildList()
       buildList()
-      mostrarEncuesta()
+    
       
      // buscarLista();
       
@@ -961,57 +962,235 @@ function manejadorValidacion(e) {
 // salida de tipos encuesta
 //mostrar 
 //-----------------------------------------------------------------------------------------------------------------------
-         function buscarE(){ 
-          var cadena ="<table class= 'table table-bordered'>";
-          var cadena = "";
-          cadena += "";
-          var num =0;
-          var id_array = new Array();
+      //    function buscarE(){ 
+      //     var cadena ="<table class= 'table table-bordered'>";
+      //     var cadena = "";
+      //     cadena += "";
+      //     var num =0;
+      //     var id_array = new Array();
 
-          //leer cursor
-          var objectStore = db.transaction("Encuesta").objectStore("Encuesta");
-          objectStore.openCursor().onsuccess= function(e){
+      //     //leer cursor
+      //     var objectStore = db.transaction("Encuesta").objectStore("Encuesta");
+      //     objectStore.openCursor().onsuccess= function(e){
             
-           var cursor = e.target.result;
-           if(cursor){
-             Descripcion = cursor.value.Titulo;
-             cadena += "";
+      //      var cursor = e.target.result;
+      //      if(cursor){
+      //        Descripcion = cursor.value.Titulo;
+      //        cadena += "";
              
-             //cadena += "<div class= 'modal fade' id='mymodal3' tabindex='-1' aria-labelledby='mymodal3' aria-modal='true' style='display: none;' aria-modal='true' role='dialog'><div class='modal-dialog modal-dialog-centered modal-dialog-scrollable'><div class='modal-content'></div></div></div>";
-            cadena += "<button data-bs-toggle='modal' data-bs-target='#mymodal' ><img src=../Img/Form1.png width=200px height=320px></button>";
-            //cadena += "<label>"+cursor.value.Titulo+"</label>"
-<<<<<<< HEAD
-            cadena += "<div class='p-3'> <label>"+cursor.value.Titulo+"</label></div>"
-=======
-            cadena += "<tr>";
-            cadena += "<td> <div class='p-3'> <label>"+cursor.value.Titulo+"</label> </td>";
-            
-            cadena += "<td> <div class='col-md-12 d-flex justify-content-end'> <button class='btn btn-outline-success bg-border-mostaza bg-text-mostaza' id=''>Editar</button> <button class='btn btn-outline-success bg-border-mostaza bg-text-mostaza' id=''>Duplicar</button> <button class='btn btn-outline-success bg-border-mostaza bg-text-mostaza' id=''>Ver</button> </div> </div></td>";
->>>>>>> a2b65f0c3c7693fcd6f2033f52473054daf778d7
-            //cadena += "<div class='p-3'> <button onclick='location.href='../pestañas_Encuestador/EncuestaApi.html'>"+cursor.value.Instrucciones+"</button></div>"
-             //cadena += "<td>+<button id='m"+Descripcion+"'>Seleccionar</button></td></tr>";
-             cadena += "<tr>";
-             id_array.push(Descripcion);
-             num ++;
-             //continuamos siguiente objeto
-             cursor.continue();
+      //        //cadena += "<div class= 'modal fade' id='mymodal3' tabindex='-1' aria-labelledby='mymodal3' aria-modal='true' style='display: none;' aria-modal='true' role='dialog'><div class='modal-dialog modal-dialog-centered modal-dialog-scrollable'><div class='modal-content'></div></div></div>";
+      //       cadena += "<button data-bs-toggle='modal' data-bs-target='#mymodal' ><img src=../Img/Form1.png width=200px height=320px></button>";
+      //       //cadena += "<label>"+cursor.value.Titulo+"</label>"
+      //       cadena += "<div class='p-3'> <label>"+cursor.value.Titulo+"</label></div>"
+      //       //cadena += "<div class='p-3'> <button onclick='location.href='../pestañas_Encuestador/EncuestaApi.html'>"+cursor.value.Instrucciones+"</button></div>"
+      //        //cadena += "<td>+<button id='m"+Descripcion+"'>Seleccionar</button></td></tr>";
+      //        cadena += "<tr>";
+      //        id_array.push(Descripcion);
+      //        num ++;
+      //        //continuamos siguiente objeto
+      //        cursor.continue();
 
-           }else{
-             cadena += "";
-             cadena += "</table>"
-             document.getElementById("crear_encuesta").innerHTML = cadena;
+      //      }else{
+      //        cadena += "";
+      //        cadena += "</table>"
+      //        document.getElementById("crear_encuesta").innerHTML = cadena;
 
-             for(var i=0; i<id_array.length; i++){
-               id = id_array[i];
-               //document.getElementById("m"+id).onclick= Editar;
+      //        for(var i=0; i<id_array.length; i++){
+      //          id = id_array[i];
+      //          //document.getElementById("m"+id).onclick= Editar;
 
-             }
-           }
-          };
+      //        }
+      //      }
+      //     };
    
-       }
+      //  }
 
-
+      // function buscarE() {
+      //   var cadena = "<table class='table table-bordered'>";
+      //   var num = 0;
+      //   var id_array = new Array();
+      
+      //   // Leer cursor
+      //   var objectStore = db.transaction("Encuesta").objectStore("Encuesta");
+      //   objectStore.openCursor().onsuccess = function(e) {
+      //     var cursor = e.target.result;
+      //     if (cursor) {
+      //      // var encuestaId = cursor.; // Obtener el ID de la encuesta
+      //       var descripcion = cursor.value.Titulo;
+      //       cadena += "<tr>";
+      //       cadena += "<td><button data-encuesta-id='' class='ver-formulario-btn'>Ver formulario</button></td>";
+      //       cadena += "<td>" + cursor.value.Titulo + "</td>";
+      //       cadena += "</tr>";
+      //       id_array.push(encuestaId);
+      //       num++;
+      //       // Continuamos con el siguiente objeto
+      //       cursor.continue();
+      //     } else {
+      //       cadena += "</table>";
+      //       document.getElementById("crear_encuesta").innerHTML = cadena;
+      
+      //       // Agrega el evento click a los botones "Ver formulario"
+      //       var btns = document.getElementsByClassName("ver-formulario-btn");
+      //       for (var i = 0; i < btns.length; i++) {
+      //         btns[i].addEventListener("click", function(event) {
+      //           var IdEn = event.target.getAttribute("data-encuesta-id");
+      //           abrirPestanaConFormulario(IdEn);
+      //         });
+      //       }
+      //     }
+      //   };
+      // }
+      
+      // function abrirPestanaConFormulario(IdEn) {
+      //   // Abre una nueva pestaña
+      //   var nuevaPestana = window.open("", "_blank");
+      
+      //   // Construye el contenido del formulario en la nueva pestaña
+      //   var contenidoHTML = "<h2>Título de la Encuesta</h2>";
+      
+      //   // Obtiene el título de la encuesta
+      //   var transaction = db.transaction("Encuesta", "readonly");
+      //   var encuestaObjectStore = transaction.objectStore("Encuesta");
+      //   var encuestaRequest = encuestaObjectStore.get(IdEn);
+      
+      //   encuestaRequest.onsuccess = function(event) {
+      //     var encuesta = event.target.result;
+      //     if (encuesta) {
+      //       contenidoHTML += "<p>" + encuesta.Titulo + "</p>";
+      
+      //       // Filtra los reactivos correspondientes a la encuesta
+      //       var reactivosObjectStore = db.transaction("EncuestaFinal", "readonly").objectStore("EncuestaFinal");
+      //       var reactivosRequest = reactivosObjectStore.getAll();
+      
+      //       reactivosRequest.onsuccess = function(event) {
+      //         var reactivos = event.target.result;
+      //         if (reactivos) {
+      //           var reactivosFiltrados = reactivos.filter(function(reactivo) {
+      //             return reactivo.encuestaId === IdEn;
+      //           });
+      
+      //           reactivosFiltrados.forEach(function(reactivo) {
+      //             contenidoHTML += "<label for='reactivo" + reactivo.reactivoId + "'>Reactivo " + reactivo.reactivoId + "</label>";
+      //             contenidoHTML += "<input type='checkbox' id='reactivo" + reactivo.reactivoId + "' name='reactivo" + reactivo.reactivoId + "'><br>";
+      //           });
+      
+      //           // Inserta el formulario en la nueva pestaña
+      //           nuevaPestana.document.open();
+      //           nuevaPestana.document.write(contenidoHTML);
+      //           nuevaPestana.document.close();
+      //         }
+      //       };
+      //     }
+      //   };
+      // }
+      
+      // function abrirPestanaConFormulario(IdEn) {
+      //   // Abre una nueva pestaña
+      //   var nuevaPestana = window.open("", "_blank");
+      
+      //   // Construye el contenido del formulario en la nueva pestaña
+      //   var contenidoHTML = "<h2>Título de la Encuesta</h2>";
+      
+      //   // Obtiene el título de la encuesta
+      //   var transaction = db.transaction("Encuesta", "readonly");
+      //   var encuestaObjectStore = transaction.objectStore("Encuesta");
+      //   var encuestaRequest = encuestaObjectStore.get(IdEn);
+      
+      //   encuestaRequest.onsuccess = function(event) {
+      //     var encuesta = event.target.result;
+      //     if (encuesta) {
+      //       contenidoHTML += "<p>" + encuesta.Titulo + "</p>";
+      
+      //       // Filtra los reactivos correspondientes a la encuesta
+      //       var reactivosObjectStore = db.transaction("EncuestaFinal", "readonly").objectStore("EncuestaFinal");
+      //       var reactivosRequest = reactivosObjectStore.getAll();
+      
+      //       reactivosRequest.onsuccess = function(event) {
+      //         var reactivos = event.target.result;
+      //         if (reactivos) {
+      //           var reactivosFiltrados = reactivos.filter(function(reactivo) {
+      //             return reactivo.encuestaId === IdEn;
+      //           });
+      
+      //           reactivosFiltrados.forEach(function(reactivo) {
+      //             contenidoHTML += "<label for='reactivo" + reactivo.reactivoId + "'>Reactivo " + reactivo.reactivoId + "</label>";
+      //             contenidoHTML += "<input type='checkbox' id='reactivo" + reactivo.reactivoId + "' name='reactivo" + reactivo.reactivoId + "'><br>";
+      //           });
+      
+      //           // Inserta el formulario en la nueva pestaña
+      //           nuevaPestana.document.open();
+      //           nuevaPestana.document.write(contenidoHTML);
+      //           nuevaPestana.document.close();
+      //         }
+      //       };
+      //     }
+      //   };
+      // }
+      function buscarE() {
+        var cadena = "<table class='table table-bordered'>";
+        var objectStore = db.transaction("Encuesta").objectStore("Encuesta");
+        objectStore.openCursor().onsuccess = function(e) {
+          var cursor = e.target.result;
+          if (cursor) {
+            var encuestaId = cursor.value.IdEn;
+            var descripcion = cursor.value.Titulo;
+            cadena += "<tr>";
+            cadena += "<td><button data-encuesta-id='" + encuestaId + "' class='ver-formulario-btn'>Ver formulario</button></td>";
+            cadena += "<td>" + descripcion + "</td>";
+            cadena += "</tr>";
+            cursor.continue();
+          } else {
+            cadena += "</table>";
+            document.getElementById("crear_encuesta").innerHTML = cadena;
+  
+            var btns = document.getElementsByClassName("ver-formulario-btn");
+            for (var i = 0; i < btns.length; i++) {
+              btns[i].addEventListener("click", function(event) {
+                var IdEn = event.target.getAttribute("data-encuesta-id");
+                abrirPestanaConFormulario(IdEn);
+              });
+            }
+          }
+        };
+      }
+  
+      // Función para abrir una nueva pestaña con el formulario de la encuesta
+      function abrirPestanaConFormulario(IdEn) {
+        var nuevaPestana = window.open("", "_blank");
+        var contenidoHTML = "<h2>Título de la Encuesta</h2>";
+  
+        var transaction = db.transaction("Encuesta", "readonly");
+        var encuestaObjectStore = transaction.objectStore("Encuesta");
+        var encuestaRequest = encuestaObjectStore.get(parseInt(IdEn));
+  
+        encuestaRequest.onsuccess = function(event) {
+          var encuesta = event.target.result;
+          if (encuesta) {
+            contenidoHTML += "<p>" + encuesta.Titulo + "</p>";
+  
+            var reactivosObjectStore = db.transaction("EncuestaFinal", "readonly").objectStore("EncuestaFinal");
+            var reactivosRequest = reactivosObjectStore.getAll();
+  
+            reactivosRequest.onsuccess = function(event) {
+              var reactivos = event.target.result;
+              if (reactivos) {
+                var reactivosFiltrados = reactivos.filter(function(reactivo) {
+                  return reactivo.encuestaId === parseInt(IdEn);
+                });
+  
+                reactivosFiltrados.forEach(function(reactivo) {
+                  contenidoHTML += "<label for='reactivo" + reactivo.reactivoId + "'>Reactivo " + reactivo.reactivoId + "</label>";
+                  contenidoHTML += "<input type='checkbox' id='reactivo" + reactivo.reactivoId + "' name='reactivo" + reactivo.reactivoId + "'><br>";
+                });
+  
+                nuevaPestana.document.open();
+                nuevaPestana.document.write(contenidoHTML);
+                nuevaPestana.document.close();
+              }
+            };
+          }
+        };
+      }
 
       //  function buscarVar(){
       //   var cadena ="<table class= 'table table-bordered'>";
@@ -2812,53 +2991,9 @@ function contieneCheckboxId(checkboxes, id) {
 }
 
 
-async function EncuestaVistaPV() {
-  var formularioEncuesta = document.getElementById("formularioEncuesta");
+// Función para mostrar en el formulario los reactivos de una encuesta específica
 
-  // Resto del código para mostrar la información obtenida en el formulario
 
-  var encuestaInfo = await obtenerInformacionEncuesta(encuestaId); // Obtener la información de la encuesta
-
-  // Crear elementos HTML para mostrar la información de la encuesta
-  var creadorElement = document.createElement("p");
-  creadorElement.textContent = "Creador: " + encuestaInfo.creador;
-
-  var tituloElement = document.createElement("p");
-  tituloElement.textContent = "Título: " + encuestaInfo.Titulo;
-
-  var objetivoElement = document.createElement("p");
-  objetivoElement.textContent = "Objetivo: " + encuestaInfo.Objetivo;
-
-  var instruccionesElement = document.createElement("p");
-  instruccionesElement.textContent = "Instrucciones: " + encuestaInfo.Instrucciones;
-
-  // Añadir los elementos al formulario
-  formularioEncuesta.appendChild(creadorElement);
-  formularioEncuesta.appendChild(tituloElement);
-  formularioEncuesta.appendChild(objetivoElement);
-  formularioEncuesta.appendChild(instruccionesElement);
-}
-
-async function obtenerInformacionEncuesta(encuestaId) {
-  return new Promise(function(resolve, reject) {
-    var transaction = db.transaction(["Encuesta"], "readonly");
-    var objectStore = transaction.objectStore("Encuesta");
-    var request = objectStore.get(encuestaId);
-
-    request.onsuccess = function(event) {
-      var encuestaInfo = event.target.result;
-      resolve(encuestaInfo);
-    };
-
-    request.onerror = function(event) {
-      reject(event.error);
-    };
-  });
-}
-tx.oncomplete = function() {
-  console.log("Relación entre la encuesta y los reactivos creada correctamente");
-  EncuestaVistaPV(); // Mostrar el formulario de encuesta
-};
 
 
 
@@ -3063,78 +3198,154 @@ tx.oncomplete = function() {
     var encuestaStore = transaction.objectStore("Encuesta");
     var reactivosStore = transaction.objectStore("Encuesta_Reactivo");
   
-    var encuestaRequest = encuestaStore.getAll();
+    var encuestaRequest = encuestaStore.get(1);
     encuestaRequest.onsuccess = function(event) {
-      var encuestas = event.target.result;
+      var encuesta = event.target.result;
   
-      // Buscar el valor de IdEn
-      var encuestaIdEn;
-var encuestaEncontrada = encuestas.find(encuesta => encuesta.IdEn === 1);
-if (encuestaEncontrada) {
-  encuestaIdEn = encuestaEncontrada.IdEn;
-}
-    console.log(encuestaIdEn);
-      if (encuestaIdEn === 1) {
+      if (encuesta) {
         var reactivosRequest = reactivosStore.getAll();
         reactivosRequest.onsuccess = function(event) {
           var reactivos = event.target.result;
   
-          construirFormulario(encuestas, reactivos);
+          construirFormulario(encuesta, reactivos);
         };
+      } else {
+        console.log("La encuesta con ID 1 no se encontró en la base de datos.");
       }
     };
   }
-
-  function construirFormulario(encuestas, reactivosEncuestaFiltrados ) {
-      var form = document.getElementById("encuestaFormA");
-
-      // Recorrer las encuestas y agregar los campos al formulario
-    encuestas.forEach(function(encuesta) {
-      // Crear el elemento de título de la encuesta
-      var tituloElement = document.createElement("h2");
-      tituloElement.className= "bg-text-black text-center p-3 text-uppercase text-black";
-      tituloElement.textContent = encuesta.Titulo;
-      form.appendChild(tituloElement);
   
-      // Crear el contenedor de reactivos
-      var reactivoContainer = document.createElement("div");
-      reactivoContainer.className = "p-3 ";
-      form.appendChild(reactivoContainer);
-    
+  function construirFormulario(encuesta, reactivos) {
+    var form = document.getElementById("encuestaFormA");
+    form.innerHTML = "";
   
-      // Recorrer los reactivos y agregarlos al contenedor
-      reactivosEncuestaFiltrados.forEach(function(reactivo) {
-        // Crear un div para cada pregunta
-        var preguntaDiv = document.createElement("div");
-        preguntaDiv.className = " p-3";
+    // Crear el elemento de título de la encuesta
+    var tituloElement = document.createElement("h2");
+    tituloElement.className = "bg-text-black text-center p-3 text-uppercase text-black";
+    tituloElement.textContent = encuesta.Titulo;
+    form.appendChild(tituloElement);
   
-        // Crear los elementos de etiqueta y campo de entrada
-        var labelElement = document.createElement("label");
-       // labelElement.className = "col-md-4 col-form-label px-5";
-        labelElement.textContent = reactivo.Descripcion;
+    // Recorrer los reactivos y agregarlos al formulario
+    reactivos.forEach(function(reactivo) {
+      // Crear un div para cada pregunta
+      var preguntaDiv = document.createElement("div");
+      preguntaDiv.className = "p-3";
   
-        var divInput = document.createElement("div");
-        // divInput.className = "p-3";
-
-        var inputElement = document.createElement("input");
-        inputElement.className = "form-control";
-        inputElement.type = "text";
-        inputElement.name = "respuesta-" + reactivo.id; // Agregar un nombre único al input
+      // Crear los elementos de etiqueta y campo de entrada
+      var labelElement = document.createElement("label");
+      labelElement.textContent = reactivo.Descripcion;
   
-        // Agregar los elementos al contenedor de pregunta
-        divInput.appendChild(labelElement);
-        divInput.appendChild(inputElement);
-
-
-        preguntaDiv.appendChild(divInput);
-        // divInput.appendChild(inputElement);
+      var divInput = document.createElement("div");
+      var inputElement = document.createElement("input");
+      inputElement.className = "form-control";
+      inputElement.type = "text";
+      inputElement.name = "respuesta-" + reactivo.id; // Agregar un nombre único al input
   
-        // Agregar el div de pregunta al contenedor principal
-        reactivoContainer.appendChild(preguntaDiv);
-      });
+      // Agregar los elementos al contenedor de pregunta
+      divInput.appendChild(labelElement);
+      divInput.appendChild(inputElement);
+  
+      preguntaDiv.appendChild(divInput);
+  
+      // Agregar el div de pregunta al formulario
+      form.appendChild(preguntaDiv);
     });
   }
   
+  
+// function mostrarEncuesta() {
+//   var request = indexedDB.open("Janal", version = 1);
+
+//   request.onerror = function(event) {
+//     // Manejar el error al abrir la base de datos
+//     console.error("Error al abrir la base de datos");
+//   };
+
+//   request.onsuccess = function(event) {
+//     var db = event.target.result;
+
+//     var transaction = db.transaction(["Encuesta", "Encuesta_Reactivo"], "readonly");
+//     var encuestaStore = transaction.objectStore("Encuesta");
+//     var reactivosStore = transaction.objectStore("Encuesta_Reactivo");
+
+//     var encuestaRequest = encuestaStore.get(1);
+//     encuestaRequest.onsuccess = function(event) {
+//       var encuesta = event.target.result;
+
+//       if (encuesta) {
+//         var reactivosRequest = reactivosStore.getAll();
+//         reactivosRequest.onsuccess = function(event) {
+//           var reactivos = event.target.result.filter(reactivo => reactivo.IdEn === encuesta.IdEn);
+//           construirFormulario(encuesta, reactivos);
+//         };
+//       } else {
+//         console.log("La encuesta con ID 1 no se encontró en la base de datos.");
+//       }
+//     };
+
+//     transaction.oncomplete = function(event) {
+//       db.close();
+//     };
+//   };
+
+//   request.onupgradeneeded = function(event) {
+//     var db = event.target.result;
+
+//     if (!db.objectStoreNames.contains("Encuesta")) {
+//       db.createObjectStore("Encuesta", { keyPath: "IdEn" });
+//     }
+
+//     if (!db.objectStoreNames.contains("Encuesta_Reactivo")) {
+//       db.createObjectStore("Encuesta_Reactivo", { keyPath: "id" });
+//     }
+//   };
+// }
+
+// function construirFormulario(encuesta, reactivos) {
+//   var form = document.getElementById("encuestaFormA");
+//   form.innerHTML = "";
+
+//   // Crear el elemento de título de la encuesta
+//   var tituloElement = document.createElement("h2");
+//   tituloElement.className = "bg-text-black text-center p-3 text-uppercase text-black";
+//   tituloElement.textContent = encuesta.Titulo;
+//   form.appendChild(tituloElement);
+
+//   // Crear el contenedor de reactivos
+//   var reactivoContainer = document.createElement("div");
+//   reactivoContainer.className = "p-3";
+//   form.appendChild(reactivoContainer);
+
+//   // Recorrer los reactivos y agregarlos al contenedor
+//   reactivos.forEach(function(reactivo) {
+//     // Crear un div para cada pregunta
+//     var preguntaDiv = document.createElement("div");
+//     preguntaDiv.className = "p-3";
+
+//     // Crear los elementos de etiqueta y campo de entrada
+//     var labelElement = document.createElement("label");
+//     labelElement.textContent = reactivo.Descripcion;
+
+//     var divInput = document.createElement("div");
+//     var inputElement = document.createElement("input");
+//     inputElement.className = "form-control";
+//     inputElement.type = "text";
+//     inputElement.name = "respuesta-" + reactivo.IdRe; // Agregar un nombre único al input
+
+//     // Agregar los elementos al contenedor de pregunta
+//     divInput.appendChild(labelElement);
+//     divInput.appendChild(inputElement);
+
+//     preguntaDiv.appendChild(divInput);
+
+//     // Agregar el div de pregunta al contenedor principal
+//     reactivoContainer.appendChild(preguntaDiv);
+//   });
+// }
+
+
+
+
   
 
   
