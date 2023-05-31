@@ -93,6 +93,7 @@ const APP_SHELL_INMUTABLE = [
     'Estadistica/dist/css/adminlte.min.css',
     'Estadistica/plugins/jquery/jquery.min.js',
     'Img/Oficial_JanalKaaj.png',
+    'Img/Oficial_JanalKaaj.jpg',
     'CSS/style.css',
     'CSS/style3.css',
     'CSS/SweetAlert.js'
