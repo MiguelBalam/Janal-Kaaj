@@ -481,103 +481,82 @@ border-color: var(--mostaza) !important;
   z-index: 2;
 }
 
-
-
-
-  .navbar {
-    position: relative;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
-    padding-top: 0.4rem;
-    padding-bottom: 0.4rem;
+.navbar {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 0.4rem;
+  padding-bottom: 0.4rem;
+}
+  #mainNav {
+    background-color: #ffffff;
   }
-  .navbar-mi-colorLP {
-    background-color: var(--white);
+  .sticky-top{
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    z-index: 1030;
   }
-  .navbar-mi-colorLP .navbar-brand,
-  .navbar-mi-colorLP .navbar-nav .nav-link {
-    color: var(--white);
-  }
-    
-    .sticky-top{
-      position: -webkit-sticky;
-      position: sticky;
-      top: 0;
-      z-index: 1030;
-    }
-    .navbar .nav-item .nav-link {
-      color: rgb(0, 0, 0);
-    }
-
-    .navbar-mi-color {
-      background-color: var(--verde_oliva);
-    }
-    .navbar-mi-color .navbar-brand,
-    .navbar-mi-color .navbar-nav .nav-link {
-      color: var(--verde_oliva);
-    }
-    
-    #nav-linkPf{
-      color: var(--black);
-    }
-
-  .nav-link{
-      display: block;
-      padding: 0.5rem 1rem;
-      color: #f2be5c;
-      text-decoration: none;
-      transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
-    }
-    @media (prefers-reduced-motion: reduce) {
-      .nav-link {
-        transition: none;
-      }
-    }
-    #mainNav  .nav-link:hover, .nav-link:focus {
-      color: #f2be5c;
-    }
-    #mainNav .nav-link.disabled {
-      color: #6c757d;
-      pointer-events: none;
-      cursor: default;
-    }
-  
-  #mainNav .navbar-toggler {
-    padding: 0.75rem;
-    font-size: 0.75rem;
-    text-transform: uppercase;
-    font-weight: 700;
-  
-  }
-  #mainNav .navbar-brand {
-    color: #f2be5c;
-    font-weight: 700;
-    padding: 0.75rem;
-    letter-spacing: 0.0625em;
-    text-transform: uppercase;
-  }
-  
-  #mainNav .navbar-nav .nav-item .nav-link {
-    font-size: 0.95rem;
+  .navbar .nav-item .nav-link {
     color: rgb(0, 0, 0);
-    letter-spacing: 0.0625em;
   }
-  #mainNav .navbar-nav .nav-item .nav-link.active, #mainNav .navbar-nav .nav-item .nav-link:hover {
+.nav-link{
+    display: block;
+    padding: 0.5rem 1rem;
+    color: #f2be5c;
+    text-decoration: none;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .nav-link {
+      transition: none;
+    }
+  }
+  #mainNav  .nav-link:hover, .nav-link:focus {
     color: #f2be5c;
   }
-  
-  
-  .navbar-toggler {
-    padding: 0.25rem 0.75rem;
-    font-size: 1.25rem;
-    line-height: 1;
-    background-color: #f2be5c;
-    border: 1px solid transparent;
-    border-radius: 0.25rem;
-    transition: box-shadow 0.15s ease-in-out;
+  #mainNav .nav-link.disabled {
+    color: #6c757d;
+    pointer-events: none;
+    cursor: default;
   }
+
+#mainNav .navbar-toggler {
+  padding: 0.75rem;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  font-weight: 700;
+
+}
+#mainNav .navbar-brand {
+  color: #f2be5c;
+  font-weight: 700;
+  padding: 0.75rem;
+  letter-spacing: 0.0625em;
+  text-transform: uppercase;
+}
+
+#mainNav .navbar-nav .nav-item .nav-link {
+  font-size: 0.95rem;
+  color: rgb(0, 0, 0);
+  letter-spacing: 0.0625em;
+}
+#mainNav .navbar-nav .nav-item .nav-link.active, #mainNav .navbar-nav .nav-item .nav-link:hover {
+  color: #f2be5c;
+}
+
+
+.navbar-toggler {
+  padding: 0.25rem 0.75rem;
+  font-size: 1.25rem;
+  line-height: 1;
+  background-color: #f2be5c;
+  border: 1px solid transparent;
+  border-radius: 0.25rem;
+  transition: box-shadow 0.15s ease-in-out;
+}
     
     .masthead {
       position: relative;
@@ -595,12 +574,12 @@ border-color: var(--mostaza) !important;
     }
     
     .background-overlay {
-      background: rgba(47, 54, 64, 0.4);
+      
+      position: absolute;
       top: 0;
       left: 0;
-      right: 0;
+      width: 100%;
       height: 100%;
-      position: absolute;
     }
     
     .form-control2, .btn{
