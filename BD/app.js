@@ -1162,34 +1162,74 @@ function manejadorValidacion(e) {
       }
   
       // Función para abrir una nueva pestaña con el formulario de la encuesta
+      // function abrirPestanaConFormulario(IdEn) {
+      //   var nuevaPestana = window.open("", "_blank");
+      //   var contenidoHTML = "<h2></h2>";
+  
+      //   var transaction = db.transaction("Encuesta", "readonly");
+      //   var encuestaObjectStore = transaction.objectStore("Encuesta");
+      //   var encuestaRequest = encuestaObjectStore.get(parseInt(IdEn));
+  
+      //   encuestaRequest.onsuccess = function(event) {
+      //     var encuesta = event.target.result;
+      //     if (encuesta) {
+      //       contenidoHTML += "<p>" + encuesta.Titulo + "</p>";
+  
+      //       var reactivosObjectStore = db.transaction("EncuestaFinal", "readonly").objectStore("EncuestaFinal");
+      //       var reactivosRequest = reactivosObjectStore.getAll();
+  
+      //       reactivosRequest.onsuccess = function(event) {
+      //         var reactivos = event.target.result;
+      //         if (reactivos) {
+      //           var reactivosFiltrados = reactivos.filter(function(reactivo) {
+      //             return reactivo.encuestaId === parseInt(IdEn);
+      //           });
+  
+      //           reactivosFiltrados.forEach(function(reactivo) {
+      //             contenidoHTML += "<label class= 'bg-text-black text-center p-3 text-uppercase text-black' for='reactivo" + reactivo.reactivoId + "'>Reactivo " + reactivo.reactivoId + "</label>";
+      //             contenidoHTML += "<input class='form-control' type='text' id='reactivo" + reactivo.reactivoId + "' name='reactivo" + reactivo.reactivoId + "'><br>";
+      //           });
+  
+      //           nuevaPestana.document.open();
+      //           nuevaPestana.document.write(contenidoHTML);
+      //           nuevaPestana.document.close();
+      //         }
+      //       };
+      //     }
+      //   };
+      // }
+
       function abrirPestanaConFormulario(IdEn) {
         var nuevaPestana = window.open("", "_blank");
-        var contenidoHTML = "<h2>Título de la Encuesta</h2>";
-  
+        var contenidoHTML = "<h2 class='color-titulo mb-4 h1TextoTitulo'></h2>";
+      
         var transaction = db.transaction("Encuesta", "readonly");
         var encuestaObjectStore = transaction.objectStore("Encuesta");
         var encuestaRequest = encuestaObjectStore.get(parseInt(IdEn));
-  
+      
         encuestaRequest.onsuccess = function(event) {
           var encuesta = event.target.result;
           if (encuesta) {
-            contenidoHTML += "<p>" + encuesta.Titulo + "</p>";
-  
+            contenidoHTML += "<p class='color-titulo mb-4 h1TextoTitulo' style='text-align: center; font-weight: bold;'>" + encuesta.Titulo + "</p>";
+      
             var reactivosObjectStore = db.transaction("EncuestaFinal", "readonly").objectStore("EncuestaFinal");
             var reactivosRequest = reactivosObjectStore.getAll();
-  
+      
             reactivosRequest.onsuccess = function(event) {
               var reactivos = event.target.result;
               if (reactivos) {
                 var reactivosFiltrados = reactivos.filter(function(reactivo) {
                   return reactivo.encuestaId === parseInt(IdEn);
                 });
-  
+      
                 reactivosFiltrados.forEach(function(reactivo) {
-                  contenidoHTML += "<label for='reactivo" + reactivo.reactivoId + "'>Reactivo " + reactivo.reactivoId + "</label>";
-                  contenidoHTML += "<input type='checkbox' id='reactivo" + reactivo.reactivoId + "' name='reactivo" + reactivo.reactivoId + "'><br>";
+                  contenidoHTML += "<div style='text-align: center;'>";
+                  contenidoHTML += "<label style='background-color: black; color: white; padding: 10px; text-transform: uppercase; font-weight: bold;' for='reactivo" + reactivo.reactivoId + "'>Reactivo " + reactivo.reactivoId + "</label>";
+                  contenidoHTML += "<br>";
+                  contenidoHTML += "<input class='form-control' type='text' id='reactivo" + reactivo.reactivoId + "' name='reactivo" + reactivo.reactivoId + "'><br>";
+                  contenidoHTML += "</div>";
                 });
-  
+      
                 nuevaPestana.document.open();
                 nuevaPestana.document.write(contenidoHTML);
                 nuevaPestana.document.close();
@@ -1198,6 +1238,8 @@ function manejadorValidacion(e) {
           }
         };
       }
+      
+
 
       //  function buscarVar(){
       //   var cadena ="<table class= 'table table-bordered'>";
@@ -2698,216 +2740,7 @@ function mostrarPreguntas() {
 
 }
 
-// function Ef() {
-//   // Iniciar la transacción
-//   var transaction = db.transaction(["Encuesta", "preguntaReactivos", "EncuestaFinal"], "readwrite");
 
-//   // Obtener los object stores
-//   var encuestaStore = transaction.objectStore("Encuesta");
-//   var preguntasStore = transaction.objectStore("preguntaReactivos");
-//   var encuestaFinalStore = transaction.objectStore("EncuestaFinal");
-
-//   // Obtener la encuesta
-//   var encuestaRequest = encuestaStore.get(IdEn);
-//   encuestaRequest.onerror = function(event) {
-//     console.log("Error al obtener la encuesta:", event.target.error);
-//   };
-//   encuestaRequest.onsuccess = function(event) {
-//     var encuesta = event.target.result;
-
-//     // Obtener las preguntas
-//     var preguntasIndex = preguntasStore.index("Encuesta_Id");
-//     var preguntasRequest = preguntasIndex.getAll(encuesta.IdEn);
-//     preguntasRequest.onerror = function(event) {
-//       console.log("Error al obtener las preguntas:", event.target.error);
-//     };
-//     preguntasRequest.onsuccess = function(event) {
-//       var preguntas = event.target.result;
-
-//       // Agregar la encuesta final y sus preguntas
-//       var encuestaFinal = { titulo: encuesta.titulo, preguntas: preguntas };
-//       var encuestaFinalRequest = encuestaFinalStore.add(encuestaFinal);
-//       encuestaFinalRequest.onerror = function(event) {
-//         console.log("Error al agregar la encuesta final:", event.target.error);
-//       };
-//       encuestaFinalRequest.onsuccess = function(event) {
-//         console.log("Encuesta final agregada correctamente.");
-//       };
-//     };
-//   };
-
-//   // Finalizar la transacción
-//   transaction.onerror = function(event) {
-//     console.log("Error al realizar la transacción:", event.target.error);
-//   };
-//   transaction.oncomplete = function(event) {
-//     console.log("Transacción realizada correctamente.");
-//   };
-// }
-
- 
-  // Crear un evento de botón que llame a la función combinarDatos()
-
-
-
-
-
-
-//Almacen de relación E-R-RP
-// var encuestaId;
-//   function crearEncuestaFinal() {
-  
-//       var creador = document.getElementById("aqui").value; 
-//       var Titulo = document.getElementById("Titulo").value.trim();
-//       var Objetivo = document.getElementById("floatingTextarea2").value.trim();
-//       var Instrucciones = document.getElementById('floatingTextarea21').value.trim();
-//       var fechaCreacionE = document.getElementById("fechaCreacionE");
-//       var form = document.getElementById('formulario');
-  
-//       form.addEventListener('submit', function(eve){
-//         eve.preventDefault();
-//         var request = db.transaction(["Encuesta"], "readwrite")
-//           .objectStore("Encuesta")
-//           .add({creador:creador,Titulo:Titulo, Objetivo:Objetivo, Instrucciones:Instrucciones,fechaCreacionE:value=Date.now()});
-  
-//         request.onsuccess = function(e){
-//          encuestaId = e.target.result;
-//          console.log("Encuesta creada con id: ", encuestaId,Titulo);
-//         var reactivosSeleccionados = obtenerReactivosSeleccionados(); //función que obtiene los reactivos seleccionados por el usuario
-//       var tx = db.transaction(["EncuestaFinal"], "readwrite");
-//       var store = tx.objectStore("EncuestaFinal");
-     
-//         store.add({encuestaId:encuestaId,reactivoId:reactivosSeleccionados});
-      
-//       tx.oncomplete = function() {
-//         console.log("Relación entre la encuesta y los reactivos creada correctamente");
-//       };
-        
-//         // var tx = db.transaction(["EncuestaFinal"], "readwrite");
-//         // var store = tx.objectStore("EncuestaFinal");
-      
-//         //   store.add({encuestaId:encuestaId});
-       
-//         // tx.oncomplete = function() {
-//         //   console.log("Relación entre la encuesta y los reactivos creada correctamente");
-//         // };
-          
-//           console.log(e);
-//           alert("se inserto los datos");
-  
-//           buscarE();   
-      
-//           EncuestaVistaPV2()
-  
-//         };
-        
-//       })
-
-//   }
-// var encuestaId;
-// function crearEncuestaFinal() {
-//   var creador = document.getElementById("aqui").value; 
-//   var Titulo = document.getElementById("Titulo").value.trim();
-//   var Objetivo = document.getElementById("floatingTextarea2").value.trim();
-//   var Instrucciones = document.getElementById('floatingTextarea21').value.trim();
-//   var fechaCreacionE = Date.now();
-//   var form = document.getElementById('formulario');
-
-//   form.addEventListener('submit', function(eve){
-//     eve.preventDefault();
-
-//     // Agregar la encuesta a la tienda "Encuesta"
-//     var encuestaRequest = db.transaction("Encuesta", "readwrite")
-//       .objectStore("Encuesta")
-//       .add({creador:creador, Titulo:Titulo, Objetivo:Objetivo, Instrucciones:Instrucciones, fechaCreacionE:fechaCreacionE});
-
-//     encuestaRequest.onsuccess = function(e) {
-//       var encuestaId = e.target.result;
-
-//       // Obtener los reactivos seleccionados
-//       var reactivosSeleccionados = obtenerReactivosSeleccionados();
-
-//       // Agregar la relación entre la encuesta y los reactivos a la tienda "EncuestaFinal"
-//       var relacionRequest = db.transaction("EncuestaFinal", "readwrite")
-//         .objectStore("EncuestaFinal");
-
-//       reactivosSeleccionados.forEach(function(reactivo) {
-//         relacionRequest.add({encuestaId:encuestaId, reactivoId:reactivo.id, id:encuestaId+"_"+reactivo.id});
-//       });
-
-//       relacionRequest.onsuccess = function() {
-//         console.log("Relación entre la encuesta y los reactivos creada correctamente");
-//         alert("se insertaron los datos");
-//         buscarE();
-//         EncuestaVistaPV2();
-//       };
-
-//       relacionRequest.onerror = function() {
-//         console.error("Error al crear la relación entre la encuesta y los reactivos");
-//       };
-//     };
-
-//     encuestaRequest.onerror = function() {
-//       console.error("Error al crear la encuesta");
-//     };
-//   });
-// }
-
-
-// function obtenerReactivosSeleccionados() {
-//   var reactivosSeleccionados = [];
-//   var checkboxes = document.querySelectorAll("input[type='checkbox'][id^='s']:checked");
-
-//   var tx = db.transaction("preguntaReactivos", "readonly");
-//   var store = tx.objectStore("preguntaReactivos");
-//   var request = store.openCursor();
-//   request.onsuccess = function(event) {
-//     var cursor = event.target.result;
-//     if (cursor) {
-//       var reactivoId = cursor.value.id2;
-
-//       checkboxes.forEach(function(checkbox) {
-//         if (checkbox.value == reactivoId && checkbox.checked) {
-//           reactivosSeleccionados.push({Reac: reactivoId});
-//         }
-//       });
-
-//       cursor.continue();
-//     } else {
-//       // cuando se termina el cursor, puedes utilizar la matriz "reactivosSeleccionados"
-//       console.log(reactivosSeleccionados);
-//       return reactivosSeleccionados;
-//     }
-//   };
-// }
-
-  // function obtenerReactivosSeleccionados() {
-  //   var reactivosSeleccionados = [];
-  //   var checkboxes = document.querySelectorAll("input[type='checkbox'][id^='s']:checked");
-
-  //   var tx = db.transaction("preguntaReactivos", "readonly");
-  // var store = tx.objectStore("preguntaReactivos");
-  // var request = store.openCursor();request.onsuccess = function(event) {
-  //   var cursor = event.target.result;
-  //   if (cursor) {
-  //     var reactivoId = cursor.value.id2;
- 
-      
-  //     checkboxes.forEach(function(checkbox) {
-  //       if (checkbox.value == reactivoId && checkbox.checked) {
-  //         reactivosSeleccionados.push({id2:reactivoId});
-  //       }
-  //     });
-      
-  //     cursor.continue();
-  //   } else {
-  //     // cuando se termina el cursor, puedes utilizar la matriz "reactivosSeleccionados"
-  //     console.log(reactivosSeleccionados);
-  //     return reactivosSeleccionados;
-  //   }
-  // };
-
-  // }
  
   var encuestaId;
 
@@ -3003,203 +2836,6 @@ function contieneCheckboxId(checkboxes, id) {
 
 
 
-
-
-
-//  var encuestaId;
-//   function crearEncuestaFinal() {
-  
-//       var creador = document.getElementById("aqui").value; 
-//       var Titulo = document.getElementById("Titulo").value.trim();
-//       var Objetivo = document.getElementById("floatingTextarea2").value.trim();
-//       var Instrucciones = document.getElementById('floatingTextarea21').value.trim();
-//       var fechaCreacionE = document.getElementById("fechaCreacionE");
-//       var form = document.getElementById('formulario');
-  
-//       form.addEventListener('submit', async function(eve){
-//         eve.preventDefault();
-//         var request = db.transaction(["Encuesta"], "readwrite")
-//           .objectStore("Encuesta")
-//           .add({creador:creador,Titulo:Titulo, Objetivo:Objetivo, Instrucciones:Instrucciones,fechaCreacionE:value=Date.now()});
-      
-//         request.onsuccess = async function(e){
-//           encuestaId = e.target.result;
-//           console.log("Encuesta creada con id: ", encuestaId,Titulo);
-//           var reactivosSeleccionados = await obtenerReactivosSeleccionados(); //función que obtiene los reactivos seleccionados por el usuario
-//           var tx = db.transaction(["EncuestaFinal"], "readwrite");
-//           var store = tx.objectStore("EncuestaFinal");
-//           reactivosSeleccionados.forEach(function(id2){
-//             store.add({encuestaId:encuestaId,reactivoId:id2});
-//           });
-//           tx.oncomplete = function() {
-//             console.log("Relación entre la encuesta y los reactivos creada correctamente");
-//           };
-          
-//           console.log(e);
-//           alert("se inserto los datos");
-      
-//           buscarE();   
-      
-//           EncuestaVistaPV2()
-//         };    
-//       })
-      
-
-//   }
-
-
-  
- 
-//   async function obtenerReactivosSeleccionados() {
-//     var reactivosSeleccionados = [];
-//     var transaction = db.transaction(["preguntaReactivos"], "readonly");
-//     var objectStore = transaction.objectStore("preguntaReactivos");
-//     var cursor = objectStore.openCursor(null, "prev"); // Recorre los elementos en orden inverso
-  
-//     var checkboxes = document.querySelectorAll("input[type='checkbox'][id^='s']:checked");
-  
-//     await new Promise((resolve) => {
-//       cursor.onsuccess = function(event) {
-//         var cursor = event.target.result;
-//         if (cursor) {
-//           var valor = cursor.value.id2;
-//           if (!reactivosSeleccionados.includes(valor)) { // Comprueba si el valor ya está en reactivosSeleccionados y si está marcado en los checkboxes
-//             reactivosSeleccionados.push(valor);
-//           }
-//           cursor.continue();
-//         } else {
-//           resolve();
-//         }
-//       };
-//     });
-  
-//     return reactivosSeleccionados;
-//   }
-  
-  // async function obtenerReactivosSeleccionados() {
-  //   var reactivosSeleccionados = [];
-  //   var transaction = db.transaction(["preguntaReactivos"], "readonly");
-  //   var objectStore = transaction.objectStore("preguntaReactivos");
-  //   var cursor = objectStore.openCursor();
-  //   var checkboxes = document.querySelectorAll("input[type='checkbox'][id^='s']:checked");
-  
-  //   await new Promise((resolve) => {
-  //     cursor.onsuccess = function(event) {
-  //       var cursor = event.target.result;
-  //       if (cursor) {
-  //         var valor = cursor.value.id2; //aquí obtienes el valor que necesitas del objeto del cursor
-  //         //almacena el valor en otro almacén o haz lo que necesites con él
-  //         reactivosSeleccionados.push(checkboxes.value, valor);
-  //         cursor.continue();
-  //       } else {
-  //         resolve();
-  //       }
-  //     };
-  //   });
-  
-  //   return reactivosSeleccionados;
-  // }
-  
-  
-  // function obtenerReactivosSeleccionados() {
-  //   var reactivosSeleccionados = [];
-  //   var transaction = db.transaction(["preguntaReactivos"], "readonly");
-  //   var objectStore = transaction.objectStore("preguntaReactivos");
-  //   var cursor = objectStore.openCursor();
-  //   var checkboxes = document.querySelectorAll("input[type='checkbox'][id^='s']:checked");
-  //   checkboxes.forEach(function(checkbox) {
-  //     cursor.onsuccess = function(event) {
-  //       var cursor = event.target.result;
-  //       if (cursor) {
-  //         var valor = cursor.value.id2; //aquí obtienes el valor que necesitas del objeto del cursor
-  //         //almacena el valor en otro almacén o haz lo que necesites con él
-  //         cursor.continue();
-  //       }
-  //       reactivosSeleccionados.push(checkbox.value, valor);
-  //     };
-      
-  //   });
-  //   return reactivosSeleccionados;
-  // }
-
- 
-  // Llamar a la función para mostrar la encuesta
-  // function mostrarEncuesta() {
-  //   var transaction = db.transaction(["Encuesta", "Encuesta_Reactivo"], "readonly");
-  //   var encuestaStore = transaction.objectStore("Encuesta");
-  //   var reactivosStore = transaction.objectStore("Encuesta_Reactivo");
-  
-  //   var encuestaRequest = encuestaStore.getAll();
-  //   encuestaRequest.onsuccess = function(event) {
-  //     var encuestas = event.target.result;
-      
-  //     // Buscar el valor de IdEn
-  //     var encuestaIdEn = encuestas.find(encuesta => encuesta.IdEn === 1);
-  
-  //     if (encuestaIdEn && !window.construirFormularioEjecutado) {
-  //       window.construirFormularioEjecutado = true;
-        
-  //       var reactivosRequest = reactivosStore.getAll();
-  //       reactivosRequest.onsuccess = function(event) {
-  //         var reactivos = event.target.result;
-  
-  //         construirFormulario(encuestas, reactivos);
-  //       };
-  //     }
-  //   };
-  // }
-  // function construirFormulario(encuestas, reactivosEncuestaFiltrados) {
-  //   var form = document.getElementById("encuestaFormA");
-  
-  //   // Recorrer las encuestas y agregar los campos al formulario
-  //   encuestas.forEach(function(encuesta) {
-  //     // Crear el elemento de título de la encuesta
-  //     var tituloElement = document.createElement("h2");
-  //     tituloElement.className= "bg-text-black text-center p-3 text-uppercase text-black";
-  //     tituloElement.textContent = encuesta.Titulo;
-  //     form.appendChild(tituloElement);
-  
-  //     // Crear el contenedor de reactivos
-  //     var reactivoContainer = document.createElement("div");
-  //     reactivoContainer.className = "p-3 ";
-  //     form.appendChild(reactivoContainer);
-    
-  
-  //     // Recorrer los reactivos y agregarlos al contenedor
-  //     reactivosEncuestaFiltrados.forEach(function(reactivo) {
-  //       // Crear un div para cada pregunta
-  //       var preguntaDiv = document.createElement("div");
-  //       preguntaDiv.className = " p-3";
-  
-  //       // Crear los elementos de etiqueta y campo de entrada
-  //       var labelElement = document.createElement("label");
-  //      // labelElement.className = "col-md-4 col-form-label px-5";
-  //       labelElement.textContent = reactivo.Descripcion;
-  
-  //       var divInput = document.createElement("div");
-  //       // divInput.className = "p-3";
-
-  //       var inputElement = document.createElement("input");
-  //       inputElement.className = "form-control";
-  //       inputElement.type = "text";
-  //       inputElement.name = "respuesta-" + reactivo.id; // Agregar un nombre único al input
-  
-  //       // Agregar los elementos al contenedor de pregunta
-  //       divInput.appendChild(labelElement);
-  //       divInput.appendChild(inputElement);
-
-
-  //       preguntaDiv.appendChild(divInput);
-  //       // divInput.appendChild(inputElement);
-  
-  //       // Agregar el div de pregunta al contenedor principal
-  //       reactivoContainer.appendChild(preguntaDiv);
-  //     });
-  //   });
-  // }
-  
-  // window.construirFormularioEjecutado = false;
-  // Llamar a la función para mostrar la encuesta
   function mostrarEncuesta() {
     var transaction = db.transaction(["Encuesta", "Encuesta_Reactivo"], "readonly");
     var encuestaStore = transaction.objectStore("Encuesta");
@@ -3267,102 +2903,7 @@ function contieneCheckboxId(checkboxes, id) {
     console.log(valor);
   }
   
-// function mostrarEncuesta() {
-//   var request = indexedDB.open("Janal", version = 1);
 
-//   request.onerror = function(event) {
-//     // Manejar el error al abrir la base de datos
-//     console.error("Error al abrir la base de datos");
-//   };
-
-//   request.onsuccess = function(event) {
-//     var db = event.target.result;
-
-//     var transaction = db.transaction(["Encuesta", "Encuesta_Reactivo"], "readonly");
-//     var encuestaStore = transaction.objectStore("Encuesta");
-//     var reactivosStore = transaction.objectStore("Encuesta_Reactivo");
-
-//     var encuestaRequest = encuestaStore.get(1);
-//     encuestaRequest.onsuccess = function(event) {
-//       var encuesta = event.target.result;
-
-//       if (encuesta) {
-//         var reactivosRequest = reactivosStore.getAll();
-//         reactivosRequest.onsuccess = function(event) {
-//           var reactivos = event.target.result.filter(reactivo => reactivo.IdEn === encuesta.IdEn);
-//           construirFormulario(encuesta, reactivos);
-//         };
-//       } else {
-//         console.log("La encuesta con ID 1 no se encontró en la base de datos.");
-//       }
-//     };
-
-//     transaction.oncomplete = function(event) {
-//       db.close();
-//     };
-//   };
-
-//   request.onupgradeneeded = function(event) {
-//     var db = event.target.result;
-
-//     if (!db.objectStoreNames.contains("Encuesta")) {
-//       db.createObjectStore("Encuesta", { keyPath: "IdEn" });
-//     }
-
-//     if (!db.objectStoreNames.contains("Encuesta_Reactivo")) {
-//       db.createObjectStore("Encuesta_Reactivo", { keyPath: "id" });
-//     }
-//   };
-// }
-
-// function construirFormulario(encuesta, reactivos) {
-//   var form = document.getElementById("encuestaFormA");
-//   form.innerHTML = "";
-
-//   // Crear el elemento de título de la encuesta
-//   var tituloElement = document.createElement("h2");
-//   tituloElement.className = "bg-text-black text-center p-3 text-uppercase text-black";
-//   tituloElement.textContent = encuesta.Titulo;
-//   form.appendChild(tituloElement);
-
-//   // Crear el contenedor de reactivos
-//   var reactivoContainer = document.createElement("div");
-//   reactivoContainer.className = "p-3";
-//   form.appendChild(reactivoContainer);
-
-//   // Recorrer los reactivos y agregarlos al contenedor
-//   reactivos.forEach(function(reactivo) {
-//     // Crear un div para cada pregunta
-//     var preguntaDiv = document.createElement("div");
-//     preguntaDiv.className = "p-3";
-
-//     // Crear los elementos de etiqueta y campo de entrada
-//     var labelElement = document.createElement("label");
-//     labelElement.textContent = reactivo.Descripcion;
-
-//     var divInput = document.createElement("div");
-//     var inputElement = document.createElement("input");
-//     inputElement.className = "form-control";
-//     inputElement.type = "text";
-//     inputElement.name = "respuesta-" + reactivo.IdRe; // Agregar un nombre único al input
-
-//     // Agregar los elementos al contenedor de pregunta
-//     divInput.appendChild(labelElement);
-//     divInput.appendChild(inputElement);
-
-//     preguntaDiv.appendChild(divInput);
-
-//     // Agregar el div de pregunta al contenedor principal
-//     reactivoContainer.appendChild(preguntaDiv);
-//   });
-// }
-
-
-
-
-  
-
-  
   // Agregar el listener de eventos al <tbody> para capturar los eventos de los botones generados dinámicamente
   tablaBody.addEventListener('click', function(event) {
     // Verificar si el elemento que desencadenó el evento es un botón
