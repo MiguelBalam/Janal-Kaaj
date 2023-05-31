@@ -48,24 +48,126 @@
   <h2 class="main__title text-center text-dark py-3">Información Personal</h2>
   <div class="container py-4">
     <div class="row align-items-center">
-        <div class="col-sm-6 text-center ">
-          <h2 class="main__title text-center text-dark py-3">Información Personal</h2>
-          <label for="xd" >Nombre:</label>
-          <p id="xd">__</p>
-          
+      <div class="col-sm-6">
+        <div class="row text-sm-start">
+          <div class="col-sm-4 text-sm-start py-3">
+            <label for="nombrecompletos" class="col-form-label text-dark px-4">Nombre: </label>
+          </div>
+          <div class="col-sm-8 text-sm-start py-3 px-4">
+            <input type="text" placeholder="Nombre" class="form-control" id="nombre"> 
+          </div>
+          <div class="col-sm-4 text-sm-start py-3">
+            <label for="nombrecompletos" class="col-form-label px-4 text-dark">Apellido Paterno: </label>
+          </div>
+          <div class="col-sm-8 text-sm-start py-3 px-4">
+            <input type="text" placeholder="Apellido Paterno" class="form-control" id="apellidoPa"> 
+          </div>
+          <div class="col-sm-4 text-sm-start py-3">
+            <label for="nombrecompletos" class="col-form-label px-4 text-dark">Apellido Materno: </label>
+          </div>
+          <div class="col-sm-8 text-sm-start py-3 px-4">
+            <input type="text" placeholder="Apellido Materno" class="form-control" id="apellidoMa"> 
+          </div>
+          <div class="col-sm-4 text-sm-start py-3">
+            <label for="nombrecompletos" class="col-form-label px-4 text-dark">Género: </label>
+          </div>
+          <div class="col-sm-8 text-sm-center py-3 px-4">
+            <div class="col d-flex justify-content-between">
+            <label for="opcion1">Masculino</label>
+            <input type="radio" id="genMas" name="opciones" value="Maculino">
+            <label for="opcion2">Femenino</label>
+            <input type="radio" id="genfem" name="opciones" value="Femenino">
+          </div>
+          </div>
+          <div class="col-sm-4 text-sm-start py-3">
+            <label for="nombrecompletos" class="col-form-label px-4 text-dark">Edad: </label>
+          </div>
+          <div class="col-sm-8 text-sm-start py-3 px-4">
+            <input type="number" placeholder="Años" class="form-control" id="edad"> 
+          </div>
+          <div class="col-sm-4 text-sm-start py-3">
+            <label for="nombrecompletos" class="col-form-label px-4 text-dark">Contraseña: </label>
+          </div>
+          <div class="col-sm-8 text-sm-start py-3 px-4">
+            <input type="password" placeholder="Contraseña" class="form-control" id="contra"> 
+          </div>
         </div>
-        <div class="col-sm-6 my-3 my-lg-0 text-center">
-          <h2 class="main__title text-center text-dark py-3">Información Personal</h2>
+      </div>
+      <div class="col-sm-6">
+        <div class="row text-sm-start">
+          <div class="col-sm-4 text-sm-start py-3">
+            <label for="nombrecompletos" class="col-form-label px-4 text-dark">Correo: </label>
+          </div>
+          <div class="col-sm-8 text-sm-start py-3 px-4">
+            <input type="email" placeholder="correo@gmail.com" class="form-control" id="correo"> 
+          </div>
+          <div class="col-sm-4 text-sm-start py-3">
+            <label for="nombrecompletos" class="col-form-label px-4 text-dark">Teléfono: </label>
+          </div>
+          <div class="col-sm-8 text-sm-start py-3 px-4">
+            <input type="tel" placeholder="Télefono" class="form-control" id="telefono"> 
+          </div>
+          <div class="col-sm-4 text-sm-start py-3">
+            <label for="nombrecompletos" class="col-form-label px-4 text-dark">Localidad: </label>
+          </div>
+          <div class="col-sm-8 text-sm-start py-3 px-4">
+              <select class="dropdown-toggle form-control" id="localidad">
+                <option value="opcion1" selected>Selecciona tu localidad</option>
+                <option value="opcion2">Laguna Kana</option>
+                <option value="opcion3">Señor</option>
+                <option value="opcion4">Dzula</option>
+              </select>
+          </div>
+          <div class="col-sm-4 text-sm-start py-3">
+            <label for="nombrecompletos" class="col-form-label px-4 text-dark">Municipio: </label>
+          </div>
+          <div class="col-sm-8 text-sm-start py-3 px-4">
+              <select class="dropdown-toggle form-control" id="municipio">
+                <option value="opcion1" selected>Selecciona tu municipio</option>
+                <option value="opcion2">Felipe Carrillo Puerto</option>
+                <option value="opcion3">Solidaridad</option>
+                <option value="opcion4">Othon P</option>
+              </select>
+          </div>
+          <div class="col-sm-4 text-sm-start py-3">
+            <label for="nombrecompletos" class="col-form-label px-4 text-dark">Estado: </label>
+          </div>
+          <div class="col-sm-8 text-sm-start py-3 px-4">
+              <select class="dropdown-toggle form-control" id="estado">
+                <option value="opcion1" selected>Selecciona tu estado</option>
+                <option value="opcion2">Quintana Roo</option>
+                <option value="opcion3">Veracrucrucru</option>
+                <option value="opcion4">Guadalajara</option>
+              </select>
+          </div>
+          <div class="col-sm-4 text-sm-start py-3">
+            <label for="nombrecompletos" class="col-form-label px-4 text-dark">País: </label>
+          </div>
+          <div class="col-sm-8 text-sm-start py-3 px-4">
+              <select class="dropdown-toggle form-control" id="estado">
+                <option value="opcion1" selected>Selecciona tu País</option>
+                <option value="opcion2">México</option>
+                <option value="opcion3">Belice</option>
+                <option value="opcion4">Guatemala</option>
+              </select>
+          </div>
+                
         </div>
+      </div>
+        
     </div>
-    <div class="row">
+    <div class="row py-5">
       <div class="col-sm-6 text-center"></div>
-      <div class="col-sm-6 text-end">
-        <button class="btnn btn-outline-warning text-white" type="submit" id="boton-restaurar" onclick="load(id);">Restaurar</button>
-        <button class="btnn btn-outline-warning text-white" type="submit" id="boton-editar" onclick="">Editar</button>
-        <button class="btnn btn-outline-warning text-white" type="submit" id="boton-guardar" onclick="">Guardar</button>
+      <div class="col-sm-6">
+        <div class="row d-flex justify-content-between">
+          <div class="col-sm-3 d-flex justify-content-center ms-auto"><button class="btnn btn-outline-warning text-white" type="submit" id="boton-restaurar">Restaurar</button></div>
+          <div class="col-sm-3 d-flex justify-content-center"><button class="btnn btn-outline-warning text-white" type="submit" id="boton-editar" onclick="">Editar</button></div>
+          <div class="col-sm-3 d-flex justify-content-center"><button class="btnn btn-outline-warning text-white" type="submit" id="boton-guardar" onclick="">Guardar</button></div>
+        </div>
       </div>
     </div>
+    <button type="button" id="kk">Details</button>    
+    <p id="xd">kkk</p>
   </div>
 
 
@@ -114,6 +216,9 @@
             }, false)
         })
     })()
+    //Prueba
+
+
 
 
 </script>
