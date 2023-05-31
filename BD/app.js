@@ -87,6 +87,13 @@ var ObjectStoreReac;
         console.log('upgrade',db);
        
     });
+    
+    
+    document.addEventListener('DOMContentLoaded', function() {
+      obtenerValorYVerificarLabel();
+      obtenerValorTd();
+      console.log("triste");
+    });
     //funciones para cursores
     DBOpenReq.addEventListener('success',(ev)=>{
      
@@ -3252,6 +3259,13 @@ function contieneCheckboxId(checkboxes, id) {
     });
   }
   
+  function obtenerValorTd(event) {
+    var boton = event.target;
+    var botonId = boton.id;
+    var td = document.getElementById(botonId + '-td');
+    var valor = td.innerText;
+    console.log(valor);
+  }
   
 // function mostrarEncuesta() {
 //   var request = indexedDB.open("Janal", version = 1);
@@ -3349,3 +3363,10 @@ function contieneCheckboxId(checkboxes, id) {
   
 
   
+  // Agregar el listener de eventos al <tbody> para capturar los eventos de los botones generados dinámicamente
+  tablaBody.addEventListener('click', function(event) {
+    // Verificar si el elemento que desencadenó el evento es un botón
+    if (event.target && event.target.nodeName === 'BUTTON') {
+      obtenerValorTd(event);
+    }
+  });
