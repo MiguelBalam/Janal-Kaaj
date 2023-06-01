@@ -1238,10 +1238,10 @@ function manejadorValidacion(e) {
             var encuestaId = cursor.value.IdEn;
             var descripcion = cursor.value.Titulo;
             cadena += "<tr>";
-           cadena += "<td><button data-encuesta-id='" + encuestaId + "' class='ver-formulario2-btn'>Ver formulario</button></td>";
+           cadena += "<td align='center'><button data-encuesta-id='" + encuestaId + "' class='ver-formulario2-btn btn btn-outline-success bg-border-mostaza bg-text-mostaza'>Ver formulario</button></td>";
             
             cadena += "<td>" + descripcion + "</td>";
-            cadena += "<td><button data-encuesta-id='R" + encuestaId + "' class='btn btn-outline-success bg-border-mostaza bg-text-mostaza me-md-2'>Ver</button></td>";
+            cadena += "<td align='center'><button data-encuesta-id='R" + encuestaId + "' class='btn btn-outline-success bg-border-mostaza bg-text-mostaza me-md-2'>Ver</button></td>";
             cadena += "</tr>";
             cursor.continue();
           } else {
@@ -1365,8 +1365,8 @@ function manejadorValidacion(e) {
             cadena += "<tr>";
            // cadena += "<td><button data-encuesta-id='" + encuestaId + "' class='ver-formulario-btn'>Ver formulario</button></td>";
             
-            cadena += "<td>" + descripcionVar + "</td>";
-            cadena += "<td><button id='v" + encuestaIdVar + "' class='ver-formulario-btn bg-border-mostaza bg-text-mostaza me-md-2'>Ver</button></td>";
+            cadena += "<td align='center'>" + descripcionVar + "</td>";
+            cadena += "<td align='center'><button id='v" + encuestaIdVar + "' class='ver-formulario-btn btn bg-border-mostaza bg-text-mostaza me-md-2'>Ver</button></td>";
             cadena += "</tr>";
             cursor.continue();
           } else {
