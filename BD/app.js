@@ -100,12 +100,14 @@ var ObjectStoreReac;
       db= ev.target.result;
       //EncaEncuestaVista()
       buscarE()
-      buscarEVar()
+     // buscarEVar()
      mostrarEncuesta()
      
      EncuestaVistaPV2()
       buscar()
+      buscarEVar()
       mostrarEncuestaV() 
+      
      //mostrarPreguntas();
       reactivoscrear()
     
@@ -1236,17 +1238,17 @@ function manejadorValidacion(e) {
             var encuestaId = cursor.value.IdEn;
             var descripcion = cursor.value.Titulo;
             cadena += "<tr>";
-           // cadena += "<td><button data-encuesta-id='" + encuestaId + "' class='ver-formulario-btn'>Ver formulario</button></td>";
+           cadena += "<td><button data-encuesta-id='" + encuestaId + "' class='ver-formulario2-btn'>Ver formulario</button></td>";
             
             cadena += "<td>" + descripcion + "</td>";
-            cadena += "<td><button data-encuesta-id='" + encuestaId + "' class='btn btn-outline-success bg-border-mostaza bg-text-mostaza me-md-2'>Ver</button></td>";
+            cadena += "<td><button data-encuesta-id='R" + encuestaId + "' class='btn btn-outline-success bg-border-mostaza bg-text-mostaza me-md-2'>Ver</button></td>";
             cadena += "</tr>";
             cursor.continue();
           } else {
             cadena += "</table>";
             document.getElementById("crear_encuesta").innerHTML = cadena;
       
-            var btns = document.getElementsByClassName("ver-formulario-btn");
+            var btns = document.getElementsByClassName("ver-formulario2-btn");
             for (var i = 0; i < btns.length; i++) {
               btns[i].addEventListener("click", function(event) {
                 var IdEn = event.target.getAttribute("data-encuesta-id");
@@ -1271,43 +1273,7 @@ function manejadorValidacion(e) {
         window.location.href = "../pestañas_Encuestador/EncuestaApi.html";
       }
       
-      function buscarEVar() {
-        var cadena = "<table class='table table-bordered'>";
-        var objectStore = db.transaction("Encuesta_Variables").objectStore("Encuesta_Variables");
-        objectStore.openCursor().onsuccess = function(e) {
-          var cursor = e.target.result;
-          if (cursor) {
-            var encuestaIdVar = cursor.value.id;
-            var descripcionVar = cursor.value.Titulo;
-            cadena += "<tr>";
-           // cadena += "<td><button data-encuesta-id='" + encuestaId + "' class='ver-formulario-btn'>Ver formulario</button></td>";
-            
-            cadena += "<td>" + descripcionVar + "</td>";
-            cadena += "<td><button data-encuesta-id='" + encuestaIdVar + "' class='btn btn-outline-success bg-border-mostaza bg-text-mostaza me-md-2'>Ver</button></td>";
-            cadena += "</tr>";
-            cursor.continue();
-          } else {
-            cadena += "</table>";
-            document.getElementById("crear_encuestaVar").innerHTML = cadena;
-      
-          
-      
-            var redireccionarBtns = document.getElementsByClassName("btn btn-outline-success bg-border-mostaza bg-text-mostaza me-md-2");
-            for (var i = 0; i < redireccionarBtns.length; i++) {
-              redireccionarBtns[i].addEventListener("click", function(event) {
-                var id = event.target.getAttribute("data-encuesta-id");
-                redireccionarPagina(id);
-              });
-            }
-          }
-        };
-      }
-      
-      function redireccionarPagina(encuestaId) {
-        // Aquí puedes redirigir a la página deseada utilizando el ID de la encuesta
-        // Por ejemplo:
-        window.location.href = "../pestañas_Encuestador/EncuestaFinalVariable.html";
-      }
+    
 
       // Función para abrir una nueva pestaña con el formulario de la encuesta
       // function abrirPestanaConFormulario(IdEn) {
@@ -1349,7 +1315,7 @@ function manejadorValidacion(e) {
 
       function abrirPestanaConFormulario(IdEn) {
         var nuevaPestana = window.open("", "_blank");
-        var contenidoHTML = "<h2 class='color-titulo mb-4 h1TextoTitulo'></h2>";
+        var contenidoHTML = "<h2 class='bg-text-black text-center p-3 text-uppercase text-black'></h2>";
       
         var transaction = db.transaction("Encuesta", "readonly");
         var encuestaObjectStore = transaction.objectStore("Encuesta");
@@ -1358,7 +1324,7 @@ function manejadorValidacion(e) {
         encuestaRequest.onsuccess = function(event) {
           var encuesta = event.target.result;
           if (encuesta) {
-            contenidoHTML += "<p class='color-titulo mb-4 h1TextoTitulo' style='text-align: center; font-weight: bold;'>" + encuesta.Titulo + "</p>";
+            contenidoHTML += "<h1 class='bg-text-black text-center p-3 text-uppercase text-black' style='text-align: center' font-size: 'x-large' padding: '10px 50px 20px'; font-weight: bold;'>" + encuesta.Titulo + "</h1>";
       
             var reactivosObjectStore = db.transaction("EncuestaFinal", "readonly").objectStore("EncuestaFinal");
             var reactivosRequest = reactivosObjectStore.getAll();
@@ -1372,7 +1338,7 @@ function manejadorValidacion(e) {
       
                 reactivosFiltrados.forEach(function(reactivo) {
                   contenidoHTML += "<div style='text-align: center;'>";
-                  contenidoHTML += "<label style='background-color: black; color: white; padding: 10px; text-transform: uppercase; font-weight: bold;' for='reactivo" + reactivo.reactivoId + "'>Reactivo " + reactivo.reactivoId + "</label>";
+                  contenidoHTML += "<label style=' color: black; padding: 10px 50px 20px;; text-transform: uppercase; font-weight: bold;' for='reactivo" + reactivo.reactivoId + "'>"+ reactivo.reactivoId + "</label>";
                   contenidoHTML += "<br>";
                   contenidoHTML += "<input class='form-control' type='text' id='reactivo" + reactivo.reactivoId + "' name='reactivo" + reactivo.reactivoId + "'><br>";
                   contenidoHTML += "</div>";
@@ -1388,6 +1354,43 @@ function manejadorValidacion(e) {
       }
       
 
+      function buscarEVar() {
+        var cadena = "<table class='table table-bordered'>";
+        var objectStore = db.transaction("Encuesta_Variables").objectStore("Encuesta_Variables");
+        objectStore.openCursor().onsuccess = function(e) {
+          var cursor = e.target.result;
+          if (cursor) {
+            var encuestaIdVar = cursor.value.id;
+            var descripcionVar = cursor.value.Titulo;
+            cadena += "<tr>";
+           // cadena += "<td><button data-encuesta-id='" + encuestaId + "' class='ver-formulario-btn'>Ver formulario</button></td>";
+            
+            cadena += "<td>" + descripcionVar + "</td>";
+            cadena += "<td><button id='v" + encuestaIdVar + "' class='ver-formulario-btn bg-border-mostaza bg-text-mostaza me-md-2'>Ver</button></td>";
+            cadena += "</tr>";
+            cursor.continue();
+          } else {
+            cadena += "</table>";
+            document.getElementById("crear_encuestaVar").innerHTML = cadena;
+      
+          
+      
+            var redireccionarBtnsVar = document.getElementsByClassName("ver-formulario-btn bg-border-mostaza bg-text-mostaza me-md-2");
+            for (var i = 0; i < redireccionarBtnsVar.length; i++) {
+              redireccionarBtnsVar[i].addEventListener("click", function(event) {
+                var id = event.target.getAttribute("id");
+                redireccionarPaginaVar(id);
+              });
+            }
+          }
+        };
+      }
+      
+      function redireccionarPaginaVar(encuestaIdVar) {
+        // Aquí puedes redirigir a la página deseada utilizando el ID de la encuesta
+        // Por ejemplo:
+        window.location.href = "../pestañas_Encuestador/EncuestaFinalVariable.html";
+      }
 
       //  function buscarVar(){
       //   var cadena ="<table class= 'table table-bordered'>";
@@ -3035,190 +3038,7 @@ function contieneCheckboxId(checkboxes, id) {
   });
 
 
-  // function mostrarEncuestaV() {
-  //   var tablaEncuesta = document.getElementById('tablaEncuesta');
 
-  //   var table = document.createElement('table');
-  //   table.classList.add('table', 'table-bordered');
-
-  //   var thead = document.createElement('thead');
-  //   var tr = document.createElement('tr');
-  //   var th = document.createElement('th');
-  //   th.textContent = '#';
-  //   tr.appendChild(th);
-
-  //   var objectStore = db.transaction('Variables').objectStore('Variables');
-  //   var index = objectStore.index('id');
-
-  //   var numColumns = 10; // Número de columnas por variable
-
-  //   for (var i = 1; i <= numColumns; i++) {
-  //     var th = document.createElement('th');
-  //     th.textContent = 'Variable ' + i;
-  //     tr.appendChild(th);
-  //   }
-
-  //   thead.appendChild(tr);
-  //   table.appendChild(thead);
-
-  //   var tbody = document.createElement('tbody');
-
-  //   index.openCursor().onsuccess = function(event) {
-  //     var cursor = event.target.result;
-  //     if (cursor) {
-  //       var tr = document.createElement('tr');
-
-  //       var td = document.createElement('td');
-  //       td.textContent = cursor.value.NombreVar;
-  //       tr.appendChild(td);
-
-  //       for (var i = 1; i <= numColumns; i++) {
-  //         var td = document.createElement('td');
-  //         var select = document.createElement('select');
-  //         select.classList.add('form-select', 'form-select-sm');
-  //         select.setAttribute('aria-label', '.form-select-sm example');
-  //         var options = [
-  //           { value: '0', text: '0' },
-  //           { value: '1', text: '1' },
-  //           { value: '2', text: '2' },
-  //           { value: '3', text: '3' },
-  //           { value: '4', text: 'P' }
-  //         ];
-
-  //         for (var j = 0; j < options.length; j++) {
-  //           var option = document.createElement('option');
-  //           option.value = options[j].value;
-  //           option.textContent = options[j].text;
-  //           select.appendChild(option);
-  //         }
-
-  //         td.appendChild(select);
-  //         tr.appendChild(td);
-  //       }
-
-  //       tbody.appendChild(tr);
-  //       cursor.continue();
-  //     } else {
-  //       table.appendChild(tbody);
-  //       tablaEncuesta.innerHTML = '';
-  //       tablaEncuesta.appendChild(table);
-  //       console.log('Encuesta mostrada correctamente');
-  //     }
-  //   };
-  // }
-
-  // function mostrarEncuestaV() {
-  //   var cadena = "<table class='table table-bordered'>";
-  //   var cadena2 = "";
-  //   var cadenaX = "<select class='form-select form-select-sm' aria-label='.form-select-sm example'>" +
-  //     "<option selected>Opciones</option>" +
-  //     "<option value='0'>0</option>" +
-  //     "<option value='1'>1</option>" +
-  //     "<option value='2'>2</option>" +
-  //     "<option value='3'>3</option>" +
-  //     "<option value='4'>P</option>" +
-  //     "</select>";
-  
-  //   var objectStore = db.transaction("Variables").objectStore("Variables");
-  
-  //   objectStore.openCursor().onsuccess = function (e) {
-  //     var cursor = e.target.result;
-  //     if (cursor) {
-  //       var columna = cursor.value.NombreVar;
-  //       cadena += "<th>" + cursor.value.NombreVar + "</th>";
-  //       cursor.continue();
-  //     } else {
-  //       var tabla = document.getElementById('tablaEncuesta');
-  //       tabla.innerHTML = cadena + "</tr>" + cadena2 + "</table>";
-  //       console.log('Encuesta mostrada correctamente');
-  //     }
-  //   };
-  
-  //   var celdas = db.transaction("Variables").objectStore("Variables");
-  //   celdas.openCursor().onsuccess = function (e) {
-  //     var cursorX = e.target.result;
-  //     if (cursorX) {
-  //       cadena2 += "<tr>";
-  //       cadena2 += "<th>" + cursorX.value.NombreVar + "</th>";
-  //       for (var i = 0; i < 10; i++) {
-  //         cadena2 += "<th>" + cadenaX + "</th>";
-  //       }
-  //       cadena2 += "</tr>";
-  //       cursorX.continue();
-  //     }
-  //   };
-  // }
-  
-  // function mostrarEncuestaV() {
-  //   var tablaEncuesta = document.getElementById('tablaEncuesta');
-  
-  //   var table = document.createElement('table');
-  //   table.classList.add('table', 'table-bordered');
-  
-  //   var thead = document.createElement('thead');
-  //   var tr = document.createElement('tr');
-  //   var th = document.createElement('th');
-  //   th.textContent = '#';
-  //   tr.appendChild(th);
-  
-  //   var objectStore = db.transaction('Variables').objectStore('Variables');
-  
-  //   var numColumns = 10; // Número de columnas por variable
-  
-  //   for (var i = 1; i <= numColumns; i++) {
-  //     var th = document.createElement('th');
-  //     th.textContent = 'Variable ' + i;
-  //     tr.appendChild(th);
-  //   }
-  
-  //   thead.appendChild(tr);
-  //   table.appendChild(thead);
-  
-  //   var tbody = document.createElement('tbody');
-  
-  //   objectStore.openCursor().onsuccess = function(event) {
-  //     var cursor = event.target.result;
-  //     if (cursor) {
-  //       var tr = document.createElement('tr');
-  
-  //       var td = document.createElement('td');
-  //       td.textContent = cursor.value.NombreVar;
-  //       tr.appendChild(td);
-  
-  //       for (var i = 1; i <= numColumns; i++) {
-  //         var td = document.createElement('td');
-  //         var select = document.createElement('select');
-  //         select.classList.add('form-select', 'form-select-sm');
-  //         select.setAttribute('aria-label', '.form-select-sm example');
-  //         var options = [
-  //           { value: '0', text: '0' },
-  //           { value: '1', text: '1' },
-  //           { value: '2', text: '2' },
-  //           { value: '3', text: '3' },
-  //           { value: '4', text: 'P' }
-  //         ];
-  
-  //         for (var j = 0; j < options.length; j++) {
-  //           var option = document.createElement('option');
-  //           option.value = options[j].value;
-  //           option.textContent = options[j].text;
-  //           select.appendChild(option);
-  //         }
-  
-  //         td.appendChild(select);
-  //         tr.appendChild(td);
-  //       }
-  
-  //       tbody.appendChild(tr);
-  //       cursor.continue();
-  //     } else {
-  //       table.appendChild(tbody);
-  //       tablaEncuesta.innerHTML = '';
-  //       tablaEncuesta.appendChild(table);
-  //       console.log('Encuesta mostrada correctamente');
-  //     }
-  //   };
-  // }
 
   function mostrarEncuestaV() {
     var tablaEncuesta = document.getElementById('tablaEncuesta');
