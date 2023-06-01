@@ -96,6 +96,7 @@ const APP_SHELL_INMUTABLE = [
     'Img/Oficial_JanalKaaj.jpg',
     'CSS/style.css',
     'CSS/style3.css',
+    'CSS/prueba.js',
     'CSS/SweetAlert.js'
 ]; 
 
