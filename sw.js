@@ -31,6 +31,7 @@ const APP_SHELL = [
     'pestanas_Encuestado/perfil.html',
     'planes_servicios.html',
     'Estadistica/index.html',
+    'conocenos.html',
     'BD/sw-utils.js',
     'BD/app.js'
 ];

@@ -38,24 +38,23 @@
     </nav>
 
     <div class="p-3">
-
-        <section class="d-flex justify-content-center my-4">
-
-            <div class="card col-sm-7 p-3 shadow-lg mb-5 bg-white rounded">
-
+        <section class="d-flex justify-content-center ">
+            <div class="col-sm-7 p-3 shadow-lg mb-5 bg-white rounded">
                 <h1 class="bg-text-black text-center p-3 text-uppercase text-black">Crear Encuesta Variables</h1>
                 <form name="form" id="formularioCR" action="">
+                    
+
                     <div class="row mb-4">
-                        <label class="col-sm-4 col-form-label px-5">Titulo: </label>
-                        <div class="col-sm-8">
+                        <label class="col-sm-12 col-md-4 col-form-label px-5">Titulo: </label>
+                        <div class="col-sm-12 col-md-8">
                             <input placeholder="Agregar Titulo" type="text" class="form-control" id="Titulo"
                                 name="Titulo">
                         </div>
                     </div>
 
                     <div class="row mb-4">
-                        <label class="col-sm-4 col-form-label px-5">Objetivo:</label>
-                        <div class="col-sm-8">
+                        <label class="col-sm-12 col-md-4 col-form-label px-5">Objetivo:</label>
+                        <div class="col-sm-12 col-md-8">
                             <div class="form-floating">
                                 <textarea class="form-control" placeholder="Agregar Objetivo" id="floatingTextarea2"
                                     name="objetivo"></textarea>
@@ -65,8 +64,8 @@
                     </div>
 
                     <div class="row mb-4">
-                        <label class="col-sm-4 col-form-label px-5">Instruciones:</label>
-                        <div class="col-sm-8">
+                        <label class="col-sm-12 col-md-4 col-form-label px-5">Instruciones:</label>
+                        <div class="col-sm-12 col-md-8">
                             <div class="form-floating">
                                 <textarea class="form-control" placeholder="Agregar Instruciones" name="Intruccion"
                                     id="floatingTextarea21" style="height: 100px"></textarea>
@@ -74,40 +73,41 @@
                             </div>
                         </div>
                     </div>
-
+    
                     <div class="row mb-4">
-                        <label class="col-sm-4 col-form-label px-5">Variables:</label>
-                        <div class="col-sm-8">
+                        <div class="col-sm-12 col-form-label px-5 text-center">
                             <div class="form-floating">
-
                                 <button type="button" onclick="window.location.href='../pestañas_Encuestador/variable_tipo_variable.html'"
                                     class="btn btn-outline-success bg-border-mostaza bg-text-mostaza"
                                     id="boton_seleccionar">Seleccionar Variables</button>
-
-
-                                <button type="button" onclick=" window.location.href='../pestañas_Encuestador/variable_crear_variable.html'"
+    
+                                <button type="button" onclick="window.location.href='../pestañas_Encuestador/variable_crear_variable.html'"
                                     class="btn btn-outline-success bg-border-mostaza bg-text-mostaza"
                                     id="disenio_boton">Crear Variables</button>
+
                             </div>
                         </div>
                     </div>
+    
+                    <div class="row mb-4" id="salidaVarC2"></div>
+    
+                    <div class="row mb-4">
+                        <div class="col-sm-12 col-form-label px-5 text-center">
 
-                    <div class="p-3" id="salidaVarC2"></div>
-
-                    <div class=" row mb-4 p-3">
-                        <div class="col-sm-12 text-center">
                             <button onclick="CrearEncuestaV()"
                                 class="btn btn-outline-success bg-border-mostaza bg-text-mostaza"
                                 id="boton-crear-encuesta" type="submit" disabled> Crear Encuesta</button>
 
                                 <button type="button" class="btn btn-outline-success bg-border-mostaza bg-text-mostaza"
-                                onclick="window.location.href='../pestañas_Encuestador/reactivo_tipos_Encuestas.html'" id="disenio_boton">Cancelar</button>
+                                    onclick="window.location.href='../pestañas_Encuestador/reactivo_tipos_Encuestas.html'" id="disenio_boton">Cancelar</button>
+                                    
                         </div>
+                    </div>
                 </form>
             </div>
-
         </section>
     </div>
+    
 
 
 
