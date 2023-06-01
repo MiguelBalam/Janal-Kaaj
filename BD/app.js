@@ -3,7 +3,7 @@ var swLocation = '/Janal-Kaaj/sw.js';
 
 if (navigator.serviceWorker){
 
-  if (url.includes('localhost')){
+  if (url.includes('janalkaaj.com.mx')){
         swLocation = '/sw.js';
     }
   navigator.serviceWorker.register(swLocation);

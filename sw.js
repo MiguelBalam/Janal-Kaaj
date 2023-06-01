@@ -31,7 +31,7 @@ const APP_SHELL = [
     'pestanas_Encuestado/perfil.html',
     'planes_servicios.html',
     'Estadistica/index.html',
-    'sw-utils.js',
+    'BD/sw-utils.js',
     'BD/app.js'
 ];
 
@@ -87,7 +87,7 @@ const APP_SHELL_INMUTABLE = [
     'Estadistica/plugins/chart.js/Chart.min.js',
     'Estadistica/plugins/sparklines/sparkline.js',
     'https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback',
-    'Estadistica/plugins/fontawesome-free/css/all.min.css',
+    'Estadistica/plugins/-frefontawesomee/css/all.min.css',
     'Estadistica/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css',
     'Estadistica/plugins/icheck-bootstrap/icheck-bootstrap.min.css',
     'Estadistica/plugins/jqvmap/jqvmap.min.css',
