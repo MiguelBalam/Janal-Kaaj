@@ -29,7 +29,9 @@ const APP_SHELL = [
     'pestañas_Encuestador/variable_tipo_variable.html',
     'pestañas_Encuestador/vistaPreguntas.html',
     'pestanas_Encuestado/perfil.html',
+    'planes_servicios.html',
     'Estadistica/index.html',
+    'sw-utils.js',
     'BD/app.js'
 ];
 
@@ -92,6 +94,7 @@ const APP_SHELL_INMUTABLE = [
     'Estadistica/dist/css/adminlte.min.css',
     'Estadistica/plugins/jquery/jquery.min.js',
     'Img/Oficial_JanalKaaj.png',
+    'Img/Oficial_JanalKaaj.jpg',
     'CSS/style.css',
     'CSS/style3.css',
     'CSS/SweetAlert.js'
