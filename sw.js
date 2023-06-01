@@ -23,6 +23,7 @@ const APP_SHELL = [
     'pestañas_Encuestador/reactivo_crear_reactivos.html',
     'pestañas_Encuestador/reactivo_tipos_Encuestas.html',
     'pestañas_Encuestador/variable_crear_variable.html',
+    'pestañas_Encuestador/EncuestaFinalVariable.html',
     'pestañas_Encuestador/variable_datos_encuesta.html',
     'pestañas_Encuestador/variable_selec_variable.html',
     'pestañas_Encuestador/variable_tipo_variable_NoEdit.html',
@@ -30,8 +31,8 @@ const APP_SHELL = [
     'pestañas_Encuestador/vistaPreguntas.html',
     'pestanas_Encuestado/perfil.html',
     'planes_servicios.html',
-    'Estadistica/index.html',
     'conocenos.html',
+    'Estadistica/index.html',
     'BD/sw-utils.js',
     'BD/app.js'
 ];
@@ -88,7 +89,7 @@ const APP_SHELL_INMUTABLE = [
     'Estadistica/plugins/chart.js/Chart.min.js',
     'Estadistica/plugins/sparklines/sparkline.js',
     'https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback',
-    'Estadistica/plugins/-frefontawesomee/css/all.min.css',
+    'Estadistica/plugins/fontawesome-free/css/all.min.css',
     'Estadistica/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css',
     'Estadistica/plugins/icheck-bootstrap/icheck-bootstrap.min.css',
     'Estadistica/plugins/jqvmap/jqvmap.min.css',
