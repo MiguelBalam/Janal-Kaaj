@@ -100,9 +100,12 @@ var ObjectStoreReac;
       db= ev.target.result;
       //EncaEncuestaVista()
       buscarE()
+      buscarEVar()
      mostrarEncuesta()
+     
      EncuestaVistaPV2()
       buscar()
+      mostrarEncuestaV() 
      //mostrarPreguntas();
       reactivoscrear()
     
@@ -121,13 +124,14 @@ var ObjectStoreReac;
        mostrarPreguntas();
      
       Encuesta1()
+      EncuestaV()
       Variables()
   
   
 
-      buscarVar()
-      buscarVar2()
-      busVaC()
+      // buscarVar()
+      // buscarVar2()
+      // busVaC()
       //buildList()
       buildList()
     
@@ -407,7 +411,7 @@ function manejadorValidacion(e) {
 
         function Encuesta1(){
           var   encuesta_prototipo = [
-            { id: "1", Titulo: "Encuesta_Apicultura", 
+            { id: "1", Titulo: "Encuesta Apicultura", 
             ObjetivoER: "conocer_la_produccion_apicola", 
             Instrucciones: "responder todo los reactivos" }
           ];
@@ -468,7 +472,39 @@ function manejadorValidacion(e) {
       
       };
       //termina
-
+      function EncuestaV(){
+        var   encuesta_prototipo = [
+          { id: "1", Titulo: "Encuesta Apicola", 
+          ObjetivoER: "conocer_la_produccion_apicola", 
+          Instrucciones: "responder todo los reactivos" }
+        ];
+  
+    
+         
+        var IniciarSesionTransac = db.transaction(["Encuesta_Variables"],'readwrite');
+        IniciarSesionTransac.onerror = function (event) {
+            console.log("error", event.target.error);
+        };
+        
+  
+        IniciarSesionTransac = IniciarSesionTransac.objectStore(["Encuesta_Variables"]);
+       
+     
+     for ( var Encuesta of encuesta_prototipo ) {
+         IniciarSesionTransac.add(Encuesta);
+     }
+    
+     IniciarSesionTransac.onsucces = function (event) {
+   
+     
+      
+         console.log('Nuevo item agregado a la base de datos');
+     };
+     
+  
+        console.log('suscess',db);
+    
+    };
       function Variables(){
  
 
@@ -480,9 +516,9 @@ function manejadorValidacion(e) {
           {id:"5",NombreVar:"Tipo de práctica empleada en el campo", Siglas:"P.E.",Descripcion:"Tipo de manejo de prácticas que se utilizan en esta actividad."},
           {id:"6",NombreVar:"Prácticas culturales", Siglas:"P.C",Descripcion:"prácticas culturales es usada y cuantas veces se realiza al año."},
           {id:"7",NombreVar:"Sanidad.", Siglas:"S",Descripcion:"Control y prevención de la presencia de plagas y enfermedades en la producción"},
-          {id:"8",NombreVar:"Documentación de procesos.", Siglas:"D.P.",Descripcion:"D de manuales de procedimientos y certificaciones como parte del proceso de esta actividad."},
-          {id:"9",NombreVar:"Tecnología especializada.", Siglas:"T.E.",Descripcion:"Maquinaria especializada para esta actividad o si aún se carece de ella."},
-          {id:"10",NombreVar:"Acceso a los medios de publicidad.", Siglas:"A.P.",Descripcion:"Publicidad entre ellos uso de internet, periódicos o algún medio que difunda sus productos"}
+          // {id:"8",NombreVar:"Documentación de procesos.", Siglas:"D.P.",Descripcion:"D de manuales de procedimientos y certificaciones como parte del proceso de esta actividad."},
+          // {id:"9",NombreVar:"Tecnología especializada.", Siglas:"T.E.",Descripcion:"Maquinaria especializada para esta actividad o si aún se carece de ella."},
+          // {id:"10",NombreVar:"Acceso a los medios de publicidad.", Siglas:"A.P.",Descripcion:"Publicidad entre ellos uso de internet, periódicos o algún medio que difunda sus productos"}
           
       ];
       
@@ -1133,6 +1169,64 @@ function manejadorValidacion(e) {
       //     }
       //   };
       // }
+      // function buscarE() {
+      //   var cadena = "<table class='table table-bordered'>";
+      //   var objectStore = db.transaction("Encuesta").objectStore("Encuesta");
+      //   objectStore.openCursor().onsuccess = function(e) {
+      //     var cursor = e.target.result;
+      //     if (cursor) {
+      //       var encuestaId = cursor.value.IdEn;
+      //       var descripcion = cursor.value.Titulo;
+      //       cadena += "<tr>";
+      //       cadena += "<td><button data-encuesta-id='" + encuestaId + "' class='ver-formulario-btn'>Ver formulario</button></td>";
+      //       cadena += "<td>" + descripcion + "</td>";
+      //       cadena += "</tr>";
+      //       cursor.continue();
+      //     } else {
+      //       cadena += "</table>";
+      //       document.getElementById("crear_encuesta").innerHTML = cadena;
+  
+      //       var btns = document.getElementsByClassName("ver-formulario-btn");
+      //       for (var i = 0; i < btns.length; i++) {
+      //         btns[i].addEventListener("click", function(event) {
+      //           var IdEn = event.target.getAttribute("data-encuesta-id");
+      //           abrirPestanaConFormulario(IdEn);
+      //         });
+      //       }
+      //     }
+      //   };
+      // }
+  
+
+      // function buscarE() {
+      //   var cadena = "<table class='table table-bordered'>";
+      //   var objectStore = db.transaction("Encuesta").objectStore("Encuesta");
+      //   objectStore.openCursor().onsuccess = function(e) {
+      //     var cursor = e.target.result;
+      //     if (cursor) {
+      //       var encuestaId = cursor.value.IdEn;
+      //       var descripcion = cursor.value.Titulo;
+      //       cadena += "<tr>";
+      //       cadena += "<td><button data-encuesta-id='" + encuestaId + "' class='ver-formulario-btn'>Ver formulario</button></td>";
+      //       cadena += "<td>" + descripcion + "</td>";
+      //       cadena += "</tr>";
+      //       cursor.continue();
+      //     } else {
+      //       cadena += "</table>";
+      //       document.getElementById("crear_encuesta").innerHTML = cadena;
+  
+      //       var btns = document.getElementsByClassName("ver-formulario-btn");
+      //       for (var i = 0; i < btns.length; i++) {
+      //         btns[i].addEventListener("click", function(event) {
+      //           var IdEn = event.target.getAttribute("data-encuesta-id");
+      //           abrirPestanaConFormulario(IdEn);
+      //         });
+      //       }
+      //     }
+      //   };
+      // }
+
+
       function buscarE() {
         var cadena = "<table class='table table-bordered'>";
         var objectStore = db.transaction("Encuesta").objectStore("Encuesta");
@@ -1142,14 +1236,16 @@ function manejadorValidacion(e) {
             var encuestaId = cursor.value.IdEn;
             var descripcion = cursor.value.Titulo;
             cadena += "<tr>";
-            cadena += "<td><button data-encuesta-id='" + encuestaId + "' class='ver-formulario-btn'>Ver formulario</button></td>";
+           // cadena += "<td><button data-encuesta-id='" + encuestaId + "' class='ver-formulario-btn'>Ver formulario</button></td>";
+            
             cadena += "<td>" + descripcion + "</td>";
+            cadena += "<td><button data-encuesta-id='" + encuestaId + "' class='btn btn-outline-success bg-border-mostaza bg-text-mostaza me-md-2'>Ver</button></td>";
             cadena += "</tr>";
             cursor.continue();
           } else {
             cadena += "</table>";
             document.getElementById("crear_encuesta").innerHTML = cadena;
-  
+      
             var btns = document.getElementsByClassName("ver-formulario-btn");
             for (var i = 0; i < btns.length; i++) {
               btns[i].addEventListener("click", function(event) {
@@ -1157,10 +1253,62 @@ function manejadorValidacion(e) {
                 abrirPestanaConFormulario(IdEn);
               });
             }
+      
+            var redireccionarBtns = document.getElementsByClassName("btn btn-outline-success bg-border-mostaza bg-text-mostaza me-md-2");
+            for (var i = 0; i < redireccionarBtns.length; i++) {
+              redireccionarBtns[i].addEventListener("click", function(event) {
+                var IdEn = event.target.getAttribute("data-encuesta-id");
+                redireccionarPagina(IdEn);
+              });
+            }
           }
         };
       }
-  
+      
+      function redireccionarPagina(encuestaId) {
+        // Aquí puedes redirigir a la página deseada utilizando el ID de la encuesta
+        // Por ejemplo:
+        window.location.href = "../pestañas_Encuestador/EncuestaApi.html";
+      }
+      
+      function buscarEVar() {
+        var cadena = "<table class='table table-bordered'>";
+        var objectStore = db.transaction("Encuesta_Variables").objectStore("Encuesta_Variables");
+        objectStore.openCursor().onsuccess = function(e) {
+          var cursor = e.target.result;
+          if (cursor) {
+            var encuestaIdVar = cursor.value.id;
+            var descripcionVar = cursor.value.Titulo;
+            cadena += "<tr>";
+           // cadena += "<td><button data-encuesta-id='" + encuestaId + "' class='ver-formulario-btn'>Ver formulario</button></td>";
+            
+            cadena += "<td>" + descripcionVar + "</td>";
+            cadena += "<td><button data-encuesta-id='" + encuestaIdVar + "' class='btn btn-outline-success bg-border-mostaza bg-text-mostaza me-md-2'>Ver</button></td>";
+            cadena += "</tr>";
+            cursor.continue();
+          } else {
+            cadena += "</table>";
+            document.getElementById("crear_encuestaVar").innerHTML = cadena;
+      
+          
+      
+            var redireccionarBtns = document.getElementsByClassName("btn btn-outline-success bg-border-mostaza bg-text-mostaza me-md-2");
+            for (var i = 0; i < redireccionarBtns.length; i++) {
+              redireccionarBtns[i].addEventListener("click", function(event) {
+                var id = event.target.getAttribute("data-encuesta-id");
+                redireccionarPagina(id);
+              });
+            }
+          }
+        };
+      }
+      
+      function redireccionarPagina(encuestaId) {
+        // Aquí puedes redirigir a la página deseada utilizando el ID de la encuesta
+        // Por ejemplo:
+        window.location.href = "../pestañas_Encuestador/EncuestaFinalVariable.html";
+      }
+
       // Función para abrir una nueva pestaña con el formulario de la encuesta
       // function abrirPestanaConFormulario(IdEn) {
       //   var nuevaPestana = window.open("", "_blank");
@@ -2443,8 +2591,7 @@ function buscar3(){
 //CHECAR TABLA PARA ENCUESTA
 //mostrar variables predeterminadas con formato
 function BusVa(){
-  // var columnas = parseInt(prompt("columnas"));
-  // var filas= parseInt(prompt("colum"));  
+ 
   var cadena ="<table class= 'table table-bordered'>"
   var cadena2 = document.querySelector("table>tbody")
   var cadenaX = "<select class="+"form-select form-select-sm"+" aria-label="+".form-select-sm example"+">"+"<option selected>Opciones</option>"
@@ -2477,32 +2624,7 @@ function BusVa(){
  console.log(cursor.value.NombreVar);
         
   cadena += "<th>"+cursor.value.NombreVar+"</th>"
-  //cadena+="<tr><td>"+ "<select class='form-select form-select-sm' aria-label='.form-select-sm example'></select>"+"</td></tr>"
   
- 
-       
-  // for(i=0; i<filas;i++){
-  //  cadena2 +="<tr>"
-   
-  //  // cadena += "<th>"+cursor.value.NombreVar+"</th>"
-  
-  //   for(j=0; j<columnas;j++){
-  //     //"<th>"+cursor.value.NombreVar+"</th>"
-  //     cadena2 += "<td>"+cursor.value.NombreVar+"</td>";
-  //     //cadena2 += "<td>"+cursor.value.NombreVar+"</td>";
-       
-  //     // if((filas>= 1 && filas<=2) && (columna >=1 && columna <=2)){
-  //     //   let celdas = document.querySelector("table>tbody")
-  //     // celdas[columna -1].innerHTML = "<td>"+ "<select class='form-select form-select-sm' aria-label='.form-select-sm example'></select>"+"</td>"
-  //     // }
-  //     //cadena +="<th>"+curRes.value.NombreVar+","+curRes.value.NombreVar+"</th>"
-       
-  //   }
-  //   for(i= 0; i<filas;i++){
-  //     cadena2+= "<td>"+"<select class='form-select form-select-sm' aria-label='.form-select-sm example'></select>"+"</td>";
-
-  //   }
-  //     }
       cadena2 +="</tr>"
    
     cursor.continue();
@@ -2911,3 +3033,267 @@ function contieneCheckboxId(checkboxes, id) {
       obtenerValorTd(event);
     }
   });
+
+
+  // function mostrarEncuestaV() {
+  //   var tablaEncuesta = document.getElementById('tablaEncuesta');
+
+  //   var table = document.createElement('table');
+  //   table.classList.add('table', 'table-bordered');
+
+  //   var thead = document.createElement('thead');
+  //   var tr = document.createElement('tr');
+  //   var th = document.createElement('th');
+  //   th.textContent = '#';
+  //   tr.appendChild(th);
+
+  //   var objectStore = db.transaction('Variables').objectStore('Variables');
+  //   var index = objectStore.index('id');
+
+  //   var numColumns = 10; // Número de columnas por variable
+
+  //   for (var i = 1; i <= numColumns; i++) {
+  //     var th = document.createElement('th');
+  //     th.textContent = 'Variable ' + i;
+  //     tr.appendChild(th);
+  //   }
+
+  //   thead.appendChild(tr);
+  //   table.appendChild(thead);
+
+  //   var tbody = document.createElement('tbody');
+
+  //   index.openCursor().onsuccess = function(event) {
+  //     var cursor = event.target.result;
+  //     if (cursor) {
+  //       var tr = document.createElement('tr');
+
+  //       var td = document.createElement('td');
+  //       td.textContent = cursor.value.NombreVar;
+  //       tr.appendChild(td);
+
+  //       for (var i = 1; i <= numColumns; i++) {
+  //         var td = document.createElement('td');
+  //         var select = document.createElement('select');
+  //         select.classList.add('form-select', 'form-select-sm');
+  //         select.setAttribute('aria-label', '.form-select-sm example');
+  //         var options = [
+  //           { value: '0', text: '0' },
+  //           { value: '1', text: '1' },
+  //           { value: '2', text: '2' },
+  //           { value: '3', text: '3' },
+  //           { value: '4', text: 'P' }
+  //         ];
+
+  //         for (var j = 0; j < options.length; j++) {
+  //           var option = document.createElement('option');
+  //           option.value = options[j].value;
+  //           option.textContent = options[j].text;
+  //           select.appendChild(option);
+  //         }
+
+  //         td.appendChild(select);
+  //         tr.appendChild(td);
+  //       }
+
+  //       tbody.appendChild(tr);
+  //       cursor.continue();
+  //     } else {
+  //       table.appendChild(tbody);
+  //       tablaEncuesta.innerHTML = '';
+  //       tablaEncuesta.appendChild(table);
+  //       console.log('Encuesta mostrada correctamente');
+  //     }
+  //   };
+  // }
+
+  // function mostrarEncuestaV() {
+  //   var cadena = "<table class='table table-bordered'>";
+  //   var cadena2 = "";
+  //   var cadenaX = "<select class='form-select form-select-sm' aria-label='.form-select-sm example'>" +
+  //     "<option selected>Opciones</option>" +
+  //     "<option value='0'>0</option>" +
+  //     "<option value='1'>1</option>" +
+  //     "<option value='2'>2</option>" +
+  //     "<option value='3'>3</option>" +
+  //     "<option value='4'>P</option>" +
+  //     "</select>";
+  
+  //   var objectStore = db.transaction("Variables").objectStore("Variables");
+  
+  //   objectStore.openCursor().onsuccess = function (e) {
+  //     var cursor = e.target.result;
+  //     if (cursor) {
+  //       var columna = cursor.value.NombreVar;
+  //       cadena += "<th>" + cursor.value.NombreVar + "</th>";
+  //       cursor.continue();
+  //     } else {
+  //       var tabla = document.getElementById('tablaEncuesta');
+  //       tabla.innerHTML = cadena + "</tr>" + cadena2 + "</table>";
+  //       console.log('Encuesta mostrada correctamente');
+  //     }
+  //   };
+  
+  //   var celdas = db.transaction("Variables").objectStore("Variables");
+  //   celdas.openCursor().onsuccess = function (e) {
+  //     var cursorX = e.target.result;
+  //     if (cursorX) {
+  //       cadena2 += "<tr>";
+  //       cadena2 += "<th>" + cursorX.value.NombreVar + "</th>";
+  //       for (var i = 0; i < 10; i++) {
+  //         cadena2 += "<th>" + cadenaX + "</th>";
+  //       }
+  //       cadena2 += "</tr>";
+  //       cursorX.continue();
+  //     }
+  //   };
+  // }
+  
+  // function mostrarEncuestaV() {
+  //   var tablaEncuesta = document.getElementById('tablaEncuesta');
+  
+  //   var table = document.createElement('table');
+  //   table.classList.add('table', 'table-bordered');
+  
+  //   var thead = document.createElement('thead');
+  //   var tr = document.createElement('tr');
+  //   var th = document.createElement('th');
+  //   th.textContent = '#';
+  //   tr.appendChild(th);
+  
+  //   var objectStore = db.transaction('Variables').objectStore('Variables');
+  
+  //   var numColumns = 10; // Número de columnas por variable
+  
+  //   for (var i = 1; i <= numColumns; i++) {
+  //     var th = document.createElement('th');
+  //     th.textContent = 'Variable ' + i;
+  //     tr.appendChild(th);
+  //   }
+  
+  //   thead.appendChild(tr);
+  //   table.appendChild(thead);
+  
+  //   var tbody = document.createElement('tbody');
+  
+  //   objectStore.openCursor().onsuccess = function(event) {
+  //     var cursor = event.target.result;
+  //     if (cursor) {
+  //       var tr = document.createElement('tr');
+  
+  //       var td = document.createElement('td');
+  //       td.textContent = cursor.value.NombreVar;
+  //       tr.appendChild(td);
+  
+  //       for (var i = 1; i <= numColumns; i++) {
+  //         var td = document.createElement('td');
+  //         var select = document.createElement('select');
+  //         select.classList.add('form-select', 'form-select-sm');
+  //         select.setAttribute('aria-label', '.form-select-sm example');
+  //         var options = [
+  //           { value: '0', text: '0' },
+  //           { value: '1', text: '1' },
+  //           { value: '2', text: '2' },
+  //           { value: '3', text: '3' },
+  //           { value: '4', text: 'P' }
+  //         ];
+  
+  //         for (var j = 0; j < options.length; j++) {
+  //           var option = document.createElement('option');
+  //           option.value = options[j].value;
+  //           option.textContent = options[j].text;
+  //           select.appendChild(option);
+  //         }
+  
+  //         td.appendChild(select);
+  //         tr.appendChild(td);
+  //       }
+  
+  //       tbody.appendChild(tr);
+  //       cursor.continue();
+  //     } else {
+  //       table.appendChild(tbody);
+  //       tablaEncuesta.innerHTML = '';
+  //       tablaEncuesta.appendChild(table);
+  //       console.log('Encuesta mostrada correctamente');
+  //     }
+  //   };
+  // }
+
+  function mostrarEncuestaV() {
+    var tablaEncuesta = document.getElementById('tablaEncuesta');
+  
+    var table = document.createElement('table');
+    table.classList.add('table', 'table-bordered');
+  
+    var thead = document.createElement('thead');
+    var tr = document.createElement('tr');
+    var th = document.createElement('th');
+    th.textContent = '#';
+    tr.appendChild(th);
+  
+    var objectStore = db.transaction('Variables').objectStore('Variables');
+  
+    var numColumns = 7; // Número de columnas por variable
+  
+    objectStore.openCursor().onsuccess = function(event) {
+      var cursor = event.target.result;
+      if (cursor) {
+        var variable = cursor.value;
+        var th = document.createElement('th');
+        th.textContent = variable.NombreVar;
+        tr.appendChild(th);
+        cursor.continue();
+      } else {
+        thead.appendChild(tr);
+        table.appendChild(thead);
+        var tbody = document.createElement('tbody');
+  
+        objectStore.openCursor().onsuccess = function(event) {
+          var cursor = event.target.result;
+          if (cursor) {
+            var tr = document.createElement('tr');
+            var td = document.createElement('td');
+            td.textContent = cursor.value.NombreVar;
+            tr.appendChild(td);
+  
+            for (var i = 1; i <= numColumns; i++) {
+              var td = document.createElement('td');
+              var select = document.createElement('select');
+              select.classList.add('form-select', 'form-select-sm');
+              select.setAttribute('aria-label', '.form-select-sm example');
+              var options = [
+                { value: '0', text: '0' },
+                { value: '1', text: '1' },
+                { value: '2', text: '2' },
+                { value: '3', text: '3' },
+                { value: '4', text: 'P' }
+              ];
+  
+              for (var j = 0; j < options.length; j++) {
+                var option = document.createElement('option');
+                option.value = options[j].value;
+                option.textContent = options[j].text;
+                select.appendChild(option);
+              }
+  
+              td.appendChild(select);
+              tr.appendChild(td);
+            }
+  
+            tbody.appendChild(tr);
+            cursor.continue();
+          } else {
+            table.appendChild(tbody);
+            tablaEncuesta.innerHTML = '';
+            tablaEncuesta.appendChild(table);
+            console.log('Encuesta mostrada correctamente');
+          }
+        };
+      }
+    };
+  }
+  
+  // Resto del código para conectar a la base de datos IndexedDB
+  
+  
