@@ -259,6 +259,7 @@ function habilitarbtn3() {
   email = document.getElementById("email").value;
   tel = document.getElementById("tele").value;
   mensaje = document.getElementById("mensaje").value;
+  
   v = 0;
   if (nombre == "") {
     v++;
@@ -275,10 +276,12 @@ function habilitarbtn3() {
   if (mensaje == "") {
     v++;
   }
+  console.log(v);
   if (v == 0) {
-    document.getElementById("enviarMensaje").disabled = false;
+    document.getElementById("boton-enviar").disabled = false;
+    notiEnviarForm();
   } else {
-    document.getElementById("enviarMensaje").disabled = true;
+    
   }
 
 }
