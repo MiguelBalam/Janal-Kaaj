@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Janal-Kaaj</title>
+  <!-- Bootstrap -->
+  <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+  <link rel="stylesheet" href="CSS/bootstrap.min.css">
+  <link rel="stylesheet" href="CSS/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@300&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
+</head>
+
+<body class="IBM">
+  <nav class="navbar navbar-expand-lg fixed-top navbar-mi-colorLP" id="mainNav">
+    <div class="container">
+      <a class="navbar-brand" href="index.html">
+        <img src="./Img/Oficial_JanalKaaj.png" width="130px" height="65px">
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" 
+      data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        Menu
+        <i class="fas fa-bars ms-1"></i>
+      </button>
+      <div class="collapse navbar-collapse justify-content-end" id="navbarResponsive">
+          <ul class="navbar-nav ms-auto py-4 py-lg-0">
+            <li class="nav-item"><a class="nav-link" href="planes_servicios.html">Planes y servicios</a></li>
+            <li class="nav-item"><a class="nav-link" target="_blank" href="https://www.acnur.org/nutricion-y-seguridad-alimentaria.html">Seguridad-Alimentaria</a></li>
+            <li class="nav-item"><a class="nav-link" href="Estadistica/index.html">Estadísticas</a></li>
+            <li class="nav-item"><a class="nav-link" href="contactanos.html">Contáctanos</a></li>
+            <li class="nav-item"><a class="nav-link" href="login.html">Iniciar Sesión</a></li>
+            <li class="nav-item"><button type="button" data-bs-toggle="modal" data-bs-target="#myModal" class="nav-link btnn btn-outline-warning text-white" data-bs-target="#myModal">Registrarse</button></li>
+          </ul>      
+    </div>
+  </nav>
+  <div class="modal" tabindex="-1" id="myModal">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content align-content-center">
+        <div class="modal-header">
+          <h5 class="modal-title">Registro</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>Usteded quiere registrarse, ¿Cómo encuestado o encuestador?</p>
+        </div>
+        <div class="modal-footer">
+          <a type="button" class="nav-link btnn btn-outline-warning text-white" href="form_encuestados.html">Encuestado</a>
+          <a type="button" class="nav-link btnn btn-outline-warning text-white" href="form_encuestador.html">Encuestador</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Contact-->
+  <header class="section">
+    <div class="container">
+      <div class=" row text-white py-5">
+        <section class="d-flex justify-content-center my-4 IBM" id="contact">
+          <div class="form-container2">
+            <h2 class="main__title text-center text-dark py-3">Noticias</h2>
+            <form class="needs-validation" id="formularioNews">
+
+              <div id="grupo__nombrecompletos" class="row mb-3">
+                <label for="nombrecompletos" class="col-sm-4 col-form-label px-4 text-dark">Título: </label>
+                <div  class="col-sm-8">
+                  <input type="text" name="titulo" placeholder="Título" class="form-control" id="titulo" required>
+                    <div class="valid-feedback">
+                        Correcto
+                    </div>
+                    <div class="invalid-feedback">
+                        Llene el campo
+                    </div>
+                </div>
+              </div>
+              <div id="grupo__nombrecompletos" class="row mb-3">
+                <label for="nombrecompletos" class="col-sm-4 col-form-label px-4 text-dark">Cuerpo: </label>
+                <div  class="col-sm-8">
+                  <textarea placeholder="Noticia" name="noticia" class="form-control text-dark" id="noticia" required></textarea>
+                    <div class="valid-feedback">
+                        Correcto
+                    </div>
+                    <div class="invalid-feedback">
+                        Llene el campo
+                    </div>
+                </div>
+              </div>
+              
+              <div class="row justify-content-center py-4">
+                <button onClick="limpiarFormularioNews()" type="button" class="nav-link btnn btn-outline-warning text-white align">Cancelar</button>
+                <button onClick="" class="btnn btn-outline-warning text-white"
+                type="submit" id="boton-enviar">Publicar</button>
+              </div>      
+                 
+            </form>
+          </div>
+        </section>
+      </div>
+    </div>
+  </header>
+
+  <footer class="footer">
+    <div class="container py-4">
+        <div class="row align-items-center">
+            <div class="col-sm-4 text-center "><img src="./Img/Oficial_JanalKaaj.png" width="180px" height="90px"></div>
+            <div class="col-sm-4 my-3 my-lg-0 text-center">
+                <h5 class="">Enlaces</h5>
+               
+                <a class="link-dark text-decoration-none" target="_blank" href="https://www.aecoc.es/actividad/seguridad-alimentaria-calidad/">AECOC</a><br>
+                <a class="link-dark text-decoration-none" target="_blank" href="https://www.gob.mx/segalmex">Segalmex</a><br>
+                <a class="link-dark text-decoration-none" target="_blank" href="https://www.gob.mx/agricultura">GOB MX</a><br>
+                <a class="link-dark text-decoration-none" target="_blank" href="https://www.fao.org/statistics/es/">FAO</a><br>
+                <a class="link-dark text-decoration-none" target="_blank" href="https://www.acnur.org/nutricion-y-seguridad-alimentaria.html">ACNUR</a>
+            </div>
+            <div class="col-sm-4 text-center">
+              <h5>Contacto</h5>
+              <p>Dudas e información a <br>iscproyectoslc@gmail.com</p>
+              <h5>Síguenos</h5>
+              <a class="btn btn-dark btn-social mx-2" target="_blank" href="https://www.facebook.com/profile.php?id=100093048912704" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+              <a class="btn btn-dark btn-social mx-2" target="_blank" href="https://instagram.com/janal_kaaj?igshid=MzNlNGNkZWQ4Mg==" aria-label="LinkedIn"><i class="fab fa-instagram"></i></a>
+            </div>
+        </div>
+    </div>
+    <div class="footerB fs-6 py-1">Copyright &copy; Janal Kaaj 2023</div>
+  </footer>
+  <script>
+    (() => {
+        'use strict'
+
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        const forms = document.querySelectorAll('.needs-validation')
+
+        // Loop over them and prevent submission
+        Array.from(forms).forEach(form => {
+            form.addEventListener('submit', event => {
+                if (!form.checkValidity()) {
+                    event.preventDefault()
+                    event.stopPropagation()
+                }
+
+                form.classList.add('was-validated')
+            }, false)
+        })
+    })()
+
+
+</script>
+  <!-- BOOTSTRAP SCRIPTS -->
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+    integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"
+    integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
+    crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="/node_modules/@sweetalert2/themes/bootstrap-4/bootstrap-4.min.css">
+  <script src="/node_modules/sweetalert2/dist/sweetalert2.all.js"></script>
+  <script src="/CSS/SweetAlert.js"></script>
+  <script src="CSS/prueba.js"></script>
+</body>
+
+</html>
