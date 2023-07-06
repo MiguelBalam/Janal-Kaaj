@@ -95,7 +95,7 @@
                 <label for="image" class="col-sm-4 col-form-label px-4 text-dark">Imagen: </label>
                 <div  class="col-sm-8 ">
                   <div class="">
-                  <input class="py-3 form-control" type="file" name="image" id="image" required>
+                  <input class="py-3 form-control" type="file" name="image" id="image" accept="image/png" required>
                      <!--<div class="valid-feedback">
                         Correcto
                     </div>
@@ -106,12 +106,15 @@
                     <div class="form-file__result" id="result-image">
                       <img id="img-result" alt=""/>
                     </div>
-                </div>    
+                </div>  
+                <div class="form-file__result" id="result-image2">
+                  <img id="img-result2" alt=""/>
+                </div>  
               </div>
               
               <div class="row justify-content-center py-4">
                 <button onClick="limpiarFormularioNews()" type="button" class="nav-link btnn btn-outline-warning text-white align">Cancelar</button>
-                <button onClick="" class="btnn btn-outline-warning text-white"
+                <button onClick="doImageTest();" class="btnn btn-outline-warning text-white"
                 type="submit" id="boton-enviar">Publicar</button>
               </div>      
                  
@@ -182,6 +185,7 @@
   <script src="/node_modules/sweetalert2/dist/sweetalert2.all.js"></script>
   <script src="/CSS/SweetAlert.js"></script>
   <script src="CSS/prueba.js"></script>
+  <script src="BD/app.js"></script>
 </body>
 
 </html>
