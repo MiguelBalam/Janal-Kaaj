@@ -364,31 +364,39 @@ function manejadorValidacion(e) {
             
     
             request.onerror = function() {
-                alert("Unable to retrieve data from database!");
-              
                };
-               request.onsuccess = function () {
-                
-                if(Contrasenia == request.result.Contrasenia){
-              
-                  // alert("Inicio de sesion exitosa");
-              
-                 control (window.location.href='pestañas_Encuestador/reactivo_tipos_Encuestas.html');
-                 //var correo = document.getElementById('Usuario').value;
-                 //var idR = document.getElementById("ReactivoCre").value.trim();
-               //var request2 = db.transaction(["Reactivos"], "readwrite").objectStore("Reactivos").put({creador:Usuario});
-                //var request3 = db.transaction(["relacionReactivo"], "readwrite").objectStore("relacionReactivo")
-                
-          // var CategoriaReactivo=document.getElementById("CategoriaReactivos").value.trim();
-          // var owned = document.getElementById('inlineCheckbox1').checked;
-          // var TipoRes = document.getElementById('TipoRes').selectedIndex;
-                
-                 } else if ( Contrasenia !== request.result ) {
-                  alert("Verifique su contraseña");
+
+               request.onsuccess = function() {
+                if (!request.result) {
+                  mostrarAlertaCorreo();
+                } else if (Contrasenia == request.result.Contrasenia) {
+                  control(window.location.href = 'pestañas_Encuestador/reactivo_tipos_Encuestas.html');
+                } else {
+                  mostrarAlerta();
                 }
+              };
+            }
+
+            function mostrarAlertaCorreo() {
+              var alertaCorreoDiv = document.querySelector("#alertaCorreo");
+              alertaCorreoDiv.textContent = "El correo ingresado es incorrecto o no existe";
+              alertaCorreoDiv.style.color = "red";
+
+              setTimeout(function() {
+                alertaCorreoDiv.textContent = "";
+              }, 3000); // 5 segundos de retardo (5000 milisegundos)
+            }
+          
+            function mostrarAlerta() {
+              var alertaDiv = document.querySelector("#alerta");
+              alertaDiv.textContent = "Contraseña incorrecta";
+              alertaDiv.style.color = "red";
               
+              setTimeout(function() {
+                alertaDiv.textContent = "";
+              }, 3000); // 5 segundos de retardo (5000 milisegundos)
         }
-      }
+      
 
       function enviarFormulario() {
         var valorInput1 = document.getElementById("Usuario").value;
