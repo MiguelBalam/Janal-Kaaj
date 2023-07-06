@@ -220,6 +220,7 @@ var ObjectStoreReac;
         request.onsuccess = (ev) => {
           check();  
           console.log('successfully added an object',ev);
+          document.getElementById('EncuestadoForm').reset(); 
         };
         request.onerror = (eve) => {
           console.log('error in request to add',eve);
@@ -237,7 +238,9 @@ var ObjectStoreReac;
           request3.onerror = (eve) => {
             console.log('error in request to add',eve);
           }; 
-    })
+
+
+    });
 
     function makeTX(storeName, mode) {
         let tx = db.transaction(storeName, mode);
