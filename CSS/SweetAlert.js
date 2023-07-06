@@ -343,7 +343,10 @@ document.getElementById("boton-crear-encuesta").addEventListener("click", () => 
 
 function limpiarFormulario() {
   document.getElementById("formulario").reset();
+}
 
+function limpiarFormularioNews() {
+  document.getElementById("formularioNews").reset();
 }
 
 function limpiarFormulario2() {
