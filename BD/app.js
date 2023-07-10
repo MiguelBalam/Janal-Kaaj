@@ -13,6 +13,15 @@ if (navigator.serviceWorker){
 var db;
 var ObjectStore;
 var ObjectStoreReac;
+
+document.addEventListener('DOMContentLoaded', () => {
+  console.log('dom content loaded');
+
+  document.querySelector('#image').addEventListener('change', doFile);
+
+  
+});
+
  (function conectarDB(){
     
    // let objectStore = null;
@@ -30,6 +39,10 @@ var ObjectStoreReac;
         ObjectStore.createIndex("Nombre","Nombre",{unique:true});
         ObjectStore = db.createObjectStore("relacionReactivo", { keyPath:"correo", autoIncrement: true});
 
+        //Noticias
+        ObjectStore = db.createObjectStore('Noticias', {keyPath:'id', autoIncrement: true});
+        ObjectStore.createIndex('titulo', 'titulo', { unique: false });
+        ObjectStore.createIndex('cuerpo', 'cuerpo', { unique: false });
         //usuario
 
         ObjectStore = db.createObjectStore("Usuariosactivo", {keyPath: "id"});
@@ -88,6 +101,8 @@ var ObjectStoreReac;
        
     });
     
+    //sube la imagen a la base de datos
+			
     
     document.addEventListener('DOMContentLoaded', function() {
       obtenerValorYVerificarLabel();
@@ -272,6 +287,52 @@ var ObjectStoreReac;
     }
 
 })();
+// Noticias
+function doFile(e) {
+  console.log('change event fired for input field');
+  let file = e.target.files[0];
+  var reader = new FileReader();
+//				reader.readAsDataURL(file);
+  reader.readAsBinaryString(file);
+
+  reader.onload = function(e) {
+    //alert(e.target.result);
+    let bits = e.target.result;
+    let ob = {
+      created:new Date(),
+      data:bits
+    };
+
+    let trans = db.transaction(['Noticias'], 'readwrite');
+    let addReq = trans.objectStore('Noticias').add(ob);
+
+    addReq.onerror = function(e) {
+      console.log('error storing data');
+      console.error(e);
+    }
+
+    trans.oncomplete = function(e) {
+      console.log('data stored');
+    }
+  }
+}
+
+function doImageTest() {
+  console.log('doImageTest');
+  let image = document.querySelector('#img-result2');
+  let recordToLoad = parseInt(2);
+  if(recordToLoad === '') recordToLoad = 1;
+
+  let trans = db.transaction(['Noticias'], 'readonly');
+  //hard coded id
+  let req = trans.objectStore('Noticias').get(recordToLoad);
+  req.onsuccess = function(e) {
+    let record = e.target.result;
+    console.log('get success', record);
+    image.src = 'data:image/jpeg;base64,' + btoa(record.data);
+  }
+}
+// Cierra noticias
 
 function load(id) {
                 
