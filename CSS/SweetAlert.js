@@ -337,8 +337,83 @@ document.getElementById("boton-crear-encuesta").addEventListener("click", () => 
 //  }else{
 //   document.getElementById("boton-crear-encuesta").disabled = true;
 //  }
-
 // }
+
+function habilitarFormEncuestado() {
+  nombre = document.getElementById("nombrecompletos").value;
+  apellido = document.getElementById("apellidopaterno").value;
+  apellido2 = document.getElementById("apellidomaterno").value;
+  edad = document.getElementById("edad").value;
+  localidad = document.getElementById("localidad").value;
+  ciudad = document.getElementById("ciudad").value;
+  municipio = document.getElementById("municipio").value;
+  estado = document.getElementById("estado").value;
+  email = document.getElementById("Email-encuestado").value;
+  tele = document.getElementById("tel-encuestado").value;
+  contra = document.getElementById("contra-encuestado").value;
+  contra2 = document.getElementById("contra-encuestado2").value;
+  // salida2 = document.getElementById("salida2").value;
+  //  s =  document.getElementById("s").value;
+  //  $btnVerEstado = document.getElementById("estado").value;
+  val = 0;
+  if (nombre == "") {
+    val++;
+  }
+  if (apellido == "") {
+    val++;
+  }
+  if (apellido2 == "") {
+    val++;
+  }
+  if (edad == "") {
+    val++;
+  }
+  if (localidad == "") {
+    val++;
+  }
+  if (ciudad == "") {
+    val++;
+  }
+  if (municipio == "") {
+    val++;
+  }
+  if (estado == "") {
+    val++;
+  }
+  if (email == "") {
+    val++;
+  }
+  if (tele == "") {
+    val++;
+  }
+  if (contra == "") {
+    val++;
+  }
+  if (contra2 == "") {
+    val++;
+  }
+
+  if (val == 0) {
+    borrarVariable();
+  } else {
+    borrarVariable();
+  }
+}
+  document.getElementById("nombrecompletos").addEventListener("keyup", function () { habilitarFormEncuestado() } );
+  document.getElementById("apellidopaterno").addEventListener("keyup", function () { habilitarFormEncuestado() } );
+  document.getElementById("apellidomaterno").addEventListener("keyup", function () { habilitarFormEncuestado() } );
+  document.getElementById("edad").addEventListener("keyup", function () { habilitarFormEncuestado() } );
+  document.getElementById("localidad").addEventListener("keyup", function () { habilitarFormEncuestado() } );
+  document.getElementById("ciudad").addEventListener("keyup", function () { habilitarFormEncuestado() } );
+  document.getElementById("municipio").addEventListener("keyup", function () { habilitarFormEncuestado() } );
+  document.getElementById("estado").addEventListener("keyup", function () { habilitarFormEncuestado() } );
+  document.getElementById("Email-encuestado").addEventListener("keyup", function () { habilitarFormEncuestado() } );
+  document.getElementById("tel-encuestado").addEventListener("keyup", function () { habilitarFormEncuestado() } );
+  document.getElementById("contra-encuestado").addEventListener("keyup", function () { habilitarFormEncuestado() } );
+  document.getElementById("contra-encuestado2").addEventListener("keyup", function () { habilitarFormEncuestado() } );
+  
+
+
 // -----------------------------------------------------------------
 
 function limpiarFormulario() {
