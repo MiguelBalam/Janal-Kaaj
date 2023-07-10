@@ -160,8 +160,9 @@ var ObjectStoreReac;
         var Nombre= document.getElementById('nombrecompletos').value.trim();
         var ApellidoP = document.getElementById('apellidopaterno').value.trim();
         var ApellidoM= document.getElementById('apellidomaterno').value.trim();
-        var Genero= document.getElementById('inlineRadio1').value.trim();
-        var Genero2= document.getElementById('inlineRadio2').value.trim();
+        var generoSeleccionado = '';
+        var genero1 = document.getElementById('inlineRadio1');
+        var genero2 = document.getElementById('inlineRadio2');
         var Edad= document.getElementById('edad').value.trim();
         var Proce= document.getElementById('procedencia').value.trim();
         var Telefono = document.getElementById('tel').value.trim();
@@ -170,6 +171,12 @@ var ObjectStoreReac;
         // var Municipio =document.getElementById('municipio').value.trim();
         // var Encuestado = document.getElementById('estado').value.trim();
         // var telefono = document.getElementById('tel-encuestado').value.trim();
+
+      if (genero1.checked) {
+        generoSeleccionado = genero1.value;
+      } else if (genero2.checked) {
+        generoSeleccionado = genero2.value;
+      }
         
         verificarPasswords();
 
@@ -177,8 +184,7 @@ var ObjectStoreReac;
         Nombre,
         ApellidoP,
         ApellidoM,
-        Genero,
-        Genero2,
+        Genero: generoSeleccionado,
         Edad,
         Telefono
         }
