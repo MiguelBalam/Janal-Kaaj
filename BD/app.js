@@ -163,7 +163,7 @@ var ObjectStoreReac;
         var Genero= document.getElementById('inlineRadio1').value.trim();
         var Genero2= document.getElementById('inlineRadio2').value.trim();
         var Edad= document.getElementById('edad').value.trim();
-        var Proce= document.getElementById('procedencia').value.trim();
+        // var Proce= document.getElementById('procedencia').value.trim();
         var Telefono = document.getElementById('tel').value.trim();
         // var localidad =document.getElementById('localidad').value.trim();
         // var ciudad =document.getElementById('cuidad').value.trim();
@@ -187,9 +187,10 @@ var ObjectStoreReac;
             Contrasenia,
             Contrasenia2
             }
-            let Encuestador = {
-              Proce
-                 }
+            // let Encuestador = {
+            //   Proce
+
+            //      }
              
         
         let tx = makeTX('Usuario','readwrite');
@@ -3114,6 +3115,113 @@ function contieneCheckboxId(checkboxes, id) {
     };
   }
   
-  // Resto del código para conectar a la base de datos IndexedDB
+//función para almacenar logotipo
+function validarImagen() {
+  var archivo = document.getElementById('imagen').files[0];
   
+  if (archivo) {
+    var img = new Image();
+    var limiteAncho = 115; // Ancho máximo permitido en píxeles
+    var limiteAlto = 115; // Alto máximo permitido en píxeles
+    
+    if (archivo.type === 'image/png') {
+      img.onload = function() {
+        if (img.width <= limiteAncho && img.height <= limiteAlto) {
+          // Las dimensiones de la imagen son válidas, puedes proceder con el procesamiento o guardado
+          // Aquí llamarías a tu función para guardar o procesar la imagen en IndexedDB o en tu lógica de backend
+          guardarImagen(archivo);
+        } else {
+          alert('Las dimensiones de la imagen exceden el límite permitido (115x115)');
+        }
+      };
+      
+      img.src = URL.createObjectURL(archivo);
+    } else {
+      alert('Seleccione un archivo PNG válido');
+    }
+  }
+}
+
+function guardarImagen() {
+  var archivo = document.getElementById('imagen').files[0];
+  var Proce = document.getElementById('procedencia').value.trim();
+  
+  if (archivo) {
+    var reader = new FileReader();
+    reader.onload = function(event) {
+      var imagenDataUrl = event.target.result;
+      guardarEnIndexedDB(imagenDataUrl, Proce);
+    };
+    reader.readAsDataURL(archivo);
+  }
+}
+
+function guardarEnIndexedDB(dataUrl, proce) {
+  var request = indexedDB.open('Janal', 1);
+
+  request.onsuccess = function(event) {
+    var db = event.target.result;
+    var transaction = db.transaction(['Encuestador'], 'readwrite');
+    var objectStore = transaction.objectStore('Encuestador');
+
+    var imagen = {
+      dataUrl: dataUrl,
+      proce: proce
+    };
+
+    var solicitud = objectStore.add(imagen);
+
+    solicitud.onsuccess = function(event) {
+      console.log('Imagen y valor de "Proce" guardados en IndexedDB');
+      var claveGenerada = event.target.result;
+      mostrarImagenEnDiv(claveGenerada);
+    };
+
+    solicitud.onerror = function() {
+      console.error('Error al guardar la imagen y el valor de "Proce" en IndexedDB');
+    };
+  };
+
+  request.onerror = function() {
+    console.error('Error al abrir la base de datos');
+  };
+}
+
+function mostrarImagenEnDiv(claveGenerada) {
+  var request = indexedDB.open('Janal', 1);
+
+  request.onsuccess = function(event) {
+    var db = event.target.result;
+    var transaction = db.transaction(['Encuestador'], 'readonly');
+    var objectStore = transaction.objectStore('Encuestador');
+    var solicitud = objectStore.get(claveGenerada);
+
+    solicitud.onsuccess = function(event) {
+      var resultado = event.target.result;
+
+      if (resultado) {
+        var imagenDataUrl = resultado.dataUrl;
+        var imagenDiv = document.getElementById('imagenDiv');
+        imagenDiv.innerHTML = `<img src="${imagenDataUrl}" >`;
+      } else {
+        console.error('No se encontró la imagen en el almacén "Encuestador"');
+      }
+    };
+
+    solicitud.onerror = function() {
+      console.error('Error al obtener la imagen del almacén "Encuestador"');
+    };
+  };
+
+  request.onerror = function() {
+    console.error('Error al abrir la base de datos');
+  };
+}
+
+
+// function mostrarAlerta() {
+  
+//   alert
+// alert("¡Botón presionado!");
+// }
   
