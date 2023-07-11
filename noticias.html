@@ -8,7 +8,7 @@
   <!-- Bootstrap -->
   <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
   <link rel="stylesheet" href="CSS/bootstrap.min.css">
-  <link rel="stylesheet" href="CSS/style3.css">
+  <link rel="stylesheet" href="CSS/style.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300&display=swap" rel="stylesheet">
@@ -57,81 +57,75 @@
       </div>
     </div>
   </div>
-   <!--Planes-->
-   <h2 class="main__title text-center text-dark py-3">Planes y Servicios</h2>
-   <div class="container py-4">
-    <div class="pricing">
-      <div class="w3l-pricing-grids">
-        <div class="agileits-pricing-grid second">
-          <div class="pricing_grid">
-            <div class="wthree-pricing-info pricing-top blue-top">
-              <h3>Básico</h3>
-              <p>$<span>1000</span>/Anual</p>
-            </div>
-            <div class="pricing-bottom">
-              <div class="pricing-bottom-bottom blue-pricing-bottom-top">
-                <p><span class="fa fa-check"></span><span> 5</span> Límite creación de encuestas</p>
-                <p><span class="fa fa-check"></span><span> 1</span> Cuentas encuestador</p>  
-                <p><span class="fa fa-check"></span><span> 30</span> Encuestados por encuesta</p>
-                <p><span class="fa fa-check"></span><span> </span> Consultas en diferentes formatos</p>
-                <p><span class="fa fa-times"></span><span> </span> Visualización de gráficas</p>
-                <p><span class="fa fa-times"></span><span> </span> Cuentas administrador</p>
+  <!-- Contact-->
+  <header class="section">
+    <div class="container">
+      <div class=" row text-white py-5">
+        <section class="d-flex justify-content-center my-4 IBM" id="contact">
+          <div class="form-container2">
+            <h2 class="main__title text-center text-dark py-3">Noticias</h2>
+            <form class="needs-validation" id="formularioNews">
+
+              <div id="grupo__nombrecompletos" class="row mb-3">
+                <label for="nombrecompletos" class="col-sm-4 col-form-label px-4 text-dark">Título: </label>
+                <div  class="col-sm-8">
+                  <input type="text" name="titulo" placeholder="Título" class="form-control" id="titulo" required>
+                    <div class="valid-feedback">
+                        Correcto
+                    </div>
+                    <div class="invalid-feedback">
+                        Llene el campo
+                    </div>
+                </div>
               </div>
-              <div class="buy-button">
-                <a class="popup-with-zoom-anim" href="#small-dialog">Comprar ahora</a>
+              <div id="grupo__nombrecompletos" class="row mb-3">
+                <label for="nombrecompletos" class="col-sm-4 col-form-label px-4 text-dark">Cuerpo: </label>
+                <div  class="col-sm-8">
+                  <textarea placeholder="Noticia" name="noticia" class="form-control text-dark" id="noticia" required></textarea>
+                    <div class="valid-feedback">
+                        Correcto
+                    </div>
+                    <div class="invalid-feedback">
+                        Llene el campo
+                    </div>
+                </div>
               </div>
-            </div>
+
+              <div id="grupo__image" class="row mb-3 ">
+                <label for="image" class="col-sm-4 col-form-label px-4 text-dark">Imagen: </label>
+                <div  class="col-sm-8 ">
+                  <div class="">
+                  <input class="py-3 form-control" type="file" name="image" id="image" accept="image/png" required>
+                     <!--<div class="valid-feedback">
+                        Correcto
+                    </div>
+                    <div class="invalid-feedback">
+                        Llene el campo
+                    </div> -->
+                  </div>
+                    <div class="form-file__result" id="result-image">
+                      <img id="img-result" alt=""/>
+                    </div>
+                </div>  
+                <div class="form-file__result" id="result-image2">
+                  <img id="img-result2" alt=""/>
+                </div>  
+              </div>
+              
+              <div class="row justify-content-center py-4">
+                <button onClick="limpiarFormularioNews()" type="button" class="nav-link btnn btn-outline-warning text-white align">Cancelar</button>
+                <button onClick="doImageTest();" class="btnn btn-outline-warning text-white"
+                type="submit" id="boton-enviar">Publicar</button>
+              </div>      
+                 
+            </form>
           </div>
-        </div>
-        <div class="agileits-pricing-grid third">
-          <div class="pricing_grid">
-            <div class="wthree-pricing-info pricing-top green-top">
-              <h3>Platinum</h3>
-              <p>$<span>1299</span>/Anual</p>
-            </div>
-            <div class="pricing-bottom">
-              <div class="pricing-bottom-bottom blue-pricing-bottom-top">
-                <p><span class="fa fa-check"></span><span> 10</span> Límite creación de encuestas</p>
-                <p><span class="fa fa-check"></span><span> 2</span> Cuentas encuestador</p>  
-                <p><span class="fa fa-check"></span><span> 50</span> Encuestados por encuesta</p>
-                <p><span class="fa fa-check"></span><span> </span> Consultas en diferentes formatos</p>
-                <p><span class="fa fa-check"></span><span> 3</span> Visualización de gráficas</p>
-                <p><span class="fa fa-check"></span><span> 1</span> Cuentas administrador</p>
-              </div>
-              <div class="buy-button">
-                <a class="popup-with-zoom-anim" href="#small-dialog">Comprar ahora</a>
-              </div>
-            </div>
-          </div>
-        </div>
-        
-        <div class="agileits-pricing-grid fourth">
-          <div class="pricing_grid">
-            <div class="wthree-pricing-info pricing-top yellow-top">
-              <h3>Premium</h3>
-              <p>$<span>1500</span>/Anual</p>
-            </div>
-            <div class="pricing-bottom">
-              <div class="pricing-bottom-bottom blue-pricing-bottom-top">
-                <p><span class="fa fa-check"></span><span> 25</span> Límite creación de encuestas</p>
-                <p><span class="fa fa-check"></span><span> 4</span> Cuentas encuestador</p>  
-                <p><span class="fa fa-check"></span><span> 70</span> Encuestados por encuesta</p>
-                <p><span class="fa fa-check"></span><span> </span> Consultas en diferentes formatos</p>
-                <p><span class="fa fa-check"></span><span> 5</span> Visualización de gráficas</p>
-                <p><span class="fa fa-check"></span><span> 1</span> Cuentas administrador</p>
-              </div>
-              <div class="buy-button">
-                <a class="popup-with-zoom-anim" href="#small-dialog">Comprar ahora</a>
-              </div>
-            </div>
-          </div>
-        </div>
+        </section>
       </div>
     </div>
-   </div>
- 
- 
-   <footer class="footer">
+  </header>
+
+  <footer class="footer">
     <div class="container py-4">
         <div class="row align-items-center">
             <div class="col-sm-4 text-center "><img src="./Img/Oficial_JanalKaaj.png" width="180px" height="90px"></div>
@@ -155,22 +149,43 @@
     </div>
     <div class="footerB fs-6 py-1">Copyright &copy; Janal Kaaj 2023</div>
   </footer>
-   
-   <!-- BOOTSTRAP SCRIPTS -->
-   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-   integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-   crossorigin="anonymous"></script>
- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
-   integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
-   crossorigin="anonymous"></script>
- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"
-   integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
-   crossorigin="anonymous"></script>
- <link rel="stylesheet" href="/node_modules/@sweetalert2/themes/bootstrap-4/bootstrap-4.min.css">
- <script src="/node_modules/sweetalert2/dist/sweetalert2.all.js"></script>
- <script src="/CSS/SweetAlert.js"></script>
- <script src="CSS/prueba.js"></script>
-   <script src="../BD/app.js"></script>
- </body>
- 
- </html>
+  <script>
+    (() => {
+        'use strict'
+
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        const forms = document.querySelectorAll('.needs-validation')
+
+        // Loop over them and prevent submission
+        Array.from(forms).forEach(form => {
+            form.addEventListener('submit', event => {
+                if (!form.checkValidity()) {
+                    event.preventDefault()
+                    event.stopPropagation()
+                }
+
+                form.classList.add('was-validated')
+            }, false)
+        })
+    })()
+
+
+</script>
+  <!-- BOOTSTRAP SCRIPTS -->
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+    integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"
+    integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
+    crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="/node_modules/@sweetalert2/themes/bootstrap-4/bootstrap-4.min.css">
+  <script src="/node_modules/sweetalert2/dist/sweetalert2.all.js"></script>
+  <script src="/CSS/SweetAlert.js"></script>
+  <script src="CSS/prueba.js"></script>
+  <script src="BD/app.js"></script>
+</body>
+
+</html>

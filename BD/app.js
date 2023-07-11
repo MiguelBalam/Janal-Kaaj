@@ -14,6 +14,15 @@ if (navigator.serviceWorker){
 var db;
 var ObjectStore;
 var ObjectStoreReac;
+
+document.addEventListener('DOMContentLoaded', () => {
+  console.log('dom content loaded');
+
+  document.querySelector('#image').addEventListener('change', doFile);
+
+  
+});
+
  (function conectarDB(){
     
    // let objectStore = null;
@@ -31,6 +40,10 @@ var ObjectStoreReac;
         ObjectStore.createIndex("Nombre","Nombre",{unique:true});
       
 
+        //Noticias
+        ObjectStore = db.createObjectStore('Noticias', {keyPath:'id', autoIncrement: true});
+        ObjectStore.createIndex('titulo', 'titulo', { unique: false });
+        ObjectStore.createIndex('cuerpo', 'cuerpo', { unique: false });
         //usuario
 
         ObjectStore = db.createObjectStore("Usuariosactivo", {keyPath: "id"});
@@ -98,6 +111,8 @@ var ObjectStoreReac;
        
     });
     
+    //sube la imagen a la base de datos
+			
     
     document.addEventListener('DOMContentLoaded', function() {
       obtenerValorYVerificarLabel();
@@ -174,8 +189,9 @@ var ObjectStoreReac;
         var Nombre= document.getElementById('nombrecompletos').value.trim();
         var ApellidoP = document.getElementById('apellidopaterno').value.trim();
         var ApellidoM= document.getElementById('apellidomaterno').value.trim();
-        var Genero= document.getElementById('inlineRadio1').value.trim();
-        var Genero2= document.getElementById('inlineRadio2').value.trim();
+        var generoSeleccionado = '';
+        var genero1 = document.getElementById('inlineRadio1');
+        var genero2 = document.getElementById('inlineRadio2');
         var Edad= document.getElementById('edad').value.trim();
         var Proce= document.getElementById('procedencia').value.trim();
         var Telefono = document.getElementById('tel').value.trim();
@@ -184,6 +200,12 @@ var ObjectStoreReac;
         // var Municipio =document.getElementById('municipio').value.trim();
         // var Encuestado = document.getElementById('estado').value.trim();
         // var telefono = document.getElementById('tel-encuestado').value.trim();
+
+      if (genero1.checked) {
+        generoSeleccionado = genero1.value;
+      } else if (genero2.checked) {
+        generoSeleccionado = genero2.value;
+      }
         
         verificarPasswords();
 
@@ -191,8 +213,7 @@ var ObjectStoreReac;
         Nombre,
         ApellidoP,
         ApellidoM,
-        Genero,
-        Genero2,
+        Genero: generoSeleccionado,
         Edad,
         Telefono
         }
@@ -234,6 +255,7 @@ var ObjectStoreReac;
         request.onsuccess = (ev) => {
           check();  
           console.log('successfully added an object',ev);
+          document.getElementById('EncuestadoForm').reset(); 
         };
         request.onerror = (eve) => {
           console.log('error in request to add',eve);
@@ -251,7 +273,9 @@ var ObjectStoreReac;
           request3.onerror = (eve) => {
             console.log('error in request to add',eve);
           }; 
-    })
+
+
+    });
 
     function makeTX(storeName, mode) {
         let tx = db.transaction(storeName, mode);
@@ -277,6 +301,52 @@ var ObjectStoreReac;
     }
 
 })();
+// Noticias
+function doFile(e) {
+  console.log('change event fired for input field');
+  let file = e.target.files[0];
+  var reader = new FileReader();
+//				reader.readAsDataURL(file);
+  reader.readAsBinaryString(file);
+
+  reader.onload = function(e) {
+    //alert(e.target.result);
+    let bits = e.target.result;
+    let ob = {
+      created:new Date(),
+      data:bits
+    };
+
+    let trans = db.transaction(['Noticias'], 'readwrite');
+    let addReq = trans.objectStore('Noticias').add(ob);
+
+    addReq.onerror = function(e) {
+      console.log('error storing data');
+      console.error(e);
+    }
+
+    trans.oncomplete = function(e) {
+      console.log('data stored');
+    }
+  }
+}
+
+function doImageTest() {
+  console.log('doImageTest');
+  let image = document.querySelector('#img-result2');
+  let recordToLoad = parseInt(2);
+  if(recordToLoad === '') recordToLoad = 1;
+
+  let trans = db.transaction(['Noticias'], 'readonly');
+  //hard coded id
+  let req = trans.objectStore('Noticias').get(recordToLoad);
+  req.onsuccess = function(e) {
+    let record = e.target.result;
+    console.log('get success', record);
+    image.src = 'data:image/jpeg;base64,' + btoa(record.data);
+  }
+}
+// Cierra noticias
 
 function load(id) {
                 
@@ -378,31 +448,39 @@ function manejadorValidacion(e) {
             
     
             request.onerror = function() {
-                alert("Unable to retrieve data from database!");
-              
                };
-               request.onsuccess = function () {
-                
-                if(Contrasenia == request.result.Contrasenia){
-              
-                  // alert("Inicio de sesion exitosa");
-              
-                 control (window.location.href='pestañas_Encuestador/reactivo_tipos_Encuestas.html');
-                 //var correo = document.getElementById('Usuario').value;
-                 //var idR = document.getElementById("ReactivoCre").value.trim();
-               //var request2 = db.transaction(["Reactivos"], "readwrite").objectStore("Reactivos").put({creador:Usuario});
-                //var request3 = db.transaction(["relacionReactivo"], "readwrite").objectStore("relacionReactivo")
-                
-          // var CategoriaReactivo=document.getElementById("CategoriaReactivos").value.trim();
-          // var owned = document.getElementById('inlineCheckbox1').checked;
-          // var TipoRes = document.getElementById('TipoRes').selectedIndex;
-                
-                 } else if ( Contrasenia !== request.result ) {
-                  alert("Verifique su contraseña");
+
+               request.onsuccess = function() {
+                if (!request.result) {
+                  mostrarAlertaCorreo();
+                } else if (Contrasenia == request.result.Contrasenia) {
+                  control(window.location.href = 'pestañas_Encuestador/reactivo_tipos_Encuestas.html');
+                } else {
+                  mostrarAlerta();
                 }
+              };
+            }
+
+            function mostrarAlertaCorreo() {
+              var alertaCorreoDiv = document.querySelector("#alertaCorreo");
+              alertaCorreoDiv.textContent = "El correo ingresado es incorrecto o no existe";
+              alertaCorreoDiv.style.color = "red";
+
+              setTimeout(function() {
+                alertaCorreoDiv.textContent = "";
+              }, 3000); // 5 segundos de retardo (5000 milisegundos)
+            }
+          
+            function mostrarAlerta() {
+              var alertaDiv = document.querySelector("#alerta");
+              alertaDiv.textContent = "Contraseña incorrecta";
+              alertaDiv.style.color = "red";
               
+              setTimeout(function() {
+                alertaDiv.textContent = "";
+              }, 3000); // 5 segundos de retardo (5000 milisegundos)
         }
-      }
+      
 
       function enviarFormulario() {
         var valorInput1 = document.getElementById("Usuario").value;
@@ -1026,10 +1104,10 @@ function mostrarVarSelec() {
             var encuestaId = cursor.value.IdEn;
             var descripcion = cursor.value.Titulo;
             cadena += "<tr>";
-           cadena += "<td><button data-encuesta-id='" + encuestaId + "' class='ver-formulario2-btn'>Ver formulario</button></td>";
+           cadena += "<td align='center'><button data-encuesta-id='" + encuestaId + "' class='ver-formulario2-btn btn btn-outline-success bg-border-mostaza bg-text-mostaza'>Ver formulario</button></td>";
             
             cadena += "<td>" + descripcion + "</td>";
-            cadena += "<td><button data-encuesta-id='R" + encuestaId + "' class='btn btn-outline-success bg-border-mostaza bg-text-mostaza me-md-2'>Ver</button></td>";
+            cadena += "<td align='center'><button data-encuesta-id='R" + encuestaId + "' class='btn btn-outline-success bg-border-mostaza bg-text-mostaza me-md-2'>Ver</button></td>";
             cadena += "</tr>";
             cursor.continue();
           } else {
@@ -1114,8 +1192,8 @@ function mostrarVarSelec() {
             cadena += "<tr>";
            // cadena += "<td><button data-encuesta-id='" + encuestaId + "' class='ver-formulario-btn'>Ver formulario</button></td>";
             
-            cadena += "<td>" + descripcionVar + "</td>";
-            cadena += "<td><button id='v" + encuestaIdVar + "' class='ver-formulario-btn bg-border-mostaza bg-text-mostaza me-md-2'>Ver</button></td>";
+            cadena += "<td align='center'>" + descripcionVar + "</td>";
+            cadena += "<td align='center'><button id='v" + encuestaIdVar + "' class='ver-formulario-btn btn bg-border-mostaza bg-text-mostaza me-md-2'>Ver</button></td>";
             cadena += "</tr>";
             cursor.continue();
           } else {

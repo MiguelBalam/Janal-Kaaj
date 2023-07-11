@@ -301,12 +301,14 @@
 .card-titulo::-webkit-scrollbar-track:active {
   background: #e3e3e3;
 }
+
 .card-texto{
   overflow: auto;
   text-align: justify;
   height: 150px;
   padding: 0.2rem 1rem;
 }
+
 .card-texto::-webkit-scrollbar-thumb {
   background: rgb(255, 255, 255);
   border-radius: 4px;

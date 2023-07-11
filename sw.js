@@ -23,6 +23,7 @@ const APP_SHELL = [
     'pestañas_Encuestador/reactivo_crear_reactivos.html',
     'pestañas_Encuestador/reactivo_tipos_Encuestas.html',
     'pestañas_Encuestador/variable_crear_variable.html',
+    'pestañas_Encuestador/EncuestaFinalVariable.html',
     'pestañas_Encuestador/variable_datos_encuesta.html',
     'pestañas_Encuestador/variable_selec_variable.html',
     'pestañas_Encuestador/variable_tipo_variable_NoEdit.html',
@@ -30,8 +31,9 @@ const APP_SHELL = [
     'pestañas_Encuestador/vistaPreguntas.html',
     'pestanas_Encuestado/perfil.html',
     'planes_servicios.html',
+    'conocenos.html',
     'Estadistica/index.html',
-    'sw-utils.js',
+    'BD/sw-utils.js',
     'BD/app.js'
 ];
 
