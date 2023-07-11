@@ -51,6 +51,7 @@
         </ul>
       </div>
   </nav>
+  <!-- modal para registarse como encuestador o encuestado  -->
   <div class="modal" tabindex="-1" id="myModal">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content align-content-center">
@@ -70,8 +71,9 @@
       </div>
     </div>
   </div>
-  <section class="section">
 
+
+  <section class="section">
     <div class="form-container">
       <h1 class="bg-text-black h1TextoTitulo">Janal-Kaaj</h1>
       <form id="login" method="post">
@@ -79,6 +81,12 @@
         <div class="control">
           <label for="Usuario"> Usuario </label>
           <input class="input-Usuario" type="email" Placeholder="Usuario" name="Usuario" id="Usuario" required>
+          <div class="valid-feedback">
+            Correcto
+        </div>
+        <div class="invalid-feedback">
+            Llene el campo
+        </div>
 
         </div>
         <div class="control">
@@ -94,14 +102,15 @@
 
 
         <input type="submit" id="controlE" class="submit" onclick="control(),enviarFormulario()" value="INICIAR SESIÓN">
-        <input type="button" class="submit" onclick="window.location.href='form_encuestador.html' ;"
-          value="REGISTRARSE">
+
+        <input type="button" data-bs-toggle="modal" data-bs-target="#myModal" class="submit" data-bs-target="#myModal" value="REGISTRARSE">
 
       </div>
 
       <div class="link">
         <a href="https://drive.google.com/drive/u/0/shared-with-me"> ¿Olvidaste tu Contraseña?</a>
-
+        <div id="alerta" class="alerta"></div>
+        <div id="alertaCorreo" class="alerta"></div>
       </div>
     </div>
 
