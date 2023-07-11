@@ -187,6 +187,42 @@ function notiEditarVariables(){
 
 
 //desabilitar boton
+function habilitarbtnV() {
+  Titulo = document.getElementById("TituloVar").value;
+  floatingTextarea2 = document.getElementById("floatingTextarea22").value;
+  floatingTextarea21 = document.getElementById("floatingTextarea23").value;
+  // salida2 = document.getElementById("salida2").value;
+  //  s =  document.getElementById("s").value;
+  //  $btnVerEstado = document.getElementById("estado").value;
+  val = 0;
+  if (TituloVar == "") {
+    val++;
+
+  }
+  if (floatingTextarea22 == "") {
+    val++;
+  }
+  if (floatingTextarea23 == "") {
+    val++;
+  }
+  // if(salida2 == ""){
+  //     val++;
+  // }
+  // if(s == ""){
+  //     val++;
+  // }
+  if (val == 0) {
+    document.getElementById("boton-crear-encuestaVar").disabled = false;
+  } else {
+    document.getElementById("boton-crear-encuestaVar").disabled = true;
+  }
+
+}
+document.getElementById("TituloVar").addEventListener("keyup", function () { habilitarbtnV() } );
+document.getElementById("floatingTextarea22").addEventListener("keyup", function () { habilitarbtnV() } );
+document.getElementById("floatingTextarea23").addEventListener("keyup", function () { habilitarbtnV() } );
+
+
 function habilitarbtn() {
   Titulo = document.getElementById("Titulo").value;
   floatingTextarea2 = document.getElementById("floatingTextarea2").value;
@@ -221,6 +257,10 @@ function habilitarbtn() {
 document.getElementById("Titulo").addEventListener("keyup", function () { habilitarbtn() } );
 document.getElementById("floatingTextarea2").addEventListener("keyup", function () { habilitarbtn() } );
 document.getElementById("floatingTextarea21").addEventListener("keyup", function () { habilitarbtn() } );
+
+
+
+
 
 function habilitarbtn2() {
   nombre = document.getElementById("NomV").value;

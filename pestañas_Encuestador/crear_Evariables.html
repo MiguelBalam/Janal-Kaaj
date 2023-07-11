@@ -45,10 +45,11 @@
 
                 <h1 class="bg-text-black text-center p-3 text-uppercase text-black">Crear Encuesta Variables</h1>
                 <form name="form" id="formularioCR" action="">
+
                     <div class="row mb-4">
                         <label class="col-sm-4 col-form-label px-5">Titulo: </label>
                         <div class="col-sm-8">
-                            <input placeholder="Agregar Titulo" type="text" class="form-control" id="Titulo"
+                            <input placeholder="Agregar Titulo" type="text" class="form-control" id="TituloVar"
                                 name="Titulo">
                         </div>
                     </div>
@@ -57,9 +58,9 @@
                         <label class="col-sm-4 col-form-label px-5">Objetivo:</label>
                         <div class="col-sm-8">
                             <div class="form-floating">
-                                <textarea class="form-control" placeholder="Agregar Objetivo" id="floatingTextarea2"
+                                <textarea class="form-control" placeholder="Agregar Objetivo" id="floatingTextarea22"
                                     name="objetivo"></textarea>
-                                <label for="floatingTextarea2"></label>
+                                <label for="floatingTextarea22"></label>
                             </div>
                         </div>
                     </div>
@@ -69,8 +70,8 @@
                         <div class="col-sm-8">
                             <div class="form-floating">
                                 <textarea class="form-control" placeholder="Agregar Instruciones" name="Intruccion"
-                                    id="floatingTextarea21" style="height: 100px"></textarea>
-                                <label for="floatingTextarea2"></label>
+                                    id="floatingTextarea23" style="height: 100px"></textarea>
+                                <label for="floatingTextarea23"></label>
                             </div>
                         </div>
                     </div>
@@ -80,9 +81,15 @@
                         <div class="col-sm-8">
                             <div class="form-floating">
 
+                                <button type="button" onclick="window.location.href='../pestañas_Encuestador/variable_tipo_variable_NoEdit.html'"
+                                class="btn btn-outline-success bg-border-mostaza bg-text-mostaza"
+                                id="boton_seleccionar">Variables</button>
+
                                 <button type="button" onclick="window.location.href='../pestañas_Encuestador/variable_tipo_variable.html'"
                                     class="btn btn-outline-success bg-border-mostaza bg-text-mostaza"
-                                    id="boton_seleccionar">Seleccionar Variables</button>
+                                    id="boton_seleccionar">Editar Variables</button>
+
+                                   
 
 
                                 <button type="button" onclick=" window.location.href='../pestañas_Encuestador/variable_crear_variable.html'"
@@ -91,33 +98,42 @@
                             </div>
                         </div>
                     </div>
-
+                         
+                    <div id="VariablesSeleccionadas"></div>
+                    <div id="salidaVarC"></div>
+              
+              
                     <div class="p-3" id="salidaVarC2"></div>
 
                     <div class=" row mb-4 p-3">
                         <div class="col-sm-12 text-center">
-                            <button onclick="CrearEncuestaV()"
+                            <button onclick="crearEncuestaFinalVariables(),mostrarEncuestaVar()"
                                 class="btn btn-outline-success bg-border-mostaza bg-text-mostaza"
-                                id="boton-crear-encuesta" type="submit" disabled> Crear Encuesta</button>
+                                id="boton-crear-encuestaVar" type="submit" disabled> Crear Encuesta</button>
 
                                 <button type="button" class="btn btn-outline-success bg-border-mostaza bg-text-mostaza"
                                 onclick="window.location.href='../pestañas_Encuestador/reactivo_tipos_Encuestas.html'" id="disenio_boton">Cancelar</button>
+                       
+                                <button type="button" class="btn btn-outline-success bg-border-mostaza bg-text-mostaza"
+                                onclick="window.location.href='../pestañas_Encuestador/EncuestaVariables.html'" id="disenio_boton">Vista Previa</button>
                         </div>
+                            </div>
                 </form>
             </div>
 
         </section>
     </div>
 
-
-
-
+   
 
     <!-- <tbody id="Encuestas"></tbody> -->
 
     <!-- <script src="../BD/funciones.js"></script>
     <script src="../BD/NuevoFormulario.js"></script> -->
     <Script src="../BD/app.js"></Script>
+    <link rel="stylesheet" href="../node_modules/@sweetalert2/themes/bootstrap-4/bootstrap-4.min.css">
+    <script src="../node_modules/sweetalert2/dist/sweetalert2.all.js"></script>
+
     <script src="../CSS/SweetAlert.js"></script>
 </body>
 
