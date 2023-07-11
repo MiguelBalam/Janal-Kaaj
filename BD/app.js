@@ -1,6 +1,7 @@
 var url = window.location.href;
 var swLocation = '/Janal-Kaaj/sw.js';
 
+
 if (navigator.serviceWorker){
 
   if (url.includes('localhost')){
