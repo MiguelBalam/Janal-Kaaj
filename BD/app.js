@@ -110,15 +110,8 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log('upgrade',db);
        
     });
-    
-    //sube la imagen a la base de datos
-			
-    
-    document.addEventListener('DOMContentLoaded', function() {
-      obtenerValorYVerificarLabel();
-      obtenerValorTd();
-      console.log("triste");
-    });
+       
+  
     //funciones para cursores
     DBOpenReq.addEventListener('success',(ev)=>{
      
