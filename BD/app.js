@@ -123,6 +123,10 @@ document.addEventListener('DOMContentLoaded', () => {
     DBOpenReq.addEventListener('success',(ev)=>{
      
       db= ev.target.result;
+      Encuesta1()
+      mostrarEncuesta()
+      buscar()
+      buscarE()
       EncuestaVistaPV2()
      reactivoscrear()
 
@@ -139,15 +143,15 @@ document.addEventListener('DOMContentLoaded', () => {
       
      
       //EncaEncuestaVista()
-      buscarE()
+      // buscarE()
      // buscarEVar()
-     mostrarEncuesta()
+    //  mostrarEncuesta()
     
   
     
      buildList()
    
-      buscar()
+      // buscar()
     
      
       buscarEVar()
@@ -172,7 +176,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
   
    
-      Encuesta1()
+      // Encuesta1()
       EncuestaV()
       
     });
@@ -2655,36 +2659,36 @@ function guardarEnIndexedDB(dataUrl, proce) {
   };
 }
 
-function mostrarImagenEnDiv(claveGenerada) {
-  var request = indexedDB.open('Janal', 1);
+// function mostrarImagenEnDiv(claveGenerada) {
+//   var request = indexedDB.open('Janal', 1);
 
-  request.onsuccess = function(event) {
-    var db = event.target.result;
-    var transaction = db.transaction(['Encuestador'], 'readonly');
-    var objectStore = transaction.objectStore('Encuestador');
-    var solicitud = objectStore.get(claveGenerada);
+//   request.onsuccess = function(event) {
+//     var db = event.target.result;
+//     var transaction = db.transaction(['Encuestador'], 'readonly');
+//     var objectStore = transaction.objectStore('Encuestador');
+//     var solicitud = objectStore.get(claveGenerada);
 
-    solicitud.onsuccess = function(event) {
-      var resultado = event.target.result;
+//     solicitud.onsuccess = function(event) {
+//       var resultado = event.target.result;
 
-      if (resultado) {
-        var imagenDataUrl = resultado.dataUrl;
-        var imagenDiv = document.getElementById('imagenDiv');
-        imagenDiv.innerHTML = `<img src="${imagenDataUrl}" >`;
-      } else {
-        console.error('No se encontró la imagen en el almacén "Encuestador"');
-      }
-    };
+//       if (resultado) {
+//         var imagenDataUrl = resultado.dataUrl;
+//         var imagenDiv = document.getElementById('imagenDiv');
+//         imagenDiv.innerHTML = `<img src="${imagenDataUrl}" >`;
+//       } else {
+//         console.error('No se encontró la imagen en el almacén "Encuestador"');
+//       }
+//     };
 
-    solicitud.onerror = function() {
-      console.error('Error al obtener la imagen del almacén "Encuestador"');
-    };
-  };
+//     solicitud.onerror = function() {
+//       console.error('Error al obtener la imagen del almacén "Encuestador"');
+//     };
+//   };
 
-  request.onerror = function() {
-    console.error('Error al abrir la base de datos');
-  };
-}
+//   request.onerror = function() {
+//     console.error('Error al abrir la base de datos');
+//   };
+// }
 
 
 // function mostrarAlerta() {
@@ -2693,3 +2697,68 @@ function mostrarImagenEnDiv(claveGenerada) {
 // alert("¡Botón presionado!");
 // }
   
+//Función para buscar encuentas por nombre
+
+// Obtener los elementos del DOM
+// document.getElementById('boton_filtrar').addEventListener('click', 
+function realizarBusqueda() {
+  var searchTerm = document.getElementById('filtrar').value.toLowerCase();
+
+  if (searchTerm.trim() !== '') {
+    var elementosDiv = document.querySelectorAll('#crear_encuesta td');
+    var resultados = buscarElementos(elementosDiv, searchTerm);
+
+    if (resultados.length > 0) {
+      mostrarResultados(resultados);
+    } else {
+      mostrarAlerta('Error: Ingresa un término de búsqueda válido.');
+    }}
+  // } else {
+  //   mostrarAlerta('Error: Ingresa un término de búsqueda válido.');
+  // }
+}
+
+function buscarElementos(elementos, searchTerm) {
+  var resultados = [];
+
+  for (var i = 0; i < elementos.length; i++) {
+    var elemento = elementos[i];
+    var texto = elemento.textContent.toLowerCase();
+
+    if (texto.includes(searchTerm)) {
+      resultados.push(elemento);
+    }
+  }
+
+  return resultados;
+}
+
+function mostrarResultados(resultados) {
+  for (var i = 0; i < resultados.length; i++) {
+    var resultado = resultados[i];
+    var texto = resultado.textContent;
+
+    var spanResaltado = document.createElement('span');
+    spanResaltado.classList.add('resaltado');
+    spanResaltado.textContent = texto;
+
+    resultado.innerHTML = '';
+    resultado.appendChild(spanResaltado);
+
+    resultado.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+}
+
+function mostrarAlerta(mensaje) {
+  var alertaModalBody = document.getElementById('alertaModalBody');
+  alertaModalBody.textContent = mensaje;
+
+  var alertaModal = new bootstrap.Modal(document.getElementById('alertaModal'), { backdrop: 'static' });
+  alertaModal.show();
+}
+// Estilo CSS para resaltar el texto
+// var css = '.resaltado { background-color: yellow; }';
+// var style = document.createElement('style');
+// style.type = 'text/css';
+// style.appendChild(document.createTextNode(css));
+// document.head.appendChild(style);
