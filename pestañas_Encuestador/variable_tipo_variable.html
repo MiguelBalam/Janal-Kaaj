@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tipos de Variables</title>
+    <title>Crear Variable</title>
     <link rel="stylesheet" href="../CSS/bootstrap.min.css">
     <link rel="stylesheet" href="../CSS/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -28,7 +28,7 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/login.html">Login</a>
+                        <a class="nav-link active" aria-current="page" href="../login.html">Login</a>
                     </li>
                 </ul>
             </div>
@@ -41,45 +41,62 @@
 
             <div class="card col-sm-7 p-3 shadow-lg mb-5 bg-white rounded">
 
-                <h1 class="bg-text-black text-center p-3 text-uppercase text-black">Variables Creadas</h1>
-
-                <div class="row mb-4">
-
-                    <div class=" col-sm-12 col-form-label px-5" data-bs-spy="scroll">
-                        <div class="card-header ">
-                            Seleccione las variables
+                <h1 class="bg-text-black text-center p-3 text-uppercase text-black">Editar variable</h1>
+                <form id="formulario" action="">
+                    <div class="row mb-4">
+                        <label class="col-sm-4 col-form-label px-5">Nombre: </label>
+                        <div class="col-sm-8">
+                            <input id="NomV" type="text" class="form-control">
                         </div>
-                        <div class="p-3">
+                    </div>
 
+                    <div class="row mb-4">
+                        <label class="col-sm-4 col-form-label px-5">Sigla: </label>
+                        <div class="col-sm-8">
+                            <input id="SiglaV" type="text" class="form-control">
+                        </div>
+                    </div>
 
+                    <div class="row mb-4">
+                        <label class="col-sm-4 col-form-label px-5">Descripción: </label>
+                        <div class="col-sm-8">
+                            <input id="desV" type="text" class="form-control">
+  
+
+                    <div class= "col-sm-1" ></div>
+                    </div>
+                </form>
+                    <div class="row mb-4">
+                2 text-center">
+                        <button type="button" class="btn btn-outline-success bg-border-mostaza bg-text-mostaza"
+                            onclick="CrearVariable(),notiCrearVariables(),limpiarFormulario(),habilitarbtn2()" 
+                            id="boton_crear_variable">Modificar</button>
+
+                        <button type="button" class="btn btn-outline-success bg-border-mostaza bg-text-mostaza"
+                        onclick="window.location.href='../pestañas_Encuestador/crear_Evariables.html'"
+                            id="boton_guardar_variable" >Guardar</button>
+
+                        <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza"
+                            onclick="return cancelar3()" class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" id="boton_cancelar">Cancelar</button>
+                    </div>
+
+                </div>
+
+                <h3 class="bg-text-black text-center p-3 text-uppercase text-black">Vista Previa Variables</h3>
+
+                <div class=" col-sm-12 col-form-label px-5">
+                <div class="card-header ">
+                    Variables de la encuesta
+                    <div class="container">
+                        <div class="row">
                             <div id="salidaVarC"></div>
-
-
-                            <!-- <div class="col-md-3 text-center">
-                                <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza"
-                                    onclick="location.href='../pestañas_Encuestador/reactivos.html'"
-                                    id="boton_crear"><img src="../Img/borrar.png" height="18px" width="18px"> </button>
-                            </div>
-
-                            <div class="col-md-3 text-center">
-                                <button type="button" onclick="" class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" 
-                                id="boton_editar">Editar</button> -->
-
-                                <div class="row mb-4">
-
-                                    <div class="col-sm-12 text-center">
-                                        <button onclick="window.location.href='../pestañas_Encuestador/crear_Evariables.html'"  class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" id="boton_volver">Guardar</button>
-                                        <!-- <button onclick="Variables()" class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" id="boton_editar">Editar</button> -->
-                                        <!-- <button onclick="activar()" class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" id="guardarV">Guardar</button> -->
-                                    </div>
-        
-                                </div>
-
                         </div>
                     </div>
                 </div>
-            </div>
 
+            </div>
+                
+            </div>
     </div>
     </section>
     </div>
@@ -87,8 +104,6 @@
     <link rel="stylesheet" href="../node_modules/@sweetalert2/themes/bootstrap-4/bootstrap-4.min.css">
     <script src="../node_modules/sweetalert2/dist/sweetalert2.all.js"></script>
     <script src="../CSS/SweetAlert.js"></script>
-
-
 </body>
 
 </html>

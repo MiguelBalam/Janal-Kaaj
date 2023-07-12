@@ -1,6 +1,7 @@
 var url = window.location.href;
 var swLocation = '/Janal-Kaaj/sw.js';
 
+
 if (navigator.serviceWorker){
 
   if (url.includes('localhost')){
@@ -37,7 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
         
         ObjectStore = db.createObjectStore("Usuario", { keyPath : 'id', autoIncrement: true});
         ObjectStore.createIndex("Nombre","Nombre",{unique:true});
-        ObjectStore = db.createObjectStore("relacionReactivo", { keyPath:"correo", autoIncrement: true});
+      
 
         //Noticias
         ObjectStore = db.createObjectStore('Noticias', {keyPath:'id', autoIncrement: true});
@@ -54,6 +55,9 @@ document.addEventListener('DOMContentLoaded', () => {
         ObjectStore.createIndex("encuestaId","",{unique:true});
         ObjectStore=db.createObjectStore("Autenticasion",{keyPath:"correo", autoIncrement: true});
         ObjectStore.createIndex("correo","correo",{unique:true});
+
+        ObjectStore = db.createObjectStore("EncuestaVariablesFinal", {autoIncrement: true});
+        ObjectStore.createIndex("encuestaVarId","encuestaVarId",{unique:true});
 
         db.createObjectStore("Encuestado",{autoIncrement: true});
         db.createObjectStore("Localidad", {autoIncrement: true});
@@ -85,48 +89,70 @@ document.addEventListener('DOMContentLoaded', () => {
 
         ObjectStore=db.createObjectStore("preguntaReactivos", {keypth:"idPreg",autoIncrement: true});
         ObjectStore.createIndex("Encuesta_Id","Encuesta_Id", {unique: true});
-        ObjectStore=db.createObjectStore("selecVariables", {autoIncrement: true});
-        //ObjectStoreReac=db.createObjectStore("Categorias", {autoIncrement: true});
+      
         ObjectStore = db.createObjectStore("predeSelec", {autoIncrement: true});
-        //ObjectStore.createIndex("Categoria","Categoria",{unique:true});
+
+       
+
         
         ObjectStore= db.createObjectStore("Variables", {autoIncrement: true});
         ObjectStore.createIndex("NombreVar","NombreVar", {unique: true});
-        ObjectStore= db.createObjectStore("Variables2", {autoIncrement: true});
-        ObjectStore.createIndex("NombreVar2","NombreVar2", {unique: true});
+      
+        ObjectStore= db.createObjectStore("Encuesta_Variables", {keyPath:"IdV",autoIncrement: true});
+        ObjectStore.createIndex("encuestaVarId","encuestaVarId",{unique:true});
+        ObjectStore.createIndex("fechaCreacionE","fechaCreacionE",{unique:true});
+        ObjectStore.createIndex("EncuestaTitulo","Titulo",{unique:true});
+        ObjectStore.createIndex("EncuestaObjetivoV","Objetivo",{unique:true});
+        ObjectStore.createIndex("EncuestaInstruccionV","Instrucciones",{unique:true});
 
-        ObjectStore= db.createObjectStore("Encuesta_Variables", {autoIncrement: true});
-        ObjectStore.createIndex("Titulo","Titulo",{unique:true});
-        ObjectStore= db.createObjectStore("VariableC", {keyPath:"creV",autoIncrement: true});
+        ObjectStore= db.createObjectStore("VariableC", {keyPath:'id',autoIncrement: true});
 
+        ObjectStore=db.createObjectStore("selecVariables", {keypth:"VarId",autoIncrement: true});
+        ObjectStore=db.createObjectStore("selecVariablesCre", {keypth:"VarId",autoIncrement: true});
         console.log('upgrade',db);
        
     });
-    
-    //sube la imagen a la base de datos
-			
-    
-    document.addEventListener('DOMContentLoaded', function() {
-      obtenerValorYVerificarLabel();
-      obtenerValorTd();
-      console.log("triste");
-    });
+       
+  
     //funciones para cursores
     DBOpenReq.addEventListener('success',(ev)=>{
      
       db= ev.target.result;
-      //EncaEncuestaVista()
-      buscarE()
-     // buscarEVar()
-     mostrarEncuesta()
-     
-     EncuestaVistaPV2()
+      Encuesta1()
+      mostrarEncuesta()
       buscar()
-      buscarEVar()
+      buscarE()
+      EncuestaVistaPV2()
+     reactivoscrear()
+
+      buscarVar()
+      mostrarEncuestaDatos()
+      mostrarEncuestaVar()
+    //  EncuestaVistaVariables()
+      Variables()
       mostrarEncuestaV() 
+    
+     
+      mostrarVarSelec()
+      buscarV()
       
+     
+      //EncaEncuestaVista()
+      // buscarE()
+     // buscarEVar()
+    //  mostrarEncuesta()
+    
+  
+    
+     buildList()
+   
+      // buscar()
+    
+     
+      buscarEVar()
+     
      //mostrarPreguntas();
-      reactivoscrear()
+ 
     
      
     // EncuestaVistaP()
@@ -142,27 +168,12 @@ document.addEventListener('DOMContentLoaded', () => {
      
        mostrarPreguntas();
      
-      Encuesta1()
-      EncuestaV()
-      Variables()
-  
-  
-
-      // buscarVar()
-      // buscarVar2()
-      // busVaC()
-      //buildList()
-      buildList()
     
+  
+   
+      // Encuesta1()
+      EncuestaV()
       
-     // buscarLista();
-      
-      
-     // buscarLista(); 
-      //buildList()
-      //BusVa()
-      
-     // refrescarAlmacen()
     });
 //Subir Noticas
 
@@ -267,7 +278,7 @@ function guardarDatos(titulo, cuerpo, imagen) {
         var genero1 = document.getElementById('inlineRadio1');
         var genero2 = document.getElementById('inlineRadio2');
         var Edad= document.getElementById('edad').value.trim();
-        var Proce= document.getElementById('procedencia').value.trim();
+        // var Proce= document.getElementById('procedencia').value.trim();
         var Telefono = document.getElementById('tel').value.trim();
         // var localidad =document.getElementById('localidad').value.trim();
         // var ciudad =document.getElementById('cuidad').value.trim();
@@ -296,9 +307,10 @@ function guardarDatos(titulo, cuerpo, imagen) {
             Contrasenia,
             Contrasenia2
             }
-            let Encuestador = {
-              Proce
-                 }
+            // let Encuestador = {
+            //   Proce
+
+            //      }
              
         
         let tx = makeTX('Usuario','readwrite');
@@ -1049,45 +1061,7 @@ function manejadorValidacion(e) {
        }
 
     }
-    //mostrar los reactivos predetermiandos a la vista previa
-  /*   function ReacPredeVista(){
-      var cadena ="<table class= 'table table-bordered'>";
-       //cadena += "";
-       var num =0;
-       var id_array = new Array();
 
-       //leer cursor
-       var objectStore = db.transaction("predeSelec").objectStore("predeSelec");
-       objectStore.openCursor().onsuccess= function(e){
-        var cursor = e.target.result;
-        if(cursor){
-          id = cursor.value.idP;
-          //cadena += "";
-          cadena += "<tr>";
-          //cadena +="<td><input type ='checkbox' id='s"+id+"'></input></td>";
-          cadena +="<td>"+cursor.value.idP+"</td>";
-          cadena += "<tr>";
-          //cadena += "<td>+<button id='m"+Descripcion+"'>Seleccionar</button></td></tr>";
-          id_array.push(id);
-          num ++;
-          //continuamos siguiente objeto
-          cursor.continue();
-
-        }else{
-          cadena += "</table>";
-          document.getElementById("salidapredeSelec2").innerHTML = cadena;
-
-          // for(var i=0; i<id_array.length; i++){
-          //   document.getElementById("s"+id).onclick= selec;
-          //   id = id_array[i];
-          //   //document.getElementById("m"+id).onclick= Editar;
-
-          // }
-        }
-       }
-
-    } */
- 
 
     function EncuestaVistaPV2(){
       var transaction = db.transaction(["Encuesta"], "readwrite");
@@ -1116,14 +1090,6 @@ function manejadorValidacion(e) {
         cursor.continue();
       }
       else {
-      //   cadena += "<tr>";
-      //   //cadena +="<td><input type ='checkbox' id='s"+id+"'></input></td>";
-      //   cadena +="<td> Titulo: "+newestItem+"</td>"; cadena += "<tr>";
-      //   cadena +="<td> Objetivo: "+newestItem2+"</td>"; cadena += "<tr>";
-      //   cadena +="<td> Instrucciones: "+newestItem3+"</td>"; cadena += "<tr>";
-      // //  cadena += "<tr>"; cadena +="<td> Objetivo: "+Objetivo+"</td>"; cadena += "<tr>";
-      //   //cadena += "<tr>"; cadena +="<td> Instrucciones: "+newestItem3+"</td>";
-      //   cadena += "<tr>";
         var cadena ="<table>";
         cadena += "<table class='table'>";
         cadena += "<div class='row'>";
@@ -1209,19 +1175,22 @@ function manejadorValidacion(e) {
    
    }
    
+  
    function selecVariables(e){
 
              console.log("seleccionar",e);
              var id= e.target.id;
              var llave = id;
-            //  console.log(id,llave);
+            //console.log(llave);
            
              if(confirm(llave)){
                var tx =db.transaction("selecVariables","readwrite");
                var objectStore = tx.objectStore("selecVariables");
-               var request = objectStore.add(llave );
-   
+               var request = objectStore.add({idV2:llave,fechaCreacion: Date.now()} );
+             
                request.onsuccess =function(){
+                mostrarVarSelec()
+                mostrarEncuestaVar()
               //  console.log(llave)
                };
           
@@ -1230,230 +1199,47 @@ function manejadorValidacion(e) {
             //  activarGuardar();
          }
 
+        //  function mostrarVariablesSeleccionadas() {
+        //   var transaction = db.transaction("selecVariables", "readonly");
+        //   var store = transaction.objectStore("selecVariables");
+        
+        //   store.openCursor().onsuccess = function (event) {
+        //     var cursor = event.target.result;
+        
+        //     if (cursor) {
+        //       console.log(cursor.value);
+        //       cursor.continue();
+        //     }
+        //   };
+        // }
 // salida de tipos encuesta
 //mostrar 
 //-----------------------------------------------------------------------------------------------------------------------
-      //    function buscarE(){ 
-      //     var cadena ="<table class= 'table table-bordered'>";
-      //     var cadena = "";
-      //     cadena += "";
-      //     var num =0;
-      //     var id_array = new Array();
+function mostrarVarSelec() {
+  var cadena = "<table class='table table-bordered'>";
+  var lastTimestamp = Date.now();
 
-      //     //leer cursor
-      //     var objectStore = db.transaction("Encuesta").objectStore("Encuesta");
-      //     objectStore.openCursor().onsuccess= function(e){
-            
-      //      var cursor = e.target.result;
-      //      if(cursor){
-      //        Descripcion = cursor.value.Titulo;
-      //        cadena += "";
-             
-      //        //cadena += "<div class= 'modal fade' id='mymodal3' tabindex='-1' aria-labelledby='mymodal3' aria-modal='true' style='display: none;' aria-modal='true' role='dialog'><div class='modal-dialog modal-dialog-centered modal-dialog-scrollable'><div class='modal-content'></div></div></div>";
-      //       cadena += "<button data-bs-toggle='modal' data-bs-target='#mymodal' ><img src=../Img/Form1.png width=200px height=320px></button>";
-      //       //cadena += "<label>"+cursor.value.Titulo+"</label>"
-      //       cadena += "<div class='p-3'> <label>"+cursor.value.Titulo+"</label></div>"
-      //       //cadena += "<div class='p-3'> <button onclick='location.href='../pestañas_Encuestador/EncuestaApi.html'>"+cursor.value.Instrucciones+"</button></div>"
-      //        //cadena += "<td>+<button id='m"+Descripcion+"'>Seleccionar</button></td></tr>";
-      //        cadena += "<tr>";
-      //        id_array.push(Descripcion);
-      //        num ++;
-      //        //continuamos siguiente objeto
-      //        cursor.continue();
+  var objectStore = db.transaction("selecVariables").objectStore("selecVariables");
+  objectStore.openCursor().onsuccess = function (e) {
+    var cursor = e.target.result;
+    if (cursor) {
+      var item = cursor.value;
+      var timestamp = Date.now();
 
-      //      }else{
-      //        cadena += "";
-      //        cadena += "</table>"
-      //        document.getElementById("crear_encuesta").innerHTML = cadena;
-
-      //        for(var i=0; i<id_array.length; i++){
-      //          id = id_array[i];
-      //          //document.getElementById("m"+id).onclick= Editar;
-
-      //        }
-      //      }
-      //     };
-   
-      //  }
-
-      // function buscarE() {
-      //   var cadena = "<table class='table table-bordered'>";
-      //   var num = 0;
-      //   var id_array = new Array();
+      if (timestamp > lastTimestamp) {
+        cadena += "<tr>";
+        cadena += "<td>" + item.idV2 + "</td>";
+        cadena += "</tr>";
+      }
       
-      //   // Leer cursor
-      //   var objectStore = db.transaction("Encuesta").objectStore("Encuesta");
-      //   objectStore.openCursor().onsuccess = function(e) {
-      //     var cursor = e.target.result;
-      //     if (cursor) {
-      //      // var encuestaId = cursor.; // Obtener el ID de la encuesta
-      //       var descripcion = cursor.value.Titulo;
-      //       cadena += "<tr>";
-      //       cadena += "<td><button data-encuesta-id='' class='ver-formulario-btn'>Ver formulario</button></td>";
-      //       cadena += "<td>" + cursor.value.Titulo + "</td>";
-      //       cadena += "</tr>";
-      //       id_array.push(encuestaId);
-      //       num++;
-      //       // Continuamos con el siguiente objeto
-      //       cursor.continue();
-      //     } else {
-      //       cadena += "</table>";
-      //       document.getElementById("crear_encuesta").innerHTML = cadena;
-      
-      //       // Agrega el evento click a los botones "Ver formulario"
-      //       var btns = document.getElementsByClassName("ver-formulario-btn");
-      //       for (var i = 0; i < btns.length; i++) {
-      //         btns[i].addEventListener("click", function(event) {
-      //           var IdEn = event.target.getAttribute("data-encuesta-id");
-      //           abrirPestanaConFormulario(IdEn);
-      //         });
-      //       }
-      //     }
-      //   };
-      // }
-      
-      // function abrirPestanaConFormulario(IdEn) {
-      //   // Abre una nueva pestaña
-      //   var nuevaPestana = window.open("", "_blank");
-      
-      //   // Construye el contenido del formulario en la nueva pestaña
-      //   var contenidoHTML = "<h2>Título de la Encuesta</h2>";
-      
-      //   // Obtiene el título de la encuesta
-      //   var transaction = db.transaction("Encuesta", "readonly");
-      //   var encuestaObjectStore = transaction.objectStore("Encuesta");
-      //   var encuestaRequest = encuestaObjectStore.get(IdEn);
-      
-      //   encuestaRequest.onsuccess = function(event) {
-      //     var encuesta = event.target.result;
-      //     if (encuesta) {
-      //       contenidoHTML += "<p>" + encuesta.Titulo + "</p>";
-      
-      //       // Filtra los reactivos correspondientes a la encuesta
-      //       var reactivosObjectStore = db.transaction("EncuestaFinal", "readonly").objectStore("EncuestaFinal");
-      //       var reactivosRequest = reactivosObjectStore.getAll();
-      
-      //       reactivosRequest.onsuccess = function(event) {
-      //         var reactivos = event.target.result;
-      //         if (reactivos) {
-      //           var reactivosFiltrados = reactivos.filter(function(reactivo) {
-      //             return reactivo.encuestaId === IdEn;
-      //           });
-      
-      //           reactivosFiltrados.forEach(function(reactivo) {
-      //             contenidoHTML += "<label for='reactivo" + reactivo.reactivoId + "'>Reactivo " + reactivo.reactivoId + "</label>";
-      //             contenidoHTML += "<input type='checkbox' id='reactivo" + reactivo.reactivoId + "' name='reactivo" + reactivo.reactivoId + "'><br>";
-      //           });
-      
-      //           // Inserta el formulario en la nueva pestaña
-      //           nuevaPestana.document.open();
-      //           nuevaPestana.document.write(contenidoHTML);
-      //           nuevaPestana.document.close();
-      //         }
-      //       };
-      //     }
-      //   };
-      // }
-      
-      // function abrirPestanaConFormulario(IdEn) {
-      //   // Abre una nueva pestaña
-      //   var nuevaPestana = window.open("", "_blank");
-      
-      //   // Construye el contenido del formulario en la nueva pestaña
-      //   var contenidoHTML = "<h2>Título de la Encuesta</h2>";
-      
-      //   // Obtiene el título de la encuesta
-      //   var transaction = db.transaction("Encuesta", "readonly");
-      //   var encuestaObjectStore = transaction.objectStore("Encuesta");
-      //   var encuestaRequest = encuestaObjectStore.get(IdEn);
-      
-      //   encuestaRequest.onsuccess = function(event) {
-      //     var encuesta = event.target.result;
-      //     if (encuesta) {
-      //       contenidoHTML += "<p>" + encuesta.Titulo + "</p>";
-      
-      //       // Filtra los reactivos correspondientes a la encuesta
-      //       var reactivosObjectStore = db.transaction("EncuestaFinal", "readonly").objectStore("EncuestaFinal");
-      //       var reactivosRequest = reactivosObjectStore.getAll();
-      
-      //       reactivosRequest.onsuccess = function(event) {
-      //         var reactivos = event.target.result;
-      //         if (reactivos) {
-      //           var reactivosFiltrados = reactivos.filter(function(reactivo) {
-      //             return reactivo.encuestaId === IdEn;
-      //           });
-      
-      //           reactivosFiltrados.forEach(function(reactivo) {
-      //             contenidoHTML += "<label for='reactivo" + reactivo.reactivoId + "'>Reactivo " + reactivo.reactivoId + "</label>";
-      //             contenidoHTML += "<input type='checkbox' id='reactivo" + reactivo.reactivoId + "' name='reactivo" + reactivo.reactivoId + "'><br>";
-      //           });
-      
-      //           // Inserta el formulario en la nueva pestaña
-      //           nuevaPestana.document.open();
-      //           nuevaPestana.document.write(contenidoHTML);
-      //           nuevaPestana.document.close();
-      //         }
-      //       };
-      //     }
-      //   };
-      // }
-      // function buscarE() {
-      //   var cadena = "<table class='table table-bordered'>";
-      //   var objectStore = db.transaction("Encuesta").objectStore("Encuesta");
-      //   objectStore.openCursor().onsuccess = function(e) {
-      //     var cursor = e.target.result;
-      //     if (cursor) {
-      //       var encuestaId = cursor.value.IdEn;
-      //       var descripcion = cursor.value.Titulo;
-      //       cadena += "<tr>";
-      //       cadena += "<td><button data-encuesta-id='" + encuestaId + "' class='ver-formulario-btn'>Ver formulario</button></td>";
-      //       cadena += "<td>" + descripcion + "</td>";
-      //       cadena += "</tr>";
-      //       cursor.continue();
-      //     } else {
-      //       cadena += "</table>";
-      //       document.getElementById("crear_encuesta").innerHTML = cadena;
-  
-      //       var btns = document.getElementsByClassName("ver-formulario-btn");
-      //       for (var i = 0; i < btns.length; i++) {
-      //         btns[i].addEventListener("click", function(event) {
-      //           var IdEn = event.target.getAttribute("data-encuesta-id");
-      //           abrirPestanaConFormulario(IdEn);
-      //         });
-      //       }
-      //     }
-      //   };
-      // }
-  
-
-      // function buscarE() {
-      //   var cadena = "<table class='table table-bordered'>";
-      //   var objectStore = db.transaction("Encuesta").objectStore("Encuesta");
-      //   objectStore.openCursor().onsuccess = function(e) {
-      //     var cursor = e.target.result;
-      //     if (cursor) {
-      //       var encuestaId = cursor.value.IdEn;
-      //       var descripcion = cursor.value.Titulo;
-      //       cadena += "<tr>";
-      //       cadena += "<td><button data-encuesta-id='" + encuestaId + "' class='ver-formulario-btn'>Ver formulario</button></td>";
-      //       cadena += "<td>" + descripcion + "</td>";
-      //       cadena += "</tr>";
-      //       cursor.continue();
-      //     } else {
-      //       cadena += "</table>";
-      //       document.getElementById("crear_encuesta").innerHTML = cadena;
-  
-      //       var btns = document.getElementsByClassName("ver-formulario-btn");
-      //       for (var i = 0; i < btns.length; i++) {
-      //         btns[i].addEventListener("click", function(event) {
-      //           var IdEn = event.target.getAttribute("data-encuesta-id");
-      //           abrirPestanaConFormulario(IdEn);
-      //         });
-      //       }
-      //     }
-      //   };
-      // }
-
+      cursor.continue();
+    } else {
+      cadena += "</table>";
+      document.getElementById("VariablesSeleccionadas").innerHTML = cadena;
+    }
+  };
+  mostrarEncuestaVar()
+}
 
       function buscarE() {
         var cadena = "<table class='table table-bordered'>";
@@ -1499,45 +1285,6 @@ function manejadorValidacion(e) {
         window.location.href = "../pestañas_Encuestador/EncuestaApi.html";
       }
       
-    
-
-      // Función para abrir una nueva pestaña con el formulario de la encuesta
-      // function abrirPestanaConFormulario(IdEn) {
-      //   var nuevaPestana = window.open("", "_blank");
-      //   var contenidoHTML = "<h2></h2>";
-  
-      //   var transaction = db.transaction("Encuesta", "readonly");
-      //   var encuestaObjectStore = transaction.objectStore("Encuesta");
-      //   var encuestaRequest = encuestaObjectStore.get(parseInt(IdEn));
-  
-      //   encuestaRequest.onsuccess = function(event) {
-      //     var encuesta = event.target.result;
-      //     if (encuesta) {
-      //       contenidoHTML += "<p>" + encuesta.Titulo + "</p>";
-  
-      //       var reactivosObjectStore = db.transaction("EncuestaFinal", "readonly").objectStore("EncuestaFinal");
-      //       var reactivosRequest = reactivosObjectStore.getAll();
-  
-      //       reactivosRequest.onsuccess = function(event) {
-      //         var reactivos = event.target.result;
-      //         if (reactivos) {
-      //           var reactivosFiltrados = reactivos.filter(function(reactivo) {
-      //             return reactivo.encuestaId === parseInt(IdEn);
-      //           });
-  
-      //           reactivosFiltrados.forEach(function(reactivo) {
-      //             contenidoHTML += "<label class= 'bg-text-black text-center p-3 text-uppercase text-black' for='reactivo" + reactivo.reactivoId + "'>Reactivo " + reactivo.reactivoId + "</label>";
-      //             contenidoHTML += "<input class='form-control' type='text' id='reactivo" + reactivo.reactivoId + "' name='reactivo" + reactivo.reactivoId + "'><br>";
-      //           });
-  
-      //           nuevaPestana.document.open();
-      //           nuevaPestana.document.write(contenidoHTML);
-      //           nuevaPestana.document.close();
-      //         }
-      //       };
-      //     }
-      //   };
-      // }
 
       function abrirPestanaConFormulario(IdEn) {
         var nuevaPestana = window.open("", "_blank");
@@ -1618,110 +1365,9 @@ function manejadorValidacion(e) {
         window.location.href = "../pestañas_Encuestador/EncuestaFinalVariable.html";
       }
 
-      //  function buscarVar(){
-      //   var cadena ="<table class= 'table table-bordered'>";
-      //   var num= 0;
-      //   var ids_array = new Array();
-      //   var objectStore = db.transaction("VariableC").objectStore("VariableC");
-      //   objectStore.openCursor().onsuccess = function(e){
-      //     var cursor = e.target.result;
-      //     if(cursor){
-      //       creV= cursor.value.creV;
-      //       cadena += "<tr>";
-      //       //cadena +="<td><input type ='checkbox' id='s"+id+"'></input></td>";
-      //       cadena +="<td>"+cursor.value.creV+"</td>";
-      //       cadena += "<td><button class='btn btn-outline-success bg-border-mostaza bg-text-mostaza' id= 'bo"+creV+"'><img src='../Img/borrar.png' height='18px width='18px'></button></td>";
-      //       //cadena += "<td><button id= 'e"+id+"'>Editar</button></td>"
-      //       //cadena +="<td><button id='m"+id+"'<img src='../Img/edit.svg'  height='18px'width='18px'>></button></td>";
-      //       cadena += "</tr>";
-      //       ids_array.push(creV);
-      //       num++;
-      //       cursor.continue();
-      
-      //     }else{
-      //       cadena += "</table>"
-      //       document.getElementById("salidaVarC").innerHTML = cadena;
-      
-      //       for(var i=0; i<ids_array.length; i++){
-      //         creV = ids_array[i];
-      //         //document.getElementById("s"+id).onclick= selec;
-      //         document.getElementById("bo"+id).onclick= borrarV;
-      //       }
-      //     }
-         
-      // }
-      // function borrarV(e){
-      //   console.log ('borrar',e)
-      //   var creV = e.target.creV;
-      //   var seguro = creV.substr(1)
-      
-      //   console.log(creV,seguro);
-      //   if(seguro){
-      //     var tx= db.transaction('VariableC','readwrite')
-      //     var objectStore =tx.objectStore('VariableC')
-      //     var request= objectStore.delete(seguro);
-          
-      //   request.onsuccess =function (e){
-      //     alert("eliminado"+seguro)
-         
-      //   }
-      
-      //   }
-      //   buscarVar()
-       
-      //   }
-        
-      // }
+     
 //-----------------------------------------------------------------------------------------------------------------------
-      function buscarVar2(){
-        var cadena ="<table class= 'table table-bordered'>";
-        var num= 0;
-        var ids_array = new Array();
-        var objectStore = db.transaction("VariableC").objectStore("VariableC");
-
-        cadena +=  "<thead>";
-
-        cadena += "<tr>";
-        cadena +="<th scope='col' >Nombre</th>";
-        cadena +="<th scope='col' >Sigla</th>";
-        cadena +="<th scope='col' >Descripción</th>";
-        cadena += "</tr>";
-        cadena +=  "</thead>";
-        objectStore.openCursor().onsuccess = function(e){
-          var cursor2 = e.target.result;
-          
-          if(cursor2){
-            creV= cursor2.value.creV;
-            sigla = cursor2.value.sigla;
-            descripcion = cursor2.value.descripcion;
-            
-            cadena += "<tr>";
-            // cadena +="<td><input type ='checkbox' id='s"+creV+"'></input></td>";
-            cadena +="<td>"+cursor2.value.creV+"</td>";
-            cadena +="<td>"+cursor2.value.sigla+"</td>";
-            cadena +="<td>"+cursor2.value.descripcion+"</td>";
-            // cadena += "<td><button class='btn btn-outline-success bg-border-mostaza bg-text-mostaza' id= 'b"+creV+"'><img src='../Img/borrar.png' height='18px width='18px'></button></td>";
-            // cadena += "<td><button class='btn btn-outline-success bg-border-mostaza bg-text-mostaza' id= 'e"+creV+"'><img src='../Img/edit.svg' height='18px width='18px'></button></td>";
-            //cadena +="<td><button id='m"+id+"'<img src='../Img/edit.svg'  height='18px'width='18px'>></button></td>";
-            cadena += "</tr>";
-            ids_array.push(creV);
-            num++;
-            cursor2.continue();
-      
-          }else{
-            cadena += "</table>"
-            document.getElementById("salidaVarC2").innerHTML = cadena;
-      
-            for(var i=0; i<ids_array.length; i++){
-              id = ids_array[i];
-              document.getElementById("s"+id).onclick= selec;
-              document.getElementById("e"+id).onclick= modificar;
-              document.getElementById("b"+id).onclick= borrar;
-            }
-          }
-         
-    }
-      }
+     
 
     
       //Crear encuesta variable
@@ -1736,11 +1382,12 @@ function manejadorValidacion(e) {
       form.addEventListener('submit', function(eve){
       eve.preventDefault();
       var request = db.transaction(["Encuesta_Variables"], "readwrite").objectStore("Encuesta_Variables")
-      .add({Titulo:titulo, Objetivo:Objetivo, Instrucciones:Instrucciones});
+      .add({Titulo:titulo, Objetivo:Objetivo, Instrucciones:Instrucciones,fechaCreacionV:value=Date.now()});
 
       request.onsuccess = function(e){
-      
-         console.log(e);
+        var encuestaId = e.target.result
+        console.log("ID de la encuesta: ", encuestaId);
+        // console.log(e);
          alert("se inserto los datos");    
       };
       if(titulo.value === null ||  titulo.value === ''){
@@ -1755,73 +1402,11 @@ function manejadorValidacion(e) {
       return false;
 
     })
+    mostrarEncuestaDatos()
+   // EncuestaVistaVariables();
         //validarER() 
        }
-// crear encuesta reactivos ------------------------------------------------------------------------------
-        // function CrearEncuesta() {
-        
-        //   var Titulo = document.getElementById("Titulo").value.trim();
-        //   var Objetivo = document.getElementById("floatingTextarea2").value.trim();
-        //   var Instrucciones = document.getElementById('floatingTextarea21').value.trim();
 
-
-        //   // Variable form confirmar funcionamiento
-        //   // var form = document.getElementById('formularioR');
-
-        // // form.addEventListener('submit', function(eve){
-        // // eve.preventDefault();
-        // var request = db.transaction(["Encuesta"], "readwrite").objectStore("Encuesta")
-        // .add({Titulo:Titulo, Objetivo:Objetivo, Instrucciones:Instrucciones});
-
-        // request.onsuccess = function(e){
-        
-        //    console.log(e);
-        //    alert("Datos insertados", request.result);
-        //   //  buscar();
-        //   //  buscar2();
-        //   //  buscarE();   
-        // };
-        // if(Titulo.value === null ||  Titulo.value === ''){
-        //   alert("Ingrese un titulo");
-        // }
-        // if(Objetivo.value === null ||  Objetivo.value === ''){
-        //   alert("Ingrese un Objetivo");
-        // }
-        // if(Instrucciones.value === null ||  Instrucciones.value === ''){
-        //   alert("Ingrese Instrucciones");
-        // } 
-        // return false;
-
-
-      
-        //   //validarER() 
-        //  }
-        
-      // function relacionReactivo(){
-      
-      // var correo = document.getElementById('Usuario').value;
-      
-      // var request = db.transaction(["relacionReactivo"], "readwrite").objectStore("relacionReactivo").put({correo:correo});
-      
-
-      // request.onsuccess = function(e){
-      //  if (correo == request.value.correo){
-      //   relacionReactivo (window.location.href='../pestañas_Encuestador/crear.html')
-      //  }
-      // //   var request2 = db.transaction(["relacionReactivo"], "readwrite").objectStore("relacionReactivo")
-      // // .put({idR})
-      // // var idR = document.getElementById("ReactivoCre").value.trim();
-      // // request2.onsuccess = function(e){
-        
-      // //   console.log(e);
-      
-      // // }
-      // //   console.log(e);
-      
-      // }
-     
- 
-      // }
          function CrearReactivo(){
           //control();
           // var url_string = window.location.href="/pestañas_Encuestador/reactivo_crear_reactivos.html"; //
@@ -1939,11 +1524,12 @@ function manejadorValidacion(e) {
 //-----------------------------------------------------------------------------------------------------------------------
 //crear una nueva variable
     function CrearVariable(){
-      var creV = document.getElementById("NomV").value.trim();
+      var id = document.getElementById("NomV").value.trim();
       var sigla = document.getElementById("SiglaV").value.trim();
       var descripcion = document.getElementById("desV").value.trim();
-      let CrearV = {
-       creV,
+      
+      var CrearV = {
+       id,
        sigla,
         descripcion,
         
@@ -2014,7 +1600,6 @@ function manejadorValidacion(e) {
 
 
     var cadena ="<table class= 'table table-bordered'>";
-    
     var num= 0;
     var ids_array = new Array();
     var objectStore = db.transaction("VariableC").objectStore("VariableC");
@@ -2023,15 +1608,15 @@ function manejadorValidacion(e) {
     objectStore.openCursor().onsuccess = function(e){
       var cursor = e.target.result;
       if(cursor){
-        creV= cursor.value.creV;
+        id = cursor.value.id;
         cadena += "<tr>";
-        cadena +="<td><input type ='checkbox' id='s"+creV+"'></input></td>";
-        cadena +="<td>"+cursor.value.creV+"</td>";
-        cadena += "<td><button class='btn btn-outline-success bg-border-mostaza bg-text-mostaza' id= 'b"+creV+"'><img src='../Img/borrar.png' height='18px width='18px'></button></td>";
-        cadena += "<td><button class='btn btn-outline-success bg-border-mostaza bg-text-mostaza' id= 'e"+creV+"'><img src='../Img/edit.svg' height='18px width='18px'></button></td>";
+        cadena +="<td><input type ='checkbox' id='sV"+id+"'></input></td>";
+        cadena +="<td>"+cursor.value.id+"</td>";
+        cadena += "<td><button class='btn btn-outline-success bg-border-mostaza bg-text-mostaza' id= 'b"+id+"'><img src='../Img/borrar.png' height='18px width='18px'></button></td>";
+        cadena += "<td><button class='btn btn-outline-success bg-border-mostaza bg-text-mostaza' id= 'e"+id+"'><img src='../Img/edit.svg' height='18px width='18px'></button></td>";
         //cadena +="<td><button id='m"+id+"'<img src='../Img/edit.svg'  height='18px'width='18px'>></button></td>";
         cadena += "</tr>";
-        ids_array.push(creV);
+        ids_array.push(id);
         num++;
         cursor.continue();
   
@@ -2041,41 +1626,13 @@ function manejadorValidacion(e) {
   
         for(var i=0; i<ids_array.length; i++){
           id = ids_array[i];
-          document.getElementById("s"+id).onclick= selec;
+          document.getElementById("sV"+id).onclick= selecV;
           document.getElementById("e"+id).onclick= modificar;
           document.getElementById("b"+id).onclick= borrar;
         }
       }
     };
-      //   ObjectStore.openCursor().onsuccess = function(e){
-      //   var cursor = e.target.result;
-      //   if(cursor){
-      //     Nombre= cursor.value.Nombre;
-      //     cadena += "<tr>";
-      //     // cadena +="<td><input type ='checkbox' id='s"+Nombre+"'></input></td>";
-      //     cadena +="<td>"+cursor.value.Nombre+"</td>";
-      //     // cadena += "<td><button class='btn btn-outline-success bg-border-mostaza bg-text-mostaza' id= 'b"+creV+"'><img src='../Img/borrar.png' height='18px width='18px'></button></td>";
-      //     // cadena += "<td><button class='btn btn-outline-success bg-border-mostaza bg-text-mostaza' id= 'e"+creV+"'><img src='../Img/edit.svg' height='18px width='18px'></button></td>";
-      //     // //cadena +="<td><button id='m"+id+"'<img src='../Img/edit.svg'  height='18px'width='18px'>></button></td>";
-      //     // cadena += "</tr>";
-      //     ids_array.push(Nombre);
-      //     num++;
-      //     cursor.continue();
-    
-      //   }else{
-      //     cadena += "</table>"
-      //     document.getElementById("Prueba").innerHTML = cadena;
-    
-      //     // for(var i=0; i<ids_array.length; i++){
-      //     //   id = ids_array[i];
-      //     //   document.getElementById("s"+id).onclick= selec;
-      //     //   document.getElementById("e"+id).onclick= modificar;
-      //     //   document.getElementById("b"+id).onclick= borrar;
-      //     // }
-      //   }
 
-        
-      // }
 
 
 
@@ -2118,7 +1675,7 @@ function modificar(e){
   };
   request.onsuccess = function(e){
     if(request.result){
- document.getElementById("NomV").value= request.result.creV;
+ document.getElementById("NomV").value= request.result.id;
  document.getElementById("SiglaV").value= request.result.sigla;
  document.getElementById("desV").value= request.result.descripcion;
  activarGuardar();
@@ -2132,126 +1689,37 @@ else{
   }
 //selecionar las variables 
 //-----------------------------------------------------------------------------------------------------------------------
-function seleccionarvar(){
-  var cadena ="<table class= 'table table-bordered'>";
-  var num= 0;
-  var ids_array = new Array();
-  var objectStore = db.transaction("VariableC").objectStore("VariableC");
-  // var ObjectStore = db.transaction("Usuario").objectStore("Usuario");
 
-  objectStore.openCursor().onsuccess = function(e){
-    var cursor = e.target.result;
-    if(cursor){
-      creV= cursor.value.creV;
-      cadena += "<tr>";
-      cadena +="<td><input type ='checkbox' id='s"+creV+"'></input></td>";
-      cadena +="<td>"+cursor.value.creV+"</td>";
-      // cadena += "<td><button class='btn btn-outline-success bg-border-mostaza bg-text-mostaza' id= 'b"+creV+"'><img src='../Img/borrar.png' height='18px width='18px'></button></td>";
-      // cadena += "<td><button class='btn btn-outline-success bg-border-mostaza bg-text-mostaza' id= 'e"+creV+"'><img src='../Img/edit.svg' height='18px width='18px'></button></td>";
-      //cadena +="<td><button id='m"+id+"'<img src='../Img/edit.svg'  height='18px'width='18px'>></button></td>";
-      cadena += "</tr>";
-      ids_array.push(creV);
-      num++;
-      cursor.continue();
 
-    }else{
-      cadena += "</table>";
-      document.getElementById("salidaseleccionar").innerHTML = cadena;
+function selecV(e) {
+ 
+  var id = e.target.id.substring(2);
 
-      for(var i=0; i<ids_array.length; i++){
-        id = ids_array[i];
-        document.getElementById("s"+id).onclick= seleccionarr;
+  if (id) {
+ 
+    var tx = db.transaction(["VariableC", "selecVariablesCre"], "readwrite");
+    var objectStore = tx.objectStore("VariableC");
+    var storeOtroObjeto = tx.objectStore("selecVariablesCre");
+    var request = objectStore.get(id);
 
+    request.onsuccess = function (e) {
+      var variable = e.target.result;
+      if (variable) {
+        console.log("Elemento seleccionado: ", variable.id);
+        storeOtroObjeto.add({ idV2: variable.id,fechaCreacion: Date.now() });
+      } else {
+        console.log("No se encontró el objeto en el almacén 'VariableC'.");
       }
-    }
-  };
-
-}
-
-
-function seleccionarr(e){
-  // console.log("seleccionar",e);
-  var id= e.target.id;
-  var llave = id.substring(1);
-  // console.log(id,llave);
-
-  if(confirm(llave)){
-    var tx =db.transaction("Reactivos","readwrite");
-    var objectStore = tx.objectStore("Reactivos");
-    var request = objectStore.get(llave);
-    request.onsuccess =function(){
-      let  nombres = [llave];
-
-      for(var i=0; i<nombres.length; i++){
-        nom = nombres[i];
-        console.log(nom);
-      }
-     
     };
-  
   }
-  //  if(confirm(llave)){
-  //   var tx =db.transaction("preguntaReactivos","readwrite");
-  //   var objectStore = tx.objectStore("preguntaReactivos");
-  //   var request = objectStore.get(llave);
-  //   request.onsucces = function(){
-  //     alert("No se puede leer" +llave)
-  //   }
-  //  }
+
 }
+
+
+
 //-----------------------------------------------------------------------------------------------------
 
-        //request an insert/add
-// function buscarLista() {
-//   //use getAll to get an array of objects from our store
-//   var list2 = document.querySelector('.listV');
-//   list2.innerHTML = `<li>Loading...</li>`;
-//   var xt = db.transaction('VariableC', 'readwrite');
-//   xt.oncomplete = (ev) => {
-//     //transaction for reading all objects is complete
-//   };
-//   let object = xt.objectStore('VariableC');
-//   let req = object.getAll();
-//   //returns an array
-//   //option can pass in a key or a keyRange
-//   req.onsuccess = (ev) => {
-//     //getAll was successful
-//     var request2 = ev.target; //request === getReq === ev.target
-//     console.log({ request2 });
-//     list2.innerHTML = request2.result
-//       .map((CrearV) => {
-//         return `<li data-key="${CrearV.creV}"><span>${CrearV.creV}</span></li>`;
-//       })
-//       .join('\n');
-//   };
-//   req.onerror = (err) => {
-//     console.warn(err);
-//   };
-//   document.querySelector('.listV').addEventListener('click', (ev) => {
-//     var li2 = ev.target.closest('[data-key]');
-//     var creV = li2.getAttribute('data-key')  ;
-//     console.log(li2, creV);
 
-//     var xt = db.transaction('VariableC', 'readwrite');
-//     var object = xt.objectStore('VariableC');
-//     var req = object.get(creV);
-//     req.onsuccess = (ev) => {
-//       var request = ev.target.result;
-     
-//    document.getElementById("NomV").value= request.creV;
-//      document.getElementById("SiglaV").value= request.sigla;
-//      document.getElementById("desV").value= request.descripcion;
-//       //document.whiskeyForm.setAttribute('data-key', request.id);
-//     };
-//     req.onerror = (err) => {
-//       console.warn(err);
-//     }
-//   })
-//   buscarVar()
-//   busVaC()
-// }
-//busVaC()
-//mostrar pestaña variable_crear_variable pulsando boton guardar 
 function busVaC(){
   var columnas = parseInt(prompt("columnas"));
   var filas= parseInt(prompt("colum"));  
@@ -2484,32 +1952,7 @@ function ResOpMul(){
     })
    
     }
-          // Funcion para mostrar contenido de select 
 
-
-
-// //Guardamos en una variable 
-// var   idSelec = document.getElementById("respuestasSelec");
-// var pro = idSelec.options[idSelect.selectedIndex].value;
-// //Creamos un nodo de texto que agregaremos al div.
-// pro.addEventListener('change', 
-
-// function pro () {
-//   var proOpcion = this.options[pro.selectedIndex];
-//  // console.log(proOpcion.value + ': ' + proOpcion.value);
-
-//   var CadeNumero = proOpcion ;
-
-//   CadeNumero  = Number.parseFloat(proOpcion);
-//   console.log(CadeNumero);
-
-
-// // $(document).ready(function(){
-
-// //   $(CadeNumero).click(function(){
-
-// });
-//      var contador = CadeNumero;
 
      function TiposOpciones(sel) {
         
@@ -2762,63 +2205,7 @@ function buscar3(){
              
 };
 
-        // function CrearVariable(){
-        //   var VariableNombre = document.getElementById("NomV").value.trim();
-        //   var sigla = document.getElementById("SiglaV").value.trim();
-        //   var descripcion = document.getElementById("desV").value.trim();
-          
-        //   var request = db.transaction(["VariableC"], "readwrite")
-        //   .objectStore("VariableC")
-        //   .add({VariableNombre:VariableNombre, sigla:sigla, descripcion:descripcion});
-          
-
-        //   request.onsuccess = function(e){
-        //      console.log(e);
-        //      alert("se inserto los datos");
-      
-             
-            
-        //   };
-        //  }
-        //Funcion para habilitar boton crear encuesta
-  // let form = document.querySelector("#formulario");
-  // let btn = document.querySelector("#boton-crear-encuesta");
-
-  // function validarbtn (){
-  //   let desabilitar = false;
-
-  //   if(form.Titulo.value === ""){
-  //     desabilitar = true;
-  //   }
-  //   if(desabilitar === true){
-  //     btn.disabled = true;
-  //   }else {
-  //     btn.disabled = false;
-  //   }
-  // }
-  
-  // form.addEventListener("keyup", validarbtn)
-          
-
         
-
-//VARIABLE
-
-
-
-
-     
-      
-      //   var fila="<tr><td>"+id+"</td></tr>";
-      //   var fila2="<th>"+id+"</th>";
-      //   var btn = document.createElement("TR");
-      //   btn.innerHTML=fila+fila2;
-      //  document.getElementById("tablita").appendChild(btn);
-          
-      // }
-
-//CHECAR TABLA PARA ENCUESTA
-//mostrar variables predeterminadas con formato
 function BusVa(){
  
   var cadena ="<table class= 'table table-bordered'>"
@@ -2941,6 +2328,7 @@ miBoton.onclick = function() {
   var miModal = document.getElementById('Modal_vistaPrevia');
   miModal.style.display = 'block';
 };
+
 
 // // cerrar el modal cuando se hace clic en la X
 // const miClose = document.getElementsByClassName('close')[0];
@@ -3340,6 +2728,178 @@ function contieneCheckboxId(checkboxes, id) {
     };
   }
   
-  // Resto del código para conectar a la base de datos IndexedDB
+//función para almacenar logotipo
+function validarImagen() {
+  var archivo = document.getElementById('imagen').files[0];
   
+  if (archivo) {
+    var img = new Image();
+    var limiteAncho = 115; // Ancho máximo permitido en píxeles
+    var limiteAlto = 115; // Alto máximo permitido en píxeles
+    
+    if (archivo.type === 'image/png') {
+      img.onload = function() {
+        if (img.width <= limiteAncho && img.height <= limiteAlto) {
+          // Las dimensiones de la imagen son válidas, puedes proceder con el procesamiento o guardado
+          // Aquí llamarías a tu función para guardar o procesar la imagen en IndexedDB o en tu lógica de backend
+          guardarImagen(archivo);
+        } else {
+          alert('Las dimensiones de la imagen exceden el límite permitido (115x115)');
+        }
+      };
+      
+      img.src = URL.createObjectURL(archivo);
+    } else {
+      alert('Seleccione un archivo PNG válido');
+    }
+  }
+}
+
+function guardarImagen() {
+  var archivo = document.getElementById('imagen').files[0];
+  var Proce = document.getElementById('procedencia').value.trim();
   
+  if (archivo) {
+    var reader = new FileReader();
+    reader.onload = function(event) {
+      var imagenDataUrl = event.target.result;
+      guardarEnIndexedDB(imagenDataUrl, Proce);
+    };
+    reader.readAsDataURL(archivo);
+  }
+}
+
+function guardarEnIndexedDB(dataUrl, proce) {
+  var request = indexedDB.open('Janal', 1);
+
+  request.onsuccess = function(event) {
+    var db = event.target.result;
+    var transaction = db.transaction(['Encuestador'], 'readwrite');
+    var objectStore = transaction.objectStore('Encuestador');
+
+    var imagen = {
+      dataUrl: dataUrl,
+      proce: proce
+    };
+
+    var solicitud = objectStore.add(imagen);
+
+    solicitud.onsuccess = function(event) {
+      console.log('Imagen y valor de "Proce" guardados en IndexedDB');
+      var claveGenerada = event.target.result;
+      mostrarImagenEnDiv(claveGenerada);
+    };
+
+    solicitud.onerror = function() {
+      console.error('Error al guardar la imagen y el valor de "Proce" en IndexedDB');
+    };
+  };
+
+  request.onerror = function() {
+    console.error('Error al abrir la base de datos');
+  };
+}
+
+// function mostrarImagenEnDiv(claveGenerada) {
+//   var request = indexedDB.open('Janal', 1);
+
+//   request.onsuccess = function(event) {
+//     var db = event.target.result;
+//     var transaction = db.transaction(['Encuestador'], 'readonly');
+//     var objectStore = transaction.objectStore('Encuestador');
+//     var solicitud = objectStore.get(claveGenerada);
+
+//     solicitud.onsuccess = function(event) {
+//       var resultado = event.target.result;
+
+//       if (resultado) {
+//         var imagenDataUrl = resultado.dataUrl;
+//         var imagenDiv = document.getElementById('imagenDiv');
+//         imagenDiv.innerHTML = `<img src="${imagenDataUrl}" >`;
+//       } else {
+//         console.error('No se encontró la imagen en el almacén "Encuestador"');
+//       }
+//     };
+
+//     solicitud.onerror = function() {
+//       console.error('Error al obtener la imagen del almacén "Encuestador"');
+//     };
+//   };
+
+//   request.onerror = function() {
+//     console.error('Error al abrir la base de datos');
+//   };
+// }
+
+
+// function mostrarAlerta() {
+  
+//   alert
+// alert("¡Botón presionado!");
+// }
+  
+//Función para buscar encuentas por nombre
+
+// Obtener los elementos del DOM
+// document.getElementById('boton_filtrar').addEventListener('click', 
+function realizarBusqueda() {
+  var searchTerm = document.getElementById('filtrar').value.toLowerCase();
+
+  if (searchTerm.trim() !== '') {
+    var elementosDiv = document.querySelectorAll('#crear_encuesta td');
+    var resultados = buscarElementos(elementosDiv, searchTerm);
+
+    if (resultados.length > 0) {
+      mostrarResultados(resultados);
+    } else {
+      mostrarAlerta('Error: Ingresa un término de búsqueda válido.');
+    }}
+  // } else {
+  //   mostrarAlerta('Error: Ingresa un término de búsqueda válido.');
+  // }
+}
+
+function buscarElementos(elementos, searchTerm) {
+  var resultados = [];
+
+  for (var i = 0; i < elementos.length; i++) {
+    var elemento = elementos[i];
+    var texto = elemento.textContent.toLowerCase();
+
+    if (texto.includes(searchTerm)) {
+      resultados.push(elemento);
+    }
+  }
+
+  return resultados;
+}
+
+function mostrarResultados(resultados) {
+  for (var i = 0; i < resultados.length; i++) {
+    var resultado = resultados[i];
+    var texto = resultado.textContent;
+
+    var spanResaltado = document.createElement('span');
+    spanResaltado.classList.add('resaltado');
+    spanResaltado.textContent = texto;
+
+    resultado.innerHTML = '';
+    resultado.appendChild(spanResaltado);
+
+    resultado.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+}
+
+function mostrarAlerta(mensaje) {
+  var alertaModalBody = document.getElementById('alertaModalBody');
+  alertaModalBody.textContent = mensaje;
+
+  var alertaModal = new bootstrap.Modal(document.getElementById('alertaModal'), { backdrop: 'static' });
+  alertaModal.show();
+}
+// Estilo CSS para resaltar el texto
+// var css = '.resaltado { background-color: yellow; }';
+// var style = document.createElement('style');
+// style.type = 'text/css';
+// style.appendChild(document.createTextNode(css));
+// document.head.appendChild(style);

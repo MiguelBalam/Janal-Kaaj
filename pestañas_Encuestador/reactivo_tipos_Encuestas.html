@@ -46,8 +46,28 @@
         <div class="row">
             <div class="col-sm-6 text-center mb-3">
                 <from class="d-flex">
-                    <input id="myInput" class="form-control me-2" type="search" placeholder="Buscar Nombre" aria-label="Search">
-                    <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" type="submit" id="boton_filtrar">Filtrar</button>
+                    <div class="modal fade" id="alertaModal" tabindex="-1" aria-labelledby="mymodel" aria-modal="true"
+                    style="display: none;" aria-modal="true" role="dialog">
+                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="mymodel">No se encontraron coincidencias</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body" id="alertaModalBody">
+                                
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" data-bs-dismiss="modal">Aceptar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                    <input id="filtrar" class="form-control me-2" type="search" placeholder="Buscar Nombre" aria-label="Search">
+                    <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" type="submit" id="boton_filtrar" onclick="realizarBusqueda()">Filtrar</button>
                 
                 
                 </from>
@@ -248,7 +268,7 @@
         </div>
         
             </div>
-
+            <div id="resultado"></div>
 
   
 

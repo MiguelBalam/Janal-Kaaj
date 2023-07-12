@@ -118,8 +118,8 @@
                     <div class="col-4 ">
                         <div class="form-check form-check-inline col-md-4">
                             <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1"
-                                value="Masculino" required>
-                            <label class="form-check-label" for="inlineRadio1">Masculino</label>
+                                value="Masculino" required> 
+                                <label class="form-check-label" for="inlineRadio1">Masculino</label>
                         </div>
                     </div>
 
@@ -166,7 +166,29 @@
                         </div>
                     </div>
                 </div>
-
+                <div  id="grupo__logo" class="row mb-3">
+                    <label for="logo" class="col-sm-4 col-form-label px-4 ">Logotipo de la institución: 
+                    </label>
+                    <div class="col-sm-8">
+                        <input type="file" class="form-control" id="imagen" name="imagen" accept="image/png" required> 
+                        <!-- <div class="justify-content-md-end">  
+                        <button type="button" class="btn btn-outline-success bg-border-mostaza bg-text-mostaza " onclick="mostrarAlerta()"> Presionar </button> 
+                    </div> -->
+                </div>
+                        <div class="row mb-2">
+                        <div class="d-grid gap-2 col-6 mx-auto">
+                        <div class="valid-feedback">
+                              Correcto
+                        </div>
+                        <div class="invalid-feedback">
+                            Llene el campo
+                        </div>
+                        </div>
+                        </div>
+                    
+                    
+                </div>
+                <div id="imagenDiv"></div>
                 <div  id="grupo__Correo" class="row mb-3">
 
                     <label for="inputEmai1" class="col-sm-4 col-form-label px-4">Correo: </label>
@@ -227,7 +249,14 @@
                         <div class="row mb-2">
                             <div class="d-grid gap-2 col-6 mx-auto">
 
+<<<<<<< HEAD
                                 <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza " type="submit" id="boton-enviar" onclick="habilitarFormEncuestador()">Enviar</button>                       
+=======
+                                <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza " type="submit" id="boton-enviar" onclick=" guardarImagen(), relacionReactivo()">Enviar</button>
+
+
+                                
+>>>>>>> 668baf9710e45318be274c9de822a1f258044320
                             </div>
                         </div>
 
@@ -293,6 +322,8 @@
             return false;
         }
     </script>
+
+    
   <script  src="BD/app.js"></script>
   <script src="CSS/SweetAlert.js"></script>
   
