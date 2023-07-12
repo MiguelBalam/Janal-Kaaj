@@ -43,6 +43,8 @@ document.addEventListener('DOMContentLoaded', () => {
         ObjectStore = db.createObjectStore('Noticias', {keyPath:'id', autoIncrement: true});
         ObjectStore.createIndex('titulo', 'titulo', { unique: false });
         ObjectStore.createIndex('cuerpo', 'cuerpo', { unique: false });
+        
+
         //usuario
 
         ObjectStore = db.createObjectStore("Usuariosactivo", {keyPath: "id"});
@@ -162,6 +164,92 @@ document.addEventListener('DOMContentLoaded', () => {
       
      // refrescarAlmacen()
     });
+//Subir Noticas
+
+const formulario = document.getElementById('formularioNews');
+
+formulario.addEventListener('submit', function(event) {
+  event.preventDefault(); // Evita que el formulario se envíe
+
+  const titulo = document.getElementById('titulo').value;
+  const cuerpo = document.getElementById('noticia').value;
+  const imagen = document.getElementById('image').files[0];
+
+  // Llama a la función para almacenar los datos en la base de datos
+  guardarDatos(titulo, cuerpo, imagen);
+});
+
+function guardarDatos(titulo, cuerpo, imagen) {
+  const request = indexedDB.open('Janal', 1); // Abre la base de datos 'Janal' con la versión 1
+
+  request.onerror = function(event) {
+    console.log('Error al abrir la base de datos'); // Maneja el evento de error si hay un problema al abrir la base de datos
+  };
+
+  request.onsuccess = function(event) {
+    const db = event.target.result; // Obtiene la referencia a la base de datos
+    var reader = new FileReader(); // Crea una instancia de FileReader, que se utiliza para leer el contenido del archivo
+  
+    // reader.readAsDataURL(file); 
+    reader.readAsBinaryString(imagen); // Lee el contenido del archivo como una cadena binaria
+    reader.onload = function(e) {
+      let bits = e.target.result;
+      const transaction = db.transaction('Noticias', 'readwrite');
+      const objectStore = transaction.objectStore('Noticias');
+      const nuevaNoticia = { titulo: titulo, cuerpo: cuerpo, data: bits };
+      const requestAdd = objectStore.add(nuevaNoticia);
+    
+      requestAdd.onsuccess = function(event) {
+        console.log('Datos almacenados con éxito'); // Maneja el evento de éxito cuando los datos se almacenan correctamente en IndexedDB
+      };
+  
+      requestAdd.onerror = function(event) {
+        console.log('Error al almacenar los datos'); // Maneja el evento de error si hay un problema al almacenar los datos en IndexedDB
+      };
+  
+      transaction.oncomplete = function(event) {
+        db.close(); // Cierra la conexión con la base de datos una vez que la transacción se completa
+      };
+    };
+    
+    
+  };
+}
+
+
+
+
+/*function doFile(e) {
+  //let file = e.target.files[0]; // Obtiene el archivo seleccionado por el usuario
+  
+  let file = imagen.files[0];
+  var reader = new FileReader(); // Crea una instancia de FileReader, que se utiliza para leer el contenido del archivo
+
+  // reader.readAsDataURL(file); 
+  reader.readAsBinaryString(file); // Lee el contenido del archivo como una cadena binaria
+
+  reader.onload = function(e) {
+    //alert(e.target.result); // Muestra una alerta con el resultado de la lectura del archivo (comentado en este caso)
+
+    let bits = e.target.result; // Obtiene el resultado de la lectura del archivo, es decir, la cadena binaria del archivo
+    /*let ob = {
+      created: new Date(),
+      data: bits
+    }; // Crea un objeto que contiene la fecha de creación y los datos del archivo
+
+    let trans = db.transaction(['Noticias'], 'readwrite'); // Inicia una transacción en el objeto de almacenamiento de IndexedDB llamado 'Noticias' en modo de lectura/escritura
+    let addReq = trans.objectStore('Noticias').add(ob); // Agrega el objeto 'ob' al objeto de almacenamiento 'Noticias'
+
+    addReq.onerror = function(e) {
+      console.log('error storing data'); // Imprime un mensaje de error si falla el almacenamiento de los datos
+      console.error(e); // Imprime el error en la consola para obtener más información
+    };
+
+    trans.oncomplete = function(e) {
+      console.log('data stored'); // Imprime un mensaje indicando que los datos se almacenaron correctamente en IndexedDB
+    };
+  };
+} */
 
 
 // registro de datos
@@ -287,40 +375,100 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 })();
-// Noticias
-function doFile(e) {
-  console.log('change event fired for input field');
-  let file = e.target.files[0];
-  var reader = new FileReader();
-//				reader.readAsDataURL(file);
-  reader.readAsBinaryString(file);
 
-  reader.onload = function(e) {
-    //alert(e.target.result);
-    let bits = e.target.result;
-    let ob = {
-      created:new Date(),
-      data:bits
+
+
+// Noticias Imagen
+/*function mostrarDatos() {
+  const request = indexedDB.open('Janal', 1); // Abre la base de datos 'Janal' con la versión 1
+
+  request.onerror = function(event) {
+    console.log('Error al abrir la base de datos');
+  };
+
+  request.onsuccess = function(event) {
+    const db = event.target.result; // Obtiene la referencia a la base de datos
+
+    const transaction = db.transaction('Noticias', 'readonly'); // Inicia una transacción de solo lectura en el objeto de almacenamiento 'Noticias'
+    const objectStore = transaction.objectStore('Noticias'); // Obtiene el objeto de almacenamiento 'Noticias'
+
+    const results = document.getElementById('xd'); // Obtén la etiqueta <p> donde deseas mostrar los datos
+
+    objectStore.openCursor().onsuccess = function(event) {
+      const cursor = event.target.result; // Obtiene el cursor que permite iterar sobre los registros
+
+      if (cursor) {
+        // Accede a los datos de cada registro
+        const titulo = cursor.value.titulo;
+        const cuerpo = cursor.value.cuerpo;
+        const imagen = cursor.value.imagen;
+
+        // Muestra los datos en la etiqueta <p>
+        const paragraph = document.createElement('p');
+        paragraph.textContent = `Título: ${titulo} //, Cuerpo: ${cuerpo}, Imagen: ${imagen}`;
+        results.appendChild(paragraph);
+
+        cursor.continue(); // Avanza al siguiente registro
+      }
     };
 
-    let trans = db.transaction(['Noticias'], 'readwrite');
-    let addReq = trans.objectStore('Noticias').add(ob);
-
-    addReq.onerror = function(e) {
-      console.log('error storing data');
-      console.error(e);
-    }
-
-    trans.oncomplete = function(e) {
-      console.log('data stored');
-    }
-  }
+    transaction.oncomplete = function(event) {
+      db.close(); // Cierra la conexión con la base de datos una vez que se completa la transacción
+    };
+  };
 }
+*/
+
+function mostrarDatos() {
+  const request = indexedDB.open('Janal', 1);
+
+  request.onerror = function(event) {
+    console.log('Error al abrir la base de datos');
+  };
+
+  request.onsuccess = function(event) {
+    const db = event.target.result;
+
+    const transaction = db.transaction('Noticias', 'readonly');
+    const objectStore = transaction.objectStore('Noticias');
+
+    const requestGet = objectStore.get(18);
+
+    requestGet.onsuccess = function(event) {
+      const data = event.target.result;
+
+      if (data) {
+        const titulo = data.titulo;
+        const cuerpo = data.cuerpo;
+
+        const pElement = document.getElementById('titulo');
+        pElement.textContent = `${titulo}`;
+
+        const pElement2 = document.getElementById('cuerpo');
+        pElement2.textContent = `${cuerpo}`;
+      } else {
+        console.log('No se encontraron datos con el ID especificado');
+      }
+    };
+
+    requestGet.onerror = function(event) {
+      console.log('Error al obtener los datos');
+    };
+
+    transaction.oncomplete = function(event) {
+      db.close();
+    };
+  };
+  doImageTest();
+}
+
+
+
 
 function doImageTest() {
   console.log('doImageTest');
-  let image = document.querySelector('#img-result2');
-  let recordToLoad = parseInt(2);
+  let image = document.querySelector('#img-prueba');
+  let recordToLoad = parseInt(18);
   if(recordToLoad === '') recordToLoad = 1;
 
   let trans = db.transaction(['Noticias'], 'readonly');

@@ -135,6 +135,19 @@ function notiEnviarForm() {
     confirmButtonText: 'Confirmar',
   });
 }
+function notiEncuestador() {
+  Swal.fire({
+    title: 'Se han registrado los datos',
+    text: 'Datos registrados correctamente',
+    icon: 'success',
+    timer: 2000,
+    timerProgressBar: true,
+    confirmButtonColor: '#3085d6',
+    confirmButtonText: 'Confirmar',
+  });
+  //limpiarFormularioEncuestador();
+}
+
 
 function editReactivos() {
   Swal.fire({
@@ -286,9 +299,9 @@ function habilitarbtn3() {
 
 }
 
-document.getElementById("NomV").addEventListener("keyup", habilitarbtn2);
+/*document.getElementById("NomV").addEventListener("keyup", habilitarbtn2);
 document.getElementById("SiglaV").addEventListener("keyup", habilitarbtn2);
-document.getElementById("desV").addEventListener("keyup", habilitarbtn2);
+document.getElementById("desV").addEventListener("keyup", habilitarbtn2);*/
 
 
 
@@ -338,7 +351,7 @@ document.getElementById("boton-crear-encuesta").addEventListener("click", () => 
 //   document.getElementById("boton-crear-encuesta").disabled = true;
 //  }
 // }
-
+//ENCUESTADO
 function habilitarFormEncuestado() {
   nombre = document.getElementById("nombrecompletos").value;
   apellido = document.getElementById("apellidopaterno").value;
@@ -394,9 +407,10 @@ function habilitarFormEncuestado() {
   }
 
   if (val == 0) {
-    borrarVariable();
+    notiEncuestador();
+    console.log("Error"+val);
   } else {
-    borrarVariable();
+    console.log("Error"+val);
   }
 }
   document.getElementById("nombrecompletos").addEventListener("keyup", function () { habilitarFormEncuestado() } );
@@ -412,6 +426,67 @@ function habilitarFormEncuestado() {
   document.getElementById("contra-encuestado").addEventListener("keyup", function () { habilitarFormEncuestado() } );
   document.getElementById("contra-encuestado2").addEventListener("keyup", function () { habilitarFormEncuestado() } );
   
+//ENCUESTADOR
+  function habilitarFormEncuestador() {
+    nombre = document.getElementById("nombrecompletos").value;
+    apellido = document.getElementById("apellidopaterno").value;
+    apellido2 = document.getElementById("apellidomaterno").value;
+    edad = document.getElementById("edad").value;
+    localidad = document.getElementById("procedencia").value;
+    email = document.getElementById("Correo").value;
+    tel = document.getElementById("tel").value;
+    contra = document.getElementById("contrasenia").value;
+    contra2 = document.getElementById("contrasenia2").value;
+    // salida2 = document.getElementById("salida2").value;
+    //  s =  document.getElementById("s").value;
+    //  $btnVerEstado = document.getElementById("estado").value;
+    val = 0;
+    if (nombre == "") {
+      val++;
+    }
+    if (apellido == "") {
+      val++;
+    }
+    if (apellido2 == "") {
+      val++;
+    }
+    if (edad == "") {
+      val++;
+    }
+    if (localidad == "") {
+      val++;
+    }
+    if (email == "") {
+      val++;
+    }
+    if (tel == "") {
+      val++;
+    }
+    if (contra == "") {
+      val++;
+    }
+    if (contra2 == "") {
+      val++;
+    }
+  
+    if (val == 0) {
+      notiEncuestador();
+      //limpiarFormularioEncuestador();
+      console.log("Error"+val);
+    } else {
+      console.log("Error "+val);
+    }
+  }
+    document.getElementById("nombrecompletos").addEventListener("keyup", function () { habilitarFormEncuestador() } );
+    document.getElementById("apellidopaterno").addEventListener("keyup", function () { habilitarFormEncuestador() } );
+    document.getElementById("apellidomaterno").addEventListener("keyup", function () { habilitarFormEncuestador() } );
+    document.getElementById("edad").addEventListener("keyup", function () { habilitarFormEncuestador() } );
+    document.getElementById("procedencia").addEventListener("keyup", function () { habilitarFormEncuestador() } );
+    document.getElementById("Correo").addEventListener("keyup", function () { habilitarFormEncuestador() } );
+    document.getElementById("tel").addEventListener("keyup", function () { habilitarFormEncuestador() } );
+    document.getElementById("contrasenia").addEventListener("keyup", function () { habilitarFormEncuestador() } );
+    document.getElementById("contrasenia2").addEventListener("keyup", function () { habilitarFormEncuestador() } );
+    
 
 
 // -----------------------------------------------------------------
@@ -430,8 +505,13 @@ function limpiarFormulario2() {
 }
 function limpiarFormularioContact() {
   document.getElementById("formularioCT").reset();
-
 }
+/*function limpiarFormularioEncuestado() {
+  document.getElementById("formEncuestado").reset();
+}
+function limpiarFormularioEncuestador() {
+  document.getElementById("EncuestadoForm").reset();
+}*/
 
 function actuali(){
   window.location.reload();
