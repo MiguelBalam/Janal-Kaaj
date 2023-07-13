@@ -306,7 +306,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 })();
 
-//Mostrar datos noticias
 
 //Subir Noticas
 
@@ -362,52 +361,7 @@ function guardarDatos(titulo, cuerpo, imagen) {
   };
 }
 
-function noticia(){
-
-  const titulo = document.getElementById('titulo').value;
-  const cuerpo = document.getElementById('noticia').value;
-  const imagen = document.getElementById('image').files[0];
-
-  // Llama a la función para almacenar los datos en la base de datos
-  guardarDatos(titulo, cuerpo, imagen);
-}
-
-function guardarDatos(titulo, cuerpo, imagen) {
-  const request = indexedDB.open('Janal', 1); // Abre la base de datos 'Janal' con la versión 1
-
-  request.onerror = function(event) {
-    console.log('Error al abrir la base de datos'); // Maneja el evento de error si hay un problema al abrir la base de datos
-  };
-
-  request.onsuccess = function(event) {
-    const db = event.target.result; // Obtiene la referencia a la base de datos
-    var reader = new FileReader(); // Crea una instancia de FileReader, que se utiliza para leer el contenido del archivo
-  
-    // reader.readAsDataURL(file); 
-    reader.readAsBinaryString(imagen); // Lee el contenido del archivo como una cadena binaria
-    reader.onload = function(e) {
-      let bits = e.target.result;
-      const transaction = db.transaction('Noticias', 'readwrite');
-      const objectStore = transaction.objectStore('Noticias');
-      const nuevaNoticia = { titulo: titulo, cuerpo: cuerpo, data: bits };
-      const requestAdd = objectStore.add(nuevaNoticia);
-    
-      requestAdd.onsuccess = function(event) {
-        console.log('Datos almacenados con éxito'); // Maneja el evento de éxito cuando los datos se almacenan correctamente en IndexedDB
-      };
-  
-      requestAdd.onerror = function(event) {
-        console.log('Error al almacenar los datos'); // Maneja el evento de error si hay un problema al almacenar los datos en IndexedDB
-      };
-  
-      transaction.oncomplete = function(event) {
-        db.close(); // Cierra la conexión con la base de datos una vez que la transacción se completa
-      };
-    };
-    
-    
-  };
-}
+//Mostrar datos noticias
 
 function mostrarDatos() {
   const request = indexedDB.open('Janal', 1);
@@ -467,6 +421,7 @@ function doImageTest() {
     image.src = 'data:image/jpeg;base64,' + btoa(record.data);
   }
 }
+
 // Crear Cards para noticias
 
 function createCard(img) {
@@ -526,7 +481,6 @@ function createCard(img) {
   container.appendChild(cardDiv);
 }
 
-// Ejemplo de uso
 
 // Cierra mostrar datos noticias
 
