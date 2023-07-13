@@ -616,14 +616,8 @@ function manejadorValidacion(e) {
                 alertaDiv.textContent = "";
               }, 3000); // 5 segundos de retardo (5000 milisegundos)
         }
-<<<<<<< HEAD
-      
-      }
-      
-=======
     }
 
->>>>>>> c680ac0082ea6d60ce24fb7635fd7117414d64f9
       function enviarFormulario() {
         var valorInput1 = document.getElementById("Usuario").value;
         localStorage.setItem("valorInput1", valorInput1);
