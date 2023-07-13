@@ -177,56 +177,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 //Subir Noticas
 
-const formulario = document.getElementById('formularioNews');
-
-formulario.addEventListener('submit', function(event) {
-  event.preventDefault(); // Evita que el formulario se envíe
-
-  const titulo = document.getElementById('titulo').value;
-  const cuerpo = document.getElementById('noticia').value;
-  const imagen = document.getElementById('image').files[0];
-
-  // Llama a la función para almacenar los datos en la base de datos
-  guardarDatos(titulo, cuerpo, imagen);
-});
-
-function guardarDatos(titulo, cuerpo, imagen) {
-  const request = indexedDB.open('Janal', 1); // Abre la base de datos 'Janal' con la versión 1
-
-  request.onerror = function(event) {
-    console.log('Error al abrir la base de datos'); // Maneja el evento de error si hay un problema al abrir la base de datos
-  };
-
-  request.onsuccess = function(event) {
-    const db = event.target.result; // Obtiene la referencia a la base de datos
-    var reader = new FileReader(); // Crea una instancia de FileReader, que se utiliza para leer el contenido del archivo
-  
-    // reader.readAsDataURL(file); 
-    reader.readAsBinaryString(imagen); // Lee el contenido del archivo como una cadena binaria
-    reader.onload = function(e) {
-      let bits = e.target.result;
-      const transaction = db.transaction('Noticias', 'readwrite');
-      const objectStore = transaction.objectStore('Noticias');
-      const nuevaNoticia = { titulo: titulo, cuerpo: cuerpo, data: bits };
-      const requestAdd = objectStore.add(nuevaNoticia);
-    
-      requestAdd.onsuccess = function(event) {
-        console.log('Datos almacenados con éxito'); // Maneja el evento de éxito cuando los datos se almacenan correctamente en IndexedDB
-      };
-  
-      requestAdd.onerror = function(event) {
-        console.log('Error al almacenar los datos'); // Maneja el evento de error si hay un problema al almacenar los datos en IndexedDB
-      };
-  
-      transaction.oncomplete = function(event) {
-        db.close(); // Cierra la conexión con la base de datos una vez que la transacción se completa
-      };
-    };
-    
-    
-  };
-}
-
 
 
 
@@ -431,6 +381,53 @@ function guardarDatos(titulo, cuerpo, imagen) {
 }
 */
 
+function noticia(){
+
+  const titulo = document.getElementById('titulo').value;
+  const cuerpo = document.getElementById('noticia').value;
+  const imagen = document.getElementById('image').files[0];
+
+  // Llama a la función para almacenar los datos en la base de datos
+  guardarDatos(titulo, cuerpo, imagen);
+}
+
+function guardarDatos(titulo, cuerpo, imagen) {
+  const request = indexedDB.open('Janal', 1); // Abre la base de datos 'Janal' con la versión 1
+
+  request.onerror = function(event) {
+    console.log('Error al abrir la base de datos'); // Maneja el evento de error si hay un problema al abrir la base de datos
+  };
+
+  request.onsuccess = function(event) {
+    const db = event.target.result; // Obtiene la referencia a la base de datos
+    var reader = new FileReader(); // Crea una instancia de FileReader, que se utiliza para leer el contenido del archivo
+  
+    // reader.readAsDataURL(file); 
+    reader.readAsBinaryString(imagen); // Lee el contenido del archivo como una cadena binaria
+    reader.onload = function(e) {
+      let bits = e.target.result;
+      const transaction = db.transaction('Noticias', 'readwrite');
+      const objectStore = transaction.objectStore('Noticias');
+      const nuevaNoticia = { titulo: titulo, cuerpo: cuerpo, data: bits };
+      const requestAdd = objectStore.add(nuevaNoticia);
+    
+      requestAdd.onsuccess = function(event) {
+        console.log('Datos almacenados con éxito'); // Maneja el evento de éxito cuando los datos se almacenan correctamente en IndexedDB
+      };
+  
+      requestAdd.onerror = function(event) {
+        console.log('Error al almacenar los datos'); // Maneja el evento de error si hay un problema al almacenar los datos en IndexedDB
+      };
+  
+      transaction.oncomplete = function(event) {
+        db.close(); // Cierra la conexión con la base de datos una vez que la transacción se completa
+      };
+    };
+    
+    
+  };
+}
+
 function mostrarDatos() {
   const request = indexedDB.open('Janal', 1);
 
@@ -605,7 +602,7 @@ function manejadorValidacion(e) {
                   mostrarAlerta();
                 }
               };
-            }
+            
 
             function mostrarAlertaCorreo() {
               var alertaCorreoDiv = document.querySelector("#alertaCorreo");
@@ -626,7 +623,7 @@ function manejadorValidacion(e) {
                 alertaDiv.textContent = "";
               }, 3000); // 5 segundos de retardo (5000 milisegundos)
         }
-      
+    }
 
       function enviarFormulario() {
         var valorInput1 = document.getElementById("Usuario").value;
@@ -2727,7 +2724,7 @@ function contieneCheckboxId(checkboxes, id) {
       }
     };
   }
-  
+
 //función para almacenar logotipo
 function validarImagen() {
   var archivo = document.getElementById('imagen').files[0];
@@ -2800,36 +2797,36 @@ function guardarEnIndexedDB(dataUrl, proce) {
   };
 }
 
-// function mostrarImagenEnDiv(claveGenerada) {
-//   var request = indexedDB.open('Janal', 1);
+function mostrarImagenEnDiv(claveGenerada) {
+  var request = indexedDB.open('Janal', 1);
 
-//   request.onsuccess = function(event) {
-//     var db = event.target.result;
-//     var transaction = db.transaction(['Encuestador'], 'readonly');
-//     var objectStore = transaction.objectStore('Encuestador');
-//     var solicitud = objectStore.get(claveGenerada);
+  request.onsuccess = function(event) {
+    var db = event.target.result;
+    var transaction = db.transaction(['Encuestador'], 'readonly');
+    var objectStore = transaction.objectStore('Encuestador');
+    var solicitud = objectStore.get(claveGenerada);
 
-//     solicitud.onsuccess = function(event) {
-//       var resultado = event.target.result;
+    solicitud.onsuccess = function(event) {
+      var resultado = event.target.result;
 
-//       if (resultado) {
-//         var imagenDataUrl = resultado.dataUrl;
-//         var imagenDiv = document.getElementById('imagenDiv');
-//         imagenDiv.innerHTML = `<img src="${imagenDataUrl}" >`;
-//       } else {
-//         console.error('No se encontró la imagen en el almacén "Encuestador"');
-//       }
-//     };
+      if (resultado) {
+        var imagenDataUrl = resultado.dataUrl;
+        var imagenDiv = document.getElementById('imagenDiv');
+        imagenDiv.innerHTML = `<img src="${imagenDataUrl}" >`;
+      } else {
+        console.error('No se encontró la imagen en el almacén "Encuestador"');
+      }
+    };
 
-//     solicitud.onerror = function() {
-//       console.error('Error al obtener la imagen del almacén "Encuestador"');
-//     };
-//   };
+    solicitud.onerror = function() {
+      console.error('Error al obtener la imagen del almacén "Encuestador"');
+    };
+  };
 
-//   request.onerror = function() {
-//     console.error('Error al abrir la base de datos');
-//   };
-// }
+  request.onerror = function() {
+    console.error('Error al abrir la base de datos');
+  };
+}
 
 
 // function mostrarAlerta() {
