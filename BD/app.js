@@ -175,92 +175,6 @@ document.addEventListener('DOMContentLoaded', () => {
       EncuestaV()
       
     });
-//Subir Noticas
-
-const formulario = document.getElementById('formularioNews');
-
-formulario.addEventListener('submit', function(event) {
-  event.preventDefault(); // Evita que el formulario se envíe
-
-  const titulo = document.getElementById('titulo').value;
-  const cuerpo = document.getElementById('noticia').value;
-  const imagen = document.getElementById('image').files[0];
-
-  // Llama a la función para almacenar los datos en la base de datos
-  guardarDatos(titulo, cuerpo, imagen);
-});
-
-function guardarDatos(titulo, cuerpo, imagen) {
-  const request = indexedDB.open('Janal', 1); // Abre la base de datos 'Janal' con la versión 1
-
-  request.onerror = function(event) {
-    console.log('Error al abrir la base de datos'); // Maneja el evento de error si hay un problema al abrir la base de datos
-  };
-
-  request.onsuccess = function(event) {
-    const db = event.target.result; // Obtiene la referencia a la base de datos
-    var reader = new FileReader(); // Crea una instancia de FileReader, que se utiliza para leer el contenido del archivo
-  
-    // reader.readAsDataURL(file); 
-    reader.readAsBinaryString(imagen); // Lee el contenido del archivo como una cadena binaria
-    reader.onload = function(e) {
-      let bits = e.target.result;
-      const transaction = db.transaction('Noticias', 'readwrite');
-      const objectStore = transaction.objectStore('Noticias');
-      const nuevaNoticia = { titulo: titulo, cuerpo: cuerpo, data: bits };
-      const requestAdd = objectStore.add(nuevaNoticia);
-    
-      requestAdd.onsuccess = function(event) {
-        console.log('Datos almacenados con éxito'); // Maneja el evento de éxito cuando los datos se almacenan correctamente en IndexedDB
-      };
-  
-      requestAdd.onerror = function(event) {
-        console.log('Error al almacenar los datos'); // Maneja el evento de error si hay un problema al almacenar los datos en IndexedDB
-      };
-  
-      transaction.oncomplete = function(event) {
-        db.close(); // Cierra la conexión con la base de datos una vez que la transacción se completa
-      };
-    };
-    
-    
-  };
-}
-
-
-
-
-/*function doFile(e) {
-  //let file = e.target.files[0]; // Obtiene el archivo seleccionado por el usuario
-  
-  let file = imagen.files[0];
-  var reader = new FileReader(); // Crea una instancia de FileReader, que se utiliza para leer el contenido del archivo
-
-  // reader.readAsDataURL(file); 
-  reader.readAsBinaryString(file); // Lee el contenido del archivo como una cadena binaria
-
-  reader.onload = function(e) {
-    //alert(e.target.result); // Muestra una alerta con el resultado de la lectura del archivo (comentado en este caso)
-
-    let bits = e.target.result; // Obtiene el resultado de la lectura del archivo, es decir, la cadena binaria del archivo
-    /*let ob = {
-      created: new Date(),
-      data: bits
-    }; // Crea un objeto que contiene la fecha de creación y los datos del archivo
-
-    let trans = db.transaction(['Noticias'], 'readwrite'); // Inicia una transacción en el objeto de almacenamiento de IndexedDB llamado 'Noticias' en modo de lectura/escritura
-    let addReq = trans.objectStore('Noticias').add(ob); // Agrega el objeto 'ob' al objeto de almacenamiento 'Noticias'
-
-    addReq.onerror = function(e) {
-      console.log('error storing data'); // Imprime un mensaje de error si falla el almacenamiento de los datos
-      console.error(e); // Imprime el error en la consola para obtener más información
-    };
-
-    trans.oncomplete = function(e) {
-      console.log('data stored'); // Imprime un mensaje indicando que los datos se almacenaron correctamente en IndexedDB
-    };
-  };
-} */
 
 
 // registro de datos
@@ -388,48 +302,61 @@ function guardarDatos(titulo, cuerpo, imagen) {
 
 })();
 
+//Mostrar datos noticias
 
+//Subir Noticas
 
-// Noticias Imagen
-/*function mostrarDatos() {
+function agregarEventoFormulario() {
+  const formulario = document.getElementById('formularioNews');
+
+  formulario.addEventListener('submit', function(event) {
+    event.preventDefault(); // Evita que el formulario se envíe
+
+    const titulo = document.getElementById('titulo').value;
+    const cuerpo = document.getElementById('noticia').value;
+    const imagen = document.getElementById('image').files[0];
+
+    // Llama a la función para almacenar los datos en la base de datos
+    guardarDatos(titulo, cuerpo, imagen);
+  });
+}
+
+function guardarDatos(titulo, cuerpo, imagen) {
   const request = indexedDB.open('Janal', 1); // Abre la base de datos 'Janal' con la versión 1
 
   request.onerror = function(event) {
-    console.log('Error al abrir la base de datos');
+    console.log('Error al abrir la base de datos'); // Maneja el evento de error si hay un problema al abrir la base de datos
   };
 
   request.onsuccess = function(event) {
     const db = event.target.result; // Obtiene la referencia a la base de datos
-
-    const transaction = db.transaction('Noticias', 'readonly'); // Inicia una transacción de solo lectura en el objeto de almacenamiento 'Noticias'
-    const objectStore = transaction.objectStore('Noticias'); // Obtiene el objeto de almacenamiento 'Noticias'
-
-    const results = document.getElementById('xd'); // Obtén la etiqueta <p> donde deseas mostrar los datos
-
-    objectStore.openCursor().onsuccess = function(event) {
-      const cursor = event.target.result; // Obtiene el cursor que permite iterar sobre los registros
-
-      if (cursor) {
-        // Accede a los datos de cada registro
-        const titulo = cursor.value.titulo;
-        const cuerpo = cursor.value.cuerpo;
-        const imagen = cursor.value.imagen;
-
-        // Muestra los datos en la etiqueta <p>
-        const paragraph = document.createElement('p');
-        paragraph.textContent = `Título: ${titulo} //, Cuerpo: ${cuerpo}, Imagen: ${imagen}`;
-        results.appendChild(paragraph);
-
-        cursor.continue(); // Avanza al siguiente registro
-      }
+    var reader = new FileReader(); // Crea una instancia de FileReader, que se utiliza para leer el contenido del archivo
+  
+    // reader.readAsDataURL(file); 
+    reader.readAsBinaryString(imagen); // Lee el contenido del archivo como una cadena binaria
+    reader.onload = function(e) {
+      let bits = e.target.result;
+      const transaction = db.transaction('Noticias', 'readwrite');
+      const objectStore = transaction.objectStore('Noticias');
+      const nuevaNoticia = { titulo: titulo, cuerpo: cuerpo, data: bits };
+      const requestAdd = objectStore.add(nuevaNoticia);
+    
+      requestAdd.onsuccess = function(event) {
+        console.log('Datos almacenados con éxito'); // Maneja el evento de éxito cuando los datos se almacenan correctamente en IndexedDB
+      };
+  
+      requestAdd.onerror = function(event) {
+        console.log('Error al almacenar los datos'); // Maneja el evento de error si hay un problema al almacenar los datos en IndexedDB
+      };
+  
+      transaction.oncomplete = function(event) {
+        db.close(); // Cierra la conexión con la base de datos una vez que la transacción se completa
+      };
     };
-
-    transaction.oncomplete = function(event) {
-      db.close(); // Cierra la conexión con la base de datos una vez que se completa la transacción
-    };
+    
+    
   };
 }
-*/
 
 function mostrarDatos() {
   const request = indexedDB.open('Janal', 1);
@@ -444,7 +371,7 @@ function mostrarDatos() {
     const transaction = db.transaction('Noticias', 'readonly');
     const objectStore = transaction.objectStore('Noticias');
 
-    const requestGet = objectStore.get(18);
+    const requestGet = objectStore.get(20);
 
     requestGet.onsuccess = function(event) {
       const data = event.target.result;
@@ -474,13 +401,10 @@ function mostrarDatos() {
   doImageTest();
 }
 
-
-
-
 function doImageTest() {
   console.log('doImageTest');
   let image = document.querySelector('#img-prueba');
-  let recordToLoad = parseInt(18);
+  let recordToLoad = parseInt(20);
   if(recordToLoad === '') recordToLoad = 1;
 
   let trans = db.transaction(['Noticias'], 'readonly');
@@ -492,7 +416,68 @@ function doImageTest() {
     image.src = 'data:image/jpeg;base64,' + btoa(record.data);
   }
 }
-// Cierra noticias
+// Crear Cards para noticias
+
+function createCard(img) {
+  // Crear el elemento div con la clase "card"
+  var cardDiv = document.createElement("div");
+  cardDiv.classList.add("card");
+
+  // Crear el elemento div con la clase "card-body"
+  var cardBodyDiv = document.createElement("div");
+  cardBodyDiv.classList.add("card-body");
+
+  // Crear la etiqueta img con el ID proporcionado
+  var img = document.createElement("img");
+  img.id = imgId;
+  img.classList.add("img-fluid", "rounded");
+  cardBodyDiv.appendChild(img);
+
+  // Crear el elemento div con la clase "card-titulo"
+  var cardTituloDiv = document.createElement("div");
+  cardTituloDiv.classList.add("card-titulo");
+
+  // Crear la etiqueta p con el ID proporcionado
+  var p = document.createElement("p");
+  p.id = pId;
+  p.classList.add("fs-6", "fw-bold", "p_top");
+  cardTituloDiv.appendChild(img);
+  cardBodyDiv.appendChild(cardTituloDiv);
+
+  // Crear el elemento div con la clase "card-texto"
+  var cardTextoDiv = document.createElement("div");
+  cardTextoDiv.classList.add("card-texto");
+
+  // Crear la etiqueta p sin ID
+  var pTexto = document.createElement("p");
+  cardTextoDiv.appendChild(img);
+  cardBodyDiv.appendChild(cardTextoDiv);
+
+  // Crear el elemento div con la clase "flex-row text-end"
+  var flexRowDiv = document.createElement("div");
+  flexRowDiv.classList.add("flex-row", "text-end");
+
+  // Crear el elemento de enlace <a> con el atributo href="#"
+  var link = document.createElement("a");
+  link.href = "#";
+  link.classList.add("link-card");
+  link.textContent = "Ver más..";
+  flexRowDiv.appendChild(link);
+  cardBodyDiv.appendChild(flexRowDiv);
+
+  // Agregar el elemento cardBodyDiv al elemento cardDiv
+  cardDiv.appendChild(cardBodyDiv);
+
+  // Obtener el contenedor donde quieres agregar la nueva tarjeta (por ejemplo, el body)
+  var container = document.querySelector("#container");
+
+  // Agregar la nueva tarjeta al contenedor
+  container.appendChild(cardDiv);
+}
+
+// Ejemplo de uso
+
+// Cierra mostrar datos noticias
 
 function load(id) {
                 
