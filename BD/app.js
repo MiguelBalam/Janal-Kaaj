@@ -116,20 +116,8 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log('upgrade',db);
        
     });
-<<<<<<< HEAD
-    
-    //sube la imagen a la base de datos
-			
-    
-    // document.addEventListener('DOMContentLoaded', function() {
-    //   obtenerValorYVerificarLabel();
-    //   obtenerValorTd();
-    //   console.log("triste");
-    // });
-=======
        
   
->>>>>>> 060b3dccae4845fe329dffbbd9fc0151c1a775ba
     //funciones para cursores
     DBOpenReq.addEventListener('success',(ev)=>{
      
@@ -138,11 +126,6 @@ document.addEventListener('DOMContentLoaded', () => {
       mostrarEncuesta()
       buscar()
       buscarE()
-<<<<<<< HEAD
-     
-     
-=======
->>>>>>> 060b3dccae4845fe329dffbbd9fc0151c1a775ba
       EncuestaVistaPV2()
      reactivoscrear()
 
@@ -159,25 +142,15 @@ document.addEventListener('DOMContentLoaded', () => {
       
      
       //EncaEncuestaVista()
-<<<<<<< HEAD
-      
-     // buscarEVar()
-    
-=======
       // buscarE()
      // buscarEVar()
     //  mostrarEncuesta()
->>>>>>> 060b3dccae4845fe329dffbbd9fc0151c1a775ba
     
   
     
      buildList()
    
-<<<<<<< HEAD
-     
-=======
       // buscar()
->>>>>>> 060b3dccae4845fe329dffbbd9fc0151c1a775ba
     
      
       buscarEVar()
@@ -202,11 +175,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
   
    
-<<<<<<< HEAD
-      
-=======
       // Encuesta1()
->>>>>>> 060b3dccae4845fe329dffbbd9fc0151c1a775ba
       EncuestaV()
       
     });
