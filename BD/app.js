@@ -605,7 +605,7 @@ function manejadorValidacion(e) {
                   mostrarAlerta();
                 }
               };
-            }
+            
 
             function mostrarAlertaCorreo() {
               var alertaCorreoDiv = document.querySelector("#alertaCorreo");
@@ -627,7 +627,8 @@ function manejadorValidacion(e) {
               }, 3000); // 5 segundos de retardo (5000 milisegundos)
         }
       
-
+      }
+      
       function enviarFormulario() {
         var valorInput1 = document.getElementById("Usuario").value;
         localStorage.setItem("valorInput1", valorInput1);
