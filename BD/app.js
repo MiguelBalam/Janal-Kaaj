@@ -23,6 +23,10 @@ document.addEventListener('DOMContentLoaded', () => {
   
 });
 
+
+
+
+
  (function conectarDB(){
     
    // let objectStore = null;
@@ -114,15 +118,21 @@ document.addEventListener('DOMContentLoaded', () => {
     //sube la imagen a la base de datos
 			
     
-    document.addEventListener('DOMContentLoaded', function() {
-      obtenerValorYVerificarLabel();
-      obtenerValorTd();
-      console.log("triste");
-    });
+    // document.addEventListener('DOMContentLoaded', function() {
+    //   obtenerValorYVerificarLabel();
+    //   obtenerValorTd();
+    //   console.log("triste");
+    // });
     //funciones para cursores
     DBOpenReq.addEventListener('success',(ev)=>{
      
       db= ev.target.result;
+      Encuesta1()
+      mostrarEncuesta()
+      buscar()
+      buscarE()
+     
+     
       EncuestaVistaPV2()
      reactivoscrear()
 
@@ -139,15 +149,15 @@ document.addEventListener('DOMContentLoaded', () => {
       
      
       //EncaEncuestaVista()
-      buscarE()
+      
      // buscarEVar()
-     mostrarEncuesta()
+    
     
   
     
      buildList()
    
-      buscar()
+     
     
      
       buscarEVar()
@@ -172,12 +182,12 @@ document.addEventListener('DOMContentLoaded', () => {
     
   
    
-      Encuesta1()
+      
       EncuestaV()
       
     });
 
-
+ 
 // registro de datos
 //-----------------------------------------------------------------------------------------------------------------------
     document.formEncuestado.addEventListener('submit',(ev)=>{
@@ -555,6 +565,7 @@ function manejadorValidacion(e) {
         IniciarSesionTransac3.add(Categoria_encuesta);
        }
        IniciarSesionTransac.onsucces = function (event) {
+        buscarE()
         buscar();
        
         
