@@ -521,53 +521,55 @@ if (contra2EncuestadoElement) {
 
 // Función para habilitar el formulario de encuestador
 function habilitarFormEncuestador() {
-  var nombre = document.getElementById("nombrecompletos");
-  var apellido = document.getElementById("apellidopaterno");
-  var apellido2 = document.getElementById("apellidomaterno");
-  var edad = document.getElementById("edad");
-  var localidad = document.getElementById("procedencia");
-  var email = document.getElementById("Correo");
-  var tel = document.getElementById("tel");
-  var contra = document.getElementById("contrasenia");
-  var contra2 = document.getElementById("contrasenia2");
+  var nombre = document.getElementById("nombrecompletos").value;
+  var apellido = document.getElementById("apellidopaterno").value;
+  var apellido2 = document.getElementById("apellidomaterno").value;
+  var edad = document.getElementById("edad").value;
+  var localidad = document.getElementById("procedencia").value;
+  var email = document.getElementById("Correo").value;
+  var tel = document.getElementById("tel").value;
+  var contra = document.getElementById("contrasenia").value;
+  var contra2 = document.getElementById("contrasenia2").value;
 
-  if (nombre && apellido && apellido2 && edad && localidad && email && tel && contra && contra2) {
+  if (nombre !== "" && apellido !== "" && apellido2 !== "" && edad !== "" && localidad !== "" && email !== "" && tel !== "" && contra !== "" && contra2 !== "") {
     var val = 0;
 
-    if (nombre.value == "") {
+    if (nombre == "") {
       val++;
     }
-    if (apellido.value == "") {
+    if (apellido == "") {
       val++;
     }
-    if (apellido2.value == "") {
+    if (apellido2 == "") {
       val++;
     }
-    if (edad.value == "") {
+    if (edad == "") {
       val++;
     }
-    if (localidad.value == "") {
+    if (localidad == "") {
       val++;
     }
-    if (email.value == "") {
+    if (email == "") {
       val++;
     }
-    if (tel.value == "") {
+    if (tel == "") {
       val++;
     }
-    if (contra.value == "") {
+    if (contra == "") {
       val++;
     }
-    if (contra2.value == "") {
+    if (contra2 == "") {
       val++;
     }
 
     if (val == 0) {
-      notiEncuestador();
-      console.log("Error: " + val);
+      // notiEncuestador();
+      // console.log("Error: listo estan llenos" + val);
+      document.getElementById("boton-enviar").disabled = false; // Habilitar el botón de enviar
     } else {
       console.log("Error: " + val);
-    }
+      document.getElementById("boton-enviar").disabled = true; // Mantener el botón de enviar deshabilitado
+    } 
   }
 }
 
@@ -617,6 +619,10 @@ if (contra2EncuestadorElement) {
   contra2EncuestadorElement.addEventListener("keyup", habilitarFormEncuestador);
 }
 
+var botonCrearEncuestaVar = document.getElementById("boton-enviar");
+if (botonCrearEncuestaVar) {
+  botonCrearEncuestaVar.disabled = true; // Inicialmente se deshabilita el botón
+}
 // -----------------------------------------------------------------
 
 function limpiarFormulario() {
