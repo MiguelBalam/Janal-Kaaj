@@ -201,286 +201,339 @@ function notiEditarVariables(){
 
 //desabilitar boton
 function habilitarbtnV() {
-  Titulo = document.getElementById("TituloVar").value;
-  floatingTextarea2 = document.getElementById("floatingTextarea22").value;
-  floatingTextarea21 = document.getElementById("floatingTextarea23").value;
-  // salida2 = document.getElementById("salida2").value;
-  //  s =  document.getElementById("s").value;
-  //  $btnVerEstado = document.getElementById("estado").value;
-  val = 0;
-  if (TituloVar == "") {
-    val++;
+  var TituloVar = document.getElementById("TituloVar");
+  var floatingTextarea22 = document.getElementById("floatingTextarea22");
+  var floatingTextarea23 = document.getElementById("floatingTextarea23");
 
-  }
-  if (floatingTextarea22 == "") {
-    val++;
-  }
-  if (floatingTextarea23 == "") {
-    val++;
-  }
-  // if(salida2 == ""){
-  //     val++;
-  // }
-  // if(s == ""){
-  //     val++;
-  // }
-  if (val == 0) {
-    document.getElementById("boton-crear-encuestaVar").disabled = false;
-  } else {
-    document.getElementById("boton-crear-encuestaVar").disabled = true;
-  }
+  if (TituloVar && floatingTextarea22 && floatingTextarea23) {
+    var val = 0;
 
+    if (TituloVar.value == "") {
+      val++;
+    }
+    if (floatingTextarea22.value == "") {
+      val++;
+    }
+    if (floatingTextarea23.value == "") {
+      val++;
+    }
+
+    var botonCrearEncuestaVar = document.getElementById("boton-crear-encuestaVar");
+    if (botonCrearEncuestaVar) {
+      botonCrearEncuestaVar.disabled = val !== 0;
+    }
+  }
 }
-document.getElementById("TituloVar").addEventListener("keyup", function () { habilitarbtnV() } );
-document.getElementById("floatingTextarea22").addEventListener("keyup", function () { habilitarbtnV() } );
-document.getElementById("floatingTextarea23").addEventListener("keyup", function () { habilitarbtnV() } );
 
+// Agregar event listeners en el primer HTML
+var tituloVarElement = document.getElementById("TituloVar");
+if (tituloVarElement) {
+  tituloVarElement.addEventListener("keyup", habilitarbtnV);
+}
 
+var floatingTextarea22Element = document.getElementById("floatingTextarea22");
+if (floatingTextarea22Element) {
+  floatingTextarea22Element.addEventListener("keyup", habilitarbtnV);
+}
+
+var floatingTextarea23Element = document.getElementById("floatingTextarea23");
+if (floatingTextarea23Element) {
+  floatingTextarea23Element.addEventListener("keyup", habilitarbtnV);
+}
+
+// Función para habilitar botones en el segundo HTML
 function habilitarbtn() {
-  Titulo = document.getElementById("Titulo").value;
-  floatingTextarea2 = document.getElementById("floatingTextarea2").value;
-  floatingTextarea21 = document.getElementById("floatingTextarea21").value;
-  // salida2 = document.getElementById("salida2").value;
-  //  s =  document.getElementById("s").value;
-  //  $btnVerEstado = document.getElementById("estado").value;
-  val = 0;
-  if (Titulo == "") {
-    val++;
+  var tituloElement = document.getElementById("Titulo");
+  var floatingTextarea2Element = document.getElementById("floatingTextarea2");
+  var floatingTextarea21Element = document.getElementById("floatingTextarea21");
 
-  }
-  if (floatingTextarea2 == "") {
-    val++;
-  }
-  if (floatingTextarea21 == "") {
-    val++;
-  }
-  // if(salida2 == ""){
-  //     val++;
-  // }
-  // if(s == ""){
-  //     val++;
-  // }
-  if (val == 0) {
-    document.getElementById("boton-crear-encuesta").disabled = false;
-  } else {
-    document.getElementById("boton-crear-encuesta").disabled = true;
-  }
+  if (tituloElement && floatingTextarea2Element && floatingTextarea21Element) {
+    var val = 0;
 
+    if (tituloElement.value == "") {
+      val++;
+    }
+    if (floatingTextarea2Element.value == "") {
+      val++;
+    }
+    if (floatingTextarea21Element.value == "") {
+      val++;
+    }
+
+    var botonCrearEncuestaElement = document.getElementById("boton-crear-encuesta");
+    if (botonCrearEncuestaElement) {
+      botonCrearEncuestaElement.disabled = val !== 0;
+    }
+  }
 }
-document.getElementById("Titulo").addEventListener("keyup", function () { habilitarbtn() } );
-document.getElementById("floatingTextarea2").addEventListener("keyup", function () { habilitarbtn() } );
-document.getElementById("floatingTextarea21").addEventListener("keyup", function () { habilitarbtn() } );
 
+// Agregar event listeners en el segundo HTML
+var tituloElement = document.getElementById("Titulo");
+if (tituloElement) {
+  tituloElement.addEventListener("keyup", habilitarbtn);
+}
 
+var floatingTextarea2Element = document.getElementById("floatingTextarea2");
+if (floatingTextarea2Element) {
+  floatingTextarea2Element.addEventListener("keyup", habilitarbtn);
+}
 
-
+var floatingTextarea21Element = document.getElementById("floatingTextarea21");
+if (floatingTextarea21Element) {
+  floatingTextarea21Element.addEventListener("keyup", habilitarbtn);
+}
 
 function habilitarbtn2() {
-  nombre = document.getElementById("NomV").value;
-  sigla = document.getElementById("SiglaV").value;
-  descrip = document.getElementById("desV").value;
-  // salida2 = document.getElementById("salida2").value;
-  //  s =  document.getElementById("s").value;
-  //  $btnVerEstado = document.getElementById("estado").value;
-  val = 0;
-  if (nombre == "") {
-    val++;
+  var nombre = document.getElementById("NomV");
+  var sigla = document.getElementById("SiglaV");
+  var descrip = document.getElementById("desV");
 
+  if (nombre && sigla && descrip) {
+    var val = 0;
+
+    if (nombre.value == "") {
+      val++;
+    }
+    if (sigla.value == "") {
+      val++;
+    }
+    if (descrip.value == "") {
+      val++;
+    }
+
+    var botonCrearVariable = document.getElementById("boton_crear_variable");
+    if (botonCrearVariable) {
+      botonCrearVariable.disabled = val !== 0;
+    }
   }
-  if (sigla == "") {
-    val++;
-  }
-  if (descrip == "") {
-    val++;
-  }
-  if (val == 0) {
-    document.getElementById("boton_crear_variable").disabled = false;
-  } else {
-    document.getElementById("boton_crear_variable").disabled = true;
-  }
-  
 }
-document.getElementById("NomV").addEventListener("keyup", function () { habilitarbtn2() } );
-  document.getElementById("SiglaV").addEventListener("keyup", function () { habilitarbtn2() } );
-  document.getElementById("desV").addEventListener("keyup", function () { habilitarbtn2() } );
-  
 
+// Agregar event listeners en el tercer HTML
+var nombreElement = document.getElementById("NomV");
+if (nombreElement) {
+  nombreElement.addEventListener("keyup", habilitarbtn2);
+}
 
+var siglaElement = document.getElementById("SiglaV");
+if (siglaElement) {
+  siglaElement.addEventListener("keyup", habilitarbtn2);
+}
+
+var descripElement = document.getElementById("desV");
+if (descripElement) {
+  descripElement.addEventListener("keyup", habilitarbtn2);
+}
+
+// Función para habilitar botones en el cuarto HTML
 function habilitarbtn3() {
-  nombre = document.getElementById("nombre").value;
-  apellido = document.getElementById("apellido").value;
-  email = document.getElementById("email").value;
-  tel = document.getElementById("tele").value;
-  mensaje = document.getElementById("mensaje").value;
-  
-  v = 0;
-  if (nombre == "") {
-    v++;
-  }
-  if (apellido == "") {
-    v++;
-  }
-  if (email == "") {
-    v++;
-  }
-  if (tel == "") {
-    v++;
-  }
-  if (mensaje == "") {
-    v++;
-  }
-  console.log(v);
-  if (v == 0) {
-    document.getElementById("boton-enviar").disabled = false;
-    notiEnviarForm();
-  } else {
-    
-  }
+  var nombre = document.getElementById("nombre");
+  var apellido = document.getElementById("apellido");
+  var email = document.getElementById("email");
+  var tel = document.getElementById("tele");
+  var mensaje = document.getElementById("mensaje");
 
+  if (nombre && apellido && email && tel && mensaje) {
+    var v = 0;
+
+    if (nombre.value == "") {
+      v++;
+    }
+    if (apellido.value == "") {
+      v++;
+    }
+    if (email.value == "") {
+      v++;
+    }
+    if (tel.value == "") {
+      v++;
+    }
+    if (mensaje.value == "") {
+      v++;
+    }
+
+    var botonEnviar = document.getElementById("boton-enviar");
+    if (botonEnviar) {
+      botonEnviar.disabled = v !== 0;
+    }
+  }
 }
 
-/*document.getElementById("NomV").addEventListener("keyup", habilitarbtn2);
-document.getElementById("SiglaV").addEventListener("keyup", habilitarbtn2);
-document.getElementById("desV").addEventListener("keyup", habilitarbtn2);*/
+// Agregar event listeners en el cuarto HTML
+var nombreElement2 = document.getElementById("nombre");
+if (nombreElement2) {
+  nombreElement2.addEventListener("keyup", habilitarbtn3);
+}
+
+var apellidoElement = document.getElementById("apellido");
+if (apellidoElement) {
+  apellidoElement.addEventListener("keyup", habilitarbtn3);
+}
+
+var emailElement = document.getElementById("email");
+if (emailElement) {
+  emailElement.addEventListener("keyup", habilitarbtn3);
+}
+
+var telElement = document.getElementById("tele");
+if (telElement) {
+  telElement.addEventListener("keyup", habilitarbtn3);
+}
+
+var mensajeElement = document.getElementById("mensaje");
+if (mensajeElement) {
+  mensajeElement.addEventListener("keyup", habilitarbtn3);
+}
+
+// Agregar event listener en el cuarto HTML
+var botonCrearEncuesta = document.getElementById("boton-crear-encuesta");
+if (botonCrearEncuesta) {
+  botonCrearEncuesta.addEventListener("click", function() {
+    alert("Se ha llenado todo");
+  });
+}
 
 
-
-
-// document.getElementById("s").addEventListener("keyup", habilitarbtn);
-
-// document.getElementById("salida2").addEventListener("keyup", habilitarbtn);
-// document.getElementById("boton-crear-encuesta").addEventListener("click", () => {
-//   alert("Se ha llenado todo");
-// });
-
-
-
-// document.getElementById("estado").addEventListener("click", () => {
-// 	if (s.checked) {
-// 		alert("Marcado");
-// 	} else {
-// 		alert("Desmarcado");
-// 	}
-// })
-
-
-document.getElementById("Titulo").addEventListener("keyup", habilitarbtn);
-document.getElementById("floatingTextarea2").addEventListener("keyup", habilitarbtn);
-document.getElementById("floatingTextarea21").addEventListener("keyup", habilitarbtn);
-
-document.getElementById("nombre").addEventListener("keyup", habilitarbtn3);
-document.getElementById("apellido").addEventListener("keyup", habilitarbtn3);
-document.getElementById("email").addEventListener("keyup", habilitarbtn3);
-document.getElementById("tele").addEventListener("keyup", habilitarbtn3);
-document.getElementById("mensaje").addEventListener("keyup", habilitarbtn3);
-
-
-// document.getElementById("s").addEventListener("keyup", habilitarbtn);
-
-// document.getElementById("salida2").addEventListener("keyup", habilitarbtn);
-document.getElementById("boton-crear-encuesta").addEventListener("click", () => {
-  alert("Se ha llenado todo");
-});
-
-
-
-
-// function activarGuardar(){
-//  if( document.getElementById("boton_guardar_variable").disabled = false){
-//  }else{
-//   document.getElementById("boton-crear-encuesta").disabled = true;
-//  }
-// }
 //ENCUESTADO
 function habilitarFormEncuestado() {
-  nombre = document.getElementById("nombrecompletos").value;
-  apellido = document.getElementById("apellidopaterno").value;
-  apellido2 = document.getElementById("apellidomaterno").value;
-  edad = document.getElementById("edad").value;
-  localidad = document.getElementById("localidad").value;
-  ciudad = document.getElementById("ciudad").value;
-  municipio = document.getElementById("municipio").value;
-  estado = document.getElementById("estado").value;
-  email = document.getElementById("Email-encuestado").value;
-  tele = document.getElementById("tel-encuestado").value;
-  contra = document.getElementById("contra-encuestado").value;
-  contra2 = document.getElementById("contra-encuestado2").value;
-  // salida2 = document.getElementById("salida2").value;
-  //  s =  document.getElementById("s").value;
-  //  $btnVerEstado = document.getElementById("estado").value;
-  val = 0;
-  if (nombre == "") {
-    val++;
-  }
-  if (apellido == "") {
-    val++;
-  }
-  if (apellido2 == "") {
-    val++;
-  }
-  if (edad == "") {
-    val++;
-  }
-  if (localidad == "") {
-    val++;
-  }
-  if (ciudad == "") {
-    val++;
-  }
-  if (municipio == "") {
-    val++;
-  }
-  if (estado == "") {
-    val++;
-  }
-  if (email == "") {
-    val++;
-  }
-  if (tele == "") {
-    val++;
-  }
-  if (contra == "") {
-    val++;
-  }
-  if (contra2 == "") {
-    val++;
-  }
+  var nombre = document.getElementById("nombrecompletos");
+  var apellido = document.getElementById("apellidopaterno");
+  var apellido2 = document.getElementById("apellidomaterno");
+  var edad = document.getElementById("edad");
+  var localidad = document.getElementById("localidad");
+  var ciudad = document.getElementById("ciudad");
+  var municipio = document.getElementById("municipio");
+  var estado = document.getElementById("estado");
+  var email = document.getElementById("Email-encuestado");
+  var tele = document.getElementById("tel-encuestado");
+  var contra = document.getElementById("contra-encuestado");
+  var contra2 = document.getElementById("contra-encuestado2");
 
-  if (val == 0) {
-    notiEncuestador();
-    console.log("Error"+val);
-  } else {
-    console.log("Error"+val);
+  if (nombre && apellido && apellido2 && edad && localidad && ciudad && municipio && estado && email && tele && contra && contra2) {
+    var val = 0;
+
+    if (nombre.value == "") {
+      val++;
+    }
+    if (apellido.value == "") {
+      val++;
+    }
+    if (apellido2.value == "") {
+      val++;
+    }
+    if (edad.value == "") {
+      val++;
+    }
+    if (localidad.value == "") {
+      val++;
+    }
+    if (ciudad.value == "") {
+      val++;
+    }
+    if (municipio.value == "") {
+      val++;
+    }
+    if (estado.value == "") {
+      val++;
+    }
+    if (email.value == "") {
+      val++;
+    }
+    if (tele.value == "") {
+      val++;
+    }
+    if (contra.value == "") {
+      val++;
+    }
+    if (contra2.value == "") {
+      val++;
+    }
+
+    if (val == 0) {
+      notiEncuestado();
+      console.log("Error: " + val);
+    } else {
+      console.log("Error: " + val);
+    }
   }
 }
-  document.getElementById("nombrecompletos").addEventListener("keyup", function () { habilitarFormEncuestado() } );
-  document.getElementById("apellidopaterno").addEventListener("keyup", function () { habilitarFormEncuestado() } );
-  document.getElementById("apellidomaterno").addEventListener("keyup", function () { habilitarFormEncuestado() } );
-  document.getElementById("edad").addEventListener("keyup", function () { habilitarFormEncuestado() } );
-  document.getElementById("localidad").addEventListener("keyup", function () { habilitarFormEncuestado() } );
-  document.getElementById("ciudad").addEventListener("keyup", function () { habilitarFormEncuestado() } );
-  document.getElementById("municipio").addEventListener("keyup", function () { habilitarFormEncuestado() } );
-  document.getElementById("estado").addEventListener("keyup", function () { habilitarFormEncuestado() } );
-  document.getElementById("Email-encuestado").addEventListener("keyup", function () { habilitarFormEncuestado() } );
-  document.getElementById("tel-encuestado").addEventListener("keyup", function () { habilitarFormEncuestado() } );
-  document.getElementById("contra-encuestado").addEventListener("keyup", function () { habilitarFormEncuestado() } );
-  document.getElementById("contra-encuestado2").addEventListener("keyup", function () { habilitarFormEncuestado() } );
-  
-//ENCUESTADOR
-  function habilitarFormEncuestador() {
-    nombre = document.getElementById("nombrecompletos").value;
-    apellido = document.getElementById("apellidopaterno").value;
-    apellido2 = document.getElementById("apellidomaterno").value;
-    edad = document.getElementById("edad").value;
-    localidad = document.getElementById("procedencia").value;
-    email = document.getElementById("Correo").value;
-    tel = document.getElementById("tel").value;
-    contra = document.getElementById("contrasenia").value;
-    contra2 = document.getElementById("contrasenia2").value;
-    // salida2 = document.getElementById("salida2").value;
-    //  s =  document.getElementById("s").value;
-    //  $btnVerEstado = document.getElementById("estado").value;
-    val = 0;
+
+// Agregar event listeners en el quinto HTML (Encuestado)
+var nombreEncuestadoElement = document.getElementById("nombrecompletos");
+if (nombreEncuestadoElement) {
+  nombreEncuestadoElement.addEventListener("keyup", habilitarFormEncuestado);
+}
+
+var apellidoPaternoEncuestadoElement = document.getElementById("apellidopaterno");
+if (apellidoPaternoEncuestadoElement) {
+  apellidoPaternoEncuestadoElement.addEventListener("keyup", habilitarFormEncuestado);
+}
+
+var apellidoMaternoEncuestadoElement = document.getElementById("apellidomaterno");
+if (apellidoMaternoEncuestadoElement) {
+  apellidoMaternoEncuestadoElement.addEventListener("keyup", habilitarFormEncuestado);
+}
+
+var edadEncuestadoElement = document.getElementById("edad");
+if (edadEncuestadoElement) {
+  edadEncuestadoElement.addEventListener("keyup", habilitarFormEncuestado);
+}
+
+var localidadEncuestadoElement = document.getElementById("localidad");
+if (localidadEncuestadoElement) {
+  localidadEncuestadoElement.addEventListener("keyup", habilitarFormEncuestado);
+}
+
+var ciudadEncuestadoElement = document.getElementById("ciudad");
+if (ciudadEncuestadoElement) {
+  ciudadEncuestadoElement.addEventListener("keyup", habilitarFormEncuestado);
+}
+
+var municipioEncuestadoElement = document.getElementById("municipio");
+if (municipioEncuestadoElement) {
+  municipioEncuestadoElement.addEventListener("keyup", habilitarFormEncuestado);
+}
+
+var estadoEncuestadoElement = document.getElementById("estado");
+if (estadoEncuestadoElement) {
+  estadoEncuestadoElement.addEventListener("keyup", habilitarFormEncuestado);
+}
+
+var emailEncuestadoElement = document.getElementById("Email-encuestado");
+if (emailEncuestadoElement) {
+  emailEncuestadoElement.addEventListener("keyup", habilitarFormEncuestado);
+}
+
+var teleEncuestadoElement = document.getElementById("tel-encuestado");
+if (teleEncuestadoElement) {
+  teleEncuestadoElement.addEventListener("keyup", habilitarFormEncuestado);
+}
+
+var contraEncuestadoElement = document.getElementById("contra-encuestado");
+if (contraEncuestadoElement) {
+  contraEncuestadoElement.addEventListener("keyup", habilitarFormEncuestado);
+}
+
+var contra2EncuestadoElement = document.getElementById("contra-encuestado2");
+if (contra2EncuestadoElement) {
+  contra2EncuestadoElement.addEventListener("keyup", habilitarFormEncuestado);
+}
+
+
+// Función para habilitar el formulario de encuestador
+function habilitarFormEncuestador() {
+  var nombre = document.getElementById("nombrecompletos").value;
+  var apellido = document.getElementById("apellidopaterno").value;
+  var apellido2 = document.getElementById("apellidomaterno").value;
+  var edad = document.getElementById("edad").value;
+  var localidad = document.getElementById("procedencia").value;
+  var email = document.getElementById("Correo").value;
+  var tel = document.getElementById("tel").value;
+  var contra = document.getElementById("contrasenia").value;
+  var contra2 = document.getElementById("contrasenia2").value;
+
+  if (nombre !== "" && apellido !== "" && apellido2 !== "" && edad !== "" && localidad !== "" && email !== "" && tel !== "" && contra !== "" && contra2 !== "") {
+    var val = 0;
+
     if (nombre == "") {
       val++;
     }
@@ -508,27 +561,68 @@ function habilitarFormEncuestado() {
     if (contra2 == "") {
       val++;
     }
-  
+
     if (val == 0) {
-      notiEncuestador();
-      //limpiarFormularioEncuestador();
-      console.log("Error"+val);
+      // notiEncuestador();
+      // console.log("Error: listo estan llenos" + val);
+      document.getElementById("boton-enviar").disabled = false; // Habilitar el botón de enviar
     } else {
-      console.log("Error "+val);
-    }
+      console.log("Error: " + val);
+      document.getElementById("boton-enviar").disabled = true; // Mantener el botón de enviar deshabilitado
+    } 
   }
-    document.getElementById("nombrecompletos").addEventListener("keyup", function () { habilitarFormEncuestador() } );
-    document.getElementById("apellidopaterno").addEventListener("keyup", function () { habilitarFormEncuestador() } );
-    document.getElementById("apellidomaterno").addEventListener("keyup", function () { habilitarFormEncuestador() } );
-    document.getElementById("edad").addEventListener("keyup", function () { habilitarFormEncuestador() } );
-    document.getElementById("procedencia").addEventListener("keyup", function () { habilitarFormEncuestador() } );
-    document.getElementById("Correo").addEventListener("keyup", function () { habilitarFormEncuestador() } );
-    document.getElementById("tel").addEventListener("keyup", function () { habilitarFormEncuestador() } );
-    document.getElementById("contrasenia").addEventListener("keyup", function () { habilitarFormEncuestador() } );
-    document.getElementById("contrasenia2").addEventListener("keyup", function () { habilitarFormEncuestador() } );
-    
+}
 
+// Agregar event listeners en el sexto HTML (Encuestador)
+var nombreEncuestadorElement = document.getElementById("nombrecompletos");
+if (nombreEncuestadorElement) {
+  nombreEncuestadorElement.addEventListener("keyup", habilitarFormEncuestador);
+}
 
+var apellidoPaternoEncuestadorElement = document.getElementById("apellidopaterno");
+if (apellidoPaternoEncuestadorElement) {
+  apellidoPaternoEncuestadorElement.addEventListener("keyup", habilitarFormEncuestador);
+}
+
+var apellidoMaternoEncuestadorElement = document.getElementById("apellidomaterno");
+if (apellidoMaternoEncuestadorElement) {
+  apellidoMaternoEncuestadorElement.addEventListener("keyup", habilitarFormEncuestador);
+}
+
+var edadEncuestadorElement = document.getElementById("edad");
+if (edadEncuestadorElement) {
+  edadEncuestadorElement.addEventListener("keyup", habilitarFormEncuestador);
+}
+
+var localidadEncuestadorElement = document.getElementById("procedencia");
+if (localidadEncuestadorElement) {
+  localidadEncuestadorElement.addEventListener("keyup", habilitarFormEncuestador);
+}
+
+var emailEncuestadorElement = document.getElementById("Correo");
+if (emailEncuestadorElement) {
+  emailEncuestadorElement.addEventListener("keyup", habilitarFormEncuestador);
+}
+
+var telEncuestadorElement = document.getElementById("tel");
+if (telEncuestadorElement) {
+  telEncuestadorElement.addEventListener("keyup", habilitarFormEncuestador);
+}
+
+var contraEncuestadorElement = document.getElementById("contrasenia");
+if (contraEncuestadorElement) {
+  contraEncuestadorElement.addEventListener("keyup", habilitarFormEncuestador);
+}
+
+var contra2EncuestadorElement = document.getElementById("contrasenia2");
+if (contra2EncuestadorElement) {
+  contra2EncuestadorElement.addEventListener("keyup", habilitarFormEncuestador);
+}
+
+var botonCrearEncuestaVar = document.getElementById("boton-enviar");
+if (botonCrearEncuestaVar) {
+  botonCrearEncuestaVar.disabled = true; // Inicialmente se deshabilita el botón
+}
 // -----------------------------------------------------------------
 
 function limpiarFormulario() {

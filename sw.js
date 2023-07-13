@@ -1,3 +1,5 @@
+importScripts('https://cdn.jsdelivr.net/npm/pouchdb@8.0.1/dist/pouchdb.min.js');
+importScripts('BD/sw-db.js');
 importScripts('BD/sw-utils.js');
 
 const STATIC_CACHE = 'static-v1';
