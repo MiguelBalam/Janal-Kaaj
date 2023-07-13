@@ -884,7 +884,9 @@ border-color: var(--mostaza) !important;
     background-color: rgba(82, 81, 79, 0.314);
   }
   
-  
+  .resaltado {
+    background-color: yellow;
+  }
   
     
    
