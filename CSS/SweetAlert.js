@@ -371,14 +371,15 @@ function habilitarbtn3() {
     }
     if (mensaje.value == "") {
       v++;
-    }
-
-    var botonEnviar = document.getElementById("boton-enviar");
-    if (botonEnviar) {
-      botonEnviar.disabled = v !== 0;
-    }
+    }   
   }
-}
+  const boton = document.getElementById('enviarContacto');
+
+  boton.addEventListener('click', function(event) {
+    if (event.target === boton && v == 0) {
+      notiEnviarForm();     
+    }
+  });}
 
 // Agregar event listeners en el cuarto HTML
 var nombreElement2 = document.getElementById("nombre");
@@ -722,3 +723,4 @@ async function callerFun(){
 callerFun();
 
 }
+

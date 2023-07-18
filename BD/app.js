@@ -424,63 +424,61 @@ function doImageTest() {
 
 // Crear Cards para noticias
 
-function createCard(img) {
-  // Crear el elemento div con la clase "card"
-  var cardDiv = document.createElement("div");
-  cardDiv.classList.add("card");
+function crearCard() {
+  // Crear elementos y asignar atributos
+  var colDiv = document.createElement('div');
+  colDiv.classList.add('col-lg-3', 'order-lg-last');
 
-  // Crear el elemento div con la clase "card-body"
-  var cardBodyDiv = document.createElement("div");
-  cardBodyDiv.classList.add("card-body");
+  var cardDiv = document.createElement('div');
+  cardDiv.classList.add('card');
 
-  // Crear la etiqueta img con el ID proporcionado
-  var img = document.createElement("img");
-  img.id = imgId;
-  img.classList.add("img-fluid", "rounded");
-  cardBodyDiv.appendChild(img);
+  var cardBodyDiv = document.createElement('div');
+  cardBodyDiv.classList.add('card-body');
 
-  // Crear el elemento div con la clase "card-titulo"
-  var cardTituloDiv = document.createElement("div");
-  cardTituloDiv.classList.add("card-titulo");
+  var imgElement = document.createElement('img');
+  imgElement.classList.add('img-fluid', 'rounded');
+  imgElement.setAttribute('id', 'img-prueba');
 
-  // Crear la etiqueta p con el ID proporcionado
-  var p = document.createElement("p");
-  p.id = pId;
-  p.classList.add("fs-6", "fw-bold", "p_top");
-  cardTituloDiv.appendChild(img);
+  var cardTituloDiv = document.createElement('div');
+  cardTituloDiv.classList.add('card-titulo');
+
+  var tituloParrafo = document.createElement('p');
+  tituloParrafo.classList.add('fs-6', 'fw-bold', 'p_top');
+  tituloParrafo.setAttribute('id', 'titulo');
+  tituloParrafo.textContent = 'Seguridad Alimentaria y Nutricional';
+
+  var cardTextoDiv = document.createElement('div');
+  cardTextoDiv.classList.add('card-texto');
+
+  var textoParrafo = document.createElement('p');
+  textoParrafo.setAttribute('id', 'cuerpo');
+  textoParrafo.textContent = 'Dolor modi repudiandae quia beatae consectetur? ullafugit ullam, accusamus! Totam mollitia eveniet!';
+
+  var flexRowDiv = document.createElement('div');
+  flexRowDiv.classList.add('flex-row', 'text-end');
+
+  var verMasLink = document.createElement('a');
+  verMasLink.setAttribute('href', '#');
+  verMasLink.classList.add('link-card');
+  verMasLink.textContent = 'Ver más..';
+
+  // Construir la estructura del DOM
+  cardTituloDiv.appendChild(tituloParrafo);
+  cardTextoDiv.appendChild(textoParrafo);
+  flexRowDiv.appendChild(verMasLink);
+
+  cardBodyDiv.appendChild(imgElement);
   cardBodyDiv.appendChild(cardTituloDiv);
-
-  // Crear el elemento div con la clase "card-texto"
-  var cardTextoDiv = document.createElement("div");
-  cardTextoDiv.classList.add("card-texto");
-
-  // Crear la etiqueta p sin ID
-  var pTexto = document.createElement("p");
-  cardTextoDiv.appendChild(img);
   cardBodyDiv.appendChild(cardTextoDiv);
-
-  // Crear el elemento div con la clase "flex-row text-end"
-  var flexRowDiv = document.createElement("div");
-  flexRowDiv.classList.add("flex-row", "text-end");
-
-  // Crear el elemento de enlace <a> con el atributo href="#"
-  var link = document.createElement("a");
-  link.href = "#";
-  link.classList.add("link-card");
-  link.textContent = "Ver más..";
-  flexRowDiv.appendChild(link);
   cardBodyDiv.appendChild(flexRowDiv);
 
-  // Agregar el elemento cardBodyDiv al elemento cardDiv
   cardDiv.appendChild(cardBodyDiv);
 
-  // Obtener el contenedor donde quieres agregar la nueva tarjeta (por ejemplo, el body)
-  var container = document.querySelector("#container");
-
-  // Agregar la nueva tarjeta al contenedor
-  container.appendChild(cardDiv);
+  // Agregar la tarjeta al elemento deseado del DOM
+  var contenedor = document.getElementById('contenedor'); 
+  colDiv.appendChild(cardDiv);
+  contenedor.appendChild(colDiv);
 }
-
 
 // Cierra mostrar datos noticias
 
@@ -2745,7 +2743,6 @@ function contieneCheckboxId(checkboxes, id) {
     };
   }
 
-//función para almacenar logotipo
 function validarImagen() {
   var archivo = document.getElementById('imagen').files[0];
   
@@ -2757,17 +2754,17 @@ function validarImagen() {
     if (archivo.type === 'image/png') {
       img.onload = function() {
         if (img.width <= limiteAncho && img.height <= limiteAlto) {
-          // Las dimensiones de la imagen son válidas, puedes proceder con el procesamiento o guardado
-          // Aquí llamarías a tu función para guardar o procesar la imagen en IndexedDB o en tu lógica de backend
-          guardarImagen(archivo);
+          // Las dimensiones de la imagen son válidas, puedes proceder con el guardado
         } else {
           alert('Las dimensiones de la imagen exceden el límite permitido (115x115)');
+          document.getElementById('imagen').value = null; // Restablecer el valor del input
         }
       };
       
       img.src = URL.createObjectURL(archivo);
     } else {
       alert('Seleccione un archivo PNG válido');
+      document.getElementById('imagen').value = null; // Restablecer el valor del input
     }
   }
 }
@@ -2783,6 +2780,8 @@ function guardarImagen() {
       guardarEnIndexedDB(imagenDataUrl, Proce);
     };
     reader.readAsDataURL(archivo);
+  }else{
+    alert('No existe archivo para guardar');
   }
 }
 
@@ -2804,7 +2803,7 @@ function guardarEnIndexedDB(dataUrl, proce) {
     solicitud.onsuccess = function(event) {
       console.log('Imagen y valor de "Proce" guardados en IndexedDB');
       var claveGenerada = event.target.result;
-      mostrarImagenEnDiv(claveGenerada);
+      // mostrarImagenEnDiv(claveGenerada);
     };
 
     solicitud.onerror = function() {
@@ -2816,6 +2815,8 @@ function guardarEnIndexedDB(dataUrl, proce) {
     console.error('Error al abrir la base de datos');
   };
 }
+
+// document.getElementById('guardarBoton').addEventListener('click', guardarImagen);
 
 function mostrarImagenEnDiv(claveGenerada) {
   var request = indexedDB.open('Janal', 1);
@@ -2914,9 +2915,6 @@ function mostrarAlerta(mensaje) {
   var alertaModal = new bootstrap.Modal(document.getElementById('alertaModal'), { backdrop: 'static' });
   alertaModal.show();
 }
-// Estilo CSS para resaltar el texto
-// var css = '.resaltado { background-color: yellow; }';
-// var style = document.createElement('style');
-// style.type = 'text/css';
-// style.appendChild(document.createTextNode(css));
-// document.head.appendChild(style);
+
+
+
