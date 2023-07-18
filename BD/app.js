@@ -2892,3 +2892,23 @@ function mostrarAlerta(mensaje) {
 // style.type = 'text/css';
 // style.appendChild(document.createTextNode(css));
 // document.head.appendChild(style);
+function mostrarAlerta() {
+  // Verificar si las funciones se han ejecutado correctamente
+  var verificarPasswords = true; // Variable que indica si la función 1 se ha ejecutado correctamente
+  var funcion2Ejecutada = true; // Variable que indica si la función 2 se ha ejecutado correctamente
+  var funcion3Ejecutada = true; // Variable que indica si la función 3 se ha ejecutado correctamente
+
+  // Verificar el estado de cada función
+  if (funcion1Ejecutada && funcion2Ejecutada && funcion3Ejecutada) {
+    // Todas las funciones se han ejecutado correctamente
+    alert("Todas las funciones se han ejecutado correctamente");
+  }
+}
+
+// Llamar a las funciones
+funcion1();
+funcion2();
+funcion3();
+
+// Llamar a la función para mostrar la alerta
+mostrarAlerta();
