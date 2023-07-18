@@ -29,13 +29,13 @@
         </li>
         <li>
           <div class="iocn-link">
-            <a href="perfil_admin.html">
+            <a href="#">
               <i class="bx bx-collection"></i>
               <span class="link_name">Perfil</span>
             </a>
           </div>
           <ul class="sub-menu blank">
-            <li><a class="link_name" href="perfil_admin.html">Perfil</a></li>
+            <li><a class="link_name" href="#">Perfil</a></li>
           </ul>
         </li>
         <li>
@@ -48,6 +48,7 @@
           </div>
           <ul class="sub-menu">
             <li><a class="link_name" href="#">Noticias</a></li>
+            <li><a href="">Publicar</a></li>
             <li><a href="noticias.html">Crear</a></li>
             <li><a href="#">Editar</a></li>
             <li><a href="#">Borrar</a></li>
@@ -91,26 +92,30 @@
         </li>
       </ul>
     </div>
-    <section class="home-section">
+    <section class="home-section" id="contenido">
       <div class="home-content">
         <i class="bx bx-menu"></i>
         <span class="text">Dashboard Administrador</span>
       </div>
     </section>
+
+
     <script>
       let arrow = document.querySelectorAll(".arrow");
       for (var i = 0; i < arrow.length; i++) {
         arrow[i].addEventListener("click", (e) => {
-          let arrowParent = e.target.parentElement.parentElement; //selecting main parent of arrow
+          let arrowParent = e.target.parentElement.parentElement; // seleccionando el padre principal de la flecha
           arrowParent.classList.toggle("showMenu");
         });
       }
+
       let sidebar = document.querySelector(".sidebar");
       let sidebarBtn = document.querySelector(".bx-menu");
-      console.log(sidebarBtn);
       sidebarBtn.addEventListener("click", () => {
         sidebar.classList.toggle("close");
       });
+
+
     </script>
   </body>
 </html>

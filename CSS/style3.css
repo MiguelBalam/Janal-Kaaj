@@ -822,6 +822,10 @@ opacity: 0;
   background-color: rgba(82, 81, 79, 0.314);
 }
 
+.scroll-horizontal {
+  overflow-x: scroll;
+  white-space: nowrap;
+}
 
   
  
