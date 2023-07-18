@@ -427,7 +427,7 @@ function doImageTest() {
 function crearCard() {
   // Crear elementos y asignar atributos
   var colDiv = document.createElement('div');
-  colDiv.classList.add('col-lg-3');
+  colDiv.classList.add('col-lg-3', 'order-lg-last');
 
   var cardDiv = document.createElement('div');
   cardDiv.classList.add('card');
@@ -475,14 +475,10 @@ function crearCard() {
   cardDiv.appendChild(cardBodyDiv);
 
   // Agregar la tarjeta al elemento deseado del DOM
-  var contenedor = document.getElementById('contenedor'); // Reemplaza 'contenedor' con el ID del elemento donde deseas agregar la tarjeta
+  var contenedor = document.getElementById('contenedor'); 
   colDiv.appendChild(cardDiv);
   contenedor.appendChild(colDiv);
 }
-
-
-
-
 
 // Cierra mostrar datos noticias
 
