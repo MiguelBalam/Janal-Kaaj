@@ -437,7 +437,15 @@ border-color: var(--mostaza) !important;
   background-position: 1rem center;
   text-align: center;
 }
-
+.Alerta {
+  font-size: 24px; /* Tamaño del icono */
+  cursor: pointer;
+}
+.Alerta:hover {
+  color: red;
+  transform: scale(1.2);
+    border-color: var(--mostaza) !important;
+}
 /*Termina */
 /* codigo menu de componentes index */
 #menu_sidebar{

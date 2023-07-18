@@ -2721,7 +2721,6 @@ function contieneCheckboxId(checkboxes, id) {
     };
   }
 
-//función para almacenar logotipo
 function validarImagen() {
   var archivo = document.getElementById('imagen').files[0];
   
@@ -2733,17 +2732,17 @@ function validarImagen() {
     if (archivo.type === 'image/png') {
       img.onload = function() {
         if (img.width <= limiteAncho && img.height <= limiteAlto) {
-          // Las dimensiones de la imagen son válidas, puedes proceder con el procesamiento o guardado
-          // Aquí llamarías a tu función para guardar o procesar la imagen en IndexedDB o en tu lógica de backend
-          guardarImagen(archivo);
+          // Las dimensiones de la imagen son válidas, puedes proceder con el guardado
         } else {
           alert('Las dimensiones de la imagen exceden el límite permitido (115x115)');
+          document.getElementById('imagen').value = null; // Restablecer el valor del input
         }
       };
       
       img.src = URL.createObjectURL(archivo);
     } else {
       alert('Seleccione un archivo PNG válido');
+      document.getElementById('imagen').value = null; // Restablecer el valor del input
     }
   }
 }
@@ -2759,6 +2758,8 @@ function guardarImagen() {
       guardarEnIndexedDB(imagenDataUrl, Proce);
     };
     reader.readAsDataURL(archivo);
+  }else{
+    alert('No existe archivo para guardar');
   }
 }
 
@@ -2780,7 +2781,7 @@ function guardarEnIndexedDB(dataUrl, proce) {
     solicitud.onsuccess = function(event) {
       console.log('Imagen y valor de "Proce" guardados en IndexedDB');
       var claveGenerada = event.target.result;
-      mostrarImagenEnDiv(claveGenerada);
+      // mostrarImagenEnDiv(claveGenerada);
     };
 
     solicitud.onerror = function() {
@@ -2792,6 +2793,8 @@ function guardarEnIndexedDB(dataUrl, proce) {
     console.error('Error al abrir la base de datos');
   };
 }
+
+// document.getElementById('guardarBoton').addEventListener('click', guardarImagen);
 
 function mostrarImagenEnDiv(claveGenerada) {
   var request = indexedDB.open('Janal', 1);
@@ -2890,29 +2893,6 @@ function mostrarAlerta(mensaje) {
   var alertaModal = new bootstrap.Modal(document.getElementById('alertaModal'), { backdrop: 'static' });
   alertaModal.show();
 }
-// Estilo CSS para resaltar el texto
-// var css = '.resaltado { background-color: yellow; }';
-// var style = document.createElement('style');
-// style.type = 'text/css';
-// style.appendChild(document.createTextNode(css));
-// document.head.appendChild(style);
-function mostrarAlerta() {
-  // Verificar si las funciones se han ejecutado correctamente
-  var verificarPasswords = true; // Variable que indica si la función 1 se ha ejecutado correctamente
-  var funcion2Ejecutada = true; // Variable que indica si la función 2 se ha ejecutado correctamente
-  var funcion3Ejecutada = true; // Variable que indica si la función 3 se ha ejecutado correctamente
 
-  // Verificar el estado de cada función
-  if (funcion1Ejecutada && funcion2Ejecutada && funcion3Ejecutada) {
-    // Todas las funciones se han ejecutado correctamente
-    alert("Todas las funciones se han ejecutado correctamente");
-  }
-}
 
-// Llamar a las funciones
-funcion1();
-funcion2();
-funcion3();
 
-// Llamar a la función para mostrar la alerta
-mostrarAlerta();
