@@ -826,9 +826,10 @@ function manejadorValidacion(e) {
     function borrar(e){
       // console.log ('borrar',e)
       var id = e.target.id;
-      
       var llave = id.substr(1)
-      // console.log(id,llave);
+
+
+      
       if(llave){
         db.transaction('Reactivos','readwrite')
         .objectStore('Reactivos')
@@ -1437,8 +1438,24 @@ function mostrarVarSelec() {
 
           request.onsuccess = (ev) => {
             //reactivoscrear();
-            console.log('successfully added an object',ev);
-            mostrarPreguntas(); 
+            console.log('successfully added an object',ev); 
+
+            Swal.fire({
+              title: "Acción exitosa",
+              text: "El reactivo se ha creado correctamente.",
+              icon: "success",
+              timer: 4000, // Mostrar el aviso por 3 segundos
+              showConfirmButton: true,
+              timerProgressBar: true,
+              confirmButtonColor: '#3085d6',
+              confirmButtonText: 'Okay'
+            }).then(function() {
+              // Aquí puedes agregar el código que debe ejecutarse después de que el aviso desaparezca
+              document.getElementById("ReactivoCre").value = '';
+              document.getElementById("CategoriaReactivos").value = '';
+              document.getElementById('TipoRes').selectedIndex = 0;
+              mostrarPreguntas(); 
+            });
 
           };
 
@@ -2474,6 +2491,7 @@ function mostrarPreguntas() {
  
   var encuestaId;
 
+
 function crearEncuestaFinal() {
   var creador = document.getElementById("aqui").value;
   var Titulo = document.getElementById("Titulo").value.trim();
@@ -2515,12 +2533,20 @@ function crearEncuestaFinal() {
         console.log("Relación entre la encuesta y los reactivos creada correctamente");
       };
 
-      console.log(e);
-      alert("Se insertaron los datos");
-
-      buscarE();
-
-      EncuestaVistaPV2();
+      Swal.fire({
+        title: "Acción exitosa",
+        text: "La encuesta se ha creado correctamente.",
+        icon: "success",
+        timer: 4000, // Mostrar el aviso por 3 segundos
+        showConfirmButton: true,
+        timerProgressBar: true,
+        confirmButtonColor: '#3085d6',
+        confirmButtonText: 'Okay'
+      }).then(function() {
+        // Aquí puedes agregar el código que debe ejecutarse después de que el aviso desaparezca
+        buscarE();
+        EncuestaVistaPV2();
+      });
     };
   });
 }
