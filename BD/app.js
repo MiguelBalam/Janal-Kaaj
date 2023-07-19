@@ -116,6 +116,7 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log('upgrade',db);
        
     });
+<<<<<<< HEAD
     
     //sube la imagen a la base de datos
 			
@@ -125,6 +126,10 @@ document.addEventListener('DOMContentLoaded', () => {
     //   obtenerValorTd();
     //   console.log("triste");
     // });
+=======
+       
+  
+>>>>>>> 21f369fb74816faea3f35073f1a34942fa1b9e8a
     //funciones para cursores
     DBOpenReq.addEventListener('success',(ev)=>{
      
@@ -139,8 +144,11 @@ document.addEventListener('DOMContentLoaded', () => {
       
       buscar()
       buscarE()
+<<<<<<< HEAD
      
       //mostrarEncuestaVar(encuestaVarId)
+=======
+>>>>>>> 21f369fb74816faea3f35073f1a34942fa1b9e8a
       EncuestaVistaPV2()
      reactivoscrear()
 
@@ -157,15 +165,25 @@ document.addEventListener('DOMContentLoaded', () => {
       
      
       //EncaEncuestaVista()
+<<<<<<< HEAD
       
      // buscarEVar()
     
+=======
+      // buscarE()
+     // buscarEVar()
+    //  mostrarEncuesta()
+>>>>>>> 21f369fb74816faea3f35073f1a34942fa1b9e8a
     
   
     
      buildList()
    
+<<<<<<< HEAD
      
+=======
+      // buscar()
+>>>>>>> 21f369fb74816faea3f35073f1a34942fa1b9e8a
     
      
       buscarEVar()
@@ -190,6 +208,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
   
    
+<<<<<<< HEAD
       
       EncuestaV()
       
@@ -280,6 +299,12 @@ document.addEventListener('DOMContentLoaded', () => {
     };
   };
 } */
+=======
+      // Encuesta1()
+      EncuestaV()
+      
+    });
+>>>>>>> 21f369fb74816faea3f35073f1a34942fa1b9e8a
 
  
 // registro de datos
@@ -408,47 +433,61 @@ document.addEventListener('DOMContentLoaded', () => {
 })();
 
 
+//Subir Noticas
 
-// Noticias Imagen
-/*function mostrarDatos() {
+function agregarEventoFormulario() {
+  const formulario = document.getElementById('formularioNews');
+
+  formulario.addEventListener('submit', function(event) {
+    event.preventDefault(); // Evita que el formulario se envíe
+
+    const titulo = document.getElementById('titulo').value;
+    const cuerpo = document.getElementById('noticia').value;
+    const imagen = document.getElementById('image').files[0];
+
+    // Llama a la función para almacenar los datos en la base de datos
+    guardarDatos(titulo, cuerpo, imagen);
+  });
+}
+
+function guardarDatos(titulo, cuerpo, imagen) {
   const request = indexedDB.open('Janal', 1); // Abre la base de datos 'Janal' con la versión 1
 
   request.onerror = function(event) {
-    console.log('Error al abrir la base de datos');
+    console.log('Error al abrir la base de datos'); // Maneja el evento de error si hay un problema al abrir la base de datos
   };
 
   request.onsuccess = function(event) {
     const db = event.target.result; // Obtiene la referencia a la base de datos
-
-    const transaction = db.transaction('Noticias', 'readonly'); // Inicia una transacción de solo lectura en el objeto de almacenamiento 'Noticias'
-    const objectStore = transaction.objectStore('Noticias'); // Obtiene el objeto de almacenamiento 'Noticias'
-
-    const results = document.getElementById('xd'); // Obtén la etiqueta <p> donde deseas mostrar los datos
-
-    objectStore.openCursor().onsuccess = function(event) {
-      const cursor = event.target.result; // Obtiene el cursor que permite iterar sobre los registros
-
-      if (cursor) {
-        // Accede a los datos de cada registro
-        const titulo = cursor.value.titulo;
-        const cuerpo = cursor.value.cuerpo;
-        const imagen = cursor.value.imagen;
-
-        // Muestra los datos en la etiqueta <p>
-        const paragraph = document.createElement('p');
-        paragraph.textContent = `Título: ${titulo} //, Cuerpo: ${cuerpo}, Imagen: ${imagen}`;
-        results.appendChild(paragraph);
-
-        cursor.continue(); // Avanza al siguiente registro
-      }
+    var reader = new FileReader(); // Crea una instancia de FileReader, que se utiliza para leer el contenido del archivo
+  
+    // reader.readAsDataURL(file); 
+    reader.readAsBinaryString(imagen); // Lee el contenido del archivo como una cadena binaria
+    reader.onload = function(e) {
+      let bits = e.target.result;
+      const transaction = db.transaction('Noticias', 'readwrite');
+      const objectStore = transaction.objectStore('Noticias');
+      const nuevaNoticia = { titulo: titulo, cuerpo: cuerpo, data: bits };
+      const requestAdd = objectStore.add(nuevaNoticia);
+    
+      requestAdd.onsuccess = function(event) {
+        console.log('Datos almacenados con éxito'); // Maneja el evento de éxito cuando los datos se almacenan correctamente en IndexedDB
+      };
+  
+      requestAdd.onerror = function(event) {
+        console.log('Error al almacenar los datos'); // Maneja el evento de error si hay un problema al almacenar los datos en IndexedDB
+      };
+  
+      transaction.oncomplete = function(event) {
+        db.close(); // Cierra la conexión con la base de datos una vez que la transacción se completa
+      };
     };
-
-    transaction.oncomplete = function(event) {
-      db.close(); // Cierra la conexión con la base de datos una vez que se completa la transacción
-    };
+    
+    
   };
 }
-*/
+
+//Mostrar datos noticias
 
 function mostrarDatos() {
   const request = indexedDB.open('Janal', 1);
@@ -463,7 +502,7 @@ function mostrarDatos() {
     const transaction = db.transaction('Noticias', 'readonly');
     const objectStore = transaction.objectStore('Noticias');
 
-    const requestGet = objectStore.get(18);
+    const requestGet = objectStore.get(20);
 
     requestGet.onsuccess = function(event) {
       const data = event.target.result;
@@ -493,13 +532,10 @@ function mostrarDatos() {
   doImageTest();
 }
 
-
-
-
 function doImageTest() {
   console.log('doImageTest');
   let image = document.querySelector('#img-prueba');
-  let recordToLoad = parseInt(18);
+  let recordToLoad = parseInt(20);
   if(recordToLoad === '') recordToLoad = 1;
 
   let trans = db.transaction(['Noticias'], 'readonly');
@@ -511,7 +547,66 @@ function doImageTest() {
     image.src = 'data:image/jpeg;base64,' + btoa(record.data);
   }
 }
-// Cierra noticias
+
+// Crear Cards para noticias
+
+function crearCard() {
+  // Crear elementos y asignar atributos
+  var colDiv = document.createElement('div');
+  colDiv.classList.add('col-lg-3', 'order-lg-last');
+
+  var cardDiv = document.createElement('div');
+  cardDiv.classList.add('card');
+
+  var cardBodyDiv = document.createElement('div');
+  cardBodyDiv.classList.add('card-body');
+
+  var imgElement = document.createElement('img');
+  imgElement.classList.add('img-fluid', 'rounded');
+  imgElement.setAttribute('id', 'img-prueba');
+
+  var cardTituloDiv = document.createElement('div');
+  cardTituloDiv.classList.add('card-titulo');
+
+  var tituloParrafo = document.createElement('p');
+  tituloParrafo.classList.add('fs-6', 'fw-bold', 'p_top');
+  tituloParrafo.setAttribute('id', 'titulo');
+  tituloParrafo.textContent = 'Seguridad Alimentaria y Nutricional';
+
+  var cardTextoDiv = document.createElement('div');
+  cardTextoDiv.classList.add('card-texto');
+
+  var textoParrafo = document.createElement('p');
+  textoParrafo.setAttribute('id', 'cuerpo');
+  textoParrafo.textContent = 'Dolor modi repudiandae quia beatae consectetur? ullafugit ullam, accusamus! Totam mollitia eveniet!';
+
+  var flexRowDiv = document.createElement('div');
+  flexRowDiv.classList.add('flex-row', 'text-end');
+
+  var verMasLink = document.createElement('a');
+  verMasLink.setAttribute('href', '#');
+  verMasLink.classList.add('link-card');
+  verMasLink.textContent = 'Ver más..';
+
+  // Construir la estructura del DOM
+  cardTituloDiv.appendChild(tituloParrafo);
+  cardTextoDiv.appendChild(textoParrafo);
+  flexRowDiv.appendChild(verMasLink);
+
+  cardBodyDiv.appendChild(imgElement);
+  cardBodyDiv.appendChild(cardTituloDiv);
+  cardBodyDiv.appendChild(cardTextoDiv);
+  cardBodyDiv.appendChild(flexRowDiv);
+
+  cardDiv.appendChild(cardBodyDiv);
+
+  // Agregar la tarjeta al elemento deseado del DOM
+  var contenedor = document.getElementById('contenedor'); 
+  colDiv.appendChild(cardDiv);
+  contenedor.appendChild(colDiv);
+}
+
+// Cierra mostrar datos noticias
 
 function load(id) {
                 
@@ -624,7 +719,7 @@ function manejadorValidacion(e) {
                   mostrarAlerta();
                 }
               };
-            }
+            
 
             function mostrarAlertaCorreo() {
               var alertaCorreoDiv = document.querySelector("#alertaCorreo");
@@ -645,7 +740,7 @@ function manejadorValidacion(e) {
                 alertaDiv.textContent = "";
               }, 3000); // 5 segundos de retardo (5000 milisegundos)
         }
-      
+    }
 
       function enviarFormulario() {
         var valorInput1 = document.getElementById("Usuario").value;
@@ -855,9 +950,10 @@ function manejadorValidacion(e) {
     function borrar(e){
       // console.log ('borrar',e)
       var id = e.target.id;
-      
       var llave = id.substr(1)
-      // console.log(id,llave);
+
+
+      
       if(llave){
         db.transaction('Reactivos','readwrite')
         .objectStore('Reactivos')
@@ -1466,8 +1562,24 @@ function mostrarVarSelec() {
 
           request.onsuccess = (ev) => {
             //reactivoscrear();
-            console.log('successfully added an object',ev);
-            mostrarPreguntas(); 
+            console.log('successfully added an object',ev); 
+
+            Swal.fire({
+              title: "Acción exitosa",
+              text: "El reactivo se ha creado correctamente.",
+              icon: "success",
+              timer: 4000, // Mostrar el aviso por 3 segundos
+              showConfirmButton: true,
+              timerProgressBar: true,
+              confirmButtonColor: '#3085d6',
+              confirmButtonText: 'Okay'
+            }).then(function() {
+              // Aquí puedes agregar el código que debe ejecutarse después de que el aviso desaparezca
+              document.getElementById("ReactivoCre").value = '';
+              document.getElementById("CategoriaReactivos").value = '';
+              document.getElementById('TipoRes').selectedIndex = 0;
+              mostrarPreguntas(); 
+            });
 
           };
 
@@ -2503,6 +2615,7 @@ function mostrarPreguntas() {
  
   var encuestaId;
 
+
 function crearEncuestaFinal() {
   var creador = document.getElementById("aqui").value;
   var Titulo = document.getElementById("Titulo").value.trim();
@@ -2544,12 +2657,20 @@ function crearEncuestaFinal() {
         console.log("Relación entre la encuesta y los reactivos creada correctamente");
       };
 
-      console.log(e);
-      alert("Se insertaron los datos");
-
-      buscarE();
-
-      EncuestaVistaPV2();
+      Swal.fire({
+        title: "Acción exitosa",
+        text: "La encuesta se ha creado correctamente.",
+        icon: "success",
+        timer: 4000, // Mostrar el aviso por 3 segundos
+        showConfirmButton: true,
+        timerProgressBar: true,
+        confirmButtonColor: '#3085d6',
+        confirmButtonText: 'Okay'
+      }).then(function() {
+        // Aquí puedes agregar el código que debe ejecutarse después de que el aviso desaparezca
+        buscarE();
+        EncuestaVistaPV2();
+      });
     };
   });
 }
@@ -2747,8 +2868,7 @@ function contieneCheckboxId(checkboxes, id) {
       }
     };
   }
-  
-//función para almacenar logotipo
+
 function validarImagen() {
   var archivo = document.getElementById('imagen').files[0];
   
@@ -2760,17 +2880,17 @@ function validarImagen() {
     if (archivo.type === 'image/png') {
       img.onload = function() {
         if (img.width <= limiteAncho && img.height <= limiteAlto) {
-          // Las dimensiones de la imagen son válidas, puedes proceder con el procesamiento o guardado
-          // Aquí llamarías a tu función para guardar o procesar la imagen en IndexedDB o en tu lógica de backend
-          guardarImagen(archivo);
+          // Las dimensiones de la imagen son válidas, puedes proceder con el guardado
         } else {
           alert('Las dimensiones de la imagen exceden el límite permitido (115x115)');
+          document.getElementById('imagen').value = null; // Restablecer el valor del input
         }
       };
       
       img.src = URL.createObjectURL(archivo);
     } else {
       alert('Seleccione un archivo PNG válido');
+      document.getElementById('imagen').value = null; // Restablecer el valor del input
     }
   }
 }
@@ -2786,6 +2906,8 @@ function guardarImagen() {
       guardarEnIndexedDB(imagenDataUrl, Proce);
     };
     reader.readAsDataURL(archivo);
+  }else{
+    alert('No existe archivo para guardar');
   }
 }
 
@@ -2807,7 +2929,7 @@ function guardarEnIndexedDB(dataUrl, proce) {
     solicitud.onsuccess = function(event) {
       console.log('Imagen y valor de "Proce" guardados en IndexedDB');
       var claveGenerada = event.target.result;
-      mostrarImagenEnDiv(claveGenerada);
+      // mostrarImagenEnDiv(claveGenerada);
     };
 
     solicitud.onerror = function() {
@@ -2820,36 +2942,38 @@ function guardarEnIndexedDB(dataUrl, proce) {
   };
 }
 
-// function mostrarImagenEnDiv(claveGenerada) {
-//   var request = indexedDB.open('Janal', 1);
+// document.getElementById('guardarBoton').addEventListener('click', guardarImagen);
 
-//   request.onsuccess = function(event) {
-//     var db = event.target.result;
-//     var transaction = db.transaction(['Encuestador'], 'readonly');
-//     var objectStore = transaction.objectStore('Encuestador');
-//     var solicitud = objectStore.get(claveGenerada);
+function mostrarImagenEnDiv(claveGenerada) {
+  var request = indexedDB.open('Janal', 1);
 
-//     solicitud.onsuccess = function(event) {
-//       var resultado = event.target.result;
+  request.onsuccess = function(event) {
+    var db = event.target.result;
+    var transaction = db.transaction(['Encuestador'], 'readonly');
+    var objectStore = transaction.objectStore('Encuestador');
+    var solicitud = objectStore.get(claveGenerada);
 
-//       if (resultado) {
-//         var imagenDataUrl = resultado.dataUrl;
-//         var imagenDiv = document.getElementById('imagenDiv');
-//         imagenDiv.innerHTML = `<img src="${imagenDataUrl}" >`;
-//       } else {
-//         console.error('No se encontró la imagen en el almacén "Encuestador"');
-//       }
-//     };
+    solicitud.onsuccess = function(event) {
+      var resultado = event.target.result;
 
-//     solicitud.onerror = function() {
-//       console.error('Error al obtener la imagen del almacén "Encuestador"');
-//     };
-//   };
+      if (resultado) {
+        var imagenDataUrl = resultado.dataUrl;
+        var imagenDiv = document.getElementById('imagenDiv');
+        imagenDiv.innerHTML = `<img src="${imagenDataUrl}" >`;
+      } else {
+        console.error('No se encontró la imagen en el almacén "Encuestador"');
+      }
+    };
 
-//   request.onerror = function() {
-//     console.error('Error al abrir la base de datos');
-//   };
-// }
+    solicitud.onerror = function() {
+      console.error('Error al obtener la imagen del almacén "Encuestador"');
+    };
+  };
+
+  request.onerror = function() {
+    console.error('Error al abrir la base de datos');
+  };
+}
 
 
 // function mostrarAlerta() {
@@ -2920,6 +3044,7 @@ function mostrarAlerta(mensaje) {
 
 
 
+<<<<<<< HEAD
 var  encuestaVarId;
 
 function crearEncuestaFinalVariables() {
@@ -3132,3 +3257,5 @@ function mostrarEncuestaDatos() {
   };
 }
 
+=======
+>>>>>>> 21f369fb74816faea3f35073f1a34942fa1b9e8a

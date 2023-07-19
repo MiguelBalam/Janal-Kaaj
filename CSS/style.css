@@ -33,6 +33,7 @@
     font-family: 'IBM Plex Sans', sans-serif;
 }
 
+
 .section {
     position: relative;
     height: 100vh;
@@ -437,7 +438,15 @@ border-color: var(--mostaza) !important;
   background-position: 1rem center;
   text-align: center;
 }
-
+.Alerta {
+  font-size: 24px; /* Tamaño del icono */
+  cursor: pointer;
+}
+.Alerta:hover {
+  color: red;
+  transform: scale(1.2);
+    border-color: var(--mostaza) !important;
+}
 /*Termina */
 /* codigo menu de componentes index */
 #menu_sidebar{
@@ -603,6 +612,8 @@ border-color: var(--mostaza) !important;
     
     .team, footer {
       background: #c9f2e7;
+    
+ 
     }
     .footerB{
       background: #f2be5c;
@@ -653,11 +664,13 @@ border-color: var(--mostaza) !important;
   .form-container2 {
       position: relative;
       background-color: #ffffff;
-      opacity: 0.95;
       width: 680px;
+      opacity: 0.95;
       padding: 50px 30px;
       border-radius: 10px;
       box-shadow: 1px 1px 10px rgb(0, 0, 0);
+      margin-bottom: 4rem;
+      
   }
   .form-container3 {
     position: relative;
@@ -886,6 +899,11 @@ border-color: var(--mostaza) !important;
   
   .resaltado {
     background-color: yellow;
+  }
+  .sugerencia{
+    font-size: 14px;
+    color: #646464;
+    font-style: italic;
   }
   
     

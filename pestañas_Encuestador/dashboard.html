@@ -137,6 +137,94 @@
         <span class="text">Dashboard Encuestado(R)</span>
       </div>
     </section>
+    <section> 
+      <div class=" container col-sm-12 p-3 shadow-lg  bg-white rounded ">
+
+        <h1 class="bg-text-black text-center p-3 text-uppercase text-black">Menú de encuestas</h1>
+
+        <div class="row">
+            <div class="col-sm-6 text-center mb-3">
+                <from class="d-flex">
+                    <div class="modal fade" id="alertaModal" tabindex="-1" aria-labelledby="mymodel" aria-modal="true"
+                    style="display: none;" aria-modal="true" role="dialog">
+                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="mymodel">No se encontraron coincidencias</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body" id="alertaModalBody">
+                                
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" data-bs-dismiss="modal">Aceptar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                    <input id="filtrar" class="form-control me-2" type="search" placeholder="Buscar Nombre" aria-label="Search">
+                    <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" type="submit" id="boton_filtrar" onclick="realizarBusqueda()">Filtrar</button>
+                
+                
+                </from>
+            </div>
+
+           
+
+            <div class="col-sm-6 text-center mb-3">
+                <div> <label class="px-3 text-success">Crear Encuesta </label><button
+                        class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" type="button" id="boton_crear"
+                        data-bs-toggle="modal" data-bs-target="#mymodalcrear">
+                        <img src="../Img/Crear.svg">
+                    </button>
+                </div>
+                    
+                    <!-- Modal -->
+                    <div class="modal fade" id="mymodalcrear" tabindex="-1" aria-labelledby="mymodalcrear"
+                        aria-modal="true" style="display: none;" aria-modal="true" role="dialog">
+                        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="mymodalcrear">¿Qué tipo de encuesta desea crear?</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="d-grid gap-2 col-6 mx-auto">
+                                        <button
+                                            class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" id="tip_encuesta" 
+                                            onclick="window.location.href='../pestañas_Encuestador/crear_Evariables.html'">Encuesta
+                                            tipo variables </button>
+                                        <button
+                                            class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" id="tip_encuesta" 
+                                            onclick="window.location.href='../pestañas_Encuestador/crear.html'">Encuesta
+                                            tipo reactivos</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                
+            </div>
+        </div>
+
+
+            <div id="grupo__nombrecompletos" class="row mb-3">
+                <label for="nombrecompletos" class="col-sm-6 col-form-label px-4 text-center">Usuario: </label>
+                <div  class="col-sm-6">
+                    <input id="aqui" name="aqui"  type="text" class="form-control">
+                </div>
+            </div>
+
+    </div>
+    
+
+
+    </section>
     <script>
       let arrow = document.querySelectorAll(".arrow");
       for (var i = 0; i < arrow.length; i++) {
