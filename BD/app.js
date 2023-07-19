@@ -130,13 +130,14 @@ document.addEventListener('DOMContentLoaded', () => {
      
       db= ev.target.result;
    EncuestaVarMostrar(encuestaVarId)
-      mostrarEncuestaDatos()
+  
+   mostrarEncuestaDatos()
       buscarVar()
       Encuesta1()
       mostrarVarSelec() 
       EncuestaVarMostrar()
       //EncuestaVarMostrar() 
-      
+      cargarPagina()
       buscar()
       buscarE()
      
