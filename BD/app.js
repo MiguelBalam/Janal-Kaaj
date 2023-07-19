@@ -802,36 +802,82 @@ function manejadorValidacion(e) {
             if (cursor) {
               var objeto = cursor.value;
               var correoUsuario = objeto.correo;
+
     
               if (correoUsuario === primerValor) {
                 console.log("El valor coincide.");
-                // Realiza alguna acción si el valor coincide
+
                 var nombreUsuario = objeto.Nombre;
-                var GeneroUsuario = objeto.Genero;
                 var EdadUsuario = objeto.Edad;
                 var TelefonoUsuario = objeto.Telefono;
-                // var CorreoUsuario = objeto.Telefono;
-    
+                var ApaUsuario = objeto.ApellidoP;
+                var AmaUsuario = objeto.ApellidoM;
+                var GeneroUsuario = objeto.Genero;
+        
+                if (GeneroUsuario === 'Masculino') {
+                  document.getElementById('genMas').checked = true;
+                } else if (GeneroUsuario === 'Femenino') {
+                  document.getElementById('genfem').checked = true;
+                }
+        
                 document.getElementById("nombre").value = nombreUsuario;
-                document.getElementById("institucion").value = GeneroUsuario;
                 document.getElementById("edad").value = EdadUsuario;
                 document.getElementById("telefono").value = TelefonoUsuario;
-                // document.getElementById("otroCampo").value = CorreoUsuario;
+                document.getElementById("apellidoPa").value = ApaUsuario;
+                document.getElementById("apellidoMa").value = AmaUsuario;
+                // Realiza alguna acción si el valor coincide
     
-                return; // Termina el bucle, se encontró el objeto coincidente
+                var transactionEncuestador = db.transaction(['Encuestador'], 'readonly');
+                var objectStoreEncuestador = transactionEncuestador.objectStore('Encuestador');
+    
+                var requestEncuestador = objectStoreEncuestador.openCursor();
+                requestEncuestador.onsuccess = function(event) {
+                  var cursorEncuestador = event.target.result;
+    
+                  if (cursorEncuestador) {
+                    var objetoEncuestador = cursorEncuestador.value;
+                    var correoEncuestador = objetoEncuestador.correo;
+    
+                    if (correoEncuestador === primerValor) {
+                      console.log("El valor del correo coincide en el almacén nombreEncuestador");
+                  // Realiza alguna acción si el valor del correo coincide
+
+                  var Nombreinstitucion = objetoEncuestador.proce;
+                  var Logoinstitucion = objetoEncuestador.dataUrl;
+
+                  document.getElementById("institucion").value = Nombreinstitucion;
+                  // Suponiendo que "logoInstitucion" es un elemento de tipo <img>
+                  document.getElementById("logoInstitucion").src = Logoinstitucion;
+                  
+                  ImagenLogo(Logoinstitucion);
+                }
+
+                cursorEncuestador.continue(); // Continúa al siguiente objeto del almacén nombreEncuestador
+              } else {
+                console.log("No se encontró el objeto coincidente en el almacén nombreEncuestador");
+                // Realiza alguna acción si no se encontró el objeto coincidente
               }
-    
-              cursor.continue(); // Continúa al siguiente objeto del almacén
-            } else {
-              console.log("No se encontró el objeto coincidente.");
-              // Realiza alguna acción si no se encontró el objeto coincidente
-            }
-          };
-        };
-      }
-    
-      console.log("Finalizando ejecución de la función.");
-    }
+            };
+          }
+
+          cursor.continue(); // Continúa al siguiente objeto del almacén Usuario
+        } else {
+          console.log("No se encontró el objeto coincidente.");
+          // Realiza alguna acción si no se encontró el objeto coincidente
+        }
+      };
+    };
+  } else {
+    console.log("No se encontraron datos en el almacenamiento local.");
+    // Realiza alguna acción cuando no hay datos en el almacenamiento local
+  }
+}
+
+function ImagenLogo(dataUrl) {
+  console.log('doImageTest');
+  var image = document.querySelector('#logoInstitucion');
+  image.src = dataUrl;
+}
 // Encuesta predeterminada 1
 //almacena predetermidos
 
@@ -2972,12 +3018,13 @@ function validarImagen() {
 function guardarImagen() {
   var archivo = document.getElementById('imagen').files[0];
   var Proce = document.getElementById('procedencia').value.trim();
+  var correo =document.getElementById('Correo').value.trim();
   
   if (archivo) {
     var reader = new FileReader();
     reader.onload = function(event) {
       var imagenDataUrl = event.target.result;
-      guardarEnIndexedDB(imagenDataUrl, Proce);
+      guardarEnIndexedDB(imagenDataUrl, Proce, correo);
     };
     reader.readAsDataURL(archivo);
   }else{
@@ -2985,7 +3032,7 @@ function guardarImagen() {
   }
 }
 
-function guardarEnIndexedDB(dataUrl, proce) {
+function guardarEnIndexedDB(dataUrl, proce, correo) {
   var request = indexedDB.open('Janal', 1);
 
   request.onsuccess = function(event) {
@@ -2995,7 +3042,8 @@ function guardarEnIndexedDB(dataUrl, proce) {
 
     var imagen = {
       dataUrl: dataUrl,
-      proce: proce
+      proce: proce,
+      correo: correo
     };
 
     var solicitud = objectStore.add(imagen);
