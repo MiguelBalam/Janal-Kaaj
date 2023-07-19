@@ -219,7 +219,48 @@ function notiEditarVariables(){
   
 }
 
+function cancelarReactivo() {
 
+  Swal.fire({
+    title: '¿Estás seguro de cancelar?',
+    text: "Se regresara al menu principal",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Si, seguro',
+    cancelButtonText: 'Cancelar',
+  }).then((result) => {
+    if (result.isConfirmed) {
+      window.location.href = "../pestañas_Encuestador/crear.html";
+
+    }
+  });
+
+}
+
+
+function GuardarReactivosPre(){
+  Swal.fire({
+    title: 'Se ha gurdado los reactivos exitosamente',
+    text: 'Datos guardados correctamente.',
+    icon: 'success',
+    timer: 4000,
+    timerProgressBar: true,
+    confirmButtonColor: '#3085d6',
+    confirmButtonText: 'Okay',
+  }).then((result) => {
+    if (result.isConfirmed) {
+      // Redirect to the desired location after the timer has finished
+      window.location.href='../pestañas_Encuestador/crear.html'
+    }
+  });
+
+  setTimeout(function () {
+    window.location.href='../pestañas_Encuestador/crear.html'
+  }, 4000); // 4000 milliseconds (4 seconds)
+  
+}
 
 //desabilitar boton
 function habilitarbtnV() {

@@ -347,7 +347,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
           verificarPasswords();
          
-            console.log (ev);
+            // console.log (ev);
+
+            // Aquí se muestra la alerta SweetAlert2
+          Swal.fire({
+            icon: 'success',
+
+            title: '¡Datos enviados correctamente!',
+            text: 'Gracias por completar la encuesta.',
+            confirmButtonText: 'Aceptar',
+            allowOutsideClick: false,
+            allowEscapeKey: false
+          }).then((result) => {
+            if (result.isConfirmed) {
+              // Redirige a la página "login.html" en español
+              window.location.href = 'login.html';
+            }
+          });
+            
         };
         let store = tx.objectStore('Usuario');
         let request = store.add(Usuario);
