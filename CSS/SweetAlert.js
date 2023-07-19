@@ -428,7 +428,7 @@ function habilitarbtn3() {
     var email = document.getElementById("image");
   
   
-    if (nombre && apellido && email) {
+    if (nombre && apellido ) {
       var v = 0;
   
       if (nombre.value == "") {
@@ -437,16 +437,14 @@ function habilitarbtn3() {
       if (apellido.value == "") {
         v++;
       }
-      if (email.value == "") {
-        v++;
-      }
+      
   
     }
     const boton = document.getElementById('enviarNoticia');
   
     boton.addEventListener('click', function(event) {
-      if (event.target === boton && v == 0) {
-        notiEnviarForm();     
+      if (event.target === boton && v == 0) {   
+        limpiarFormularioNews();
       }
     });}
 

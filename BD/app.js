@@ -430,6 +430,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 //Subir Noticas
 
+
 function agregarEventoFormulario() {
   const formulario = document.getElementById('formularioNews');
 
@@ -442,6 +443,19 @@ function agregarEventoFormulario() {
 
     // Llama a la función para almacenar los datos en la base de datos
     guardarDatos(titulo, cuerpo, imagen);
+
+    Swal.fire({
+      title: 'Se han enviado los datos',
+      text: 'Datos enviados correctamente',
+      icon: 'success',
+      timer: 2000,
+      timerProgressBar: true,
+      confirmButtonColor: '#3085d6',
+      confirmButtonText: 'Confirmar',
+    });
+
+    document.getElementById("formularioNews").reset();
+
   });
 }
 
@@ -603,40 +617,40 @@ function crearCard() {
 
 // Cierra mostrar datos noticias
 
+//Jalar datos del encuestador
 function load(id) {
-                
+  
+    var transaction = db.transaction(["Usuario"], "readonly");
+    var objectStore = transaction.objectStore("Usuario");
+    var requestGet = objectStore.get(5);
 
-  var active;
-  var data = active.transaction(["Usuario"], "readonly");
-  var object = data.objectStore("Usuario");
-  
-  var request = object.get(parseInt(id));
-  
-  request.onsuccess = function () {
-      
-      var result = request.result;
+    requestGet.onsuccess = function(event) {
+      var usuario = event.target.result;
+      if (usuario) {
+        document.getElementById("nombre").value = usuario.Nombre;
+        document.getElementById("apellidoPa").value = usuario.ApellidoP;
+        document.getElementById("apellidoMa").value = usuario.ApellidoM;
+        document.getElementById("apellidoMa").value = usuario.ApellidoM;
+        document.getElementById("edad").value = usuario.Edad;
+        document.getElementById("contra").value = usuario.Contrasenia;
+        document.getElementById("telefono").value = usuario.Telefono;
 
-      const input = "result.name";
-  document.getElementById("xd").innerHTML = input;
-  
-  console.log('Dato obtenido:', result.name);
-
-  
-  if (result !== undefined) {
-          alert("ID: " + result.id + "\n\
-          DNI: " + result.ApellidoM + "\n\
-          Name: " + result.name + "\n\
-          Surname: " + result.ApellidoP);
+        var genero = usuario.Genero;
+        if (genero === "Masculino") {
+          document.getElementById("genMas").checked = true;
+        } else if (genero === "Femenino") {
+          document.getElementById("genfem").checked = true;
+        } else {
+          console.log("Género no válido.");
+        }
+      } else {
+        console.log("Usuario no encontrado.");
       }
-
+    };
+    requestGet.onerror = function(event) {
+      console.log("Error al obtener el usuario:", event.target.error);
+    };
   };
-  
-}
-
-
-
-
-
 
 
 //Verificar que las dos contraseñas coincidan
