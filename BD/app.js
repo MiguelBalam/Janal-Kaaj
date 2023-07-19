@@ -122,6 +122,8 @@ document.addEventListener('DOMContentLoaded', () => {
     DBOpenReq.addEventListener('success',(ev)=>{
      
       db= ev.target.result;
+      // enviarFormulario()
+      cargarPagina()
       Encuesta1()
       mostrarEncuesta()
       buscar()
@@ -162,7 +164,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // EncuestaVistaP()
       //mostrarSelecReac()
       predeSelecMos()
-      cargarPagina()
+      // cargarPagina()
       //buscar2()
      // Usuariosactivo()
     
@@ -218,7 +220,9 @@ document.addEventListener('DOMContentLoaded', () => {
         ApellidoM,
         Genero: generoSeleccionado,
         Edad,
-        Telefono
+        Telefono,
+        correo
+
         }
         let Autenticasion = {
             correo,
@@ -616,22 +620,87 @@ function manejadorValidacion(e) {
         }
     }
 
-      function enviarFormulario() {
-        var valorInput1 = document.getElementById("Usuario").value;
-        localStorage.setItem("valorInput1", valorInput1);
-       
+    function enviarFormulario() {
+      
+      var valorInput1 = document.getElementById("Usuario").value;
+      var valorInput2 = document.getElementById("contraseniaL").value;
+      
+      var datos = {
+        valor1: valorInput1,
+        valor2: valorInput2
+      };
+      
+      localStorage.setItem("datosUsuario", JSON.stringify(datos));
+    }
+    
+    function cargarPagina() {
+      var datosGuardados = localStorage.getItem("datosUsuario");
+      
+      if (datosGuardados) {
+        var datos = JSON.parse(datosGuardados);
+        var valorInput1 = datos.valor1;
+        var valorInput2 = datos.valor2;
+        
+        document.getElementById("aqui").value = valorInput1;
+        document.getElementById("contra").value = valorInput2;
+      }
+    }
+  
+    //Comparar datos 
+    function miFuncion() {
+      console.log("Iniciando ejecución de la función.");
+    
+      var datosUsuario = localStorage.getItem("datosUsuario");
+      if (datosUsuario) {
+        var datos = JSON.parse(datosUsuario);
+        var primerValor = datos.valor1;
+    
+        console.log("El valor de primerValor es:", primerValor);
+    
+        var request = indexedDB.open('Janal', 1);
+    
+        request.onsuccess = function(event) {
+          var db = event.target.result;
+          var transaction = db.transaction(['Usuario'], 'readonly');
+          var objectStore = transaction.objectStore('Usuario');
+    
+          var request = objectStore.openCursor();
+          request.onsuccess = function(event) {
+            var cursor = event.target.result;
+    
+            if (cursor) {
+              var objeto = cursor.value;
+              var correoUsuario = objeto.correo;
+    
+              if (correoUsuario === primerValor) {
+                console.log("El valor coincide.");
+                // Realiza alguna acción si el valor coincide
+                var nombreUsuario = objeto.Nombre;
+                var GeneroUsuario = objeto.Genero;
+                var EdadUsuario = objeto.Edad;
+                var TelefonoUsuario = objeto.Telefono;
+                // var CorreoUsuario = objeto.Telefono;
+    
+                document.getElementById("nombre").value = nombreUsuario;
+                document.getElementById("institucion").value = GeneroUsuario;
+                document.getElementById("edad").value = EdadUsuario;
+                document.getElementById("telefono").value = TelefonoUsuario;
+                // document.getElementById("otroCampo").value = CorreoUsuario;
+    
+                return; // Termina el bucle, se encontró el objeto coincidente
+              }
+    
+              cursor.continue(); // Continúa al siguiente objeto del almacén
+            } else {
+              console.log("No se encontró el objeto coincidente.");
+              // Realiza alguna acción si no se encontró el objeto coincidente
+            }
+          };
+        };
       }
     
-      function cargarPagina() {
-        var valorInput1 = localStorage.getItem("valorInput1");
-        document.getElementById("aqui").value = valorInput1;
-        
-      }
-     
-      
-      
-      
-      
+      console.log("Finalizando ejecución de la función.");
+    }
 // Encuesta predeterminada 1
 //almacena predetermidos
 
@@ -2891,4 +2960,41 @@ function mostrarAlerta(mensaje) {
 }
 
 
+//Mostrar cual usuario esta logueado actualmente 
+function verificarUsuarioLogueado() {
+  var request = indexedDB.open('Janal', 1);
+
+  request.onsuccess = function(event) {
+    var db = event.target.result;
+    var transaction = db.transaction(['Usuarios'], 'readonly');
+    var objectStore = transaction.objectStore('Usuarios');
+    var solicitud = objectStore.getAll();
+
+    solicitud.onsuccess = function(event) {
+      var usuarios = event.target.result;
+
+      if (usuarios && usuarios.length > 0) {
+        // El usuario está logueado, puedes mostrar sus datos
+        var usuarioLogueado = usuarios[0];
+        mostrarDatosUsuario(usuarioLogueado);
+      } else {
+        // No hay usuario logueado
+        // Puedes redirigir al usuario a la página de inicio de sesión
+      }
+    };
+
+    solicitud.onerror = function() {
+      console.error('Error al obtener los usuarios desde IndexedDB');
+    };
+  };
+
+  request.onerror = function() {
+    console.error('Error al abrir la base de datos');
+  };
+}
+
+function mostrarDatosUsuario(usuario) {
+  // Aquí puedes mostrar los datos del usuario en la página
+  console.log(usuario);
+}
 
