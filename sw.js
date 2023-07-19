@@ -15,6 +15,7 @@ const APP_SHELL = [
     'form_encuestados.html',
     'contactanos.html',
     'pestañas_Encuestador/crear_Evariables.html',
+    'pestañas_Encuestador/EncuestaVariables.html',
     'pestañas_Encuestador/crear.html',
     'pestañas_Encuestador/editar_Reactivos.html',
     'pestañas_Encuestador/editar_Variables.html',
