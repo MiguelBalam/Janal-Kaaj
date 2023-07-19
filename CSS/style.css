@@ -726,6 +726,9 @@ border-color: var(--mostaza) !important;
     position: absolute;
     
   }
+  .card2{
+    height: 1200px;
+  }
   .card{
     height: 520px;
   }

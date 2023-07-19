@@ -359,6 +359,34 @@ function habilitarbtn3() {
     }
   });}
 
+  function habilitarbtn4() {
+    var nombre = document.getElementById("titulo");
+    var apellido = document.getElementById("noticia");
+    var email = document.getElementById("image");
+  
+  
+    if (nombre && apellido && email) {
+      var v = 0;
+  
+      if (nombre.value == "") {
+        v++;
+      }
+      if (apellido.value == "") {
+        v++;
+      }
+      if (email.value == "") {
+        v++;
+      }
+  
+    }
+    const boton = document.getElementById('enviarNoticia');
+  
+    boton.addEventListener('click', function(event) {
+      if (event.target === boton && v == 0) {
+        notiEnviarForm();     
+      }
+    });}
+
 // Agregar event listeners en el cuarto HTML
 var nombreElement2 = document.getElementById("nombre");
 if (nombreElement2) {
