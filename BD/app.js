@@ -116,7 +116,6 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log('upgrade',db);
        
     });
-<<<<<<< HEAD
     
     //sube la imagen a la base de datos
 			
@@ -126,10 +125,6 @@ document.addEventListener('DOMContentLoaded', () => {
     //   obtenerValorTd();
     //   console.log("triste");
     // });
-=======
-       
-  
->>>>>>> 21f369fb74816faea3f35073f1a34942fa1b9e8a
     //funciones para cursores
     DBOpenReq.addEventListener('success',(ev)=>{
      
@@ -144,11 +139,8 @@ document.addEventListener('DOMContentLoaded', () => {
       
       buscar()
       buscarE()
-<<<<<<< HEAD
      
       //mostrarEncuestaVar(encuestaVarId)
-=======
->>>>>>> 21f369fb74816faea3f35073f1a34942fa1b9e8a
       EncuestaVistaPV2()
      reactivoscrear()
 
@@ -165,25 +157,15 @@ document.addEventListener('DOMContentLoaded', () => {
       
      
       //EncaEncuestaVista()
-<<<<<<< HEAD
       
      // buscarEVar()
     
-=======
-      // buscarE()
-     // buscarEVar()
-    //  mostrarEncuesta()
->>>>>>> 21f369fb74816faea3f35073f1a34942fa1b9e8a
     
   
     
      buildList()
    
-<<<<<<< HEAD
      
-=======
-      // buscar()
->>>>>>> 21f369fb74816faea3f35073f1a34942fa1b9e8a
     
      
       buscarEVar()
@@ -208,7 +190,6 @@ document.addEventListener('DOMContentLoaded', () => {
     
   
    
-<<<<<<< HEAD
       
       EncuestaV()
       
@@ -299,12 +280,6 @@ document.addEventListener('DOMContentLoaded', () => {
     };
   };
 } */
-=======
-      // Encuesta1()
-      EncuestaV()
-      
-    });
->>>>>>> 21f369fb74816faea3f35073f1a34942fa1b9e8a
 
  
 // registro de datos
@@ -3044,7 +3019,6 @@ function mostrarAlerta(mensaje) {
 
 
 
-<<<<<<< HEAD
 var  encuestaVarId;
 
 function crearEncuestaFinalVariables() {
@@ -3257,5 +3231,3 @@ function mostrarEncuestaDatos() {
   };
 }
 
-=======
->>>>>>> 21f369fb74816faea3f35073f1a34942fa1b9e8a
