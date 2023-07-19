@@ -7,8 +7,8 @@
   <title>Janal-Kaaj</title>
   <!-- Bootstrap -->
   <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
-  <link rel="stylesheet" href="CSS/bootstrap.min.css">
-  <link rel="stylesheet" href="CSS/style.css">
+  <link rel="stylesheet" href="../CSS/bootstrap.min.css">
+  <link rel="stylesheet" href="../CSS/style.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300&display=swap" rel="stylesheet">
@@ -19,27 +19,7 @@
 </head>
 
 <body class="IBM">
-  <nav class="navbar navbar-expand-lg fixed-top navbar-mi-colorLP" id="mainNav">
-    <div class="container">
-      <a class="navbar-brand" href="index.html">
-        <img src="./Img/Oficial_JanalKaaj.png" width="130px" height="65px">
-      </a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" 
-      data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-        Menu
-        <i class="fas fa-bars ms-1"></i>
-      </button>
-      <div class="collapse navbar-collapse justify-content-end" id="navbarResponsive">
-          <ul class="navbar-nav ms-auto py-4 py-lg-0">
-            <li class="nav-item"><a class="nav-link" href="planes_servicios.html">Planes y servicios</a></li>
-            <li class="nav-item"><a class="nav-link" target="_blank" href="https://www.acnur.org/nutricion-y-seguridad-alimentaria.html">Seguridad-Alimentaria</a></li>
-            <li class="nav-item"><a class="nav-link" href="Estadistica/index.html">Estadísticas</a></li>
-            <li class="nav-item"><a class="nav-link" href="contactanos.html">Contáctanos</a></li>
-            <li class="nav-item"><a class="nav-link" href="login.html">Iniciar Sesión</a></li>
-            <li class="nav-item"><button type="button" data-bs-toggle="modal" data-bs-target="#myModal" class="nav-link btnn btn-outline-warning text-white" data-bs-target="#myModal">Registrarse</button></li>
-          </ul>      
-    </div>
-  </nav>
+
   <div class="modal" tabindex="-1" id="myModal">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content align-content-center">
@@ -57,11 +37,11 @@
       </div>
     </div>
   </div>
-  <!--News-->
+  <!-- Contact-->
   <header class="section">
     <div class="container">
       <div class=" row text-white py-5">
-        <section class="d-flex justify-content-center my-4 IBM PruebaX" id="contact">
+        <section class="d-flex justify-content-center my-4 IBM" id="contact">
           <div class="form-container2">
             <h2 class="main__title text-center text-dark py-3">Noticias</h2>
             <form class="needs-validation" id="formularioNews">
@@ -102,7 +82,6 @@
                     <div class="invalid-feedback">
                         Llene el campo
                     </div> -->
-                    <label class="col-form-label sugerencia">Sugerencia: Usar imagenes horizontales</label>
                   </div>
                     <div class="form-file__result" id="result-image">
                       <img id="img-result" alt=""/>
@@ -112,8 +91,8 @@
               
               <div class="row justify-content-center py-4">
                 <button onClick="limpiarFormularioNews()" type="button" class="nav-link btnn btn-outline-warning text-white align">Cancelar</button>
-                <button onClick="agregarEventoFormulario();" class="btnn btn-outline-warning text-white"
-                type="submit" id="enviarNoticia">Publicar</button>
+                <button onClick="doImageTest();" class="btnn btn-outline-warning text-white"
+                type="submit" id="boton-enviar">Publicar</button>
               </div>      
                  
             </form>
@@ -126,7 +105,7 @@
   <footer class="footer">
     <div class="container py-4">
         <div class="row align-items-center">
-            <div class="col-sm-4 text-center "><img src="./Img/Oficial_JanalKaaj.png" width="180px" height="90px"></div>
+            <div class="col-sm-4 text-center "><img src="../Img/Oficial_JanalKaaj.png" width="180px" height="90px"></div>
             <div class="col-sm-4 my-3 my-lg-0 text-center">
                 <h5 class="">Enlaces</h5>
                
@@ -167,7 +146,6 @@
         })
     })()
 
-  
 
 </script>
   <!-- BOOTSTRAP SCRIPTS -->
@@ -180,11 +158,11 @@
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"
     integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
     crossorigin="anonymous"></script>
-  <link rel="stylesheet" href="/node_modules/@sweetalert2/themes/bootstrap-4/bootstrap-4.min.css">
-  <script src="/node_modules/sweetalert2/dist/sweetalert2.all.js"></script>
-  <script src="/CSS/SweetAlert.js"></script>
-  <script src="CSS/prueba.js"></script>
-  <script src="BD/app.js"></script>
+  <link rel="stylesheet" href="../node_modules/@sweetalert2/themes/bootstrap-4/bootstrap-4.min.css">
+  <script src="../node_modules/sweetalert2/dist/sweetalert2.all.js"></script>
+  <script src="../CSS/SweetAlert.js"></script>
+  <script src="../CSS/prueba.js"></script>
+  <script src="../BD/app.js"></script>
 </body>
 
 </html>

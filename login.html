@@ -45,12 +45,13 @@
               href="https://www.acnur.org/nutricion-y-seguridad-alimentaria.html">Seguridad-Alimentaria</a></li>
           <li class="nav-item"><a class="nav-link" href="Estadistica/index.html">Estadísticas</a></li>
           <li class="nav-item"><a class="nav-link" href="contactanos.html">Contáctanos</a></li>
-          <li class="nav-item"><a class="nav-link" href="loin.html">Iniciar Sesión</a></li>
+          <li class="nav-item"><a class="nav-link" href="login.html">Iniciar Sesión</a></li>
           <li class="nav-item"><button type="button" data-bs-toggle="modal" data-bs-target="#myModal"
               class="nav-link btnn btn-outline-warning text-white" data-bs-target="#myModal">Registrarse</button></li>
         </ul>
       </div>
   </nav>
+  <!-- modal para registarse como encuestador o encuestado  -->
   <div class="modal" tabindex="-1" id="myModal">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content align-content-center">
@@ -70,8 +71,9 @@
       </div>
     </div>
   </div>
-  <section class="section">
 
+
+  <section class="section">
     <div class="form-container">
       <h1 class="bg-text-black h1TextoTitulo">Janal-Kaaj</h1>
       <form id="login" method="post">
@@ -99,9 +101,9 @@
       <div class="control">
 
 
-        <input type="submit" id="controlE" class="submit" onclick="control(),enviarFormulario()" value="INICIAR SESIÓN">
-        <input type="button" class="submit" onclick="window.location.href='form_encuestador.html' ;"
-          value="REGISTRARSE">
+        <input type="submit" id="controlE" class="submit" onclick="control(),obtenerDatosIndexedDB(),enviarFormulario()" value="INICIAR SESIÓN">
+
+        <input type="button" data-bs-toggle="modal" data-bs-target="#myModal" class="submit" data-bs-target="#myModal" value="REGISTRARSE">
 
       </div>
 
@@ -161,5 +163,6 @@
   <script src="/node_modules/sweetalert2/dist/sweetalert2.all.js"></script>
   <script src="/CSS/SweetAlert.js"></script>
   <script src="CSS/prueba.js"></script>
+  <script src="BD/conexionbd.php"></script>
 
 </html>

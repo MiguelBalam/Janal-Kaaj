@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Janal Kaaj - Dashboard</title>
+    <link rel="stylesheet" href="/CSS/styleDashboard.css" />
+    <!-- Boxiocns CDN Link -->
+    <link
+      href="https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body>
+    <div class="sidebar close">
+      <div class="logo-details">
+        <i class="bx seleccionador"></i>
+        <span class="logo_name">Janal Kaaj</span>
+      </div>
+      <ul class="nav-links">
+        <li>
+          <a href="#">
+            <i class="bx bx-grid-alt"></i>
+            <span class="link_name">Dashboard</span>
+          </a>
+          <ul class="sub-menu blank">
+            <li><a class="link_name" href="#">Category</a></li>
+          </ul>
+        </li>
+        <li>
+          <div class="iocn-link">
+            <a href="#">
+              <i class="bx bx-collection"></i>
+              <span class="link_name">Category</span>
+            </a>
+            <i class="bx bxs-chevron-down arrow"></i>
+          </div>
+          <ul class="sub-menu">
+            <li><a class="link_name" href="#">Category</a></li>
+            <li><a href="#">HTML & CSS</a></li>
+            <li><a href="#">JavaScript</a></li>
+            <li><a href="#">PHP & MySQL</a></li>
+          </ul>
+        </li>
+        <li>
+          <div class="iocn-link">
+            <a href="#">
+              <i class="bx bx-book-alt"></i>
+              <span class="link_name">Posts</span>
+            </a>
+            <i class="bx bxs-chevron-down arrow"></i>
+          </div>
+          <ul class="sub-menu">
+            <li><a class="link_name" href="#">Posts</a></li>
+            <li><a href="#">Web Design</a></li>
+            <li><a href="#">Login Form</a></li>
+            <li><a href="#">Card Design</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="#">
+            <i class="bx bx-pie-chart-alt-2"></i>
+            <span class="link_name">Analytics</span>
+          </a>
+          <ul class="sub-menu blank">
+            <li><a class="link_name" href="#">Analytics</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="#">
+            <i class="bx bx-line-chart"></i>
+            <span class="link_name">Chart</span>
+          </a>
+          <ul class="sub-menu blank">
+            <li><a class="link_name" href="#">Chart</a></li>
+          </ul>
+        </li>
+        <li>
+          <div class="iocn-link">
+            <a href="#">
+              <i class="bx bx-plug"></i>
+              <span class="link_name">Plugins</span>
+            </a>
+            <i class="bx bxs-chevron-down arrow"></i>
+          </div>
+          <ul class="sub-menu">
+            <li><a class="link_name" href="#">Plugins</a></li>
+            <li><a href="#">UI Face</a></li>
+            <li><a href="#">Pigments</a></li>
+            <li><a href="#">Box Icons</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="#">
+            <i class="bx bx-compass"></i>
+            <span class="link_name">Explore</span>
+          </a>
+          <ul class="sub-menu blank">
+            <li><a class="link_name" href="#">Explore</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="#">
+            <i class="bx bx-history"></i>
+            <span class="link_name">History</span>
+          </a>
+          <ul class="sub-menu blank">
+            <li><a class="link_name" href="#">History</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="#">
+            <i class="bx bx-cog"></i>
+            <span class="link_name">Setting</span>
+          </a>
+          <ul class="sub-menu blank">
+            <li><a class="link_name" href="#">Setting</a></li>
+          </ul>
+        </li>
+        <li>
+          <div class="profile-details">
+            <div class="profile-content">
+              <img src="image/profile.jpg" alt="profileImg" />
+            </div>
+            <div class="name-job">
+              <div class="profile_name">@Usuario</div>
+              <div class="job">Encuestado(R)</div>
+            </div>
+            <i class="bx bx-log-out"></i>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <section class="home-section">
+      <div class="home-content">
+        <i class="bx bx-menu"></i>
+        <span class="text">Dashboard Encuestado(R)</span>
+      </div>
+    </section>
+    <section> 
+      <div class=" container col-sm-12 p-3 shadow-lg  bg-white rounded ">
+
+        <h1 class="bg-text-black text-center p-3 text-uppercase text-black">Menú de encuestas</h1>
+
+        <div class="row">
+            <div class="col-sm-6 text-center mb-3">
+                <from class="d-flex">
+                    <div class="modal fade" id="alertaModal" tabindex="-1" aria-labelledby="mymodel" aria-modal="true"
+                    style="display: none;" aria-modal="true" role="dialog">
+                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="mymodel">No se encontraron coincidencias</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body" id="alertaModalBody">
+                                
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" data-bs-dismiss="modal">Aceptar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                    <input id="filtrar" class="form-control me-2" type="search" placeholder="Buscar Nombre" aria-label="Search">
+                    <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" type="submit" id="boton_filtrar" onclick="realizarBusqueda()">Filtrar</button>
+                
+                
+                </from>
+            </div>
+
+           
+
+            <div class="col-sm-6 text-center mb-3">
+                <div> <label class="px-3 text-success">Crear Encuesta </label><button
+                        class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" type="button" id="boton_crear"
+                        data-bs-toggle="modal" data-bs-target="#mymodalcrear">
+                        <img src="../Img/Crear.svg">
+                    </button>
+                </div>
+                    
+                    <!-- Modal -->
+                    <div class="modal fade" id="mymodalcrear" tabindex="-1" aria-labelledby="mymodalcrear"
+                        aria-modal="true" style="display: none;" aria-modal="true" role="dialog">
+                        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="mymodalcrear">¿Qué tipo de encuesta desea crear?</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="d-grid gap-2 col-6 mx-auto">
+                                        <button
+                                            class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" id="tip_encuesta" 
+                                            onclick="window.location.href='../pestañas_Encuestador/crear_Evariables.html'">Encuesta
+                                            tipo variables </button>
+                                        <button
+                                            class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" id="tip_encuesta" 
+                                            onclick="window.location.href='../pestañas_Encuestador/crear.html'">Encuesta
+                                            tipo reactivos</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                
+            </div>
+        </div>
+
+
+            <div id="grupo__nombrecompletos" class="row mb-3">
+                <label for="nombrecompletos" class="col-sm-6 col-form-label px-4 text-center">Usuario: </label>
+                <div  class="col-sm-6">
+                    <input id="aqui" name="aqui"  type="text" class="form-control">
+                </div>
+            </div>
+
+    </div>
+    
+
+
+    </section>
+    <script>
+      let arrow = document.querySelectorAll(".arrow");
+      for (var i = 0; i < arrow.length; i++) {
+        arrow[i].addEventListener("click", (e) => {
+          let arrowParent = e.target.parentElement.parentElement; //selecting main parent of arrow
+          arrowParent.classList.toggle("showMenu");
+        });
+      }
+      let sidebar = document.querySelector(".sidebar");
+      let sidebarBtn = document.querySelector(".bx-menu");
+      console.log(sidebarBtn);
+      sidebarBtn.addEventListener("click", () => {
+        sidebar.classList.toggle("close");
+      });
+    </script>
+  </body>
+</html>

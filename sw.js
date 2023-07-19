@@ -1,3 +1,5 @@
+importScripts('https://cdn.jsdelivr.net/npm/pouchdb@8.0.1/dist/pouchdb.min.js');
+importScripts('BD/sw-db.js');
 importScripts('BD/sw-utils.js');
 
 const STATIC_CACHE = 'static-v1';
@@ -13,6 +15,7 @@ const APP_SHELL = [
     'form_encuestados.html',
     'contactanos.html',
     'pestañas_Encuestador/crear_Evariables.html',
+    'pestañas_Encuestador/EncuestaVariables.html',
     'pestañas_Encuestador/crear.html',
     'pestañas_Encuestador/editar_Reactivos.html',
     'pestañas_Encuestador/editar_Variables.html',
