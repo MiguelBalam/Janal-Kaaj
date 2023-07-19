@@ -60,8 +60,8 @@ document.addEventListener('DOMContentLoaded', () => {
         ObjectStore=db.createObjectStore("Autenticasion",{keyPath:"correo", autoIncrement: true});
         ObjectStore.createIndex("correo","correo",{unique:true});
 
-        ObjectStore = db.createObjectStore("EncuestaVariablesFinal", {autoIncrement: true});
-        ObjectStore.createIndex("encuestaVarId","encuestaVarId",{unique:true});
+        ObjectStore = db.createObjectStore("EncuestaVariablesFinal", {keypth:"IdV" ,autoIncrement: true});
+       ObjectStore.createIndex("encuestaVarId","encuestaVarId",{unique:true});
 
         db.createObjectStore("Encuestado",{autoIncrement: true});
         db.createObjectStore("Localidad", {autoIncrement: true});
@@ -111,29 +111,42 @@ document.addEventListener('DOMContentLoaded', () => {
 
         ObjectStore= db.createObjectStore("VariableC", {keyPath:'id',autoIncrement: true});
 
-        ObjectStore=db.createObjectStore("selecVariables", {keypth:"VarId",autoIncrement: true});
-        ObjectStore=db.createObjectStore("selecVariablesCre", {keypth:"VarId",autoIncrement: true});
+        ObjectStore=db.createObjectStore("selecVariables", {keypth:"VariablesId",autoIncrement: true});
+        ObjectStore=db.createObjectStore("selecVariablesCre", {keypth:"VariablesId",autoIncrement: true});
         console.log('upgrade',db);
        
     });
-       
-  
+    
+    //sube la imagen a la base de datos
+			
+    
+    // document.addEventListener('DOMContentLoaded', function() {
+    //   obtenerValorYVerificarLabel();
+    //   obtenerValorTd();
+    //   console.log("triste");
+    // });
     //funciones para cursores
     DBOpenReq.addEventListener('success',(ev)=>{
      
       db= ev.target.result;
-      // enviarFormulario()
-      cargarPagina()
+   EncuestaVarMostrar(encuestaVarId)
+      mostrarEncuestaDatos()
+      buscarVar()
       Encuesta1()
-      mostrarEncuesta()
+      mostrarVarSelec() 
+      EncuestaVarMostrar()
+      //EncuestaVarMostrar() 
+      
       buscar()
       buscarE()
+     
+      //mostrarEncuestaVar(encuestaVarId)
       EncuestaVistaPV2()
      reactivoscrear()
 
-      buscarVar()
-      mostrarEncuestaDatos()
-      mostrarEncuestaVar()
+     
+     
+    
     //  EncuestaVistaVariables()
       Variables()
       mostrarEncuestaV() 
@@ -144,15 +157,15 @@ document.addEventListener('DOMContentLoaded', () => {
       
      
       //EncaEncuestaVista()
-      // buscarE()
+      
      // buscarEVar()
-    //  mostrarEncuesta()
+    
     
   
     
      buildList()
    
-      // buscar()
+     
     
      
       buscarEVar()
@@ -177,10 +190,96 @@ document.addEventListener('DOMContentLoaded', () => {
     
   
    
-      // Encuesta1()
+      
       EncuestaV()
       
     });
+//Subir Noticas
+
+// const formulario = document.getElementById('formularioNews');
+
+// formulario.addEventListener('submit', function(event) {
+//   event.preventDefault(); // Evita que el formulario se envíe
+
+//   const titulo = document.getElementById('titulo').value;
+//   const cuerpo = document.getElementById('noticia').value;
+//   const imagen = document.getElementById('image').files[0];
+
+//   // Llama a la función para almacenar los datos en la base de datos
+//   guardarDatos(titulo, cuerpo, imagen);
+// });
+
+// function guardarDatos(titulo, cuerpo, imagen) {
+//   const request = indexedDB.open('Janal', 1); // Abre la base de datos 'Janal' con la versión 1
+
+//   request.onerror = function(event) {
+//     console.log('Error al abrir la base de datos'); // Maneja el evento de error si hay un problema al abrir la base de datos
+//   };
+
+//   request.onsuccess = function(event) {
+//     const db = event.target.result; // Obtiene la referencia a la base de datos
+//     var reader = new FileReader(); // Crea una instancia de FileReader, que se utiliza para leer el contenido del archivo
+  
+//     // reader.readAsDataURL(file); 
+//     reader.readAsBinaryString(imagen); // Lee el contenido del archivo como una cadena binaria
+//     reader.onload = function(e) {
+//       let bits = e.target.result;
+//       const transaction = db.transaction('Noticias', 'readwrite');
+//       const objectStore = transaction.objectStore('Noticias');
+//       const nuevaNoticia = { titulo: titulo, cuerpo: cuerpo, data: bits };
+//       const requestAdd = objectStore.add(nuevaNoticia);
+    
+//       requestAdd.onsuccess = function(event) {
+//         console.log('Datos almacenados con éxito'); // Maneja el evento de éxito cuando los datos se almacenan correctamente en IndexedDB
+//       };
+  
+//       requestAdd.onerror = function(event) {
+//         console.log('Error al almacenar los datos'); // Maneja el evento de error si hay un problema al almacenar los datos en IndexedDB
+//       };
+  
+//       transaction.oncomplete = function(event) {
+//         db.close(); // Cierra la conexión con la base de datos una vez que la transacción se completa
+//       };
+//     };
+    
+    
+//   };
+// }
+
+
+
+
+/*function doFile(e) {
+  //let file = e.target.files[0]; // Obtiene el archivo seleccionado por el usuario
+  
+  let file = imagen.files[0];
+  var reader = new FileReader(); // Crea una instancia de FileReader, que se utiliza para leer el contenido del archivo
+
+  // reader.readAsDataURL(file); 
+  reader.readAsBinaryString(file); // Lee el contenido del archivo como una cadena binaria
+
+  reader.onload = function(e) {
+    //alert(e.target.result); // Muestra una alerta con el resultado de la lectura del archivo (comentado en este caso)
+
+    let bits = e.target.result; // Obtiene el resultado de la lectura del archivo, es decir, la cadena binaria del archivo
+    /*let ob = {
+      created: new Date(),
+      data: bits
+    }; // Crea un objeto que contiene la fecha de creación y los datos del archivo
+
+    let trans = db.transaction(['Noticias'], 'readwrite'); // Inicia una transacción en el objeto de almacenamiento de IndexedDB llamado 'Noticias' en modo de lectura/escritura
+    let addReq = trans.objectStore('Noticias').add(ob); // Agrega el objeto 'ob' al objeto de almacenamiento 'Noticias'
+
+    addReq.onerror = function(e) {
+      console.log('error storing data'); // Imprime un mensaje de error si falla el almacenamiento de los datos
+      console.error(e); // Imprime el error en la consola para obtener más información
+    };
+
+    trans.oncomplete = function(e) {
+      console.log('data stored'); // Imprime un mensaje indicando que los datos se almacenaron correctamente en IndexedDB
+    };
+  };
+} */
 
  
 // registro de datos
@@ -250,7 +349,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
           verificarPasswords();
          
-            console.log (ev);
+            // console.log (ev);
+
+            // Aquí se muestra la alerta SweetAlert2
+          Swal.fire({
+            icon: 'success',
+
+            title: '¡Datos enviados correctamente!',
+            text: 'Gracias por completar la encuesta.',
+            confirmButtonText: 'Aceptar',
+            allowOutsideClick: false,
+            allowEscapeKey: false
+          }).then((result) => {
+            if (result.isConfirmed) {
+              // Redirige a la página "login.html" en español
+              window.location.href = 'login.html';
+            }
+          });
+            
         };
         let store = tx.objectStore('Usuario');
         let request = store.add(Usuario);
@@ -893,9 +1009,10 @@ function manejadorValidacion(e) {
     function borrar(e){
       // console.log ('borrar',e)
       var id = e.target.id;
-      
       var llave = id.substr(1)
-      // console.log(id,llave);
+
+
+      
       if(llave){
         db.transaction('Reactivos','readwrite')
         .objectStore('Reactivos')
@@ -1248,7 +1365,7 @@ function manejadorValidacion(e) {
              
                request.onsuccess =function(){
                 mostrarVarSelec()
-                mostrarEncuestaVar()
+                //mostrarEncuestaVar()
               //  console.log(llave)
                };
           
@@ -1296,7 +1413,7 @@ function mostrarVarSelec() {
       document.getElementById("VariablesSeleccionadas").innerHTML = cadena;
     }
   };
-  mostrarEncuestaVar()
+  EncuestaVarMostrar(encuestaVarId)
 }
 
       function buscarE() {
@@ -1504,8 +1621,24 @@ function mostrarVarSelec() {
 
           request.onsuccess = (ev) => {
             //reactivoscrear();
-            console.log('successfully added an object',ev);
-            mostrarPreguntas(); 
+            console.log('successfully added an object',ev); 
+
+            Swal.fire({
+              title: "Acción exitosa",
+              text: "El reactivo se ha creado correctamente.",
+              icon: "success",
+              timer: 4000, // Mostrar el aviso por 3 segundos
+              showConfirmButton: true,
+              timerProgressBar: true,
+              confirmButtonColor: '#3085d6',
+              confirmButtonText: 'Okay'
+            }).then(function() {
+              // Aquí puedes agregar el código que debe ejecutarse después de que el aviso desaparezca
+              document.getElementById("ReactivoCre").value = '';
+              document.getElementById("CategoriaReactivos").value = '';
+              document.getElementById('TipoRes').selectedIndex = 0;
+              mostrarPreguntas(); 
+            });
 
           };
 
@@ -1764,7 +1897,7 @@ function selecV(e) {
       var variable = e.target.result;
       if (variable) {
         console.log("Elemento seleccionado: ", variable.id);
-        storeOtroObjeto.add({ idV2: variable.id,fechaCreacion: Date.now() });
+        storeOtroObjeto.add({ VariablesId: variable.id,fechaCreacion: Date.now() });
       } else {
         console.log("No se encontró el objeto en el almacén 'VariableC'.");
       }
@@ -2541,6 +2674,7 @@ function mostrarPreguntas() {
  
   var encuestaId;
 
+
 function crearEncuestaFinal() {
   var creador = document.getElementById("aqui").value;
   var Titulo = document.getElementById("Titulo").value.trim();
@@ -2582,12 +2716,20 @@ function crearEncuestaFinal() {
         console.log("Relación entre la encuesta y los reactivos creada correctamente");
       };
 
-      console.log(e);
-      alert("Se insertaron los datos");
-
-      buscarE();
-
-      EncuestaVistaPV2();
+      Swal.fire({
+        title: "Acción exitosa",
+        text: "La encuesta se ha creado correctamente.",
+        icon: "success",
+        timer: 4000, // Mostrar el aviso por 3 segundos
+        showConfirmButton: true,
+        timerProgressBar: true,
+        confirmButtonColor: '#3085d6',
+        confirmButtonText: 'Okay'
+      }).then(function() {
+        // Aquí puedes agregar el código que debe ejecutarse después de que el aviso desaparezca
+        buscarE();
+        EncuestaVistaPV2();
+      });
     };
   });
 }
@@ -2996,5 +3138,217 @@ function verificarUsuarioLogueado() {
 function mostrarDatosUsuario(usuario) {
   // Aquí puedes mostrar los datos del usuario en la página
   console.log(usuario);
+}
+
+var  encuestaVarId;
+
+function crearEncuestaFinalVariables() {
+  var TituloVar = document.getElementById("TituloVar").value.trim();
+  var Objetivo = document.getElementById("floatingTextarea22").value.trim();
+  var Instrucciones = document.getElementById('floatingTextarea23').value.trim();
+  var fechaCreacionE = Date.now(); // Obtener la fecha actual en milisegundos
+
+  var form = document.getElementById('formularioCR');
+
+  form.addEventListener('submit', async function(eve) {
+    eve.preventDefault();
+
+    var request = db.transaction(["Encuesta_Variables"], "readwrite")
+      .objectStore("Encuesta_Variables")
+      .add({
+        TituloVar: TituloVar,
+        Objetivo: Objetivo,
+        Instrucciones: Instrucciones,
+        fechaCreacionE: fechaCreacionE
+      });
+
+    request.onsuccess = async function(e) {
+      encuestaVarId = e.target.result;
+      console.log("Encuesta creada con id: ",  encuestaVarId, TituloVar);
+      
+      var VariablesSeleccionados = await obtenerVariablesSeleccionados() 
+     
+      var tx = db.transaction(["EncuestaVariablesFinal"], "readwrite");
+      var store = tx.objectStore("EncuestaVariablesFinal");
+
+      VariablesSeleccionados.forEach(function(VariablesId) {
+        store.add({
+          encuestaVarId:  encuestaVarId,
+          VariablesId: VariablesId
+        });
+      });
+      
+      tx.oncomplete = function() {
+        console.log("Relación entre la encuesta y los reactivos creada correctamente");
+       
+        EncuestaVarMostrar(encuestaVarId)
+        var mostrarTablaBtn = document.getElementById('mostrarTablaBtn');
+        mostrarTablaBtn.addEventListener('click', function () {
+          mostrarTablaEnOtraPestana(encuestaVarId);
+        });
+        
+        //mostrarEncuestaVar()
+      };
+
+      console.log(e);
+      alert("Se insertaron los datos");
+    
+    };
+  });
+}
+async function obtenerVariablesSeleccionados() {
+  var VariablesSeleccionados = [];
+  var checkbox = document.querySelectorAll("input[type='checkbox'][id^='sV']:checked");
+
+  for (var i = 0; i < checkbox.length; i++) {
+    var id = checkbox[i].id.substring(2); // Eliminamos el prefijo 'sV' del ID del checkbox
+    VariablesSeleccionados.push(id);
+  }
+
+  return VariablesSeleccionados;
+}
+
+
+
+
+function mostrarTablaEnOtraPestana(encuestaVarId) {
+ 
+  var nuevaVentana = window.open('/pestañas_Encuestador/EncuestaVariables.html');
+
+  // Cuando la ventana se haya cargado, llama a la función EncuestaVarMostrar para mostrar la tabla
+  nuevaVentana.onload = function () {
+    nuevaVentana.EncuestaVarMostrar(encuestaVarId);
+  };
+}
+
+
+async function EncuestaVarMostrar(encuestaVarId) {
+  var tablaEncuesta = document.getElementById('tablaEncuestaVar');
+
+
+  var tx = db.transaction(["EncuestaVariablesFinal"], "readonly");
+  var store = tx.objectStore("EncuestaVariablesFinal");
+  var index = store.index("encuestaVarId");
+
+  var tbody = document.createElement('tbody');
+  var numColumns = 7; // Número de columnas por variable
+
+  var cursor = await index.openCursor(IDBKeyRange.only(encuestaVarId));
+  var selectedVariableValue = '';
+  cursor.onsuccess = function (event) {
+    var cursor = event.target.result;
+    if (cursor) {
+      var variableId = cursor.value.VariablesId;
+      selectedVariableValue = variableId
+      var tr = document.createElement('tr');
+      var td = document.createElement('td');
+      td.textContent = variableId;
+      tr.appendChild(td);
+
+      for (var i = 1; i <= numColumns; i++) {
+        var td = document.createElement('td');
+        var select = document.createElement('select');
+        td.addEventListener('click', function () {
+          var variableId = this.parentElement.firstChild.textContent;
+          obtenerVariablesSeleccionados();
+        });
+        select.classList.add('form-select', 'form-select-sm');
+        select.setAttribute('aria-label', '.form-select-sm example');
+        var options = [
+          { value: '0', text: '0' },
+          { value: '1', text: '1' },
+          { value: '2', text: '2' },
+          { value: '3', text: '3' },
+          { value: '4', text: 'P' }
+        ];
+
+        for (var j = 0; j < options.length; j++) {
+          var option = document.createElement('option');
+          option.value = options[j].value;
+          option.textContent = options[j].text;
+          select.appendChild(option);
+        }
+
+        td.appendChild(select);
+        tr.appendChild(td);
+      }
+
+      tbody.appendChild(tr);
+      cursor.continue();
+    } else {
+      if (tbody.children.length > 0) {
+        // Si hay variables seleccionadas, mostrar la tabla.
+        var table = document.createElement('table');
+        table.classList.add('table', 'table-bordered');
+
+        var thead = document.createElement('thead');
+        var tr = document.createElement('tr');
+        var th = document.createElement('th');
+        th.textContent = '#';
+        tr.appendChild(th);
+
+        for (var i = 1; i <= numColumns; i++) {
+          var th = document.createElement('th');
+          th.textContent = selectedVariableValue
+         // th.textContent = 'Columna ' + i;
+          tr.appendChild(th);
+        }
+
+        thead.appendChild(tr);
+       
+        table.appendChild(thead);
+      
+        table.appendChild(tbody);
+        tablaEncuesta.innerHTML = ''
+        tablaEncuesta.appendChild(table);
+      } else {
+        // Si no hay variables seleccionadas para la encuesta, muestra un mensaje indicando que no hay datos.
+        tablaEncuesta.textContent = 'No hay variables seleccionadas para esta encuesta.';
+      }
+
+      console.log('Encuesta mostrada correctamente');
+    }
+  };
+}
+
+
+
+
+
+function mostrarEncuestaDatos() {
+  var transaction = db.transaction(["Encuesta_Variables"], "readonly");
+  var objectStore = transaction.objectStore("Encuesta_Variables");
+  var index = objectStore.index("fechaCreacionE");
+
+  var request = index.openCursor(null, 'prev');
+  
+  request.onsuccess = function(event) {
+    var cursor = event.target.result;
+    
+    if (cursor) {
+      var currentItem = cursor.value;
+      
+      var titulo = currentItem.TituloVar;
+      var objetivo = currentItem.Objetivo;
+      var instrucciones = currentItem.Instrucciones;
+      
+      var cadena = "<table>";
+      cadena += "<tr>";
+      cadena += "<th>Título:</th>";
+      cadena += "<td>" + titulo + "</td>";
+      cadena += "</tr>";
+      cadena += "<tr>";
+      cadena += "<th>Objetivo:</th>";
+      cadena += "<td>" + objetivo + "</td>";
+      cadena += "</tr>";
+      cadena += "<tr>";
+      cadena += "<th>Instrucciones:</th>";
+      cadena += "<td>" + instrucciones + "</td>";
+      cadena += "</tr>";
+      cadena += "</table>";
+      
+      document.getElementById("EncabezadoVariables").innerHTML = cadena;
+    }
+  };
 }
 

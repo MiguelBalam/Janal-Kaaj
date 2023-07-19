@@ -41,13 +41,13 @@
         <section class="d-flex justify-content-center ">
             <div class="col-sm-7 p-3 shadow-lg mb-5 bg-white rounded">
                 <h1 class="bg-text-black text-center p-3 text-uppercase text-black">Crear Encuesta Variables</h1>
-                <form name="form" id="formularioCR" action="">
+                <form method="post" action="" name="form" id="formularioCR" >
 
                     <div class="row mb-4">
                         <label class="col-sm-4 col-form-label px-5">Titulo: </label>
                         <div class="col-sm-8">
                             <input placeholder="Agregar Titulo" type="text" class="form-control" id="TituloVar"
-                                name="Titulo">
+                                name="TituloVar">
                         </div>
                     </div>
 
@@ -88,7 +88,7 @@
                                    
 
 
-                                <button type="button" onclick=" window.location.href='../pestañas_Encuestador/variable_crear_variable.html'"
+                                <button type="button" onclick="window.location.href='../pestañas_Encuestador/variable_crear_variable.html'"
                                     class="btn btn-outline-success bg-border-mostaza bg-text-mostaza"
                                     id="disenio_boton">Crear Variables</button>
 
@@ -104,16 +104,19 @@
 
                     <div class=" row mb-4 p-3">
                         <div class="col-sm-12 text-center">
-                            <button onclick="crearEncuestaFinalVariables(),mostrarEncuestaVar()"
+                            <button 
                                 class="btn btn-outline-success bg-border-mostaza bg-text-mostaza"
-                                id="boton-crear-encuestaVar" type="submit" disabled> Crear Encuesta</button>
+                              onclick="crearEncuestaFinalVariables()" name="boton-crear-encuestaVar" id="boton-crear-encuestaVar" type="submit" disabled> Crear Encuesta</button>
 
                                 <button type="button" class="btn btn-outline-success bg-border-mostaza bg-text-mostaza"
                                 onclick="window.location.href='../pestañas_Encuestador/reactivo_tipos_Encuestas.html'" id="disenio_boton">Cancelar</button>
                        
-                                <button type="button" class="btn btn-outline-success bg-border-mostaza bg-text-mostaza"
-                                onclick="window.location.href='../pestañas_Encuestador/EncuestaVariables.html'" id="disenio_boton">Vista Previa</button>
-                        </div>
+                                <button type="button" class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" id="mostrarTablaBtn">Vista Previa</button>
+                       
+                                <!-- <button id="mostrarTablaBtn">Mostrar Tabla de Encuesta y Variables</button> -->
+                            </div>
+                     
+
                             </div>
                 </form>
             </div>
@@ -127,10 +130,11 @@
 
     <!-- <script src="../BD/funciones.js"></script>
     <script src="../BD/NuevoFormulario.js"></script> -->
-    <Script src="../BD/app.js"></Script>
+ <Script src="../BD/app.js"></Script> 
+   
     <link rel="stylesheet" href="../node_modules/@sweetalert2/themes/bootstrap-4/bootstrap-4.min.css">
     <script src="../node_modules/sweetalert2/dist/sweetalert2.all.js"></script>
-
+   
     <script src="../CSS/SweetAlert.js"></script>
 </body>
 
