@@ -129,21 +129,24 @@ document.addEventListener('DOMContentLoaded', () => {
     DBOpenReq.addEventListener('success',(ev)=>{
      
       db= ev.target.result;
+      EncuestaVistaPV2()
+      reactivoscrear()
+      buscar()
+      Encuesta1()
+      mostrarVarSelec() 
+      EncuestaVarMostrar()
    EncuestaVarMostrar(encuestaVarId)
   
    mostrarEncuestaDatos()
       buscarVar()
-      Encuesta1()
-      mostrarVarSelec() 
-      EncuestaVarMostrar()
+     
       //EncuestaVarMostrar() 
       cargarPagina()
-      buscar()
+    
       buscarE()
      
       //mostrarEncuestaVar(encuestaVarId)
-      EncuestaVistaPV2()
-     reactivoscrear()
+   
 
      
      
@@ -1862,7 +1865,7 @@ function mostrarVarSelec() {
       if(cursor){
         id = cursor.value.id;
         cadena += "<tr>";
-        cadena +="<td><input type ='checkbox' id='sV"+id+"'></input></td>";
+        cadena +="<td><input type ='checkbox' name='selectedVariable' id='sV"+id+"'></input></td>";
         cadena +="<td>"+cursor.value.id+"</td>";
         cadena += "<td><button class='btn btn-outline-success bg-border-mostaza bg-text-mostaza' id= 'b"+id+"'><img src='../Img/borrar.png' height='18px width='18px'></button></td>";
         cadena += "<td><button class='btn btn-outline-success bg-border-mostaza bg-text-mostaza' id= 'e"+id+"'><img src='../Img/edit.svg' height='18px width='18px'></button></td>";
@@ -3227,7 +3230,7 @@ function crearEncuestaFinalVariables() {
 
     request.onsuccess = async function(e) {
       encuestaVarId = e.target.result;
-      console.log("Encuesta creada con id: ",  encuestaVarId, TituloVar);
+      console.log("Encuesta creada con id: ", encuestaVarId, TituloVar);
       
       var VariablesSeleccionados = await obtenerVariablesSeleccionados() 
      
@@ -3236,7 +3239,7 @@ function crearEncuestaFinalVariables() {
 
       VariablesSeleccionados.forEach(function(VariablesId) {
         store.add({
-          encuestaVarId:  encuestaVarId,
+          encuestaVarId:encuestaVarId,
           VariablesId: VariablesId
         });
       });
@@ -3259,17 +3262,53 @@ function crearEncuestaFinalVariables() {
     };
   });
 }
+
 async function obtenerVariablesSeleccionados() {
   var VariablesSeleccionados = [];
-  var checkbox = document.querySelectorAll("input[type='checkbox'][id^='sV']:checked");
+  var checkboxes = document.querySelectorAll("input[type='checkbox'][id^='sV']:checked");
 
-  for (var i = 0; i < checkbox.length; i++) {
-    var id = checkbox[i].id.substring(2); // Eliminamos el prefijo 'sV' del ID del checkbox
-    VariablesSeleccionados.push(id);
-  }
+  var transaction = db.transaction(["selecVariablesCre"], "readonly");
+  var objectStore = transaction.objectStore("selecVariablesCre");
+  var cursor = objectStore.openCursor(null, "prev");
+
+  await new Promise((resolve) => {
+    cursor.onsuccess = function(event) {
+      var cursor = event.target.result;
+      if (cursor) {
+        var valor = cursor.value.VariablesId;
+        if (!VariablesSeleccionados.includes(valor) && contieneCheckboxId(checkboxes, valor)) {
+          VariablesSeleccionados.push(valor);
+        }
+        cursor.continue();
+      } else {
+        resolve();
+      }
+    };
+  });
 
   return VariablesSeleccionados;
 }
+
+function contieneCheckboxId(checkboxes, id) {
+  for (var i = 0; i < checkboxes.length; i++) {
+    if (checkboxes[i].id === 'sV' + id) {
+      return true;
+    }
+  }
+  return false;
+}
+// async function obtenerVariablesSeleccionados() {
+//   var VariablesSeleccionados = [];
+//   var checkbox = document.querySelectorAll("input[type='checkbox'][name='selectedVariable']:checked");
+//  // var checkbox = document.querySelectorAll("input[type='checkbox'][id^='sV']:checked");
+
+//   for (var i = 0; i < checkbox.length; i++) {
+//     var id = checkbox[i].id.substring(2); // Eliminamos el prefijo 'sV' del ID del checkbox
+//     VariablesSeleccionados.push({id});
+//   }
+
+//   return VariablesSeleccionados;
+// }
 
 
 
@@ -3287,95 +3326,91 @@ function mostrarTablaEnOtraPestana(encuestaVarId) {
 
 async function EncuestaVarMostrar(encuestaVarId) {
   var tablaEncuesta = document.getElementById('tablaEncuestaVar');
+  var table = document.createElement('table');
+  table.classList.add('table', 'table-bordered');
 
+  var thead = document.createElement('thead');
+  var trHeader = document.createElement('tr');
+  var thIndex = document.createElement('th');
+  thIndex.textContent = '#';
+  trHeader.appendChild(thIndex);
 
   var tx = db.transaction(["EncuestaVariablesFinal"], "readonly");
   var store = tx.objectStore("EncuestaVariablesFinal");
   var index = store.index("encuestaVarId");
-
-  var tbody = document.createElement('tbody');
   var numColumns = 7; // Número de columnas por variable
 
+  // Create a map to store variable names as keys and their corresponding data as values
+  var variableDataMap = new Map();
+
   var cursor = await index.openCursor(IDBKeyRange.only(encuestaVarId));
-  var selectedVariableValue = '';
+
   cursor.onsuccess = function (event) {
     var cursor = event.target.result;
     if (cursor) {
       var variableId = cursor.value.VariablesId;
-      selectedVariableValue = variableId
-      var tr = document.createElement('tr');
-      var td = document.createElement('td');
-      td.textContent = variableId;
-      tr.appendChild(td);
 
-      for (var i = 1; i <= numColumns; i++) {
-        var td = document.createElement('td');
-        var select = document.createElement('select');
-        td.addEventListener('click', function () {
-          var variableId = this.parentElement.firstChild.textContent;
-          obtenerVariablesSeleccionados();
-        });
-        select.classList.add('form-select', 'form-select-sm');
-        select.setAttribute('aria-label', '.form-select-sm example');
-        var options = [
-          { value: '0', text: '0' },
-          { value: '1', text: '1' },
-          { value: '2', text: '2' },
-          { value: '3', text: '3' },
-          { value: '4', text: 'P' }
-        ];
+      // Store the variable ID and data in the map
+      variableDataMap.set(variableId, cursor.value);
 
-        for (var j = 0; j < options.length; j++) {
-          var option = document.createElement('option');
-          option.value = options[j].value;
-          option.textContent = options[j].text;
-          select.appendChild(option);
-        }
+      var th = document.createElement('th');
+      th.textContent = variableId;
+      trHeader.appendChild(th);
 
-        td.appendChild(select);
-        tr.appendChild(td);
-      }
-
-      tbody.appendChild(tr);
       cursor.continue();
     } else {
-      if (tbody.children.length > 0) {
-        // Si hay variables seleccionadas, mostrar la tabla.
-        var table = document.createElement('table');
-        table.classList.add('table', 'table-bordered');
+      thead.appendChild(trHeader);
+      table.appendChild(thead);
 
-        var thead = document.createElement('thead');
+      var tbody = document.createElement('tbody');
+
+      // Loop through the map to create rows for each variable
+      for (const [variableId, data] of variableDataMap) {
         var tr = document.createElement('tr');
-        var th = document.createElement('th');
-        th.textContent = '#';
-        tr.appendChild(th);
+        var td = document.createElement('td');
+        td.textContent = variableId;
+        tr.appendChild(td);
 
         for (var i = 1; i <= numColumns; i++) {
-          var th = document.createElement('th');
-          th.textContent = selectedVariableValue
-         // th.textContent = 'Columna ' + i;
-          tr.appendChild(th);
+          var td = document.createElement('td');
+          var select = document.createElement('select');
+          select.addEventListener('change', function () {
+            var variableId = this.parentElement.parentElement.firstChild.textContent;
+            var selectedValue = this.value;
+            obtenerVariablesSeleccionados(variableId, selectedValue);
+          });
+          select.classList.add('form-select', 'form-select-sm');
+          select.setAttribute('aria-label', '.form-select-sm example');
+          var options = [
+            { value: '0', text: '0' },
+            { value: '1', text: '1' },
+            { value: '2', text: '2' },
+            { value: '3', text: '3' },
+            { value: '4', text: 'P' }
+          ];
+
+          for (var j = 0; j < options.length; j++) {
+            var option = document.createElement('option');
+            option.value = options[j].value;
+            option.textContent = options[j].text;
+            select.appendChild(option);
+          }
+
+          td.appendChild(select);
+          tr.appendChild(td);
         }
 
-        thead.appendChild(tr);
-       
-        table.appendChild(thead);
-      
-        table.appendChild(tbody);
-        tablaEncuesta.innerHTML = ''
-        tablaEncuesta.appendChild(table);
-      } else {
-        // Si no hay variables seleccionadas para la encuesta, muestra un mensaje indicando que no hay datos.
-        tablaEncuesta.textContent = 'No hay variables seleccionadas para esta encuesta.';
+        tbody.appendChild(tr);
       }
+
+      table.appendChild(tbody);
+      tablaEncuesta.innerHTML = '';
+      tablaEncuesta.appendChild(table);
 
       console.log('Encuesta mostrada correctamente');
     }
   };
 }
-
-
-
 
 
 function mostrarEncuestaDatos() {
