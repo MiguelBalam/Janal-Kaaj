@@ -740,11 +740,11 @@ function manejadorValidacion(e) {
     function enviarFormulario() {
       
       var valorInput1 = document.getElementById("Usuario").value;
-      var valorInput2 = document.getElementById("contraseniaL").value;
+      // var valorInput2 = document.getElementById("contraseniaL").value;
       
       var datos = {
         valor1: valorInput1,
-        valor2: valorInput2
+        // valor2: valorInput2
       };
       
       localStorage.setItem("datosUsuario", JSON.stringify(datos));
@@ -756,10 +756,10 @@ function manejadorValidacion(e) {
       if (datosGuardados) {
         var datos = JSON.parse(datosGuardados);
         var valorInput1 = datos.valor1;
-        var valorInput2 = datos.valor2;
+        // var valorInput2 = datos.valor2;
         
         document.getElementById("aqui").value = valorInput1;
-        document.getElementById("contra").value = valorInput2;
+        // document.getElementById("contra").value = valorInput2;
       }
     }
   
@@ -812,7 +812,34 @@ function manejadorValidacion(e) {
                 document.getElementById("apellidoPa").value = ApaUsuario;
                 document.getElementById("apellidoMa").value = AmaUsuario;
                 // Realiza alguna acción si el valor coincide
+                var transactionAutenticasion = db.transaction(['Autenticasion'], 'readonly');
+                var objectStoreAutenticasion = transactionAutenticasion.objectStore('Autenticasion');
     
+                var requestAutenticasion = objectStoreAutenticasion.openCursor();
+                requestAutenticasion.onsuccess = function(event) {
+                  var cursorAutenticasion = event.target.result;
+    
+                  if (cursorAutenticasion) {
+                    var objetoAutenticasion = cursorAutenticasion.value;
+                    var correoAutentico = objetoAutenticasion.correo;
+    
+                    if (correoAutentico === primerValor) {
+                      console.log("El valor del correo Autentico coincide en el almacén Autenticación");
+                  // Realiza alguna acción si el valor del correo coincide
+
+                  var ContraseniaAutenticasion = objetoAutenticasion.contrasenia;
+              
+                  document.getElementById("contra").value = ContraseniaAutenticasion;
+                  // Suponiendo que "logoInstitucion" es un elemento de tipo <img>
+                 
+                }else {
+                  console.log("No se encontró el objeto coincidente en el almacén Autenticacion");
+                  // Realiza alguna acción si no se encontró el objeto coincidente
+                }
+              };
+
+                cursorAutenticasion.continue(); // Continúa al siguiente objeto del almacén nombreEncuestador
+              } 
                 var transactionEncuestador = db.transaction(['Encuestador'], 'readonly');
                 var objectStoreEncuestador = transactionEncuestador.objectStore('Encuestador');
     
@@ -864,6 +891,7 @@ function ImagenLogo(dataUrl) {
   var image = document.querySelector('#logoInstitucion');
   image.src = dataUrl;
 }
+
 // Encuesta predeterminada 1
 //almacena predetermidos
 
@@ -3400,4 +3428,131 @@ function mostrarEncuestaDatos() {
     }
   };
 }
+
+//Realizar la edición de información de perfil encuestador
+
+function deshabilitarBotones(aqui) {
+  var inputs = document.querySelectorAll('input');
+  inputs.forEach(function (input) {
+    // Habilitar todos los inputs, excepto aquel con el ID proporcionado en el parámetro 'aqui'
+    if (input.id !== aqui) {
+      input.setAttribute('disabled', 'disabled');
+    }
+  });
+}
+function miFuncionEditar() {
+  console.log("Iniciando ejecución de la función.");
+
+  // Obtener los elementos de radio
+  var radioMasculino = document.getElementById('genMas');
+  var radioFemenino = document.getElementById('genfem');
+
+  // Verificar si los elementos existen antes de acceder a sus propiedades
+  if (!radioMasculino || !radioFemenino) {
+    console.log("No se encuentran los elementos de radio.");
+    return;
+  }
+
+  var generoSeleccionado;
+  if (radioMasculino.checked) {
+    generoSeleccionado = 'Masculino';
+  } else if (radioFemenino.checked) {
+    generoSeleccionado = 'Femenino';
+  } else {
+    console.log("No se ha seleccionado ningún género.");
+    return; // Salimos de la función si no se ha seleccionado ningún género
+  }
+
+  var datosUsuario = localStorage.getItem("datosUsuario");
+  if (datosUsuario) {
+    var datos = JSON.parse(datosUsuario);
+    var primerValor = datos.valor1;
+
+    console.log("El valor de primerValor es:", primerValor);
+
+    var request = indexedDB.open('Janal', 1);
+
+    request.onsuccess = function (event) {
+      var db = event.target.result;
+      var transaction = db.transaction(['Usuario', 'Autenticasion'], 'readwrite'); // Transacción con ambos almacenes
+      var objectStoreUsuario = transaction.objectStore('Usuario');
+      var objectStoreAutenticasion = transaction.objectStore('Autenticasion');
+
+      var request = objectStoreUsuario.openCursor();
+      request.onsuccess = function (event) {
+        var cursor = event.target.result;
+
+        if (cursor) {
+          var objeto = cursor.value;
+          var correoUsuario = objeto.correo;
+
+          if (correoUsuario === primerValor) {
+            console.log("El valor coincide.");
+
+            // Realizar las ediciones necesarias en el objeto Usuario
+            objeto.Nombre = document.getElementById("nombre").value;
+            objeto.Edad = parseInt(document.getElementById("edad").value);
+            objeto.ApellidoM = document.getElementById("apellidoMa").value;
+            objeto.ApellidoP = document.getElementById("apellidoPa").value;
+            objeto.Telefono = parseInt(document.getElementById("telefono").value);
+            objeto.Genero = generoSeleccionado;
+
+            // Actualizar el objeto Usuario en el almacén
+            var updateRequestUsuario = cursor.update(objeto);
+            updateRequestUsuario.onsuccess = function (event) {
+              console.log("Objeto Usuario actualizado correctamente:", objeto);
+            };
+
+            // Luego, vamos a actualizar el objeto Autenticasion
+            var requestAutenticasion = objectStoreAutenticasion.openCursor();
+            requestAutenticasion.onsuccess = function(event) {
+              var cursorAutenticasion = event.target.result;
+
+              if (cursorAutenticasion) {
+                var objetoAutenticasion = cursorAutenticasion.value;
+                var correoAutentico = objetoAutenticasion.correo;
+
+                if (correoAutentico === primerValor) {
+                  console.log("El valor del correo Autentico coincide en el almacén Autenticacion");
+
+                  // Realizar las ediciones necesarias en el objeto Autenticasion
+                  objetoAutenticasion.Contrasenia = document.getElementById("contra").value;
+                  objetoAutenticasion.Contrasenia2 = document.getElementById("contra").value;
+
+                  // Actualizar el objeto Autenticasion en el almacén
+                  var updateRequestAutenticasion = cursorAutenticasion.update(objetoAutenticasion);
+                  updateRequestAutenticasion.onsuccess = function (event) {
+                    console.log("Objeto Autenticasion actualizado correctamente:", objetoAutenticasion);
+                  };
+                } else {
+                  console.log("No se encontró el objeto coincidente en el almacén Autenticacion");
+                  // Realiza alguna acción si no se encontró el objeto coincidente
+                }
+
+                // Continuar buscando en el cursor de Autenticasion
+                cursorAutenticasion.continue();
+              } else {
+                console.log("Fin de búsqueda en el almacén Autenticacion. No se encontró coincidencia.");
+              }
+            };
+          } else {
+            // Continuar buscando en el cursor de Usuario
+            cursor.continue();
+          }
+        } else {
+          console.log("Fin de búsqueda en el almacén Usuario. No se encontró coincidencia.");
+        }
+      };
+    };
+
+    request.onerror = function (event) {
+      console.log("Error al abrir la base de datos:", event.target.error);
+    };
+  } else {
+    console.log("No hay datos de usuario en el almacenamiento.");
+  }
+  deshabilitarBotones('aqui');
+}
+
+//Funcion para editar logo de Encuestador
 
