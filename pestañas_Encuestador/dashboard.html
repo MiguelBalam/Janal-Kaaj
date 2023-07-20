@@ -5,6 +5,10 @@
   <meta charset="UTF-8" />
   <title>Janal Kaaj - Dashboard</title>
   <link rel="stylesheet" href="/CSS/styleDashboard.css" />
+  <link rel="stylesheet" href="../CSS/bootstrap.min.css">
+  <link rel="stylesheet" href="../CSS/style.css">
+  <script src="../BD/app.js"></script>
+  <script src="../CSS/SweetAlert.js"></script>
   <!-- Boxiocns CDN Link -->
   <link href="https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css" rel="stylesheet" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -98,15 +102,104 @@
 
     </ul>
   </div>
+
+
+
   <section class="home-section">
     <div class="home-content">
       <i class="bx bx-menu"></i>
-      <span class="text">Dashboard Encuestador</span>
+      <span class="text">Dashboard</span>
     </div>
-
-
-
+  
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-sm-10 col-md-8 col-lg-6 p-4 shadow-lg bg-light rounded">
+          <div class="row">
+            <div class="col-12">
+              <h3 class="text-center mb-4">Bienvenido</h3>
+            </div>
+            <div class="col-12 text-center mb-2">
+              <label class="col-form-label">Usted es un <span class="fw-bold">Encuestador.</span></label>
+            </div>
+            <div class="col-12">
+              <label for="nombrecompletos" class="col-form-label mb-2">Usted inició sesión con el correo:</label>
+              <div class="input-group">
+                <input id="aqui" name="aqui" type="text" class="form-control text-center" value="Usuario123" disabled>
+              </div>
+            </div>
+          </div>
+  
+          <div class="row justify-content-center p-4">
+            <div class="col-sm-12 text-center mb-3">
+              <form class="d-flex">
+                <!-- Código del modal -->
+                <div class="modal fade" id="alertaModal" tabindex="-1" aria-labelledby="mymodel" aria-hidden="true">
+                  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="mymodel">No se encontraron coincidencias</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body" id="alertaModalBody"></div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-success bg-border-mostaza bg-text-mostaza"
+                          data-bs-dismiss="modal">Aceptar</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </form>
+              <!-- Fin del código del modal -->
+              <div class="row justify-content-center mb-3">
+                <div class="col-sm-4 text-center mb-2">
+                  <label class="col-form-label px-4 text-center ">Buscar una encuesta</label>
+                </div>
+                <div class="col-sm-6 mb-2">
+                  <input id="filtrar" class="form-control me-2" type="search" placeholder="Buscar nombre"
+                    aria-label="Search">
+                </div>
+                <div class="col-sm-2 mb-2">
+                  <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" type="submit"
+                    id="boton_filtrar" onclick="realizarBusqueda()">Filtrar</button>
+                </div>
+              </div>
+  
+            </div>
+          </div>
+  
+          <div class="row justify-content-center ">
+            <div class="col-12">
+              <h3 class="text-center mb-4">Crear encuestas.</h3>
+            </div>
+            <div class="col-12">
+              <label for="nombrecompletos" class="col-form-label px-4 text-center mb-2">Usted puede crear dos tipos de
+                encuestas.</label>
+              <div class="col-sm-12 text-center">
+                <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" id="tip_encuesta"
+                  onclick="window.location.href='../pestañas_Encuestador/crear_Evariables.html'">Encuesta
+                  tipo variables </button>
+                <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" id="tip_encuesta"
+                  onclick="window.location.href='../pestañas_Encuestador/crear.html'">Encuesta
+                  tipo reactivos</button>
+              </div>
+            </div>
+          </div>
+  
+          <div class="row justify-content-center p-4">
+            <div class="col-12">
+              <h3 class="text-center mb-4">Lista de encuestas.</h3>
+            </div>
+            <div id="crear_encuesta"></div>
+            <div id="crear_encuestaVar"></div>
+            <div id="resultado"></div>
+          </div>
+        </div>
+  
+      </div>
+    </div>
+    </div>
   </section>
+
 
   <script>
     let arrow = document.querySelectorAll(".arrow");
