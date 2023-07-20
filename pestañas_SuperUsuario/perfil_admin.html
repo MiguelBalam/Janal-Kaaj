@@ -49,6 +49,7 @@
   <!--Perfil-->
   <h2 class="main__title text-center text-dark py-3">Información Personal del Administrador</h2>
   <div class="container py-4">
+    <form action="" name="whiskeyForm">
     <div class="row align-items-start">
       <div class="col-sm-6">
         <div class="row text-sm-start">
@@ -102,7 +103,7 @@
             <label for="nombrecompletos" class="col-form-label px-4 text-dark">Institución: </label>
           </div>
           <div class="col-sm-8 text-sm-start py-3 px-4">
-            <input type="text" placeholder="Institución o lugar de procedencia" class="form-control" id="edad"> 
+            <input type="text" placeholder="Institución o lugar de procedencia" class="form-control" id="instituto"> 
           </div>
 
           <div class="col-sm-4 text-sm-start py-3">
@@ -127,15 +128,16 @@
       <div class="col-sm-6 text-center"></div>
       <div class="col-sm-6">
         <div class="row d-flex justify-content-between">
-          <div class="col-sm-3 d-flex justify-content-center ms-auto"><button
-              class="btnn btn-outline-warning text-white" type="submit" id="boton-restaurar">Restaurar</button></div>
+          <div class="col-sm-3 d-flex justify-content-center ms-auto"><button class="btnn btn-outline-warning text-white" 
+            type="submit" onClick="load();" id="restaurarAdmin">Restaurar</button></div>
           <div class="col-sm-3 d-flex justify-content-center"><button class="btnn btn-outline-warning text-white"
-              type="submit" id="boton-editar" onclick="">Editar</button></div>
+              type="submit" id="editarAdmin" onclick="">Editar</button></div>
           <div class="col-sm-3 d-flex justify-content-center"><button class="btnn btn-outline-warning text-white"
-              type="submit" id="boton-guardar" onclick="load();">Guardar</button></div>
+              type="submit" id="guardarAdmin" onclick="">Guardar</button></div>
         </div>
       </div>
     </div>
+  </form>
   </div>
 
   <footer class="footer">
