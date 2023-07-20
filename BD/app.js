@@ -49,6 +49,9 @@ document.addEventListener('DOMContentLoaded', () => {
         ObjectStore.createIndex('titulo', 'titulo', { unique: false });
         ObjectStore.createIndex('cuerpo', 'cuerpo', { unique: false });
         
+        //Usuarios Administrador
+        ObjectStore = db.createObjectStore('Administrador', {keyPath:'id', autoIncrement: true});
+        ObjectStore.createIndex('Nombre', 'Nombre', { unique: true });
 
         //usuario
 
@@ -134,6 +137,8 @@ document.addEventListener('DOMContentLoaded', () => {
    mostrarEncuestaDatos()
       buscarVar()
       Encuesta1()
+      agregarDatosAdmin()
+      
       mostrarVarSelec() 
       EncuestaVarMostrar()
       //EncuestaVarMostrar() 
@@ -430,6 +435,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 //Subir Noticas
 
+
 function agregarEventoFormulario() {
   const formulario = document.getElementById('formularioNews');
 
@@ -442,6 +448,19 @@ function agregarEventoFormulario() {
 
     // Llama a la función para almacenar los datos en la base de datos
     guardarDatos(titulo, cuerpo, imagen);
+
+    Swal.fire({
+      title: 'Se han enviado los datos',
+      text: 'Datos enviados correctamente',
+      icon: 'success',
+      timer: 2000,
+      timerProgressBar: true,
+      confirmButtonColor: '#3085d6',
+      confirmButtonText: 'Confirmar',
+    });
+
+    document.getElementById("formularioNews").reset();
+
   });
 }
 
@@ -603,40 +622,87 @@ function crearCard() {
 
 // Cierra mostrar datos noticias
 
+//Jalar datos del Administrador
 function load(id) {
-                
+  var transaction = db.transaction(['Administrador'], 'readwrite');
+  ObjectStore = transaction.objectStore('Administrador');
+  var requestGet = ObjectStore.get(1);
 
-  var active;
-  var data = active.transaction(["Usuario"], "readonly");
-  var object = data.objectStore("Usuario");
-  
-  var request = object.get(parseInt(id));
-  
-  request.onsuccess = function () {
-      
-      var result = request.result;
+  requestGet.onsuccess = function(event) {
+    var usuario = event.target.result;
+    if (usuario) {
+      document.getElementById("nombre").value = usuario.nombre;
+      document.getElementById("apellidoPa").value = usuario.apellidoPa;
+      document.getElementById("apellidoMa").value = usuario.apellidoMa;
+      document.getElementById("instituto").value = usuario.instituto;
+      document.getElementById("edad").value = usuario.edad;
+      document.getElementById("contra").value = usuario.contra;
+      document.getElementById("telefono").value = usuario.telefono;
+      document.getElementById("correo").value = usuario.correo;
 
-      const input = "result.name";
-  document.getElementById("xd").innerHTML = input;
-  
-  console.log('Dato obtenido:', result.name);
+  var genero = usuario.genero;
+  if (genero === "Masculino") {
+    document.getElementById("genMas").checked = true;
+  } else if (genero === "Femenino") {
+    document.getElementById("genfem").checked = true;
+  } else {
+    console.log("Género no válido.");
+  }
 
-  
-  if (result !== undefined) {
-          alert("ID: " + result.id + "\n\
-          DNI: " + result.ApellidoM + "\n\
-          Name: " + result.name + "\n\
-          Surname: " + result.ApellidoP);
-      }
-
+    } else {
+      console.log('Usuario no encontrado.');
+    }
   };
-  
+
+  requestGet.onerror = function(event) {
+    console.log('Error al obtener el usuario:', event.target.error);
+  };
 }
 
+document.getElementById('guardarAdmin').addEventListener('click', (ev) => {
+
+  ev.preventDefault();
+
+  let name = document.getElementById('name').value.trim();
+  let country = document.getElementById('apellidoPa').value.trim();
+
+
+
+  let key = document.whiskeyForm.getAttribute('data-key');
+
+
+  if (key) {
+
+    let whiskey = {
+      id: key,
+      name,
+      country,
+    };
+
+    let tx = makeTX('Administrador', 'readwrite');
+
+    tx.oncomplete = (ev) => {
+      console.log(ev);
+
+    };
+
+    let store = tx.objectStore('Administrador');
+
+    let request = store.put(whiskey);
+    request.onsuccess = (ev) => {
+      console.log('successfully updated an object');
+    };
+    request.onerror = (err) => {
+      console.log('error in request to update');
+    };
+  }
+});
 
 
 
 
+
+  
 
 
 //Verificar que las dos contraseñas coincidan
@@ -1035,6 +1101,52 @@ function ImagenLogo(dataUrl) {
         // console.log('suscess',db);
       
       }
+
+      function agregarDatosAdmin() {
+           
+          const admin = [
+            { nombre: 'Admin1', apellidoPa: 'ApellidoP1', apellidoMa: 'ApellidoM1', genero: 'Masculino', edad: 99, 
+            contra: 'jk1234', instituto: 'none', correo: 'admin1@example.com', telefono: '9998887777' },
+            { nombre: 'Admin2', apellidoPa: 'ApellidoP2', apellidoMa: 'ApellidoM2', genero: 'Femenino', edad: 99, 
+            contra: 'jk1234', instituto: 'none', correo: 'admin2@example.com', telefono: '9998887777' },
+            { nombre: 'Admin3', apellidoPa: 'ApellidoP3', apellidoMa: 'ApellidoM3', genero: 'Masculino', edad: 99, 
+            contra: 'jk1234', instituto: 'none', correo: 'admin3@example.com', telefono: '9998887777' },
+            { nombre: 'Admin4', apellidoPa: 'ApellidoP4', apellidoMa: 'ApellidoM4', genero: 'Femenino', edad: 99, 
+            contra: 'jk1234', instituto: 'none', correo: 'admin4@example.com', telefono: '9998887777' },
+            { nombre: 'Admin5', apellidoPa: 'ApellidoP5', apellidoMa: 'ApellidoM5', genero: 'Masculino', edad: 99, 
+            contra: 'jk1234', instituto: 'none', correo: 'admin5@example.com', telefono: '9998887777' },
+          ];
+      
+          var transaction = db.transaction(['Administrador'], 'readwrite');
+          var objectStore = transaction.objectStore('Administrador');
+
+          // Verificar si los datos ya se han agregado previamente
+          var requestGetAll = objectStore.getAll();
+          requestGetAll.onsuccess = function(event) {
+            var adminsExisten = event.target.result.length > 0;
+
+            if (!adminsExisten) {
+              // Si los datos no existen, agregarlos a la base de datos
+              for (var Admin of admin) {
+                var requestAdd = objectStore.add(Admin);
+                requestAdd.onerror = function(event) {
+                  console.error('Error al agregar administrador:', event.target.error);
+                };
+              }
+
+              transaction.oncomplete = function(event) {
+                console.log('Datos de administradores agregados exitosamente.');
+              };
+            } else {
+              console.log('Los datos de administradores ya existen, no se agregarán nuevamente.');
+            }
+          };
+
+          requestGetAll.onerror = function(event) {
+            console.error('Error al obtener los administradores:', event.target.error);
+          };
+        }
+      
 
   //salida para las preguntas de reactivos en crear.html
   //-----------------------------------------------------------------------------------------------------------------------
