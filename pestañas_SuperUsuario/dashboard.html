@@ -118,16 +118,6 @@
         sidebar.classList.toggle("close");
       });
 
-      document.getElementById("openWindowButton").addEventListener("click", function() {
-            var selectElement = document.getElementById("prueba");
-            var selectedOption = selectElement.value;
-            if (selectedOption !== "") {
-                var newWindow = window.open(selectedOption, "_blank");
-                newWindow.focus();
-            } else {
-                alert("Por favor, selecciona una opción válida.");
-            }
-        });
 
 
     </script>

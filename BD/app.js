@@ -49,6 +49,9 @@ document.addEventListener('DOMContentLoaded', () => {
         ObjectStore.createIndex('titulo', 'titulo', { unique: false });
         ObjectStore.createIndex('cuerpo', 'cuerpo', { unique: false });
         
+        //Usuarios Administrador
+        ObjectStore = db.createObjectStore('Administrador', {keyPath:'id', autoIncrement: true});
+        ObjectStore.createIndex('Nombre', 'Nombre', { unique: true });
 
         //usuario
 
@@ -139,7 +142,15 @@ document.addEventListener('DOMContentLoaded', () => {
   
    mostrarEncuestaDatos()
       buscarVar()
+<<<<<<< HEAD
      
+=======
+      Encuesta1()
+      agregarDatosAdmin()
+      
+      mostrarVarSelec() 
+      EncuestaVarMostrar()
+>>>>>>> c43b913e10974e448bb94c9598f74c89a7debd44
       //EncuestaVarMostrar() 
       cargarPagina()
     
@@ -620,40 +631,87 @@ function crearCard() {
 
 // Cierra mostrar datos noticias
 
-//Jalar datos del encuestador
+//Jalar datos del Administrador
 function load(id) {
-  
-    var transaction = db.transaction(["Usuario"], "readonly");
-    var objectStore = transaction.objectStore("Usuario");
-    var requestGet = objectStore.get(5);
+  var transaction = db.transaction(['Administrador'], 'readwrite');
+  ObjectStore = transaction.objectStore('Administrador');
+  var requestGet = ObjectStore.get(1);
 
-    requestGet.onsuccess = function(event) {
-      var usuario = event.target.result;
-      if (usuario) {
-        document.getElementById("nombre").value = usuario.Nombre;
-        document.getElementById("apellidoPa").value = usuario.ApellidoP;
-        document.getElementById("apellidoMa").value = usuario.ApellidoM;
-        document.getElementById("apellidoMa").value = usuario.ApellidoM;
-        document.getElementById("edad").value = usuario.Edad;
-        document.getElementById("contra").value = usuario.Contrasenia;
-        document.getElementById("telefono").value = usuario.Telefono;
+  requestGet.onsuccess = function(event) {
+    var usuario = event.target.result;
+    if (usuario) {
+      document.getElementById("nombre").value = usuario.nombre;
+      document.getElementById("apellidoPa").value = usuario.apellidoPa;
+      document.getElementById("apellidoMa").value = usuario.apellidoMa;
+      document.getElementById("instituto").value = usuario.instituto;
+      document.getElementById("edad").value = usuario.edad;
+      document.getElementById("contra").value = usuario.contra;
+      document.getElementById("telefono").value = usuario.telefono;
+      document.getElementById("correo").value = usuario.correo;
 
-        var genero = usuario.Genero;
-        if (genero === "Masculino") {
-          document.getElementById("genMas").checked = true;
-        } else if (genero === "Femenino") {
-          document.getElementById("genfem").checked = true;
-        } else {
-          console.log("Género no válido.");
-        }
-      } else {
-        console.log("Usuario no encontrado.");
-      }
-    };
-    requestGet.onerror = function(event) {
-      console.log("Error al obtener el usuario:", event.target.error);
-    };
+  var genero = usuario.genero;
+  if (genero === "Masculino") {
+    document.getElementById("genMas").checked = true;
+  } else if (genero === "Femenino") {
+    document.getElementById("genfem").checked = true;
+  } else {
+    console.log("Género no válido.");
+  }
+
+    } else {
+      console.log('Usuario no encontrado.');
+    }
   };
+
+  requestGet.onerror = function(event) {
+    console.log('Error al obtener el usuario:', event.target.error);
+  };
+}
+
+document.getElementById('guardarAdmin').addEventListener('click', (ev) => {
+
+  ev.preventDefault();
+
+  let name = document.getElementById('name').value.trim();
+  let country = document.getElementById('apellidoPa').value.trim();
+
+
+
+  let key = document.whiskeyForm.getAttribute('data-key');
+
+
+  if (key) {
+
+    let whiskey = {
+      id: key,
+      name,
+      country,
+    };
+
+    let tx = makeTX('Administrador', 'readwrite');
+
+    tx.oncomplete = (ev) => {
+      console.log(ev);
+
+    };
+
+    let store = tx.objectStore('Administrador');
+
+    let request = store.put(whiskey);
+    request.onsuccess = (ev) => {
+      console.log('successfully updated an object');
+    };
+    request.onerror = (err) => {
+      console.log('error in request to update');
+    };
+  }
+});
+
+
+
+
+
+  
 
 
 //Verificar que las dos contraseñas coincidan
@@ -757,11 +815,11 @@ function manejadorValidacion(e) {
     function enviarFormulario() {
       
       var valorInput1 = document.getElementById("Usuario").value;
-      var valorInput2 = document.getElementById("contraseniaL").value;
+      // var valorInput2 = document.getElementById("contraseniaL").value;
       
       var datos = {
         valor1: valorInput1,
-        valor2: valorInput2
+        // valor2: valorInput2
       };
       
       localStorage.setItem("datosUsuario", JSON.stringify(datos));
@@ -773,10 +831,10 @@ function manejadorValidacion(e) {
       if (datosGuardados) {
         var datos = JSON.parse(datosGuardados);
         var valorInput1 = datos.valor1;
-        var valorInput2 = datos.valor2;
+        // var valorInput2 = datos.valor2;
         
         document.getElementById("aqui").value = valorInput1;
-        document.getElementById("contra").value = valorInput2;
+        // document.getElementById("contra").value = valorInput2;
       }
     }
   
@@ -829,7 +887,34 @@ function manejadorValidacion(e) {
                 document.getElementById("apellidoPa").value = ApaUsuario;
                 document.getElementById("apellidoMa").value = AmaUsuario;
                 // Realiza alguna acción si el valor coincide
+                var transactionAutenticasion = db.transaction(['Autenticasion'], 'readonly');
+                var objectStoreAutenticasion = transactionAutenticasion.objectStore('Autenticasion');
     
+                var requestAutenticasion = objectStoreAutenticasion.openCursor();
+                requestAutenticasion.onsuccess = function(event) {
+                  var cursorAutenticasion = event.target.result;
+    
+                  if (cursorAutenticasion) {
+                    var objetoAutenticasion = cursorAutenticasion.value;
+                    var correoAutentico = objetoAutenticasion.correo;
+    
+                    if (correoAutentico === primerValor) {
+                      console.log("El valor del correo Autentico coincide en el almacén Autenticación");
+                  // Realiza alguna acción si el valor del correo coincide
+
+                  var ContraseniaAutenticasion = objetoAutenticasion.contrasenia;
+              
+                  document.getElementById("contra").value = ContraseniaAutenticasion;
+                  // Suponiendo que "logoInstitucion" es un elemento de tipo <img>
+                 
+                }else {
+                  console.log("No se encontró el objeto coincidente en el almacén Autenticacion");
+                  // Realiza alguna acción si no se encontró el objeto coincidente
+                }
+              };
+
+                cursorAutenticasion.continue(); // Continúa al siguiente objeto del almacén nombreEncuestador
+              } 
                 var transactionEncuestador = db.transaction(['Encuestador'], 'readonly');
                 var objectStoreEncuestador = transactionEncuestador.objectStore('Encuestador');
     
@@ -881,6 +966,7 @@ function ImagenLogo(dataUrl) {
   var image = document.querySelector('#logoInstitucion');
   image.src = dataUrl;
 }
+
 // Encuesta predeterminada 1
 //almacena predetermidos
 
@@ -1024,6 +1110,52 @@ function ImagenLogo(dataUrl) {
         // console.log('suscess',db);
       
       }
+
+      function agregarDatosAdmin() {
+           
+          const admin = [
+            { nombre: 'Admin1', apellidoPa: 'ApellidoP1', apellidoMa: 'ApellidoM1', genero: 'Masculino', edad: 99, 
+            contra: 'jk1234', instituto: 'none', correo: 'admin1@example.com', telefono: '9998887777' },
+            { nombre: 'Admin2', apellidoPa: 'ApellidoP2', apellidoMa: 'ApellidoM2', genero: 'Femenino', edad: 99, 
+            contra: 'jk1234', instituto: 'none', correo: 'admin2@example.com', telefono: '9998887777' },
+            { nombre: 'Admin3', apellidoPa: 'ApellidoP3', apellidoMa: 'ApellidoM3', genero: 'Masculino', edad: 99, 
+            contra: 'jk1234', instituto: 'none', correo: 'admin3@example.com', telefono: '9998887777' },
+            { nombre: 'Admin4', apellidoPa: 'ApellidoP4', apellidoMa: 'ApellidoM4', genero: 'Femenino', edad: 99, 
+            contra: 'jk1234', instituto: 'none', correo: 'admin4@example.com', telefono: '9998887777' },
+            { nombre: 'Admin5', apellidoPa: 'ApellidoP5', apellidoMa: 'ApellidoM5', genero: 'Masculino', edad: 99, 
+            contra: 'jk1234', instituto: 'none', correo: 'admin5@example.com', telefono: '9998887777' },
+          ];
+      
+          var transaction = db.transaction(['Administrador'], 'readwrite');
+          var objectStore = transaction.objectStore('Administrador');
+
+          // Verificar si los datos ya se han agregado previamente
+          var requestGetAll = objectStore.getAll();
+          requestGetAll.onsuccess = function(event) {
+            var adminsExisten = event.target.result.length > 0;
+
+            if (!adminsExisten) {
+              // Si los datos no existen, agregarlos a la base de datos
+              for (var Admin of admin) {
+                var requestAdd = objectStore.add(Admin);
+                requestAdd.onerror = function(event) {
+                  console.error('Error al agregar administrador:', event.target.error);
+                };
+              }
+
+              transaction.oncomplete = function(event) {
+                console.log('Datos de administradores agregados exitosamente.');
+              };
+            } else {
+              console.log('Los datos de administradores ya existen, no se agregarán nuevamente.');
+            }
+          };
+
+          requestGetAll.onerror = function(event) {
+            console.error('Error al obtener los administradores:', event.target.error);
+          };
+        }
+      
 
   //salida para las preguntas de reactivos en crear.html
   //-----------------------------------------------------------------------------------------------------------------------
@@ -3449,4 +3581,131 @@ function mostrarEncuestaDatos() {
     }
   };
 }
+
+//Realizar la edición de información de perfil encuestador
+
+function deshabilitarBotones(aqui) {
+  var inputs = document.querySelectorAll('input');
+  inputs.forEach(function (input) {
+    // Habilitar todos los inputs, excepto aquel con el ID proporcionado en el parámetro 'aqui'
+    if (input.id !== aqui) {
+      input.setAttribute('disabled', 'disabled');
+    }
+  });
+}
+function miFuncionEditar() {
+  console.log("Iniciando ejecución de la función.");
+
+  // Obtener los elementos de radio
+  var radioMasculino = document.getElementById('genMas');
+  var radioFemenino = document.getElementById('genfem');
+
+  // Verificar si los elementos existen antes de acceder a sus propiedades
+  if (!radioMasculino || !radioFemenino) {
+    console.log("No se encuentran los elementos de radio.");
+    return;
+  }
+
+  var generoSeleccionado;
+  if (radioMasculino.checked) {
+    generoSeleccionado = 'Masculino';
+  } else if (radioFemenino.checked) {
+    generoSeleccionado = 'Femenino';
+  } else {
+    console.log("No se ha seleccionado ningún género.");
+    return; // Salimos de la función si no se ha seleccionado ningún género
+  }
+
+  var datosUsuario = localStorage.getItem("datosUsuario");
+  if (datosUsuario) {
+    var datos = JSON.parse(datosUsuario);
+    var primerValor = datos.valor1;
+
+    console.log("El valor de primerValor es:", primerValor);
+
+    var request = indexedDB.open('Janal', 1);
+
+    request.onsuccess = function (event) {
+      var db = event.target.result;
+      var transaction = db.transaction(['Usuario', 'Autenticasion'], 'readwrite'); // Transacción con ambos almacenes
+      var objectStoreUsuario = transaction.objectStore('Usuario');
+      var objectStoreAutenticasion = transaction.objectStore('Autenticasion');
+
+      var request = objectStoreUsuario.openCursor();
+      request.onsuccess = function (event) {
+        var cursor = event.target.result;
+
+        if (cursor) {
+          var objeto = cursor.value;
+          var correoUsuario = objeto.correo;
+
+          if (correoUsuario === primerValor) {
+            console.log("El valor coincide.");
+
+            // Realizar las ediciones necesarias en el objeto Usuario
+            objeto.Nombre = document.getElementById("nombre").value;
+            objeto.Edad = parseInt(document.getElementById("edad").value);
+            objeto.ApellidoM = document.getElementById("apellidoMa").value;
+            objeto.ApellidoP = document.getElementById("apellidoPa").value;
+            objeto.Telefono = parseInt(document.getElementById("telefono").value);
+            objeto.Genero = generoSeleccionado;
+
+            // Actualizar el objeto Usuario en el almacén
+            var updateRequestUsuario = cursor.update(objeto);
+            updateRequestUsuario.onsuccess = function (event) {
+              console.log("Objeto Usuario actualizado correctamente:", objeto);
+            };
+
+            // Luego, vamos a actualizar el objeto Autenticasion
+            var requestAutenticasion = objectStoreAutenticasion.openCursor();
+            requestAutenticasion.onsuccess = function(event) {
+              var cursorAutenticasion = event.target.result;
+
+              if (cursorAutenticasion) {
+                var objetoAutenticasion = cursorAutenticasion.value;
+                var correoAutentico = objetoAutenticasion.correo;
+
+                if (correoAutentico === primerValor) {
+                  console.log("El valor del correo Autentico coincide en el almacén Autenticacion");
+
+                  // Realizar las ediciones necesarias en el objeto Autenticasion
+                  objetoAutenticasion.Contrasenia = document.getElementById("contra").value;
+                  objetoAutenticasion.Contrasenia2 = document.getElementById("contra").value;
+
+                  // Actualizar el objeto Autenticasion en el almacén
+                  var updateRequestAutenticasion = cursorAutenticasion.update(objetoAutenticasion);
+                  updateRequestAutenticasion.onsuccess = function (event) {
+                    console.log("Objeto Autenticasion actualizado correctamente:", objetoAutenticasion);
+                  };
+                } else {
+                  console.log("No se encontró el objeto coincidente en el almacén Autenticacion");
+                  // Realiza alguna acción si no se encontró el objeto coincidente
+                }
+
+                // Continuar buscando en el cursor de Autenticasion
+                cursorAutenticasion.continue();
+              } else {
+                console.log("Fin de búsqueda en el almacén Autenticacion. No se encontró coincidencia.");
+              }
+            };
+          } else {
+            // Continuar buscando en el cursor de Usuario
+            cursor.continue();
+          }
+        } else {
+          console.log("Fin de búsqueda en el almacén Usuario. No se encontró coincidencia.");
+        }
+      };
+    };
+
+    request.onerror = function (event) {
+      console.log("Error al abrir la base de datos:", event.target.error);
+    };
+  } else {
+    console.log("No hay datos de usuario en el almacenamiento.");
+  }
+  deshabilitarBotones('aqui');
+}
+
+//Funcion para editar logo de Encuestador
 
