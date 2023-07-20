@@ -659,6 +659,45 @@ function load(id) {
   };
 }
 
+document.getElementById('guardarAdmin').addEventListener('click', (ev) => {
+
+  ev.preventDefault();
+
+  let name = document.getElementById('name').value.trim();
+  let country = document.getElementById('apellidoPa').value.trim();
+
+
+
+  let key = document.whiskeyForm.getAttribute('data-key');
+
+
+  if (key) {
+
+    let whiskey = {
+      id: key,
+      name,
+      country,
+    };
+
+    let tx = makeTX('Administrador', 'readwrite');
+
+    tx.oncomplete = (ev) => {
+      console.log(ev);
+
+    };
+
+    let store = tx.objectStore('Administrador');
+
+    let request = store.put(whiskey);
+    request.onsuccess = (ev) => {
+      console.log('successfully updated an object');
+    };
+    request.onerror = (err) => {
+      console.log('error in request to update');
+    };
+  }
+});
+
 
 
 
