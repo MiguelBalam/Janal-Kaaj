@@ -142,15 +142,11 @@ document.addEventListener('DOMContentLoaded', () => {
   
    mostrarEncuestaDatos()
       buscarVar()
-<<<<<<< HEAD
-     
-=======
       Encuesta1()
       agregarDatosAdmin()
       
       mostrarVarSelec() 
       EncuestaVarMostrar()
->>>>>>> c43b913e10974e448bb94c9598f74c89a7debd44
       //EncuestaVarMostrar() 
       cargarPagina()
     
@@ -209,94 +205,7 @@ document.addEventListener('DOMContentLoaded', () => {
       EncuestaV()
       
     });
-//Subir Noticas
 
-// const formulario = document.getElementById('formularioNews');
-
-// formulario.addEventListener('submit', function(event) {
-//   event.preventDefault(); // Evita que el formulario se envíe
-
-//   const titulo = document.getElementById('titulo').value;
-//   const cuerpo = document.getElementById('noticia').value;
-//   const imagen = document.getElementById('image').files[0];
-
-//   // Llama a la función para almacenar los datos en la base de datos
-//   guardarDatos(titulo, cuerpo, imagen);
-// });
-
-// function guardarDatos(titulo, cuerpo, imagen) {
-//   const request = indexedDB.open('Janal', 1); // Abre la base de datos 'Janal' con la versión 1
-
-//   request.onerror = function(event) {
-//     console.log('Error al abrir la base de datos'); // Maneja el evento de error si hay un problema al abrir la base de datos
-//   };
-
-//   request.onsuccess = function(event) {
-//     const db = event.target.result; // Obtiene la referencia a la base de datos
-//     var reader = new FileReader(); // Crea una instancia de FileReader, que se utiliza para leer el contenido del archivo
-  
-//     // reader.readAsDataURL(file); 
-//     reader.readAsBinaryString(imagen); // Lee el contenido del archivo como una cadena binaria
-//     reader.onload = function(e) {
-//       let bits = e.target.result;
-//       const transaction = db.transaction('Noticias', 'readwrite');
-//       const objectStore = transaction.objectStore('Noticias');
-//       const nuevaNoticia = { titulo: titulo, cuerpo: cuerpo, data: bits };
-//       const requestAdd = objectStore.add(nuevaNoticia);
-    
-//       requestAdd.onsuccess = function(event) {
-//         console.log('Datos almacenados con éxito'); // Maneja el evento de éxito cuando los datos se almacenan correctamente en IndexedDB
-//       };
-  
-//       requestAdd.onerror = function(event) {
-//         console.log('Error al almacenar los datos'); // Maneja el evento de error si hay un problema al almacenar los datos en IndexedDB
-//       };
-  
-//       transaction.oncomplete = function(event) {
-//         db.close(); // Cierra la conexión con la base de datos una vez que la transacción se completa
-//       };
-//     };
-    
-    
-//   };
-// }
-
-
-
-
-/*function doFile(e) {
-  //let file = e.target.files[0]; // Obtiene el archivo seleccionado por el usuario
-  
-  let file = imagen.files[0];
-  var reader = new FileReader(); // Crea una instancia de FileReader, que se utiliza para leer el contenido del archivo
-
-  // reader.readAsDataURL(file); 
-  reader.readAsBinaryString(file); // Lee el contenido del archivo como una cadena binaria
-
-  reader.onload = function(e) {
-    //alert(e.target.result); // Muestra una alerta con el resultado de la lectura del archivo (comentado en este caso)
-
-    let bits = e.target.result; // Obtiene el resultado de la lectura del archivo, es decir, la cadena binaria del archivo
-    /*let ob = {
-      created: new Date(),
-      data: bits
-    }; // Crea un objeto que contiene la fecha de creación y los datos del archivo
-
-    let trans = db.transaction(['Noticias'], 'readwrite'); // Inicia una transacción en el objeto de almacenamiento de IndexedDB llamado 'Noticias' en modo de lectura/escritura
-    let addReq = trans.objectStore('Noticias').add(ob); // Agrega el objeto 'ob' al objeto de almacenamiento 'Noticias'
-
-    addReq.onerror = function(e) {
-      console.log('error storing data'); // Imprime un mensaje de error si falla el almacenamiento de los datos
-      console.error(e); // Imprime el error en la consola para obtener más información
-    };
-
-    trans.oncomplete = function(e) {
-      console.log('data stored'); // Imprime un mensaje indicando que los datos se almacenaron correctamente en IndexedDB
-    };
-  };
-} */
-
- 
 // registro de datos
 //-----------------------------------------------------------------------------------------------------------------------
     document.formEncuestado.addEventListener('submit',(ev)=>{
@@ -511,7 +420,7 @@ function guardarDatos(titulo, cuerpo, imagen) {
 }
 
 //Mostrar datos noticias
-
+/*
 function mostrarDatos() {
   const request = indexedDB.open('Janal', 1);
 
@@ -525,7 +434,7 @@ function mostrarDatos() {
     const transaction = db.transaction('Noticias', 'readonly');
     const objectStore = transaction.objectStore('Noticias');
 
-    const requestGet = objectStore.get(20);
+    const requestGet = objectStore.get(id);
 
     requestGet.onsuccess = function(event) {
       const data = event.target.result;
@@ -557,8 +466,8 @@ function mostrarDatos() {
 
 function doImageTest() {
   console.log('doImageTest');
-  let image = document.querySelector('#img-prueba');
-  let recordToLoad = parseInt(20);
+  let image = document.querySelector('#image');
+  let recordToLoad = parseInt(id);
   if(recordToLoad === '') recordToLoad = 1;
 
   let trans = db.transaction(['Noticias'], 'readonly');
@@ -569,66 +478,120 @@ function doImageTest() {
     console.log('get success', record);
     image.src = 'data:image/jpeg;base64,' + btoa(record.data);
   }
+}*/
+
+function mostrarNoticiasEnTarjetas() {
+
+    const transaction = db.transaction('Noticias', 'readonly');
+    const objectStore = transaction.objectStore('Noticias');
+
+    const requestGetAll = objectStore.getAll();
+
+    requestGetAll.onsuccess = function(event) {
+      const noticias = event.target.result;
+
+      if (noticias && noticias.length > 0) {
+        // Crea las tarjetas con la cantidad de noticias obtenidas
+        crearTarjetas(noticias.length);
+
+        // Llenar cada tarjeta con los datos de las noticias
+        for (let i = 0; i < noticias.length; i++) {
+          const noticia = noticias[i];
+          const tituloElement = document.getElementById(`titulo${i + 1}`);
+          const cuerpoElement = document.getElementById(`cuerpo${i + 1}`);
+          const imageElement = document.getElementById(`image${i + 1}`);
+
+          tituloElement.textContent = noticia.titulo;
+          cuerpoElement.textContent = noticia.cuerpo;
+          imageElement.src = 'data:image/jpeg;base64,' + btoa(noticia.data);
+        }
+      } else {
+        console.log('No se encontraron noticias en la base de datos');
+      }
+    };
+
+    requestGetAll.onerror = function(event) {
+      console.log('Error al obtener las noticias');
+    };
+
+    transaction.oncomplete = function(event) {
+      db.close();
+    };
+  
 }
 
 // Crear Cards para noticias
 
-function crearCard() {
-  // Crear elementos y asignar atributos
-  var colDiv = document.createElement('div');
-  colDiv.classList.add('col-lg-3', 'order-lg-last');
+function crearTarjetas(numTarjetas) {
+  const container = document.getElementById('noticiass'); // El elemento contenedor donde se agregarán las tarjetas
+  let contador = 1; // Contador para el ID de las tarjetas
 
-  var cardDiv = document.createElement('div');
-  cardDiv.classList.add('card');
+  for (let i = 0; i < numTarjetas; i++) {
+    // Creamos los elementos y configuramos sus atributos
+    const divColSm12 = document.createElement('div');
+    divColSm12.className = 'col-sm-12';
+    divColSm12.id = `noticia${contador}`;
 
-  var cardBodyDiv = document.createElement('div');
-  cardBodyDiv.classList.add('card-body');
+    const divCard2 = document.createElement('div');
+    divCard2.className = 'card2';
 
-  var imgElement = document.createElement('img');
-  imgElement.classList.add('img-fluid', 'rounded');
-  imgElement.setAttribute('id', 'img-prueba');
+    const divCardBody = document.createElement('div');
+    divCardBody.className = 'card-body';
 
-  var cardTituloDiv = document.createElement('div');
-  cardTituloDiv.classList.add('card-titulo');
+    const divRow = document.createElement('div');
+    divRow.className = 'row';
 
-  var tituloParrafo = document.createElement('p');
-  tituloParrafo.classList.add('fs-6', 'fw-bold', 'p_top');
-  tituloParrafo.setAttribute('id', 'titulo');
-  tituloParrafo.textContent = 'Seguridad Alimentaria y Nutricional';
+    const divColLg3_1 = document.createElement('div');
+    divColLg3_1.className = 'col-lg-3';
 
-  var cardTextoDiv = document.createElement('div');
-  cardTextoDiv.classList.add('card-texto');
+    const divColSm6 = document.createElement('div');
+    divColSm6.className = 'col-sm-6';
 
-  var textoParrafo = document.createElement('p');
-  textoParrafo.setAttribute('id', 'cuerpo');
-  textoParrafo.textContent = 'Dolor modi repudiandae quia beatae consectetur? ullafugit ullam, accusamus! Totam mollitia eveniet!';
+    const img = document.createElement('img');
+    img.id = `image${contador}`;
+    img.className = 'img-fluid rounded';
 
-  var flexRowDiv = document.createElement('div');
-  flexRowDiv.classList.add('flex-row', 'text-end');
+    const divColLg3_2 = document.createElement('div');
+    divColLg3_2.className = 'col-lg-3';
 
-  var verMasLink = document.createElement('a');
-  verMasLink.setAttribute('href', '#');
-  verMasLink.classList.add('link-card');
-  verMasLink.textContent = 'Ver más..';
+    const divCardTitulo = document.createElement('div');
+    divCardTitulo.className = 'card-titulo';
 
-  // Construir la estructura del DOM
-  cardTituloDiv.appendChild(tituloParrafo);
-  cardTextoDiv.appendChild(textoParrafo);
-  flexRowDiv.appendChild(verMasLink);
+    const pTitulo = document.createElement('p');
+    pTitulo.className = 'fs-6 fw-bold p_top';
+    pTitulo.id = `titulo${contador}`;
+    pTitulo.textContent = `CARD NUMERO ${contador}`;
 
-  cardBodyDiv.appendChild(imgElement);
-  cardBodyDiv.appendChild(cardTituloDiv);
-  cardBodyDiv.appendChild(cardTextoDiv);
-  cardBodyDiv.appendChild(flexRowDiv);
+    const divLineClamp = document.createElement('div');
+    divLineClamp.className = 'line-clamp';
 
-  cardDiv.appendChild(cardBodyDiv);
+    const pCuerpo = document.createElement('p');
+    pCuerpo.id = `cuerpo${contador}`;
+    pCuerpo.textContent = 'Dolor modi';
 
-  // Agregar la tarjeta al elemento deseado del DOM
-  var contenedor = document.getElementById('contenedor'); 
-  colDiv.appendChild(cardDiv);
-  contenedor.appendChild(colDiv);
+    const divFlexRow = document.createElement('div');
+    divFlexRow.className = 'flex-row text-end';
+
+    // Construimos la estructura jerárquica
+    divColSm12.appendChild(divCard2);
+    divCard2.appendChild(divCardBody);
+    divCardBody.appendChild(divRow);
+    divRow.appendChild(divColLg3_1);
+    divRow.appendChild(divColSm6);
+    divColSm6.appendChild(img);
+    divRow.appendChild(divColLg3_2);
+    divCardBody.appendChild(divCardTitulo);
+    divCardTitulo.appendChild(pTitulo);
+    divCardBody.appendChild(divLineClamp);
+    divLineClamp.appendChild(pCuerpo);
+    divCardBody.appendChild(divFlexRow);
+
+    // Agregamos la tarjeta al contenedor
+    container.appendChild(divColSm12);
+
+    contador++; 
+  }
 }
-
 // Cierra mostrar datos noticias
 
 //Jalar datos del Administrador
