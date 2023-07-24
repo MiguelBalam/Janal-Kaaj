@@ -595,42 +595,35 @@ function crearTarjetas(numTarjetas) {
 // Cierra mostrar datos noticias
 
 //Jalar datos del Administrador
-function load(id) {
-  var transaction = db.transaction(['Administrador'], 'readwrite');
-  ObjectStore = transaction.objectStore('Administrador');
-  var requestGet = ObjectStore.get(1);
 
-  requestGet.onsuccess = function(event) {
-    var usuario = event.target.result;
-    if (usuario) {
-      document.getElementById("nombre").value = usuario.nombre;
-      document.getElementById("apellidoPa").value = usuario.apellidoPa;
-      document.getElementById("apellidoMa").value = usuario.apellidoMa;
-      document.getElementById("instituto").value = usuario.instituto;
-      document.getElementById("edad").value = usuario.edad;
-      document.getElementById("contra").value = usuario.contra;
-      document.getElementById("telefono").value = usuario.telefono;
-      document.getElementById("correo").value = usuario.correo;
+function obtenerUsuario(id) {
 
-  var genero = usuario.genero;
-  if (genero === "Masculino") {
-    document.getElementById("genMas").checked = true;
-  } else if (genero === "Femenino") {
-    document.getElementById("genfem").checked = true;
-  } else {
-    console.log("Género no válido.");
-  }
 
-    } else {
-      console.log('Usuario no encontrado.');
-    }
-  };
+    const transaction = db.transaction('Administrador', 'readonly');
+    const objectStore = transaction.objectStore('Administrador');
 
-  requestGet.onerror = function(event) {
-    console.log('Error al obtener el usuario:', event.target.error);
-  };
+    const requestGet = objectStore.get(id);
+
+    requestGet.onsuccess = function(event) {
+      const usuario = event.target.result;
+
+      if (usuario) {
+        // Asignar los valores del usuario a los campos de los inputs
+        document.getElementById("nombre").value = usuario.nombre;
+        document.getElementById("apellidoPa").value = usuario.apellidoPa;
+        document.getElementById("apellidoMa").value = usuario.apellidoMa;
+        document.getElementById("instituto").value = usuario.instituto;
+        document.getElementById("edad").value = usuario.edad;
+        document.getElementById("contra").value = usuario.contra;
+        document.getElementById("telefono").value = usuario.telefono;
+        document.getElementById("correo").value = usuario.correo;
+      } else {
+        console.log('No se encontró el usuario con el ID especificado');
+      }
+    };
+
 }
-
+/*
 document.getElementById('guardarAdmin').addEventListener('click', (ev) => {
 
   ev.preventDefault();
@@ -672,7 +665,7 @@ document.getElementById('guardarAdmin').addEventListener('click', (ev) => {
 
 
 
-
+*/
 
   
 
