@@ -269,11 +269,11 @@
   height: 520px;
 }
 .card-img{
-   height: 150px; /* Altura deseada para el contenedor */
+   height: 170px; 
   display: flex;
-  align-items: center; /* Alinea verticalmente al centro */
-  justify-content: center; /* Alinea horizontalmente al centro */
-  overflow: hidden; /
+  align-items: center; 
+  justify-content: center; 
+  overflow: hidden; 
 }
 
 .card-titulo{

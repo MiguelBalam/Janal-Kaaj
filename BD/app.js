@@ -139,7 +139,7 @@ document.addEventListener('DOMContentLoaded', () => {
       mostrarVarSelec() 
       EncuestaVarMostrar()
    EncuestaVarMostrar(encuestaVarId)
-  
+
    mostrarEncuestaDatos()
       buscarVar()
       Encuesta1()
@@ -465,7 +465,7 @@ function mostrarDatos() {
   doImageTest();
 }
 */
-function doImageTest() {
+/*function doImageTest() {
   console.log('doImageTest');
   let image = document.querySelector('#image');
   let recordToLoad = parseInt(3);
@@ -479,7 +479,7 @@ function doImageTest() {
     console.log('get success', record);
     image.src = 'data:image/jpeg;base64,' + btoa(record.data);
   }
-}
+}*/
 
 function mostrarNoticiasEnTarjetas() {
 
@@ -576,7 +576,7 @@ function crearTarjetas(numTarjetas) {
     divColSm12.id = `noticia${contador}`;
 
     const divCard2 = document.createElement('div');
-    divCard2.className = 'card2';
+    divCard2.className = 'card';
 
     const divCardBody = document.createElement('div');
     divCardBody.className = 'card-body';
@@ -588,7 +588,7 @@ function crearTarjetas(numTarjetas) {
     divColLg3_1.className = 'col-sm-3';
 
     const divColSm6 = document.createElement('div');
-    divColSm6.className = 'col-sm-6';
+    divColSm6.className = 'col-sm-6 card-img';
 
     const img = document.createElement('img');
     img.id = `image${contador}`;
@@ -606,7 +606,7 @@ function crearTarjetas(numTarjetas) {
     //pTitulo.textContent = `CARD NUMERO ${contador}`;
 
     const divLineClamp = document.createElement('div');
-    divLineClamp.className = 'line-clamp';
+    divLineClamp.className = 'card-texto';
 
     const pCuerpo = document.createElement('p');
     pCuerpo.id = `cuerpo${contador}`;
@@ -698,6 +698,8 @@ function crearCardIndex(numero) {
 
 }
 }
+
+
 
 // --Cierra mostrar datos noticias--
 
