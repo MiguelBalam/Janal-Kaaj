@@ -8,36 +8,127 @@
     <title>Reactivos</title>
     <link rel="stylesheet" href="../CSS/bootstrap.min.css">
     <link rel="stylesheet" href="../CSS/style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@300&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="/CSS/styleDashboard.css">
+    <script src="../BD/app.js"></script>
+    <link rel="stylesheet" href="../node_modules/@sweetalert2/themes/bootstrap-4/bootstrap-4.min.css">
+    <script src="../node_modules/sweetalert2/dist/sweetalert2.all.js"></script>
+    <script src="../CSS/SweetAlert.js"></script>
     <link rel="stylesheet" href="@sweetalert2/theme-bootstrap-4/bootstrap-4.css">
+    <link href="https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css" rel="stylesheet" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 </head>
 
-<body class="color-fondo IBM">
+<body >
 
-    <!-- Barra de navegacion  -->
-    <nav class="navbar navbar-expand-lg bg-vo sticky-top">
-        <div class="container-fluid bg-vo">
-            <a class="navbar-brand">Janal-Kaaj</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="../login.html">Login</a>
-                    </li>
-                </ul>
-            </div>
+    <div class="sidebar close">
+        <div class="logo-details">
+            <i class="bx seleccionador"></i>
+            <span class="logo_name">Janal Kaaj</span>
         </div>
-    </nav>
 
-    <div class="p-3">
+
+        <ul class="nav-links">
+            <li>
+                <a href="dashboard.html">
+                    <i class="bx bx-grid-alt"></i>
+                    <span class="link_name">Dashboard</span>
+                </a>
+
+                <ul class="sub-menu blank">
+                    <li><a href="dashboard.html">Dashboard</a></li>
+                </ul>
+            </li>
+
+
+            <li>
+                <a href="/login.html">
+                    <i class='bx bx-home-alt'></i>
+                    <span class="link_name">Login</span>
+                </a>
+
+                <ul class="sub-menu blank">
+                    <li><a class="link_name" href="/login.html">Login</a></li>
+                </ul>
+            </li>
+
+
+
+            <li>
+                <div class="iocn-link">
+                    <a href="#">
+                        <i class='bx bx-file-blank'></i>
+                        <span class="link_name">Crear</span>
+                    </a>
+                    <i class="bx bxs-chevron-down arrow"></i>
+                </div>
+                <ul class="sub-menu">
+                    <li><a class="link_name" href=""></a></li>
+                    <li><a>Variables</a></li>
+                    <li><a class="link-name" href="/pestañas_Encuestador/crear.html">Reactivos</a></li>
+                </ul>
+            </li>
+
+
+            <li>
+                <a href="#">
+                    <i class="bx bx-pie-chart-alt-2"></i>
+                    <span class="link_name">Análisis</span>
+                </a>
+                <ul class="sub-menu blank">
+                    <li><a class="link_name" href="#">Análisis</a></li>
+                </ul>
+            </li>
+
+
+            <li>
+                <a href="#">
+                    <i class="bx bx-line-chart"></i>
+                    <span class="link_name">Graficas</span>
+                </a>
+                <ul class="sub-menu blank">
+                    <li><a class="link_name" href="#">Graficas</a></li>
+                </ul>
+            </li>
+
+            <li>
+                <a href="#">
+                    <i class="bx bx-cog"></i>
+                    <span class="link_name">Configuración</span>
+                </a>
+                <ul class="sub-menu blank">
+                    <li><a class="link_name" href="#">Configuración</a></li>
+                </ul>
+            </li>
+
+            <li>
+                <div class="profile-details">
+                    <div class="profile-content">
+                        <img src="/Img/gmail.png" alt="profileImg" />
+                    </div>
+                    <div class="name-job">
+                        <div class="profile_name">@Usuario</div>
+                        <div class="job">Encuestado(R)</div>
+                    </div>
+                    <i class="bx bx-log-out"></i>
+
+
+                    <ul class="sub-menu blank">
+                        <li><a class="link_name" href="#">Cerrar sesión</a></li>
+                    </ul>
+
+                </div>
+            </li>
+
+        </ul>
+    </div>
+
+
+
+    <section class="home-section">
+        <div class="home-content">
+            <i class="bx bx-menu"></i>
+            <span class="text">Crear encuesta</span>
+        </div>
 
         <section class="d-flex justify-content-center my-4">
 
@@ -213,15 +304,23 @@
                 </table>
             </div>
         </section>
-    
-    </div>
-            
-            
+    </section>
 
-    <script src="../BD/app.js"></script>
-    <link rel="stylesheet" href="../node_modules/@sweetalert2/themes/bootstrap-4/bootstrap-4.min.css">
-    <script src="../node_modules/sweetalert2/dist/sweetalert2.all.js"></script>
-    <script src="../CSS/SweetAlert.js"></script>
+    <script>
+        let arrow = document.querySelectorAll(".arrow");
+        for (var i = 0; i < arrow.length; i++) {
+            arrow[i].addEventListener("click", (e) => {
+                let arrowParent = e.target.parentElement.parentElement; //selecting main parent of arrow
+                arrowParent.classList.toggle("showMenu");
+            });
+        }
+        let sidebar = document.querySelector(".sidebar");
+        let sidebarBtn = document.querySelector(".bx-menu");
+        console.log(sidebarBtn);
+        sidebarBtn.addEventListener("click", () => {
+            sidebar.classList.toggle("close");
+        });
+    </script>            
 </body>
 
 

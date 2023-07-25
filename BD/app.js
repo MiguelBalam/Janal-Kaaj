@@ -740,7 +740,7 @@ function manejadorValidacion(e) {
                 if (!request.result) {
                   mostrarAlertaCorreo();
                 } else if (Contrasenia == request.result.Contrasenia) {
-                  control(window.location.href = 'pestañas_Encuestador/reactivo_tipos_Encuestas.html');
+                  control(window.location.href = 'pestañas_Encuestador/dashboard.html');
                 } else {
                   mostrarAlerta();
                 }
