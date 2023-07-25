@@ -139,12 +139,13 @@ document.addEventListener('DOMContentLoaded', () => {
       mostrarVarSelec() 
       EncuestaVarMostrar()
    EncuestaVarMostrar(encuestaVarId)
-  
+
    mostrarEncuestaDatos()
       buscarVar()
       Encuesta1()
       agregarDatosAdmin()
-      
+      mostrarNoticiasEnTarjetas();
+      mostrarNoticiasIndex();
       mostrarVarSelec() 
       EncuestaVarMostrar()
       //EncuestaVarMostrar() 
@@ -463,11 +464,11 @@ function mostrarDatos() {
   };
   doImageTest();
 }
-
-function doImageTest() {
+*/
+/*function doImageTest() {
   console.log('doImageTest');
   let image = document.querySelector('#image');
-  let recordToLoad = parseInt(id);
+  let recordToLoad = parseInt(3);
   if(recordToLoad === '') recordToLoad = 1;
 
   let trans = db.transaction(['Noticias'], 'readonly');
@@ -493,6 +494,7 @@ function mostrarNoticiasEnTarjetas() {
       if (noticias && noticias.length > 0) {
         // Crea las tarjetas con la cantidad de noticias obtenidas
         crearTarjetas(noticias.length);
+        
 
         // Llenar cada tarjeta con los datos de las noticias
         for (let i = 0; i < noticias.length; i++) {
@@ -520,6 +522,47 @@ function mostrarNoticiasEnTarjetas() {
   
 }
 
+function mostrarNoticiasIndex() {
+
+  const transaction = db.transaction('Noticias', 'readonly');
+  const objectStore = transaction.objectStore('Noticias');
+
+  const requestGetAll = objectStore.getAll();
+
+  requestGetAll.onsuccess = function(event) {
+    const noticias = event.target.result;
+
+    if (noticias && noticias.length > 0) {
+      // Crea las tarjetas con la cantidad de noticias obtenidas
+      crearCardIndex(noticias.length);
+      
+
+      // Llenar cada tarjeta con los datos de las noticias
+      for (let i = 0; i < noticias.length; i++) {
+        const noticia = noticias[i];
+        const tituloElement = document.getElementById(`titulo${i + 1}`);
+        const cuerpoElement = document.getElementById(`cuerpo${i + 1}`);
+        const imageElement = document.getElementById(`img${i + 1}`);
+
+        tituloElement.textContent = noticia.titulo;
+        cuerpoElement.textContent = noticia.cuerpo;
+        imageElement.src = 'data:image/jpeg;base64,' + btoa(noticia.data);
+      }
+    } else {
+      console.log('No se encontraron noticias en la base de datos');
+    }
+  };
+
+  requestGetAll.onerror = function(event) {
+    console.log('Error al obtener las noticias');
+  };
+
+  transaction.oncomplete = function(event) {
+    db.close();
+  };
+
+}
+
 // Crear Cards para noticias
 
 function crearTarjetas(numTarjetas) {
@@ -533,7 +576,7 @@ function crearTarjetas(numTarjetas) {
     divColSm12.id = `noticia${contador}`;
 
     const divCard2 = document.createElement('div');
-    divCard2.className = 'card2';
+    divCard2.className = 'card';
 
     const divCardBody = document.createElement('div');
     divCardBody.className = 'card-body';
@@ -542,17 +585,17 @@ function crearTarjetas(numTarjetas) {
     divRow.className = 'row';
 
     const divColLg3_1 = document.createElement('div');
-    divColLg3_1.className = 'col-lg-3';
+    divColLg3_1.className = 'col-sm-3';
 
     const divColSm6 = document.createElement('div');
-    divColSm6.className = 'col-sm-6';
+    divColSm6.className = 'col-sm-6 card-img';
 
     const img = document.createElement('img');
     img.id = `image${contador}`;
     img.className = 'img-fluid rounded';
 
     const divColLg3_2 = document.createElement('div');
-    divColLg3_2.className = 'col-lg-3';
+    divColLg3_2.className = 'col-sm-3';
 
     const divCardTitulo = document.createElement('div');
     divCardTitulo.className = 'card-titulo';
@@ -560,14 +603,14 @@ function crearTarjetas(numTarjetas) {
     const pTitulo = document.createElement('p');
     pTitulo.className = 'fs-6 fw-bold p_top';
     pTitulo.id = `titulo${contador}`;
-    pTitulo.textContent = `CARD NUMERO ${contador}`;
+    //pTitulo.textContent = `CARD NUMERO ${contador}`;
 
     const divLineClamp = document.createElement('div');
-    divLineClamp.className = 'line-clamp';
+    divLineClamp.className = 'card-texto';
 
     const pCuerpo = document.createElement('p');
     pCuerpo.id = `cuerpo${contador}`;
-    pCuerpo.textContent = 'Dolor modi';
+    //pCuerpo.textContent = 'Dolor modi';
 
     const divFlexRow = document.createElement('div');
     divFlexRow.className = 'flex-row text-end';
@@ -592,7 +635,73 @@ function crearTarjetas(numTarjetas) {
     contador++; 
   }
 }
-// Cierra mostrar datos noticias
+
+//cards para noticas index
+function crearCardIndex(numero) {
+  const container = document.getElementById('cardContainer'); // El elemento contenedor donde se agregarán las tarjetas
+  let contador = 1; // Contador para el ID de las tarjetas
+
+  for (let i = 0; i < numero; i++) {
+  const colDiv = document.createElement('div');
+  colDiv.className = 'col-lg-3';
+  colDiv.id = `card${contador}`;
+
+  const cardDiv = document.createElement("div");
+  cardDiv.className = "card";
+
+  const cardBodyDiv = document.createElement("div");
+  cardBodyDiv.className = "card-body";
+
+  const divimg = document.createElement('div');
+    divimg.className = 'card-img';
+
+  const imgElement = document.createElement("img");
+  imgElement.className = "img-fluid rounded";
+  imgElement.id = `img${contador}`;
+
+  const cardTitleDiv = document.createElement("div");
+  cardTitleDiv.className = "card-titulo";
+
+  const titleParagraph = document.createElement("p");
+  titleParagraph.className = "fs-6 fw-bold p_top";
+  titleParagraph.id = `titulo${contador}`;
+
+  const cardTextDiv = document.createElement("div");
+  cardTextDiv.className = "card-texto";
+
+  const bodyParagraph = document.createElement("p");
+  bodyParagraph.id = `cuerpo${contador}`;
+
+  const flexRowDiv = document.createElement("div");
+  flexRowDiv.className = "flex-row text-end";
+
+  const linkElement = document.createElement("a");
+  linkElement.href = `seguridad-alimentaria.html#noticia${contador}`;
+  linkElement.className = "link-card";
+  linkElement.id = `link${contador}`;
+  linkElement.textContent = `Ver más..`;
+
+  flexRowDiv.appendChild(linkElement);
+  cardTextDiv.appendChild(bodyParagraph);
+  cardTitleDiv.appendChild(titleParagraph);
+  divimg.appendChild(imgElement);
+  cardBodyDiv.appendChild(divimg);
+  cardBodyDiv.appendChild(cardTitleDiv);
+  cardBodyDiv.appendChild(cardTextDiv);
+  cardBodyDiv.appendChild(flexRowDiv);
+  cardDiv.appendChild(cardBodyDiv);
+  colDiv.appendChild(cardDiv);
+  
+  container.appendChild(colDiv);
+
+  contador++;
+
+}
+}
+
+
+
+// --Cierra mostrar datos noticias--
 
 //Jalar datos del Administrador
 
