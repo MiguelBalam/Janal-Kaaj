@@ -1,42 +1,136 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crear Encuesta Reactivo</title>
-    <link rel="stylesheet" href="../CSS/bootstrap.min.css">
+    <meta charset="UTF-8" />
+    <title>Janal Kaaj - Crear encuesta</title>
+    <link rel="stylesheet" href="/CSS/styleDashboard.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+        crossorigin="anonymous"></script>
     <link rel="stylesheet" href="../CSS/style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@300&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../BD/app.js"></script>
+    <script src="../CSS/SweetAlert.js"></script>
+    <link rel="stylesheet" href="../node_modules/@sweetalert2/themes/bootstrap-4/bootstrap-4.min.css">
+    <script src="../node_modules/sweetalert2/dist/sweetalert2.all.js"></script>
+
+    <!-- Boxiocns CDN Link -->
+    <link href="https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css" rel="stylesheet" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 </head>
 
-<body class="color-fondo IBM">
-    <!-- Barra de navegacion  -->
-    <nav class="navbar navbar-expand-lg bg-vo sticky-top">
-        <div class="container-fluid bg-vo">
-            <a class="navbar-brand">Janal-Kaaj</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="../login.html">Login</a>
-                    </li>
-                </ul>
-
-            </div>
+<body>
+    <div class="sidebar close">
+        <div class="logo-details">
+            <i class="bx seleccionador"></i>
+            <span class="logo_name">Janal Kaaj</span>
         </div>
-    </nav>
 
-    <div class="p-3">
+
+        <ul class="nav-links">
+            <li>
+                <a href="dashboard.html">
+                    <i class="bx bx-grid-alt"></i>
+                    <span class="link_name">Dashboard</span>
+                </a>
+
+                <ul class="sub-menu blank">
+                    <li><a href="dashboard.html">Dashboard</a></li>
+                </ul>
+            </li>
+
+
+            <li>
+                <a href="/login.html">
+                    <i class='bx bx-home-alt'></i>
+                    <span class="link_name">Login</span>
+                </a>
+
+                <ul class="sub-menu blank">
+                    <li><a class="link_name" href="/login.html">Login</a></li>
+                </ul>
+            </li>
+
+
+
+            <li>
+                <div class="iocn-link">
+                    <a href="#">
+                        <i class='bx bx-file-blank'></i>
+                        <span class="link_name">Crear</span>
+                    </a>
+                    <i class="bx bxs-chevron-down arrow"></i>
+                </div>
+                <ul class="sub-menu">
+                    <li><a class="link_name" href=""></a></li>
+                    <li><a>Variables</a></li>
+                    <li><a class="link-name" href="/pestañas_Encuestador/crear.html">Reactivos</a></li>
+                </ul>
+            </li>
+
+
+            <li>
+                <a href="#">
+                    <i class="bx bx-pie-chart-alt-2"></i>
+                    <span class="link_name">Análisis</span>
+                </a>
+                <ul class="sub-menu blank">
+                    <li><a class="link_name" href="#">Análisis</a></li>
+                </ul>
+            </li>
+
+
+            <li>
+                <a href="#">
+                    <i class="bx bx-line-chart"></i>
+                    <span class="link_name">Graficas</span>
+                </a>
+                <ul class="sub-menu blank">
+                    <li><a class="link_name" href="#">Graficas</a></li>
+                </ul>
+            </li>
+
+            <li>
+                <a href="#">
+                    <i class="bx bx-cog"></i>
+                    <span class="link_name">Configuración</span>
+                </a>
+                <ul class="sub-menu blank">
+                    <li><a class="link_name" href="#">Configuración</a></li>
+                </ul>
+            </li>
+
+            <li>
+                <div class="profile-details">
+                    <div class="profile-content">
+                        <img src="/Img/gmail.png" alt="profileImg" />
+                    </div>
+                    <div class="name-job">
+                        <div class="profile_name">@Usuario</div>
+                        <div class="job">Encuestado(R)</div>
+                    </div>
+                    <i class="bx bx-log-out"></i>
+
+
+                    <ul class="sub-menu blank">
+                        <li><a class="link_name" href="#">Cerrar sesión</a></li>
+                    </ul>
+
+                </div>
+            </li>
+
+        </ul>
+    </div>
+
+
+
+    <section class="home-section">
+        <div class="home-content">
+            <i class="bx bx-menu"></i>
+            <span class="text">Crear encuesta</span>
+        </div>
 
         <section class="d-flex justify-content-center my-4">
 
@@ -102,8 +196,6 @@
                             <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" type="button"
                                 id="boton_crear"
                                 onclick="location.href='../pestañas_Encuestador/editR.html'">Editar</button>
-
-
                         </div>
                     </div>
 
@@ -123,99 +215,69 @@
                         </div>
                     </div>
 
-                    <!-- 
-            <div class=" row mb-4 p-3">
-                <div class="col-sm-12 text-center">
-                    <button onclick="creEncuestaR()" class="btn btn-outline-success bg-border-mostaza bg-text-mostaza"
-                        id="boton-crear-encuesta" type="submit"> Crear Encuesta</button> -->
                     <div class=" row mb-4 p-3">
                         <div class="col-sm-12 text-center">
 
-
-                            <button
-                                onclick="crearEncuestaFinal(),refrescarAlmacen()"
-                                class="btn btn-outline-success bg-border-mostaza bg-text-mostaza"
+                            <button onclick="crearEncuestaFinal(),refrescarAlmacen()" class="btn btn-outline-success bg-border-mostaza bg-text-mostaza"
                                 id="boton-crear-encuesta" type="submit" disabled data-bs-toggle="modal"
                                 data-bs-target="#Modal_vistaPrevia"> Crear Encuesta</button>
-
-
                         </div>
                     </div>
-
-                    <!-- <div>
-                            <button onclick="creEncuestaR(),location.href='../pestañas_Encuestador/vistaPreguntas.html'"
-                            class="btn btn-outline-success bg-border-mostaza bg-text-mostaza"> Crear EncuestaP</button>
-                        </div> -->
-                    <!-- </div>
-            </div> -->
                 </form>
+
                 <div class="col-sm-12 text-center">
-
                     <button onclick="window.location.href='../pestañas_Encuestador/reactivo_tipos_Encuestas.html'"
-                    class="btn btn-outline-success bg-border-mostaza bg-text-mostaza"> Inicio</button>
-                    
-
-
+                        class="btn btn-outline-success bg-border-mostaza bg-text-mostaza"> Inicio</button>
                 </div>
-               
-           
             </div>
         </section>
-    </div>
 
-
-
-
-
-
-
-
-
-    <!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Modal_vistaPrevia">
-        Lanzar demo de modal
-      </button> -->
-    <!-- Modal -->
-    <div class="modal fade" id="Modal_vistaPrevia" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="ModalLabel">Vista previa</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <div class="modal fade" id="Modal_vistaPrevia" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="ModalLabel">Vista previa</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="text-center">
+                            <img src="../Img/lOGOCONACYT.png" height="60" width="60" alt="Logo">
+                        </div>
+                        <div id="Encabezado">
+                            <!-- Contenido del encabezado -->
+                        </div>
+                        <div id="modalcuerpo">
+                            <!-- Contenido del cuerpo del modal -->
+                        </div>
+                        <div id="preguntas-container">
+                            <!-- Contenido de las preguntas -->
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button"
+                            onclick="mostrarEncuestaCRE(), window.location.href='/pestañas_Encuestador/EncuestasFinales.html'"
+                            class="btn btn-primary">Guardar cambios</button>
+                    </div>
+                </div>
             </div>
-            <div class="modal-body">
-              <div class="text-center">
-                <img src="../Img/lOGOCONACYT.png" height="60" width="60" alt="Logo">
-              </div>
-              <div id="Encabezado">
-                <!-- Contenido del encabezado -->
-              </div>
-              <div id="modalcuerpo">
-                <!-- Contenido del cuerpo del modal -->
-              </div>
-              <div id="preguntas-container">
-                <!-- Contenido de las preguntas -->
-              </div>
-            </div>
-            <div class="modal-footer">
-              <button type="button" onclick="mostrarEncuestaCRE(), window.location.href='/pestañas_Encuestador/EncuestasFinales.html'" class="btn btn-primary">Guardar cambios</button>
-            </div>
-          </div>
         </div>
-      </div>
-         
+    </section>
 
-
-
-    <!-- <tbody id="Encuestas"></tbody> -->
-
-    <!-- <script src="../BD/funciones.js"></script>
-    <script src="../BD/NuevoFormulario.js"></script> -->
-    <Script src="../BD/app.js"></Script>
-    <link rel="stylesheet" href="../node_modules/@sweetalert2/themes/bootstrap-4/bootstrap-4.min.css">
-    <script src="../node_modules/sweetalert2/dist/sweetalert2.all.js"></script>
-    <script src="../CSS/SweetAlert.js"></script>
-
-
+    <script>
+        let arrow = document.querySelectorAll(".arrow");
+        for (var i = 0; i < arrow.length; i++) {
+            arrow[i].addEventListener("click", (e) => {
+                let arrowParent = e.target.parentElement.parentElement; //selecting main parent of arrow
+                arrowParent.classList.toggle("showMenu");
+            });
+        }
+        let sidebar = document.querySelector(".sidebar");
+        let sidebarBtn = document.querySelector(".bx-menu");
+        console.log(sidebarBtn);
+        sidebarBtn.addEventListener("click", () => {
+            sidebar.classList.toggle("close");
+        });
+    </script>
 </body>
 
 </html>

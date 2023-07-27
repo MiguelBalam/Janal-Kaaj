@@ -132,23 +132,29 @@ document.addEventListener('DOMContentLoaded', () => {
     DBOpenReq.addEventListener('success',(ev)=>{
      
       db= ev.target.result;
+      EncuestaVistaPV2()
+      reactivoscrear()
+      buscar()
+      Encuesta1()
+      mostrarVarSelec() 
+      EncuestaVarMostrar()
    EncuestaVarMostrar(encuestaVarId)
-  
+
    mostrarEncuestaDatos()
       buscarVar()
       Encuesta1()
       agregarDatosAdmin()
-      
+      mostrarNoticiasEnTarjetas();
+      mostrarNoticiasIndex();
       mostrarVarSelec() 
       EncuestaVarMostrar()
       //EncuestaVarMostrar() 
       cargarPagina()
-      buscar()
+    
       buscarE()
      
       //mostrarEncuestaVar(encuestaVarId)
-      EncuestaVistaPV2()
-     reactivoscrear()
+   
 
      
      
@@ -200,94 +206,7 @@ document.addEventListener('DOMContentLoaded', () => {
       EncuestaV()
       
     });
-//Subir Noticas
 
-// const formulario = document.getElementById('formularioNews');
-
-// formulario.addEventListener('submit', function(event) {
-//   event.preventDefault(); // Evita que el formulario se envíe
-
-//   const titulo = document.getElementById('titulo').value;
-//   const cuerpo = document.getElementById('noticia').value;
-//   const imagen = document.getElementById('image').files[0];
-
-//   // Llama a la función para almacenar los datos en la base de datos
-//   guardarDatos(titulo, cuerpo, imagen);
-// });
-
-// function guardarDatos(titulo, cuerpo, imagen) {
-//   const request = indexedDB.open('Janal', 1); // Abre la base de datos 'Janal' con la versión 1
-
-//   request.onerror = function(event) {
-//     console.log('Error al abrir la base de datos'); // Maneja el evento de error si hay un problema al abrir la base de datos
-//   };
-
-//   request.onsuccess = function(event) {
-//     const db = event.target.result; // Obtiene la referencia a la base de datos
-//     var reader = new FileReader(); // Crea una instancia de FileReader, que se utiliza para leer el contenido del archivo
-  
-//     // reader.readAsDataURL(file); 
-//     reader.readAsBinaryString(imagen); // Lee el contenido del archivo como una cadena binaria
-//     reader.onload = function(e) {
-//       let bits = e.target.result;
-//       const transaction = db.transaction('Noticias', 'readwrite');
-//       const objectStore = transaction.objectStore('Noticias');
-//       const nuevaNoticia = { titulo: titulo, cuerpo: cuerpo, data: bits };
-//       const requestAdd = objectStore.add(nuevaNoticia);
-    
-//       requestAdd.onsuccess = function(event) {
-//         console.log('Datos almacenados con éxito'); // Maneja el evento de éxito cuando los datos se almacenan correctamente en IndexedDB
-//       };
-  
-//       requestAdd.onerror = function(event) {
-//         console.log('Error al almacenar los datos'); // Maneja el evento de error si hay un problema al almacenar los datos en IndexedDB
-//       };
-  
-//       transaction.oncomplete = function(event) {
-//         db.close(); // Cierra la conexión con la base de datos una vez que la transacción se completa
-//       };
-//     };
-    
-    
-//   };
-// }
-
-
-
-
-/*function doFile(e) {
-  //let file = e.target.files[0]; // Obtiene el archivo seleccionado por el usuario
-  
-  let file = imagen.files[0];
-  var reader = new FileReader(); // Crea una instancia de FileReader, que se utiliza para leer el contenido del archivo
-
-  // reader.readAsDataURL(file); 
-  reader.readAsBinaryString(file); // Lee el contenido del archivo como una cadena binaria
-
-  reader.onload = function(e) {
-    //alert(e.target.result); // Muestra una alerta con el resultado de la lectura del archivo (comentado en este caso)
-
-    let bits = e.target.result; // Obtiene el resultado de la lectura del archivo, es decir, la cadena binaria del archivo
-    /*let ob = {
-      created: new Date(),
-      data: bits
-    }; // Crea un objeto que contiene la fecha de creación y los datos del archivo
-
-    let trans = db.transaction(['Noticias'], 'readwrite'); // Inicia una transacción en el objeto de almacenamiento de IndexedDB llamado 'Noticias' en modo de lectura/escritura
-    let addReq = trans.objectStore('Noticias').add(ob); // Agrega el objeto 'ob' al objeto de almacenamiento 'Noticias'
-
-    addReq.onerror = function(e) {
-      console.log('error storing data'); // Imprime un mensaje de error si falla el almacenamiento de los datos
-      console.error(e); // Imprime el error en la consola para obtener más información
-    };
-
-    trans.oncomplete = function(e) {
-      console.log('data stored'); // Imprime un mensaje indicando que los datos se almacenaron correctamente en IndexedDB
-    };
-  };
-} */
-
- 
 // registro de datos
 //-----------------------------------------------------------------------------------------------------------------------
     document.formEncuestado.addEventListener('submit',(ev)=>{
@@ -502,7 +421,7 @@ function guardarDatos(titulo, cuerpo, imagen) {
 }
 
 //Mostrar datos noticias
-
+/*
 function mostrarDatos() {
   const request = indexedDB.open('Janal', 1);
 
@@ -516,7 +435,7 @@ function mostrarDatos() {
     const transaction = db.transaction('Noticias', 'readonly');
     const objectStore = transaction.objectStore('Noticias');
 
-    const requestGet = objectStore.get(20);
+    const requestGet = objectStore.get(id);
 
     requestGet.onsuccess = function(event) {
       const data = event.target.result;
@@ -545,11 +464,11 @@ function mostrarDatos() {
   };
   doImageTest();
 }
-
-function doImageTest() {
+*/
+/*function doImageTest() {
   console.log('doImageTest');
-  let image = document.querySelector('#img-prueba');
-  let recordToLoad = parseInt(20);
+  let image = document.querySelector('#image');
+  let recordToLoad = parseInt(3);
   if(recordToLoad === '') recordToLoad = 1;
 
   let trans = db.transaction(['Noticias'], 'readonly');
@@ -560,105 +479,260 @@ function doImageTest() {
     console.log('get success', record);
     image.src = 'data:image/jpeg;base64,' + btoa(record.data);
   }
+}*/
+
+function mostrarNoticiasEnTarjetas() {
+
+    const transaction = db.transaction('Noticias', 'readonly');
+    const objectStore = transaction.objectStore('Noticias');
+
+    const requestGetAll = objectStore.getAll();
+
+    requestGetAll.onsuccess = function(event) {
+      const noticias = event.target.result;
+
+      if (noticias && noticias.length > 0) {
+        // Crea las tarjetas con la cantidad de noticias obtenidas
+        crearTarjetas(noticias.length);
+        
+
+        // Llenar cada tarjeta con los datos de las noticias
+        for (let i = 0; i < noticias.length; i++) {
+          const noticia = noticias[i];
+          const tituloElement = document.getElementById(`titulo${i + 1}`);
+          const cuerpoElement = document.getElementById(`cuerpo${i + 1}`);
+          const imageElement = document.getElementById(`image${i + 1}`);
+
+          tituloElement.textContent = noticia.titulo;
+          cuerpoElement.textContent = noticia.cuerpo;
+          imageElement.src = 'data:image/jpeg;base64,' + btoa(noticia.data);
+        }
+      } else {
+        console.log('No se encontraron noticias en la base de datos');
+      }
+    };
+
+    requestGetAll.onerror = function(event) {
+      console.log('Error al obtener las noticias');
+    };
+
+    transaction.oncomplete = function(event) {
+      db.close();
+    };
+  
+}
+
+function mostrarNoticiasIndex() {
+
+  const transaction = db.transaction('Noticias', 'readonly');
+  const objectStore = transaction.objectStore('Noticias');
+
+  const requestGetAll = objectStore.getAll();
+
+  requestGetAll.onsuccess = function(event) {
+    const noticias = event.target.result;
+
+    if (noticias && noticias.length > 0) {
+      // Crea las tarjetas con la cantidad de noticias obtenidas
+      crearCardIndex(noticias.length);
+      
+
+      // Llenar cada tarjeta con los datos de las noticias
+      for (let i = 0; i < noticias.length; i++) {
+        const noticia = noticias[i];
+        const tituloElement = document.getElementById(`titulo${i + 1}`);
+        const cuerpoElement = document.getElementById(`cuerpo${i + 1}`);
+        const imageElement = document.getElementById(`img${i + 1}`);
+
+        tituloElement.textContent = noticia.titulo;
+        cuerpoElement.textContent = noticia.cuerpo;
+        imageElement.src = 'data:image/jpeg;base64,' + btoa(noticia.data);
+      }
+    } else {
+      console.log('No se encontraron noticias en la base de datos');
+    }
+  };
+
+  requestGetAll.onerror = function(event) {
+    console.log('Error al obtener las noticias');
+  };
+
+  transaction.oncomplete = function(event) {
+    db.close();
+  };
+
 }
 
 // Crear Cards para noticias
 
-function crearCard() {
-  // Crear elementos y asignar atributos
-  var colDiv = document.createElement('div');
-  colDiv.classList.add('col-lg-3', 'order-lg-last');
+function crearTarjetas(numTarjetas) {
+  const container = document.getElementById('noticiass'); // El elemento contenedor donde se agregarán las tarjetas
+  let contador = 1; // Contador para el ID de las tarjetas
 
-  var cardDiv = document.createElement('div');
-  cardDiv.classList.add('card');
+  for (let i = 0; i < numTarjetas; i++) {
+    // Creamos los elementos y configuramos sus atributos
+    const divColSm12 = document.createElement('div');
+    divColSm12.className = 'col-sm-12';
+    divColSm12.id = `noticia${contador}`;
 
-  var cardBodyDiv = document.createElement('div');
-  cardBodyDiv.classList.add('card-body');
+    const divCard2 = document.createElement('div');
+    divCard2.className = 'card';
 
-  var imgElement = document.createElement('img');
-  imgElement.classList.add('img-fluid', 'rounded');
-  imgElement.setAttribute('id', 'img-prueba');
+    const divCardBody = document.createElement('div');
+    divCardBody.className = 'card-body';
 
-  var cardTituloDiv = document.createElement('div');
-  cardTituloDiv.classList.add('card-titulo');
+    const divRow = document.createElement('div');
+    divRow.className = 'row';
 
-  var tituloParrafo = document.createElement('p');
-  tituloParrafo.classList.add('fs-6', 'fw-bold', 'p_top');
-  tituloParrafo.setAttribute('id', 'titulo');
-  tituloParrafo.textContent = 'Seguridad Alimentaria y Nutricional';
+    const divColLg3_1 = document.createElement('div');
+    divColLg3_1.className = 'col-sm-3';
 
-  var cardTextoDiv = document.createElement('div');
-  cardTextoDiv.classList.add('card-texto');
+    const divColSm6 = document.createElement('div');
+    divColSm6.className = 'col-sm-6 card-img';
 
-  var textoParrafo = document.createElement('p');
-  textoParrafo.setAttribute('id', 'cuerpo');
-  textoParrafo.textContent = 'Dolor modi repudiandae quia beatae consectetur? ullafugit ullam, accusamus! Totam mollitia eveniet!';
+    const img = document.createElement('img');
+    img.id = `image${contador}`;
+    img.className = 'img-fluid rounded';
 
-  var flexRowDiv = document.createElement('div');
-  flexRowDiv.classList.add('flex-row', 'text-end');
+    const divColLg3_2 = document.createElement('div');
+    divColLg3_2.className = 'col-sm-3';
 
-  var verMasLink = document.createElement('a');
-  verMasLink.setAttribute('href', '#');
-  verMasLink.classList.add('link-card');
-  verMasLink.textContent = 'Ver más..';
+    const divCardTitulo = document.createElement('div');
+    divCardTitulo.className = 'card-titulo';
 
-  // Construir la estructura del DOM
-  cardTituloDiv.appendChild(tituloParrafo);
-  cardTextoDiv.appendChild(textoParrafo);
-  flexRowDiv.appendChild(verMasLink);
+    const pTitulo = document.createElement('p');
+    pTitulo.className = 'fs-6 fw-bold p_top';
+    pTitulo.id = `titulo${contador}`;
+    //pTitulo.textContent = `CARD NUMERO ${contador}`;
 
-  cardBodyDiv.appendChild(imgElement);
-  cardBodyDiv.appendChild(cardTituloDiv);
-  cardBodyDiv.appendChild(cardTextoDiv);
-  cardBodyDiv.appendChild(flexRowDiv);
+    const divLineClamp = document.createElement('div');
+    divLineClamp.className = 'card-texto';
 
-  cardDiv.appendChild(cardBodyDiv);
+    const pCuerpo = document.createElement('p');
+    pCuerpo.id = `cuerpo${contador}`;
+    //pCuerpo.textContent = 'Dolor modi';
 
-  // Agregar la tarjeta al elemento deseado del DOM
-  var contenedor = document.getElementById('contenedor'); 
-  colDiv.appendChild(cardDiv);
-  contenedor.appendChild(colDiv);
+    const divFlexRow = document.createElement('div');
+    divFlexRow.className = 'flex-row text-end';
+
+    // Construimos la estructura jerárquica
+    divColSm12.appendChild(divCard2);
+    divCard2.appendChild(divCardBody);
+    divCardBody.appendChild(divRow);
+    divRow.appendChild(divColLg3_1);
+    divRow.appendChild(divColSm6);
+    divColSm6.appendChild(img);
+    divRow.appendChild(divColLg3_2);
+    divCardBody.appendChild(divCardTitulo);
+    divCardTitulo.appendChild(pTitulo);
+    divCardBody.appendChild(divLineClamp);
+    divLineClamp.appendChild(pCuerpo);
+    divCardBody.appendChild(divFlexRow);
+
+    // Agregamos la tarjeta al contenedor
+    container.appendChild(divColSm12);
+
+    contador++; 
+  }
 }
 
-// Cierra mostrar datos noticias
+//cards para noticas index
+function crearCardIndex(numero) {
+  const container = document.getElementById('cardContainer'); // El elemento contenedor donde se agregarán las tarjetas
+  let contador = 1; // Contador para el ID de las tarjetas
+
+  for (let i = 0; i < numero; i++) {
+  const colDiv = document.createElement('div');
+  colDiv.className = 'col-lg-3';
+  colDiv.id = `card${contador}`;
+
+  const cardDiv = document.createElement("div");
+  cardDiv.className = "card";
+
+  const cardBodyDiv = document.createElement("div");
+  cardBodyDiv.className = "card-body";
+
+  const divimg = document.createElement('div');
+    divimg.className = 'card-img';
+
+  const imgElement = document.createElement("img");
+  imgElement.className = "img-fluid rounded";
+  imgElement.id = `img${contador}`;
+
+  const cardTitleDiv = document.createElement("div");
+  cardTitleDiv.className = "card-titulo";
+
+  const titleParagraph = document.createElement("p");
+  titleParagraph.className = "fs-6 fw-bold p_top";
+  titleParagraph.id = `titulo${contador}`;
+
+  const cardTextDiv = document.createElement("div");
+  cardTextDiv.className = "card-texto";
+
+  const bodyParagraph = document.createElement("p");
+  bodyParagraph.id = `cuerpo${contador}`;
+
+  const flexRowDiv = document.createElement("div");
+  flexRowDiv.className = "flex-row text-end";
+
+  const linkElement = document.createElement("a");
+  linkElement.href = `seguridad-alimentaria.html#noticia${contador}`;
+  linkElement.className = "link-card";
+  linkElement.id = `link${contador}`;
+  linkElement.textContent = `Ver más..`;
+
+  flexRowDiv.appendChild(linkElement);
+  cardTextDiv.appendChild(bodyParagraph);
+  cardTitleDiv.appendChild(titleParagraph);
+  divimg.appendChild(imgElement);
+  cardBodyDiv.appendChild(divimg);
+  cardBodyDiv.appendChild(cardTitleDiv);
+  cardBodyDiv.appendChild(cardTextDiv);
+  cardBodyDiv.appendChild(flexRowDiv);
+  cardDiv.appendChild(cardBodyDiv);
+  colDiv.appendChild(cardDiv);
+  
+  container.appendChild(colDiv);
+
+  contador++;
+
+}
+}
+
+
+
+// --Cierra mostrar datos noticias--
 
 //Jalar datos del Administrador
-function load(id) {
-  var transaction = db.transaction(['Administrador'], 'readwrite');
-  ObjectStore = transaction.objectStore('Administrador');
-  var requestGet = ObjectStore.get(1);
 
-  requestGet.onsuccess = function(event) {
-    var usuario = event.target.result;
-    if (usuario) {
-      document.getElementById("nombre").value = usuario.nombre;
-      document.getElementById("apellidoPa").value = usuario.apellidoPa;
-      document.getElementById("apellidoMa").value = usuario.apellidoMa;
-      document.getElementById("instituto").value = usuario.instituto;
-      document.getElementById("edad").value = usuario.edad;
-      document.getElementById("contra").value = usuario.contra;
-      document.getElementById("telefono").value = usuario.telefono;
-      document.getElementById("correo").value = usuario.correo;
+function obtenerUsuario(id) {
 
-  var genero = usuario.genero;
-  if (genero === "Masculino") {
-    document.getElementById("genMas").checked = true;
-  } else if (genero === "Femenino") {
-    document.getElementById("genfem").checked = true;
-  } else {
-    console.log("Género no válido.");
-  }
 
-    } else {
-      console.log('Usuario no encontrado.');
-    }
-  };
+    const transaction = db.transaction('Administrador', 'readonly');
+    const objectStore = transaction.objectStore('Administrador');
 
-  requestGet.onerror = function(event) {
-    console.log('Error al obtener el usuario:', event.target.error);
-  };
+    const requestGet = objectStore.get(id);
+
+    requestGet.onsuccess = function(event) {
+      const usuario = event.target.result;
+
+      if (usuario) {
+        // Asignar los valores del usuario a los campos de los inputs
+        document.getElementById("nombre").value = usuario.nombre;
+        document.getElementById("apellidoPa").value = usuario.apellidoPa;
+        document.getElementById("apellidoMa").value = usuario.apellidoMa;
+        document.getElementById("instituto").value = usuario.instituto;
+        document.getElementById("edad").value = usuario.edad;
+        document.getElementById("contra").value = usuario.contra;
+        document.getElementById("telefono").value = usuario.telefono;
+        document.getElementById("correo").value = usuario.correo;
+      } else {
+        console.log('No se encontró el usuario con el ID especificado');
+      }
+    };
+
 }
-
+/*
 document.getElementById('guardarAdmin').addEventListener('click', (ev) => {
 
   ev.preventDefault();
@@ -700,7 +774,7 @@ document.getElementById('guardarAdmin').addEventListener('click', (ev) => {
 
 
 
-
+*/
 
   
 
@@ -775,7 +849,7 @@ function manejadorValidacion(e) {
                 if (!request.result) {
                   mostrarAlertaCorreo();
                 } else if (Contrasenia == request.result.Contrasenia) {
-                  control(window.location.href = 'pestañas_Encuestador/reactivo_tipos_Encuestas.html');
+                  control(window.location.href = 'pestañas_Encuestador/dashboard.html');
                 } else {
                   mostrarAlerta();
                 }
@@ -1988,7 +2062,7 @@ function mostrarVarSelec() {
       if(cursor){
         id = cursor.value.id;
         cadena += "<tr>";
-        cadena +="<td><input type ='checkbox' id='sV"+id+"'></input></td>";
+        cadena +="<td><input type ='checkbox' name='selectedVariable' id='sV"+id+"'></input></td>";
         cadena +="<td>"+cursor.value.id+"</td>";
         cadena += "<td><button class='btn btn-outline-success bg-border-mostaza bg-text-mostaza' id= 'b"+id+"'><img src='../Img/borrar.png' height='18px width='18px'></button></td>";
         cadena += "<td><button class='btn btn-outline-success bg-border-mostaza bg-text-mostaza' id= 'e"+id+"'><img src='../Img/edit.svg' height='18px width='18px'></button></td>";
@@ -3353,7 +3427,7 @@ function crearEncuestaFinalVariables() {
 
     request.onsuccess = async function(e) {
       encuestaVarId = e.target.result;
-      console.log("Encuesta creada con id: ",  encuestaVarId, TituloVar);
+      console.log("Encuesta creada con id: ", encuestaVarId, TituloVar);
       
       var VariablesSeleccionados = await obtenerVariablesSeleccionados() 
      
@@ -3362,7 +3436,7 @@ function crearEncuestaFinalVariables() {
 
       VariablesSeleccionados.forEach(function(VariablesId) {
         store.add({
-          encuestaVarId:  encuestaVarId,
+          encuestaVarId:encuestaVarId,
           VariablesId: VariablesId
         });
       });
@@ -3385,17 +3459,53 @@ function crearEncuestaFinalVariables() {
     };
   });
 }
+
 async function obtenerVariablesSeleccionados() {
   var VariablesSeleccionados = [];
-  var checkbox = document.querySelectorAll("input[type='checkbox'][id^='sV']:checked");
+  var checkboxes = document.querySelectorAll("input[type='checkbox'][id^='sV']:checked");
 
-  for (var i = 0; i < checkbox.length; i++) {
-    var id = checkbox[i].id.substring(2); // Eliminamos el prefijo 'sV' del ID del checkbox
-    VariablesSeleccionados.push(id);
-  }
+  var transaction = db.transaction(["selecVariablesCre"], "readonly");
+  var objectStore = transaction.objectStore("selecVariablesCre");
+  var cursor = objectStore.openCursor(null, "prev");
+
+  await new Promise((resolve) => {
+    cursor.onsuccess = function(event) {
+      var cursor = event.target.result;
+      if (cursor) {
+        var valor = cursor.value.VariablesId;
+        if (!VariablesSeleccionados.includes(valor) && contieneCheckboxId(checkboxes, valor)) {
+          VariablesSeleccionados.push(valor);
+        }
+        cursor.continue();
+      } else {
+        resolve();
+      }
+    };
+  });
 
   return VariablesSeleccionados;
 }
+
+function contieneCheckboxId(checkboxes, id) {
+  for (var i = 0; i < checkboxes.length; i++) {
+    if (checkboxes[i].id === 'sV' + id) {
+      return true;
+    }
+  }
+  return false;
+}
+// async function obtenerVariablesSeleccionados() {
+//   var VariablesSeleccionados = [];
+//   var checkbox = document.querySelectorAll("input[type='checkbox'][name='selectedVariable']:checked");
+//  // var checkbox = document.querySelectorAll("input[type='checkbox'][id^='sV']:checked");
+
+//   for (var i = 0; i < checkbox.length; i++) {
+//     var id = checkbox[i].id.substring(2); // Eliminamos el prefijo 'sV' del ID del checkbox
+//     VariablesSeleccionados.push({id});
+//   }
+
+//   return VariablesSeleccionados;
+// }
 
 
 
@@ -3413,95 +3523,91 @@ function mostrarTablaEnOtraPestana(encuestaVarId) {
 
 async function EncuestaVarMostrar(encuestaVarId) {
   var tablaEncuesta = document.getElementById('tablaEncuestaVar');
+  var table = document.createElement('table');
+  table.classList.add('table', 'table-bordered');
 
+  var thead = document.createElement('thead');
+  var trHeader = document.createElement('tr');
+  var thIndex = document.createElement('th');
+  thIndex.textContent = '#';
+  trHeader.appendChild(thIndex);
 
   var tx = db.transaction(["EncuestaVariablesFinal"], "readonly");
   var store = tx.objectStore("EncuestaVariablesFinal");
   var index = store.index("encuestaVarId");
-
-  var tbody = document.createElement('tbody');
   var numColumns = 7; // Número de columnas por variable
 
+  // Create a map to store variable names as keys and their corresponding data as values
+  var variableDataMap = new Map();
+
   var cursor = await index.openCursor(IDBKeyRange.only(encuestaVarId));
-  var selectedVariableValue = '';
+
   cursor.onsuccess = function (event) {
     var cursor = event.target.result;
     if (cursor) {
       var variableId = cursor.value.VariablesId;
-      selectedVariableValue = variableId
-      var tr = document.createElement('tr');
-      var td = document.createElement('td');
-      td.textContent = variableId;
-      tr.appendChild(td);
 
-      for (var i = 1; i <= numColumns; i++) {
-        var td = document.createElement('td');
-        var select = document.createElement('select');
-        td.addEventListener('click', function () {
-          var variableId = this.parentElement.firstChild.textContent;
-          obtenerVariablesSeleccionados();
-        });
-        select.classList.add('form-select', 'form-select-sm');
-        select.setAttribute('aria-label', '.form-select-sm example');
-        var options = [
-          { value: '0', text: '0' },
-          { value: '1', text: '1' },
-          { value: '2', text: '2' },
-          { value: '3', text: '3' },
-          { value: '4', text: 'P' }
-        ];
+      // Store the variable ID and data in the map
+      variableDataMap.set(variableId, cursor.value);
 
-        for (var j = 0; j < options.length; j++) {
-          var option = document.createElement('option');
-          option.value = options[j].value;
-          option.textContent = options[j].text;
-          select.appendChild(option);
-        }
+      var th = document.createElement('th');
+      th.textContent = variableId;
+      trHeader.appendChild(th);
 
-        td.appendChild(select);
-        tr.appendChild(td);
-      }
-
-      tbody.appendChild(tr);
       cursor.continue();
     } else {
-      if (tbody.children.length > 0) {
-        // Si hay variables seleccionadas, mostrar la tabla.
-        var table = document.createElement('table');
-        table.classList.add('table', 'table-bordered');
+      thead.appendChild(trHeader);
+      table.appendChild(thead);
 
-        var thead = document.createElement('thead');
+      var tbody = document.createElement('tbody');
+
+      // Loop through the map to create rows for each variable
+      for (const [variableId, data] of variableDataMap) {
         var tr = document.createElement('tr');
-        var th = document.createElement('th');
-        th.textContent = '#';
-        tr.appendChild(th);
+        var td = document.createElement('td');
+        td.textContent = variableId;
+        tr.appendChild(td);
 
         for (var i = 1; i <= numColumns; i++) {
-          var th = document.createElement('th');
-          th.textContent = selectedVariableValue
-         // th.textContent = 'Columna ' + i;
-          tr.appendChild(th);
+          var td = document.createElement('td');
+          var select = document.createElement('select');
+          select.addEventListener('change', function () {
+            var variableId = this.parentElement.parentElement.firstChild.textContent;
+            var selectedValue = this.value;
+            obtenerVariablesSeleccionados(variableId, selectedValue);
+          });
+          select.classList.add('form-select', 'form-select-sm');
+          select.setAttribute('aria-label', '.form-select-sm example');
+          var options = [
+            { value: '0', text: '0' },
+            { value: '1', text: '1' },
+            { value: '2', text: '2' },
+            { value: '3', text: '3' },
+            { value: '4', text: 'P' }
+          ];
+
+          for (var j = 0; j < options.length; j++) {
+            var option = document.createElement('option');
+            option.value = options[j].value;
+            option.textContent = options[j].text;
+            select.appendChild(option);
+          }
+
+          td.appendChild(select);
+          tr.appendChild(td);
         }
 
-        thead.appendChild(tr);
-       
-        table.appendChild(thead);
-      
-        table.appendChild(tbody);
-        tablaEncuesta.innerHTML = ''
-        tablaEncuesta.appendChild(table);
-      } else {
-        // Si no hay variables seleccionadas para la encuesta, muestra un mensaje indicando que no hay datos.
-        tablaEncuesta.textContent = 'No hay variables seleccionadas para esta encuesta.';
+        tbody.appendChild(tr);
       }
+
+      table.appendChild(tbody);
+      tablaEncuesta.innerHTML = '';
+      tablaEncuesta.appendChild(table);
 
       console.log('Encuesta mostrada correctamente');
     }
   };
 }
-
-
-
 
 
 function mostrarEncuestaDatos() {

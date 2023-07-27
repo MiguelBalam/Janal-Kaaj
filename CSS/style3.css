@@ -268,6 +268,14 @@
 .card{
   height: 520px;
 }
+.card-img{
+   height: 170px; 
+  display: flex;
+  align-items: center; 
+  justify-content: center; 
+  overflow: hidden; 
+}
+
 .card-titulo{
   height: 90px;
   overflow: auto;
@@ -308,6 +316,8 @@
   height: 150px;
   padding: 0.2rem 1rem;
 }
+
+
 
 .card-texto::-webkit-scrollbar-thumb {
   background: rgb(255, 255, 255);
@@ -822,10 +832,16 @@ opacity: 0;
   background-color: rgba(82, 81, 79, 0.314);
 }
 
-.scroll-horizontal {
-  overflow-x: scroll;
-  white-space: nowrap;
+
+.row{
+  align-items: stretch;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  overflow-y: hidden;
 }
 
-  
- 
+
+
+/* Estilos para la imagen */
