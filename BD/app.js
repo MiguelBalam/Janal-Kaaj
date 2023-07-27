@@ -3547,7 +3547,7 @@ function deshabilitarBotones(aqui) {
   var inputs = document.querySelectorAll('input');
   inputs.forEach(function (input) {
     // Habilitar todos los inputs, excepto aquel con el ID proporcionado en el parámetro 'aqui'
-    if (input.id !== aqui) {
+    if (input.id !== aqui && input.id !== 'procedenciaEditar' && input.id !== 'imagenEditar') {
       input.setAttribute('disabled', 'disabled');
     }
   });
@@ -3667,4 +3667,162 @@ function miFuncionEditar() {
 }
 
 //Funcion para editar logo de Encuestador
+// Función para leer el contenido de un archivo como data URL
 
+var imageDataUrl;
+
+function validarImagenLogo() {
+  var archivo = document.getElementById('imagenEditar').files[0];
+
+  if (archivo) {
+    var limiteAncho = 115; // Ancho máximo permitido en píxeles
+    var limiteAlto = 115; // Alto máximo permitido en píxeles
+
+    if (archivo.type === 'image/png') {
+      var img = new Image();
+
+      // Utilizamos una nueva promesa para asegurar que la imagen se haya cargado completamente
+      var imgPromise = new Promise((resolve, reject) => {
+        img.onload = function () {
+          resolve();
+        };
+
+        img.onerror = function () {
+          reject(new Error("Error al cargar la imagen."));
+        };
+      });
+
+      img.src = URL.createObjectURL(archivo);
+
+      imgPromise
+        .then(async function () {
+          // Las dimensiones de la imagen son válidas
+          console.log("Ancho de la imagen:", img.width);
+          console.log("Alto de la imagen:", img.height);
+
+          var reader = new FileReader();
+          reader.onload = async function (event) {
+            // Guardar el data URL en la variable imageDataUrl
+            imageDataUrl = event.target.result;
+            console.log("Data URL de la imagen:", imageDataUrl);
+
+            // Llamar a editarLogo con el data URL y esperar a que se complete
+            try {
+              var objetoActualizado = await editarLogo(imageDataUrl);
+              console.log("Objeto actualizado:", objetoActualizado);
+            } catch (error) {
+              console.error("Error al editar el logo:", error);
+            }
+          };
+
+          reader.readAsDataURL(archivo);
+        })
+        .catch(function (error) {
+          console.error("Error al cargar la imagen:", error);
+        });
+    } else {
+      alert('Seleccione un archivo PNG válido');
+      document.getElementById('imagenEditar').value = null; // Restablecer el valor del input
+    }
+  }
+}
+
+
+function imagenCargadaPromise() {
+  return new Promise((resolve) => {
+    // Espera un breve tiempo para asegurarse de que la carga de la imagen haya finalizado.
+    // Puedes ajustar el tiempo según tus necesidades.
+    setTimeout(resolve, 200);
+  });
+}
+
+function editarLogo(imageDataUrl) {
+  console.log("Data URL de la imagen:", imageDataUrl);
+
+  return new Promise((resolve, reject) => {
+    var datosUsuario = localStorage.getItem("datosUsuario");
+    if (!datosUsuario) {
+      console.log("No hay datos de usuario en el almacenamiento.");
+      reject(new Error("No hay datos de usuario en el almacenamiento."));
+      return;
+    }
+
+    var datos = JSON.parse(datosUsuario);
+    var primerValor = datos.valor1;
+
+    console.log("El valor de primerValor es:", primerValor);
+
+    var db = indexedDB.open('Janal', 1);
+
+    db.onsuccess = function (event) {
+      var database = event.target.result;
+      var transaction = database.transaction(['Encuestador'], 'readwrite');
+      var objectStoreEncuestador = transaction.objectStore('Encuestador');
+
+      var cursorRequest = objectStoreEncuestador.openCursor();
+
+      cursorRequest.onsuccess = function (event) {
+        var cursor = event.target.result;
+
+        if (cursor) {
+          var objeto = cursor.value;
+          var correoEncuestador = objeto.correo;
+
+          if (correoEncuestador === primerValor) {
+            console.log("El valor coincide.");
+
+            // Realizar las ediciones necesarias en el objeto Encuestador
+            objeto.proce = document.getElementById("procedenciaEditar").value;
+            objeto.dataUrl = imageDataUrl;
+            // Convertir el Data URL a Blob y asignarlo a la propiedad dataUrl
+           
+
+            // Actualizar el objeto Encuestador en el almacenamiento
+            var updateRequestEncuestador = cursor.update(objeto);
+
+            updateRequestEncuestador.onsuccess = function (event) {
+              console.log("Objeto Encuestador actualizado correctamente:", objeto);
+              resolve(objeto); // Resolvemos la promesa con el objeto actualizado
+
+            };
+
+            updateRequestEncuestador.onerror = function (event) {
+              console.error("Error al actualizar el objeto Encuestador:", event.target.error);
+              reject(event.target.error); // Rechazamos la promesa en caso de error
+            };
+          } else {
+            console.log("No se encontró un objeto Encuestador con el correo proporcionado.");
+            resolve(null); // Resolvemos la promesa con null si no se encuentra el objeto
+          }
+
+          cursor.continue(); // Continuar con el siguiente objeto del cursor
+        } else {
+          console.log("Se ha recorrido todo el almacen de Encuestador.");
+          resolve(null); // Resolvemos la promesa con null si no se encuentra el objeto
+        }
+      };
+
+      cursorRequest.onerror = function (event) {
+        console.error("Error al abrir el cursor:", event.target.error);
+        reject(event.target.error); // Rechazamos la promesa en caso de error
+      };
+    };
+
+    db.onerror = function (event) {
+      console.error("Error al abrir la base de datos:", event.target.error);
+      reject(event.target.error); // Rechazamos la promesa en caso de error
+    };
+  });
+}
+
+async function guardarDatos() {
+  try {
+    await validarImagenLogo();
+    await editarLogo(imageDataUrl);
+    // Ambas funciones se han completado con éxito, ahora recargamos la página.
+    location.reload();
+  } catch (error) {
+    // Si hay algún error en alguna de las funciones, mostramos el mensaje de error.
+    console.error("Error al guardar los datos:", error);
+  }
+}
