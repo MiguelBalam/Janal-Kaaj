@@ -15,18 +15,6 @@ var db;
 var ObjectStore;
 var ObjectStoreReac;
 
-document.addEventListener('DOMContentLoaded', () => {
-  console.log('dom content loaded');
-
-  document.querySelector('#image').addEventListener('change', doFile);
-
-  
-});
-
-
-
-
-
  (function conectarDB(){
     
    // let objectStore = null;
@@ -150,7 +138,7 @@ document.addEventListener('DOMContentLoaded', () => {
       EncuestaVarMostrar()
       //EncuestaVarMostrar() 
       cargarPagina()
-    
+   
       buscarE()
      
       //mostrarEncuestaVar(encuestaVarId)
@@ -171,15 +159,9 @@ document.addEventListener('DOMContentLoaded', () => {
       //EncaEncuestaVista()
       
      // buscarEVar()
-    
-    
-  
-    
+
      buildList()
-   
-     
-    
-     
+ 
       buscarEVar()
      
      //mostrarPreguntas();
@@ -704,7 +686,7 @@ function crearCardIndex(numero) {
 // --Cierra mostrar datos noticias--
 
 //Jalar datos del Administrador
-
+/*
 function obtenerUsuario(id) {
 
 
@@ -726,57 +708,83 @@ function obtenerUsuario(id) {
         document.getElementById("contra").value = usuario.contra;
         document.getElementById("telefono").value = usuario.telefono;
         document.getElementById("correo").value = usuario.correo;
+        document.whiskeyForm.setAttribute('data-key', usuario.id);
       } else {
         console.log('No se encontró el usuario con el ID especificado');
       }
     };
 
 }
-/*
-document.getElementById('guardarAdmin').addEventListener('click', (ev) => {
 
-  ev.preventDefault();
-
-  let name = document.getElementById('name').value.trim();
-  let country = document.getElementById('apellidoPa').value.trim();
-
-
-
-  let key = document.whiskeyForm.getAttribute('data-key');
-
+function actualizarUsuario(id) {
+ let key = document.prueba.getAttribute('data-key');
 
   if (key) {
+    // Obtener los valores actualizados de los campos de los inputs.
+    let titulo = document.getElementById('titulo').value.trim();
+    let cuerpo = document.getElementById('noticia').value.trim();
 
-    let whiskey = {
-      id: key,
-      name,
-      country,
+
+    // Crear un objeto con los valores actualizados.
+    let updatedUsuario = {
+      id,
+      titulo,
+      cuerpo,
     };
 
-    let tx = makeTX('Administrador', 'readwrite');
-
+    // Iniciar una transacción de escritura en el objeto de almacenamiento 'whiskeyStore'.
+    let tx = makeTX('Noticias', 'readwrite');
     tx.oncomplete = (ev) => {
       console.log(ev);
-
+      buildList();
+      clearForm();
     };
 
-    let store = tx.objectStore('Administrador');
+    let store = tx.objectStore('Noticias');
+    let request = store.put(updatedUsuario); //request a put/update
 
-    let request = store.put(whiskey);
     request.onsuccess = (ev) => {
       console.log('successfully updated an object');
+      //move on to the next request in the transaction or
+      //commit the transaction
     };
     request.onerror = (err) => {
       console.log('error in request to update');
     };
+  } else {
+    console.log('No se encontró el usuario con el ID especificado');
   }
-});
+}
 
 
 
-*/
+function eliminarUsuario() {
+  let key = document.whiskeyForm.getAttribute('data-key');
+  console.log(key);
 
-  
+  if (key) {
+    let tx = makeTX('Noticias', 'readwrite');
+    tx.oncomplete = (ev) => {
+    };
+
+    let store = tx.objectStore('Noticias');
+    let request = store.delete(key);
+    request.onsuccess = (ev) => {
+      console.log('Objeto eliminado exitosamente');
+    };
+    request.onerror = (err) => {
+      console.log('Error al intentar eliminar el objeto');
+    };
+  }
+}
+
+function makeTX(storeName, mode) {
+  let tx = db.transaction(storeName, mode);
+  tx.onerror = (err) => {
+    console.warn(err);
+  };
+  return tx;
+}*/
 
 
 //Verificar que las dos contraseñas coincidan
