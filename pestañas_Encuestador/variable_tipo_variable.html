@@ -6,42 +6,130 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Crear Variable</title>
-    <link rel="stylesheet" href="../CSS/bootstrap.min.css">
+    <link rel="stylesheet" href="/CSS/styleDashboard.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+        crossorigin="anonymous"></script>
     <link rel="stylesheet" href="../CSS/style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@300&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../BD/app.js"></script>
+    <script src="../CSS/SweetAlert.js"></script>
+
+    <link rel="stylesheet" href="../node_modules/@sweetalert2/themes/bootstrap-4/bootstrap-4.min.css">
+    <script src="../node_modules/sweetalert2/dist/sweetalert2.all.js"></script>
+
+    <!-- Boxiocns CDN Link -->
+    <link href="https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css" rel="stylesheet" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 </head>
 
-<body class="color-fondo IBM">
-    <!-- Barra de navegacion  -->
-    <nav class="navbar navbar-expand-lg bg-vo sticky-top">
-        <div class="container-fluid bg-vo">
-            <a class="navbar-brand">Janal-Kaaj</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="../login.html">Login</a>
-                    </li>
-                </ul>
-            </div>
+<body>
+    <!-- Dashboard -->
+    <div class="sidebar close">
+        <div class="logo-details">
+            <i class="bx seleccionador"></i>
+            <span class="logo_name">Janal Kaaj</span>
         </div>
-    </nav>
 
-    <div class="p-3">
+
+        <ul class="nav-links">
+            <li>
+                <a href="/pestañas_Encuestador/dashboard.html">
+                    <i class="bx bx-grid-alt"></i>
+                    <span class="link_name">Dashboard</span>
+                </a>
+
+                <ul class="sub-menu blank">
+                    <li><a href="/pestañas_Encuestador/dashboard.html">Dashboard</a></li>
+                </ul>
+            </li>
+
+
+            <li>
+                <a href="/login.html">
+                    <i class='bx bx-home-alt'></i>
+                    <span class="link_name">Login</span>
+                </a>
+
+                <ul class="sub-menu blank">
+                    <li><a class="link_name" href="/login.html">Login</a></li>
+                </ul>
+            </li>
+
+
+
+            <li>
+                <div class="iocn-link">
+                    <a href="crear_Evariables.html">
+                        <i class='bx bx-file-blank'></i>
+                        <span class="link_name">Crear variables</span>
+                    </a>
+                    <ul class="sub-menu blank">
+                        <li><a class="link_name" href="crear_Evariables.html">Crear variables</a></li>
+                    </ul>
+                </div>
+            </li>
+
+            <li>
+                <div class="iocn-link">
+                    <a href="crear.html">
+                        <i class='bx bx-file-blank'></i>
+                        <span class="link_name">Crear reactivos</span>
+                    </a>
+                </div>
+                <ul class="sub-menu blank">
+                    <li><a class="link_name" href="crear.html">Crear reactivos</a></li>
+                </ul>
+            </li>
+
+
+            <li>
+                <a href="#">
+                    <i class="bx bx-pie-chart-alt-2"></i>
+                    <span class="link_name">Análisis</span>
+                </a>
+                <ul class="sub-menu blank">
+                    <li><a class="link_name" href="#">Análisis</a></li>
+                </ul>
+            </li>
+
+
+            <li>
+                <a href="#">
+                    <i class="bx bx-line-chart"></i>
+                    <span class="link_name">Graficas</span>
+                </a>
+                <ul class="sub-menu blank">
+                    <li><a class="link_name" href="#">Graficas</a></li>
+                </ul>
+            </li>
+
+            <li>
+                <a href="#">
+                    <i class="bx bx-cog"></i>
+                    <span class="link_name">Configuración</span>
+                </a>
+                <ul class="sub-menu blank">
+                    <li><a class="link_name" href="#">Configuración</a></li>
+                </ul>
+            </li>
+
+        </ul>
+    </div>
+
+    <section class="home-section">
+        <div class="home-content">
+            <i class="bx bx-menu"></i>
+            <span class="text">Crear nuevas variables</span>
+        </div>
+        <!-- Fin Dashboard -->
 
         <section class="d-flex justify-content-center my-4">
 
             <div class="card col-sm-7 p-3 shadow-lg mb-5 bg-white rounded">
 
-                <h1 class="bg-text-black text-center p-3 text-uppercase text-black">Crear nueva variable</h1>
+                <h1 class="bg-text-black text-center p-3 text-uppercase text-black">Crear nuevas variables</h1>
                 <form id="formulario" action="">
                     <div class="row mb-4">
                         <label class="col-sm-4 col-form-label px-5">Nombre: </label>
@@ -64,20 +152,22 @@
                         </div>
                     </div>
                 </form>
-                    <div class="row mb-4">
-                
+                <div class="row mb-4">
+
 
                     <div class="col-sm-12 text-center">
                         <button type="button" class="btn btn-outline-success bg-border-mostaza bg-text-mostaza"
-                            onclick="CrearVariable(),notiCrearVariables(),limpiarFormulario(),habilitarbtn2()" 
+                            onclick="CrearVariable(),notiCrearVariables(),limpiarFormulario(),habilitarbtn2()"
                             id="boton_crear_variable">Actualizar</button>
 
                         <button type="button" class="btn btn-outline-success bg-border-mostaza bg-text-mostaza"
-                        onclick="window.location.href='../pestañas_Encuestador/crear_Evariables.html'"
-                            id="boton_guardar_variable" >Guardar</button>
+                            onclick="window.location.href='../pestañas_Encuestador/crear_Evariables.html'"
+                            id="boton_guardar_variable">Guardar</button>
 
                         <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza"
-                            onclick="return cancelar3()" class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" id="boton_cancelar">Cancelar</button>
+                            onclick="return cancelar3()"
+                            class="btn btn-outline-success bg-border-mostaza bg-text-mostaza"
+                            id="boton_cancelar">Cancelar</button>
                     </div>
 
                 </div>
@@ -85,25 +175,36 @@
                 <h3 class="bg-text-black text-center p-3 text-uppercase text-black">Vista Previa Variables</h3>
 
                 <div class=" col-sm-12 col-form-label px-5">
-                <div class="card-header ">
-                    Variables de la encuesta
-                    <div class="container">
-                        <div class="row">
-                            <div id="salidaVarC"></div>
+                    <div class="card-header ">
+                        Variables de la encuesta
+                        <div class="container">
+                            <div class="row">
+                                <div id="salidaVarC"></div>
+                            </div>
                         </div>
                     </div>
-                </div>
 
+                </div>
             </div>
-                
-            </div>
-    </div>
+        </section>
     </section>
-    </div>
-    <script src="../BD/app.js"></script>
-    <link rel="stylesheet" href="../node_modules/@sweetalert2/themes/bootstrap-4/bootstrap-4.min.css">
-    <script src="../node_modules/sweetalert2/dist/sweetalert2.all.js"></script>
-    <script src="../CSS/SweetAlert.js"></script>
+
+    <script>
+        let arrow = document.querySelectorAll(".arrow");
+        for (var i = 0; i < arrow.length; i++) {
+            arrow[i].addEventListener("click", (e) => {
+                let arrowParent = e.target.parentElement.parentElement; //selecting main parent of arrow
+                arrowParent.classList.toggle("showMenu");
+            });
+        }
+        let sidebar = document.querySelector(".sidebar");
+        let sidebarBtn = document.querySelector(".bx-menu");
+        console.log(sidebarBtn);
+        sidebarBtn.addEventListener("click", () => {
+            sidebar.classList.toggle("close");
+        });
+    </script>
+
 </body>
 
 </html>

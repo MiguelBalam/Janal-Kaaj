@@ -8,11 +8,14 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="../CSS/style.css">
+    integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+    crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="../CSS/style.css">
   <script src="../BD/app.js"></script>
   <script src="../CSS/SweetAlert.js"></script>
 
+  <link rel="stylesheet" href="../node_modules/@sweetalert2/themes/bootstrap-4/bootstrap-4.min.css">
+  <script src="../node_modules/sweetalert2/dist/sweetalert2.all.js"></script>
 
   <!-- Boxiocns CDN Link -->
   <link href="https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css" rel="stylesheet" />
@@ -20,6 +23,7 @@
 </head>
 
 <body>
+  <!-- Dashboard -->
   <div class="sidebar close">
     <div class="logo-details">
       <i class="bx seleccionador"></i>
@@ -29,7 +33,7 @@
 
     <ul class="nav-links">
       <li>
-        <a href="#" id="seccion1">
+        <a href="/pestañas_Encuestador/dashboard.html">
           <i class="bx bx-grid-alt"></i>
           <span class="link_name">Dashboard</span>
         </a>
@@ -38,7 +42,7 @@
           <li><a href="" id="mostrarSeccion1">Dashboard</a></li>
         </ul>
       </li>
-  
+
 
       <li>
         <a href="/login.html">
@@ -55,16 +59,25 @@
 
       <li>
         <div class="iocn-link">
-          <a href="#">
+          <a href="crear_Evariables.html">
             <i class='bx bx-file-blank'></i>
-            <span class="link_name">Crear</span>
+            <span class="link_name">Crear variables</span>
           </a>
-          <i class="bx bxs-chevron-down arrow"></i>
+          <ul class="sub-menu blank">
+            <li><a class="link_name" href="crear_Evariables.html">Crear variables</a></li>
+          </ul>
         </div>
-        <ul class="sub-menu">
-          <li><a class="link_name" href=""></a></li>
-          <li><a >Variables</a></li>
-          <li><a href="#" id="mostrarSeccion2">Reactivos</a></li>
+      </li>
+
+      <li>
+        <div class="iocn-link">
+          <a href="crear.html">
+            <i class='bx bx-file-blank'></i>
+            <span class="link_name">Crear reactivos</span>
+          </a>
+        </div>
+        <ul class="sub-menu blank">
+          <li><a class="link_name" href="crear.html">Crear reactivos</a></li>
         </ul>
       </li>
 
@@ -103,280 +116,102 @@
     </ul>
   </div>
 
-
-
   <section class="home-section">
     <div class="home-content">
       <i class="bx bx-menu"></i>
       <span class="text">Dashboard</span>
     </div>
-  
-    <div id="seccion1" style="display: block;">
-    <div id="seccion1">
-      <div class="container">
-        <div class="row justify-content-center">
-          <div class="col-sm-10 col-md-8 col-lg-6 p-4 shadow-lg bg-light rounded">
-            <div class="row">
-              <div class="col-12">
-                <h3 class="text-center mb-4">Bienvenido</h3>
-              </div>
-              <div class="col-12 text-center mb-2">
-                <label class="col-form-label">Usted es un <span class="fw-bold">Encuestador.</span></label>
-              </div>
-              <div class="col-12" id="grupo__nombrecompletos">
-                <label for="nombrecompletos" class="col-form-label mb-2">Usted inició sesión con el correo:</label>
-                <div class="input-group">
-                  <input id="aqui" name="aqui" type="text" class="form-control text-center" disabled>
-                </div>
+    <!-- Fin Dashboard -->
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-sm-10 col-md-8 col-lg-6 p-4 shadow-lg bg-light rounded">
+          <div class="row">
+            <div class="col-12">
+              <h3 class="text-center mb-4">Bienvenido</h3>
+            </div>
+            <div class="col-12 text-center mb-2">
+              <label class="col-form-label">Usted es un <span class="fw-bold">Encuestador.</span></label>
+            </div>
+            <div class="col-12" id="grupo__nombrecompletos">
+              <label for="nombrecompletos" class="col-form-label mb-2">Usted inició sesión con el correo:</label>
+              <div class="input-group">
+                <input id="aqui" name="aqui" type="text" class="form-control text-center" disabled>
               </div>
             </div>
-    
-            <div class="row justify-content-center p-4">
-              <div class="col-sm-12 text-center mb-3">
-                <form class="d-flex" onsubmit="return false;">
-                  <!-- Código del modal -->
-                  <div class="modal fade" id="alertaModal" tabindex="-1" aria-labelledby="mymodel" aria-hidden="true"
-                    style="display: none;" aria-modal="true" role="dialog">
-                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-                      <div class="modal-content">
-                        <div class="modal-header">
-                          <h5 class="modal-title" id="mymodel">No se encontraron coincidencias</h5>
-                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body" id="alertaModalBody"></div>
-                        <div class="modal-footer">
-                          <button type="button" class="btn btn-outline-success bg-border-mostaza bg-text-mostaza"
-                            data-bs-dismiss="modal">Aceptar</button>
-                        </div>
+          </div>
+
+          <div class="row justify-content-center p-4">
+            <div class="col-sm-12 text-center mb-3">
+              <form class="d-flex" onsubmit="return false;">
+                <!-- Código del modal -->
+                <div class="modal fade" id="alertaModal" tabindex="-1" aria-labelledby="mymodel" aria-hidden="true"
+                  style="display: none;" aria-modal="true" role="dialog">
+                  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="mymodel">No se encontraron coincidencias</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body" id="alertaModalBody"></div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-success bg-border-mostaza bg-text-mostaza"
+                          data-bs-dismiss="modal">Aceptar</button>
                       </div>
                     </div>
                   </div>
-                  <!-- Fin del código del modal -->
-    
-                  <div class="row justify-content-center mb-3">
-                    <div class="col-sm-4 text-center mb-2">
-                      <label class="col-form-label px-4 text-center ">Buscar una encuesta</label>
-                    </div>
-                    <div class="col-sm-6 mb-2">
-                      <input id="filtrar" class="form-control me-2" type="search" placeholder="Buscar nombre"
-                        aria-label="Search">
-                    </div>
-                    <div class="col-sm-2 mb-2">
-                      <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" type="submit"
-                        id="boton_filtrar" onclick="realizarBusqueda()">Filtrar</button>
-                    </div>
-                  </div>
-                </form>
-              </div>
-            </div>
-    
-            <div class="row justify-content-center ">
-              <div class="col-12">
-                <h3 class="text-center mb-4">Crear encuestas.</h3>
-              </div>
-              <div class="col-12">
-                <label for="nombrecompletos" class="col-form-label px-4 text-center mb-2">Usted puede crear dos tipos de
-                  encuestas.</label>
-                <div class="col-sm-12 text-center">
-                  <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" id="tip_encuesta"
-                    onclick="window.location.href='../pestañas_Encuestador/crear_Evariables.html'">Encuesta
-                    tipo variables </button>
-                  <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" id="tip_encuesta"
-                    onclick="window.location.href='../pestañas_Encuestador/crear.html'">Encuesta
-                    tipo reactivos</button>
                 </div>
-              </div>
-            </div>
-    
-            <div class="row justify-content-center p-4">
-              <div class="col-12">
-                <h3 class="text-center mb-4">Lista de encuestas.</h3>
-              </div>
-              <div id="crear_encuesta"></div>
-              <div id="crear_encuestaVar"></div>
-              <div id="resultado"></div>
-    
+                <!-- Fin del código del modal -->
+
+                <div class="row justify-content-center mb-3">
+                  <div class="col-sm-4 text-center mb-2">
+                    <label class="col-form-label px-4 text-center ">Buscar una encuesta</label>
+                  </div>
+                  <div class="col-sm-6 mb-2">
+                    <input id="filtrar" class="form-control me-2" type="search" placeholder="Buscar nombre"
+                      aria-label="Search">
+                  </div>
+                  <div class="col-sm-2 mb-2">
+                    <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" type="submit"
+                      id="boton_filtrar" onclick="realizarBusqueda()">Filtrar</button>
+                  </div>
+                </div>
+              </form>
             </div>
           </div>
-    
+
+          <div class="row justify-content-center ">
+            <div class="col-12">
+              <h3 class="text-center mb-4">Crear encuestas.</h3>
+            </div>
+            <div class="col-12">
+              <label for="nombrecompletos" class="col-form-label px-4 text-center mb-2">Usted puede crear dos tipos
+                de
+                encuestas.</label>
+              <div class="col-sm-12 text-center">
+                <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" id="tip_encuesta"
+                  onclick="window.location.href='../pestañas_Encuestador/crear_Evariables.html'">Encuesta
+                  tipo variables </button>
+                <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" id="tip_encuesta"
+                  onclick="window.location.href='../pestañas_Encuestador/crear.html'">Encuesta
+                  tipo reactivos</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="row justify-content-center p-4">
+            <div class="col-12">
+              <h3 class="text-center mb-4">Lista de encuestas.</h3>
+            </div>
+            <div id="crear_encuesta"></div>
+            <div id="crear_encuestaVar"></div>
+            <div id="resultado"></div>
+
+          </div>
         </div>
+
       </div>
     </div>
-  </div>
-
-  <div id="seccion2" style="display: none;">
-    <!-- El contenido de Sección 2 se cargará cuando hagas clic en el enlace correspondiente -->
-  </div>
-  <div id="seccion3" style="display: none;">
-    <!-- El contenido de Sección 3 se cargará cuando hagas clic en el enlace correspondiente -->
-  </div>
-
-      <!-- Crear variables 
-      <div id="seccion2" class="ocultar-seccion">
-      
-        <section class="d-flex justify-content-center my-4">
-      
-          <div class=" col-md-7 p-3 shadow-lg mb-5 bg-white rounded">
-      
-            <h1 class="bg-text-black text-center p-3 text-uppercase text-black">Crear Encuesta de Reactivos</h1>
-      
-            <div class="row mb-4">
-              <label class="col-sm-4 col-form-label px-5">Usuario: </label>
-              <div class="col-sm-8">
-                <input id="aqui" name="aqui" type="text" class="form-control" disabled>
-              </div>
-            </div>
-      
-            <form name="form" id="formulario" action="">
-              <input type="hidden" name="fechaCreacionE" id="fechaCreacionE">
-      
-              <div class="row mb-4">
-                <label class="col-md-4 col-form-label px-5">Título : </label>
-                <div class="col-md-8">
-                  <input type="text" class="form-control" id="Titulo" name="Titulo" placeholder="Agregar Título">
-                </div>
-              </div>
-      
-              <div class="row mb-4">
-                <label class="col-md-4 col-form-label px-5">Objetivo:</label>
-                <div class="col-md-8">
-                  <div class="form-floating">
-                    <textarea class="form-control" placeholder="Agregar Objetivo" id="floatingTextarea2"
-                      name="objetivo"></textarea>
-                  </div>
-                </div>
-              </div>
-      
-              <div class="row mb-4">
-                <label class="col-md-4 col-form-label px-5">Instrucciones:</label>
-                <div class="col-md-8">
-                  <div class="form-floating">
-                    <textarea class="form-control" placeholder="Agregar Instrucción" name="Intruccion" id="floatingTextarea21"
-                      style="height: 100px"></textarea>
-                  </div>
-                </div>
-              </div>
-      
-              <div class="row mb-4">
-                <label class="col-md-4 col-form-label px-5">Reactivos:</label>
-      
-      
-                <div class="col-md-12 text-center">
-      
-                  <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" type="button" id="boton_crear"
-                    onclick="location.href='../pestañas_Encuestador/reactivo_crear_reactivos.html'">Crear</button>
-
-                  <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" id="boton_agregar" type="button"
-                    onclick=" Encuesta1(),window.location.href='../pestañas_Encuestador/reactivo_categoria.html'">
-                    Agregar </button>
-      
-                  <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" type="button" id="boton_crear"
-                    onclick="location.href='../pestañas_Encuestador/editR.html'">Editar</button>
-                </div>
-              </div>
-      
-              <div class="row mb-4">
-                <div class=" col-sm-12 col-form-label px-5">
-                  <div class=" ">
-                    Reactivos de la encuesta
-                    <div class="container">
-                      <div class="row">
-                        <div id="salida2"></div>
-                        <div id="salidapredeSelec"></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-      
-              <div class=" row mb-4 p-3">
-                <div class="col-sm-12 text-center">
-                  <button onclick="crearEncuestaFinal(),refrescarAlmacen()"
-                    class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" id="boton-crear-encuesta" type="submit"
-                    disabled data-bs-toggle="modal" data-bs-target="#Modal_vistaPrevia"> Crear Encuesta</button>
-                </div>
-              </div>
-      
-            </form>
-            <div class="col-sm-12 text-center">
-              <button onclick="window.location.href='../pestañas_Encuestador/reactivo_tipos_Encuestas.html'"
-                class="btn btn-outline-success bg-border-mostaza bg-text-mostaza"> Inicio</button>
-            </div>
-          </div>
-        </section>
-      </div> -->
-
-
-      <!DOCTYPE html>
-      <html>
-      <head>
-          <title>Mostrar Otras Secciones</title>
-      </head>
-      <body>
-          <h1>Contenido de index.html</h1>
-          <a href="#" id="mostrarSeccion1">Mostrar Sección 1</a>
-          <a href="#" id="mostrarSeccion2">Mostrar Sección 2</a>
-          <a href="#" id="mostrarSeccion3">Mostrar Sección 3</a>
-          <div id="seccion1" style="display: block;">
-              <h2>Sección 1</h2>
-              <p>Contenido de la Sección 1 que se muestra al cargar la página.</p>
-          </div>
-          <div id="seccion2" style="display: none;">
-              <!-- El contenido de Sección 2 se cargará cuando hagas clic en el enlace correspondiente -->
-          </div>
-          <div id="seccion3" style="display: none;">
-              <!-- El contenido de Sección 3 se cargará cuando hagas clic en el enlace correspondiente -->
-          </div>
-      
-          <script>
-              function ocultarTodasLasSecciones() {
-                  // Ocultar todas las secciones estableciendo su estilo de visualización a "none"
-                  document.getElementById("seccion1").style.display = "none";
-                  document.getElementById("seccion2").style.display = "none";
-                  document.getElementById("seccion3").style.display = "none";
-              }
-      
-              // Mostrar la Sección 1 por defecto al cargar la página
-              ocultarTodasLasSecciones();
-              document.getElementById("seccion1").style.display = "block";
-      
-              document.getElementById("mostrarSeccion1").addEventListener("click", function(event) {
-                  event.preventDefault(); // Evitar que el enlace recargue la página
-                  ocultarTodasLasSecciones();
-                  document.getElementById("seccion1").style.display = "block";
-              });
-      
-              document.getElementById("mostrarSeccion2").addEventListener("click", function(event) {
-                  event.preventDefault(); // Evitar que el enlace recargue la página
-                  ocultarTodasLasSecciones();
-                  // Utilizamos fetch para cargar el contenido de otra_seccion2.html
-                  fetch("otra_seccion2.html")
-                      .then(response => response.text())
-                      .then(data => {
-                          // Insertamos el contenido en el div con id="seccion2"
-                          document.getElementById("seccion2").innerHTML = data;
-                          document.getElementById("seccion2").style.display = "block";
-                      })
-                      .catch(error => console.error("Error al cargar la sección externa:", error));
-              });
-      
-              document.getElementById("mostrarSeccion3").addEventListener("click", function(event) {
-                  event.preventDefault(); // Evitar que el enlace recargue la página
-                  ocultarTodasLasSecciones();
-                  // Utilizamos fetch para cargar el contenido de otra_seccion3.html
-                  fetch("otra_seccion3.html")
-                      .then(response => response.text())
-                      .then(data => {
-                          // Insertamos el contenido en el div con id="seccion3"
-                          document.getElementById("seccion3").innerHTML = data;
-                          document.getElementById("seccion3").style.display = "block";
-                      })
-                      .catch(error => console.error("Error al cargar la sección externa:", error));
-              });
-          </script>
-      </body>
-      </html>
-      
+  </section>
 
   <script>
     let arrow = document.querySelectorAll(".arrow");
@@ -392,68 +227,6 @@
     sidebarBtn.addEventListener("click", () => {
       sidebar.classList.toggle("close");
     });
-  </script>
-  <script>
-    
- // Definir el array de secciones
- const secciones = ['seccion1', 'seccion2', 'seccion3'];
- var seccionActual = 0;
-// Código restante de la función mostrarSeccion
-function mostrarSeccion(id) {
-  // Oculta la sección actual
-  document.getElementById(secciones[seccionActual]).style.display = 'none';
-
-  // Encuentra el índice de la nueva sección y muéstrala
-  seccionActual = secciones.indexOf(id);
-  document.getElementById(id).style.display = 'block';
-}
-  </script>
-  <script>
-function ocultarTodasLasSecciones() {
-    // Ocultar todas las secciones estableciendo su estilo de visualización a "none"
-    document.getElementById("seccion1").style.display = "none";
-    document.getElementById("seccion2").style.display = "none";
-    document.getElementById("seccion3").style.display = "none";
-}
-
-// Mostrar la Sección 1 por defecto al cargar la página
-ocultarTodasLasSecciones();
-document.getElementById("seccion1").style.display = "block";
-
-document.getElementById("mostrarSeccion1").addEventListener("click", function(event) {
-    event.preventDefault(); // Evitar que el enlace recargue la página
-    ocultarTodasLasSecciones();
-    document.getElementById("seccion1").style.display = "block";
-});
-
-document.getElementById("mostrarSeccion2").addEventListener("click", function(event) {
-    event.preventDefault(); // Evitar que el enlace recargue la página
-    ocultarTodasLasSecciones();
-    // Utilizamos fetch para cargar el contenido de otra_seccion2.html
-    fetch("../pestañas_Encuestador/crear.html.html")
-        .then(response => response.text())
-        .then(data => {
-            // Insertamos el contenido en el div con id="seccion2"
-            document.getElementById("seccion2").innerHTML = data;
-            document.getElementById("seccion2").style.display = "block";
-        })
-        .catch(error => console.error("Error al cargar la sección externa:", error));
-});
-
-document.getElementById("mostrarSeccion3").addEventListener("click", function(event) {
-    event.preventDefault(); // Evitar que el enlace recargue la página
-    ocultarTodasLasSecciones();
-    // Utilizamos fetch para cargar el contenido de otra_seccion3.html
-    fetch("otra_seccion3.html")
-        .then(response => response.text())
-        .then(data => {
-            // Insertamos el contenido en el div con id="seccion3"
-            document.getElementById("seccion3").innerHTML = data;
-            document.getElementById("seccion3").style.display = "block";
-        })
-        .catch(error => console.error("Error al cargar la sección externa:", error));
-});
-
   </script>
 
 </body>
