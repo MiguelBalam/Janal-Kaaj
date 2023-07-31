@@ -2,6 +2,24 @@
   "dependencies": {
     "@supercharge/strings": "^2.0.0",
     "@sweetalert2/themes": "^5.0.15",
+    "mysql2": "^3.5.2",
     "sweetalert2": "^11.6.16"
-  }
+  },
+  "name": "janal-kaaj",
+  "version": "1.0.0",
+  "main": "sw.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MiguelBalam/Janal-Kaaj.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MiguelBalam/Janal-Kaaj/issues"
+  },
+  "homepage": "https://github.com/MiguelBalam/Janal-Kaaj#readme",
+  "description": ""
 }

@@ -64,7 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
         ObjectStore.createIndex("correo","correo",{unique:true});
 
         ObjectStore = db.createObjectStore("EncuestaVariablesFinal", {keypth:"IdV" ,autoIncrement: true});
-       ObjectStore.createIndex("encuestaVarId","encuestaVarId",{unique:true});
+       ObjectStore.createIndex("encuestaVarId","encuestaVarId",{unique:false});
 
         db.createObjectStore("Encuestado",{autoIncrement: true});
         db.createObjectStore("Localidad", {autoIncrement: true});
@@ -106,7 +106,7 @@ document.addEventListener('DOMContentLoaded', () => {
         ObjectStore.createIndex("NombreVar","NombreVar", {unique: true});
       
         ObjectStore= db.createObjectStore("Encuesta_Variables", {keyPath:"IdV",autoIncrement: true});
-        ObjectStore.createIndex("encuestaVarId","encuestaVarId",{unique:true});
+        ObjectStore.createIndex("encuestaVarId","encuestaVarId",{unique:false});
         ObjectStore.createIndex("fechaCreacionE","fechaCreacionE",{unique:true});
         ObjectStore.createIndex("EncuestaTitulo","Titulo",{unique:true});
         ObjectStore.createIndex("EncuestaObjetivoV","Objetivo",{unique:true});
@@ -142,20 +142,12 @@ document.addEventListener('DOMContentLoaded', () => {
   
    mostrarEncuestaDatos()
       buscarVar()
-<<<<<<< HEAD
      
-=======
-      Encuesta1()
-      agregarDatosAdmin()
-      
-      mostrarVarSelec() 
-      EncuestaVarMostrar()
->>>>>>> c43b913e10974e448bb94c9598f74c89a7debd44
       //EncuestaVarMostrar() 
       cargarPagina()
     
       buscarE()
-     
+      buscarEVarCre()
       //mostrarEncuestaVar(encuestaVarId)
    
 
@@ -183,7 +175,7 @@ document.addEventListener('DOMContentLoaded', () => {
      
     
      
-      buscarEVar()
+      //buscarEVar()
      
      //mostrarPreguntas();
  
@@ -1650,6 +1642,377 @@ function mostrarVarSelec() {
         };
       }
       
+      function buscarEVarCre() {
+        var cadena = "<table class='table table-bordered'>";
+        var objectStore = db.transaction("Encuesta_Variables").objectStore("Encuesta_Variables");
+        objectStore.openCursor().onsuccess = function(e) {
+          var cursor = e.target.result;
+          if (cursor) {
+            var encuestaIdVar = cursor.value.IdV;
+            var descripcionVar = cursor.value.TituloVar;
+            cadena += "<tr>";
+           cadena += "<td align='center'><button data-encuesta-id='" + encuestaIdVar + "' class='ver-formulario2-btn btn btn-outline-success bg-border-mostaza bg-text-mostaza'>Ver formulario</button></td>";
+            
+            cadena += "<td>" + descripcionVar + "</td>";
+            cadena += "<td align='center'><button data-encuesta-id='R" + encuestaIdVar + "' class='btn btn-outline-success bg-border-mostaza bg-text-mostaza me-md-2'>Ver</button></td>";
+            cadena += "</tr>";
+            cursor.continue();
+          } else {
+            cadena += "</table>";
+            document.getElementById("crear_encuesta").innerHTML = cadena;
+      
+            var btns = document.getElementsByClassName("ver-formulario2-btn");
+            for (var i = 0; i < btns.length; i++) {
+              btns[i].addEventListener("click", function(event) {
+                var IdV = event.target.getAttribute("data-encuesta-id");
+                abrirFormulariVariables(IdV)
+              });
+            }
+      
+            var redireccionarBtns = document.getElementsByClassName("btn btn-outline-success bg-border-mostaza bg-text-mostaza me-md-2");
+            for (var i = 0; i < redireccionarBtns.length; i++) {
+              redireccionarBtns[i].addEventListener("click", function(event) {
+                var IdV = event.target.getAttribute("data-encuesta-id");
+               // redireccionarPagina(IdV);
+              });
+            }
+          }
+        };
+      }
+
+      // function abrirFormulariVariables(IdV) {
+      //   var nuevaPestana = window.open("", "_blank");
+      //   var contenidoHTML = "<h2 class='bg-text-black text-center p-3 text-uppercase text-black'></h2>";
+      
+      //   var transaction = db.transaction("Encuesta_Variables", "readonly");
+      //   var encuestaObjectStore = transaction.objectStore("Encuesta_Variables");
+      //   var encuestaRequest = encuestaObjectStore.get(parseInt(IdV));
+      
+      //   encuestaRequest.onsuccess = function(event) {
+      //     var EncuestaVariables = event.target.result;
+      //     if (EncuestaVariables) {
+      //       contenidoHTML += "<h1 class='bg-text-black text-center p-3 text-uppercase text-black' style='text-align: center; font-size: x-large; padding: 10px 50px 20px; font-weight: bold;'>" + EncuestaVariables.TituloVar + "</h1>";
+      
+      //       var VariablesObjectStore = db.transaction("EncuestaVariablesFinal", "readonly").objectStore("EncuestaVariablesFinal");
+      //       var VariablesRequest = VariablesObjectStore.getAll();
+      
+      //       VariablesRequest.onsuccess = function(event) {
+      //         var variables = event.target.result;
+      //         if (variables) {
+      //           var variablesFiltrados = variables.filter(function(variable) {
+      //             return variable.encuestaVarId === parseInt(IdV);
+      //           });
+      
+      //           contenidoHTML += "<table class='table table-bordered'>";
+      //           contenidoHTML += "<thead><tr><th>#</th>";
+      
+      //           // Encabezados de las columnas con el nombre de las variables
+      //           variablesFiltrados.forEach(function(variable) {
+      //             contenidoHTML += "<th>" + variable.VariablesId + "</th>";
+      //           });
+      
+      //           contenidoHTML += "</tr></thead>";
+      //           contenidoHTML += "<tbody>";
+      
+      //           // Filas con selects
+      //           for (var i = 0; i < variablesFiltrados.length; i++) {
+      //             contenidoHTML += "<tr>";
+      //             contenidoHTML += "<td>" + (i + 1) + "</td>";
+      //             //contenidoHTML += "<td>" + (i + 1) + "</td>";
+      
+      //             // Celdas con selects
+      //             for (var j = 0; j < variablesFiltrados.length; j++) {
+      //               contenidoHTML += "<td>";
+      //               contenidoHTML += "<select class='form-select form-select-sm' aria-label='.form-select-sm example' onchange='updateOtherSelects(this)'>";
+      
+      //               var options = [
+      //                 { value: '0', text: '0' },
+      //                 { value: '1', text: '1' },
+      //                 { value: '2', text: '2' },
+      //                 { value: '3', text: '3' },
+      //                 { value: '4', text: 'P' }
+      //               ];
+      
+      //               options.forEach(function(option) {
+      //                 contenidoHTML += "<option value='" + option.value + "'>" + option.text + "</option>";
+      //               });
+      
+      //               contenidoHTML += "</select>";
+      //               contenidoHTML += "</td>";
+      //             }
+      
+      //             contenidoHTML += "</tr>";
+      //           }
+      
+      //           contenidoHTML += "</tbody></table>";
+      
+      //           nuevaPestana.document.open();
+      //           nuevaPestana.document.write(contenidoHTML);
+      //           nuevaPestana.document.close();
+      //         }
+      //       };
+      //     }
+      //   };
+      // }
+      
+      function abrirFormulariVariables(IdV) {
+        var nuevaPestana = window.open("", "_blank");
+        var contenidoHTML = "<h2 class='bg-text-black text-center p-3 text-uppercase text-black'></h2>";
+      
+        var transaction = db.transaction("Encuesta_Variables", "readonly");
+        var encuestaObjectStore = transaction.objectStore("Encuesta_Variables");
+        var encuestaRequest = encuestaObjectStore.get(parseInt(IdV));
+      
+        encuestaRequest.onsuccess = function(event) {
+          var EncuestaVariables = event.target.result;
+          if (EncuestaVariables) {
+            contenidoHTML += "<h1 class='bg-text-black text-center p-3 text-uppercase text-black' style='text-align: center; font-size: x-large; padding: 10px 50px 20px; font-weight: bold;'>" + EncuestaVariables.TituloVar + "</h1>";
+      
+            var VariablesObjectStore = db.transaction("EncuestaVariablesFinal", "readonly").objectStore("EncuestaVariablesFinal");
+            var VariablesRequest = VariablesObjectStore.getAll();
+      
+            VariablesRequest.onsuccess = function(event) {
+              var variables = event.target.result;
+              if (variables) {
+                var variablesFiltrados = variables.filter(function(variable) {
+                  return variable.encuestaVarId === parseInt(IdV);
+                });
+      
+                contenidoHTML += "<table class='table table-bordered'>";
+                contenidoHTML += "<thead><tr><th>#</th>";
+      
+                // Encabezados de las columnas con el nombre de las variables
+                variablesFiltrados.forEach(function(variable) {
+                  contenidoHTML += "<th>" + variable.VariablesId + "</th>";
+                });
+      
+                contenidoHTML += "</tr></thead>";
+                contenidoHTML += "<tbody>";
+      
+                // Filas con selects
+                for (var i = 0; i < variablesFiltrados.length; i++) {
+                  contenidoHTML += "<tr>";
+                  contenidoHTML += "<td>" + variablesFiltrados[i].VariablesId + "</td>";
+      
+                  // Celdas con selects
+                  for (var j = 0; j < variablesFiltrados.length; j++) {
+                    contenidoHTML += "<td>";
+                    contenidoHTML += "<select class='form-select form-select-sm' aria-label='.form-select-sm example' onchange='updateOtherSelects(this)'>";
+      
+                    var options = [
+                      { value: '0', text: '0' },
+                      { value: '1', text: '1' },
+                      { value: '2', text: '2' },
+                      { value: '3', text: '3' },
+                      { value: '4', text: 'P' }
+                    ];
+      
+                    options.forEach(function(option) {
+                      contenidoHTML += "<option value='" + option.value + "'>" + option.text + "</option>";
+                    });
+      
+                    contenidoHTML += "</select>";
+                    contenidoHTML += "</td>";
+                  }
+      
+                  contenidoHTML += "</tr>";
+                }
+      
+                contenidoHTML += "</tbody></table>";
+      
+                nuevaPestana.document.open();
+                nuevaPestana.document.write(contenidoHTML);
+                nuevaPestana.document.close();
+              }
+            };
+          }
+        };
+      }
+      
+      // Función para actualizar los otros selects en la misma fila y columna con el mismo valor
+      function updateOtherSelects(selectElement) {
+        var columnIndex = selectElement.cellIndex;
+        var rowIndex = selectElement.parentNode.rowIndex;
+      
+        var table = selectElement.parentNode.parentNode.parentNode;
+        var rows = table.getElementsByTagName("tr");
+      
+        for (var i = 0; i < rows.length; i++) {
+          var row = rows[i];
+          var cell = row.cells[columnIndex];
+      
+          if (i !== rowIndex) {
+            var select = cell.querySelector("select");
+            select.value = selectElement.value;
+          }
+        }
+      
+        var cells = table.rows[rowIndex].cells;
+        for (var j = 0; j < cells.length; j++) {
+          if (j !== columnIndex) {
+            var select = cells[j].querySelector("select");
+            select.value = selectElement.value;
+          }
+        }
+      }
+      
+
+
+      // function abrirFormulariVariables(IdV) {
+      //   var nuevaPestana = window.open("", "_blank");
+      //   var contenidoHTML = "<h2 class='bg-text-black text-center p-3 text-uppercase text-black'></h2>";
+      
+      //   var transaction = db.transaction("Encuesta_Variables", "readonly");
+      //   var encuestaObjectStore = transaction.objectStore("Encuesta_Variables");
+      //   var encuestaRequest = encuestaObjectStore.get(parseInt(IdV));
+      
+      //   encuestaRequest.onsuccess = function(event) {
+      //     var EncuestaVariables = event.target.result;
+      //     if (EncuestaVariables) {
+      //       contenidoHTML += "<h1 class='bg-text-black text-center p-3 text-uppercase text-black' style='text-align: center; font-size: x-large; padding: 10px 50px 20px; font-weight: bold;'>" + EncuestaVariables.TituloVar + "</h1>";
+      
+      //       var VariablesObjectStore = db.transaction("EncuestaVariablesFinal", "readonly").objectStore("EncuestaVariablesFinal");
+      //       var VariablesRequest = VariablesObjectStore.getAll();
+      
+      //       VariablesRequest.onsuccess = function(event) {
+      //         var variables = event.target.result;
+      //         if (variables) {
+      //           var variablesFiltrados = variables.filter(function(variable) {
+      //             return variable.encuestaVarId === parseInt(IdV);
+      //           });
+      
+      //           contenidoHTML += "<table class='table table-bordered'>";
+                
+                
+      
+      //           variablesFiltrados.forEach(function(variable, index) {
+      //             contenidoHTML += "<th>#</th>";
+      //             contenidoHTML += "<th>"+ variable.VariablesId+ "</th>";
+      //            // contenidoHTML += "<td>" + (index + 1) + "</td>";
+      //            contenidoHTML += "<tbody>";
+      //            contenidoHTML += "<tr>";
+      //             contenidoHTML += "<td>" + variable.VariablesId+ "</td>";
+      //             contenidoHTML += "<td>";
+      //             contenidoHTML += "<select class='form-select form-select-sm' aria-label='.form-select-sm example' onchange='updateOtherSelects(this)'>";
+      //             var options = [
+      //               { value: '0', text: '0' },
+      //               { value: '1', text: '1' },
+      //               { value: '2', text: '2' },
+      //               { value: '3', text: '3' },
+      //               { value: '4', text: 'P' }
+      //             ];
+      
+      //             options.forEach(function(option) {
+      //               contenidoHTML += "<option value='" + option.value + "'>" + option.text + "</option>";
+      //             });
+      
+      //             contenidoHTML += "</select>";
+      //             contenidoHTML += "</td>";
+      //             contenidoHTML += "</tr>";
+      //           });
+      
+      //           contenidoHTML += "</tbody></table>";
+      
+      //           nuevaPestana.document.open();
+      //           nuevaPestana.document.write(contenidoHTML);
+      //           nuevaPestana.document.close();
+      //         }
+      //       };
+      //     }
+      //   };
+      // }
+      
+      // // Función para actualizar los otros selects en la misma fila y columna con el mismo valor
+      // function updateOtherSelects(selectElement) {
+      //   var columnIndex = selectElement.parentNode.cellIndex;
+      //   var rowIndex = selectElement.parentNode.parentNode.rowIndex;
+      
+      //   var table = selectElement.parentNode.parentNode.parentNode;
+      //   var rows = table.getElementsByTagName("tr");
+      
+      //   for (var i = 0; i < rows.length; i++) {
+      //     var row = rows[i];
+      //     var cell = row.cells[columnIndex];
+      
+      //     if (i !== rowIndex) {
+      //       var select = cell.querySelector("select");
+      //       select.value = selectElement.value;
+      //     }
+      //   }
+      
+      //   var cells = table.rows[rowIndex].cells;
+      //   for (var j = 0; j < cells.length; j++) {
+      //     if (j !== columnIndex) {
+      //       var select = cells[j].querySelector("select");
+      //       select.value = selectElement.value;
+      //     }
+      //   }
+      // }
+      
+
+      // function abrirFormulariVariables(IdV) {
+      //   var nuevaPestana = window.open("", "_blank");
+      //   var contenidoHTML = "<h2 class='bg-text-black text-center p-3 text-uppercase text-black'></h2>";
+      
+      //   var transaction = db.transaction("Encuesta_Variables", "readonly");
+      //   var encuestaObjectStore = transaction.objectStore("Encuesta_Variables");
+      //   var encuestaRequest = encuestaObjectStore.get(parseInt(IdV));
+      
+      //   encuestaRequest.onsuccess = function(event) {
+      //     var EncuestaVariables = event.target.result;
+      //     if (EncuestaVariables) {
+      //       contenidoHTML += "<h1 class='bg-text-black text-center p-3 text-uppercase text-black' style='text-align: center; font-size: x-large; padding: 10px 50px 20px; font-weight: bold;'>" + EncuestaVariables.TituloVar + "</h1>";
+      
+      //       var VariablesObjectStore = db.transaction("EncuestaVariablesFinal", "readonly").objectStore("EncuestaVariablesFinal");
+      //       var VariablesRequest = VariablesObjectStore.getAll();
+      
+      //       VariablesRequest.onsuccess = function(event) {
+      //         var variables = event.target.result;
+      //         if (variables) {
+      //           var variablesFiltrados = variables.filter(function(variable) {
+      //             return variable.encuestaVarId === parseInt(IdV);
+      //           });
+      
+      //           contenidoHTML += "<table class='table table-bordered'>";
+      //           contenidoHTML += "<thead><tr><th>#</th><th>Variable</th><th>Valor</th></tr></thead>";
+      //           contenidoHTML += "<tbody>";
+      
+      //           variablesFiltrados.forEach(function(variable, index) {
+      //             contenidoHTML += "<tr>";
+      //             contenidoHTML += "<td>" + (index + 1) + "</td>";
+      //             contenidoHTML += "<td>" + variable.VariablesId+ "</td>";
+      //             contenidoHTML += "<td>";
+      //             contenidoHTML += "<select class='form-select form-select-sm' aria-label='.form-select-sm example'>";
+      //             var options = [
+      //               { value: '0', text: '0' },
+      //               { value: '1', text: '1' },
+      //               { value: '2', text: '2' },
+      //               { value: '3', text: '3' },
+      //               { value: '4', text: 'P' }
+      //             ];
+      
+      //             options.forEach(function(option) {
+      //               contenidoHTML += "<option value='" + option.value + "'>" + option.text + "</option>";
+      //             });
+      
+      //             contenidoHTML += "</select>";
+      //             contenidoHTML += "</td>";
+      //             contenidoHTML += "</tr>";
+      //           });
+      
+      //           contenidoHTML += "</tbody></table>";
+      
+      //           nuevaPestana.document.open();
+      //           nuevaPestana.document.write(contenidoHTML);
+      //           nuevaPestana.document.close();
+      //         }
+      //       };
+      //     }
+      //   };
+      // }
+
+
+
       function redireccionarPagina(encuestaId) {
         // Aquí puedes redirigir a la página deseada utilizando el ID de la encuesta
         // Por ejemplo:
@@ -1697,6 +2060,13 @@ function mostrarVarSelec() {
         };
       }
       
+
+
+
+
+      
+      
+
 
       function buscarEVar() {
         var cadena = "<table class='table table-bordered'>";
@@ -1997,8 +2367,8 @@ function mostrarVarSelec() {
       if(cursor){
         id = cursor.value.id;
         cadena += "<tr>";
-        cadena +="<td><input type ='checkbox' name='selectedVariable' id='sV"+id+"'></input></td>";
-        cadena +="<td>"+cursor.value.id+"</td>";
+        cadena +="<td><input type ='checkbox' name='selectedVariable' id='s"+id+"'></input></td>";
+        cadena +="<td>"+id+"</td>";
         cadena += "<td><button class='btn btn-outline-success bg-border-mostaza bg-text-mostaza' id= 'b"+id+"'><img src='../Img/borrar.png' height='18px width='18px'></button></td>";
         cadena += "<td><button class='btn btn-outline-success bg-border-mostaza bg-text-mostaza' id= 'e"+id+"'><img src='../Img/edit.svg' height='18px width='18px'></button></td>";
         //cadena +="<td><button id='m"+id+"'<img src='../Img/edit.svg'  height='18px'width='18px'>></button></td>";
@@ -2013,14 +2383,14 @@ function mostrarVarSelec() {
   
         for(var i=0; i<ids_array.length; i++){
           id = ids_array[i];
-          document.getElementById("sV"+id).onclick= selecV;
+          document.getElementById("s"+id).onclick= selecV;
           document.getElementById("e"+id).onclick= modificar;
           document.getElementById("b"+id).onclick= borrar;
         }
       }
     };
 
-
+  
 
 
 function borrar(e){
@@ -2080,7 +2450,7 @@ else{
 
 function selecV(e) {
  
-  var id = e.target.id.substring(2);
+  var id = e.target.id.substring(1);
 
   if (id) {
  
@@ -2106,7 +2476,126 @@ function selecV(e) {
 
 //-----------------------------------------------------------------------------------------------------
 
+var  encuestaVarId;
 
+function crearEncuestaFinalVariables() {
+  var TituloVar = document.getElementById("TituloVar").value.trim();
+  var Objetivo = document.getElementById("floatingTextarea22").value.trim();
+  var Instrucciones = document.getElementById('floatingTextarea23').value.trim();
+  var fechaCreacionE = Date.now(); // Obtener la fecha actual en milisegundos
+
+  var form = document.getElementById('formularioCR');
+
+  form.addEventListener('submit', async function(eve) {
+    eve.preventDefault();
+    form.removeEventListener('submit', arguments.callee);
+
+    var request = db.transaction(["Encuesta_Variables"], "readwrite")
+      .objectStore("Encuesta_Variables")
+      .add({
+        TituloVar: TituloVar,
+        Objetivo: Objetivo,
+        Instrucciones: Instrucciones,
+        fechaCreacionE: fechaCreacionE
+      });
+
+    request.onsuccess = async function(e) {
+      encuestaVarId = e.target.result;
+      console.log("Encuesta creada con id: ", encuestaVarId, TituloVar);
+      
+      var VariablesSeleccionados = await obtenerVariablesSeleccionados() 
+     
+      // await crearRelacionEncuestaVariables(encuestaVarId, VariablesSeleccionados);
+      var tx = db.transaction(["EncuestaVariablesFinal"], "readwrite");
+      var store = tx.objectStore("EncuestaVariablesFinal");
+
+      VariablesSeleccionados.forEach(function(VariablesId) {
+        store.add({
+          encuestaVarId:encuestaVarId,
+          VariablesId: VariablesId
+        });
+      });
+      
+      tx.oncomplete = function() {
+        console.log("Relación entre la encuesta y los reactivos creada correctamente");
+       
+        EncuestaVarMostrar(encuestaVarId)
+        var mostrarTablaBtn = document.getElementById('mostrarTablaBtn');
+        mostrarTablaBtn.addEventListener('click', function () {
+          mostrarTablaEnOtraPestana(encuestaVarId);
+        });
+        
+        //mostrarEncuestaVar()
+      };
+
+      console.log(e);
+      alert("Se insertaron los datos");
+    
+    };
+  });
+}
+
+
+
+async function obtenerVariablesSeleccionados() {
+  var VariablesSeleccionados = [];
+  var checkboxes = document.querySelectorAll("input[type='checkbox'][id^='s']:checked");
+
+  var transaction = db.transaction(["selecVariablesCre"], "readonly");
+  var objectStore = transaction.objectStore("selecVariablesCre");
+  var cursor = objectStore.openCursor(null, "prev");
+
+  await new Promise((resolve) => {
+    cursor.onsuccess = function(event) {
+      var cursor = event.target.result;
+      if (cursor) {
+        var valor = cursor.value.VariablesId;
+        if (!VariablesSeleccionados.includes(valor) && contieneCheckboxId(checkboxes, valor)) {
+          VariablesSeleccionados.push(valor);
+        }
+        cursor.continue();
+      } else {
+        resolve();
+      }
+    };
+  });
+
+  return VariablesSeleccionados;
+}
+
+function contieneCheckboxId(checkboxes, id) {
+  for (var i = 0; i < checkboxes.length; i++) {
+    if (checkboxes[i].id === 's' + id) {
+      return true;
+    }
+  }
+  return false;
+}
+
+// async function crearRelacionEncuestaVariables(encuestaVarId, VariablesSeleccionados) {
+//   var tx = db.transaction(["EncuestaVariablesFinal"], "readwrite");
+//   var store = tx.objectStore("EncuestaVariablesFinal");
+
+//   VariablesSeleccionados.forEach(function(VariablesId) {
+//     store.add({
+//       encuestaVarId: encuestaVarId,
+//       VariablesId: VariablesId
+//     });
+//   });
+
+//   return new Promise((resolve, reject) => {
+//     tx.oncomplete = function() {
+//       resolve();
+//     };
+
+//     tx.onerror = function(event) {
+//       reject(event.target.error);
+//     };
+//   });
+// }
+
+
+//-----------------------------
 function busVaC(){
   var columnas = parseInt(prompt("columnas"));
   var filas= parseInt(prompt("colum"));  
@@ -2971,6 +3460,7 @@ function contieneCheckboxId(checkboxes, id) {
 
 
 
+
   function mostrarEncuesta() {
     var transaction = db.transaction(["Encuesta", "Encuesta_Reactivo"], "readonly");
     var encuestaStore = transaction.objectStore("Encuesta");
@@ -3338,97 +3828,7 @@ function mostrarDatosUsuario(usuario) {
   console.log(usuario);
 }
 
-var  encuestaVarId;
 
-function crearEncuestaFinalVariables() {
-  var TituloVar = document.getElementById("TituloVar").value.trim();
-  var Objetivo = document.getElementById("floatingTextarea22").value.trim();
-  var Instrucciones = document.getElementById('floatingTextarea23').value.trim();
-  var fechaCreacionE = Date.now(); // Obtener la fecha actual en milisegundos
-
-  var form = document.getElementById('formularioCR');
-
-  form.addEventListener('submit', async function(eve) {
-    eve.preventDefault();
-
-    var request = db.transaction(["Encuesta_Variables"], "readwrite")
-      .objectStore("Encuesta_Variables")
-      .add({
-        TituloVar: TituloVar,
-        Objetivo: Objetivo,
-        Instrucciones: Instrucciones,
-        fechaCreacionE: fechaCreacionE
-      });
-
-    request.onsuccess = async function(e) {
-      encuestaVarId = e.target.result;
-      console.log("Encuesta creada con id: ", encuestaVarId, TituloVar);
-      
-      var VariablesSeleccionados = await obtenerVariablesSeleccionados() 
-     
-      var tx = db.transaction(["EncuestaVariablesFinal"], "readwrite");
-      var store = tx.objectStore("EncuestaVariablesFinal");
-
-      VariablesSeleccionados.forEach(function(VariablesId) {
-        store.add({
-          encuestaVarId:encuestaVarId,
-          VariablesId: VariablesId
-        });
-      });
-      
-      tx.oncomplete = function() {
-        console.log("Relación entre la encuesta y los reactivos creada correctamente");
-       
-        EncuestaVarMostrar(encuestaVarId)
-        var mostrarTablaBtn = document.getElementById('mostrarTablaBtn');
-        mostrarTablaBtn.addEventListener('click', function () {
-          mostrarTablaEnOtraPestana(encuestaVarId);
-        });
-        
-        //mostrarEncuestaVar()
-      };
-
-      console.log(e);
-      alert("Se insertaron los datos");
-    
-    };
-  });
-}
-
-async function obtenerVariablesSeleccionados() {
-  var VariablesSeleccionados = [];
-  var checkboxes = document.querySelectorAll("input[type='checkbox'][id^='sV']:checked");
-
-  var transaction = db.transaction(["selecVariablesCre"], "readonly");
-  var objectStore = transaction.objectStore("selecVariablesCre");
-  var cursor = objectStore.openCursor(null, "prev");
-
-  await new Promise((resolve) => {
-    cursor.onsuccess = function(event) {
-      var cursor = event.target.result;
-      if (cursor) {
-        var valor = cursor.value.VariablesId;
-        if (!VariablesSeleccionados.includes(valor) && contieneCheckboxId(checkboxes, valor)) {
-          VariablesSeleccionados.push(valor);
-        }
-        cursor.continue();
-      } else {
-        resolve();
-      }
-    };
-  });
-
-  return VariablesSeleccionados;
-}
-
-function contieneCheckboxId(checkboxes, id) {
-  for (var i = 0; i < checkboxes.length; i++) {
-    if (checkboxes[i].id === 'sV' + id) {
-      return true;
-    }
-  }
-  return false;
-}
 // async function obtenerVariablesSeleccionados() {
 //   var VariablesSeleccionados = [];
 //   var checkbox = document.querySelectorAll("input[type='checkbox'][name='selectedVariable']:checked");
@@ -3455,7 +3855,6 @@ function mostrarTablaEnOtraPestana(encuestaVarId) {
   };
 }
 
-
 async function EncuestaVarMostrar(encuestaVarId) {
   var tablaEncuesta = document.getElementById('tablaEncuestaVar');
   var table = document.createElement('table');
@@ -3470,7 +3869,6 @@ async function EncuestaVarMostrar(encuestaVarId) {
   var tx = db.transaction(["EncuestaVariablesFinal"], "readonly");
   var store = tx.objectStore("EncuestaVariablesFinal");
   var index = store.index("encuestaVarId");
-  var numColumns = 7; // Número de columnas por variable
 
   // Create a map to store variable names as keys and their corresponding data as values
   var variableDataMap = new Map();
@@ -3495,6 +3893,9 @@ async function EncuestaVarMostrar(encuestaVarId) {
       table.appendChild(thead);
 
       var tbody = document.createElement('tbody');
+
+      // Calculate numColumns dynamically based on the number of variables
+      var numColumns = variableDataMap.size;
 
       // Loop through the map to create rows for each variable
       for (const [variableId, data] of variableDataMap) {
@@ -3545,6 +3946,95 @@ async function EncuestaVarMostrar(encuestaVarId) {
 }
 
 
+// async function EncuestaVarMostrar(encuestaVarId) {
+//   var tablaEncuesta = document.getElementById('tablaEncuestaVar');
+//   var table = document.createElement('table');
+//   table.classList.add('table', 'table-bordered');
+
+//   var thead = document.createElement('thead');
+//   var trHeader = document.createElement('tr');
+//   var thIndex = document.createElement('th');
+//   thIndex.textContent = '#';
+//   trHeader.appendChild(thIndex);
+
+//   var tx = db.transaction(["EncuestaVariablesFinal"], "readonly");
+//   var store = tx.objectStore("EncuestaVariablesFinal");
+//   var index = store.index("encuestaVarId");
+//   var numColumns = 7; // Número de columnas por variable
+
+//   // Create a map to store variable names as keys and their corresponding data as values
+//   var variableDataMap = new Map();
+
+//   var cursor = await index.openCursor(IDBKeyRange.only(encuestaVarId));
+
+//   cursor.onsuccess = function (event) {
+//     var cursor = event.target.result;
+//     if (cursor) {
+//       var variableId = cursor.value.VariablesId;
+
+//       // Store the variable ID and data in the map
+//       variableDataMap.set(variableId, cursor.value);
+
+//       var th = document.createElement('th');
+//       th.textContent = variableId;
+//       trHeader.appendChild(th);
+
+//       cursor.continue();
+//     } else {
+//       thead.appendChild(trHeader);
+//       table.appendChild(thead);
+
+//       var tbody = document.createElement('tbody');
+
+//       // Loop through the map to create rows for each variable
+//       for (const [variableId, data] of variableDataMap) {
+//         var tr = document.createElement('tr');
+//         var td = document.createElement('td');
+//         td.textContent = variableId;
+//         tr.appendChild(td);
+
+//         for (var i = 1; i <= numColumns; i++) {
+//           var td = document.createElement('td');
+//           var select = document.createElement('select');
+//           select.addEventListener('change', function () {
+//             var variableId = this.parentElement.parentElement.firstChild.textContent;
+//             var selectedValue = this.value;
+//             obtenerVariablesSeleccionados(variableId, selectedValue);
+//           });
+//           select.classList.add('form-select', 'form-select-sm');
+//           select.setAttribute('aria-label', '.form-select-sm example');
+//           var options = [
+//             { value: '0', text: '0' },
+//             { value: '1', text: '1' },
+//             { value: '2', text: '2' },
+//             { value: '3', text: '3' },
+//             { value: '4', text: 'P' }
+//           ];
+
+//           for (var j = 0; j < options.length; j++) {
+//             var option = document.createElement('option');
+//             option.value = options[j].value;
+//             option.textContent = options[j].text;
+//             select.appendChild(option);
+//           }
+
+//           td.appendChild(select);
+//           tr.appendChild(td);
+//         }
+
+//         tbody.appendChild(tr);
+//       }
+
+//       table.appendChild(tbody);
+//       tablaEncuesta.innerHTML = '';
+//       tablaEncuesta.appendChild(table);
+
+//       console.log('Encuesta mostrada correctamente');
+//     }
+//   };
+// }
+
+
 function mostrarEncuestaDatos() {
   var transaction = db.transaction(["Encuesta_Variables"], "readonly");
   var objectStore = transaction.objectStore("Encuesta_Variables");
@@ -3581,6 +4071,9 @@ function mostrarEncuestaDatos() {
     }
   };
 }
+
+
+
 
 //Realizar la edición de información de perfil encuestador
 
