@@ -5,47 +5,79 @@
   <meta charset="UTF-8" />
   <title>Janal Kaaj - Dashboard</title>
   <link rel="stylesheet" href="/CSS/styleDashboard.css" />
-  <link rel="stylesheet" href="../CSS/bootstrap.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+    crossorigin="anonymous"></script>
   <link rel="stylesheet" href="../CSS/style.css">
   <script src="../BD/app.js"></script>
   <script src="../CSS/SweetAlert.js"></script>
+
+  <link rel="stylesheet" href="../node_modules/@sweetalert2/themes/bootstrap-4/bootstrap-4.min.css">
+  <script src="../node_modules/sweetalert2/dist/sweetalert2.all.js"></script>
+
   <!-- Boxiocns CDN Link -->
   <link href="https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css" rel="stylesheet" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 </head>
 
 <body>
+  <!-- Dashboard -->
   <div class="sidebar close">
     <div class="logo-details">
       <i class="bx seleccionador"></i>
       <span class="logo_name">Janal Kaaj</span>
     </div>
 
+
     <ul class="nav-links">
       <li>
-        <a href="#">
+        <a href="/pestañas_Encuestador/dashboard.html">
           <i class="bx bx-grid-alt"></i>
           <span class="link_name">Dashboard</span>
         </a>
 
         <ul class="sub-menu blank">
-          <li><a class="link_name" href="#">Dashboard</a></li>
+          <li><a href="" id="mostrarSeccion1">Dashboard</a></li>
         </ul>
       </li>
 
 
       <li>
+        <a href="/login.html">
+          <i class='bx bx-home-alt'></i>
+          <span class="link_name">Login</span>
+        </a>
+
+        <ul class="sub-menu blank">
+          <li><a class="link_name" href="/login.html">Login</a></li>
+        </ul>
+      </li>
+
+
+
+      <li>
         <div class="iocn-link">
-          <a href="#">
+          <a href="crear_Evariables.html">
             <i class='bx bx-file-blank'></i>
-            <span class="link_name">Crear</span>
+            <span class="link_name">Crear variables</span>
           </a>
-          <i class="bx bxs-chevron-down arrow"></i>
+          <ul class="sub-menu blank">
+            <li><a class="link_name" href="crear_Evariables.html">Crear variables</a></li>
+          </ul>
         </div>
-        <ul class="sub-menu">
-          <li><a class="link_name" href="#"></a></li>
-          <li><a href="#">Variables</a></li>
-          <li><a href="#">Reactivos</a></li>
+      </li>
+
+      <li>
+        <div class="iocn-link">
+          <a href="crear.html">
+            <i class='bx bx-file-blank'></i>
+            <span class="link_name">Crear reactivos</span>
+          </a>
+        </div>
+        <ul class="sub-menu blank">
+          <li><a class="link_name" href="crear.html">Crear reactivos</a></li>
         </ul>
       </li>
 
@@ -81,36 +113,15 @@
         </ul>
       </li>
 
-      <li>
-        <div class="profile-details">
-          <div class="profile-content">
-            <img src="/Img/gmail.png" alt="profileImg" />
-          </div>
-          <div class="name-job">
-            <div class="profile_name">@Usuario</div>
-            <div class="job">Encuestado(R)</div>
-          </div>
-          <i class="bx bx-log-out"></i>
-
-
-          <ul class="sub-menu blank">
-            <li><a class="link_name" href="#">Cerrar sesión</a></li>
-          </ul>
-
-        </div>
-      </li>
-
     </ul>
   </div>
-
-
 
   <section class="home-section">
     <div class="home-content">
       <i class="bx bx-menu"></i>
       <span class="text">Dashboard</span>
     </div>
-  
+    <!-- Fin Dashboard -->
     <div class="container">
       <div class="row justify-content-center">
         <div class="col-sm-10 col-md-8 col-lg-6 p-4 shadow-lg bg-light rounded">
@@ -121,19 +132,20 @@
             <div class="col-12 text-center mb-2">
               <label class="col-form-label">Usted es un <span class="fw-bold">Encuestador.</span></label>
             </div>
-            <div class="col-12">
+            <div class="col-12" id="grupo__nombrecompletos">
               <label for="nombrecompletos" class="col-form-label mb-2">Usted inició sesión con el correo:</label>
               <div class="input-group">
-                <input id="aqui" name="aqui" type="text" class="form-control text-center" value="Usuario123" disabled>
+                <input id="aqui" name="aqui" type="text" class="form-control text-center" disabled>
               </div>
             </div>
           </div>
-  
+
           <div class="row justify-content-center p-4">
             <div class="col-sm-12 text-center mb-3">
-              <form class="d-flex">
+              <form class="d-flex" onsubmit="return false;">
                 <!-- Código del modal -->
-                <div class="modal fade" id="alertaModal" tabindex="-1" aria-labelledby="mymodel" aria-hidden="true">
+                <div class="modal fade" id="alertaModal" tabindex="-1" aria-labelledby="mymodel" aria-hidden="true"
+                  style="display: none;" aria-modal="true" role="dialog">
                   <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                     <div class="modal-content">
                       <div class="modal-header">
@@ -148,31 +160,32 @@
                     </div>
                   </div>
                 </div>
+                <!-- Fin del código del modal -->
+
+                <div class="row justify-content-center mb-3">
+                  <div class="col-sm-4 text-center mb-2">
+                    <label class="col-form-label px-4 text-center ">Buscar una encuesta</label>
+                  </div>
+                  <div class="col-sm-6 mb-2">
+                    <input id="filtrar" class="form-control me-2" type="search" placeholder="Buscar nombre"
+                      aria-label="Search">
+                  </div>
+                  <div class="col-sm-2 mb-2">
+                    <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" type="submit"
+                      id="boton_filtrar" onclick="realizarBusqueda()">Filtrar</button>
+                  </div>
+                </div>
               </form>
-              <!-- Fin del código del modal -->
-              <div class="row justify-content-center mb-3">
-                <div class="col-sm-4 text-center mb-2">
-                  <label class="col-form-label px-4 text-center ">Buscar una encuesta</label>
-                </div>
-                <div class="col-sm-6 mb-2">
-                  <input id="filtrar" class="form-control me-2" type="search" placeholder="Buscar nombre"
-                    aria-label="Search">
-                </div>
-                <div class="col-sm-2 mb-2">
-                  <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" type="submit"
-                    id="boton_filtrar" onclick="realizarBusqueda()">Filtrar</button>
-                </div>
-              </div>
-  
             </div>
           </div>
-  
+
           <div class="row justify-content-center ">
             <div class="col-12">
               <h3 class="text-center mb-4">Crear encuestas.</h3>
             </div>
             <div class="col-12">
-              <label for="nombrecompletos" class="col-form-label px-4 text-center mb-2">Usted puede crear dos tipos de
+              <label for="nombrecompletos" class="col-form-label px-4 text-center mb-2">Usted puede crear dos tipos
+                de
                 encuestas.</label>
               <div class="col-sm-12 text-center">
                 <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" id="tip_encuesta"
@@ -184,7 +197,7 @@
               </div>
             </div>
           </div>
-  
+
           <div class="row justify-content-center p-4">
             <div class="col-12">
               <h3 class="text-center mb-4">Lista de encuestas.</h3>
@@ -192,14 +205,13 @@
             <div id="crear_encuesta"></div>
             <div id="crear_encuestaVar"></div>
             <div id="resultado"></div>
+
           </div>
         </div>
-  
+
       </div>
     </div>
-    </div>
   </section>
-
 
   <script>
     let arrow = document.querySelectorAll(".arrow");
@@ -216,6 +228,7 @@
       sidebar.classList.toggle("close");
     });
   </script>
+
 </body>
 
 </html>

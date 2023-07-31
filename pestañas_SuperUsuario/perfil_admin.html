@@ -57,13 +57,13 @@
             <label for="nombrecompletos" class="col-form-label text-dark px-4">Nombre: </label>
           </div>
           <div class="col-sm-8 text-sm-start py-3 px-4">
-            <input type="text" placeholder="Nombre" class="form-control" id="nombre">
+            <input type="text" placeholder="Nombre" class="form-control" id="nombre" value="">
           </div>
           <div class="col-sm-4 text-sm-start py-3">
             <label for="nombrecompletos" class="col-form-label px-4 text-dark">Apellido Paterno: </label>
           </div>
           <div class="col-sm-8 text-sm-start py-3 px-4">
-            <input type="text" placeholder="Apellido Paterno" class="form-control" id="apellidoPa">
+            <input type="text" placeholder="Apellido Paterno" class="form-control" id="apellidoPa" value="">
           </div>
           <div class="col-sm-4 text-sm-start py-3">
             <label for="nombrecompletos" class="col-form-label px-4 text-dark">Apellido Materno: </label>
@@ -129,15 +129,19 @@
       <div class="col-sm-6">
         <div class="row d-flex justify-content-between">
           <div class="col-sm-3 d-flex justify-content-center ms-auto"><button class="btnn btn-outline-warning text-white" 
-            type="submit" onClick="load();" id="restaurarAdmin">Restaurar</button></div>
-          <div class="col-sm-3 d-flex justify-content-center"><button class="btnn btn-outline-warning text-white"
-              type="submit" id="editarAdmin" onclick="">Editar</button></div>
-          <div class="col-sm-3 d-flex justify-content-center"><button class="btnn btn-outline-warning text-white"
-              type="submit" id="guardarAdmin" onclick="">Guardar</button></div>
+            type="submit" onClick="" id="resmin">Restaurar</button></div>
+    
         </div>
       </div>
     </div>
+
   </form>
+  <div class="col-sm-3 d-flex justify-content-center"><button class="btnn btn-outline-warning text-white"
+              type="submit" id="editarAdmin" onclick="obtenerUsuario(1);">Editar</button></div>
+  <div class="col-sm-3 d-flex justify-content-center"><button class="btnn btn-outline-warning text-white"
+    type="submit" id="guardarAdmin" onclick="eliminarUsuario();">Guardar</button></div>
+
+    
   </div>
 
   <footer class="footer">
