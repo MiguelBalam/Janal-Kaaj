@@ -12,7 +12,9 @@
         crossorigin="anonymous"></script>
     <link rel="stylesheet" href="../CSS/style.css">
     <script src="../BD/app.js"></script>
-    <script src="../CSS/SweetAlert.js"></script>
+   
+   
+
 
     <link rel="stylesheet" href="../node_modules/@sweetalert2/themes/bootstrap-4/bootstrap-4.min.css">
     <script src="../node_modules/sweetalert2/dist/sweetalert2.all.js"></script>
@@ -212,8 +214,8 @@
 
                             <button onclick="crearEncuestaFinal(),refrescarAlmacen()"
                                 class="btn btn-outline-success bg-border-mostaza bg-text-mostaza"
-                                id="boton-crear-encuesta" type="submit" disabled data-bs-toggle="modal"
-                                data-bs-target="#Modal_vistaPrevia"> Crear Encuesta</button>
+                                id="boton-crear-encuesta" type="submit" data-bs-toggle="modal"
+                                data-bs-target="#Modal_vistaPrevia" disabled> Crear Encuesta</button>
                         </div>
                     </div>
                 </form>
@@ -271,6 +273,7 @@
             sidebar.classList.toggle("close");
         });
     </script>
+     <script src="../CSS/SweetAlert.js"></script>
 </body>
 
 </html>
