@@ -75,15 +75,17 @@ const path = require('path');
 //     const filePath = 'C:/Users/PERSONAL/.vscode/jANAL/Janal-Kaaj/login.html';
 //     res.sendFile(filePath);
 // });
-app.get('/', (req, res) => {
-    const filePath = 'C:/Users/PERSONAL/.vscode/jANAL/Janal-Kaaj/login.html';
-    res.sendFile(filePath);
-});
 
 app.get('/', (req, res) => {
     const filePath =  'C:/Users/PERSONAL/.vscode/jANAL/Janal-Kaaj/form_encuestador.html';
     res.sendFile(filePath);
 });
+app.get('/', (req, res) => {
+    const filePath = 'C:/Users/PERSONAL/.vscode/jANAL/Janal-Kaaj/login.html';
+    res.sendFile(filePath);
+});
+
+
 
 app.get('/', (req, res) => {
     const filePath = 'C:/Users/PERSONAL/.vscode/jANALJanal-Kaaj/pestañas_Encuestador/dashboard.html';
