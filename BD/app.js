@@ -129,17 +129,9 @@ var ObjectStoreReac;
    EncuestaVarMostrar(encuestaVarId)
 
    mostrarEncuestaDatos()
-      buscarVar()
-<<<<<<< HEAD
-     
-=======
-      Encuesta1()
       agregarDatosAdmin()
       mostrarNoticiasEnTarjetas();
       mostrarNoticiasIndex();
-      mostrarVarSelec() 
-      EncuestaVarMostrar()
->>>>>>> e4a75ecf504d8684072e61638cc4f4bd5d881e14
       //EncuestaVarMostrar() 
       cargarPagina()
    
@@ -155,8 +147,7 @@ var ObjectStoreReac;
       Variables()
       mostrarEncuestaV() 
     
-     
-      mostrarVarSelec()
+    
       buscarV()
       
      
@@ -165,16 +156,8 @@ var ObjectStoreReac;
      // buscarEVar()
 
      buildList()
-<<<<<<< HEAD
-   
-     
-    
-     
-      //buscarEVar()
-=======
  
       buscarEVar()
->>>>>>> e4a75ecf504d8684072e61638cc4f4bd5d881e14
      
      //mostrarPreguntas();
  
