@@ -4488,3 +4488,67 @@ async function guardarDatos() {
     console.error("Error al guardar los datos:", error);
   }
 }
+
+function MostrarLogo() {
+  var datosUsuario = localStorage.getItem("datosUsuario");
+  if (!datosUsuario) {
+    console.log("No hay datos de usuario en el almacenamiento.");
+    return;
+  }
+
+  var datos = JSON.parse(datosUsuario);
+  var primerValor = datos.valor1;
+
+  console.log("El valor de primerValor es:", primerValor);
+
+  var dbRequest = indexedDB.open('Janal', 1);
+
+  dbRequest.onerror = function (event) {
+    console.error("Error al abrir la base de datos:", event.target.error);
+  };
+
+  dbRequest.onsuccess = function (event) {
+    var database = event.target.result;
+    var transaction = database.transaction(['Encuestador'], 'readwrite');
+    var objectStoreEncuestador = transaction.objectStore('Encuestador');
+
+    var cursorRequest = objectStoreEncuestador.openCursor();
+
+    cursorRequest.onerror = function (event) {
+      console.error("Error al abrir el cursor:", event.target.error);
+    };
+
+    cursorRequest.onsuccess = function (event) {
+      var cursor = event.target.result;
+
+      if (cursor) {
+        var objeto = cursor.value;
+        var correoEncuestador = objeto.correo;
+
+        if (correoEncuestador === primerValor) {
+          console.log("El valor coincide.");
+          var dataUrlValue = objeto.dataUrl;
+          console.log("El valor del parámetro dataUrl es:", dataUrlValue);
+
+          // Mostrar la imagen en el elemento img con el id "logoInstituto"
+          var logoInstitutoElement = document.getElementById("logoInstituto");
+          if (logoInstitutoElement) {
+            logoInstitutoElement.src = dataUrlValue;
+          }
+        }
+
+        cursor.continue();
+      } else {
+        console.log("No se encontró el valor en el cursor.");
+      }
+    };
+  };
+
+  dbRequest.onupgradeneeded = function (event) {
+    var database = event.target.result;
+    var objectStoreEncuestador = database.createObjectStore('Encuestador', { keyPath: 'correo' });
+
+    // Agregar índices u otras configuraciones en caso necesario.
+    // objectStoreEncuestador.createIndex(...);
+  };
+}
