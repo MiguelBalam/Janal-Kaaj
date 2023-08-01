@@ -8,7 +8,7 @@
   <!-- Bootstrap -->
   <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
   <link rel="stylesheet" href="CSS/bootstrap.min.css">
-  <link rel="stylesheet" href="CSS/style.css">
+  <link rel="stylesheet" href="CSS/style3.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300&display=swap" rel="stylesheet">
@@ -63,6 +63,7 @@
       <div class="container p-5">
         <h1 class="text-center text-black">Seguridad Alimentaria</h1>
         <div class="row" id="contenedor">
+          <button onClick="crearCard();" class="btn" type="submit" id="prueba">APRIETA</button>
           <div class="col-lg-3">
             <div class="card">
               <div class="card-body">
@@ -74,7 +75,6 @@
                 <div class="flex-row text-end">
                   <a href="#" class="link-card">Ver más..</a>                 
                 </div>
-                <button onClick="crearCard();" class="btn" type="submit" id="prueba">Publicar</button>
               </div>
             </div>
           </div>
@@ -87,8 +87,10 @@
                   <p class="fs-6 fw-bold p_top">La importancia de la seguridad alimentaria: ¿qué factores la ponen en peligro?</p>
                 </div>
                 <div class="card-texto"><p>Dolor modi repudiandae quia beatae consectetur? ullafugit ullam, accusamus! Totam mollitia eveniet!</p></div>
-                <div class="flex-row text-end">
-                  <a href="#" class="link-card">Ver más..</a>
+                <div>
+                  <button class="btnCards"><i class="fa-solid fa-circle-plus"></i></button>
+                  <button class="btnCards"><i class="fa-solid fa-file-pen"></i></button>
+                  <button class="btnCards"><i class="fa-solid fa-trash"></i></button>
                 </div>
               </div>
             </div>

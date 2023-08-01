@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="../CSS/style.css">
     <script src="../BD/app.js"></script>
     <script src="../CSS/SweetAlert.js"></script>
+
     <link rel="stylesheet" href="../node_modules/@sweetalert2/themes/bootstrap-4/bootstrap-4.min.css">
     <script src="../node_modules/sweetalert2/dist/sweetalert2.all.js"></script>
 
@@ -22,6 +23,7 @@
 </head>
 
 <body>
+    <!-- Dashboard -->
     <div class="sidebar close">
         <div class="logo-details">
             <i class="bx seleccionador"></i>
@@ -31,13 +33,13 @@
 
         <ul class="nav-links">
             <li>
-                <a href="dashboard.html">
+                <a href="/pestañas_Encuestador/dashboard.html">
                     <i class="bx bx-grid-alt"></i>
                     <span class="link_name">Dashboard</span>
                 </a>
 
                 <ul class="sub-menu blank">
-                    <li><a href="dashboard.html">Dashboard</a></li>
+                    <li><a href="/pestañas_Encuestador/dashboard.html">Dashboard</a></li>
                 </ul>
             </li>
 
@@ -57,16 +59,25 @@
 
             <li>
                 <div class="iocn-link">
-                    <a href="#">
+                    <a href="crear_Evariables.html">
                         <i class='bx bx-file-blank'></i>
-                        <span class="link_name">Crear</span>
+                        <span class="link_name">Crear variables</span>
                     </a>
-                    <i class="bx bxs-chevron-down arrow"></i>
+                    <ul class="sub-menu blank">
+                        <li><a class="link_name" href="crear_Evariables.html">Crear variables</a></li>
+                    </ul>
                 </div>
-                <ul class="sub-menu">
-                    <li><a class="link_name" href=""></a></li>
-                    <li><a>Variables</a></li>
-                    <li><a class="link-name" href="/pestañas_Encuestador/crear.html">Reactivos</a></li>
+            </li>
+
+            <li>
+                <div class="iocn-link">
+                    <a href="crear.html">
+                        <i class='bx bx-file-blank'></i>
+                        <span class="link_name">Crear reactivos</span>
+                    </a>
+                </div>
+                <ul class="sub-menu blank">
+                    <li><a class="link_name" href="crear.html">Crear reactivos</a></li>
                 </ul>
             </li>
 
@@ -102,25 +113,6 @@
                 </ul>
             </li>
 
-            <li>
-                <div class="profile-details">
-                    <div class="profile-content">
-                        <img src="/Img/gmail.png" alt="profileImg" />
-                    </div>
-                    <div class="name-job">
-                        <div class="profile_name">@Usuario</div>
-                        <div class="job">Encuestado(R)</div>
-                    </div>
-                    <i class="bx bx-log-out"></i>
-
-
-                    <ul class="sub-menu blank">
-                        <li><a class="link_name" href="#">Cerrar sesión</a></li>
-                    </ul>
-
-                </div>
-            </li>
-
         </ul>
     </div>
 
@@ -129,9 +121,9 @@
     <section class="home-section">
         <div class="home-content">
             <i class="bx bx-menu"></i>
-            <span class="text">Crear encuesta</span>
+            <span class="text">Crear encuesta de reactivos</span>
         </div>
-
+        <!-- Fin Dashboard -->
         <section class="d-flex justify-content-center my-4">
 
             <div class=" col-md-7 p-3 shadow-lg mb-5 bg-white rounded">
@@ -218,7 +210,8 @@
                     <div class=" row mb-4 p-3">
                         <div class="col-sm-12 text-center">
 
-                            <button onclick="crearEncuestaFinal(),refrescarAlmacen()" class="btn btn-outline-success bg-border-mostaza bg-text-mostaza"
+                            <button onclick="crearEncuestaFinal(),refrescarAlmacen()"
+                                class="btn btn-outline-success bg-border-mostaza bg-text-mostaza"
                                 id="boton-crear-encuesta" type="submit" disabled data-bs-toggle="modal"
                                 data-bs-target="#Modal_vistaPrevia"> Crear Encuesta</button>
                         </div>
