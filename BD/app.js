@@ -129,9 +129,8 @@ var ObjectStoreReac;
    EncuestaVarMostrar(encuestaVarId)
 
    mostrarEncuestaDatos()
-      agregarDatosAdmin()
-      mostrarNoticiasEnTarjetas();
-      mostrarNoticiasIndex();
+      buscarVar()
+     
       //EncuestaVarMostrar() 
       cargarPagina()
    
@@ -156,8 +155,11 @@ var ObjectStoreReac;
      // buscarEVar()
 
      buildList()
- 
-      buscarEVar()
+   
+     
+    
+     
+      //buscarEVar()
      
      //mostrarPreguntas();
  
