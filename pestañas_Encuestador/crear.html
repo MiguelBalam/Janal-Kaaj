@@ -235,8 +235,8 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <div class="text-center">
-                            <img src="../Img/lOGOCONACYT.png" height="60" width="60" alt="Logo">
+                        <div class="col d-flex justify-content-end">
+                            <img id="logoInstituto" height="60" width="60" alt="Logo">
                         </div>
                         <div id="Encabezado">
                             <!-- Contenido del encabezado -->
@@ -257,7 +257,13 @@
             </div>
         </div>
     </section>
-
+    <script> 
+        window.onload = function() {
+        
+            MostrarLogo();
+        
+      };
+        </script>
     <script>
         let arrow = document.querySelectorAll(".arrow");
         for (var i = 0; i < arrow.length; i++) {

@@ -130,12 +130,7 @@ var ObjectStoreReac;
 
    mostrarEncuestaDatos()
       buscarVar()
-      Encuesta1()
-      agregarDatosAdmin()
-      mostrarNoticiasEnTarjetas();
-      mostrarNoticiasIndex();
-      mostrarVarSelec() 
-      EncuestaVarMostrar()
+     
       //EncuestaVarMostrar() 
       cargarPagina()
    
@@ -161,8 +156,11 @@ var ObjectStoreReac;
      // buscarEVar()
 
      buildList()
- 
-      buscarEVar()
+   
+     
+    
+     
+      //buscarEVar()
      
      //mostrarPreguntas();
  
@@ -1514,9 +1512,9 @@ function ImagenLogo(dataUrl) {
       var index2 = objectStore.index("EncuestaObjetivo");
       var index3 = objectStore.index("EncuestaInstruccion");
       var newestItem = null;
-      var newestItem2 = null
-      var newestItem3 = null
-      var newestItem4 = null
+      var newestItem2 = null;
+      var newestItem3 = null;
+     
 // Crear un cursor para recorrer los objetos en el índice
         var request = index.openCursor(null,'prev');
         var request = index2.openCursor(null,'prev');
@@ -1555,8 +1553,8 @@ function ImagenLogo(dataUrl) {
         cadena += "</table>";
         // Mostrar el objeto más reciente en la pantalla
         console.log(newestItem);
-        console.log(newestItem4);
         console.log(newestItem2);
+        console.log(newestItem3);
         cadena += "</table>";
         document.getElementById("Encabezado").innerHTML = cadena;
         
@@ -4440,4 +4438,68 @@ async function guardarDatos() {
     // Si hay algún error en alguna de las funciones, mostramos el mensaje de error.
     console.error("Error al guardar los datos:", error);
   }
+}
+
+function MostrarLogo() {
+  var datosUsuario = localStorage.getItem("datosUsuario");
+  if (!datosUsuario) {
+    console.log("No hay datos de usuario en el almacenamiento.");
+    return;
+  }
+
+  var datos = JSON.parse(datosUsuario);
+  var primerValor = datos.valor1;
+
+  console.log("El valor de primerValor es:", primerValor);
+
+  var dbRequest = indexedDB.open('Janal', 1);
+
+  dbRequest.onerror = function (event) {
+    console.error("Error al abrir la base de datos:", event.target.error);
+  };
+
+  dbRequest.onsuccess = function (event) {
+    var database = event.target.result;
+    var transaction = database.transaction(['Encuestador'], 'readwrite');
+    var objectStoreEncuestador = transaction.objectStore('Encuestador');
+
+    var cursorRequest = objectStoreEncuestador.openCursor();
+
+    cursorRequest.onerror = function (event) {
+      console.error("Error al abrir el cursor:", event.target.error);
+    };
+
+    cursorRequest.onsuccess = function (event) {
+      var cursor = event.target.result;
+
+      if (cursor) {
+        var objeto = cursor.value;
+        var correoEncuestador = objeto.correo;
+
+        if (correoEncuestador === primerValor) {
+          console.log("El valor coincide.");
+          var dataUrlValue = objeto.dataUrl;
+          console.log("El valor del parámetro dataUrl es:", dataUrlValue);
+
+          // Mostrar la imagen en el elemento img con el id "logoInstituto"
+          var logoInstitutoElement = document.getElementById("logoInstituto");
+          if (logoInstitutoElement) {
+            logoInstitutoElement.src = dataUrlValue;
+          }
+        }
+
+        cursor.continue();
+      } else {
+        console.log("No se encontró el valor en el cursor.");
+      }
+    };
+  };
+
+  dbRequest.onupgradeneeded = function (event) {
+    var database = event.target.result;
+    var objectStoreEncuestador = database.createObjectStore('Encuestador', { keyPath: 'correo' });
+
+    // Agregar índices u otras configuraciones en caso necesario.
+    // objectStoreEncuestador.createIndex(...);
+  };
 }
