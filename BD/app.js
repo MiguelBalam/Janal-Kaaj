@@ -60,8 +60,9 @@ var ObjectStoreReac;
         db.createObjectStore("Encuestador",{autoIncrement: true});
         //Encuestas
         ObjectStore= db.createObjectStore("Encuesta", {keyPath:"IdEn",autoIncrement: true});
+        ObjectStore.createIndex("fechaCreacionER","fechaCreacionER",{unique:true});
         ObjectStore.createIndex("EncuestaTitulo","Titulo",{unique:true});
-        ObjectStore.createIndex("EncuestaObjetivo","ObjetivoER",{unique:true});
+        ObjectStore.createIndex("EncuestaObjetivo","Objetivo",{unique:true});
         ObjectStore.createIndex("EncuestaInstruccion","Instrucciones",{unique:true});
 
         ObjectStore=db.createObjectStore("Encuesta_Reactivo", {autoIncrement: true});
@@ -121,6 +122,11 @@ var ObjectStoreReac;
      
       db= ev.target.result;
       EncuestaVistaPV2()
+      buscarEVarCre()
+      
+     
+      mostrarEncuesta()
+      
       reactivoscrear()
       buscar()
       Encuesta1()
@@ -135,7 +141,7 @@ var ObjectStoreReac;
       cargarPagina()
    
       buscarE()
-      buscarEVarCre()
+      
       //mostrarEncuestaVar(encuestaVarId)
    
 
@@ -1045,7 +1051,7 @@ function ImagenLogo(dataUrl) {
         function Encuesta1(){
           var   encuesta_prototipo = [
             { id: "1", Titulo: "Encuesta Apicultura", 
-            ObjetivoER: "conocer_la_produccion_apicola", 
+            Objetivo: "conocer_la_produccion_apicola", 
             Instrucciones: "responder todo los reactivos" }
           ];
     
@@ -1503,66 +1509,104 @@ function ImagenLogo(dataUrl) {
 
     }
 
-
-    function EncuestaVistaPV2(){
-      var transaction = db.transaction(["Encuesta"], "readwrite");
+  
+    function EncuestaVistaPV2() {
+      var transaction = db.transaction(["Encuesta"], "readonly");
       var objectStore = transaction.objectStore("Encuesta");
-      var index = objectStore.index("EncuestaTitulo");
-      var index2 = objectStore.index("EncuestaObjetivo");
-      var index3 = objectStore.index("EncuestaInstruccion");
-      var newestItem = null;
-      var newestItem2 = null
-      var newestItem3 = null
-      var newestItem4 = null
-// Crear un cursor para recorrer los objetos en el índice
-        var request = index.openCursor(null,'prev');
-        var request = index2.openCursor(null,'prev');
-        var request = index3.openCursor(null,'prev');
+      var index = objectStore.index("fechaCreacionER");
+    
+      var request = index.openCursor(null, 'prev');
+      
       request.onsuccess = function(event) {
         var cursor = event.target.result;
-        newestItem4 = cursor.value.TituloE;
+        
+        if (cursor) {
+          var currentItemR = cursor.value;
+          
+          var tituloR = currentItemR.Titulo;
+          var objetivoR = currentItemR.Objetivo;
+          var instruccionesR = currentItemR.Instrucciones;
+          
+          var cadena = "<table>";
+          cadena += "<tr>";
+          cadena += "<th>Título:</th>";
+          cadena += "<td>" + tituloR + "</td>";
+          cadena += "</tr>";
+          cadena += "<tr>";
+          cadena += "<th>Objetivo:</th>";
+          cadena += "<td>" + objetivoR + "</td>";
+          cadena += "</tr>";
+          cadena += "<tr>";
+          cadena += "<th>Instrucciones:</th>";
+          cadena += "<td>" + instruccionesR + "</td>";
+          cadena += "</tr>";
+          cadena += "</table>";
+          
+          document.getElementById("Encabezado").innerHTML = cadena;
+        }
+      };
+    }
 
-      if (!newestItem || Titulo.fechaCreacionE > newestItem.fechaCreacionE && !newestItem2 || floatingTextarea2.fechaCreacionE > newestItem2.fechaCreacionE  && !newestItem3 || floatingTextarea21.fechaCreacionE > newestItem3.fechaCreacionE ) {
-       newestItem = Titulo;
-       newestItem2 = floatingTextarea2;
-       newestItem3 = floatingTextarea21;
-       //newestItem4 = TituloE;
-       //newestItem3 = cursor.value.Instrucciones;
-        cursor.continue();
-      }
-      else {
-        var cadena ="<table>";
-        cadena += "<table class='table'>";
-        cadena += "<div class='row'>";
-        cadena += "<div class='col'>";
-        cadena += "<h5>Título:</h5>";
-        cadena += "<p>" + newestItem + "</p>";
-        cadena += "</div>";
-        cadena += "<div class='row'>";
-        cadena += "<div class='col'>";
-        cadena += "<h5>Objetivo:</h5>";
-        cadena += "<p>" + newestItem2 + "</p>";
-        cadena += "</div>";
-        cadena += "<div class='row'>";
-        cadena += "<div class='col'>";
-        cadena += "<h5>Instrucciones:</h5>";
-        cadena += "<p>" + newestItem3 + "</p>";
-        cadena += "</div>";
-        cadena += "</div>";
-        cadena += "</table>";
-        // Mostrar el objeto más reciente en la pantalla
-        console.log(newestItem);
-        console.log(newestItem4);
-        console.log(newestItem2);
-        cadena += "</table>";
-        document.getElementById("Encabezado").innerHTML = cadena;
+
+//     function EncuestaVistaPV2(){
+//       var transaction = db.transaction(["Encuesta"], "readwrite");
+//       var objectStore = transaction.objectStore("Encuesta");
+//       var index = objectStore.index("EncuestaTitulo");
+//       var index2 = objectStore.index("EncuestaObjetivo");
+//       var index3 = objectStore.index("EncuestaInstruccion");
+//       var newestItem = null;
+//       var newestItem2 = null
+//       var newestItem3 = null
+//      var newestItem4 = null
+// // Crear un cursor para recorrer los objetos en el índice
+//         var request = index.openCursor(null,'prev');
+//         var request = index2.openCursor(null,'prev');
+//         var request = index3.openCursor(null,'prev');
+//       request.onsuccess = function(event) {
+//         var cursor = event.target.result;
+//         newestItem4 = cursor.value.Titulo;
+
+//       if (!newestItem || Titulo.fechaCreacionE > newestItem.fechaCreacionE && !newestItem2 || floatingTextarea2.fechaCreacionE > newestItem2.fechaCreacionE  && !newestItem3 || floatingTextarea21.fechaCreacionE > newestItem3.fechaCreacionE ) {
+//        newestItem = Titulo;
+//        newestItem2 = floatingTextarea2;
+//        newestItem3 = floatingTextarea21;
+//        //newestItem4 = TituloE;
+//        //newestItem3 = cursor.value.Instrucciones;
+//         cursor.continue();
+//       }
+//       else {
+//         var cadena ="<table>";
+//         cadena += "<table class='table'>";
+//         cadena += "<div class='row'>";
+//         cadena += "<div class='col'>";
+//         cadena += "<h5>Título:</h5>";
+//         cadena += "<p>" + newestItem + "</p>";
+//         cadena += "</div>";
+//         cadena += "<div class='row'>";
+//         cadena += "<div class='col'>";
+//         cadena += "<h5>Objetivo:</h5>";
+//         cadena += "<p>" + newestItem2 + "</p>";
+//         cadena += "</div>";
+//         cadena += "<div class='row'>";
+//         cadena += "<div class='col'>";
+//         cadena += "<h5>Instrucciones:</h5>";
+//         cadena += "<p>" + newestItem3 + "</p>";
+//         cadena += "</div>";
+//         cadena += "</div>";
+//         cadena += "</table>";
+//         // Mostrar el objeto más reciente en la pantalla
+//         console.log(newestItem);
+//         console.log(newestItem4);
+//         console.log(newestItem2);
+//         cadena += "</table>";
+//         document.getElementById("Encabezado").innerHTML = cadena;
         
 
-}
+// }
 
-};
+// };
 
-}
+// }
 
 
 
@@ -2877,14 +2921,14 @@ function ResOpMul(){
         var Titulo = document.getElementById("Titulo").value.trim();
         var Objetivo = document.getElementById("floatingTextarea2").value.trim();
         var Instrucciones = document.getElementById('floatingTextarea21').value.trim();
-        var fechaCreacionE = document.getElementById("fechaCreacionE");
+        var fechaCreacionER = document.getElementById("fechaCreacionER");
         var form = document.getElementById('formulario');
 
       form.addEventListener('submit', function(eve){
       eve.preventDefault();
       var request = db.transaction(["Encuesta"], "readwrite")
       .objectStore("Encuesta")
-      .add({creador:creador,Titulo:Titulo, Objetivo:Objetivo, Instrucciones:Instrucciones,fechaCreacionE:value=Date.now()});
+      .add({creador:creador,Titulo:Titulo, Objetivo:Objetivo, Instrucciones:Instrucciones,fechaCreacionER:value=Date.now()});
 
       request.onsuccess = function(e){
        encuestaId = e.target.result;
@@ -2895,12 +2939,14 @@ function ResOpMul(){
          alert("se inserto los datos");
          //buscar();
          //buscar2();
-         buscarE();   
+         
+         buscarE();
+         //EncuestaVistaPV2()   
         // encuestaF()
-        EncuestaVistaPV2()
+      
        // Ef()
          //EncuestaVistaP();
-         selec(encuestaId);
+         //selec(encuestaId);
       };
       
     })
@@ -3443,7 +3489,7 @@ function crearEncuestaFinal() {
   var Titulo = document.getElementById("Titulo").value.trim();
   var Objetivo = document.getElementById("floatingTextarea2").value.trim();
   var Instrucciones = document.getElementById('floatingTextarea21').value.trim();
-  var fechaCreacionE = Date.now(); // Obtener la fecha actual en milisegundos
+  var fechaCreacionER = Date.now(); // Obtener la fecha actual en milisegundos
 
   var form = document.getElementById('formulario');
 
@@ -3457,9 +3503,11 @@ function crearEncuestaFinal() {
         Titulo: Titulo,
         Objetivo: Objetivo,
         Instrucciones: Instrucciones,
-        fechaCreacionE: fechaCreacionE
-      });
+        fechaCreacionER: fechaCreacionER
 
+       
+      });
+     // EncuestaVistaPV2();
     request.onsuccess = async function(e) {
       encuestaId = e.target.result;
       console.log("Encuesta creada con id: ", encuestaId, Titulo);
@@ -3491,7 +3539,8 @@ function crearEncuestaFinal() {
       }).then(function() {
         // Aquí puedes agregar el código que debe ejecutarse después de que el aviso desaparezca
         buscarE();
-        EncuestaVistaPV2();
+        EncuestaVistaPV2()
+       
       });
     };
   });
@@ -3519,8 +3568,9 @@ async function obtenerReactivosSeleccionados() {
       }
     };
   });
-
+ // EncuestaVistaPV2();
   return reactivosSeleccionados;
+
 }
 
 function contieneCheckboxId(checkboxes, id) {
