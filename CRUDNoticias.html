@@ -32,7 +32,7 @@
       <div class="collapse navbar-collapse justify-content-end" id="navbarResponsive">
           <ul class="navbar-nav ms-auto py-4 py-lg-0">
             <li class="nav-item"><a class="nav-link" href="planes_servicios.html">Planes y servicios</a></li>
-            <li class="nav-item"><a class="nav-link" target="_blank" href="https://www.acnur.org/nutricion-y-seguridad-alimentaria.html">Seguridad-Alimentaria</a></li>
+            <li class="nav-item"><a class="nav-link" target="_blank" href="seguridad-alimentaria.html">Seguridad-Alimentaria</a></li>
             <li class="nav-item"><a class="nav-link" href="Estadistica/index.html">Estadísticas</a></li>
             <li class="nav-item"><a class="nav-link" href="contactanos.html">Contáctanos</a></li>
             <li class="nav-item"><a class="nav-link" href="login.html">Iniciar Sesión</a></li>
@@ -58,68 +58,40 @@
     </div>
   </div>
   <!--News-->
-  <header class="section">
-    <div class="container">
-      <section class="d-flex justify-content-center py-5">
-        <div class="col-sm-6 p-3 shadow-lg mb-5 bg-white rounded">
-            <h2 class="main__title text-center text-dark py-3">Noticias</h2>
-            <form class="needs-validation" id="formularioNews" name="prueba">
-              <div id="grupo__nombrecompletos" class="row mb-3">
-                <label for="nombrecompletos" class="col-sm-4 col-form-label px-4 text-dark">Título: </label>
-                <div  class="col-sm-8">
-                  <input type="text" name="titulo" placeholder="Título" class="form-control" id="titulo" required>
-                    <div class="valid-feedback">
-                        Correcto
-                    </div>
-                    <div class="invalid-feedback">
-                        Llene el campo
-                    </div>
-                </div>
-              </div>
-              <div id="grupo__nombrecompletos" class="row mb-3">
-                <label for="nombrecompletos" class="col-sm-4 col-form-label px-4 text-dark">Cuerpo: </label>
-                <div  class="col-sm-8">
-                  <textarea placeholder="Noticia" name="noticia" class="form-control text-dark" id="noticia" required></textarea>
-                    <div class="valid-feedback">
-                        Correcto
-                    </div>
-                    <div class="invalid-feedback">
-                        Llene el campo
-                    </div>
-                </div>
-              </div>
+  
+    <section class="text-center bg-light">
+      <div class="container p-5">
+        <h1 class="text-center text-black">Noticias General</h1>
+        <div class="row" id="editarNoticias">
+          <button onClick="crearCardNoticias();" class="btn" type="submit" id="prueba4">APRIETA</button>
 
-              <div id="grupo__image" class="row mb-3 ">
-                <label for="image" class="col-sm-4 col-form-label px-4 text-dark">Imagen: </label>
-                <div  class="col-sm-8 ">
-                  <div class="">
-                  <input class="py-3 form-control" type="file" name="imagen" id="image"  accept="image/*" required>
-                     <!--<div class="valid-feedback">
-                        Correcto
-                    </div>
-                    <div class="invalid-feedback">
-                        Llene el campo
-                    </div> -->
-                    <label class="col-form-label sugerencia">Sugerencia: Usar imágenes horizontales</label>
-                  </div>
-                    <div class="form-file__result" id="result-image">
-                      <img id="img-result" alt=""/>
-                    </div>
-                </div>  
+
+          <div class="col-lg-3">
+            <div class="card">
+              <div class="card-body">
+                <img src="./pestanas_Encuestado/Img/2.jpg" class="img-fluid rounded">
+                <div class="card-titulo">
+                  <p class="fs-6 fw-bold p_top">La importancia de la seguridad alimentaria: ¿qué factores la ponen en peligro?</p>
+                </div>
+                <div class="card-texto2"><p>Dolor modi repudiandae quia beatae consectetur? ullafugit ullam, accusamus! Totam mollitia eveniet!</p></div>
+              <div>
+                <button id="btnup1" class="btn" value="Q" onclick="publicarNoticia(this.id);"><i class="fa-solid fa-file-arrow-up"></i></button>
+                <a type="button" class="btn" href="./editarNoticias.html"><i class="fa-solid fa-file-pen"></i></a>
+                <button class="btn" id="btn1" onclick="obtenerIdBoton(this.id);"><i class="fa-solid fa-trash"></i></button>
               </div>
-              
-              <div class="row justify-content-center py-4">
-                <button onClick="limpiarFormularioNews();" type="button" class="nav-link btnn btn-outline-warning text-white align">Cancelar</button>
-                <button onClick="agregarEventoFormulario();" class="btnn btn-outline-warning text-white"
-                type="submit" id="enviarNoticia">Guardar</button>
-              </div>      
-                 
-            </form>
+              </div>
+            </div>
           </div>
-        </section>
+
+        
+
+          
+
+          
+        </div>
       </div>
-    </div>
-  </header>
+    </section>
+  
 
   <footer class="footer">
     <div class="container py-4">
