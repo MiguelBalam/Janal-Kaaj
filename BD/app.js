@@ -621,6 +621,7 @@ function restablecer(id) {
 
 
 function mostrarEditNoticias(id) {
+  
   const idd = parseInt(id);
   const transaction = db.transaction('Noticias', 'readonly');
   const objectStore = transaction.objectStore('Noticias');
