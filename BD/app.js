@@ -52,7 +52,7 @@ var ObjectStoreReac;
         ObjectStore.createIndex("correo","correo",{unique:true});
 
         ObjectStore = db.createObjectStore("EncuestaVariablesFinal", {keypth:"IdV" ,autoIncrement: true});
-       ObjectStore.createIndex("encuestaVarId","encuestaVarId",{unique:true});
+       ObjectStore.createIndex("encuestaVarId","encuestaVarId",{unique:false});
 
         db.createObjectStore("Encuestado",{autoIncrement: true});
         db.createObjectStore("Localidad", {autoIncrement: true});
@@ -60,8 +60,9 @@ var ObjectStoreReac;
         db.createObjectStore("Encuestador",{autoIncrement: true});
         //Encuestas
         ObjectStore= db.createObjectStore("Encuesta", {keyPath:"IdEn",autoIncrement: true});
+        ObjectStore.createIndex("fechaCreacionER","fechaCreacionER",{unique:true});
         ObjectStore.createIndex("EncuestaTitulo","Titulo",{unique:true});
-        ObjectStore.createIndex("EncuestaObjetivo","ObjetivoER",{unique:true});
+        ObjectStore.createIndex("EncuestaObjetivo","Objetivo",{unique:true});
         ObjectStore.createIndex("EncuestaInstruccion","Instrucciones",{unique:true});
 
         ObjectStore=db.createObjectStore("Encuesta_Reactivo", {autoIncrement: true});
@@ -94,7 +95,7 @@ var ObjectStoreReac;
         ObjectStore.createIndex("NombreVar","NombreVar", {unique: true});
       
         ObjectStore= db.createObjectStore("Encuesta_Variables", {keyPath:"IdV",autoIncrement: true});
-        ObjectStore.createIndex("encuestaVarId","encuestaVarId",{unique:true});
+        ObjectStore.createIndex("encuestaVarId","encuestaVarId",{unique:false});
         ObjectStore.createIndex("fechaCreacionE","fechaCreacionE",{unique:true});
         ObjectStore.createIndex("EncuestaTitulo","Titulo",{unique:true});
         ObjectStore.createIndex("EncuestaObjetivoV","Objetivo",{unique:true});
@@ -121,6 +122,11 @@ var ObjectStoreReac;
      
       db= ev.target.result;
       EncuestaVistaPV2()
+      buscarEVarCre()
+      
+     
+      mostrarEncuesta()
+      
       reactivoscrear()
       buscar()
       Encuesta1()
@@ -130,18 +136,12 @@ var ObjectStoreReac;
 
    mostrarEncuestaDatos()
       buscarVar()
-      Encuesta1()
-      agregarDatosAdmin()
-      mostrarNoticiasEnTarjetas();
-      mostrarNoticiasIndex();
-      crearCardNoticias();
-      mostrarVarSelec() 
-      EncuestaVarMostrar()
+     
       //EncuestaVarMostrar() 
       cargarPagina()
    
       buscarE()
-     
+      
       //mostrarEncuestaVar(encuestaVarId)
    
 
@@ -161,8 +161,11 @@ var ObjectStoreReac;
      // buscarEVar()
 
      buildList()
- 
-      buscarEVar()
+   
+     
+    
+     
+      //buscarEVar()
      
      //mostrarPreguntas();
  
@@ -545,42 +548,6 @@ function mostrarNoticiasIndex() {
 
 }
 
-function mostrarEditNoticias(id) {
-
-  const transaction = db.transaction('Noticias', 'readonly');
-  const objectStore = transaction.objectStore('Noticias');
-
-  const requestGetAll = objectStore.get(id);
-
-    requestGetAll.onsuccess = function(event) {
-    const noticiaa = event.target.result;
-
-    if(noticiaa){
-      const tituloElement = document.getElementById('titulo');
-      const cuerpoElement = document.getElementById('noticia');
-      const imageElement = document.getElementById('img-result');
-  
-      tituloElement.textContent = noticiaa.titulo;
-      cuerpoElement.textContent = noticiaa.cuerpo;
-      imageElement.src = 'data:image/jpeg;base64,' + btoa(noticiaa.data);
-    }else {
-        console.log('No se encontró el usuario con el ID especificado');
-      }
-    
-        
-
-  };
-
-  requestGetAll.onerror = function(event) {
-    console.log('Error al obtener las noticias');
-  };
-
-  transaction.oncomplete = function(event) {
-    db.close();
-  };
-
-}
-
 // Crear Cards para noticias
 
 function crearTarjetas(numTarjetas) {
@@ -717,179 +684,7 @@ function crearCardIndex(numero) {
 }
 }
 
-function crearCardNoticias() {
-  const container = document.getElementById('editarNoticias');
 
-  const transaction = db.transaction('Noticias', 'readonly');
-  const objectStore = transaction.objectStore('Noticias');
-  const requestGetAll = objectStore.getAll();
-
-  requestGetAll.onsuccess = (event) => {
-    const noticiasData = event.target.result;
-    console.log('Todos los datos de la tabla Noticias:', noticiasData);
-
-    noticiasData.forEach((noticia) => {
-      const contador = noticia.id; // Aquí obtienes el key path id de cada objeto
-      console.log('ID:', contador);
-
-      const colDiv = document.createElement('div');
-      colDiv.className = 'col-lg-3';
-      colDiv.id = `card${contador}`;
-
-      const cardDiv = document.createElement("div");
-      cardDiv.className = "card";
-
-      const cardBodyDiv = document.createElement("div");
-      cardBodyDiv.className = "card-body";
-
-      const divimg = document.createElement('div');
-      divimg.className = 'card-img2';
-
-      const imgElement = document.createElement("img");
-      imgElement.className = "img-fluid rounded";
-      imgElement.id = `img${contador}`;
-
-      const cardTitleDiv = document.createElement("div");
-      cardTitleDiv.className = "card-titulo";
-
-      const titleParagraph = document.createElement("p");
-      titleParagraph.className = "fs-6 fw-bold p_top";
-      titleParagraph.id = `titulo${contador}`;
-
-      const cardTextDiv = document.createElement("div");
-      cardTextDiv.className = "card-texto2";
-
-      const bodyParagraph = document.createElement("p");
-      bodyParagraph.id = `cuerpo${contador}`;
-
-      const flexRowDiv = document.createElement("div");
-
-      const linkElement = document.createElement("button");
-      linkElement.className = "btn";
-      linkElement.id = `btnPubli${contador}`;
-      const icon = document.createElement("i");
-      icon.className = "fa-solid fa-file-arrow-up";
-
-      const linkElement2 = document.createElement("a");
-      linkElement2.className = "btn";
-      linkElement2.setAttribute('href', './editarNoticias.html');
-      linkElement2.id = `btnEditar${contador}`;
-      const icon2 = document.createElement("i");
-      icon2.className = "fa-solid fa-file-pen";
-
-      const linkElement3 = document.createElement("button");
-      linkElement3.className = "btn";
-      linkElement3.onclick = function() {
-        obtenerIdBoton(this.id);
-      }
-      linkElement3.id = `btnBorrar${contador}`;
-      const icon3 = document.createElement("i");
-      icon3.className = "fa-solid fa-trash";
-
-      linkElement.appendChild(icon);
-      flexRowDiv.appendChild(linkElement);
-      linkElement2.appendChild(icon2);
-      flexRowDiv.appendChild(linkElement2);
-      linkElement3.appendChild(icon3);
-      flexRowDiv.appendChild(linkElement3);
-      cardTextDiv.appendChild(bodyParagraph);
-      cardTitleDiv.appendChild(titleParagraph);
-      divimg.appendChild(imgElement);
-      cardBodyDiv.appendChild(divimg);
-      cardBodyDiv.appendChild(cardTitleDiv);
-      cardBodyDiv.appendChild(cardTextDiv);
-      cardBodyDiv.appendChild(flexRowDiv);
-      cardDiv.appendChild(cardBodyDiv);
-      colDiv.appendChild(cardDiv);
-
-      container.appendChild(colDiv);
-
-      // Llenar cada tarjeta con los datos de la noticia
-      titleParagraph.textContent = noticia.titulo;
-      bodyParagraph.textContent = noticia.cuerpo;
-      imgElement.src = 'data:image/jpeg;base64,' + btoa(noticia.data);
-    });
-  };
-
-  requestGetAll.onerror = (event) => {
-    console.error('Error al obtener los datos de la tabla Noticias', event);
-  };
-}
-
-
-//recien agregado
-function obtenerUltimoValorId(id) { 
-  const partes = id.split(/\D+/); 
-  const numeros = partes.filter((parte) => parte !== '');
-  if (numeros.length > 0) {
-    return parseInt(numeros[numeros.length - 1]);     
-  } else {
-    return null; 
-  }
-}
-
-
-function obtenerIdBoton(id) {
-  const ultimoNumero = obtenerUltimoValorId(id);/*
-  if (ultimoNumero !== null) {
-    Swal.fire({
-      title: '¿Estás seguro de eliminar esta noticia?',
-      showDenyButton: true,
-      showCancelButton: false,
-      confirmButtonText: 'Si',
-    }).then((result) => {
-      if (result.isConfirmed) {
-        Swal.fire('Noticia eliminada', '', 'success')
-        console.log("Último número del ID:", ultimoNumero);*/
-        console.log("Último número del ID:", ultimoNumero);
-        eliminarUsuario(ultimoNumero);
-     /* } else if (result.isDenied) {
-        
-      }
-    })
-    
-  } else {
-    console.log("No se encontró ningún número en el ID.");
-  }*/
-}
-function publicarNoticia(id){ 
-  const idnoti = document.getElementById(id);
-  if(idnoti.value == 'Q'){
-    Swal.fire({
-      title: 'Desea Publicar esta noticia?',
-      showDenyButton: true,
-      showCancelButton: false,
-      confirmButtonText: 'Si',
-    }).then((result) => {
-      if (result.isConfirmed) {
-        Swal.fire('Proceso exitoso', '', 'success');
-        idnoti.className ="btn btnUpload";
-        idnoti.value = "P"
-      } else if (result.isDenied) {
-        
-      }
-    })
-  }
-  if(idnoti.value == 'P'){
-    Swal.fire({
-      title: 'Desea Quitar esta noticia?',
-      showDenyButton: true,
-      showCancelButton: false,
-      confirmButtonText: 'Si',
-    }).then((result) => {
-      if (result.isConfirmed) {
-        Swal.fire('Proceso exitoso', '', 'success');
-        idnoti.className ="btn";
-        idnoti.value = "Q"
-      } else if (result.isDenied) {
-        
-      }
-    })
-  }
-  
-}
-
-      
 
 // --Cierra mostrar datos noticias--
 
@@ -923,9 +718,9 @@ function obtenerUsuario(id) {
     };
 
 }
-*/
-function actualizarUsuario() {
- let key = 5;
+
+function actualizarUsuario(id) {
+ let key = document.prueba.getAttribute('data-key');
 
   if (key) {
     // Obtener los valores actualizados de los campos de los inputs.
@@ -944,7 +739,8 @@ function actualizarUsuario() {
     let tx = makeTX('Noticias', 'readwrite');
     tx.oncomplete = (ev) => {
       console.log(ev);
-      
+      buildList();
+      clearForm();
     };
 
     let store = tx.objectStore('Noticias');
@@ -964,14 +760,18 @@ function actualizarUsuario() {
 }
 
 
-function eliminarUsuario(id) {
-  if (id) {
+
+function eliminarUsuario() {
+  let key = document.whiskeyForm.getAttribute('data-key');
+  console.log(key);
+
+  if (key) {
     let tx = makeTX('Noticias', 'readwrite');
     tx.oncomplete = (ev) => {
     };
 
     let store = tx.objectStore('Noticias');
-    let request = store.delete(id);
+    let request = store.delete(key);
     request.onsuccess = (ev) => {
       console.log('Objeto eliminado exitosamente');
     };
@@ -987,7 +787,7 @@ function makeTX(storeName, mode) {
     console.warn(err);
   };
   return tx;
-}
+}*/
 
 
 //Verificar que las dos contraseñas coincidan
@@ -1100,6 +900,41 @@ function manejadorValidacion(e) {
       
       localStorage.setItem("datosUsuario", JSON.stringify(datos));
     }
+    function confirmarCerrarSesion() {
+      Swal.fire({
+          title: '¿Estás seguro?',
+          text: '¿Deseas cerrar la sesión?',
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Sí, cerrar sesión',
+          cancelButtonText: 'Cancelar'
+      }).then((result) => {
+          if (result.isConfirmed) {
+              // Si el usuario confirma, eliminar el usuario activo del almacenamiento local
+              localStorage.removeItem('datosUsuario');
+              console.log("Sesión cerrada correctamente.");
+              
+              // Mostrar una alerta con el mensaje de cierre en dos segundos
+              Swal.fire({
+                  title: 'Cerrando sesión...',
+                  icon: 'success',
+                  timer: 2000,
+                  timerProgressBar: true,
+                  showConfirmButton: false
+              });
+  
+              // Redireccionar a la página de inicio de sesión después de dos segundos
+              setTimeout(function() {
+                  window.location.href = '/login.html';
+              }, 2000);
+          } else {
+              // Si el usuario cancela, no hacer nada
+          }
+      });
+  }
+  
     
     function cargarPagina() {
       var datosGuardados = localStorage.getItem("datosUsuario");
@@ -1251,7 +1086,7 @@ function ImagenLogo(dataUrl) {
         function Encuesta1(){
           var   encuesta_prototipo = [
             { id: "1", Titulo: "Encuesta Apicultura", 
-            ObjetivoER: "conocer_la_produccion_apicola", 
+            Objetivo: "conocer_la_produccion_apicola", 
             Instrucciones: "responder todo los reactivos" }
           ];
     
@@ -1709,66 +1544,104 @@ function ImagenLogo(dataUrl) {
 
     }
 
-
-    function EncuestaVistaPV2(){
-      var transaction = db.transaction(["Encuesta"], "readwrite");
+  
+    function EncuestaVistaPV2() {
+      var transaction = db.transaction(["Encuesta"], "readonly");
       var objectStore = transaction.objectStore("Encuesta");
-      var index = objectStore.index("EncuestaTitulo");
-      var index2 = objectStore.index("EncuestaObjetivo");
-      var index3 = objectStore.index("EncuestaInstruccion");
-      var newestItem = null;
-      var newestItem2 = null
-      var newestItem3 = null
-      var newestItem4 = null
-// Crear un cursor para recorrer los objetos en el índice
-        var request = index.openCursor(null,'prev');
-        var request = index2.openCursor(null,'prev');
-        var request = index3.openCursor(null,'prev');
+      var index = objectStore.index("fechaCreacionER");
+    
+      var request = index.openCursor(null, 'prev');
+      
       request.onsuccess = function(event) {
         var cursor = event.target.result;
-        newestItem4 = cursor.value.TituloE;
+        
+        if (cursor) {
+          var currentItemR = cursor.value;
+          
+          var tituloR = currentItemR.Titulo;
+          var objetivoR = currentItemR.Objetivo;
+          var instruccionesR = currentItemR.Instrucciones;
+          
+          var cadena = "<table>";
+          cadena += "<tr>";
+          cadena += "<th>Título:</th>";
+          cadena += "<td>" + tituloR + "</td>";
+          cadena += "</tr>";
+          cadena += "<tr>";
+          cadena += "<th>Objetivo:</th>";
+          cadena += "<td>" + objetivoR + "</td>";
+          cadena += "</tr>";
+          cadena += "<tr>";
+          cadena += "<th>Instrucciones:</th>";
+          cadena += "<td>" + instruccionesR + "</td>";
+          cadena += "</tr>";
+          cadena += "</table>";
+          
+          document.getElementById("Encabezado").innerHTML = cadena;
+        }
+      };
+    }
 
-      if (!newestItem || Titulo.fechaCreacionE > newestItem.fechaCreacionE && !newestItem2 || floatingTextarea2.fechaCreacionE > newestItem2.fechaCreacionE  && !newestItem3 || floatingTextarea21.fechaCreacionE > newestItem3.fechaCreacionE ) {
-       newestItem = Titulo;
-       newestItem2 = floatingTextarea2;
-       newestItem3 = floatingTextarea21;
-       //newestItem4 = TituloE;
-       //newestItem3 = cursor.value.Instrucciones;
-        cursor.continue();
-      }
-      else {
-        var cadena ="<table>";
-        cadena += "<table class='table'>";
-        cadena += "<div class='row'>";
-        cadena += "<div class='col'>";
-        cadena += "<h5>Título:</h5>";
-        cadena += "<p>" + newestItem + "</p>";
-        cadena += "</div>";
-        cadena += "<div class='row'>";
-        cadena += "<div class='col'>";
-        cadena += "<h5>Objetivo:</h5>";
-        cadena += "<p>" + newestItem2 + "</p>";
-        cadena += "</div>";
-        cadena += "<div class='row'>";
-        cadena += "<div class='col'>";
-        cadena += "<h5>Instrucciones:</h5>";
-        cadena += "<p>" + newestItem3 + "</p>";
-        cadena += "</div>";
-        cadena += "</div>";
-        cadena += "</table>";
-        // Mostrar el objeto más reciente en la pantalla
-        console.log(newestItem);
-        console.log(newestItem4);
-        console.log(newestItem2);
-        cadena += "</table>";
-        document.getElementById("Encabezado").innerHTML = cadena;
+
+//     function EncuestaVistaPV2(){
+//       var transaction = db.transaction(["Encuesta"], "readwrite");
+//       var objectStore = transaction.objectStore("Encuesta");
+//       var index = objectStore.index("EncuestaTitulo");
+//       var index2 = objectStore.index("EncuestaObjetivo");
+//       var index3 = objectStore.index("EncuestaInstruccion");
+//       var newestItem = null;
+//       var newestItem2 = null
+//       var newestItem3 = null
+//      var newestItem4 = null
+// // Crear un cursor para recorrer los objetos en el índice
+//         var request = index.openCursor(null,'prev');
+//         var request = index2.openCursor(null,'prev');
+//         var request = index3.openCursor(null,'prev');
+//       request.onsuccess = function(event) {
+//         var cursor = event.target.result;
+//         newestItem4 = cursor.value.Titulo;
+
+//       if (!newestItem || Titulo.fechaCreacionE > newestItem.fechaCreacionE && !newestItem2 || floatingTextarea2.fechaCreacionE > newestItem2.fechaCreacionE  && !newestItem3 || floatingTextarea21.fechaCreacionE > newestItem3.fechaCreacionE ) {
+//        newestItem = Titulo;
+//        newestItem2 = floatingTextarea2;
+//        newestItem3 = floatingTextarea21;
+//        //newestItem4 = TituloE;
+//        //newestItem3 = cursor.value.Instrucciones;
+//         cursor.continue();
+//       }
+//       else {
+//         var cadena ="<table>";
+//         cadena += "<table class='table'>";
+//         cadena += "<div class='row'>";
+//         cadena += "<div class='col'>";
+//         cadena += "<h5>Título:</h5>";
+//         cadena += "<p>" + newestItem + "</p>";
+//         cadena += "</div>";
+//         cadena += "<div class='row'>";
+//         cadena += "<div class='col'>";
+//         cadena += "<h5>Objetivo:</h5>";
+//         cadena += "<p>" + newestItem2 + "</p>";
+//         cadena += "</div>";
+//         cadena += "<div class='row'>";
+//         cadena += "<div class='col'>";
+//         cadena += "<h5>Instrucciones:</h5>";
+//         cadena += "<p>" + newestItem3 + "</p>";
+//         cadena += "</div>";
+//         cadena += "</div>";
+//         cadena += "</table>";
+//         // Mostrar el objeto más reciente en la pantalla
+//         console.log(newestItem);
+//         console.log(newestItem4);
+//         console.log(newestItem2);
+//         cadena += "</table>";
+//         document.getElementById("Encabezado").innerHTML = cadena;
         
 
-}
+// }
 
-};
+// };
 
-}
+// }
 
 
 
@@ -1926,6 +1799,377 @@ function mostrarVarSelec() {
         };
       }
       
+      function buscarEVarCre() {
+        var cadena = "<table class='table table-bordered'>";
+        var objectStore = db.transaction("Encuesta_Variables").objectStore("Encuesta_Variables");
+        objectStore.openCursor().onsuccess = function(e) {
+          var cursor = e.target.result;
+          if (cursor) {
+            var encuestaIdVar = cursor.value.IdV;
+            var descripcionVar = cursor.value.TituloVar;
+            cadena += "<tr>";
+           cadena += "<td align='center'><button data-encuesta-id='" + encuestaIdVar + "' class='ver-formulario2-btn btn btn-outline-success bg-border-mostaza bg-text-mostaza'>Ver formulario</button></td>";
+            
+            cadena += "<td>" + descripcionVar + "</td>";
+            cadena += "<td align='center'><button data-encuesta-id='R" + encuestaIdVar + "' class='btn btn-outline-success bg-border-mostaza bg-text-mostaza me-md-2'>Ver</button></td>";
+            cadena += "</tr>";
+            cursor.continue();
+          } else {
+            cadena += "</table>";
+            document.getElementById("crear_encuesta").innerHTML = cadena;
+      
+            var btns = document.getElementsByClassName("ver-formulario2-btn");
+            for (var i = 0; i < btns.length; i++) {
+              btns[i].addEventListener("click", function(event) {
+                var IdV = event.target.getAttribute("data-encuesta-id");
+                abrirFormulariVariables(IdV)
+              });
+            }
+      
+            var redireccionarBtns = document.getElementsByClassName("btn btn-outline-success bg-border-mostaza bg-text-mostaza me-md-2");
+            for (var i = 0; i < redireccionarBtns.length; i++) {
+              redireccionarBtns[i].addEventListener("click", function(event) {
+                var IdV = event.target.getAttribute("data-encuesta-id");
+               // redireccionarPagina(IdV);
+              });
+            }
+          }
+        };
+      }
+
+      // function abrirFormulariVariables(IdV) {
+      //   var nuevaPestana = window.open("", "_blank");
+      //   var contenidoHTML = "<h2 class='bg-text-black text-center p-3 text-uppercase text-black'></h2>";
+      
+      //   var transaction = db.transaction("Encuesta_Variables", "readonly");
+      //   var encuestaObjectStore = transaction.objectStore("Encuesta_Variables");
+      //   var encuestaRequest = encuestaObjectStore.get(parseInt(IdV));
+      
+      //   encuestaRequest.onsuccess = function(event) {
+      //     var EncuestaVariables = event.target.result;
+      //     if (EncuestaVariables) {
+      //       contenidoHTML += "<h1 class='bg-text-black text-center p-3 text-uppercase text-black' style='text-align: center; font-size: x-large; padding: 10px 50px 20px; font-weight: bold;'>" + EncuestaVariables.TituloVar + "</h1>";
+      
+      //       var VariablesObjectStore = db.transaction("EncuestaVariablesFinal", "readonly").objectStore("EncuestaVariablesFinal");
+      //       var VariablesRequest = VariablesObjectStore.getAll();
+      
+      //       VariablesRequest.onsuccess = function(event) {
+      //         var variables = event.target.result;
+      //         if (variables) {
+      //           var variablesFiltrados = variables.filter(function(variable) {
+      //             return variable.encuestaVarId === parseInt(IdV);
+      //           });
+      
+      //           contenidoHTML += "<table class='table table-bordered'>";
+      //           contenidoHTML += "<thead><tr><th>#</th>";
+      
+      //           // Encabezados de las columnas con el nombre de las variables
+      //           variablesFiltrados.forEach(function(variable) {
+      //             contenidoHTML += "<th>" + variable.VariablesId + "</th>";
+      //           });
+      
+      //           contenidoHTML += "</tr></thead>";
+      //           contenidoHTML += "<tbody>";
+      
+      //           // Filas con selects
+      //           for (var i = 0; i < variablesFiltrados.length; i++) {
+      //             contenidoHTML += "<tr>";
+      //             contenidoHTML += "<td>" + (i + 1) + "</td>";
+      //             //contenidoHTML += "<td>" + (i + 1) + "</td>";
+      
+      //             // Celdas con selects
+      //             for (var j = 0; j < variablesFiltrados.length; j++) {
+      //               contenidoHTML += "<td>";
+      //               contenidoHTML += "<select class='form-select form-select-sm' aria-label='.form-select-sm example' onchange='updateOtherSelects(this)'>";
+      
+      //               var options = [
+      //                 { value: '0', text: '0' },
+      //                 { value: '1', text: '1' },
+      //                 { value: '2', text: '2' },
+      //                 { value: '3', text: '3' },
+      //                 { value: '4', text: 'P' }
+      //               ];
+      
+      //               options.forEach(function(option) {
+      //                 contenidoHTML += "<option value='" + option.value + "'>" + option.text + "</option>";
+      //               });
+      
+      //               contenidoHTML += "</select>";
+      //               contenidoHTML += "</td>";
+      //             }
+      
+      //             contenidoHTML += "</tr>";
+      //           }
+      
+      //           contenidoHTML += "</tbody></table>";
+      
+      //           nuevaPestana.document.open();
+      //           nuevaPestana.document.write(contenidoHTML);
+      //           nuevaPestana.document.close();
+      //         }
+      //       };
+      //     }
+      //   };
+      // }
+      
+      function abrirFormulariVariables(IdV) {
+        var nuevaPestana = window.open("", "_blank");
+        var contenidoHTML = "<h2 class='bg-text-black text-center p-3 text-uppercase text-black'></h2>";
+      
+        var transaction = db.transaction("Encuesta_Variables", "readonly");
+        var encuestaObjectStore = transaction.objectStore("Encuesta_Variables");
+        var encuestaRequest = encuestaObjectStore.get(parseInt(IdV));
+      
+        encuestaRequest.onsuccess = function(event) {
+          var EncuestaVariables = event.target.result;
+          if (EncuestaVariables) {
+            contenidoHTML += "<h1 class='bg-text-black text-center p-3 text-uppercase text-black' style='text-align: center; font-size: x-large; padding: 10px 50px 20px; font-weight: bold;'>" + EncuestaVariables.TituloVar + "</h1>";
+      
+            var VariablesObjectStore = db.transaction("EncuestaVariablesFinal", "readonly").objectStore("EncuestaVariablesFinal");
+            var VariablesRequest = VariablesObjectStore.getAll();
+      
+            VariablesRequest.onsuccess = function(event) {
+              var variables = event.target.result;
+              if (variables) {
+                var variablesFiltrados = variables.filter(function(variable) {
+                  return variable.encuestaVarId === parseInt(IdV);
+                });
+      
+                contenidoHTML += "<table class='table table-bordered'>";
+                contenidoHTML += "<thead><tr><th>#</th>";
+      
+                // Encabezados de las columnas con el nombre de las variables
+                variablesFiltrados.forEach(function(variable) {
+                  contenidoHTML += "<th>" + variable.VariablesId + "</th>";
+                });
+      
+                contenidoHTML += "</tr></thead>";
+                contenidoHTML += "<tbody>";
+      
+                // Filas con selects
+                for (var i = 0; i < variablesFiltrados.length; i++) {
+                  contenidoHTML += "<tr>";
+                  contenidoHTML += "<td>" + variablesFiltrados[i].VariablesId + "</td>";
+      
+                  // Celdas con selects
+                  for (var j = 0; j < variablesFiltrados.length; j++) {
+                    contenidoHTML += "<td>";
+                    contenidoHTML += "<select class='form-select form-select-sm' aria-label='.form-select-sm example' onchange='updateOtherSelects(this)'>";
+      
+                    var options = [
+                      { value: '0', text: '0' },
+                      { value: '1', text: '1' },
+                      { value: '2', text: '2' },
+                      { value: '3', text: '3' },
+                      { value: '4', text: 'P' }
+                    ];
+      
+                    options.forEach(function(option) {
+                      contenidoHTML += "<option value='" + option.value + "'>" + option.text + "</option>";
+                    });
+      
+                    contenidoHTML += "</select>";
+                    contenidoHTML += "</td>";
+                  }
+      
+                  contenidoHTML += "</tr>";
+                }
+      
+                contenidoHTML += "</tbody></table>";
+      
+                nuevaPestana.document.open();
+                nuevaPestana.document.write(contenidoHTML);
+                nuevaPestana.document.close();
+              }
+            };
+          }
+        };
+      }
+      
+      // Función para actualizar los otros selects en la misma fila y columna con el mismo valor
+      function updateOtherSelects(selectElement) {
+        var columnIndex = selectElement.cellIndex;
+        var rowIndex = selectElement.parentNode.rowIndex;
+      
+        var table = selectElement.parentNode.parentNode.parentNode;
+        var rows = table.getElementsByTagName("tr");
+      
+        for (var i = 0; i < rows.length; i++) {
+          var row = rows[i];
+          var cell = row.cells[columnIndex];
+      
+          if (i !== rowIndex) {
+            var select = cell.querySelector("select");
+            select.value = selectElement.value;
+          }
+        }
+      
+        var cells = table.rows[rowIndex].cells;
+        for (var j = 0; j < cells.length; j++) {
+          if (j !== columnIndex) {
+            var select = cells[j].querySelector("select");
+            select.value = selectElement.value;
+          }
+        }
+      }
+      
+
+
+      // function abrirFormulariVariables(IdV) {
+      //   var nuevaPestana = window.open("", "_blank");
+      //   var contenidoHTML = "<h2 class='bg-text-black text-center p-3 text-uppercase text-black'></h2>";
+      
+      //   var transaction = db.transaction("Encuesta_Variables", "readonly");
+      //   var encuestaObjectStore = transaction.objectStore("Encuesta_Variables");
+      //   var encuestaRequest = encuestaObjectStore.get(parseInt(IdV));
+      
+      //   encuestaRequest.onsuccess = function(event) {
+      //     var EncuestaVariables = event.target.result;
+      //     if (EncuestaVariables) {
+      //       contenidoHTML += "<h1 class='bg-text-black text-center p-3 text-uppercase text-black' style='text-align: center; font-size: x-large; padding: 10px 50px 20px; font-weight: bold;'>" + EncuestaVariables.TituloVar + "</h1>";
+      
+      //       var VariablesObjectStore = db.transaction("EncuestaVariablesFinal", "readonly").objectStore("EncuestaVariablesFinal");
+      //       var VariablesRequest = VariablesObjectStore.getAll();
+      
+      //       VariablesRequest.onsuccess = function(event) {
+      //         var variables = event.target.result;
+      //         if (variables) {
+      //           var variablesFiltrados = variables.filter(function(variable) {
+      //             return variable.encuestaVarId === parseInt(IdV);
+      //           });
+      
+      //           contenidoHTML += "<table class='table table-bordered'>";
+                
+                
+      
+      //           variablesFiltrados.forEach(function(variable, index) {
+      //             contenidoHTML += "<th>#</th>";
+      //             contenidoHTML += "<th>"+ variable.VariablesId+ "</th>";
+      //            // contenidoHTML += "<td>" + (index + 1) + "</td>";
+      //            contenidoHTML += "<tbody>";
+      //            contenidoHTML += "<tr>";
+      //             contenidoHTML += "<td>" + variable.VariablesId+ "</td>";
+      //             contenidoHTML += "<td>";
+      //             contenidoHTML += "<select class='form-select form-select-sm' aria-label='.form-select-sm example' onchange='updateOtherSelects(this)'>";
+      //             var options = [
+      //               { value: '0', text: '0' },
+      //               { value: '1', text: '1' },
+      //               { value: '2', text: '2' },
+      //               { value: '3', text: '3' },
+      //               { value: '4', text: 'P' }
+      //             ];
+      
+      //             options.forEach(function(option) {
+      //               contenidoHTML += "<option value='" + option.value + "'>" + option.text + "</option>";
+      //             });
+      
+      //             contenidoHTML += "</select>";
+      //             contenidoHTML += "</td>";
+      //             contenidoHTML += "</tr>";
+      //           });
+      
+      //           contenidoHTML += "</tbody></table>";
+      
+      //           nuevaPestana.document.open();
+      //           nuevaPestana.document.write(contenidoHTML);
+      //           nuevaPestana.document.close();
+      //         }
+      //       };
+      //     }
+      //   };
+      // }
+      
+      // // Función para actualizar los otros selects en la misma fila y columna con el mismo valor
+      // function updateOtherSelects(selectElement) {
+      //   var columnIndex = selectElement.parentNode.cellIndex;
+      //   var rowIndex = selectElement.parentNode.parentNode.rowIndex;
+      
+      //   var table = selectElement.parentNode.parentNode.parentNode;
+      //   var rows = table.getElementsByTagName("tr");
+      
+      //   for (var i = 0; i < rows.length; i++) {
+      //     var row = rows[i];
+      //     var cell = row.cells[columnIndex];
+      
+      //     if (i !== rowIndex) {
+      //       var select = cell.querySelector("select");
+      //       select.value = selectElement.value;
+      //     }
+      //   }
+      
+      //   var cells = table.rows[rowIndex].cells;
+      //   for (var j = 0; j < cells.length; j++) {
+      //     if (j !== columnIndex) {
+      //       var select = cells[j].querySelector("select");
+      //       select.value = selectElement.value;
+      //     }
+      //   }
+      // }
+      
+
+      // function abrirFormulariVariables(IdV) {
+      //   var nuevaPestana = window.open("", "_blank");
+      //   var contenidoHTML = "<h2 class='bg-text-black text-center p-3 text-uppercase text-black'></h2>";
+      
+      //   var transaction = db.transaction("Encuesta_Variables", "readonly");
+      //   var encuestaObjectStore = transaction.objectStore("Encuesta_Variables");
+      //   var encuestaRequest = encuestaObjectStore.get(parseInt(IdV));
+      
+      //   encuestaRequest.onsuccess = function(event) {
+      //     var EncuestaVariables = event.target.result;
+      //     if (EncuestaVariables) {
+      //       contenidoHTML += "<h1 class='bg-text-black text-center p-3 text-uppercase text-black' style='text-align: center; font-size: x-large; padding: 10px 50px 20px; font-weight: bold;'>" + EncuestaVariables.TituloVar + "</h1>";
+      
+      //       var VariablesObjectStore = db.transaction("EncuestaVariablesFinal", "readonly").objectStore("EncuestaVariablesFinal");
+      //       var VariablesRequest = VariablesObjectStore.getAll();
+      
+      //       VariablesRequest.onsuccess = function(event) {
+      //         var variables = event.target.result;
+      //         if (variables) {
+      //           var variablesFiltrados = variables.filter(function(variable) {
+      //             return variable.encuestaVarId === parseInt(IdV);
+      //           });
+      
+      //           contenidoHTML += "<table class='table table-bordered'>";
+      //           contenidoHTML += "<thead><tr><th>#</th><th>Variable</th><th>Valor</th></tr></thead>";
+      //           contenidoHTML += "<tbody>";
+      
+      //           variablesFiltrados.forEach(function(variable, index) {
+      //             contenidoHTML += "<tr>";
+      //             contenidoHTML += "<td>" + (index + 1) + "</td>";
+      //             contenidoHTML += "<td>" + variable.VariablesId+ "</td>";
+      //             contenidoHTML += "<td>";
+      //             contenidoHTML += "<select class='form-select form-select-sm' aria-label='.form-select-sm example'>";
+      //             var options = [
+      //               { value: '0', text: '0' },
+      //               { value: '1', text: '1' },
+      //               { value: '2', text: '2' },
+      //               { value: '3', text: '3' },
+      //               { value: '4', text: 'P' }
+      //             ];
+      
+      //             options.forEach(function(option) {
+      //               contenidoHTML += "<option value='" + option.value + "'>" + option.text + "</option>";
+      //             });
+      
+      //             contenidoHTML += "</select>";
+      //             contenidoHTML += "</td>";
+      //             contenidoHTML += "</tr>";
+      //           });
+      
+      //           contenidoHTML += "</tbody></table>";
+      
+      //           nuevaPestana.document.open();
+      //           nuevaPestana.document.write(contenidoHTML);
+      //           nuevaPestana.document.close();
+      //         }
+      //       };
+      //     }
+      //   };
+      // }
+
+
+
       function redireccionarPagina(encuestaId) {
         // Aquí puedes redirigir a la página deseada utilizando el ID de la encuesta
         // Por ejemplo:
@@ -1973,6 +2217,13 @@ function mostrarVarSelec() {
         };
       }
       
+
+
+
+
+      
+      
+
 
       function buscarEVar() {
         var cadena = "<table class='table table-bordered'>";
@@ -2273,8 +2524,8 @@ function mostrarVarSelec() {
       if(cursor){
         id = cursor.value.id;
         cadena += "<tr>";
-        cadena +="<td><input type ='checkbox' name='selectedVariable' id='sV"+id+"'></input></td>";
-        cadena +="<td>"+cursor.value.id+"</td>";
+        cadena +="<td><input type ='checkbox' name='selectedVariable' id='s"+id+"'></input></td>";
+        cadena +="<td>"+id+"</td>";
         cadena += "<td><button class='btn btn-outline-success bg-border-mostaza bg-text-mostaza' id= 'b"+id+"'><img src='../Img/borrar.png' height='18px width='18px'></button></td>";
         cadena += "<td><button class='btn btn-outline-success bg-border-mostaza bg-text-mostaza' id= 'e"+id+"'><img src='../Img/edit.svg' height='18px width='18px'></button></td>";
         //cadena +="<td><button id='m"+id+"'<img src='../Img/edit.svg'  height='18px'width='18px'>></button></td>";
@@ -2289,14 +2540,14 @@ function mostrarVarSelec() {
   
         for(var i=0; i<ids_array.length; i++){
           id = ids_array[i];
-          document.getElementById("sV"+id).onclick= selecV;
+          document.getElementById("s"+id).onclick= selecV;
           document.getElementById("e"+id).onclick= modificar;
           document.getElementById("b"+id).onclick= borrar;
         }
       }
     };
 
-
+  
 
 
 function borrar(e){
@@ -2356,7 +2607,7 @@ else{
 
 function selecV(e) {
  
-  var id = e.target.id.substring(2);
+  var id = e.target.id.substring(1);
 
   if (id) {
  
@@ -2382,7 +2633,126 @@ function selecV(e) {
 
 //-----------------------------------------------------------------------------------------------------
 
+var  encuestaVarId;
 
+function crearEncuestaFinalVariables() {
+  var TituloVar = document.getElementById("TituloVar").value.trim();
+  var Objetivo = document.getElementById("floatingTextarea22").value.trim();
+  var Instrucciones = document.getElementById('floatingTextarea23').value.trim();
+  var fechaCreacionE = Date.now(); // Obtener la fecha actual en milisegundos
+
+  var form = document.getElementById('formularioCR');
+
+  form.addEventListener('submit', async function(eve) {
+    eve.preventDefault();
+    form.removeEventListener('submit', arguments.callee);
+
+    var request = db.transaction(["Encuesta_Variables"], "readwrite")
+      .objectStore("Encuesta_Variables")
+      .add({
+        TituloVar: TituloVar,
+        Objetivo: Objetivo,
+        Instrucciones: Instrucciones,
+        fechaCreacionE: fechaCreacionE
+      });
+
+    request.onsuccess = async function(e) {
+      encuestaVarId = e.target.result;
+      console.log("Encuesta creada con id: ", encuestaVarId, TituloVar);
+      
+      var VariablesSeleccionados = await obtenerVariablesSeleccionados() 
+     
+      // await crearRelacionEncuestaVariables(encuestaVarId, VariablesSeleccionados);
+      var tx = db.transaction(["EncuestaVariablesFinal"], "readwrite");
+      var store = tx.objectStore("EncuestaVariablesFinal");
+
+      VariablesSeleccionados.forEach(function(VariablesId) {
+        store.add({
+          encuestaVarId:encuestaVarId,
+          VariablesId: VariablesId
+        });
+      });
+      
+      tx.oncomplete = function() {
+        console.log("Relación entre la encuesta y los reactivos creada correctamente");
+       
+        EncuestaVarMostrar(encuestaVarId)
+        var mostrarTablaBtn = document.getElementById('mostrarTablaBtn');
+        mostrarTablaBtn.addEventListener('click', function () {
+          mostrarTablaEnOtraPestana(encuestaVarId);
+        });
+        
+        //mostrarEncuestaVar()
+      };
+
+      console.log(e);
+      alert("Se insertaron los datos");
+    
+    };
+  });
+}
+
+
+
+async function obtenerVariablesSeleccionados() {
+  var VariablesSeleccionados = [];
+  var checkboxes = document.querySelectorAll("input[type='checkbox'][id^='s']:checked");
+
+  var transaction = db.transaction(["selecVariablesCre"], "readonly");
+  var objectStore = transaction.objectStore("selecVariablesCre");
+  var cursor = objectStore.openCursor(null, "prev");
+
+  await new Promise((resolve) => {
+    cursor.onsuccess = function(event) {
+      var cursor = event.target.result;
+      if (cursor) {
+        var valor = cursor.value.VariablesId;
+        if (!VariablesSeleccionados.includes(valor) && contieneCheckboxId(checkboxes, valor)) {
+          VariablesSeleccionados.push(valor);
+        }
+        cursor.continue();
+      } else {
+        resolve();
+      }
+    };
+  });
+
+  return VariablesSeleccionados;
+}
+
+function contieneCheckboxId(checkboxes, id) {
+  for (var i = 0; i < checkboxes.length; i++) {
+    if (checkboxes[i].id === 's' + id) {
+      return true;
+    }
+  }
+  return false;
+}
+
+// async function crearRelacionEncuestaVariables(encuestaVarId, VariablesSeleccionados) {
+//   var tx = db.transaction(["EncuestaVariablesFinal"], "readwrite");
+//   var store = tx.objectStore("EncuestaVariablesFinal");
+
+//   VariablesSeleccionados.forEach(function(VariablesId) {
+//     store.add({
+//       encuestaVarId: encuestaVarId,
+//       VariablesId: VariablesId
+//     });
+//   });
+
+//   return new Promise((resolve, reject) => {
+//     tx.oncomplete = function() {
+//       resolve();
+//     };
+
+//     tx.onerror = function(event) {
+//       reject(event.target.error);
+//     };
+//   });
+// }
+
+
+//-----------------------------
 function busVaC(){
   var columnas = parseInt(prompt("columnas"));
   var filas= parseInt(prompt("colum"));  
@@ -2586,14 +2956,14 @@ function ResOpMul(){
         var Titulo = document.getElementById("Titulo").value.trim();
         var Objetivo = document.getElementById("floatingTextarea2").value.trim();
         var Instrucciones = document.getElementById('floatingTextarea21').value.trim();
-        var fechaCreacionE = document.getElementById("fechaCreacionE");
+        var fechaCreacionER = document.getElementById("fechaCreacionER");
         var form = document.getElementById('formulario');
 
       form.addEventListener('submit', function(eve){
       eve.preventDefault();
       var request = db.transaction(["Encuesta"], "readwrite")
       .objectStore("Encuesta")
-      .add({creador:creador,Titulo:Titulo, Objetivo:Objetivo, Instrucciones:Instrucciones,fechaCreacionE:value=Date.now()});
+      .add({creador:creador,Titulo:Titulo, Objetivo:Objetivo, Instrucciones:Instrucciones,fechaCreacionER:value=Date.now()});
 
       request.onsuccess = function(e){
        encuestaId = e.target.result;
@@ -2604,12 +2974,14 @@ function ResOpMul(){
          alert("se inserto los datos");
          //buscar();
          //buscar2();
-         buscarE();   
+         
+         buscarE();
+         //EncuestaVistaPV2()   
         // encuestaF()
-        EncuestaVistaPV2()
+      
        // Ef()
          //EncuestaVistaP();
-         selec(encuestaId);
+         //selec(encuestaId);
       };
       
     })
@@ -3152,7 +3524,7 @@ function crearEncuestaFinal() {
   var Titulo = document.getElementById("Titulo").value.trim();
   var Objetivo = document.getElementById("floatingTextarea2").value.trim();
   var Instrucciones = document.getElementById('floatingTextarea21').value.trim();
-  var fechaCreacionE = Date.now(); // Obtener la fecha actual en milisegundos
+  var fechaCreacionER = Date.now(); // Obtener la fecha actual en milisegundos
 
   var form = document.getElementById('formulario');
 
@@ -3166,9 +3538,11 @@ function crearEncuestaFinal() {
         Titulo: Titulo,
         Objetivo: Objetivo,
         Instrucciones: Instrucciones,
-        fechaCreacionE: fechaCreacionE
-      });
+        fechaCreacionER: fechaCreacionER
 
+       
+      });
+     // EncuestaVistaPV2();
     request.onsuccess = async function(e) {
       encuestaId = e.target.result;
       console.log("Encuesta creada con id: ", encuestaId, Titulo);
@@ -3200,7 +3574,8 @@ function crearEncuestaFinal() {
       }).then(function() {
         // Aquí puedes agregar el código que debe ejecutarse después de que el aviso desaparezca
         buscarE();
-        EncuestaVistaPV2();
+        EncuestaVistaPV2()
+       
       });
     };
   });
@@ -3228,8 +3603,9 @@ async function obtenerReactivosSeleccionados() {
       }
     };
   });
-
+ // EncuestaVistaPV2();
   return reactivosSeleccionados;
+
 }
 
 function contieneCheckboxId(checkboxes, id) {
@@ -3243,6 +3619,7 @@ function contieneCheckboxId(checkboxes, id) {
 
 
 // Función para mostrar en el formulario los reactivos de una encuesta específica
+
 
 
 
@@ -3614,97 +3991,7 @@ function mostrarDatosUsuario(usuario) {
   console.log(usuario);
 }
 
-var  encuestaVarId;
 
-function crearEncuestaFinalVariables() {
-  var TituloVar = document.getElementById("TituloVar").value.trim();
-  var Objetivo = document.getElementById("floatingTextarea22").value.trim();
-  var Instrucciones = document.getElementById('floatingTextarea23').value.trim();
-  var fechaCreacionE = Date.now(); // Obtener la fecha actual en milisegundos
-
-  var form = document.getElementById('formularioCR');
-
-  form.addEventListener('submit', async function(eve) {
-    eve.preventDefault();
-
-    var request = db.transaction(["Encuesta_Variables"], "readwrite")
-      .objectStore("Encuesta_Variables")
-      .add({
-        TituloVar: TituloVar,
-        Objetivo: Objetivo,
-        Instrucciones: Instrucciones,
-        fechaCreacionE: fechaCreacionE
-      });
-
-    request.onsuccess = async function(e) {
-      encuestaVarId = e.target.result;
-      console.log("Encuesta creada con id: ", encuestaVarId, TituloVar);
-      
-      var VariablesSeleccionados = await obtenerVariablesSeleccionados() 
-     
-      var tx = db.transaction(["EncuestaVariablesFinal"], "readwrite");
-      var store = tx.objectStore("EncuestaVariablesFinal");
-
-      VariablesSeleccionados.forEach(function(VariablesId) {
-        store.add({
-          encuestaVarId:encuestaVarId,
-          VariablesId: VariablesId
-        });
-      });
-      
-      tx.oncomplete = function() {
-        console.log("Relación entre la encuesta y los reactivos creada correctamente");
-       
-        EncuestaVarMostrar(encuestaVarId)
-        var mostrarTablaBtn = document.getElementById('mostrarTablaBtn');
-        mostrarTablaBtn.addEventListener('click', function () {
-          mostrarTablaEnOtraPestana(encuestaVarId);
-        });
-        
-        //mostrarEncuestaVar()
-      };
-
-      console.log(e);
-      alert("Se insertaron los datos");
-    
-    };
-  });
-}
-
-async function obtenerVariablesSeleccionados() {
-  var VariablesSeleccionados = [];
-  var checkboxes = document.querySelectorAll("input[type='checkbox'][id^='sV']:checked");
-
-  var transaction = db.transaction(["selecVariablesCre"], "readonly");
-  var objectStore = transaction.objectStore("selecVariablesCre");
-  var cursor = objectStore.openCursor(null, "prev");
-
-  await new Promise((resolve) => {
-    cursor.onsuccess = function(event) {
-      var cursor = event.target.result;
-      if (cursor) {
-        var valor = cursor.value.VariablesId;
-        if (!VariablesSeleccionados.includes(valor) && contieneCheckboxId(checkboxes, valor)) {
-          VariablesSeleccionados.push(valor);
-        }
-        cursor.continue();
-      } else {
-        resolve();
-      }
-    };
-  });
-
-  return VariablesSeleccionados;
-}
-
-function contieneCheckboxId(checkboxes, id) {
-  for (var i = 0; i < checkboxes.length; i++) {
-    if (checkboxes[i].id === 'sV' + id) {
-      return true;
-    }
-  }
-  return false;
-}
 // async function obtenerVariablesSeleccionados() {
 //   var VariablesSeleccionados = [];
 //   var checkbox = document.querySelectorAll("input[type='checkbox'][name='selectedVariable']:checked");
@@ -3731,7 +4018,6 @@ function mostrarTablaEnOtraPestana(encuestaVarId) {
   };
 }
 
-
 async function EncuestaVarMostrar(encuestaVarId) {
   var tablaEncuesta = document.getElementById('tablaEncuestaVar');
   var table = document.createElement('table');
@@ -3746,7 +4032,6 @@ async function EncuestaVarMostrar(encuestaVarId) {
   var tx = db.transaction(["EncuestaVariablesFinal"], "readonly");
   var store = tx.objectStore("EncuestaVariablesFinal");
   var index = store.index("encuestaVarId");
-  var numColumns = 7; // Número de columnas por variable
 
   // Create a map to store variable names as keys and their corresponding data as values
   var variableDataMap = new Map();
@@ -3771,6 +4056,9 @@ async function EncuestaVarMostrar(encuestaVarId) {
       table.appendChild(thead);
 
       var tbody = document.createElement('tbody');
+
+      // Calculate numColumns dynamically based on the number of variables
+      var numColumns = variableDataMap.size;
 
       // Loop through the map to create rows for each variable
       for (const [variableId, data] of variableDataMap) {
@@ -3821,6 +4109,95 @@ async function EncuestaVarMostrar(encuestaVarId) {
 }
 
 
+// async function EncuestaVarMostrar(encuestaVarId) {
+//   var tablaEncuesta = document.getElementById('tablaEncuestaVar');
+//   var table = document.createElement('table');
+//   table.classList.add('table', 'table-bordered');
+
+//   var thead = document.createElement('thead');
+//   var trHeader = document.createElement('tr');
+//   var thIndex = document.createElement('th');
+//   thIndex.textContent = '#';
+//   trHeader.appendChild(thIndex);
+
+//   var tx = db.transaction(["EncuestaVariablesFinal"], "readonly");
+//   var store = tx.objectStore("EncuestaVariablesFinal");
+//   var index = store.index("encuestaVarId");
+//   var numColumns = 7; // Número de columnas por variable
+
+//   // Create a map to store variable names as keys and their corresponding data as values
+//   var variableDataMap = new Map();
+
+//   var cursor = await index.openCursor(IDBKeyRange.only(encuestaVarId));
+
+//   cursor.onsuccess = function (event) {
+//     var cursor = event.target.result;
+//     if (cursor) {
+//       var variableId = cursor.value.VariablesId;
+
+//       // Store the variable ID and data in the map
+//       variableDataMap.set(variableId, cursor.value);
+
+//       var th = document.createElement('th');
+//       th.textContent = variableId;
+//       trHeader.appendChild(th);
+
+//       cursor.continue();
+//     } else {
+//       thead.appendChild(trHeader);
+//       table.appendChild(thead);
+
+//       var tbody = document.createElement('tbody');
+
+//       // Loop through the map to create rows for each variable
+//       for (const [variableId, data] of variableDataMap) {
+//         var tr = document.createElement('tr');
+//         var td = document.createElement('td');
+//         td.textContent = variableId;
+//         tr.appendChild(td);
+
+//         for (var i = 1; i <= numColumns; i++) {
+//           var td = document.createElement('td');
+//           var select = document.createElement('select');
+//           select.addEventListener('change', function () {
+//             var variableId = this.parentElement.parentElement.firstChild.textContent;
+//             var selectedValue = this.value;
+//             obtenerVariablesSeleccionados(variableId, selectedValue);
+//           });
+//           select.classList.add('form-select', 'form-select-sm');
+//           select.setAttribute('aria-label', '.form-select-sm example');
+//           var options = [
+//             { value: '0', text: '0' },
+//             { value: '1', text: '1' },
+//             { value: '2', text: '2' },
+//             { value: '3', text: '3' },
+//             { value: '4', text: 'P' }
+//           ];
+
+//           for (var j = 0; j < options.length; j++) {
+//             var option = document.createElement('option');
+//             option.value = options[j].value;
+//             option.textContent = options[j].text;
+//             select.appendChild(option);
+//           }
+
+//           td.appendChild(select);
+//           tr.appendChild(td);
+//         }
+
+//         tbody.appendChild(tr);
+//       }
+
+//       table.appendChild(tbody);
+//       tablaEncuesta.innerHTML = '';
+//       tablaEncuesta.appendChild(table);
+
+//       console.log('Encuesta mostrada correctamente');
+//     }
+//   };
+// }
+
+
 function mostrarEncuestaDatos() {
   var transaction = db.transaction(["Encuesta_Variables"], "readonly");
   var objectStore = transaction.objectStore("Encuesta_Variables");
@@ -3857,6 +4234,9 @@ function mostrarEncuestaDatos() {
     }
   };
 }
+
+
+
 
 //Realizar la edición de información de perfil encuestador
 
@@ -4131,7 +4511,7 @@ function editarLogo(imageDataUrl) {
     };
   });
 }
-/*
+
 async function guardarDatos() {
   try {
     await validarImagenLogo();
@@ -4142,4 +4522,68 @@ async function guardarDatos() {
     // Si hay algún error en alguna de las funciones, mostramos el mensaje de error.
     console.error("Error al guardar los datos:", error);
   }
-}*/
+}
+
+function MostrarLogo() {
+  var datosUsuario = localStorage.getItem("datosUsuario");
+  if (!datosUsuario) {
+    console.log("No hay datos de usuario en el almacenamiento.");
+    return;
+  }
+
+  var datos = JSON.parse(datosUsuario);
+  var primerValor = datos.valor1;
+
+  console.log("El valor de primerValor es:", primerValor);
+
+  var dbRequest = indexedDB.open('Janal', 1);
+
+  dbRequest.onerror = function (event) {
+    console.error("Error al abrir la base de datos:", event.target.error);
+  };
+
+  dbRequest.onsuccess = function (event) {
+    var database = event.target.result;
+    var transaction = database.transaction(['Encuestador'], 'readwrite');
+    var objectStoreEncuestador = transaction.objectStore('Encuestador');
+
+    var cursorRequest = objectStoreEncuestador.openCursor();
+
+    cursorRequest.onerror = function (event) {
+      console.error("Error al abrir el cursor:", event.target.error);
+    };
+
+    cursorRequest.onsuccess = function (event) {
+      var cursor = event.target.result;
+
+      if (cursor) {
+        var objeto = cursor.value;
+        var correoEncuestador = objeto.correo;
+
+        if (correoEncuestador === primerValor) {
+          console.log("El valor coincide.");
+          var dataUrlValue = objeto.dataUrl;
+          console.log("El valor del parámetro dataUrl es:", dataUrlValue);
+
+          // Mostrar la imagen en el elemento img con el id "logoInstituto"
+          var logoInstitutoElement = document.getElementById("logoInstituto");
+          if (logoInstitutoElement) {
+            logoInstitutoElement.src = dataUrlValue;
+          }
+        }
+
+        cursor.continue();
+      } else {
+        console.log("No se encontró el valor en el cursor.");
+      }
+    };
+  };
+
+  dbRequest.onupgradeneeded = function (event) {
+    var database = event.target.result;
+    var objectStoreEncuestador = database.createObjectStore('Encuestador', { keyPath: 'correo' });
+
+    // Agregar índices u otras configuraciones en caso necesario.
+    // objectStoreEncuestador.createIndex(...);
+  };
+}

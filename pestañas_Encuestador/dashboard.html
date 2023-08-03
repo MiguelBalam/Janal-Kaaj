@@ -11,8 +11,6 @@
     integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
     crossorigin="anonymous"></script>
   <link rel="stylesheet" href="../CSS/style.css">
-  <script src="../BD/app.js"></script>
-  <script src="../CSS/SweetAlert.js"></script>
 
   <link rel="stylesheet" href="../node_modules/@sweetalert2/themes/bootstrap-4/bootstrap-4.min.css">
   <script src="../node_modules/sweetalert2/dist/sweetalert2.all.js"></script>
@@ -84,6 +82,16 @@
 
 
       <li>
+        <a href="/pestañas_Encuestador/encuestaAplicadas.html">
+          <i class='bx bx-clipboard bx-tada' ></i>
+          <span class="link_name">Encuestas aplicadas</span>
+        </a>
+        <ul class="sub-menu blank">
+          <li><a class="link_name" href="/pestañas_Encuestador/encuestaAplicadas.html">Encuestas aplicadas</a></li>
+        </ul>
+      </li>
+
+      <li>
         <a href="#">
           <i class="bx bx-pie-chart-alt-2"></i>
           <span class="link_name">Análisis</span>
@@ -114,6 +122,17 @@
         </ul>
       </li>
 
+        <!-- Otras listas y elementos -->
+        <li id="cerrarSesionBtnContainer">
+            <a href="#" id="cerrarSesionBtn" onclick="confirmarCerrarSesion()">
+                <i class="bx bx-log-out"></i>
+                <span class="link_name">Cerrar Sesión</span>
+            </a>
+            <ul class="sub-menu blank">
+                <li><a class="link_name" href="#" onclick="confirmarCerrarSesion()">Cerrar Sesión</a></li>
+            </ul>
+        </li>
+
     </ul>
   </div>
 
@@ -141,6 +160,25 @@
             </div>
           </div>
 
+          <div class="row justify-content-center p-3 ">
+            <div class="col-12">
+              <h3 class="text-center mb-4">Crear encuestas.</h3>
+            </div>
+            <div class="col-12">
+              <label for="nombrecompletos" class="col-form-label px-4 text-center mb-2">Usted puede crear dos tipos
+                de
+                encuestas.</label>
+              <div class="col-sm-12 text-center">
+                <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" id="tip_encuesta"
+                  onclick="window.location.href='../pestañas_Encuestador/crear_Evariables.html'">Encuesta
+                  tipo variables </button>
+                <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" id="tip_encuesta"
+                  onclick="window.location.href='../pestañas_Encuestador/crear.html'">Encuesta
+                  tipo reactivos</button>
+              </div>
+            </div>
+          </div>
+
           <div class="row justify-content-center p-4">
             <div class="col-sm-12 text-center mb-3">
               <form class="d-flex" onsubmit="return false;">
@@ -164,6 +202,9 @@
                 <!-- Fin del código del modal -->
 
                 <div class="row justify-content-center mb-3">
+                  <div class="col-12">
+                    <h3 class="text-center mb-4">Lista de encuestas.</h3>
+                  </div>
                   <div class="col-sm-4 text-center mb-2">
                     <label class="col-form-label px-4 text-center ">Buscar una encuesta</label>
                   </div>
@@ -180,29 +221,9 @@
             </div>
           </div>
 
-          <div class="row justify-content-center ">
-            <div class="col-12">
-              <h3 class="text-center mb-4">Crear encuestas.</h3>
-            </div>
-            <div class="col-12">
-              <label for="nombrecompletos" class="col-form-label px-4 text-center mb-2">Usted puede crear dos tipos
-                de
-                encuestas.</label>
-              <div class="col-sm-12 text-center">
-                <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" id="tip_encuesta"
-                  onclick="window.location.href='../pestañas_Encuestador/crear_Evariables.html'">Encuesta
-                  tipo variables </button>
-                <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" id="tip_encuesta"
-                  onclick="window.location.href='../pestañas_Encuestador/crear.html'">Encuesta
-                  tipo reactivos</button>
-              </div>
-            </div>
-          </div>
 
-          <div class="row justify-content-center p-4">
-            <div class="col-12">
-              <h3 class="text-center mb-4">Lista de encuestas.</h3>
-            </div>
+
+          <div class="row justify-content-center">
             <div id="crear_encuesta"></div>
             <div id="crear_encuestaVar"></div>
             <div id="resultado"></div>
@@ -228,7 +249,11 @@
     sidebarBtn.addEventListener("click", () => {
       sidebar.classList.toggle("close");
     });
+
   </script>
+
+    <script src="../BD/app.js"></script>
+    <script src="../CSS/SweetAlert.js"></script>
 
 </body>
 
