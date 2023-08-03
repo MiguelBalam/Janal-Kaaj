@@ -72,15 +72,17 @@
     </div>
   </div>
 
+  <header class="section">
+    <div class="container">
+  <section class="d-flex justify-content-center py-5" id="contact">
+      <div class="col-sm-6 p-3 shadow-lg mb-5 bg-white rounded py-5">
+      <h1 class="bg-text-black text-center py-3">Janal-Kaaj</h1>
+      <form id="login" method="post" >
 
-  <section class="section">
-    <div class="form-container">
-      <h1 class="bg-text-black h1TextoTitulo">Janal-Kaaj</h1>
-      <form id="login" action="/login" method="post">
-
-        <div class="control">
-          <label for="Usuario"> Usuario </label>
-          <input class="input-Usuario" type="email" Placeholder="Usuario" name="Usuario" id="Usuario" required>
+        <div class="row mb-3">
+          <label for="Usuario" class="col-sm-4 col-form-label px-4 text-dark">Usuario:</label>
+          <div  class="col-sm-8">
+          <input class="form-control" type="email" Placeholder="Usuario" name="Usuario" id="Usuario" required>
           <div class="valid-feedback">
             Correcto
         </div>
@@ -89,32 +91,34 @@
         </div>
 
         </div>
-        <div class="control">
-          <label for="contraseniaL">Contraseña</label>
-          <input class="input-contraseña" type="password" placeholder="Contraseña" name="contraseniaL" id="contraseniaL"
+        </div>
+        
+        <div class="row mb-3">
+          <label for="contraseniaL" class="col-sm-4 col-form-label px-4 text-dark">Contraseña:</label>
+          <div  class="col-sm-8">
+          <input class="form-control" type="password" placeholder="Contraseña" name="contraseniaL" id="contraseniaL"
             required>
+          </div>
         </div>
 
-        <div class="row mb-2">
-          <div class="d-grid gap-2 col-6 mx-auto">
-
-              <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza " type="submit">Iniciar Sesion</button>                       
-
-              
-          </div>
-      </div>
-
       </form>
-      <span> <input type="checkbox"> Recordar </span>
-
-      <div class="control">
-
-
-        <input type="submit" id="controlE" class="submit" onclick="control(), enviarFormulario()" value="INICIAR SESIÓN">
-
-        <input type="button" data-bs-toggle="modal" data-bs-target="#myModal" class="submit" data-bs-target="#myModal" value="REGISTRARSE">
-
+      <span>  <div class="row mb-3"> 
+        <div  class="col-sm-8">
+          <input type="checkbox" class="m-2">Recordar 
+      </div> 
       </div>
+      <div class="control">
+      </span>
+      <div class="row justify-content-center">
+        <button type="button" id="controlE" class="nav-link btnn2 btn-outline-warning text-white align" 
+        onclick="control(), enviarFormulario()">INICIAR SESIÓN</button>
+      </div>
+      <div class="row justify-content-center">
+        <button type="button" class="nav-link btnn2 btn-outline-warning text-white align"  
+        data-bs-toggle="modal" data-bs-target="#myModal" 
+        data-bs-target="#myModal">REGISTRARSE</button>
+      </div>
+      
 
       <div class="link">
         <a href="https://drive.google.com/drive/u/0/shared-with-me"> ¿Olvidaste tu Contraseña?</a>
@@ -124,7 +128,8 @@
     </div>
 
   </section>
-
+</div>
+</header>
   <script src="BD/app.js"></script>
 
 

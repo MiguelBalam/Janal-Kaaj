@@ -621,12 +621,30 @@ border-color: var(--mostaza) !important;
       text-align: center;
       font-size: 0.75em;
     }
+    .btnCards {
+      background-color: #f2be5c;
+      text-align: center;
+      border: #f2be5c;
+      width: 40px;
+      height: 40px;
+      margin: 4px 2px;
+      border-radius: 1rem;
+    }
   
     .btnn {
       background-color: #f2be5c;
       text-align: center;
       border: #f2be5c;
       width: 150px;
+      height: 40px;
+      margin: 4px 2px;
+      border-radius: 1rem;
+    }
+    .btnn2 {
+      background-color: #f2be5c;
+      text-align: center;
+      border: #f2be5c;
+      width: 200px;
       height: 40px;
       margin: 4px 2px;
       border-radius: 1rem;
@@ -783,6 +801,12 @@ border-color: var(--mostaza) !important;
     height: 80%;
     padding: 0.2rem 1rem;
   }
+  .card-texto2{
+    overflow: auto;
+    text-align: justify;
+    height: 200px;
+    padding: 0.2rem 1rem;
+  }
   .card-img{
    height: 350px; 
    width: 50%;
@@ -792,34 +816,53 @@ border-color: var(--mostaza) !important;
   overflow: hidden; 
   
   }
-  .card-texto::-webkit-scrollbar-thumb {
-    background: rgb(255, 255, 255);
-    border-radius: 4px;
-  }
-  .card-texto::-webkit-scrollbar {
-    width: 8px;
-  }
-  
-  .card-texto::-webkit-scrollbar-thumb:active {
-    background-color: #ebebeb;
-  }
-  
-  .card-texto::-webkit-scrollbar-thumb:hover {
-    background: #d1d1d1;
-    
-  }
-  
-   /* Estilos track de scroll */
-  .card-texto::-webkit-scrollbar-track {
-    background: #f8f8f8;
-    border-radius: 4px;
-  }
-  
-  .card-texto::-webkit-scrollbar-track:hover, 
-  .card-texto::-webkit-scrollbar-track:active {
-    background: #e3e3e3;
-  }
-  
+  .card-img2{
+    height: 170px; 
+   display: flex;
+   align-items: center; 
+   justify-content: center; 
+   overflow: hidden; 
+ }
+/* Estilos thumb de scrollbar */
+.card-texto::-webkit-scrollbar-thumb,
+.card-texto2::-webkit-scrollbar-thumb {
+  background: rgb(255, 255, 255);
+  border-radius: 4px;
+}
+
+/* Estilos scrollbar */
+.card-texto::-webkit-scrollbar,
+.card-texto2::-webkit-scrollbar {
+  width: 8px;
+}
+
+/* Estilos thumb de scrollbar activo */
+.card-texto::-webkit-scrollbar-thumb:active,
+.card-texto2::-webkit-scrollbar-thumb:active {
+  background-color: #ebebeb;
+}
+
+/* Estilos thumb de scrollbar al pasar el cursor */
+.card-texto::-webkit-scrollbar-thumb:hover,
+.card-texto2::-webkit-scrollbar-thumb:hover {
+  background: #d1d1d1;
+}
+
+/* Estilos track de scrollbar */
+.card-texto::-webkit-scrollbar-track,
+.card-texto2::-webkit-scrollbar-track {
+  background: #f8f8f8;
+  border-radius: 4px;
+}
+
+/* Estilos track de scrollbar al pasar el cursor o estar activo */
+.card-texto::-webkit-scrollbar-track:hover,
+.card-texto::-webkit-scrollbar-track:active,
+.card-texto2::-webkit-scrollbar-track:hover,
+.card-texto2::-webkit-scrollbar-track:active {
+  background: #e3e3e3;
+}
+
 
   .line-clamp {
     display: -webkit-box;
