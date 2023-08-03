@@ -63,7 +63,7 @@
       <section class="d-flex justify-content-center py-5">
         <div class="col-sm-6 p-3 shadow-lg mb-5 bg-white rounded">
             <h2 class="main__title text-center text-dark py-3">Editar Noticias</h2>
-            <form class="needs-validation" id="formularioNews" name="prueba">
+            <form class="needs-validation" name="editNew">
               <div id="grupo__nombrecompletos" class="row mb-3">
                 <label for="nombrecompletos" class="col-sm-4 col-form-label px-4 text-dark">Título: </label>
                 <div  class="col-sm-8">
@@ -79,7 +79,7 @@
               <div id="grupo__nombrecompletos" class="row mb-3">
                 <label for="nombrecompletos" class="col-sm-4 col-form-label px-4 text-dark">Cuerpo: </label>
                 <div  class="col-sm-8">
-                  <textarea placeholder="Noticia" name="noticia" class="form-control text-dark" id="noticia" required></textarea>
+                  <textarea placeholder="Noticia" name="noticia" class="form-control text-dark custom-textarea" id="noticia" required></textarea>
                     <div class="valid-feedback">
                         Correcto
                     </div>
@@ -109,9 +109,9 @@
               </div>
               
               <div class="row justify-content-center py-4">
-                <button onClick="limpiarFormularioNews();" type="button" 
-                class="nav-link btnn btn-outline-warning text-white align">Cancelar</button>
-                <button onClick="mostrarEditNoticias(6);" class="btnn btn-outline-warning text-white"
+                <button onClick="mostrarIDBoton3();" type="button" 
+                class="nav-link btnn btn-outline-warning text-white align">Restablecer</button>
+                <button onClick="mostrarIDBoton2();" class="btnn btn-outline-warning text-white"
                 type="button" id="enviarNoticia">Guardar</button>
               </div>      
                  
@@ -147,9 +147,20 @@
     <div class="footerB fs-6 py-1">Copyright &copy; Janal Kaaj 2023</div>
   </footer>
   <script>
-    (() => {
-        'use strict'
+    window.addEventListener('load', function() {
+      // Aquí colocas el código de la función que deseas ejecutar al abrir la pestaña
+      mostrarIDBoton();
+    });
 
+    function mostrarIDBoton() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const botonId = urlParams.get('id');
+      console.log(botonId);
+      mostrarEditNoticias(botonId);
+    }
+    /*(() => {
+        'use strict'
+        //mostrarEditNoticias(botonId);
         // Fetch all the forms we want to apply custom Bootstrap validation styles to
         const forms = document.querySelectorAll('.needs-validation')
 
@@ -164,9 +175,10 @@
                 form.classList.add('was-validated')
             }, false)
         })
-    })()
+    })()*/
 
-  
+    // Leer el parámetro de la URL y mostrarlo en la página
+    
 
 </script>
   <!-- BOOTSTRAP SCRIPTS -->

@@ -671,13 +671,17 @@ border-color: var(--mostaza) !important;
     }
     .section {
       position: relative;
-      height: 100vh;
+      height: 100%;
       width: 100%;
       background-size: cover;
       background-position: center center;
       background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url(/pestanas_Encuestado/Img/2.jpg);
       
   }
+  .custom-textarea {
+    height: 200px;
+    width: 100%;
+}
   
   .form-container2 {
       position: relative;
