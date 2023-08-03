@@ -505,7 +505,7 @@ function mostrarNoticiasEnTarjetas() {
   
 }
 
-function mostrarNoticiasIndex() {
+/*function mostrarNoticiasIndex() {
 
   const transaction = db.transaction('Noticias', 'readonly');
   const objectStore = transaction.objectStore('Noticias');
@@ -544,7 +544,49 @@ function mostrarNoticiasIndex() {
     db.close();
   };
 
+}*/
+function mostrarNoticiasIndex() {
+  const transaction = db.transaction('Noticias', 'readonly');
+  const objectStore = transaction.objectStore('Noticias');
+
+  const requestGetAll = objectStore.getAll();
+
+  requestGetAll.onsuccess = function(event) {
+    const noticias = event.target.result;
+
+    if (noticias && noticias.length > 0) {
+      // Crea las tarjetas con la cantidad de noticias obtenidas
+      crearCardIndex(noticias.length);
+
+      // Llenar cada tarjeta con los datos de las noticias que tienen título "abc"
+      for (let i = 0; i < noticias.length; i++) {
+        const noticia = noticias[i];
+        if (noticia.titulo === "abc") { // Filtrar por título "abc"
+          const tituloElement = document.getElementById(`titulo${i + 1}`);
+          const cuerpoElement = document.getElementById(`cuerpo${i + 1}`);
+          const imageElement = document.getElementById(`img${i + 1}`);
+
+          tituloElement.textContent = noticia.titulo;
+          cuerpoElement.textContent = noticia.cuerpo;
+          imageElement.src = 'data:image/jpeg;base64,' + btoa(noticia.data);
+        }
+      }
+    } else {
+      console.log('No se encontraron noticias en la base de datos');
+    }
+  };
+
+  requestGetAll.onerror = function(event) {
+    console.log('Error al obtener las noticias');
+  };
+
+  transaction.oncomplete = function(event) {
+    db.close();
+  };
 }
+
+
+
 function mostrarIDBoton2() {
   var urlParams = new URLSearchParams(window.location.search);
   var botonId = urlParams.get('id');
@@ -619,7 +661,7 @@ function restablecer(id) {
 
 
 function mostrarEditNoticias(id) {
-  
+
   const idd = parseInt(id);
   const transaction = db.transaction('Noticias', 'readonly');
   const objectStore = transaction.objectStore('Noticias');
