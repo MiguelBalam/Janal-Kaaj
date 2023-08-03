@@ -63,7 +63,7 @@
       <div class="container p-5">
         <h1 class="text-center text-black">Noticias General</h1>
         <div class="row" id="editarNoticias">
-          <button onClick="crearCardNoticias();" class="btn" type="submit" id="prueba4">APRIETA</button>
+          <a onClick="" href="noticias.html" class="btn" type="submit" id="prueba4">CREAR</a>
 
 
           <div class="col-lg-3">
@@ -76,7 +76,7 @@
                 <div class="card-texto2"><p>Dolor modi repudiandae quia beatae consectetur? ullafugit ullam, accusamus! Totam mollitia eveniet!</p></div>
               <div>
                 <button id="btnup1" class="btn" value="Q" onclick="publicarNoticia(this.id);"><i class="fa-solid fa-file-arrow-up"></i></button>
-                <a type="button" class="btn" href="./editarNoticias.html"><i class="fa-solid fa-file-pen"></i></a>
+                <a type="button" class="btn" onclick="boton();"><i class="fa-solid fa-file-pen"></i></a>
                 <button class="btn" id="btn1" onclick="obtenerIdBoton(this.id);"><i class="fa-solid fa-trash"></i></button>
               </div>
               </div>
@@ -152,8 +152,8 @@
     crossorigin="anonymous"></script>
   <link rel="stylesheet" href="/node_modules/@sweetalert2/themes/bootstrap-4/bootstrap-4.min.css">
   <script src="/node_modules/sweetalert2/dist/sweetalert2.all.js"></script>
-  <script src="/CSS/SweetAlert.js"></script>
-  <script src="CSS/prueba.js"></script>
+  <script src="./CSS/SweetAlert.js"></script>
+  <script src="./CSS/prueba.js"></script>
   <script src="BD/app.js"></script>
 </body>
 

@@ -139,7 +139,7 @@ var ObjectStoreReac;
       EncuestaVarMostrar()
       //EncuestaVarMostrar() 
       cargarPagina()
-   
+      
       buscarE()
      
       //mostrarEncuestaVar(encuestaVarId)
@@ -545,42 +545,134 @@ function mostrarNoticiasIndex() {
   };
 
 }
+function mostrarIDBoton2() {
+  var urlParams = new URLSearchParams(window.location.search);
+  var botonId = urlParams.get('id');
+  console.log(botonId);
+  guardarCambiosNoticia(botonId);
+  
+}
+function mostrarIDBoton3() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const botonId = urlParams.get('id');
+  console.log(botonId);
+  restablecer(botonId);
+}
+/*
+function restablecer(id) {
+  const idd = parseInt(id);
+  const request = indexedDB.open('Janal', 1);
+
+  request.onupgradeneeded = function (event) {
+    const db = event.target.result;
+    const objectStore = db.createObjectStore('Noticias', { keyPath: 'id', autoIncrement: true });
+    // Puedes definir la estructura de la tabla 'Noticias' aquí si aún no existe
+  };
+
+  request.onsuccess = function (event) {
+    const db = event.target.result;
+    console.log('Base de datos abierta correctamente.');
+
+    const transaction = db.transaction('Noticias', 'readonly');
+    const objectStore = transaction.objectStore('Noticias');
+
+    const requestGetAll = objectStore.get(idd);
+
+    requestGetAll.onsuccess = function (event) {
+      const noticiaa = event.target.result;
+      console.log('id:', id);
+      if (noticiaa) {
+        const tituloElement = document.getElementById('titulo');
+        const cuerpoElement = document.getElementById('noticia');
+        const imageElement = document.getElementById('img-result');
+
+        tituloElement.textContent = noticiaa.titulo;
+        cuerpoElement.textContent = noticiaa.cuerpo;
+        imageElement.src = 'data:image/jpeg;base64,' + btoa(noticiaa.data);
+      } else {
+        console.log('No se encontró la noticia con el ID especificado');
+      }
+    };
+
+    requestGetAll.onerror = function (event) {
+      console.log('Error al obtener la noticia:', event.target.error);
+    };
+
+    transaction.oncomplete = function (event) {
+      console.log('Transacción completada.');
+      // Now you can perform additional read or write operations if needed.
+      // Or if you don't need any further operations, you can close the connection here.
+      db.close();
+    };
+
+    transaction.onerror = function (event) {
+      console.log('Error en la transacción:', event.target.error);
+      // Close the connection if an error occurs during the transaction.
+      db.close();
+    };
+  };
+
+  request.onerror = function (event) {
+    console.log('Error al abrir la base de datos:', event.target.error);
+  };
+}*/
+
 
 function mostrarEditNoticias(id) {
-
+  const idd = parseInt(id);
   const transaction = db.transaction('Noticias', 'readonly');
   const objectStore = transaction.objectStore('Noticias');
 
-  const requestGetAll = objectStore.get(id);
+  const requestGetAll = objectStore.get(idd);
 
-    requestGetAll.onsuccess = function(event) {
+  requestGetAll.onsuccess = function (event) {
     const noticiaa = event.target.result;
-
-    if(noticiaa){
+    console.log('id:', id);
+    if (noticiaa) {
       const tituloElement = document.getElementById('titulo');
       const cuerpoElement = document.getElementById('noticia');
       const imageElement = document.getElementById('img-result');
-  
+
       tituloElement.textContent = noticiaa.titulo;
       cuerpoElement.textContent = noticiaa.cuerpo;
       imageElement.src = 'data:image/jpeg;base64,' + btoa(noticiaa.data);
-    }else {
-        console.log('No se encontró el usuario con el ID especificado');
-      }
-    
-        
-
+    } else {
+      console.log('No se encontró la noticia con el ID especificado');
+    }
   };
 
-  requestGetAll.onerror = function(event) {
-    console.log('Error al obtener las noticias');
+  requestGetAll.onerror = function (event) {
+    console.log('Error al obtener la noticia:', event.target.error);
   };
 
-  transaction.oncomplete = function(event) {
+  transaction.oncomplete = function (event) {
+    console.log('Transacción completada.');
+    // Now you can perform additional read or write operations if needed.
+    // Or if you don't need any further operations, you can close the connection here.
     db.close();
   };
 
+  transaction.onerror = function (event) {
+    console.log('Error en la transacción:', event.target.error);
+    // Close the connection if an error occurs during the transaction.
+    db.close();
+  };
 }
+
+// Additional functions and event handlers...
+
+
+function boton(id){
+    // Obtener el ID del botón que se hizo clic
+    
+    const botonId = obtenerUltimoValorId(id);
+    
+    // Cambiar a una nueva pestaña
+    window.location.href = './editarNoticias.html?id=' + encodeURIComponent(botonId);
+}
+  
+
+
 
 // Crear Cards para noticias
 
@@ -771,9 +863,11 @@ function crearCardNoticias() {
       const icon = document.createElement("i");
       icon.className = "fa-solid fa-file-arrow-up";
 
-      const linkElement2 = document.createElement("a");
+      const linkElement2 = document.createElement("button");
       linkElement2.className = "btn";
-      linkElement2.setAttribute('href', './editarNoticias.html');
+      linkElement2.onclick = function() {
+        boton(this.id);
+      }
       linkElement2.id = `btnEditar${contador}`;
       const icon2 = document.createElement("i");
       icon2.className = "fa-solid fa-file-pen";
@@ -925,43 +1019,92 @@ function obtenerUsuario(id) {
 
 }
 */
-function actualizarUsuario() {
- let key = 5;
+function abrirBaseDatos() {
+  const request = indexedDB.open('Janal', 1);
 
-  if (key) {
-    // Obtener los valores actualizados de los campos de los inputs.
-    let titulo = document.getElementById('titulo').value.trim();
-    let cuerpo = document.getElementById('noticia').value.trim();
+  request.onupgradeneeded = function(event) {
+    db = event.target.result;
+    const objectStore = db.createObjectStore('Noticias', { keyPath: 'id', autoIncrement: true });
+    // Puedes definir la estructura de la tabla 'Noticias' aquí si aún no existe
+  };
 
+  request.onsuccess = function(event) {
+    db = event.target.result;
+    console.log('Base de datos abierta correctamente.');
+  };
 
-    // Crear un objeto con los valores actualizados.
-    let updatedUsuario = {
-      id,
-      titulo,
-      cuerpo,
+  request.onerror = function(event) {
+    console.log('Error al abrir la base de datos:', event.target.error);
+  };
+}
+ 
+function guardarCambiosNoticia(idd) {
+  const id = parseInt(idd);
+  console.log("ddd", id);
+  const titulo = document.getElementById('titulo').value;
+  const cuerpo = document.getElementById('noticia').value;
+  const imagenBase64 = document.getElementById('img-result').src.split(',')[1];
+
+  const request = indexedDB.open('Janal', 1);
+
+  request.onupgradeneeded = function (event) {
+    const db = event.target.result;
+    const objectStore = db.createObjectStore('Noticias', { keyPath: 'id', autoIncrement: true });
+    // Puedes definir la estructura de la tabla 'Noticias' aquí si aún no existe
+  };
+
+  request.onsuccess = function (event) {
+    const db = event.target.result;
+    console.log('Base de datos abierta correctamente.');
+
+    const transaction = db.transaction('Noticias', 'readwrite');
+    const objectStore = transaction.objectStore('Noticias');
+
+    const requestUpdate = objectStore.get(id);
+
+    requestUpdate.onsuccess = function (event) {
+      const noticia = event.target.result;
+
+      if (noticia) {
+        noticia.titulo = titulo;
+        noticia.cuerpo = cuerpo;
+        noticia.data = atob(imagenBase64);
+
+        const requestUpdateData = objectStore.put(noticia);
+
+        requestUpdateData.onsuccess = function (event) {
+          console.log('Noticia actualizada con éxito.');
+        };
+
+        requestUpdateData.onerror = function (event) {
+          console.log('Error al actualizar la noticia:', event.target.error);
+        };
+      } else {
+        console.log('No se encontró la noticia con el ID especificado.');
+      }
     };
 
-    // Iniciar una transacción de escritura en el objeto de almacenamiento 'whiskeyStore'.
-    let tx = makeTX('Noticias', 'readwrite');
-    tx.oncomplete = (ev) => {
-      console.log(ev);
-      
+    requestUpdate.onerror = function (event) {
+      console.log('Error al obtener la noticia:', event.target.error);
     };
 
-    let store = tx.objectStore('Noticias');
-    let request = store.put(updatedUsuario); //request a put/update
+    transaction.oncomplete = function (event) {
+      console.log('Transacción completada.');
+      db.close();
+    };
+  };
 
-    request.onsuccess = (ev) => {
-      console.log('successfully updated an object');
-      //move on to the next request in the transaction or
-      //commit the transaction
-    };
-    request.onerror = (err) => {
-      console.log('error in request to update');
-    };
-  } else {
-    console.log('No se encontró el usuario con el ID especificado');
-  }
+  request.onerror = function (event) {
+    console.log('Error al abrir la base de datos:', event.target.error);
+  };
+}
+
+  function makeTX(storeName, mode) {
+  let tx = db.transaction(storeName, mode);
+  tx.onerror = (err) => {
+    console.warn(err);
+  };
+  return tx;
 }
 
 
@@ -982,13 +1125,7 @@ function eliminarUsuario(id) {
   }
 }
 
-function makeTX(storeName, mode) {
-  let tx = db.transaction(storeName, mode);
-  tx.onerror = (err) => {
-    console.warn(err);
-  };
-  return tx;
-}
+
 
 
 //Verificar que las dos contraseñas coincidan
