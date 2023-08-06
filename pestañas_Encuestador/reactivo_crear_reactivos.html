@@ -187,11 +187,11 @@
                 <select class="form-select" id="respuestasSelec" aria-label="Default select example"
                   NAME="respuestasSelec" onChange="TiposOpciones(this)">
                   <option selected value="16">Número de opciones </option>
-                  <option value="11">1</option>
-                  <option value="12">2</option>
-                  <option value="13">3</option>
-                  <option value="14">4</option>
-                  <option value="15">5</option>
+                  <option name="numRespuestas" value="11">1</option>
+                  <option name="numRespuestas" value="12">2</option>
+                  <option name="numRespuestas" value="13">3</option>
+                  <option name="numRespuestas" value="14">4</option>
+                  <option name="numRespuestas" value="15">5</option>
                 </select>
 
               </div>
@@ -265,7 +265,7 @@
         <div class="p-4 col-sm-12 px-3 text-center">
 
           <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" id="boton_guardar"
-            onclick="ResOpMul(),CrearReactivo()">Crear</button>
+            onclick="CrearReactivo()">Crear</button>
           <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" id="boton_guardar"
             onclick="GuardarReactivos()">Guardar</button>
           <button onclick=" return cancelar()" class="btn btn-outline-success bg-border-mostaza bg-text-mostaza"
