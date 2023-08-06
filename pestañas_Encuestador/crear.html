@@ -120,7 +120,7 @@
     <section class="home-section">
         <div class="home-content">
             <i class="bx bx-menu"></i>
-            <span class="text">Crear encuesta de reactivos</span>
+            <span class="text">Crear encuesta</span>
         </div>
         <!-- Fin Dashboard -->
         <section class="d-flex justify-content-center my-4">
@@ -211,14 +211,14 @@
 
                             <button onclick="crearEncuestaFinal(),refrescarAlmacen()"
                                 class="btn btn-outline-success bg-border-mostaza bg-text-mostaza"
-                                id="boton-crear-encuesta" type="submit" disabled data-bs-toggle="modal"
-                                data-bs-target="#Modal_vistaPrevia"> Crear Encuesta</button>
+                                id="boton-crear-encuesta" type="submit" data-bs-toggle="modal"
+                                data-bs-target="#Modal_vistaPrevia" disabled> Crear Encuesta</button>
                         </div>
                     </div>
                 </form>
 
                 <div class="col-sm-12 text-center">
-                    <button onclick="window.location.href='../pestañas_Encuestador/reactivo_tipos_Encuestas.html'"
+                    <button onclick="window.location.href='../pestañas_Encuestador/dashboard.html'"
                         class="btn btn-outline-success bg-border-mostaza bg-text-mostaza"> Inicio</button>
                 </div>
             </div>
@@ -232,8 +232,8 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <div class="text-center">
-                            <img src="../Img/lOGOCONACYT.png" height="60" width="60" alt="Logo">
+                        <div class="col d-flex justify-content-end">
+                            <img id="logoInstituto" height="60" width="60" alt="Logo">
                         </div>
                         <div id="Encabezado">
                             <!-- Contenido del encabezado -->
@@ -254,7 +254,13 @@
             </div>
         </div>
     </section>
-
+    <script> 
+        window.onload = function() {
+        
+            MostrarLogo();
+        
+      };
+        </script>
     <script>
         let arrow = document.querySelectorAll(".arrow");
         for (var i = 0; i < arrow.length; i++) {

@@ -142,7 +142,7 @@ var ObjectStoreReac;
       buscarV()
       //EncuestaVarMostrar() 
       cargarPagina()
-   
+      
       buscarE()
       
       //mostrarEncuestaVar(encuestaVarId)
@@ -155,8 +155,13 @@ var ObjectStoreReac;
       Variables()
       mostrarEncuestaV() 
     
+<<<<<<< HEAD
      
      
+=======
+    
+      buscarV()
+>>>>>>> 92d63fa0bc528766af100689fa5d10e8a3f1ba6b
       
      
       //EncaEncuestaVista()
@@ -510,7 +515,7 @@ function mostrarNoticiasEnTarjetas() {
   
 }
 
-function mostrarNoticiasIndex() {
+/*function mostrarNoticiasIndex() {
 
   const transaction = db.transaction('Noticias', 'readonly');
   const objectStore = transaction.objectStore('Noticias');
@@ -549,7 +554,178 @@ function mostrarNoticiasIndex() {
     db.close();
   };
 
+}*/
+function mostrarNoticiasIndex() {
+  const transaction = db.transaction('Noticias', 'readonly');
+  const objectStore = transaction.objectStore('Noticias');
+
+  const requestGetAll = objectStore.getAll();
+
+  requestGetAll.onsuccess = function(event) {
+    const noticias = event.target.result;
+
+    if (noticias && noticias.length > 0) {
+      // Crea las tarjetas con la cantidad de noticias obtenidas
+      crearCardIndex(noticias.length);
+
+      // Llenar cada tarjeta con los datos de las noticias que tienen título "abc"
+      for (let i = 0; i < noticias.length; i++) {
+        const noticia = noticias[i];
+        if (noticia.titulo === "abc") { // Filtrar por título "abc"
+          const tituloElement = document.getElementById(`titulo${i + 1}`);
+          const cuerpoElement = document.getElementById(`cuerpo${i + 1}`);
+          const imageElement = document.getElementById(`img${i + 1}`);
+
+          tituloElement.textContent = noticia.titulo;
+          cuerpoElement.textContent = noticia.cuerpo;
+          imageElement.src = 'data:image/jpeg;base64,' + btoa(noticia.data);
+        }
+      }
+    } else {
+      console.log('No se encontraron noticias en la base de datos');
+    }
+  };
+
+  requestGetAll.onerror = function(event) {
+    console.log('Error al obtener las noticias');
+  };
+
+  transaction.oncomplete = function(event) {
+    db.close();
+  };
 }
+
+
+
+function mostrarIDBoton2() {
+  var urlParams = new URLSearchParams(window.location.search);
+  var botonId = urlParams.get('id');
+  console.log(botonId);
+  guardarCambiosNoticia(botonId);
+  
+}
+function mostrarIDBoton3() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const botonId = urlParams.get('id');
+  console.log(botonId);
+  restablecer(botonId);
+}
+/*
+function restablecer(id) {
+  const idd = parseInt(id);
+  const request = indexedDB.open('Janal', 1);
+
+  request.onupgradeneeded = function (event) {
+    const db = event.target.result;
+    const objectStore = db.createObjectStore('Noticias', { keyPath: 'id', autoIncrement: true });
+    // Puedes definir la estructura de la tabla 'Noticias' aquí si aún no existe
+  };
+
+  request.onsuccess = function (event) {
+    const db = event.target.result;
+    console.log('Base de datos abierta correctamente.');
+
+    const transaction = db.transaction('Noticias', 'readonly');
+    const objectStore = transaction.objectStore('Noticias');
+
+    const requestGetAll = objectStore.get(idd);
+
+    requestGetAll.onsuccess = function (event) {
+      const noticiaa = event.target.result;
+      console.log('id:', id);
+      if (noticiaa) {
+        const tituloElement = document.getElementById('titulo');
+        const cuerpoElement = document.getElementById('noticia');
+        const imageElement = document.getElementById('img-result');
+
+        tituloElement.textContent = noticiaa.titulo;
+        cuerpoElement.textContent = noticiaa.cuerpo;
+        imageElement.src = 'data:image/jpeg;base64,' + btoa(noticiaa.data);
+      } else {
+        console.log('No se encontró la noticia con el ID especificado');
+      }
+    };
+
+    requestGetAll.onerror = function (event) {
+      console.log('Error al obtener la noticia:', event.target.error);
+    };
+
+    transaction.oncomplete = function (event) {
+      console.log('Transacción completada.');
+      // Now you can perform additional read or write operations if needed.
+      // Or if you don't need any further operations, you can close the connection here.
+      db.close();
+    };
+
+    transaction.onerror = function (event) {
+      console.log('Error en la transacción:', event.target.error);
+      // Close the connection if an error occurs during the transaction.
+      db.close();
+    };
+  };
+
+  request.onerror = function (event) {
+    console.log('Error al abrir la base de datos:', event.target.error);
+  };
+}*/
+
+
+function mostrarEditNoticias(id) {
+
+  const idd = parseInt(id);
+  const transaction = db.transaction('Noticias', 'readonly');
+  const objectStore = transaction.objectStore('Noticias');
+
+  const requestGetAll = objectStore.get(idd);
+
+  requestGetAll.onsuccess = function (event) {
+    const noticiaa = event.target.result;
+    console.log('id:', id);
+    if (noticiaa) {
+      const tituloElement = document.getElementById('titulo');
+      const cuerpoElement = document.getElementById('noticia');
+      const imageElement = document.getElementById('img-result');
+
+      tituloElement.textContent = noticiaa.titulo;
+      cuerpoElement.textContent = noticiaa.cuerpo;
+      imageElement.src = 'data:image/jpeg;base64,' + btoa(noticiaa.data);
+    } else {
+      console.log('No se encontró la noticia con el ID especificado');
+    }
+  };
+
+  requestGetAll.onerror = function (event) {
+    console.log('Error al obtener la noticia:', event.target.error);
+  };
+
+  transaction.oncomplete = function (event) {
+    console.log('Transacción completada.');
+    // Now you can perform additional read or write operations if needed.
+    // Or if you don't need any further operations, you can close the connection here.
+    db.close();
+  };
+
+  transaction.onerror = function (event) {
+    console.log('Error en la transacción:', event.target.error);
+    // Close the connection if an error occurs during the transaction.
+    db.close();
+  };
+}
+
+// Additional functions and event handlers...
+
+
+function boton(id){
+    // Obtener el ID del botón que se hizo clic
+    
+    const botonId = obtenerUltimoValorId(id);
+    
+    // Cambiar a una nueva pestaña
+    window.location.href = './editarNoticias.html?id=' + encodeURIComponent(botonId);
+}
+  
+
+
 
 // Crear Cards para noticias
 
@@ -688,6 +864,177 @@ function crearCardIndex(numero) {
 }
 
 
+  const transaction = db.transaction('Noticias', 'readonly');
+  const objectStore = transaction.objectStore('Noticias');
+  const requestGetAll = objectStore.getAll();
+
+  requestGetAll.onsuccess = (event) => {
+    const noticiasData = event.target.result;
+    console.log('Todos los datos de la tabla Noticias:', noticiasData);
+
+    noticiasData.forEach((noticia) => {
+      const contador = noticia.id; // Aquí obtienes el key path id de cada objeto
+      console.log('ID:', contador);
+
+      const colDiv = document.createElement('div');
+      colDiv.className = 'col-lg-3';
+      colDiv.id = `card${contador}`;
+
+      const cardDiv = document.createElement("div");
+      cardDiv.className = "card";
+
+      const cardBodyDiv = document.createElement("div");
+      cardBodyDiv.className = "card-body";
+
+      const divimg = document.createElement('div');
+      divimg.className = 'card-img2';
+
+      const imgElement = document.createElement("img");
+      imgElement.className = "img-fluid rounded";
+      imgElement.id = `img${contador}`;
+
+      const cardTitleDiv = document.createElement("div");
+      cardTitleDiv.className = "card-titulo";
+
+      const titleParagraph = document.createElement("p");
+      titleParagraph.className = "fs-6 fw-bold p_top";
+      titleParagraph.id = `titulo${contador}`;
+
+      const cardTextDiv = document.createElement("div");
+      cardTextDiv.className = "card-texto2";
+
+      const bodyParagraph = document.createElement("p");
+      bodyParagraph.id = `cuerpo${contador}`;
+
+      const flexRowDiv = document.createElement("div");
+
+      const linkElement = document.createElement("button");
+      linkElement.className = "btn";
+      linkElement.id = `btnPubli${contador}`;
+      const icon = document.createElement("i");
+      icon.className = "fa-solid fa-file-arrow-up";
+
+      const linkElement2 = document.createElement("button");
+      linkElement2.className = "btn";
+      linkElement2.onclick = function() {
+        boton(this.id);
+      }
+      linkElement2.id = `btnEditar${contador}`;
+      const icon2 = document.createElement("i");
+      icon2.className = "fa-solid fa-file-pen";
+
+      const linkElement3 = document.createElement("button");
+      linkElement3.className = "btn";
+      linkElement3.onclick = function() {
+        obtenerIdBoton(this.id);
+      }
+      linkElement3.id = `btnBorrar${contador}`;
+      const icon3 = document.createElement("i");
+      icon3.className = "fa-solid fa-trash";
+
+      linkElement.appendChild(icon);
+      flexRowDiv.appendChild(linkElement);
+      linkElement2.appendChild(icon2);
+      flexRowDiv.appendChild(linkElement2);
+      linkElement3.appendChild(icon3);
+      flexRowDiv.appendChild(linkElement3);
+      cardTextDiv.appendChild(bodyParagraph);
+      cardTitleDiv.appendChild(titleParagraph);
+      divimg.appendChild(imgElement);
+      cardBodyDiv.appendChild(divimg);
+      cardBodyDiv.appendChild(cardTitleDiv);
+      cardBodyDiv.appendChild(cardTextDiv);
+      cardBodyDiv.appendChild(flexRowDiv);
+      cardDiv.appendChild(cardBodyDiv);
+      colDiv.appendChild(cardDiv);
+
+      container.appendChild(colDiv);
+
+      // Llenar cada tarjeta con los datos de la noticia
+      titleParagraph.textContent = noticia.titulo;
+      bodyParagraph.textContent = noticia.cuerpo;
+      imgElement.src = 'data:image/jpeg;base64,' + btoa(noticia.data);
+    });
+  };
+
+  requestGetAll.onerror = (event) => {
+    console.error('Error al obtener los datos de la tabla Noticias', event);
+  };
+
+
+//recien agregado
+function obtenerUltimoValorId(id) { 
+  const partes = id.split(/\D+/); 
+  const numeros = partes.filter((parte) => parte !== '');
+  if (numeros.length > 0) {
+    return parseInt(numeros[numeros.length - 1]);     
+  } else {
+    return null; 
+  }
+}
+
+
+function obtenerIdBoton(id) {
+  const ultimoNumero = obtenerUltimoValorId(id);/*
+  if (ultimoNumero !== null) {
+    Swal.fire({
+      title: '¿Estás seguro de eliminar esta noticia?',
+      showDenyButton: true,
+      showCancelButton: false,
+      confirmButtonText: 'Si',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire('Noticia eliminada', '', 'success')
+        console.log("Último número del ID:", ultimoNumero);*/
+        console.log("Último número del ID:", ultimoNumero);
+        eliminarUsuario(ultimoNumero);
+     /* } else if (result.isDenied) {
+        
+      }
+    })
+    
+  } else {
+    console.log("No se encontró ningún número en el ID.");
+  }*/
+}
+function publicarNoticia(id){ 
+  const idnoti = document.getElementById(id);
+  if(idnoti.value == 'Q'){
+    Swal.fire({
+      title: 'Desea Publicar esta noticia?',
+      showDenyButton: true,
+      showCancelButton: false,
+      confirmButtonText: 'Si',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire('Proceso exitoso', '', 'success');
+        idnoti.className ="btn btnUpload";
+        idnoti.value = "P"
+      } else if (result.isDenied) {
+        
+      }
+    })
+  }
+  if(idnoti.value == 'P'){
+    Swal.fire({
+      title: 'Desea Quitar esta noticia?',
+      showDenyButton: true,
+      showCancelButton: false,
+      confirmButtonText: 'Si',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire('Proceso exitoso', '', 'success');
+        idnoti.className ="btn";
+        idnoti.value = "Q"
+      } else if (result.isDenied) {
+        
+      }
+    })
+  }
+  
+}
+
+      
 
 // --Cierra mostrar datos noticias--
 
@@ -721,45 +1068,101 @@ function obtenerUsuario(id) {
     };
 
 }
+*/
+function abrirBaseDatos() {
+  const request = indexedDB.open('Janal', 1);
 
-function actualizarUsuario(id) {
- let key = document.prueba.getAttribute('data-key');
+  request.onupgradeneeded = function(event) {
+    db = event.target.result;
+    const objectStore = db.createObjectStore('Noticias', { keyPath: 'id', autoIncrement: true });
+    // Puedes definir la estructura de la tabla 'Noticias' aquí si aún no existe
+  };
 
-  if (key) {
-    // Obtener los valores actualizados de los campos de los inputs.
-    let titulo = document.getElementById('titulo').value.trim();
-    let cuerpo = document.getElementById('noticia').value.trim();
+  request.onsuccess = function(event) {
+    db = event.target.result;
+    console.log('Base de datos abierta correctamente.');
+  };
 
+  request.onerror = function(event) {
+    console.log('Error al abrir la base de datos:', event.target.error);
+  };
+}
+ 
+function guardarCambiosNoticia(idd) {
+  const id = parseInt(idd);
+  console.log("ddd", id);
+  const titulo = document.getElementById('titulo').value;
+  const cuerpo = document.getElementById('noticia').value;
+  const imagenBase64 = document.getElementById('img-result').src.split(',')[1];
 
-    // Crear un objeto con los valores actualizados.
-    let updatedUsuario = {
-      id,
-      titulo,
-      cuerpo,
+  const request = indexedDB.open('Janal', 1);
+
+  request.onupgradeneeded = function (event) {
+    const db = event.target.result;
+    const objectStore = db.createObjectStore('Noticias', { keyPath: 'id', autoIncrement: true });
+    // Puedes definir la estructura de la tabla 'Noticias' aquí si aún no existe
+  };
+
+  request.onsuccess = function (event) {
+    const db = event.target.result;
+    console.log('Base de datos abierta correctamente.');
+
+    const transaction = db.transaction('Noticias', 'readwrite');
+    const objectStore = transaction.objectStore('Noticias');
+
+    const requestUpdate = objectStore.get(id);
+
+    requestUpdate.onsuccess = function (event) {
+      const noticia = event.target.result;
+
+      if (noticia) {
+        noticia.titulo = titulo;
+        noticia.cuerpo = cuerpo;
+        noticia.data = atob(imagenBase64);
+
+        const requestUpdateData = objectStore.put(noticia);
+
+        requestUpdateData.onsuccess = function (event) {
+          console.log('Noticia actualizada con éxito.');
+        };
+
+        requestUpdateData.onerror = function (event) {
+          console.log('Error al actualizar la noticia:', event.target.error);
+        };
+      } else {
+        console.log('No se encontró la noticia con el ID especificado.');
+      }
     };
 
-    // Iniciar una transacción de escritura en el objeto de almacenamiento 'whiskeyStore'.
-    let tx = makeTX('Noticias', 'readwrite');
-    tx.oncomplete = (ev) => {
-      console.log(ev);
-      buildList();
-      clearForm();
+    requestUpdate.onerror = function (event) {
+      console.log('Error al obtener la noticia:', event.target.error);
     };
 
-    let store = tx.objectStore('Noticias');
-    let request = store.put(updatedUsuario); //request a put/update
+    transaction.oncomplete = function (event) {
+      console.log('Transacción completada.');
+      db.close();
+    };
+  };
 
-    request.onsuccess = (ev) => {
-      console.log('successfully updated an object');
-      //move on to the next request in the transaction or
-      //commit the transaction
-    };
-    request.onerror = (err) => {
-      console.log('error in request to update');
-    };
-  } else {
-    console.log('No se encontró el usuario con el ID especificado');
-  }
+  request.onerror = function (event) {
+    console.log('Error al abrir la base de datos:', event.target.error);
+  };
+}
+
+  function makeTX(storeName, mode) {
+  let tx = db.transaction(storeName, mode);
+  tx.onerror = (err) => {
+    console.warn(err);
+  };
+  return tx;
+}
+
+  function makeTX(storeName, mode) {
+  let tx = db.transaction(storeName, mode);
+  tx.onerror = (err) => {
+    console.warn(err);
+  };
+  return tx;
 }
 
 
@@ -784,13 +1187,7 @@ function eliminarUsuario() {
   }
 }
 
-function makeTX(storeName, mode) {
-  let tx = db.transaction(storeName, mode);
-  tx.onerror = (err) => {
-    console.warn(err);
-  };
-  return tx;
-}*/
+
 
 
 //Verificar que las dos contraseñas coincidan
@@ -903,6 +1300,41 @@ function manejadorValidacion(e) {
       
       localStorage.setItem("datosUsuario", JSON.stringify(datos));
     }
+    function confirmarCerrarSesion() {
+      Swal.fire({
+          title: '¿Estás seguro?',
+          text: '¿Deseas cerrar la sesión?',
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Sí, cerrar sesión',
+          cancelButtonText: 'Cancelar'
+      }).then((result) => {
+          if (result.isConfirmed) {
+              // Si el usuario confirma, eliminar el usuario activo del almacenamiento local
+              localStorage.removeItem('datosUsuario');
+              console.log("Sesión cerrada correctamente.");
+              
+              // Mostrar una alerta con el mensaje de cierre en dos segundos
+              Swal.fire({
+                  title: 'Cerrando sesión...',
+                  icon: 'success',
+                  timer: 2000,
+                  timerProgressBar: true,
+                  showConfirmButton: false
+              });
+  
+              // Redireccionar a la página de inicio de sesión después de dos segundos
+              setTimeout(function() {
+                  window.location.href = '/login.html';
+              }, 2000);
+          } else {
+              // Si el usuario cancela, no hacer nada
+          }
+      });
+  }
+  
     
     function cargarPagina() {
       var datosGuardados = localStorage.getItem("datosUsuario");
@@ -4257,4 +4689,68 @@ async function guardarDatos() {
     // Si hay algún error en alguna de las funciones, mostramos el mensaje de error.
     console.error("Error al guardar los datos:", error);
   }
+}
+
+function MostrarLogo() {
+  var datosUsuario = localStorage.getItem("datosUsuario");
+  if (!datosUsuario) {
+    console.log("No hay datos de usuario en el almacenamiento.");
+    return;
+  }
+
+  var datos = JSON.parse(datosUsuario);
+  var primerValor = datos.valor1;
+
+  console.log("El valor de primerValor es:", primerValor);
+
+  var dbRequest = indexedDB.open('Janal', 1);
+
+  dbRequest.onerror = function (event) {
+    console.error("Error al abrir la base de datos:", event.target.error);
+  };
+
+  dbRequest.onsuccess = function (event) {
+    var database = event.target.result;
+    var transaction = database.transaction(['Encuestador'], 'readwrite');
+    var objectStoreEncuestador = transaction.objectStore('Encuestador');
+
+    var cursorRequest = objectStoreEncuestador.openCursor();
+
+    cursorRequest.onerror = function (event) {
+      console.error("Error al abrir el cursor:", event.target.error);
+    };
+
+    cursorRequest.onsuccess = function (event) {
+      var cursor = event.target.result;
+
+      if (cursor) {
+        var objeto = cursor.value;
+        var correoEncuestador = objeto.correo;
+
+        if (correoEncuestador === primerValor) {
+          console.log("El valor coincide.");
+          var dataUrlValue = objeto.dataUrl;
+          console.log("El valor del parámetro dataUrl es:", dataUrlValue);
+
+          // Mostrar la imagen en el elemento img con el id "logoInstituto"
+          var logoInstitutoElement = document.getElementById("logoInstituto");
+          if (logoInstitutoElement) {
+            logoInstitutoElement.src = dataUrlValue;
+          }
+        }
+
+        cursor.continue();
+      } else {
+        console.log("No se encontró el valor en el cursor.");
+      }
+    };
+  };
+
+  dbRequest.onupgradeneeded = function (event) {
+    var database = event.target.result;
+    var objectStoreEncuestador = database.createObjectStore('Encuestador', { keyPath: 'correo' });
+
+    // Agregar índices u otras configuraciones en caso necesario.
+    // objectStoreEncuestador.createIndex(...);
+  };
 }
