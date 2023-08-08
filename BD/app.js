@@ -155,13 +155,8 @@ var ObjectStoreReac;
       Variables()
       mostrarEncuestaV() 
     
-<<<<<<< HEAD
      
      
-=======
-    
-      buscarV()
->>>>>>> 92d63fa0bc528766af100689fa5d10e8a3f1ba6b
       
      
       //EncaEncuestaVista()
@@ -2607,7 +2602,7 @@ function selecVP(e) {
             return tx;
         }
         buildList()
-        tipoR()
+        //tipoR()
         //crearReactivos()
       }
       
@@ -3170,110 +3165,81 @@ function TiposOnChange(sel) {
        divT.style.display = "none";
   }
 
- // tipoR();
+ tipoR();
 }
 
 
 
 //Función para gusrdar tipo de respuesta
-         function tipoR(){
-          var TipoRes= document.getElementById("TipoRes").selectedIndex;
-          var idR = document.getElementById("ReactivoCre").value
-          
-          var TipoR = db.transaction(["TipoRes"], "readwrite")
-          .objectStore("TipoRes")
-          if(TipoR == ''){
-          TipoR.add({TipoRes:TipoRes});
-          }else{
-            if(TipoRes == 1){
-              TipoR.add({TipoRes:'Abierta',idR:idR});
-            }
-            if(TipoRes == 2){
-              TipoR.add({TipoRes:'Cerrada',idR:idR});
-            }
-            if(TipoRes == 3){
-             
-              var Res = document.getElementById("respuestasSelec").selectedIndex;
-              var respuesta = document.getElementById("Respuesta1").value
-             var respuesta2 = document.getElementById("Respuesta2").value;
-             var respuesta3 = document.getElementById("Respuesta3").value.trim();
-  var respuesta4 = document.getElementById("Respuesta4").value;
-  var respuesta5 = document.getElementById("Respuesta5").value;
-              if (Res === '') {
-                alert("Seleccione la cantidad de posibles respuestas");
-              } else{
-                if(Res == 1){
-                TipoR.add({ TipoRes: "Opcion_Mul", idR: idR, Respuesta: Res, respuestas: respuesta });
-                  //TipoR.add({ TipoRes: "Opcion_Mul", idR: idR, Respuesta: Res, respuesta:respuesta})
-                }else if(Res == 2){
-                 // TipoR.add({ TipoRes: "Opcion_Mul", idR: idR, Respuesta: Res })
-                  TipoR.add({ TipoRes: "Opcion_Mul", idR: idR, Respuesta: Res, respuestas: respuesta,respuesta2: respuesta2 });
-                } else if(Res == 3){
-                  TipoR.add({ TipoRes: "Opcion_Mul", idR: idR, Respuesta: Res , respuestas: respuesta,respuesta2: respuesta2,
-                  respuesta3: respuesta3})
-                 
-                }else if(Res == 4){
-                  TipoR.add({ TipoRes: "Opcion_Mul", idR: idR, Respuesta: Res, 
-                  respuestas: respuesta,respuesta2: respuesta2,respuesta3: respuesta3,respuesta4: respuesta4})
-                 
-               
-              } else if(Res == 5){
-                TipoR.add({ TipoRes: "Opcion_Mul", idR: idR, Respuesta: Res 
-                , respuestas: respuesta,respuesta2: respuesta2,respuesta3: respuesta3,respuesta4: respuesta4, respuesta5: respuesta5})
-              }
-              //ResOpMul();
-          }
-            if(TipoRes == 4){
-              TipoR.add({TipoRes:'Opcion_Mul_Uno',idR:idR});
-            }
-          }
+function tipoR(){
+  var TipoRes= document.getElementById("TipoRes").selectedIndex;
+  var idR = document.getElementById("ReactivoCre").value
 
-          TipoR.onsuccess = function(e){
-            console.log(e);
-          }
-        //    ResOpMul();
-       
+  var TipoR = db.transaction(["TipoRes"], "readwrite")
+  .objectStore("TipoRes")
+  if(TipoR == ''){
+  TipoR.add({TipoRes:TipoRes});
+  }else{
+    if(TipoRes == 1){
+      TipoR.add({TipoRes:'Abierta',idR:idR});
+    }
+    if(TipoRes == 2){
+      TipoR.add({TipoRes:'Cerrada',idR:idR});
+    }
+    if(TipoRes == 3){
+      TipoR.add({TipoRes:'Opcion_Mul',idR:idR});
+     
+     
+  }
+    if(TipoRes == 4){
+      TipoR.add({TipoRes:'Opcion_Mul_Uno',idR:idR});
+    }
+  }
+
+  TipoR.onsuccess = function(e){
+    console.log(e);
+  }
+  ResOpMul();
+ }
+      
+
+         function NumOpMul(){  
+              var Res= document.getElementById("respuestasSelec").selectedIndex;
+               var NumOpMul = db.transaction(["ReacOpMul"], "readwrite")
+          .objectStore("ReacOpMul")
+          if(Res == ''){
+           alert('seleccione la cantidad de posibles respuestas');
+            }else{
+              if(Res == 1){
+                NumOpMul.add({Res:'1'});
+          
+              }
+              if(Res == 2){
+                NumOpMul.add({Res:'2'});
+                
+              }
+              if(Res == 3){
+                NumOpMul.add({Res:'3'});
+               
+              }
+              if(Res == 4){
+                NumOpMul.add({Res:'4'});
+               
+              if(Res == 5){
+                NumOpMul.add({Res:'5'});
+              }
+            }
+          
+            NumOpMul.onsuccess = function(e){
+              console.log(e);
+             
+            }
          }
-         TiposOpciones(sel)
+         ResOpMul()
         }
 
-        //  function NumOpMul(){  
-        //       var Res= document.getElementById("respuestasSelec").selectedIndex;
-        //        var NumOpMul = db.transaction(["ReacOpMul"], "readwrite")
-        //   .objectStore("ReacOpMul")
-        //   if(Res == ''){
-        //    alert('seleccione la cantidad de posibles respuestas');
-        //     }else{
-        //       if(Res == 1){
-        //         NumOpMul.add({Res:'1'});
-          
-        //       }
-        //       if(Res == 2){
-        //         NumOpMul.add({Res:'2'});
-                
-        //       }
-        //       if(Res == 3){
-        //         NumOpMul.add({Res:'3'});
-               
-        //       }
-        //       if(Res == 4){
-        //         NumOpMul.add({Res:'4'});
-               
-        //       if(Res == 5){
-        //         NumOpMul.add({Res:'5'});
-        //       }
-        //     }
-          
-        //     NumOpMul.onsuccess = function(e){
-        //       console.log(e);
-             
-        //     }
-        //  }
-        //  ResOpMul()
-        // }
-
 function ResOpMul(){
- // var respuesta = document.getElementById("Respuesta1").value.trim();
+ var respuesta = document.getElementById("Respuesta1").value.trim();
   var respuesta2 = document.getElementById("Respuesta2").value.trim();
   var respuesta3 = document.getElementById("Respuesta3").value.trim();
   var respuesta4 = document.getElementById("Respuesta4").value.trim();
@@ -3437,8 +3403,8 @@ function ResOpMul(){
            divT = document.getElementById("Opcion5");
            divT.style.display = "none";
       }
-      //NumOpMul();
-     // tipoR();
+      NumOpMul();
+     //tipoR();
 }
 
    //mostrar reactivo segun categoria
