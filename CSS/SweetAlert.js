@@ -617,8 +617,8 @@ function habilitarFormEncuestador() {
   var localidad = document.getElementById("procedencia").value;
   var email = document.getElementById("Correo").value;
   var tel = document.getElementById("tel").value;
-  var contra = document.getElementById("contrasenia").value;
-  var contra2 = document.getElementById("contrasenia2").value;
+  var contra = document.getElementById("Contrasenia").value;
+  var contra2 = document.getElementById("Contrasenia2").value;
 
   if (nombre !== "" && apellido !== "" && apellido2 !== "" && edad !== "" && localidad !== "" && email !== "" && tel !== "" && contra !== "" && contra2 !== "") {
     var val = 0;
