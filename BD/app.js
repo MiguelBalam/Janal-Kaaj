@@ -121,6 +121,7 @@ var ObjectStoreReac;
     DBOpenReq.addEventListener('success',(ev)=>{
      
       db= ev.target.result;
+      mostrarPreguntas()
       EncuestaVistaPV2()
       buscarEVarCre()
       
@@ -183,7 +184,6 @@ var ObjectStoreReac;
       //ReacPredeVista()
       // refrescarAlmacen()
      
-       mostrarPreguntas();
      
     
   
@@ -1529,18 +1529,18 @@ function ImagenLogo(dataUrl) {
           var instruccionesR = currentItemR.Instrucciones;
           
           var cadena = "<table>";
-          cadena += "<tr>";
-          cadena += "<th>Título:</th>";
-          cadena += "<td>" + tituloR + "</td>";
-          cadena += "</tr>";
-          cadena += "<tr>";
-          cadena += "<th>Objetivo:</th>";
-          cadena += "<td>" + objetivoR + "</td>";
-          cadena += "</tr>";
-          cadena += "<tr>";
-          cadena += "<th>Instrucciones:</th>";
-          cadena += "<td>" + instruccionesR + "</td>";
-          cadena += "</tr>";
+          // cadena += "<tr>";
+          cadena += "<h5>Título:</h5>";
+          cadena += "<p>" + tituloR + "</p>";
+          // cadena += "</tr>";
+          // cadena += "<tr>";
+          cadena += "<h5>Objetivo:</h5>";
+          cadena += "<p>" + objetivoR + "</p>";
+          // cadena += "</tr>";
+          // cadena += "<tr>";
+          cadena += "<h5>Instrucciones:</h5>";
+          cadena += "<p>" + instruccionesR + "</p>";
+          // cadena += "</tr>";
           cadena += "</table>";
           
           document.getElementById("Encabezado").innerHTML = cadena;
@@ -2892,6 +2892,7 @@ function TiposOnChange(sel) {
         }
 
 function ResOpMul(){
+  var reactivo = document.getElementById("ReactivoCre").value.trim();
   var respuesta = document.getElementById("Respuesta1").value.trim();
   var respuesta2 = document.getElementById("Respuesta2").value.trim();
   var respuesta3 = document.getElementById("Respuesta3").value.trim();
@@ -2903,7 +2904,7 @@ function ResOpMul(){
   if(respuesta ==''){
     alert("Escriba una respuesta ");
   }else{
-      ResOpMul.add({Respuesta:respuesta,Respuesta2:respuesta2,Respuesta3:respuesta3,Respuesta4:respuesta4,Respuesta5:respuesta5})
+      ResOpMul.add({Respuesta:respuesta,Respuesta2:respuesta2,Respuesta3:respuesta3,Respuesta4:respuesta4,Respuesta5:respuesta5,Reactivo:reactivo})
   } 
     ResOpMul.onsuccess = function(e){
     console.log(e);
@@ -3299,14 +3300,13 @@ function refrescarAlmacen() {
     // leer todos los objetos del almacén
     const getAllRequest = store.getAll();
     getAllRequest.onsuccess = function(event) {
-      const objetos = event.target.result;
-      
-
+      const objetos = event.target.result.reverse(); // Invertir el orden de los objetos
+    
       // limpiar la lista del modal
       const miLista = document.getElementById('modalcuerpo');
       miLista.innerHTML = '';
-
-      // agregar los valores a la lista del modal
+    
+      // agregar los valores a la lista del modal (en orden inverso)
       for (const objeto of objetos) {
         const li = document.createElement('p');
         li.textContent = objeto.id2;
@@ -3421,10 +3421,10 @@ function selec3(e){
 }
 
 function mostrarPreguntas() {
-
   var objectStore = db.transaction("preguntaReactivos").objectStore("preguntaReactivos");
+  var preguntasContainer = document.getElementById("preguntas-container");
 
-  objectStore.openCursor().onsuccess = function(event) {
+  objectStore.openCursor().onsuccess = function (event) {
     var cursor = event.target.result;
 
     if (cursor) {
@@ -3433,55 +3433,154 @@ function mostrarPreguntas() {
 
       var preguntaDiv = document.createElement("div");
       var preguntaLabel = document.createElement("label");
-      var preguntaInput = document.createElement("TEXTAREA");
-
-      var respuestaDiv = document.createElement("div");
-
-      var respuestaSi = document.createElement("input");
-      var respuestaSiLabel = document.createElement("label");
-      respuestaSiLabel.textContent ='Sí';
-      var respuestaNo = document.createElement("input");
-      var respuestaNoLabel = document.createElement("label");
-      respuestaNoLabel.textContent = "No";
       preguntaLabel.textContent = pregunta + ": ";
-      
+
+      // Agregar el salto de línea después de la preguntaLabel
+      preguntaDiv.appendChild(preguntaLabel);
+      preguntaDiv.appendChild(document.createElement("br"));
+
       if (tipoRespuesta === 1) {
-        preguntaDiv.appendChild(preguntaLabel);
-        preguntaDiv.appendChild(preguntaInput);
+        var preguntaInput = document.createElement("input");
         preguntaInput.setAttribute("type", "text");
-        
+        preguntaInput.classList.add("form-control");
+        preguntaDiv.appendChild(preguntaInput);
+        // Agregar espacios adicionales con <br>
+        preguntaDiv.appendChild(document.createElement("br"));
+        // preguntaDiv.appendChild(document.createElement("br"));
+
       } else if (tipoRespuesta === 2) {
-        preguntaDiv.appendChild(preguntaLabel);
-      
-        respuestaSi.setAttribute("type", "radio");
-        respuestaSi.setAttribute("name", "respuesta");
-        respuestaSi.setAttribute("value", "si");
-        respuestaDiv.appendChild(respuestaSiLabel);
-        respuestaDiv.appendChild(respuestaSi);
-       
-        respuestaNo.setAttribute("type", "radio");
-        respuestaNo.setAttribute("name", "respuesta");
-        respuestaNo.setAttribute("value", "no");
-        respuestaDiv.appendChild(respuestaNoLabel);
-        respuestaDiv.appendChild(respuestaNo);
+        var respuestas = ["Sí", "No"];
+        for (var i = 0; i < respuestas.length; i++) {
+          var respuestaDiv = document.createElement("div");
+          respuestaDiv.classList.add("form-check", "form-check-inline", "col-md-4"); // Agregar clases form-check, form-check-inline, y col-md-4
         
-        preguntaDiv.appendChild(respuestaDiv);
+          var respuestaLabel = document.createElement("label");
+          var respuestaInput = document.createElement("input");
+          respuestaInput.setAttribute("type", "radio");
+          respuestaInput.setAttribute("name", "respuesta");
+          respuestaInput.setAttribute("value", respuestas[i]);
+          respuestaInput.classList.add("form-check-input"); // Agregar clase form-check-input
+        
+          respuestaLabel.textContent = respuestas[i];
+          respuestaLabel.classList.add("form-check-label", "form-check-inline"); // Agregar clases form-check-label y form-check-inline
+        
+          respuestaDiv.appendChild(respuestaInput);
+          respuestaDiv.appendChild(respuestaLabel);
 
-       
+          // Agregar espacios adicionales con <br>
+          respuestaDiv.appendChild(document.createElement("br"));
+          // respuestaDiv.appendChild(document.createElement("br"));
+        
+          preguntaDiv.appendChild(respuestaDiv);
+        }
+
       } else if (tipoRespuesta === 3) {
-        preguntaInput.setAttribute("type", "select");
-      }
+        // Buscar coincidencia en ReOpM utilizando el valor de pregunta
+        var objectStoreReOpM = db.transaction("ReOpM").objectStore("ReOpM");
+        var matchingReOpM;
+        objectStoreReOpM.openCursor().onsuccess = function (event) {
+            var cursorReOpM = event.target.result;
+            if (cursorReOpM) {
+                if (cursorReOpM.value.Reactivo === pregunta) {
+                    matchingReOpM = cursorReOpM.value;
+                    console.log("Coincidencia encontrada en ReOpM:", matchingReOpM);
+                }
+                cursorReOpM.continue();
+            } else {
+                if (matchingReOpM) {
+                    // Obtener valores de Respuesta, Respuesta2, Respuesta3, Respuesta4 y Respuesta5
+                    var respuestas = [
+                        matchingReOpM.Respuesta,
+                        matchingReOpM.Respuesta2,
+                        matchingReOpM.Respuesta3,
+                        matchingReOpM.Respuesta4,
+                        matchingReOpM.Respuesta5
+                    ];
+    
+                    // Agregar casillas de verificación basadas en las respuestas obtenidas
+                    respuestas.forEach(function (opcion) {
+                        if (opcion !== "") {
+                            var respuestaDiv = document.createElement("div");
+                            respuestaDiv.classList.add("form-check", "form-check-inline", "col-md-4");
+    
+                            var respuestaLabel = document.createElement("label");
+                            var respuestaInput = document.createElement("input");
+                            respuestaInput.setAttribute("type", "checkbox");
+                            respuestaInput.classList.add("form-check-input");
+                            respuestaLabel.textContent = opcion;
+                            respuestaLabel.classList.add("form-check-label", "form-check-inline");
+    
+                            respuestaDiv.appendChild(respuestaInput);
+                            respuestaDiv.appendChild(respuestaLabel);
+                            
+                            // Agregar espacios adicionales con <br>
+                            respuestaDiv.appendChild(document.createElement("br"));
+                            preguntaDiv.appendChild(respuestaDiv);
+                        }
+                    });
+                } else {
+                    console.log("No se encontró coincidencia en ReOpM para la pregunta:", pregunta);
+                }
+            }
+        };
+    }  else if (tipoRespuesta === 4) {
+      // Buscar coincidencia en ReOpM utilizando el valor de pregunta
+      var objectStoreReOpM = db.transaction("ReOpM").objectStore("ReOpM");
+      var matchingReOpM;
+      objectStoreReOpM.openCursor().onsuccess = function (event) {
+          var cursorReOpM = event.target.result;
+          if (cursorReOpM) {
+              if (cursorReOpM.value.Reactivo === pregunta) {
+                  matchingReOpM = cursorReOpM.value;
+                  console.log("Coincidencia encontrada en ReOpM:", matchingReOpM);
+              }
+              cursorReOpM.continue();
+          } else {
+              if (matchingReOpM) {
+                  // Obtener valores de Respuesta, Respuesta2, Respuesta3, Respuesta4 y Respuesta5
+                  var respuestas = [
+                      matchingReOpM.Respuesta,
+                      matchingReOpM.Respuesta2,
+                      matchingReOpM.Respuesta3,
+                      matchingReOpM.Respuesta4,
+                      matchingReOpM.Respuesta5
+                  ];
+  
+                  // Agregar radio buttons basados en las respuestas obtenidas
+                  respuestas.forEach(function (opcion) {
+                      if (opcion !== "") {
+                          var respuestaDiv = document.createElement("div");
+                          respuestaDiv.classList.add("form-check", "form-check-inline", "col-md-4");
+  
+                          var respuestaLabel = document.createElement("label");
+                          var respuestaInput = document.createElement("input");
+                          respuestaInput.setAttribute("type", "radio");
+                          respuestaInput.setAttribute("name", "respuesta_" + pregunta); // Agregar nombre para agrupar radio buttons
+                          respuestaInput.classList.add("form-check-input");
+                          respuestaLabel.textContent = opcion;
+                          respuestaLabel.classList.add("form-check-label", "form-check-inline");
+  
+                          respuestaDiv.appendChild(respuestaInput);
+                          respuestaDiv.appendChild(respuestaLabel);
+                          
+                          // Agregar espacios adicionales con <br>
+                          respuestaDiv.appendChild(document.createElement("br"));
+                          preguntaDiv.appendChild(respuestaDiv);
+                      }
+                  });
+              } else {
+                  console.log("No se encontró coincidencia en ReOpM para la pregunta:", pregunta);
+              }
+          }
+      };
+  }
 
-      document.getElementById("preguntas-container").appendChild(preguntaDiv);
+      preguntasContainer.appendChild(preguntaDiv);
 
       cursor.continue();
     }
   };
-
 }
-
-
- 
   var encuestaId;
 
 
