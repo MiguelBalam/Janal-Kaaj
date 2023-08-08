@@ -155,13 +155,8 @@ var ObjectStoreReac;
       Variables()
       mostrarEncuestaV() 
     
-<<<<<<< HEAD
-     
-     
-=======
     
       buscarV()
->>>>>>> 92d63fa0bc528766af100689fa5d10e8a3f1ba6b
       
      
       //EncaEncuestaVista()
