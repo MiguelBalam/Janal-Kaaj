@@ -260,6 +260,39 @@
   }
 }
 
-.ocultar-seccion {
-  display: none;
+/* ... (Código CSS existente) ... */
+
+/* Estilos para el contenedor del botón Cerrar Sesión */
+.sidebar .nav-links li#cerrarSesionBtnContainer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
 }
+
+/* Estilos para el botón de Cerrar Sesión */
+.sidebar .nav-links li#cerrarSesionBtn {
+  padding: 20px; /* Espacio entre el botón y los enlaces superiores */
+}
+
+.sidebar .nav-links li#cerrarSesionBtn:hover {
+  background: #f2be5c;
+}
+
+.sidebar .nav-links li#cerrarSesionBtn .iocn-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.sidebar .nav-links li#cerrarSesionBtn i {
+  height: 50px;
+  min-width: 78px;
+  text-align: center;
+  line-height: 50px;
+  color: #000;
+  font-size: 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+/* ... (Código CSS existente) ... */

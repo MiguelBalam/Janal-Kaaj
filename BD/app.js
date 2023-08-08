@@ -103,7 +103,8 @@ var ObjectStoreReac;
 
         ObjectStore= db.createObjectStore("VariableC", {keyPath:'id',autoIncrement: true});
 
-        ObjectStore=db.createObjectStore("selecVariables", {keypth:"VariablesId",autoIncrement: true});
+        ObjectStore=db.createObjectStore("selecVariables", {keypth:"idV2",autoIncrement: true});
+        ObjectStore.createIndex("VariablesId","VariablesId",{unique:true});
         ObjectStore=db.createObjectStore("selecVariablesCre", {keypth:"VariablesId",autoIncrement: true});
         console.log('upgrade',db);
        
@@ -121,26 +122,26 @@ var ObjectStoreReac;
     DBOpenReq.addEventListener('success',(ev)=>{
      
       db= ev.target.result;
-      mostrarPreguntas()
+      mostrarPreguntas();
       EncuestaVistaPV2()
+      mostrarVarSelec()
       buscarEVarCre()
-      
-     
+    
       mostrarEncuesta()
       
       reactivoscrear()
       buscar()
       Encuesta1()
-      mostrarVarSelec() 
+      //mostrarVarSelec() 
       EncuestaVarMostrar()
    EncuestaVarMostrar(encuestaVarId)
 
    mostrarEncuestaDatos()
       buscarVar()
-     
+      buscarV()
       //EncuestaVarMostrar() 
       cargarPagina()
-   
+      
       buscarE()
       
       //mostrarEncuestaVar(encuestaVarId)
@@ -153,8 +154,7 @@ var ObjectStoreReac;
       Variables()
       mostrarEncuestaV() 
     
-     
-      mostrarVarSelec()
+    
       buscarV()
       
      
@@ -184,6 +184,7 @@ var ObjectStoreReac;
       //ReacPredeVista()
       // refrescarAlmacen()
      
+       
      
     
   
@@ -508,7 +509,7 @@ function mostrarNoticiasEnTarjetas() {
   
 }
 
-function mostrarNoticiasIndex() {
+/*function mostrarNoticiasIndex() {
 
   const transaction = db.transaction('Noticias', 'readonly');
   const objectStore = transaction.objectStore('Noticias');
@@ -547,7 +548,178 @@ function mostrarNoticiasIndex() {
     db.close();
   };
 
+}*/
+function mostrarNoticiasIndex() {
+  const transaction = db.transaction('Noticias', 'readonly');
+  const objectStore = transaction.objectStore('Noticias');
+
+  const requestGetAll = objectStore.getAll();
+
+  requestGetAll.onsuccess = function(event) {
+    const noticias = event.target.result;
+
+    if (noticias && noticias.length > 0) {
+      // Crea las tarjetas con la cantidad de noticias obtenidas
+      crearCardIndex(noticias.length);
+
+      // Llenar cada tarjeta con los datos de las noticias que tienen título "abc"
+      for (let i = 0; i < noticias.length; i++) {
+        const noticia = noticias[i];
+        if (noticia.titulo === "abc") { // Filtrar por título "abc"
+          const tituloElement = document.getElementById(`titulo${i + 1}`);
+          const cuerpoElement = document.getElementById(`cuerpo${i + 1}`);
+          const imageElement = document.getElementById(`img${i + 1}`);
+
+          tituloElement.textContent = noticia.titulo;
+          cuerpoElement.textContent = noticia.cuerpo;
+          imageElement.src = 'data:image/jpeg;base64,' + btoa(noticia.data);
+        }
+      }
+    } else {
+      console.log('No se encontraron noticias en la base de datos');
+    }
+  };
+
+  requestGetAll.onerror = function(event) {
+    console.log('Error al obtener las noticias');
+  };
+
+  transaction.oncomplete = function(event) {
+    db.close();
+  };
 }
+
+
+
+function mostrarIDBoton2() {
+  var urlParams = new URLSearchParams(window.location.search);
+  var botonId = urlParams.get('id');
+  console.log(botonId);
+  guardarCambiosNoticia(botonId);
+  
+}
+function mostrarIDBoton3() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const botonId = urlParams.get('id');
+  console.log(botonId);
+  restablecer(botonId);
+}
+/*
+function restablecer(id) {
+  const idd = parseInt(id);
+  const request = indexedDB.open('Janal', 1);
+
+  request.onupgradeneeded = function (event) {
+    const db = event.target.result;
+    const objectStore = db.createObjectStore('Noticias', { keyPath: 'id', autoIncrement: true });
+    // Puedes definir la estructura de la tabla 'Noticias' aquí si aún no existe
+  };
+
+  request.onsuccess = function (event) {
+    const db = event.target.result;
+    console.log('Base de datos abierta correctamente.');
+
+    const transaction = db.transaction('Noticias', 'readonly');
+    const objectStore = transaction.objectStore('Noticias');
+
+    const requestGetAll = objectStore.get(idd);
+
+    requestGetAll.onsuccess = function (event) {
+      const noticiaa = event.target.result;
+      console.log('id:', id);
+      if (noticiaa) {
+        const tituloElement = document.getElementById('titulo');
+        const cuerpoElement = document.getElementById('noticia');
+        const imageElement = document.getElementById('img-result');
+
+        tituloElement.textContent = noticiaa.titulo;
+        cuerpoElement.textContent = noticiaa.cuerpo;
+        imageElement.src = 'data:image/jpeg;base64,' + btoa(noticiaa.data);
+      } else {
+        console.log('No se encontró la noticia con el ID especificado');
+      }
+    };
+
+    requestGetAll.onerror = function (event) {
+      console.log('Error al obtener la noticia:', event.target.error);
+    };
+
+    transaction.oncomplete = function (event) {
+      console.log('Transacción completada.');
+      // Now you can perform additional read or write operations if needed.
+      // Or if you don't need any further operations, you can close the connection here.
+      db.close();
+    };
+
+    transaction.onerror = function (event) {
+      console.log('Error en la transacción:', event.target.error);
+      // Close the connection if an error occurs during the transaction.
+      db.close();
+    };
+  };
+
+  request.onerror = function (event) {
+    console.log('Error al abrir la base de datos:', event.target.error);
+  };
+}*/
+
+
+function mostrarEditNoticias(id) {
+
+  const idd = parseInt(id);
+  const transaction = db.transaction('Noticias', 'readonly');
+  const objectStore = transaction.objectStore('Noticias');
+
+  const requestGetAll = objectStore.get(idd);
+
+  requestGetAll.onsuccess = function (event) {
+    const noticiaa = event.target.result;
+    console.log('id:', id);
+    if (noticiaa) {
+      const tituloElement = document.getElementById('titulo');
+      const cuerpoElement = document.getElementById('noticia');
+      const imageElement = document.getElementById('img-result');
+
+      tituloElement.textContent = noticiaa.titulo;
+      cuerpoElement.textContent = noticiaa.cuerpo;
+      imageElement.src = 'data:image/jpeg;base64,' + btoa(noticiaa.data);
+    } else {
+      console.log('No se encontró la noticia con el ID especificado');
+    }
+  };
+
+  requestGetAll.onerror = function (event) {
+    console.log('Error al obtener la noticia:', event.target.error);
+  };
+
+  transaction.oncomplete = function (event) {
+    console.log('Transacción completada.');
+    // Now you can perform additional read or write operations if needed.
+    // Or if you don't need any further operations, you can close the connection here.
+    db.close();
+  };
+
+  transaction.onerror = function (event) {
+    console.log('Error en la transacción:', event.target.error);
+    // Close the connection if an error occurs during the transaction.
+    db.close();
+  };
+}
+
+// Additional functions and event handlers...
+
+
+function boton(id){
+    // Obtener el ID del botón que se hizo clic
+    
+    const botonId = obtenerUltimoValorId(id);
+    
+    // Cambiar a una nueva pestaña
+    window.location.href = './editarNoticias.html?id=' + encodeURIComponent(botonId);
+}
+  
+
+
 
 // Crear Cards para noticias
 
@@ -686,6 +858,177 @@ function crearCardIndex(numero) {
 }
 
 
+  const transaction = db.transaction('Noticias', 'readonly');
+  const objectStore = transaction.objectStore('Noticias');
+  const requestGetAll = objectStore.getAll();
+
+  requestGetAll.onsuccess = (event) => {
+    const noticiasData = event.target.result;
+    console.log('Todos los datos de la tabla Noticias:', noticiasData);
+
+    noticiasData.forEach((noticia) => {
+      const contador = noticia.id; // Aquí obtienes el key path id de cada objeto
+      console.log('ID:', contador);
+
+      const colDiv = document.createElement('div');
+      colDiv.className = 'col-lg-3';
+      colDiv.id = `card${contador}`;
+
+      const cardDiv = document.createElement("div");
+      cardDiv.className = "card";
+
+      const cardBodyDiv = document.createElement("div");
+      cardBodyDiv.className = "card-body";
+
+      const divimg = document.createElement('div');
+      divimg.className = 'card-img2';
+
+      const imgElement = document.createElement("img");
+      imgElement.className = "img-fluid rounded";
+      imgElement.id = `img${contador}`;
+
+      const cardTitleDiv = document.createElement("div");
+      cardTitleDiv.className = "card-titulo";
+
+      const titleParagraph = document.createElement("p");
+      titleParagraph.className = "fs-6 fw-bold p_top";
+      titleParagraph.id = `titulo${contador}`;
+
+      const cardTextDiv = document.createElement("div");
+      cardTextDiv.className = "card-texto2";
+
+      const bodyParagraph = document.createElement("p");
+      bodyParagraph.id = `cuerpo${contador}`;
+
+      const flexRowDiv = document.createElement("div");
+
+      const linkElement = document.createElement("button");
+      linkElement.className = "btn";
+      linkElement.id = `btnPubli${contador}`;
+      const icon = document.createElement("i");
+      icon.className = "fa-solid fa-file-arrow-up";
+
+      const linkElement2 = document.createElement("button");
+      linkElement2.className = "btn";
+      linkElement2.onclick = function() {
+        boton(this.id);
+      }
+      linkElement2.id = `btnEditar${contador}`;
+      const icon2 = document.createElement("i");
+      icon2.className = "fa-solid fa-file-pen";
+
+      const linkElement3 = document.createElement("button");
+      linkElement3.className = "btn";
+      linkElement3.onclick = function() {
+        obtenerIdBoton(this.id);
+      }
+      linkElement3.id = `btnBorrar${contador}`;
+      const icon3 = document.createElement("i");
+      icon3.className = "fa-solid fa-trash";
+
+      linkElement.appendChild(icon);
+      flexRowDiv.appendChild(linkElement);
+      linkElement2.appendChild(icon2);
+      flexRowDiv.appendChild(linkElement2);
+      linkElement3.appendChild(icon3);
+      flexRowDiv.appendChild(linkElement3);
+      cardTextDiv.appendChild(bodyParagraph);
+      cardTitleDiv.appendChild(titleParagraph);
+      divimg.appendChild(imgElement);
+      cardBodyDiv.appendChild(divimg);
+      cardBodyDiv.appendChild(cardTitleDiv);
+      cardBodyDiv.appendChild(cardTextDiv);
+      cardBodyDiv.appendChild(flexRowDiv);
+      cardDiv.appendChild(cardBodyDiv);
+      colDiv.appendChild(cardDiv);
+
+      container.appendChild(colDiv);
+
+      // Llenar cada tarjeta con los datos de la noticia
+      titleParagraph.textContent = noticia.titulo;
+      bodyParagraph.textContent = noticia.cuerpo;
+      imgElement.src = 'data:image/jpeg;base64,' + btoa(noticia.data);
+    });
+  };
+
+  requestGetAll.onerror = (event) => {
+    console.error('Error al obtener los datos de la tabla Noticias', event);
+  };
+
+
+//recien agregado
+function obtenerUltimoValorId(id) { 
+  const partes = id.split(/\D+/); 
+  const numeros = partes.filter((parte) => parte !== '');
+  if (numeros.length > 0) {
+    return parseInt(numeros[numeros.length - 1]);     
+  } else {
+    return null; 
+  }
+}
+
+
+function obtenerIdBoton(id) {
+  const ultimoNumero = obtenerUltimoValorId(id);/*
+  if (ultimoNumero !== null) {
+    Swal.fire({
+      title: '¿Estás seguro de eliminar esta noticia?',
+      showDenyButton: true,
+      showCancelButton: false,
+      confirmButtonText: 'Si',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire('Noticia eliminada', '', 'success')
+        console.log("Último número del ID:", ultimoNumero);*/
+        console.log("Último número del ID:", ultimoNumero);
+        eliminarUsuario(ultimoNumero);
+     /* } else if (result.isDenied) {
+        
+      }
+    })
+    
+  } else {
+    console.log("No se encontró ningún número en el ID.");
+  }*/
+}
+function publicarNoticia(id){ 
+  const idnoti = document.getElementById(id);
+  if(idnoti.value == 'Q'){
+    Swal.fire({
+      title: 'Desea Publicar esta noticia?',
+      showDenyButton: true,
+      showCancelButton: false,
+      confirmButtonText: 'Si',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire('Proceso exitoso', '', 'success');
+        idnoti.className ="btn btnUpload";
+        idnoti.value = "P"
+      } else if (result.isDenied) {
+        
+      }
+    })
+  }
+  if(idnoti.value == 'P'){
+    Swal.fire({
+      title: 'Desea Quitar esta noticia?',
+      showDenyButton: true,
+      showCancelButton: false,
+      confirmButtonText: 'Si',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire('Proceso exitoso', '', 'success');
+        idnoti.className ="btn";
+        idnoti.value = "Q"
+      } else if (result.isDenied) {
+        
+      }
+    })
+  }
+  
+}
+
+      
 
 // --Cierra mostrar datos noticias--
 
@@ -719,45 +1062,101 @@ function obtenerUsuario(id) {
     };
 
 }
+*/
+function abrirBaseDatos() {
+  const request = indexedDB.open('Janal', 1);
 
-function actualizarUsuario(id) {
- let key = document.prueba.getAttribute('data-key');
+  request.onupgradeneeded = function(event) {
+    db = event.target.result;
+    const objectStore = db.createObjectStore('Noticias', { keyPath: 'id', autoIncrement: true });
+    // Puedes definir la estructura de la tabla 'Noticias' aquí si aún no existe
+  };
 
-  if (key) {
-    // Obtener los valores actualizados de los campos de los inputs.
-    let titulo = document.getElementById('titulo').value.trim();
-    let cuerpo = document.getElementById('noticia').value.trim();
+  request.onsuccess = function(event) {
+    db = event.target.result;
+    console.log('Base de datos abierta correctamente.');
+  };
 
+  request.onerror = function(event) {
+    console.log('Error al abrir la base de datos:', event.target.error);
+  };
+}
+ 
+function guardarCambiosNoticia(idd) {
+  const id = parseInt(idd);
+  console.log("ddd", id);
+  const titulo = document.getElementById('titulo').value;
+  const cuerpo = document.getElementById('noticia').value;
+  const imagenBase64 = document.getElementById('img-result').src.split(',')[1];
 
-    // Crear un objeto con los valores actualizados.
-    let updatedUsuario = {
-      id,
-      titulo,
-      cuerpo,
+  const request = indexedDB.open('Janal', 1);
+
+  request.onupgradeneeded = function (event) {
+    const db = event.target.result;
+    const objectStore = db.createObjectStore('Noticias', { keyPath: 'id', autoIncrement: true });
+    // Puedes definir la estructura de la tabla 'Noticias' aquí si aún no existe
+  };
+
+  request.onsuccess = function (event) {
+    const db = event.target.result;
+    console.log('Base de datos abierta correctamente.');
+
+    const transaction = db.transaction('Noticias', 'readwrite');
+    const objectStore = transaction.objectStore('Noticias');
+
+    const requestUpdate = objectStore.get(id);
+
+    requestUpdate.onsuccess = function (event) {
+      const noticia = event.target.result;
+
+      if (noticia) {
+        noticia.titulo = titulo;
+        noticia.cuerpo = cuerpo;
+        noticia.data = atob(imagenBase64);
+
+        const requestUpdateData = objectStore.put(noticia);
+
+        requestUpdateData.onsuccess = function (event) {
+          console.log('Noticia actualizada con éxito.');
+        };
+
+        requestUpdateData.onerror = function (event) {
+          console.log('Error al actualizar la noticia:', event.target.error);
+        };
+      } else {
+        console.log('No se encontró la noticia con el ID especificado.');
+      }
     };
 
-    // Iniciar una transacción de escritura en el objeto de almacenamiento 'whiskeyStore'.
-    let tx = makeTX('Noticias', 'readwrite');
-    tx.oncomplete = (ev) => {
-      console.log(ev);
-      buildList();
-      clearForm();
+    requestUpdate.onerror = function (event) {
+      console.log('Error al obtener la noticia:', event.target.error);
     };
 
-    let store = tx.objectStore('Noticias');
-    let request = store.put(updatedUsuario); //request a put/update
+    transaction.oncomplete = function (event) {
+      console.log('Transacción completada.');
+      db.close();
+    };
+  };
 
-    request.onsuccess = (ev) => {
-      console.log('successfully updated an object');
-      //move on to the next request in the transaction or
-      //commit the transaction
-    };
-    request.onerror = (err) => {
-      console.log('error in request to update');
-    };
-  } else {
-    console.log('No se encontró el usuario con el ID especificado');
-  }
+  request.onerror = function (event) {
+    console.log('Error al abrir la base de datos:', event.target.error);
+  };
+}
+
+  function makeTX(storeName, mode) {
+  let tx = db.transaction(storeName, mode);
+  tx.onerror = (err) => {
+    console.warn(err);
+  };
+  return tx;
+}
+
+  function makeTX(storeName, mode) {
+  let tx = db.transaction(storeName, mode);
+  tx.onerror = (err) => {
+    console.warn(err);
+  };
+  return tx;
 }
 
 
@@ -782,13 +1181,7 @@ function eliminarUsuario() {
   }
 }
 
-function makeTX(storeName, mode) {
-  let tx = db.transaction(storeName, mode);
-  tx.onerror = (err) => {
-    console.warn(err);
-  };
-  return tx;
-}*/
+
 
 
 //Verificar que las dos contraseñas coincidan
@@ -901,6 +1294,41 @@ function manejadorValidacion(e) {
       
       localStorage.setItem("datosUsuario", JSON.stringify(datos));
     }
+    function confirmarCerrarSesion() {
+      Swal.fire({
+          title: '¿Estás seguro?',
+          text: '¿Deseas cerrar la sesión?',
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Sí, cerrar sesión',
+          cancelButtonText: 'Cancelar'
+      }).then((result) => {
+          if (result.isConfirmed) {
+              // Si el usuario confirma, eliminar el usuario activo del almacenamiento local
+              localStorage.removeItem('datosUsuario');
+              console.log("Sesión cerrada correctamente.");
+              
+              // Mostrar una alerta con el mensaje de cierre en dos segundos
+              Swal.fire({
+                  title: 'Cerrando sesión...',
+                  icon: 'success',
+                  timer: 2000,
+                  timerProgressBar: true,
+                  showConfirmButton: false
+              });
+  
+              // Redireccionar a la página de inicio de sesión después de dos segundos
+              setTimeout(function() {
+                  window.location.href = '/login.html';
+              }, 2000);
+          } else {
+              // Si el usuario cancela, no hacer nada
+          }
+      });
+  }
+  
     
     function cargarPagina() {
       var datosGuardados = localStorage.getItem("datosUsuario");
@@ -1631,16 +2059,10 @@ function ImagenLogo(dataUrl) {
          cadena += "<tr>";
          cadena +="<td><input type ='checkbox' name='checkbox[]' id='c"+id+"'></input></td>";
          cadena +="<td>"+cursor.value.NombreVar+"</td>";
-        //cadena += "<td><button class='btn btn-outline-success bg-border-mostaza bg-text-mostaza' id= 'b"+id+"'><img src='../Img/borrar.png' height='18px width='18px'></button></td>";
-                   //cadena += "<td><button id= 'e"+id+"'>Editar</button></td>"
-                   //cadena +="<td><button id='m"+id+"'<img src='../Img/edit.svg'  height='18px'width='18px'>></button></td>";
           cadena += "</tr>";
-        
-        //cadena += "<td>+<button id='m"+Descripcion+"'>Seleccionar</button></td></tr>";
         
         id_array.push(id);
         num ++;
-        //continuamos siguiente objeto
         cursor.continue();
         
       }else{
@@ -1651,13 +2073,13 @@ function ImagenLogo(dataUrl) {
         for(var i=0; i<id_array.length; i++){
           id = id_array[i];
           document.getElementById("c"+id).onclick= selecVariables;
-   
         }
+       
       
       }
      
      };
-   BusVa();
+  // BusVa();
    
    }
    
@@ -1675,57 +2097,139 @@ function ImagenLogo(dataUrl) {
                var request = objectStore.add({idV2:llave,fechaCreacion: Date.now()} );
              
                request.onsuccess =function(){
-                mostrarVarSelec()
-                //mostrarEncuestaVar()
-              //  console.log(llave)
+               // mostrarVarSelec()
+    
                };
           
              }
-             //guardar()
-            //  activarGuardar();
+            
          }
 
-        //  function mostrarVariablesSeleccionadas() {
-        //   var transaction = db.transaction("selecVariables", "readonly");
-        //   var store = transaction.objectStore("selecVariables");
-        
-        //   store.openCursor().onsuccess = function (event) {
-        //     var cursor = event.target.result;
-        
-        //     if (cursor) {
-        //       console.log(cursor.value);
-        //       cursor.continue();
-        //     }
-        //   };
-        // }
-// salida de tipos encuesta
-//mostrar 
+
 //-----------------------------------------------------------------------------------------------------------------------
-function mostrarVarSelec() {
-  var cadena = "<table class='table table-bordered'>";
-  var lastTimestamp = Date.now();
+// function mostrarVarSelec() {
+//   var cadena = "<table class='table table-bordered'>";
+//   var lastTimestamp = Date.now();
 
-  var objectStore = db.transaction("selecVariables").objectStore("selecVariables");
-  objectStore.openCursor().onsuccess = function (e) {
-    var cursor = e.target.result;
-    if (cursor) {
-      var item = cursor.value;
-      var timestamp = Date.now();
+//   var objectStore = db.transaction("selecVariables").objectStore("selecVariables");
+//   objectStore.openCursor().onsuccess = function (e) {
+//     var cursor = e.target.result;
+//     if (cursor) {
+//       var item = cursor.value;
+//       var timestamp = Date.now();
 
-      if (timestamp > lastTimestamp) {
-        cadena += "<tr>";
-        cadena += "<td>" + item.idV2 + "</td>";
-        cadena += "</tr>";
-      }
+//       if (timestamp > lastTimestamp) {
+//         cadena += "<tr>";
+//         cadena +="<td><input type ='checkbox' name='selectedVariable' id='sr"+item.idV2+"'></input></td>";
+//         cadena += "<td>" + item.idV2 + "</td>";
+//         cadena += "</tr>";
+//       }
       
-      cursor.continue();
-    } else {
-      cadena += "</table>";
-      document.getElementById("VariablesSeleccionadas").innerHTML = cadena;
+//       cursor.continue();
+//     } else {
+//       cadena += "</table>";
+//       document.getElementById("VariablesSeleccionadas").innerHTML = cadena;
+//       document.getElementById("sr"+idV2).onclick= selecVP;
+//     }
+//   };
+//   //EncuestaVarMostrar(encuestaVarId)
+// }
+
+
+
+
+
+function mostrarVarSelec(){
+  var cadena ="<table class= 'table table-bordered'>";
+ 
+ cadena += "";
+ var num =0;
+ var id_array = new Array();
+
+ //leer cursor
+ var objectStore = db.transaction("selecVariables").objectStore("selecVariables");
+ objectStore.openCursor().onsuccess= function(e){
+  var cursor =e.target.result;
+  if(cursor){
+     id = cursor.value.idV2;
+     cadena += "<tr>";
+     cadena +="<td><input type ='checkbox' name='checkbox[]' id='s"+id+"'></input></td>";
+     cadena +="<td>"+id+"</td>";
+      cadena += "</tr>";
+    
+    id_array.push(id);
+    num ++;
+    cursor.continue();
+    
+  }else{
+   
+    cadena += "";
+  //  document.getElementById("VariablesSeleccionadas").innerHTML = "";
+    document.getElementById("VariablesSeleccionadas").innerHTML = cadena;
+    
+    for(var i=0; i<id_array.length; i++){
+      id = id_array[i];
+      document.getElementById("s"+id).onclick= selecVP;
     }
-  };
-  EncuestaVarMostrar(encuestaVarId)
+   
+  
+  }
+ 
+ };
+// BusVa();
+
 }
+
+function selecVP(e) {
+ 
+  //var id = e.target.id.substring(1);
+  var id= e.target.id.substring(1);
+  var llave = id;
+
+  if (confirm(llave)) {
+ 
+    var tx = db.transaction(["selecVariables", "selecVariablesCre"], "readwrite");
+    var objectStore = tx.objectStore("selecVariables");
+    var storeOtroObjeto = tx.objectStore("selecVariablesCre");
+    var request = objectStore.get(id);
+    console.log("Elemento seleccionado: ", llave);
+    storeOtroObjeto.add({ VariablesId:llave,fechaCreacion: Date.now() })
+
+    request.onsuccess = function (e) {
+     // var variable = e.target.result;
+    //   if (variable) {
+    //     console.log("Elemento seleccionado: ", variable.llave);
+    //     storeOtroObjeto.add({ VariablesId:variable.llave,fechaCreacion: Date.now() });
+    //   } else {
+    //     console.log("No se encontró el objeto en el almacén 'VariableC'.");
+    //   }
+    // };
+    }
+  }
+
+}
+
+// function selecVP(e){
+
+//          console.log("seleccionar",e);
+//          var id= e.target.id;
+//          var llave = id;
+//         //console.log(llave);
+       
+//          if(confirm(llave)){
+//            var tx =db.transaction("selecVariables","readwrite");
+//            var objectStore = tx.objectStore("selecVariables");
+//            var request = objectStore.add({idV2:llave,fechaCreacion: Date.now()} );
+         
+//            request.onsuccess =function(){
+//             //mostrarVarSelec()
+
+//            };
+      
+//          }
+//          //guardar()
+//         //  activarGuardar();
+//      }
 
       function buscarE() {
         var cadena = "<table class='table table-bordered'>";
@@ -1803,81 +2307,6 @@ function mostrarVarSelec() {
         };
       }
 
-      // function abrirFormulariVariables(IdV) {
-      //   var nuevaPestana = window.open("", "_blank");
-      //   var contenidoHTML = "<h2 class='bg-text-black text-center p-3 text-uppercase text-black'></h2>";
-      
-      //   var transaction = db.transaction("Encuesta_Variables", "readonly");
-      //   var encuestaObjectStore = transaction.objectStore("Encuesta_Variables");
-      //   var encuestaRequest = encuestaObjectStore.get(parseInt(IdV));
-      
-      //   encuestaRequest.onsuccess = function(event) {
-      //     var EncuestaVariables = event.target.result;
-      //     if (EncuestaVariables) {
-      //       contenidoHTML += "<h1 class='bg-text-black text-center p-3 text-uppercase text-black' style='text-align: center; font-size: x-large; padding: 10px 50px 20px; font-weight: bold;'>" + EncuestaVariables.TituloVar + "</h1>";
-      
-      //       var VariablesObjectStore = db.transaction("EncuestaVariablesFinal", "readonly").objectStore("EncuestaVariablesFinal");
-      //       var VariablesRequest = VariablesObjectStore.getAll();
-      
-      //       VariablesRequest.onsuccess = function(event) {
-      //         var variables = event.target.result;
-      //         if (variables) {
-      //           var variablesFiltrados = variables.filter(function(variable) {
-      //             return variable.encuestaVarId === parseInt(IdV);
-      //           });
-      
-      //           contenidoHTML += "<table class='table table-bordered'>";
-      //           contenidoHTML += "<thead><tr><th>#</th>";
-      
-      //           // Encabezados de las columnas con el nombre de las variables
-      //           variablesFiltrados.forEach(function(variable) {
-      //             contenidoHTML += "<th>" + variable.VariablesId + "</th>";
-      //           });
-      
-      //           contenidoHTML += "</tr></thead>";
-      //           contenidoHTML += "<tbody>";
-      
-      //           // Filas con selects
-      //           for (var i = 0; i < variablesFiltrados.length; i++) {
-      //             contenidoHTML += "<tr>";
-      //             contenidoHTML += "<td>" + (i + 1) + "</td>";
-      //             //contenidoHTML += "<td>" + (i + 1) + "</td>";
-      
-      //             // Celdas con selects
-      //             for (var j = 0; j < variablesFiltrados.length; j++) {
-      //               contenidoHTML += "<td>";
-      //               contenidoHTML += "<select class='form-select form-select-sm' aria-label='.form-select-sm example' onchange='updateOtherSelects(this)'>";
-      
-      //               var options = [
-      //                 { value: '0', text: '0' },
-      //                 { value: '1', text: '1' },
-      //                 { value: '2', text: '2' },
-      //                 { value: '3', text: '3' },
-      //                 { value: '4', text: 'P' }
-      //               ];
-      
-      //               options.forEach(function(option) {
-      //                 contenidoHTML += "<option value='" + option.value + "'>" + option.text + "</option>";
-      //               });
-      
-      //               contenidoHTML += "</select>";
-      //               contenidoHTML += "</td>";
-      //             }
-      
-      //             contenidoHTML += "</tr>";
-      //           }
-      
-      //           contenidoHTML += "</tbody></table>";
-      
-      //           nuevaPestana.document.open();
-      //           nuevaPestana.document.write(contenidoHTML);
-      //           nuevaPestana.document.close();
-      //         }
-      //       };
-      //     }
-      //   };
-      // }
-      
       function abrirFormulariVariables(IdV) {
         var nuevaPestana = window.open("", "_blank");
         var contenidoHTML = "<h2 class='bg-text-black text-center p-3 text-uppercase text-black'></h2>";
@@ -1980,162 +2409,6 @@ function mostrarVarSelec() {
       }
       
 
-
-      // function abrirFormulariVariables(IdV) {
-      //   var nuevaPestana = window.open("", "_blank");
-      //   var contenidoHTML = "<h2 class='bg-text-black text-center p-3 text-uppercase text-black'></h2>";
-      
-      //   var transaction = db.transaction("Encuesta_Variables", "readonly");
-      //   var encuestaObjectStore = transaction.objectStore("Encuesta_Variables");
-      //   var encuestaRequest = encuestaObjectStore.get(parseInt(IdV));
-      
-      //   encuestaRequest.onsuccess = function(event) {
-      //     var EncuestaVariables = event.target.result;
-      //     if (EncuestaVariables) {
-      //       contenidoHTML += "<h1 class='bg-text-black text-center p-3 text-uppercase text-black' style='text-align: center; font-size: x-large; padding: 10px 50px 20px; font-weight: bold;'>" + EncuestaVariables.TituloVar + "</h1>";
-      
-      //       var VariablesObjectStore = db.transaction("EncuestaVariablesFinal", "readonly").objectStore("EncuestaVariablesFinal");
-      //       var VariablesRequest = VariablesObjectStore.getAll();
-      
-      //       VariablesRequest.onsuccess = function(event) {
-      //         var variables = event.target.result;
-      //         if (variables) {
-      //           var variablesFiltrados = variables.filter(function(variable) {
-      //             return variable.encuestaVarId === parseInt(IdV);
-      //           });
-      
-      //           contenidoHTML += "<table class='table table-bordered'>";
-                
-                
-      
-      //           variablesFiltrados.forEach(function(variable, index) {
-      //             contenidoHTML += "<th>#</th>";
-      //             contenidoHTML += "<th>"+ variable.VariablesId+ "</th>";
-      //            // contenidoHTML += "<td>" + (index + 1) + "</td>";
-      //            contenidoHTML += "<tbody>";
-      //            contenidoHTML += "<tr>";
-      //             contenidoHTML += "<td>" + variable.VariablesId+ "</td>";
-      //             contenidoHTML += "<td>";
-      //             contenidoHTML += "<select class='form-select form-select-sm' aria-label='.form-select-sm example' onchange='updateOtherSelects(this)'>";
-      //             var options = [
-      //               { value: '0', text: '0' },
-      //               { value: '1', text: '1' },
-      //               { value: '2', text: '2' },
-      //               { value: '3', text: '3' },
-      //               { value: '4', text: 'P' }
-      //             ];
-      
-      //             options.forEach(function(option) {
-      //               contenidoHTML += "<option value='" + option.value + "'>" + option.text + "</option>";
-      //             });
-      
-      //             contenidoHTML += "</select>";
-      //             contenidoHTML += "</td>";
-      //             contenidoHTML += "</tr>";
-      //           });
-      
-      //           contenidoHTML += "</tbody></table>";
-      
-      //           nuevaPestana.document.open();
-      //           nuevaPestana.document.write(contenidoHTML);
-      //           nuevaPestana.document.close();
-      //         }
-      //       };
-      //     }
-      //   };
-      // }
-      
-      // // Función para actualizar los otros selects en la misma fila y columna con el mismo valor
-      // function updateOtherSelects(selectElement) {
-      //   var columnIndex = selectElement.parentNode.cellIndex;
-      //   var rowIndex = selectElement.parentNode.parentNode.rowIndex;
-      
-      //   var table = selectElement.parentNode.parentNode.parentNode;
-      //   var rows = table.getElementsByTagName("tr");
-      
-      //   for (var i = 0; i < rows.length; i++) {
-      //     var row = rows[i];
-      //     var cell = row.cells[columnIndex];
-      
-      //     if (i !== rowIndex) {
-      //       var select = cell.querySelector("select");
-      //       select.value = selectElement.value;
-      //     }
-      //   }
-      
-      //   var cells = table.rows[rowIndex].cells;
-      //   for (var j = 0; j < cells.length; j++) {
-      //     if (j !== columnIndex) {
-      //       var select = cells[j].querySelector("select");
-      //       select.value = selectElement.value;
-      //     }
-      //   }
-      // }
-      
-
-      // function abrirFormulariVariables(IdV) {
-      //   var nuevaPestana = window.open("", "_blank");
-      //   var contenidoHTML = "<h2 class='bg-text-black text-center p-3 text-uppercase text-black'></h2>";
-      
-      //   var transaction = db.transaction("Encuesta_Variables", "readonly");
-      //   var encuestaObjectStore = transaction.objectStore("Encuesta_Variables");
-      //   var encuestaRequest = encuestaObjectStore.get(parseInt(IdV));
-      
-      //   encuestaRequest.onsuccess = function(event) {
-      //     var EncuestaVariables = event.target.result;
-      //     if (EncuestaVariables) {
-      //       contenidoHTML += "<h1 class='bg-text-black text-center p-3 text-uppercase text-black' style='text-align: center; font-size: x-large; padding: 10px 50px 20px; font-weight: bold;'>" + EncuestaVariables.TituloVar + "</h1>";
-      
-      //       var VariablesObjectStore = db.transaction("EncuestaVariablesFinal", "readonly").objectStore("EncuestaVariablesFinal");
-      //       var VariablesRequest = VariablesObjectStore.getAll();
-      
-      //       VariablesRequest.onsuccess = function(event) {
-      //         var variables = event.target.result;
-      //         if (variables) {
-      //           var variablesFiltrados = variables.filter(function(variable) {
-      //             return variable.encuestaVarId === parseInt(IdV);
-      //           });
-      
-      //           contenidoHTML += "<table class='table table-bordered'>";
-      //           contenidoHTML += "<thead><tr><th>#</th><th>Variable</th><th>Valor</th></tr></thead>";
-      //           contenidoHTML += "<tbody>";
-      
-      //           variablesFiltrados.forEach(function(variable, index) {
-      //             contenidoHTML += "<tr>";
-      //             contenidoHTML += "<td>" + (index + 1) + "</td>";
-      //             contenidoHTML += "<td>" + variable.VariablesId+ "</td>";
-      //             contenidoHTML += "<td>";
-      //             contenidoHTML += "<select class='form-select form-select-sm' aria-label='.form-select-sm example'>";
-      //             var options = [
-      //               { value: '0', text: '0' },
-      //               { value: '1', text: '1' },
-      //               { value: '2', text: '2' },
-      //               { value: '3', text: '3' },
-      //               { value: '4', text: 'P' }
-      //             ];
-      
-      //             options.forEach(function(option) {
-      //               contenidoHTML += "<option value='" + option.value + "'>" + option.text + "</option>";
-      //             });
-      
-      //             contenidoHTML += "</select>";
-      //             contenidoHTML += "</td>";
-      //             contenidoHTML += "</tr>";
-      //           });
-      
-      //           contenidoHTML += "</tbody></table>";
-      
-      //           nuevaPestana.document.open();
-      //           nuevaPestana.document.write(contenidoHTML);
-      //           nuevaPestana.document.close();
-      //         }
-      //       };
-      //     }
-      //   };
-      // }
-
-
-
       function redireccionarPagina(encuestaId) {
         // Aquí puedes redirigir a la página deseada utilizando el ID de la encuesta
         // Por ejemplo:
@@ -2183,13 +2456,6 @@ function mostrarVarSelec() {
         };
       }
       
-
-
-
-
-      
-      
-
 
       function buscarEVar() {
         var cadena = "<table class='table table-bordered'>";
@@ -2272,11 +2538,7 @@ function mostrarVarSelec() {
        }
 
          function CrearReactivo(){
-          //control();
-          // var url_string = window.location.href="/pestañas_Encuestador/reactivo_crear_reactivos.html"; //
-          // var url = new URL(url_string);
-          // var c = url.searchParams.get("Usuario");
-          // document.getElementById("aqui").value = c;
+
 
          var creador = document.getElementById("aqui").value; 
           var id = document.getElementById("ReactivoCre").value.trim();
@@ -2339,6 +2601,7 @@ function mostrarVarSelec() {
             return tx;
         }
         buildList()
+        tipoR()
         //crearReactivos()
       }
       
@@ -2627,6 +2890,7 @@ function crearEncuestaFinalVariables() {
       console.log("Encuesta creada con id: ", encuestaVarId, TituloVar);
       
       var VariablesSeleccionados = await obtenerVariablesSeleccionados() 
+   
      
       // await crearRelacionEncuestaVariables(encuestaVarId, VariablesSeleccionados);
       var tx = db.transaction(["EncuestaVariablesFinal"], "readwrite");
@@ -2695,30 +2959,111 @@ function contieneCheckboxId(checkboxes, id) {
   return false;
 }
 
-// async function crearRelacionEncuestaVariables(encuestaVarId, VariablesSeleccionados) {
-//   var tx = db.transaction(["EncuestaVariablesFinal"], "readwrite");
-//   var store = tx.objectStore("EncuestaVariablesFinal");
-
-//   VariablesSeleccionados.forEach(function(VariablesId) {
-//     store.add({
-//       encuestaVarId: encuestaVarId,
-//       VariablesId: VariablesId
-//     });
-//   });
-
-//   return new Promise((resolve, reject) => {
-//     tx.oncomplete = function() {
-//       resolve();
-//     };
-
-//     tx.onerror = function(event) {
-//       reject(event.target.error);
-//     };
-//   });
-// }
 
 
-//-----------------------------
+
+function mostrarTablaEnOtraPestana(encuestaVarId) {
+ 
+  var nuevaVentana = window.open('/pestañas_Encuestador/EncuestaVariables.html');
+
+  // Cuando la ventana se haya cargado, llama a la función EncuestaVarMostrar para mostrar la tabla
+  nuevaVentana.onload = function () {
+    nuevaVentana.EncuestaVarMostrar(encuestaVarId);
+  };
+}
+
+async function EncuestaVarMostrar(encuestaVarId) {
+  var tablaEncuesta = document.getElementById('tablaEncuestaVar');
+  var table = document.createElement('table');
+  table.classList.add('table', 'table-bordered');
+
+  var thead = document.createElement('thead');
+  var trHeader = document.createElement('tr');
+  var thIndex = document.createElement('th');
+  thIndex.textContent = '#';
+  trHeader.appendChild(thIndex);
+
+  var tx = db.transaction(["EncuestaVariablesFinal"], "readonly");
+  var store = tx.objectStore("EncuestaVariablesFinal");
+  var index = store.index("encuestaVarId");
+
+  // Create a map to store variable names as keys and their corresponding data as values
+  var variableDataMap = new Map();
+
+  var cursor = await index.openCursor(IDBKeyRange.only(encuestaVarId));
+
+  cursor.onsuccess = function (event) {
+    var cursor = event.target.result;
+    if (cursor) {
+      var variableId = cursor.value.VariablesId;
+
+      // Store the variable ID and data in the map
+      variableDataMap.set(variableId, cursor.value);
+
+      var th = document.createElement('th');
+      th.textContent = variableId;
+      trHeader.appendChild(th);
+
+      cursor.continue();
+    } else {
+      thead.appendChild(trHeader);
+      table.appendChild(thead);
+
+      var tbody = document.createElement('tbody');
+
+      // Calculate numColumns dynamically based on the number of variables
+      var numColumns = variableDataMap.size;
+
+      // Loop through the map to create rows for each variable
+      for (const [variableId, data] of variableDataMap) {
+        var tr = document.createElement('tr');
+        var td = document.createElement('td');
+        td.textContent = variableId;
+        tr.appendChild(td);
+
+        for (var i = 1; i <= numColumns; i++) {
+          var td = document.createElement('td');
+          var select = document.createElement('select');
+          select.addEventListener('change', function () {
+            var variableId = this.parentElement.parentElement.firstChild.textContent;
+            var selectedValue = this.value;
+            obtenerVariablesSeleccionados(variableId, selectedValue);
+          });
+          select.classList.add('form-select', 'form-select-sm');
+          select.setAttribute('aria-label', '.form-select-sm example');
+          var options = [
+            { value: '0', text: '0' },
+            { value: '1', text: '1' },
+            { value: '2', text: '2' },
+            { value: '3', text: '3' },
+            { value: '4', text: 'P' }
+          ];
+
+          for (var j = 0; j < options.length; j++) {
+            var option = document.createElement('option');
+            option.value = options[j].value;
+            option.textContent = options[j].text;
+            select.appendChild(option);
+          }
+
+          td.appendChild(select);
+          tr.appendChild(td);
+        }
+
+        tbody.appendChild(tr);
+      }
+
+      table.appendChild(tbody);
+      tablaEncuesta.innerHTML = '';
+      tablaEncuesta.appendChild(table);
+
+      console.log('Encuesta mostrada correctamente');
+    }
+  };
+}
+
+
+///-----------------------------
 function busVaC(){
   var columnas = parseInt(prompt("columnas"));
   var filas= parseInt(prompt("colum"));  
@@ -2819,7 +3164,7 @@ function TiposOnChange(sel) {
        divT.style.display = "none";
   }
 
-  tipoR();
+ // tipoR();
 }
 
 
@@ -2828,7 +3173,7 @@ function TiposOnChange(sel) {
          function tipoR(){
           var TipoRes= document.getElementById("TipoRes").selectedIndex;
           var idR = document.getElementById("ReactivoCre").value
-
+          
           var TipoR = db.transaction(["TipoRes"], "readwrite")
           .objectStore("TipoRes")
           if(TipoR == ''){
@@ -2841,9 +3186,36 @@ function TiposOnChange(sel) {
               TipoR.add({TipoRes:'Cerrada',idR:idR});
             }
             if(TipoRes == 3){
-              TipoR.add({TipoRes:'Opcion_Mul',idR:idR});
              
-             
+              var Res = document.getElementById("respuestasSelec").selectedIndex;
+              var respuesta = document.getElementById("Respuesta1").value
+             var respuesta2 = document.getElementById("Respuesta2").value;
+             var respuesta3 = document.getElementById("Respuesta3").value.trim();
+  var respuesta4 = document.getElementById("Respuesta4").value;
+  var respuesta5 = document.getElementById("Respuesta5").value;
+              if (Res === '') {
+                alert("Seleccione la cantidad de posibles respuestas");
+              } else{
+                if(Res == 1){
+                TipoR.add({ TipoRes: "Opcion_Mul", idR: idR, Respuesta: Res, respuestas: respuesta });
+                  //TipoR.add({ TipoRes: "Opcion_Mul", idR: idR, Respuesta: Res, respuesta:respuesta})
+                }else if(Res == 2){
+                 // TipoR.add({ TipoRes: "Opcion_Mul", idR: idR, Respuesta: Res })
+                  TipoR.add({ TipoRes: "Opcion_Mul", idR: idR, Respuesta: Res, respuestas: respuesta,respuesta2: respuesta2 });
+                } else if(Res == 3){
+                  TipoR.add({ TipoRes: "Opcion_Mul", idR: idR, Respuesta: Res , respuestas: respuesta,respuesta2: respuesta2,
+                  respuesta3: respuesta3})
+                 
+                }else if(Res == 4){
+                  TipoR.add({ TipoRes: "Opcion_Mul", idR: idR, Respuesta: Res, 
+                  respuestas: respuesta,respuesta2: respuesta2,respuesta3: respuesta3,respuesta4: respuesta4})
+                 
+               
+              } else if(Res == 5){
+                TipoR.add({ TipoRes: "Opcion_Mul", idR: idR, Respuesta: Res 
+                , respuestas: respuesta,respuesta2: respuesta2,respuesta3: respuesta3,respuesta4: respuesta4, respuesta5: respuesta5})
+              }
+              //ResOpMul();
           }
             if(TipoRes == 4){
               TipoR.add({TipoRes:'Opcion_Mul_Uno',idR:idR});
@@ -2853,51 +3225,54 @@ function TiposOnChange(sel) {
           TipoR.onsuccess = function(e){
             console.log(e);
           }
-          ResOpMul();
+        //    ResOpMul();
+       
          }
-
-         function NumOpMul(){  
-              var Res= document.getElementById("respuestasSelec").selectedIndex;
-               var NumOpMul = db.transaction(["ReacOpMul"], "readwrite")
-          .objectStore("ReacOpMul")
-          if(Res == ''){
-           alert('seleccione la cantidad de posibles respuestas');
-            }else{
-              if(Res == 1){
-                NumOpMul.add({Res:'1'});
-          
-              }
-              if(Res == 2){
-                NumOpMul.add({Res:'2'});
-                
-              }
-              if(Res == 3){
-                NumOpMul.add({Res:'3'});
-               
-              }
-              if(Res == 4){
-                NumOpMul.add({Res:'4'});
-               
-              if(Res == 5){
-                NumOpMul.add({Res:'5'});
-              }
-            }
-          
-            NumOpMul.onsuccess = function(e){
-              console.log(e);
-             
-            }
-         }
-         ResOpMul()
+         TiposOpciones(sel)
         }
 
+        //  function NumOpMul(){  
+        //       var Res= document.getElementById("respuestasSelec").selectedIndex;
+        //        var NumOpMul = db.transaction(["ReacOpMul"], "readwrite")
+        //   .objectStore("ReacOpMul")
+        //   if(Res == ''){
+        //    alert('seleccione la cantidad de posibles respuestas');
+        //     }else{
+        //       if(Res == 1){
+        //         NumOpMul.add({Res:'1'});
+          
+        //       }
+        //       if(Res == 2){
+        //         NumOpMul.add({Res:'2'});
+                
+        //       }
+        //       if(Res == 3){
+        //         NumOpMul.add({Res:'3'});
+               
+        //       }
+        //       if(Res == 4){
+        //         NumOpMul.add({Res:'4'});
+               
+        //       if(Res == 5){
+        //         NumOpMul.add({Res:'5'});
+        //       }
+        //     }
+          
+        //     NumOpMul.onsuccess = function(e){
+        //       console.log(e);
+             
+        //     }
+        //  }
+        //  ResOpMul()
+        // }
+
 function ResOpMul(){
-  var reactivo = document.getElementById("ReactivoCre").value.trim();
-  var respuesta = document.getElementById("Respuesta1").value.trim();
+ var respuesta = document.getElementById("Respuesta1").value.trim();
   var respuesta2 = document.getElementById("Respuesta2").value.trim();
   var respuesta3 = document.getElementById("Respuesta3").value.trim();
   var respuesta4 = document.getElementById("Respuesta4").value.trim();
   var respuesta5 = document.getElementById("Respuesta5").value.trim();
+  var reactivo = document.getElementById("ReactivoCre").value.trim();
 
   var ResOpMul = db.transaction(["ReOpM"], "readwrite").objectStore("ReOpM");
 
@@ -2975,7 +3350,7 @@ function ResOpMul(){
            divT.style.display = "none";
 
 
-      }else if (sel.value=="12"){
+      } else if (sel.value=="12"){
    
       var  divC = document.getElementById("Opcion1");
         divC.style.display = "";
@@ -3057,8 +3432,8 @@ function ResOpMul(){
            divT = document.getElementById("Opcion5");
            divT.style.display = "none";
       }
-      NumOpMul();
-
+      //NumOpMul();
+     // tipoR();
 }
 
    //mostrar reactivo segun categoria
@@ -3581,6 +3956,8 @@ function mostrarPreguntas() {
     }
   };
 }
+
+ 
   var encuestaId;
 
 
@@ -4073,194 +4450,10 @@ function mostrarDatosUsuario(usuario) {
 
 
 
-function mostrarTablaEnOtraPestana(encuestaVarId) {
- 
-  var nuevaVentana = window.open('/pestañas_Encuestador/EncuestaVariables.html');
-
-  // Cuando la ventana se haya cargado, llama a la función EncuestaVarMostrar para mostrar la tabla
-  nuevaVentana.onload = function () {
-    nuevaVentana.EncuestaVarMostrar(encuestaVarId);
-  };
-}
-
-async function EncuestaVarMostrar(encuestaVarId) {
-  var tablaEncuesta = document.getElementById('tablaEncuestaVar');
-  var table = document.createElement('table');
-  table.classList.add('table', 'table-bordered');
-
-  var thead = document.createElement('thead');
-  var trHeader = document.createElement('tr');
-  var thIndex = document.createElement('th');
-  thIndex.textContent = '#';
-  trHeader.appendChild(thIndex);
-
-  var tx = db.transaction(["EncuestaVariablesFinal"], "readonly");
-  var store = tx.objectStore("EncuestaVariablesFinal");
-  var index = store.index("encuestaVarId");
-
-  // Create a map to store variable names as keys and their corresponding data as values
-  var variableDataMap = new Map();
-
-  var cursor = await index.openCursor(IDBKeyRange.only(encuestaVarId));
-
-  cursor.onsuccess = function (event) {
-    var cursor = event.target.result;
-    if (cursor) {
-      var variableId = cursor.value.VariablesId;
-
-      // Store the variable ID and data in the map
-      variableDataMap.set(variableId, cursor.value);
-
-      var th = document.createElement('th');
-      th.textContent = variableId;
-      trHeader.appendChild(th);
-
-      cursor.continue();
-    } else {
-      thead.appendChild(trHeader);
-      table.appendChild(thead);
-
-      var tbody = document.createElement('tbody');
-
-      // Calculate numColumns dynamically based on the number of variables
-      var numColumns = variableDataMap.size;
-
-      // Loop through the map to create rows for each variable
-      for (const [variableId, data] of variableDataMap) {
-        var tr = document.createElement('tr');
-        var td = document.createElement('td');
-        td.textContent = variableId;
-        tr.appendChild(td);
-
-        for (var i = 1; i <= numColumns; i++) {
-          var td = document.createElement('td');
-          var select = document.createElement('select');
-          select.addEventListener('change', function () {
-            var variableId = this.parentElement.parentElement.firstChild.textContent;
-            var selectedValue = this.value;
-            obtenerVariablesSeleccionados(variableId, selectedValue);
-          });
-          select.classList.add('form-select', 'form-select-sm');
-          select.setAttribute('aria-label', '.form-select-sm example');
-          var options = [
-            { value: '0', text: '0' },
-            { value: '1', text: '1' },
-            { value: '2', text: '2' },
-            { value: '3', text: '3' },
-            { value: '4', text: 'P' }
-          ];
-
-          for (var j = 0; j < options.length; j++) {
-            var option = document.createElement('option');
-            option.value = options[j].value;
-            option.textContent = options[j].text;
-            select.appendChild(option);
-          }
-
-          td.appendChild(select);
-          tr.appendChild(td);
-        }
-
-        tbody.appendChild(tr);
-      }
-
-      table.appendChild(tbody);
-      tablaEncuesta.innerHTML = '';
-      tablaEncuesta.appendChild(table);
-
-      console.log('Encuesta mostrada correctamente');
-    }
-  };
-}
 
 
-// async function EncuestaVarMostrar(encuestaVarId) {
-//   var tablaEncuesta = document.getElementById('tablaEncuestaVar');
-//   var table = document.createElement('table');
-//   table.classList.add('table', 'table-bordered');
 
-//   var thead = document.createElement('thead');
-//   var trHeader = document.createElement('tr');
-//   var thIndex = document.createElement('th');
-//   thIndex.textContent = '#';
-//   trHeader.appendChild(thIndex);
 
-//   var tx = db.transaction(["EncuestaVariablesFinal"], "readonly");
-//   var store = tx.objectStore("EncuestaVariablesFinal");
-//   var index = store.index("encuestaVarId");
-//   var numColumns = 7; // Número de columnas por variable
-
-//   // Create a map to store variable names as keys and their corresponding data as values
-//   var variableDataMap = new Map();
-
-//   var cursor = await index.openCursor(IDBKeyRange.only(encuestaVarId));
-
-//   cursor.onsuccess = function (event) {
-//     var cursor = event.target.result;
-//     if (cursor) {
-//       var variableId = cursor.value.VariablesId;
-
-//       // Store the variable ID and data in the map
-//       variableDataMap.set(variableId, cursor.value);
-
-//       var th = document.createElement('th');
-//       th.textContent = variableId;
-//       trHeader.appendChild(th);
-
-//       cursor.continue();
-//     } else {
-//       thead.appendChild(trHeader);
-//       table.appendChild(thead);
-
-//       var tbody = document.createElement('tbody');
-
-//       // Loop through the map to create rows for each variable
-//       for (const [variableId, data] of variableDataMap) {
-//         var tr = document.createElement('tr');
-//         var td = document.createElement('td');
-//         td.textContent = variableId;
-//         tr.appendChild(td);
-
-//         for (var i = 1; i <= numColumns; i++) {
-//           var td = document.createElement('td');
-//           var select = document.createElement('select');
-//           select.addEventListener('change', function () {
-//             var variableId = this.parentElement.parentElement.firstChild.textContent;
-//             var selectedValue = this.value;
-//             obtenerVariablesSeleccionados(variableId, selectedValue);
-//           });
-//           select.classList.add('form-select', 'form-select-sm');
-//           select.setAttribute('aria-label', '.form-select-sm example');
-//           var options = [
-//             { value: '0', text: '0' },
-//             { value: '1', text: '1' },
-//             { value: '2', text: '2' },
-//             { value: '3', text: '3' },
-//             { value: '4', text: 'P' }
-//           ];
-
-//           for (var j = 0; j < options.length; j++) {
-//             var option = document.createElement('option');
-//             option.value = options[j].value;
-//             option.textContent = options[j].text;
-//             select.appendChild(option);
-//           }
-
-//           td.appendChild(select);
-//           tr.appendChild(td);
-//         }
-
-//         tbody.appendChild(tr);
-//       }
-
-//       table.appendChild(tbody);
-//       tablaEncuesta.innerHTML = '';
-//       tablaEncuesta.appendChild(table);
-
-//       console.log('Encuesta mostrada correctamente');
-//     }
-//   };
-// }
 
 
 function mostrarEncuestaDatos() {
