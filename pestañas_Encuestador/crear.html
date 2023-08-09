@@ -112,6 +112,18 @@
                 </ul>
             </li>
 
+            <!-- Cerrar cesion -->
+            <li id="cerrarSesionBtnContainer">
+                <a href="#" id="cerrarSesionBtn" onclick="confirmarCerrarSesion()">
+                    <i class="bx bx-log-out"></i>
+                    <span class="link_name">Cerrar Sesión</span>
+                </a>
+                <ul class="sub-menu blank">
+                    <li><a class="link_name" href="#" onclick="confirmarCerrarSesion()">Cerrar Sesión</a></li>
+
+                </ul>
+            </li>
+
         </ul>
     </div>
 
@@ -168,58 +180,61 @@
                         </div>
                     </div>
 
+                    <!-- botones -->
                     <div class="row mb-4">
-                        <label class="col-md-4 col-form-label px-5">Reactivos:</label>
-
-
-                        <div class="col-md-12 text-center">
-
-                            <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" type="button"
-                                id="boton_crear"
-                                onclick="location.href='../pestañas_Encuestador/reactivo_crear_reactivos.html'">Crear</button>
-
-
-                            <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" id="boton_agregar"
-                                type="button"
-                                onclick=" Encuesta1(),window.location.href='../pestañas_Encuestador/reactivo_categoria.html'">
-                                Agregar </button>
-
-                            <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" type="button"
-                                id="boton_crear"
-                                onclick="location.href='../pestañas_Encuestador/editR.html'">Editar</button>
-                        </div>
-                    </div>
-
-                    <div class="row mb-4">
-                        <div class=" col-sm-12 col-form-label px-5">
-                            <div class=" ">
-                                Reactivos de la encuesta
-                                <div class="container">
-                                    <div class="row">
-                                        <div id="salida2"></div>
-                                        <div id="salidapredeSelec"></div>
-
-                                    </div>
-                                </div>
+                        <div class="col-sm-12 col-form-label text-center">
+                            <div class="bg-text-black text-center p-3 text-uppercase text-black">
+                                <h5>Opciones para Agregar, Crear y Editar los reactivos</h5>
                             </div>
 
+                            <div class="d-flex flex-column flex-sm-row justify-content-center align-items-center">
+
+                                <button
+                                    class="btn btn-outline-success bg-border-mostaza bg-text-mostaza mb-2 me-2 w-100"
+                                    type="button" id="boton_crear"
+                                    onclick="location.href='../pestañas_Encuestador/reactivo_crear_reactivos.html'">Crear</button>
+
+
+                                <button
+                                    class="btn btn-outline-success bg-border-mostaza bg-text-mostaza mb-2 me-2 w-100"
+                                    id="boton_agregar" type="button"
+                                    onclick=" Encuesta1(),window.location.href='../pestañas_Encuestador/reactivo_categoria.html'">
+                                    Agregar </button>
+
+                                <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza mb-2 w-100"
+                                    type="button" id="boton_crear"
+                                    onclick="location.href='../pestañas_Encuestador/editR.html'">Editar</button>
+                            </div>
                         </div>
                     </div>
 
-                    <div class=" row mb-4 p-3">
-                        <div class="col-sm-12 text-center">
+                    <!-- tabla bd -->
+                    <div class="bg-text-black text-center p-3 text-uppercase text-black">
+                        <h5>Lista de reactivos que tienes agregadas o creadas</h5>
+                    </div>
+                    <div class="bg-text-black text-center p-3 text-black">
+                        <div class="row">
+                            <div id="salida2"></div>
+                            <div id="salidapredeSelec"></div>
+                        </div>
+                    </div>
 
+                    <div class="row mb-4">
+                        <div class="col-sm-4 offset-sm-4 text-center">
                             <button onclick="crearEncuestaFinal(),refrescarAlmacen()"
-                                class="btn btn-outline-success bg-border-mostaza bg-text-mostaza"
+                                class="btn btn-outline-success bg-border-mostaza bg-text-mostaza mb-2 w-100"
                                 id="boton-crear-encuesta" type="submit" data-bs-toggle="modal"
-                                data-bs-target="#Modal_vistaPrevia" disabled> Crear Encuesta</button>
+                                data-bs-target="#Modal_vistaPrevia" disabled>Crear Encuesta</button>
                         </div>
                     </div>
                 </form>
 
-                <div class="col-sm-12 text-center">
-                    <button onclick="window.location.href='../pestañas_Encuestador/dashboard.html'"
-                        class="btn btn-outline-success bg-border-mostaza bg-text-mostaza"> Inicio</button>
+                <div class="row mb-4">
+                    <div class="col-sm-4 offset-sm-4 text-center">
+                        <button onclick="window.location.href='../pestañas_Encuestador/dashboard.html'"
+                            class="btn btn-outline-success bg-border-mostaza bg-text-mostaza mb-2 w-100">
+                            Inicio</button>
+                    </div>
                 </div>
             </div>
         </section>
@@ -254,13 +269,13 @@
             </div>
         </div>
     </section>
-    <script> 
-        window.onload = function() {
-        
+    <script>
+        window.onload = function () {
+
             MostrarLogo();
-        
-      };
-        </script>
+
+        };
+    </script>
     <script>
         let arrow = document.querySelectorAll(".arrow");
         for (var i = 0; i < arrow.length; i++) {
@@ -276,8 +291,8 @@
             sidebar.classList.toggle("close");
         });
     </script>
-        <script src="../BD/app.js"></script>
-        <script src="../CSS/SweetAlert.js"></script>
+    <script src="../BD/app.js"></script>
+    <script src="../CSS/SweetAlert.js"></script>
 </body>
 
 </html>

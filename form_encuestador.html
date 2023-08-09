@@ -72,7 +72,7 @@
             </div>
 
 
-            <form name="formEncuestado" action="/guardar-datos" method="post" class="needs-validation" id="EncuestadoForm">
+            <form name="formEncuestado" action="guardar.php" method="post" class="needs-validation" id="EncuestadoForm">
                 <div id="grupo__nombrecompletos" class="row mb-3">
                     <label for="nombrecompletos" class="col-sm-4 col-form-label px-4">Nombres: </label>
                     <div  class="col-sm-8">
@@ -243,7 +243,7 @@
                         <div  id="grupo__Contarseña" class="row mb-3">
                             <label for="contra" class="col-sm-4 col-form-label px-4 ">Contraseña: </label>
                             <div class="col-sm-8">
-                                <input type="password" class="form-control" name="Contraseña" placeholder="Contraseña" id="contrasenia"
+                                <input type="password" class="form-control" name="Contrasenia" placeholder="Contraseña" id="Contrasenia"
                                     required>
                                 <div class="valid-feedback">
                                     
@@ -257,7 +257,7 @@
                         <div id="grupo__Contarseña2" class="row mb-3">
                             <label for="contra" class="col-sm-4 col-form-label px-4 ">Confirmar contraseña: </label>
                             <div class="col-sm-8">
-                                <input type="password" class="form-control" name="Contraseña2" placeholder="Contraseña" id="contrasenia2"
+                                <input type="password" class="form-control" name="Contrasenia2" placeholder="Contraseña" id="Contrasenia2"
                                     required>
                                 <div class="valid-feedback">
                                     
@@ -355,6 +355,8 @@
   <script src="CSS/SweetAlert.js"></script>
   <script src="CSS/prueba.js"></script>
   <script src="/BD/src/App.js"></script>
+  <script src="/BD/config.php"></script>
+  <script src="/BD/guardar.php"></script>
 
 
 </body>
