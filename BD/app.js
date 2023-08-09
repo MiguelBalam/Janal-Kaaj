@@ -507,7 +507,7 @@ function mostrarNoticiasEnTarjetas() {
   
 }
 
-/*function mostrarNoticiasIndex() {
+function mostrarNoticiasIndex() {
 
   const transaction = db.transaction('Noticias', 'readonly');
   const objectStore = transaction.objectStore('Noticias');
@@ -546,7 +546,8 @@ function mostrarNoticiasEnTarjetas() {
     db.close();
   };
 
-}*/
+}
+/*
 function mostrarNoticiasIndex() {
   const transaction = db.transaction('Noticias', 'readonly');
   const objectStore = transaction.objectStore('Noticias');
@@ -585,7 +586,7 @@ function mostrarNoticiasIndex() {
   transaction.oncomplete = function(event) {
     db.close();
   };
-}
+}*/
 
 
 
