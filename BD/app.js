@@ -36,6 +36,7 @@ var ObjectStoreReac;
         ObjectStore = db.createObjectStore('Noticias', {keyPath:'id', autoIncrement: true});
         ObjectStore.createIndex('titulo', 'titulo', { unique: false });
         ObjectStore.createIndex('cuerpo', 'cuerpo', { unique: false });
+        ObjectStore.createIndex('valor', 'valor', { unique: false });
         
         //Usuarios Administrador
         ObjectStore = db.createObjectStore('Administrador', {keyPath:'id', autoIncrement: true});
@@ -52,7 +53,7 @@ var ObjectStoreReac;
         ObjectStore.createIndex("correo","correo",{unique:true});
 
         ObjectStore = db.createObjectStore("EncuestaVariablesFinal", {keypth:"IdV" ,autoIncrement: true});
-       ObjectStore.createIndex("encuestaVarId","encuestaVarId",{unique:false});
+       ObjectStore.createIndex("encuestaVarId","encuestaVarId",{unique:true});
 
         db.createObjectStore("Encuestado",{autoIncrement: true});
         db.createObjectStore("Localidad", {autoIncrement: true});
@@ -60,9 +61,8 @@ var ObjectStoreReac;
         db.createObjectStore("Encuestador",{autoIncrement: true});
         //Encuestas
         ObjectStore= db.createObjectStore("Encuesta", {keyPath:"IdEn",autoIncrement: true});
-        ObjectStore.createIndex("fechaCreacionER","fechaCreacionER",{unique:true});
         ObjectStore.createIndex("EncuestaTitulo","Titulo",{unique:true});
-        ObjectStore.createIndex("EncuestaObjetivo","Objetivo",{unique:true});
+        ObjectStore.createIndex("EncuestaObjetivo","ObjetivoER",{unique:true});
         ObjectStore.createIndex("EncuestaInstruccion","Instrucciones",{unique:true});
 
         ObjectStore=db.createObjectStore("Encuesta_Reactivo", {autoIncrement: true});
@@ -95,7 +95,7 @@ var ObjectStoreReac;
         ObjectStore.createIndex("NombreVar","NombreVar", {unique: true});
       
         ObjectStore= db.createObjectStore("Encuesta_Variables", {keyPath:"IdV",autoIncrement: true});
-        ObjectStore.createIndex("encuestaVarId","encuestaVarId",{unique:false});
+        ObjectStore.createIndex("encuestaVarId","encuestaVarId",{unique:true});
         ObjectStore.createIndex("fechaCreacionE","fechaCreacionE",{unique:true});
         ObjectStore.createIndex("EncuestaTitulo","Titulo",{unique:true});
         ObjectStore.createIndex("EncuestaObjetivoV","Objetivo",{unique:true});
@@ -103,8 +103,7 @@ var ObjectStoreReac;
 
         ObjectStore= db.createObjectStore("VariableC", {keyPath:'id',autoIncrement: true});
 
-        ObjectStore=db.createObjectStore("selecVariables", {keypth:"idV2",autoIncrement: true});
-        ObjectStore.createIndex("VariablesId","VariablesId",{unique:true});
+        ObjectStore=db.createObjectStore("selecVariables", {keypth:"VariablesId",autoIncrement: true});
         ObjectStore=db.createObjectStore("selecVariablesCre", {keypth:"VariablesId",autoIncrement: true});
         console.log('upgrade',db);
        
@@ -122,33 +121,32 @@ var ObjectStoreReac;
     DBOpenReq.addEventListener('success',(ev)=>{
      
       db= ev.target.result;
-      mostrarPreguntas();
       EncuestaVistaPV2()
-      
-      mostrarVarSelec()
-      buscarEVarCre()
-    
-      mostrarEncuesta()
-      
       reactivoscrear()
       buscar()
       Encuesta1()
-      //mostrarVarSelec() 
+      mostrarVarSelec() 
       EncuestaVarMostrar()
    EncuestaVarMostrar(encuestaVarId)
 
    mostrarEncuestaDatos()
       buscarVar()
-      buscarV()
+      Encuesta1()
+      agregarDatosAdmin()
+      mostrarNoticiasEnTarjetas()
+      crearCardIndex()
+      crearCardNoticias()
+      mostrarVarSelec() 
+      EncuestaVarMostrar()
       //EncuestaVarMostrar() 
       cargarPagina()
       
       buscarE()
-      
+     
       //mostrarEncuestaVar(encuestaVarId)
    
 
-      buscarV()
+     
      
     
     //  EncuestaVistaVariables()
@@ -156,7 +154,8 @@ var ObjectStoreReac;
       mostrarEncuestaV() 
     
      
-     
+      mostrarVarSelec()
+      buscarV()
       
      
       //EncaEncuestaVista()
@@ -164,11 +163,8 @@ var ObjectStoreReac;
      // buscarEVar()
 
      buildList()
-   
-     
-    
-     
-      //buscarEVar()
+ 
+      buscarEVar()
      
      //mostrarPreguntas();
  
@@ -185,7 +181,7 @@ var ObjectStoreReac;
       //ReacPredeVista()
       // refrescarAlmacen()
      
-       
+       mostrarPreguntas();
      
     
   
@@ -351,10 +347,11 @@ function agregarEventoFormulario() {
 
     const titulo = document.getElementById('titulo').value;
     const cuerpo = document.getElementById('noticia').value;
+    const valor = 'down';
     const imagen = document.getElementById('image').files[0];
 
     // Llama a la función para almacenar los datos en la base de datos
-    guardarDatos(titulo, cuerpo, imagen);
+    guardarDatos(titulo, cuerpo, imagen, valor);
 
     Swal.fire({
       title: 'Se han enviado los datos',
@@ -371,7 +368,7 @@ function agregarEventoFormulario() {
   });
 }
 
-function guardarDatos(titulo, cuerpo, imagen) {
+function guardarDatos(titulo, cuerpo, imagen, valor) {
   const request = indexedDB.open('Janal', 1); // Abre la base de datos 'Janal' con la versión 1
 
   request.onerror = function(event) {
@@ -388,7 +385,7 @@ function guardarDatos(titulo, cuerpo, imagen) {
       let bits = e.target.result;
       const transaction = db.transaction('Noticias', 'readwrite');
       const objectStore = transaction.objectStore('Noticias');
-      const nuevaNoticia = { titulo: titulo, cuerpo: cuerpo, data: bits };
+      const nuevaNoticia = { titulo: titulo, cuerpo: cuerpo, data: bits, valor: valor};
       const requestAdd = objectStore.add(nuevaNoticia);
     
       requestAdd.onsuccess = function(event) {
@@ -509,6 +506,45 @@ function mostrarNoticiasEnTarjetas() {
     };
   
 }
+/*function mostrarNoticiasIndex2() {
+  const transaction = db.transaction('Noticias', 'readonly');
+  const objectStore = transaction.objectStore('Noticias');
+
+  const requestGetAll = objectStore.getAll();
+
+  requestGetAll.onsuccess = function(event) {
+    const noticias = event.target.result;
+
+    if (noticias && noticias.length > 0) {
+      // Crea las tarjetas con la cantidad de noticias obtenidas
+      crearCardIndex(noticias.length);
+
+      // Llenar cada tarjeta con los datos de las noticias que tienen título "abc"
+      for (let i = 0; i < noticias.length; i++) {
+        const noticia = noticias[i];
+        if (noticia.valor === "up") { // Filtrar por título "abc"
+          const tituloElement = document.getElementById(`titulo${i + 1}`);
+          const cuerpoElement = document.getElementById(`cuerpo${i + 1}`);
+          const imageElement = document.getElementById(`img${i + 1}`);
+
+          tituloElement.textContent = noticia.titulo;
+          cuerpoElement.textContent = noticia.cuerpo;
+          imageElement.src = 'data:image/jpeg;base64,' + btoa(noticia.data);
+        }
+      }
+    } else {
+      console.log('No se encontraron noticias en la base de datos');
+    }
+  };
+
+  requestGetAll.onerror = function(event) {
+    console.log('Error al obtener las noticias');
+  };
+
+  transaction.oncomplete = function(event) {
+    db.close();
+  };
+} */
 
 function mostrarNoticiasIndex() {
 
@@ -550,54 +586,13 @@ function mostrarNoticiasIndex() {
   };
 
 }
-/*
-function mostrarNoticiasIndex() {
-  const transaction = db.transaction('Noticias', 'readonly');
-  const objectStore = transaction.objectStore('Noticias');
-
-  const requestGetAll = objectStore.getAll();
-
-  requestGetAll.onsuccess = function(event) {
-    const noticias = event.target.result;
-
-    if (noticias && noticias.length > 0) {
-      // Crea las tarjetas con la cantidad de noticias obtenidas
-      crearCardIndex(noticias.length);
-
-      // Llenar cada tarjeta con los datos de las noticias que tienen título "abc"
-      for (let i = 0; i < noticias.length; i++) {
-        const noticia = noticias[i];
-        if (noticia.titulo === "abc") { // Filtrar por título "abc"
-          const tituloElement = document.getElementById(`titulo${i + 1}`);
-          const cuerpoElement = document.getElementById(`cuerpo${i + 1}`);
-          const imageElement = document.getElementById(`img${i + 1}`);
-
-          tituloElement.textContent = noticia.titulo;
-          cuerpoElement.textContent = noticia.cuerpo;
-          imageElement.src = 'data:image/jpeg;base64,' + btoa(noticia.data);
-        }
-      }
-    } else {
-      console.log('No se encontraron noticias en la base de datos');
-    }
-  };
-
-  requestGetAll.onerror = function(event) {
-    console.log('Error al obtener las noticias');
-  };
-
-  transaction.oncomplete = function(event) {
-    db.close();
-  };
-}*/
-
-
-
 function mostrarIDBoton2() {
   var urlParams = new URLSearchParams(window.location.search);
   var botonId = urlParams.get('id');
   console.log(botonId);
   guardarCambiosNoticia(botonId);
+  
+  //location.reload();
   
 }
 function mostrarIDBoton3() {
@@ -606,7 +601,7 @@ function mostrarIDBoton3() {
   console.log(botonId);
   restablecer(botonId);
 }
-/*
+
 function restablecer(id) {
   const idd = parseInt(id);
   const request = indexedDB.open('Janal', 1);
@@ -663,11 +658,10 @@ function restablecer(id) {
   request.onerror = function (event) {
     console.log('Error al abrir la base de datos:', event.target.error);
   };
-}*/
+}
 
 
 function mostrarEditNoticias(id) {
-
   const idd = parseInt(id);
   const transaction = db.transaction('Noticias', 'readonly');
   const objectStore = transaction.objectStore('Noticias');
@@ -719,7 +713,23 @@ function boton(id){
     // Cambiar a una nueva pestaña
     window.location.href = './editarNoticias.html?id=' + encodeURIComponent(botonId);
 }
+function botonSegAlim(id){
+  // Obtener el ID del botón que se hizo clic
   
+  const botonId = obtenerUltimoValorId(id);
+  
+  // Cambiar a una nueva pestaña
+  window.location.href = './seguridad-alimentaria.html#noticia' + encodeURIComponent(botonId);
+}
+
+function botonUpload(id){
+  // Obtener el ID del botón que se hizo clic
+  
+  const botonId = obtenerUltimoValorId(id);
+  appendUpToValor(botonId);
+  // Cambiar a una nueva pestaña
+  
+}
 
 
 
@@ -797,11 +807,22 @@ function crearTarjetas(numTarjetas) {
 }
 
 //cards para noticas index
-function crearCardIndex(numero) {
+function crearCardIndex() {
   const container = document.getElementById('cardContainer'); // El elemento contenedor donde se agregarán las tarjetas
-  let contador = 1; // Contador para el ID de las tarjetas
+  const transaction = db.transaction('Noticias', 'readonly');
+  const objectStore = transaction.objectStore('Noticias');
+  const requestGetAll = objectStore.getAll();
 
-  for (let i = 0; i < numero; i++) {
+ 
+  requestGetAll.onsuccess = (event) => {
+    const noticiasData = event.target.result;
+    console.log('Todos los datos de la tabla Noticias:', noticiasData);
+
+    noticiasData.forEach((noticia) => {
+      if (noticia.valor === "up") { 
+      const contador = noticia.id; // Aquí obtienes el key path id de cada objeto
+      console.log('ID:', contador);
+
   const colDiv = document.createElement('div');
   colDiv.className = 'col-lg-3';
   colDiv.id = `card${contador}`;
@@ -836,7 +857,9 @@ function crearCardIndex(numero) {
   flexRowDiv.className = "flex-row text-end";
 
   const linkElement = document.createElement("a");
-  linkElement.href = `seguridad-alimentaria.html#noticia${contador}`;
+  linkElement.onclick = function() {
+        botonSegAlim(this.id);
+      }
   linkElement.className = "link-card";
   linkElement.id = `link${contador}`;
   linkElement.textContent = `Ver más..`;
@@ -854,11 +877,21 @@ function crearCardIndex(numero) {
   
   container.appendChild(colDiv);
 
-  contador++;
+  
+  titleParagraph.textContent = noticia.titulo;
+  bodyParagraph.textContent = noticia.cuerpo;
+  imgElement.src = 'data:image/jpeg;base64,' + btoa(noticia.data);
 
-}
+  }
+  });
+  };
+  requestGetAll.onerror = (event) => {
+    console.error('Error al obtener los datos de la tabla Noticias', event);
+  };
 }
 
+function crearCardNoticias() {
+  const container = document.getElementById('editarNoticias');
 
   const transaction = db.transaction('Noticias', 'readonly');
   const objectStore = transaction.objectStore('Noticias');
@@ -906,6 +939,10 @@ function crearCardIndex(numero) {
 
       const linkElement = document.createElement("button");
       linkElement.className = "btn";
+      linkElement.onclick = function() {
+        botonUpload(this.id);
+      }
+
       linkElement.id = `btnPubli${contador}`;
       const icon = document.createElement("i");
       icon.className = "fa-solid fa-file-arrow-up";
@@ -956,6 +993,7 @@ function crearCardIndex(numero) {
   requestGetAll.onerror = (event) => {
     console.error('Error al obtener los datos de la tabla Noticias', event);
   };
+}
 
 
 //recien agregado
@@ -971,7 +1009,18 @@ function obtenerUltimoValorId(id) {
 
 
 function obtenerIdBoton(id) {
-  const ultimoNumero = obtenerUltimoValorId(id);/*
+  const ultimoNumero = obtenerUltimoValorId(id);
+  var message = "¿Estás seguro de eliminar esta noticia?";
+  var result = window.confirm(message);
+
+  if (result) {
+      alert("Noticia eliminada con éxito");
+      eliminarUsuario(ultimoNumero);
+      location.reload();
+  } else {
+      
+  }
+  /*
   if (ultimoNumero !== null) {
     Swal.fire({
       title: '¿Estás seguro de eliminar esta noticia?',
@@ -982,8 +1031,8 @@ function obtenerIdBoton(id) {
       if (result.isConfirmed) {
         Swal.fire('Noticia eliminada', '', 'success')
         console.log("Último número del ID:", ultimoNumero);*/
-        console.log("Último número del ID:", ultimoNumero);
-        eliminarUsuario(ultimoNumero);
+        //console.log("Último número del ID:", ultimoNumero);
+        //eliminarUsuario(ultimoNumero);
      /* } else if (result.isDenied) {
         
       }
@@ -993,6 +1042,53 @@ function obtenerIdBoton(id) {
     console.log("No se encontró ningún número en el ID.");
   }*/
 }
+function appendUpToValor(id){
+    const transaction = db.transaction(['Noticias'], 'readwrite');
+    const objectStore = transaction.objectStore('Noticias');
+
+    const getRequest = objectStore.get(id);
+  
+    getRequest.onsuccess = function(event) {
+      const noticia = event.target.result;
+  
+      if (noticia) {
+        //noticia.valor = 'up';
+        noticia.valor = noticia.valor === 'up' ? 'down' : 'up'; // Cambiar entre 'up' y 'down'
+        const updateRequest = objectStore.put(noticia);
+
+        updateRequest.onsuccess = function() {
+          console.log(`Campo 'valor' de la noticia con ID ${id} actualizado a 'up'`);
+        };
+  
+        updateRequest.onerror = function() {
+          console.error('Error al actualizar el campo "valor" de la noticia');
+        };
+      } else {
+        console.error(`No se encontró la noticia con ID ${id}`);
+      }
+    };
+  
+    getRequest.onerror = function() {
+      console.error('Error al obtener la noticia para editar');
+    };
+  }
+
+function refreshPage() {
+    location.reload();
+}
+function showConfirmationPopup() {
+  var message = "¿Estás seguro de continuar?";
+  var result = window.confirm(message);
+
+  if (result) {
+      alert("Has elegido continuar.");
+  } else {
+      alert("Has cancelado la acción.");
+  }
+}
+
+
+
 function publicarNoticia(id){ 
   const idnoti = document.getElementById(id);
   if(idnoti.value == 'Q'){
@@ -1028,6 +1124,16 @@ function publicarNoticia(id){
     })
   }
   
+}
+function limpiarFormNoticias() {
+  document.getElementById("formularioNews").reset();
+
+  document.getElementById("img-result").src = "";
+
+  const feedbackElements = document.querySelectorAll(".valid-feedback, .invalid-feedback");
+  for (const element of feedbackElements) {
+    element.style.display = "none";
+  }
 }
 
       
@@ -1065,6 +1171,7 @@ function obtenerUsuario(id) {
 
 }
 */
+/*
 function abrirBaseDatos() {
   const request = indexedDB.open('Janal', 1);
 
@@ -1082,7 +1189,7 @@ function abrirBaseDatos() {
   request.onerror = function(event) {
     console.log('Error al abrir la base de datos:', event.target.error);
   };
-}
+}*/
  
 function guardarCambiosNoticia(idd) {
   const id = parseInt(idd);
@@ -1120,6 +1227,7 @@ function guardarCambiosNoticia(idd) {
 
         requestUpdateData.onsuccess = function (event) {
           console.log('Noticia actualizada con éxito.');
+          //window.history.back(); 
         };
 
         requestUpdateData.onerror = function (event) {
@@ -1129,7 +1237,7 @@ function guardarCambiosNoticia(idd) {
         console.log('No se encontró la noticia con el ID especificado.');
       }
     };
-
+    
     requestUpdate.onerror = function (event) {
       console.log('Error al obtener la noticia:', event.target.error);
     };
@@ -1138,8 +1246,10 @@ function guardarCambiosNoticia(idd) {
       console.log('Transacción completada.');
       db.close();
     };
+    
   };
-
+  
+  
   request.onerror = function (event) {
     console.log('Error al abrir la base de datos:', event.target.error);
   };
@@ -1153,27 +1263,15 @@ function guardarCambiosNoticia(idd) {
   return tx;
 }
 
-  function makeTX(storeName, mode) {
-  let tx = db.transaction(storeName, mode);
-  tx.onerror = (err) => {
-    console.warn(err);
-  };
-  return tx;
-}
 
-
-
-function eliminarUsuario() {
-  let key = document.whiskeyForm.getAttribute('data-key');
-  console.log(key);
-
-  if (key) {
+function eliminarUsuario(id) {
+  if (id) {
     let tx = makeTX('Noticias', 'readwrite');
     tx.oncomplete = (ev) => {
     };
 
     let store = tx.objectStore('Noticias');
-    let request = store.delete(key);
+    let request = store.delete(id);
     request.onsuccess = (ev) => {
       console.log('Objeto eliminado exitosamente');
     };
@@ -1296,41 +1394,6 @@ function manejadorValidacion(e) {
       
       localStorage.setItem("datosUsuario", JSON.stringify(datos));
     }
-    function confirmarCerrarSesion() {
-      Swal.fire({
-          title: '¿Estás seguro?',
-          text: '¿Deseas cerrar la sesión?',
-          icon: 'warning',
-          showCancelButton: true,
-          confirmButtonColor: '#3085d6',
-          cancelButtonColor: '#d33',
-          confirmButtonText: 'Sí, cerrar sesión',
-          cancelButtonText: 'Cancelar'
-      }).then((result) => {
-          if (result.isConfirmed) {
-              // Si el usuario confirma, eliminar el usuario activo del almacenamiento local
-              localStorage.removeItem('datosUsuario');
-              console.log("Sesión cerrada correctamente.");
-              
-              // Mostrar una alerta con el mensaje de cierre en dos segundos
-              Swal.fire({
-                  title: 'Cerrando sesión...',
-                  icon: 'success',
-                  timer: 2000,
-                  timerProgressBar: true,
-                  showConfirmButton: false
-              });
-  
-              // Redireccionar a la página de inicio de sesión después de dos segundos
-              setTimeout(function() {
-                  window.location.href = '/login.html';
-              }, 2000);
-          } else {
-              // Si el usuario cancela, no hacer nada
-          }
-      });
-  }
-  
     
     function cargarPagina() {
       var datosGuardados = localStorage.getItem("datosUsuario");
@@ -1346,133 +1409,7 @@ function manejadorValidacion(e) {
     }
   
     //Comparar datos 
-    function miFuncion() {
-      console.log("Iniciando ejecución de la función.");
-    
-      var datosUsuario = localStorage.getItem("datosUsuario");
-      if (datosUsuario) {
-        var datos = JSON.parse(datosUsuario);
-        var primerValor = datos.valor1;
-    
-        console.log("El valor de primerValor es:", primerValor);
-    
-        var request = indexedDB.open('Janal', 1);
-    
-        request.onsuccess = function(event) {
-          var db = event.target.result;
-          var transaction = db.transaction(['Usuario'], 'readonly');
-          var objectStore = transaction.objectStore('Usuario');
-    
-          var request = objectStore.openCursor();
-          request.onsuccess = function(event) {
-            var cursor = event.target.result;
-    
-            if (cursor) {
-              var objeto = cursor.value;
-              var correoUsuario = objeto.correo;
 
-    
-              if (correoUsuario === primerValor) {
-                console.log("El valor coincide.");
-
-                var nombreUsuario = objeto.Nombre;
-                var EdadUsuario = objeto.Edad;
-                var TelefonoUsuario = objeto.Telefono;
-                var ApaUsuario = objeto.ApellidoP;
-                var AmaUsuario = objeto.ApellidoM;
-                var GeneroUsuario = objeto.Genero;
-        
-                if (GeneroUsuario === 'Masculino') {
-                  document.getElementById('genMas').checked = true;
-                } else if (GeneroUsuario === 'Femenino') {
-                  document.getElementById('genfem').checked = true;
-                }
-        
-                document.getElementById("nombre").value = nombreUsuario;
-                document.getElementById("edad").value = EdadUsuario;
-                document.getElementById("telefono").value = TelefonoUsuario;
-                document.getElementById("apellidoPa").value = ApaUsuario;
-                document.getElementById("apellidoMa").value = AmaUsuario;
-                // Realiza alguna acción si el valor coincide
-                var transactionAutenticasion = db.transaction(['Autenticasion'], 'readonly');
-                var objectStoreAutenticasion = transactionAutenticasion.objectStore('Autenticasion');
-    
-                var requestAutenticasion = objectStoreAutenticasion.openCursor();
-                requestAutenticasion.onsuccess = function(event) {
-                  var cursorAutenticasion = event.target.result;
-    
-                  if (cursorAutenticasion) {
-                    var objetoAutenticasion = cursorAutenticasion.value;
-                    var correoAutentico = objetoAutenticasion.correo;
-    
-                    if (correoAutentico === primerValor) {
-                      console.log("El valor del correo Autentico coincide en el almacén Autenticación");
-                  // Realiza alguna acción si el valor del correo coincide
-
-                  var ContraseniaAutenticasion = objetoAutenticasion.contrasenia;
-              
-                  document.getElementById("contra").value = ContraseniaAutenticasion;
-                  // Suponiendo que "logoInstitucion" es un elemento de tipo <img>
-                 
-                }else {
-                  console.log("No se encontró el objeto coincidente en el almacén Autenticacion");
-                  // Realiza alguna acción si no se encontró el objeto coincidente
-                }
-              };
-
-                cursorAutenticasion.continue(); // Continúa al siguiente objeto del almacén nombreEncuestador
-              } 
-                var transactionEncuestador = db.transaction(['Encuestador'], 'readonly');
-                var objectStoreEncuestador = transactionEncuestador.objectStore('Encuestador');
-    
-                var requestEncuestador = objectStoreEncuestador.openCursor();
-                requestEncuestador.onsuccess = function(event) {
-                  var cursorEncuestador = event.target.result;
-    
-                  if (cursorEncuestador) {
-                    var objetoEncuestador = cursorEncuestador.value;
-                    var correoEncuestador = objetoEncuestador.correo;
-    
-                    if (correoEncuestador === primerValor) {
-                      console.log("El valor del correo coincide en el almacén nombreEncuestador");
-                  // Realiza alguna acción si el valor del correo coincide
-
-                  var Nombreinstitucion = objetoEncuestador.proce;
-                  var Logoinstitucion = objetoEncuestador.dataUrl;
-
-                  document.getElementById("institucion").value = Nombreinstitucion;
-                  // Suponiendo que "logoInstitucion" es un elemento de tipo <img>
-                  document.getElementById("logoInstitucion").src = Logoinstitucion;
-                  
-                  ImagenLogo(Logoinstitucion);
-                }
-
-                cursorEncuestador.continue(); // Continúa al siguiente objeto del almacén nombreEncuestador
-              } else {
-                console.log("No se encontró el objeto coincidente en el almacén nombreEncuestador");
-                // Realiza alguna acción si no se encontró el objeto coincidente
-              }
-            };
-          }
-
-          cursor.continue(); // Continúa al siguiente objeto del almacén Usuario
-        } else {
-          console.log("No se encontró el objeto coincidente.");
-          // Realiza alguna acción si no se encontró el objeto coincidente
-        }
-      };
-    };
-  } else {
-    console.log("No se encontraron datos en el almacenamiento local.");
-    // Realiza alguna acción cuando no hay datos en el almacenamiento local
-  }
-}
-
-function ImagenLogo(dataUrl) {
-  console.log('doImageTest');
-  var image = document.querySelector('#logoInstitucion');
-  image.src = dataUrl;
-}
 
 // Encuesta predeterminada 1
 //almacena predetermidos
@@ -1482,7 +1419,7 @@ function ImagenLogo(dataUrl) {
         function Encuesta1(){
           var   encuesta_prototipo = [
             { id: "1", Titulo: "Encuesta Apicultura", 
-            Objetivo: "conocer_la_produccion_apicola", 
+            ObjetivoER: "conocer_la_produccion_apicola", 
             Instrucciones: "responder todo los reactivos" }
           ];
     
@@ -1940,104 +1877,66 @@ function ImagenLogo(dataUrl) {
 
     }
 
-  
-    function EncuestaVistaPV2() {
-      var transaction = db.transaction(["Encuesta"], "readonly");
+
+    function EncuestaVistaPV2(){
+      var transaction = db.transaction(["Encuesta"], "readwrite");
       var objectStore = transaction.objectStore("Encuesta");
-      var index = objectStore.index("fechaCreacionER");
-    
-      var request = index.openCursor(null, 'prev');
-      
+      var index = objectStore.index("EncuestaTitulo");
+      var index2 = objectStore.index("EncuestaObjetivo");
+      var index3 = objectStore.index("EncuestaInstruccion");
+      var newestItem = null;
+      var newestItem2 = null
+      var newestItem3 = null
+      var newestItem4 = null
+// Crear un cursor para recorrer los objetos en el índice
+        var request = index.openCursor(null,'prev');
+        var request = index2.openCursor(null,'prev');
+        var request = index3.openCursor(null,'prev');
       request.onsuccess = function(event) {
         var cursor = event.target.result;
-        
-        if (cursor) {
-          var currentItemR = cursor.value;
-          
-          var tituloR = currentItemR.Titulo;
-          var objetivoR = currentItemR.Objetivo;
-          var instruccionesR = currentItemR.Instrucciones;
-          
-          var cadena = "<table>";
-          cadena += "<tr>";
-          cadena += "<th>Título:</th>";
-          cadena += "<td>" + tituloR + "</td>";
-          cadena += "</tr>";
-          cadena += "<tr>";
-          cadena += "<th>Objetivo:</th>";
-          cadena += "<td>" + objetivoR + "</td>";
-          cadena += "</tr>";
-          cadena += "<tr>";
-          cadena += "<th>Instrucciones:</th>";
-          cadena += "<td>" + instruccionesR + "</td>";
-          cadena += "</tr>";
-          cadena += "</table>";
-          
-          document.getElementById("Encabezado").innerHTML = cadena;
-        }
-      };
-    }
+        newestItem4 = cursor.value.TituloE;
 
-
-//     function EncuestaVistaPV2(){
-//       var transaction = db.transaction(["Encuesta"], "readwrite");
-//       var objectStore = transaction.objectStore("Encuesta");
-//       var index = objectStore.index("EncuestaTitulo");
-//       var index2 = objectStore.index("EncuestaObjetivo");
-//       var index3 = objectStore.index("EncuestaInstruccion");
-//       var newestItem = null;
-//       var newestItem2 = null
-//       var newestItem3 = null
-//      var newestItem4 = null
-// // Crear un cursor para recorrer los objetos en el índice
-//         var request = index.openCursor(null,'prev');
-//         var request = index2.openCursor(null,'prev');
-//         var request = index3.openCursor(null,'prev');
-//       request.onsuccess = function(event) {
-//         var cursor = event.target.result;
-//         newestItem4 = cursor.value.Titulo;
-
-//       if (!newestItem || Titulo.fechaCreacionE > newestItem.fechaCreacionE && !newestItem2 || floatingTextarea2.fechaCreacionE > newestItem2.fechaCreacionE  && !newestItem3 || floatingTextarea21.fechaCreacionE > newestItem3.fechaCreacionE ) {
-//        newestItem = Titulo;
-//        newestItem2 = floatingTextarea2;
-//        newestItem3 = floatingTextarea21;
-//        //newestItem4 = TituloE;
-//        //newestItem3 = cursor.value.Instrucciones;
-//         cursor.continue();
-//       }
-//       else {
-//         var cadena ="<table>";
-//         cadena += "<table class='table'>";
-//         cadena += "<div class='row'>";
-//         cadena += "<div class='col'>";
-//         cadena += "<h5>Título:</h5>";
-//         cadena += "<p>" + newestItem + "</p>";
-//         cadena += "</div>";
-//         cadena += "<div class='row'>";
-//         cadena += "<div class='col'>";
-//         cadena += "<h5>Objetivo:</h5>";
-//         cadena += "<p>" + newestItem2 + "</p>";
-//         cadena += "</div>";
-//         cadena += "<div class='row'>";
-//         cadena += "<div class='col'>";
-//         cadena += "<h5>Instrucciones:</h5>";
-//         cadena += "<p>" + newestItem3 + "</p>";
-//         cadena += "</div>";
-//         cadena += "</div>";
-//         cadena += "</table>";
-//         // Mostrar el objeto más reciente en la pantalla
-//         console.log(newestItem);
-//         console.log(newestItem4);
-//         console.log(newestItem2);
-//         cadena += "</table>";
-//         document.getElementById("Encabezado").innerHTML = cadena;
+      if (!newestItem || Titulo.fechaCreacionE > newestItem.fechaCreacionE && !newestItem2 || floatingTextarea2.fechaCreacionE > newestItem2.fechaCreacionE  && !newestItem3 || floatingTextarea21.fechaCreacionE > newestItem3.fechaCreacionE ) {
+       newestItem = Titulo;
+       newestItem2 = floatingTextarea2;
+       newestItem3 = floatingTextarea21;
+       //newestItem4 = TituloE;
+       //newestItem3 = cursor.value.Instrucciones;
+        cursor.continue();
+      }
+      else {
+        var cadena ="<table>";
+        cadena += "<table class='table'>";
+        cadena += "<div class='row'>";
+        cadena += "<div class='col'>";
+        cadena += "<h5>Título:</h5>";
+        cadena += "<p>" + newestItem + "</p>";
+        cadena += "</div>";
+        cadena += "<div class='row'>";
+        cadena += "<div class='col'>";
+        cadena += "<h5>Objetivo:</h5>";
+        cadena += "<p>" + newestItem2 + "</p>";
+        cadena += "</div>";
+        cadena += "<div class='row'>";
+        cadena += "<div class='col'>";
+        cadena += "<h5>Instrucciones:</h5>";
+        cadena += "<p>" + newestItem3 + "</p>";
+        cadena += "</div>";
+        cadena += "</div>";
+        cadena += "</table>";
+        // Mostrar el objeto más reciente en la pantalla
+        console.log(newestItem);
+        console.log(newestItem4);
+        console.log(newestItem2);
+        cadena += "</table>";
+        document.getElementById("Encabezado").innerHTML = cadena;
         
 
-// }
+}
 
-// };
+};
 
-// }
+}
 
 
 
@@ -2061,10 +1960,16 @@ function ImagenLogo(dataUrl) {
          cadena += "<tr>";
          cadena +="<td><input type ='checkbox' name='checkbox[]' id='c"+id+"'></input></td>";
          cadena +="<td>"+cursor.value.NombreVar+"</td>";
+        //cadena += "<td><button class='btn btn-outline-success bg-border-mostaza bg-text-mostaza' id= 'b"+id+"'><img src='../Img/borrar.png' height='18px width='18px'></button></td>";
+                   //cadena += "<td><button id= 'e"+id+"'>Editar</button></td>"
+                   //cadena +="<td><button id='m"+id+"'<img src='../Img/edit.svg'  height='18px'width='18px'>></button></td>";
           cadena += "</tr>";
+        
+        //cadena += "<td>+<button id='m"+Descripcion+"'>Seleccionar</button></td></tr>";
         
         id_array.push(id);
         num ++;
+        //continuamos siguiente objeto
         cursor.continue();
         
       }else{
@@ -2075,13 +1980,13 @@ function ImagenLogo(dataUrl) {
         for(var i=0; i<id_array.length; i++){
           id = id_array[i];
           document.getElementById("c"+id).onclick= selecVariables;
+   
         }
-       
       
       }
      
      };
-  // BusVa();
+   BusVa();
    
    }
    
@@ -2099,139 +2004,57 @@ function ImagenLogo(dataUrl) {
                var request = objectStore.add({idV2:llave,fechaCreacion: Date.now()} );
              
                request.onsuccess =function(){
-               // mostrarVarSelec()
-    
+                mostrarVarSelec()
+                //mostrarEncuestaVar()
+              //  console.log(llave)
                };
           
              }
-            
+             //guardar()
+            //  activarGuardar();
          }
 
-
+        //  function mostrarVariablesSeleccionadas() {
+        //   var transaction = db.transaction("selecVariables", "readonly");
+        //   var store = transaction.objectStore("selecVariables");
+        
+        //   store.openCursor().onsuccess = function (event) {
+        //     var cursor = event.target.result;
+        
+        //     if (cursor) {
+        //       console.log(cursor.value);
+        //       cursor.continue();
+        //     }
+        //   };
+        // }
+// salida de tipos encuesta
+//mostrar 
 //-----------------------------------------------------------------------------------------------------------------------
-// function mostrarVarSelec() {
-//   var cadena = "<table class='table table-bordered'>";
-//   var lastTimestamp = Date.now();
+function mostrarVarSelec() {
+  var cadena = "<table class='table table-bordered'>";
+  var lastTimestamp = Date.now();
 
-//   var objectStore = db.transaction("selecVariables").objectStore("selecVariables");
-//   objectStore.openCursor().onsuccess = function (e) {
-//     var cursor = e.target.result;
-//     if (cursor) {
-//       var item = cursor.value;
-//       var timestamp = Date.now();
+  var objectStore = db.transaction("selecVariables").objectStore("selecVariables");
+  objectStore.openCursor().onsuccess = function (e) {
+    var cursor = e.target.result;
+    if (cursor) {
+      var item = cursor.value;
+      var timestamp = Date.now();
 
-//       if (timestamp > lastTimestamp) {
-//         cadena += "<tr>";
-//         cadena +="<td><input type ='checkbox' name='selectedVariable' id='sr"+item.idV2+"'></input></td>";
-//         cadena += "<td>" + item.idV2 + "</td>";
-//         cadena += "</tr>";
-//       }
+      if (timestamp > lastTimestamp) {
+        cadena += "<tr>";
+        cadena += "<td>" + item.idV2 + "</td>";
+        cadena += "</tr>";
+      }
       
-//       cursor.continue();
-//     } else {
-//       cadena += "</table>";
-//       document.getElementById("VariablesSeleccionadas").innerHTML = cadena;
-//       document.getElementById("sr"+idV2).onclick= selecVP;
-//     }
-//   };
-//   //EncuestaVarMostrar(encuestaVarId)
-// }
-
-
-
-
-
-function mostrarVarSelec(){
-  var cadena ="<table class= 'table table-bordered'>";
- 
- cadena += "";
- var num =0;
- var id_array = new Array();
-
- //leer cursor
- var objectStore = db.transaction("selecVariables").objectStore("selecVariables");
- objectStore.openCursor().onsuccess= function(e){
-  var cursor =e.target.result;
-  if(cursor){
-     id = cursor.value.idV2;
-     cadena += "<tr>";
-     cadena +="<td><input type ='checkbox' name='checkbox[]' id='s"+id+"'></input></td>";
-     cadena +="<td>"+id+"</td>";
-      cadena += "</tr>";
-    
-    id_array.push(id);
-    num ++;
-    cursor.continue();
-    
-  }else{
-   
-    cadena += "";
-  //  document.getElementById("VariablesSeleccionadas").innerHTML = "";
-    document.getElementById("VariablesSeleccionadas").innerHTML = cadena;
-    
-    for(var i=0; i<id_array.length; i++){
-      id = id_array[i];
-      document.getElementById("s"+id).onclick= selecVP;
+      cursor.continue();
+    } else {
+      cadena += "</table>";
+      document.getElementById("VariablesSeleccionadas").innerHTML = cadena;
     }
-   
-  
-  }
- 
- };
-// BusVa();
-
+  };
+  EncuestaVarMostrar(encuestaVarId)
 }
-
-function selecVP(e) {
- 
-  //var id = e.target.id.substring(1);
-  var id= e.target.id.substring(1);
-  var llave = id;
-
-  if (confirm(llave)) {
- 
-    var tx = db.transaction(["selecVariables", "selecVariablesCre"], "readwrite");
-    var objectStore = tx.objectStore("selecVariables");
-    var storeOtroObjeto = tx.objectStore("selecVariablesCre");
-    var request = objectStore.get(id);
-    console.log("Elemento seleccionado: ", llave);
-    storeOtroObjeto.add({ VariablesId:llave,fechaCreacion: Date.now() })
-
-    request.onsuccess = function (e) {
-     // var variable = e.target.result;
-    //   if (variable) {
-    //     console.log("Elemento seleccionado: ", variable.llave);
-    //     storeOtroObjeto.add({ VariablesId:variable.llave,fechaCreacion: Date.now() });
-    //   } else {
-    //     console.log("No se encontró el objeto en el almacén 'VariableC'.");
-    //   }
-    // };
-    }
-  }
-
-}
-
-// function selecVP(e){
-
-//          console.log("seleccionar",e);
-//          var id= e.target.id;
-//          var llave = id;
-//         //console.log(llave);
-       
-//          if(confirm(llave)){
-//            var tx =db.transaction("selecVariables","readwrite");
-//            var objectStore = tx.objectStore("selecVariables");
-//            var request = objectStore.add({idV2:llave,fechaCreacion: Date.now()} );
-         
-//            request.onsuccess =function(){
-//             //mostrarVarSelec()
-
-//            };
-      
-//          }
-//          //guardar()
-//         //  activarGuardar();
-//      }
 
       function buscarE() {
         var cadena = "<table class='table table-bordered'>";
@@ -2271,146 +2094,6 @@ function selecVP(e) {
         };
       }
       
-      function buscarEVarCre() {
-        var cadena = "<table class='table table-bordered'>";
-        var objectStore = db.transaction("Encuesta_Variables").objectStore("Encuesta_Variables");
-        objectStore.openCursor().onsuccess = function(e) {
-          var cursor = e.target.result;
-          if (cursor) {
-            var encuestaIdVar = cursor.value.IdV;
-            var descripcionVar = cursor.value.TituloVar;
-            cadena += "<tr>";
-           cadena += "<td align='center'><button data-encuesta-id='" + encuestaIdVar + "' class='ver-formulario2-btn btn btn-outline-success bg-border-mostaza bg-text-mostaza'>Ver formulario</button></td>";
-            
-            cadena += "<td>" + descripcionVar + "</td>";
-            cadena += "<td align='center'><button data-encuesta-id='R" + encuestaIdVar + "' class='btn btn-outline-success bg-border-mostaza bg-text-mostaza me-md-2'>Ver</button></td>";
-            cadena += "</tr>";
-            cursor.continue();
-          } else {
-            cadena += "</table>";
-            document.getElementById("crear_encuesta").innerHTML = cadena;
-      
-            var btns = document.getElementsByClassName("ver-formulario2-btn");
-            for (var i = 0; i < btns.length; i++) {
-              btns[i].addEventListener("click", function(event) {
-                var IdV = event.target.getAttribute("data-encuesta-id");
-                abrirFormulariVariables(IdV)
-              });
-            }
-      
-            var redireccionarBtns = document.getElementsByClassName("btn btn-outline-success bg-border-mostaza bg-text-mostaza me-md-2");
-            for (var i = 0; i < redireccionarBtns.length; i++) {
-              redireccionarBtns[i].addEventListener("click", function(event) {
-                var IdV = event.target.getAttribute("data-encuesta-id");
-               // redireccionarPagina(IdV);
-              });
-            }
-          }
-        };
-      }
-
-      function abrirFormulariVariables(IdV) {
-        var nuevaPestana = window.open("", "_blank");
-        var contenidoHTML = "<h2 class='bg-text-black text-center p-3 text-uppercase text-black'></h2>";
-      
-        var transaction = db.transaction("Encuesta_Variables", "readonly");
-        var encuestaObjectStore = transaction.objectStore("Encuesta_Variables");
-        var encuestaRequest = encuestaObjectStore.get(parseInt(IdV));
-      
-        encuestaRequest.onsuccess = function(event) {
-          var EncuestaVariables = event.target.result;
-          if (EncuestaVariables) {
-            contenidoHTML += "<h1 class='bg-text-black text-center p-3 text-uppercase text-black' style='text-align: center; font-size: x-large; padding: 10px 50px 20px; font-weight: bold;'>" + EncuestaVariables.TituloVar + "</h1>";
-      
-            var VariablesObjectStore = db.transaction("EncuestaVariablesFinal", "readonly").objectStore("EncuestaVariablesFinal");
-            var VariablesRequest = VariablesObjectStore.getAll();
-      
-            VariablesRequest.onsuccess = function(event) {
-              var variables = event.target.result;
-              if (variables) {
-                var variablesFiltrados = variables.filter(function(variable) {
-                  return variable.encuestaVarId === parseInt(IdV);
-                });
-      
-                contenidoHTML += "<table class='table table-bordered'>";
-                contenidoHTML += "<thead><tr><th>#</th>";
-      
-                // Encabezados de las columnas con el nombre de las variables
-                variablesFiltrados.forEach(function(variable) {
-                  contenidoHTML += "<th>" + variable.VariablesId + "</th>";
-                });
-      
-                contenidoHTML += "</tr></thead>";
-                contenidoHTML += "<tbody>";
-      
-                // Filas con selects
-                for (var i = 0; i < variablesFiltrados.length; i++) {
-                  contenidoHTML += "<tr>";
-                  contenidoHTML += "<td>" + variablesFiltrados[i].VariablesId + "</td>";
-      
-                  // Celdas con selects
-                  for (var j = 0; j < variablesFiltrados.length; j++) {
-                    contenidoHTML += "<td>";
-                    contenidoHTML += "<select class='form-select form-select-sm' aria-label='.form-select-sm example' onchange='updateOtherSelects(this)'>";
-      
-                    var options = [
-                      { value: '0', text: '0' },
-                      { value: '1', text: '1' },
-                      { value: '2', text: '2' },
-                      { value: '3', text: '3' },
-                      { value: '4', text: 'P' }
-                    ];
-      
-                    options.forEach(function(option) {
-                      contenidoHTML += "<option value='" + option.value + "'>" + option.text + "</option>";
-                    });
-      
-                    contenidoHTML += "</select>";
-                    contenidoHTML += "</td>";
-                  }
-      
-                  contenidoHTML += "</tr>";
-                }
-      
-                contenidoHTML += "</tbody></table>";
-      
-                nuevaPestana.document.open();
-                nuevaPestana.document.write(contenidoHTML);
-                nuevaPestana.document.close();
-              }
-            };
-          }
-        };
-      }
-      
-      // Función para actualizar los otros selects en la misma fila y columna con el mismo valor
-      function updateOtherSelects(selectElement) {
-        var columnIndex = selectElement.cellIndex;
-        var rowIndex = selectElement.parentNode.rowIndex;
-      
-        var table = selectElement.parentNode.parentNode.parentNode;
-        var rows = table.getElementsByTagName("tr");
-      
-        for (var i = 0; i < rows.length; i++) {
-          var row = rows[i];
-          var cell = row.cells[columnIndex];
-      
-          if (i !== rowIndex) {
-            var select = cell.querySelector("select");
-            select.value = selectElement.value;
-          }
-        }
-      
-        var cells = table.rows[rowIndex].cells;
-        for (var j = 0; j < cells.length; j++) {
-          if (j !== columnIndex) {
-            var select = cells[j].querySelector("select");
-            select.value = selectElement.value;
-          }
-        }
-      }
-      
-
       function redireccionarPagina(encuestaId) {
         // Aquí puedes redirigir a la página deseada utilizando el ID de la encuesta
         // Por ejemplo:
@@ -2540,7 +2223,11 @@ function selecVP(e) {
        }
 
          function CrearReactivo(){
-
+          //control();
+          // var url_string = window.location.href="/pestañas_Encuestador/reactivo_crear_reactivos.html"; //
+          // var url = new URL(url_string);
+          // var c = url.searchParams.get("Usuario");
+          // document.getElementById("aqui").value = c;
 
          var creador = document.getElementById("aqui").value; 
           var id = document.getElementById("ReactivoCre").value.trim();
@@ -2603,7 +2290,6 @@ function selecVP(e) {
             return tx;
         }
         buildList()
-        //tipoR()
         //crearReactivos()
       }
       
@@ -2755,8 +2441,8 @@ function selecVP(e) {
       if(cursor){
         id = cursor.value.id;
         cadena += "<tr>";
-        cadena +="<td><input type ='checkbox' name='selectedVariable' id='s"+id+"'></input></td>";
-        cadena +="<td>"+id+"</td>";
+        cadena +="<td><input type ='checkbox' name='selectedVariable' id='sV"+id+"'></input></td>";
+        cadena +="<td>"+cursor.value.id+"</td>";
         cadena += "<td><button class='btn btn-outline-success bg-border-mostaza bg-text-mostaza' id= 'b"+id+"'><img src='../Img/borrar.png' height='18px width='18px'></button></td>";
         cadena += "<td><button class='btn btn-outline-success bg-border-mostaza bg-text-mostaza' id= 'e"+id+"'><img src='../Img/edit.svg' height='18px width='18px'></button></td>";
         //cadena +="<td><button id='m"+id+"'<img src='../Img/edit.svg'  height='18px'width='18px'>></button></td>";
@@ -2771,14 +2457,14 @@ function selecVP(e) {
   
         for(var i=0; i<ids_array.length; i++){
           id = ids_array[i];
-          document.getElementById("s"+id).onclick= selecV;
+          document.getElementById("sV"+id).onclick= selecV;
           document.getElementById("e"+id).onclick= modificar;
           document.getElementById("b"+id).onclick= borrar;
         }
       }
     };
 
-  
+
 
 
 function borrar(e){
@@ -2838,7 +2524,7 @@ else{
 
 function selecV(e) {
  
-  var id = e.target.id.substring(1);
+  var id = e.target.id.substring(2);
 
   if (id) {
  
@@ -2864,208 +2550,7 @@ function selecV(e) {
 
 //-----------------------------------------------------------------------------------------------------
 
-var  encuestaVarId;
 
-function crearEncuestaFinalVariables() {
-  var TituloVar = document.getElementById("TituloVar").value.trim();
-  var Objetivo = document.getElementById("floatingTextarea22").value.trim();
-  var Instrucciones = document.getElementById('floatingTextarea23').value.trim();
-  var fechaCreacionE = Date.now(); // Obtener la fecha actual en milisegundos
-
-  var form = document.getElementById('formularioCR');
-
-  form.addEventListener('submit', async function(eve) {
-    eve.preventDefault();
-    form.removeEventListener('submit', arguments.callee);
-
-    var request = db.transaction(["Encuesta_Variables"], "readwrite")
-      .objectStore("Encuesta_Variables")
-      .add({
-        TituloVar: TituloVar,
-        Objetivo: Objetivo,
-        Instrucciones: Instrucciones,
-        fechaCreacionE: fechaCreacionE
-      });
-
-    request.onsuccess = async function(e) {
-      encuestaVarId = e.target.result;
-      console.log("Encuesta creada con id: ", encuestaVarId, TituloVar);
-      
-      var VariablesSeleccionados = await obtenerVariablesSeleccionados() 
-   
-     
-      // await crearRelacionEncuestaVariables(encuestaVarId, VariablesSeleccionados);
-      var tx = db.transaction(["EncuestaVariablesFinal"], "readwrite");
-      var store = tx.objectStore("EncuestaVariablesFinal");
-
-      VariablesSeleccionados.forEach(function(VariablesId) {
-        store.add({
-          encuestaVarId:encuestaVarId,
-          VariablesId: VariablesId
-        });
-      });
-      
-      tx.oncomplete = function() {
-        console.log("Relación entre la encuesta y los reactivos creada correctamente");
-       
-        EncuestaVarMostrar(encuestaVarId)
-        var mostrarTablaBtn = document.getElementById('mostrarTablaBtn');
-        mostrarTablaBtn.addEventListener('click', function () {
-          mostrarTablaEnOtraPestana(encuestaVarId);
-        });
-        
-        //mostrarEncuestaVar()
-      };
-
-      console.log(e);
-      alert("Se insertaron los datos");
-    
-    };
-  });
-}
-
-
-
-async function obtenerVariablesSeleccionados() {
-  var VariablesSeleccionados = [];
-  var checkboxes = document.querySelectorAll("input[type='checkbox'][id^='s']:checked");
-
-  var transaction = db.transaction(["selecVariablesCre"], "readonly");
-  var objectStore = transaction.objectStore("selecVariablesCre");
-  var cursor = objectStore.openCursor(null, "prev");
-
-  await new Promise((resolve) => {
-    cursor.onsuccess = function(event) {
-      var cursor = event.target.result;
-      if (cursor) {
-        var valor = cursor.value.VariablesId;
-        if (!VariablesSeleccionados.includes(valor) && contieneCheckboxId(checkboxes, valor)) {
-          VariablesSeleccionados.push(valor);
-        }
-        cursor.continue();
-      } else {
-        resolve();
-      }
-    };
-  });
-
-  return VariablesSeleccionados;
-}
-
-function contieneCheckboxId(checkboxes, id) {
-  for (var i = 0; i < checkboxes.length; i++) {
-    if (checkboxes[i].id === 's' + id) {
-      return true;
-    }
-  }
-  return false;
-}
-
-
-
-
-function mostrarTablaEnOtraPestana(encuestaVarId) {
- 
-  var nuevaVentana = window.open('/pestañas_Encuestador/EncuestaVariables.html');
-
-  // Cuando la ventana se haya cargado, llama a la función EncuestaVarMostrar para mostrar la tabla
-  nuevaVentana.onload = function () {
-    nuevaVentana.EncuestaVarMostrar(encuestaVarId);
-  };
-}
-
-async function EncuestaVarMostrar(encuestaVarId) {
-  var tablaEncuesta = document.getElementById('tablaEncuestaVar');
-  var table = document.createElement('table');
-  table.classList.add('table', 'table-bordered');
-
-  var thead = document.createElement('thead');
-  var trHeader = document.createElement('tr');
-  var thIndex = document.createElement('th');
-  thIndex.textContent = '#';
-  trHeader.appendChild(thIndex);
-
-  var tx = db.transaction(["EncuestaVariablesFinal"], "readonly");
-  var store = tx.objectStore("EncuestaVariablesFinal");
-  var index = store.index("encuestaVarId");
-
-  // Create a map to store variable names as keys and their corresponding data as values
-  var variableDataMap = new Map();
-
-  var cursor = await index.openCursor(IDBKeyRange.only(encuestaVarId));
-
-  cursor.onsuccess = function (event) {
-    var cursor = event.target.result;
-    if (cursor) {
-      var variableId = cursor.value.VariablesId;
-
-      // Store the variable ID and data in the map
-      variableDataMap.set(variableId, cursor.value);
-
-      var th = document.createElement('th');
-      th.textContent = variableId;
-      trHeader.appendChild(th);
-
-      cursor.continue();
-    } else {
-      thead.appendChild(trHeader);
-      table.appendChild(thead);
-
-      var tbody = document.createElement('tbody');
-
-      // Calculate numColumns dynamically based on the number of variables
-      var numColumns = variableDataMap.size;
-
-      // Loop through the map to create rows for each variable
-      for (const [variableId, data] of variableDataMap) {
-        var tr = document.createElement('tr');
-        var td = document.createElement('td');
-        td.textContent = variableId;
-        tr.appendChild(td);
-
-        for (var i = 1; i <= numColumns; i++) {
-          var td = document.createElement('td');
-          var select = document.createElement('select');
-          select.addEventListener('change', function () {
-            var variableId = this.parentElement.parentElement.firstChild.textContent;
-            var selectedValue = this.value;
-            obtenerVariablesSeleccionados(variableId, selectedValue);
-          });
-          select.classList.add('form-select', 'form-select-sm');
-          select.setAttribute('aria-label', '.form-select-sm example');
-          var options = [
-            { value: '0', text: '0' },
-            { value: '1', text: '1' },
-            { value: '2', text: '2' },
-            { value: '3', text: '3' },
-            { value: '4', text: 'P' }
-          ];
-
-          for (var j = 0; j < options.length; j++) {
-            var option = document.createElement('option');
-            option.value = options[j].value;
-            option.textContent = options[j].text;
-            select.appendChild(option);
-          }
-
-          td.appendChild(select);
-          tr.appendChild(td);
-        }
-
-        tbody.appendChild(tr);
-      }
-
-      table.appendChild(tbody);
-      tablaEncuesta.innerHTML = '';
-      tablaEncuesta.appendChild(table);
-
-      console.log('Encuesta mostrada correctamente');
-    }
-  };
-}
-
-
-///-----------------------------
 function busVaC(){
   var columnas = parseInt(prompt("columnas"));
   var filas= parseInt(prompt("colum"));  
@@ -3166,43 +2651,42 @@ function TiposOnChange(sel) {
        divT.style.display = "none";
   }
 
- tipoR();
+  tipoR();
 }
 
 
 
 //Función para gusrdar tipo de respuesta
-function tipoR(){
-  var TipoRes= document.getElementById("TipoRes").selectedIndex;
-  var idR = document.getElementById("ReactivoCre").value
+         function tipoR(){
+          var TipoRes= document.getElementById("TipoRes").selectedIndex;
+          var idR = document.getElementById("ReactivoCre").value
 
-  var TipoR = db.transaction(["TipoRes"], "readwrite")
-  .objectStore("TipoRes")
-  if(TipoR == ''){
-  TipoR.add({TipoRes:TipoRes});
-  }else{
-    if(TipoRes == 1){
-      TipoR.add({TipoRes:'Abierta',idR:idR});
-    }
-    if(TipoRes == 2){
-      TipoR.add({TipoRes:'Cerrada',idR:idR});
-    }
-    if(TipoRes == 3){
-      TipoR.add({TipoRes:'Opcion_Mul',idR:idR});
-     
-     
-  }
-    if(TipoRes == 4){
-      TipoR.add({TipoRes:'Opcion_Mul_Uno',idR:idR});
-    }
-  }
+          var TipoR = db.transaction(["TipoRes"], "readwrite")
+          .objectStore("TipoRes")
+          if(TipoR == ''){
+          TipoR.add({TipoRes:TipoRes});
+          }else{
+            if(TipoRes == 1){
+              TipoR.add({TipoRes:'Abierta',idR:idR});
+            }
+            if(TipoRes == 2){
+              TipoR.add({TipoRes:'Cerrada',idR:idR});
+            }
+            if(TipoRes == 3){
+              TipoR.add({TipoRes:'Opcion_Mul',idR:idR});
+             
+             
+          }
+            if(TipoRes == 4){
+              TipoR.add({TipoRes:'Opcion_Mul_Uno',idR:idR});
+            }
+          }
 
-  TipoR.onsuccess = function(e){
-    console.log(e);
-  }
-  ResOpMul();
- }
-      
+          TipoR.onsuccess = function(e){
+            console.log(e);
+          }
+          ResOpMul();
+         }
 
          function NumOpMul(){  
               var Res= document.getElementById("respuestasSelec").selectedIndex;
@@ -3240,7 +2724,7 @@ function tipoR(){
         }
 
 function ResOpMul(){
- var respuesta = document.getElementById("Respuesta1").value.trim();
+  var respuesta = document.getElementById("Respuesta1").value.trim();
   var respuesta2 = document.getElementById("Respuesta2").value.trim();
   var respuesta3 = document.getElementById("Respuesta3").value.trim();
   var respuesta4 = document.getElementById("Respuesta4").value.trim();
@@ -3270,14 +2754,14 @@ function ResOpMul(){
         var Titulo = document.getElementById("Titulo").value.trim();
         var Objetivo = document.getElementById("floatingTextarea2").value.trim();
         var Instrucciones = document.getElementById('floatingTextarea21').value.trim();
-        var fechaCreacionER = document.getElementById("fechaCreacionER");
+        var fechaCreacionE = document.getElementById("fechaCreacionE");
         var form = document.getElementById('formulario');
 
       form.addEventListener('submit', function(eve){
       eve.preventDefault();
       var request = db.transaction(["Encuesta"], "readwrite")
       .objectStore("Encuesta")
-      .add({creador:creador,Titulo:Titulo, Objetivo:Objetivo, Instrucciones:Instrucciones,fechaCreacionER:value=Date.now()});
+      .add({creador:creador,Titulo:Titulo, Objetivo:Objetivo, Instrucciones:Instrucciones,fechaCreacionE:value=Date.now()});
 
       request.onsuccess = function(e){
        encuestaId = e.target.result;
@@ -3288,14 +2772,12 @@ function ResOpMul(){
          alert("se inserto los datos");
          //buscar();
          //buscar2();
-         
-         buscarE();
-         //EncuestaVistaPV2()   
+         buscarE();   
         // encuestaF()
-      
+        EncuestaVistaPV2()
        // Ef()
          //EncuestaVistaP();
-         //selec(encuestaId);
+         selec(encuestaId);
       };
       
     })
@@ -3322,7 +2804,7 @@ function ResOpMul(){
            divT.style.display = "none";
 
 
-      } else if (sel.value=="12"){
+      }else if (sel.value=="12"){
    
       var  divC = document.getElementById("Opcion1");
         divC.style.display = "";
@@ -3405,7 +2887,7 @@ function ResOpMul(){
            divT.style.display = "none";
       }
       NumOpMul();
-     //tipoR();
+
 }
 
    //mostrar reactivo segun categoria
@@ -3783,7 +3265,6 @@ function mostrarPreguntas() {
       var preguntaLabel = document.createElement("label");
       var preguntaInput = document.createElement("TEXTAREA");
 
-
       var respuestaDiv = document.createElement("div");
 
       var respuestaSi = document.createElement("input");
@@ -3818,9 +3299,7 @@ function mostrarPreguntas() {
 
        
       } else if (tipoRespuesta === 3) {
-        preguntaDiv.appendChild(preguntaLabel);
-        preguntaDiv.appendChild(preguntaInput);
-        preguntaInput.setAttribute("type", "text");
+        preguntaInput.setAttribute("type", "select");
       }
 
       document.getElementById("preguntas-container").appendChild(preguntaDiv);
@@ -3832,7 +3311,6 @@ function mostrarPreguntas() {
 }
 
 
-
  
   var encuestaId;
 
@@ -3842,7 +3320,7 @@ function crearEncuestaFinal() {
   var Titulo = document.getElementById("Titulo").value.trim();
   var Objetivo = document.getElementById("floatingTextarea2").value.trim();
   var Instrucciones = document.getElementById('floatingTextarea21').value.trim();
-  var fechaCreacionER = Date.now(); // Obtener la fecha actual en milisegundos
+  var fechaCreacionE = Date.now(); // Obtener la fecha actual en milisegundos
 
   var form = document.getElementById('formulario');
 
@@ -3856,11 +3334,9 @@ function crearEncuestaFinal() {
         Titulo: Titulo,
         Objetivo: Objetivo,
         Instrucciones: Instrucciones,
-        fechaCreacionER: fechaCreacionER
-
-       
+        fechaCreacionE: fechaCreacionE
       });
-     // EncuestaVistaPV2();
+
     request.onsuccess = async function(e) {
       encuestaId = e.target.result;
       console.log("Encuesta creada con id: ", encuestaId, Titulo);
@@ -3892,8 +3368,7 @@ function crearEncuestaFinal() {
       }).then(function() {
         // Aquí puedes agregar el código que debe ejecutarse después de que el aviso desaparezca
         buscarE();
-        EncuestaVistaPV2()
-       
+        EncuestaVistaPV2();
       });
     };
   });
@@ -3921,9 +3396,8 @@ async function obtenerReactivosSeleccionados() {
       }
     };
   });
- // EncuestaVistaPV2();
-  return reactivosSeleccionados;
 
+  return reactivosSeleccionados;
 }
 
 function contieneCheckboxId(checkboxes, id) {
@@ -3937,7 +3411,6 @@ function contieneCheckboxId(checkboxes, id) {
 
 
 // Función para mostrar en el formulario los reactivos de una encuesta específica
-
 
 
 
@@ -4309,7 +3782,97 @@ function mostrarDatosUsuario(usuario) {
   console.log(usuario);
 }
 
+var  encuestaVarId;
 
+function crearEncuestaFinalVariables() {
+  var TituloVar = document.getElementById("TituloVar").value.trim();
+  var Objetivo = document.getElementById("floatingTextarea22").value.trim();
+  var Instrucciones = document.getElementById('floatingTextarea23').value.trim();
+  var fechaCreacionE = Date.now(); // Obtener la fecha actual en milisegundos
+
+  var form = document.getElementById('formularioCR');
+
+  form.addEventListener('submit', async function(eve) {
+    eve.preventDefault();
+
+    var request = db.transaction(["Encuesta_Variables"], "readwrite")
+      .objectStore("Encuesta_Variables")
+      .add({
+        TituloVar: TituloVar,
+        Objetivo: Objetivo,
+        Instrucciones: Instrucciones,
+        fechaCreacionE: fechaCreacionE
+      });
+
+    request.onsuccess = async function(e) {
+      encuestaVarId = e.target.result;
+      console.log("Encuesta creada con id: ", encuestaVarId, TituloVar);
+      
+      var VariablesSeleccionados = await obtenerVariablesSeleccionados() 
+     
+      var tx = db.transaction(["EncuestaVariablesFinal"], "readwrite");
+      var store = tx.objectStore("EncuestaVariablesFinal");
+
+      VariablesSeleccionados.forEach(function(VariablesId) {
+        store.add({
+          encuestaVarId:encuestaVarId,
+          VariablesId: VariablesId
+        });
+      });
+      
+      tx.oncomplete = function() {
+        console.log("Relación entre la encuesta y los reactivos creada correctamente");
+       
+        EncuestaVarMostrar(encuestaVarId)
+        var mostrarTablaBtn = document.getElementById('mostrarTablaBtn');
+        mostrarTablaBtn.addEventListener('click', function () {
+          mostrarTablaEnOtraPestana(encuestaVarId);
+        });
+        
+        //mostrarEncuestaVar()
+      };
+
+      console.log(e);
+      alert("Se insertaron los datos");
+    
+    };
+  });
+}
+
+async function obtenerVariablesSeleccionados() {
+  var VariablesSeleccionados = [];
+  var checkboxes = document.querySelectorAll("input[type='checkbox'][id^='sV']:checked");
+
+  var transaction = db.transaction(["selecVariablesCre"], "readonly");
+  var objectStore = transaction.objectStore("selecVariablesCre");
+  var cursor = objectStore.openCursor(null, "prev");
+
+  await new Promise((resolve) => {
+    cursor.onsuccess = function(event) {
+      var cursor = event.target.result;
+      if (cursor) {
+        var valor = cursor.value.VariablesId;
+        if (!VariablesSeleccionados.includes(valor) && contieneCheckboxId(checkboxes, valor)) {
+          VariablesSeleccionados.push(valor);
+        }
+        cursor.continue();
+      } else {
+        resolve();
+      }
+    };
+  });
+
+  return VariablesSeleccionados;
+}
+
+function contieneCheckboxId(checkboxes, id) {
+  for (var i = 0; i < checkboxes.length; i++) {
+    if (checkboxes[i].id === 'sV' + id) {
+      return true;
+    }
+  }
+  return false;
+}
 // async function obtenerVariablesSeleccionados() {
 //   var VariablesSeleccionados = [];
 //   var checkbox = document.querySelectorAll("input[type='checkbox'][name='selectedVariable']:checked");
@@ -4326,10 +3889,104 @@ function mostrarDatosUsuario(usuario) {
 
 
 
+function mostrarTablaEnOtraPestana(encuestaVarId) {
+ 
+  var nuevaVentana = window.open('/pestañas_Encuestador/EncuestaVariables.html');
+
+  // Cuando la ventana se haya cargado, llama a la función EncuestaVarMostrar para mostrar la tabla
+  nuevaVentana.onload = function () {
+    nuevaVentana.EncuestaVarMostrar(encuestaVarId);
+  };
+}
 
 
+async function EncuestaVarMostrar(encuestaVarId) {
+  var tablaEncuesta = document.getElementById('tablaEncuestaVar');
+  var table = document.createElement('table');
+  table.classList.add('table', 'table-bordered');
 
+  var thead = document.createElement('thead');
+  var trHeader = document.createElement('tr');
+  var thIndex = document.createElement('th');
+  thIndex.textContent = '#';
+  trHeader.appendChild(thIndex);
 
+  var tx = db.transaction(["EncuestaVariablesFinal"], "readonly");
+  var store = tx.objectStore("EncuestaVariablesFinal");
+  var index = store.index("encuestaVarId");
+  var numColumns = 7; // Número de columnas por variable
+
+  // Create a map to store variable names as keys and their corresponding data as values
+  var variableDataMap = new Map();
+
+  var cursor = await index.openCursor(IDBKeyRange.only(encuestaVarId));
+
+  cursor.onsuccess = function (event) {
+    var cursor = event.target.result;
+    if (cursor) {
+      var variableId = cursor.value.VariablesId;
+
+      // Store the variable ID and data in the map
+      variableDataMap.set(variableId, cursor.value);
+
+      var th = document.createElement('th');
+      th.textContent = variableId;
+      trHeader.appendChild(th);
+
+      cursor.continue();
+    } else {
+      thead.appendChild(trHeader);
+      table.appendChild(thead);
+
+      var tbody = document.createElement('tbody');
+
+      // Loop through the map to create rows for each variable
+      for (const [variableId, data] of variableDataMap) {
+        var tr = document.createElement('tr');
+        var td = document.createElement('td');
+        td.textContent = variableId;
+        tr.appendChild(td);
+
+        for (var i = 1; i <= numColumns; i++) {
+          var td = document.createElement('td');
+          var select = document.createElement('select');
+          select.addEventListener('change', function () {
+            var variableId = this.parentElement.parentElement.firstChild.textContent;
+            var selectedValue = this.value;
+            obtenerVariablesSeleccionados(variableId, selectedValue);
+          });
+          select.classList.add('form-select', 'form-select-sm');
+          select.setAttribute('aria-label', '.form-select-sm example');
+          var options = [
+            { value: '0', text: '0' },
+            { value: '1', text: '1' },
+            { value: '2', text: '2' },
+            { value: '3', text: '3' },
+            { value: '4', text: 'P' }
+          ];
+
+          for (var j = 0; j < options.length; j++) {
+            var option = document.createElement('option');
+            option.value = options[j].value;
+            option.textContent = options[j].text;
+            select.appendChild(option);
+          }
+
+          td.appendChild(select);
+          tr.appendChild(td);
+        }
+
+        tbody.appendChild(tr);
+      }
+
+      table.appendChild(tbody);
+      tablaEncuesta.innerHTML = '';
+      tablaEncuesta.appendChild(table);
+
+      console.log('Encuesta mostrada correctamente');
+    }
+  };
+}
 
 
 function mostrarEncuestaDatos() {
@@ -4368,9 +4025,6 @@ function mostrarEncuestaDatos() {
     }
   };
 }
-
-
-
 
 //Realizar la edición de información de perfil encuestador
 
@@ -4645,7 +4299,7 @@ function editarLogo(imageDataUrl) {
     };
   });
 }
-
+/*
 async function guardarDatos() {
   try {
     await validarImagenLogo();
@@ -4656,68 +4310,4 @@ async function guardarDatos() {
     // Si hay algún error en alguna de las funciones, mostramos el mensaje de error.
     console.error("Error al guardar los datos:", error);
   }
-}
-
-function MostrarLogo() {
-  var datosUsuario = localStorage.getItem("datosUsuario");
-  if (!datosUsuario) {
-    console.log("No hay datos de usuario en el almacenamiento.");
-    return;
-  }
-
-  var datos = JSON.parse(datosUsuario);
-  var primerValor = datos.valor1;
-
-  console.log("El valor de primerValor es:", primerValor);
-
-  var dbRequest = indexedDB.open('Janal', 1);
-
-  dbRequest.onerror = function (event) {
-    console.error("Error al abrir la base de datos:", event.target.error);
-  };
-
-  dbRequest.onsuccess = function (event) {
-    var database = event.target.result;
-    var transaction = database.transaction(['Encuestador'], 'readwrite');
-    var objectStoreEncuestador = transaction.objectStore('Encuestador');
-
-    var cursorRequest = objectStoreEncuestador.openCursor();
-
-    cursorRequest.onerror = function (event) {
-      console.error("Error al abrir el cursor:", event.target.error);
-    };
-
-    cursorRequest.onsuccess = function (event) {
-      var cursor = event.target.result;
-
-      if (cursor) {
-        var objeto = cursor.value;
-        var correoEncuestador = objeto.correo;
-
-        if (correoEncuestador === primerValor) {
-          console.log("El valor coincide.");
-          var dataUrlValue = objeto.dataUrl;
-          console.log("El valor del parámetro dataUrl es:", dataUrlValue);
-
-          // Mostrar la imagen en el elemento img con el id "logoInstituto"
-          var logoInstitutoElement = document.getElementById("logoInstituto");
-          if (logoInstitutoElement) {
-            logoInstitutoElement.src = dataUrlValue;
-          }
-        }
-
-        cursor.continue();
-      } else {
-        console.log("No se encontró el valor en el cursor.");
-      }
-    };
-  };
-
-  dbRequest.onupgradeneeded = function (event) {
-    var database = event.target.result;
-    var objectStoreEncuestador = database.createObjectStore('Encuestador', { keyPath: 'correo' });
-
-    // Agregar índices u otras configuraciones en caso necesario.
-    // objectStoreEncuestador.createIndex(...);
-  };
-}
+}*/
