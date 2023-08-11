@@ -122,6 +122,7 @@ var ObjectStoreReac;
     DBOpenReq.addEventListener('success',(ev)=>{
      
       db= ev.target.result;
+      exportarAJSON();
       mostrarPreguntas();
       EncuestaVistaPV2()
       
@@ -4721,3 +4722,46 @@ function MostrarLogo() {
     // objectStoreEncuestador.createIndex(...);
   };
 }
+
+
+function exportarAJSON() {
+  // Definir jsonData fuera del alcance de DBOpenReq.onsuccess
+  let jsonData;
+
+  // Abrir la base de datos
+  const DBOpenReq = indexedDB.open('Janal', 1);
+
+  DBOpenReq.onsuccess = function(event) {
+    const db = event.target.result;
+    const transaction = db.transaction(['Categoria_encuesta'], 'readonly');
+    const objectStore = transaction.objectStore('Categoria_encuesta');
+  
+    const data = [];
+    const cursorRequest = objectStore.openCursor();
+  
+    cursorRequest.onsuccess = function(event) {
+      const cursor = event.target.result;
+      if (cursor) {
+        data.push(cursor.value);
+        cursor.continue();
+      }
+    };
+  
+    transaction.oncomplete = function() {
+      // Paso 2: Empaquetar los datos en un archivo JSON
+      jsonData = JSON.stringify(data);
+      const parsedData = JSON.parse(jsonData);
+      console.log(parsedData);
+    
+      // Paso 3: Subir el archivo JSON a tu base de datos en el hosting
+      // Puedes usar una función para subir el archivo JSON a tu servidor cuando tengas conexión a Internet.
+      subirDatos(jsonData);
+    };
+  };
+
+  console.log(jsonData);
+}
+
+// Llamar a la función para iniciar la exportación
+
+
