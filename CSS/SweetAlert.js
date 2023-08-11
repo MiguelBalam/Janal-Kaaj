@@ -791,3 +791,39 @@ callerFun();
 
 }
 
+// Perfil encuestador cancelar
+function CanEncues() {
+
+  Swal.fire({
+    title: '¿Estás seguro de cancelar?',
+    text: "Asegúrate de guardar los datos.",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Si, seguro',
+    cancelButtonText: 'Cancelar',
+  }).then((result) => {
+    if (result.isConfirmed) {
+      Swal(ree());
+
+    }
+  });
+
+  function ree() {
+    window.location.href = "../pestañas_Encuestador/dashboard.html";
+  }
+
+}
+
+// editar Perfil encuestador cancelar
+function editarEncues() {
+
+  Swal.fire({
+    title: 'Puede editar los datos',
+    text: "Ingrese correctamente los datos",
+    icon: 'info',
+    confirmButtonColor: '#3085d6',
+    confirmButtonText: 'Enterado',
+  })
+}

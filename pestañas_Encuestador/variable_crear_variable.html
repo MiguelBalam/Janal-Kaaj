@@ -13,11 +13,7 @@
         integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
         crossorigin="anonymous"></script>
     <link rel="stylesheet" href="../CSS/style.css">
-<<<<<<< HEAD
-   
-=======
 
->>>>>>> 92d63fa0bc528766af100689fa5d10e8a3f1ba6b
     <link rel="stylesheet" href="../node_modules/@sweetalert2/themes/bootstrap-4/bootstrap-4.min.css">
     <script src="../node_modules/sweetalert2/dist/sweetalert2.all.js"></script>
 
@@ -117,9 +113,21 @@
                 </ul>
             </li>
 
+            <!-- Cerrar cesion -->
+            <li id="cerrarSesionBtnContainer">
+                <a href="#" id="cerrarSesionBtn" onclick="confirmarCerrarSesion()">
+                    <i class="bx bx-log-out"></i>
+                    <span class="link_name">Cerrar Sesión</span>
+                </a>
+                <ul class="sub-menu blank">
+                    <li><a class="link_name" href="#" onclick="confirmarCerrarSesion()">Cerrar Sesión</a></li>
+
+                </ul>
+            </li>
+
         </ul>
     </div>
-    
+
     <section class="home-section">
         <div class="home-content">
             <i class="bx bx-menu"></i>
@@ -153,41 +161,41 @@
                         </div>
                     </div>
                 </form>
+
+                <!-- botones  -->
                 <div class="row mb-4">
+                    <div class="col-sm-12 col-form-label text-center">
 
+                        <div class="d-flex flex-column flex-sm-row justify-content-center align-items-center">
 
-                    <div class="col-sm-12 text-center">
-                        <button type="button" class="btn btn-outline-success bg-border-mostaza bg-text-mostaza"
-                            onclick="CrearVariable(),notiCrearVariables(),limpiarFormulario(),habilitarbtn2()"
-                            id="boton_crear_variable">Crear</button>
+                            <button type="button"
+                                class="btn btn-outline-success bg-border-mostaza bg-text-mostaza mb-2 me-2 w-100"
+                                onclick="CrearVariable(),notiCrearVariables(),limpiarFormulario(),habilitarbtn2()"
+                                id="boton_crear_variable">Crear</button>
 
-                        <button type="button" class="btn btn-outline-success bg-border-mostaza bg-text-mostaza"
-                            onclick="window.location.href='../pestañas_Encuestador/crear_Evariables.html'"
-                            id="boton_guardar_variable">Guardar</button>
+                            <button type="button"
+                                class="btn btn-outline-success bg-border-mostaza bg-text-mostaza mb-2 me-2 w-100"
+                                onclick="window.location.href='../pestañas_Encuestador/crear_Evariables.html'"
+                                id="boton_guardar_variable">Guardar</button>
 
-                        <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza"
-                            onclick="return cancelar3()"
-                            class="btn btn-outline-success bg-border-mostaza bg-text-mostaza"
-                            id="boton_cancelar">Cancelar</button>
+                            <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza mb-2 w-100"
+                                onclick="return cancelar3()" id="boton_cancelar">Cancelar</button>
+                        </div>
+
                     </div>
 
-                </div>
+                    <!-- tabla bd -->
+                    <div class="bg-text-black text-center p-3 text-uppercase text-black">
+                        <h5>Vista previa de variables</h5>
+                    </div>
 
-                <h3 class="bg-text-black text-center p-3 text-uppercase text-black">Vista Previa Variables</h3>
+                    <div class="bg-text-black text-center p-3 text-black">
+                        <div class="row">
 
-                <div class=" col-sm-12 col-form-label px-5">
-                    <div class="card-header ">
-                        Variables de la encuesta
-                        <div class="container">
-                            <div class="row">
-                                <div id="salidaVarC"></div>
-                            </div>
+                            <div id="salidaVarC"></div>
+
                         </div>
                     </div>
-
-                </div>
-
-            </div>
 
         </section>
     </section>
@@ -206,9 +214,9 @@
             sidebar.classList.toggle("close");
         });
     </script>
-     <script src="../BD/app.js"></script>
-     <script src="../CSS/SweetAlert.js"></script>
- 
+    <script src="../BD/app.js"></script>
+    <script src="../CSS/SweetAlert.js"></script>
+
 </body>
 
 <script src="../BD/app.js"></script>
