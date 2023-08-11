@@ -210,6 +210,7 @@ var ObjectStoreReac;
 //-----------------------------------------------------------------------------------------------------------------------
 //     document.formEncuestado.addEventListener('submit',(ev)=>{
         
+<<<<<<< HEAD
 //         ev.preventDefault();
    
 //         var correo = document.getElementById('Correo').value.trim();
@@ -225,6 +226,26 @@ var ObjectStoreReac;
 //         // var Proce= document.getElementById('procedencia').value.trim();
 //         var Telefono = document.getElementById('tel').value.trim();
    
+=======
+        ev.preventDefault();
+        var correo = document.getElementById('Correo').value.trim();
+        var Contrasenia = document.getElementById('Contrasenia').value.trim();
+        var Contrasenia2 = document.getElementById('Contrasenia2').value.trim();
+        var Nombre= document.getElementById('nombrecompletos').value.trim();
+        var ApellidoP = document.getElementById('apellidopaterno').value.trim();
+        var ApellidoM= document.getElementById('apellidomaterno').value.trim();
+        var generoSeleccionado = '';
+        var genero1 = document.getElementById('inlineRadio1');
+        var genero2 = document.getElementById('inlineRadio2');
+        var Edad= document.getElementById('edad').value.trim();
+        // var Proce= document.getElementById('procedencia').value.trim();
+        var Telefono = document.getElementById('tel').value.trim();
+        // var localidad =document.getElementById('localidad').value.trim();
+        // var ciudad =document.getElementById('cuidad').value.trim();
+        // var Municipio =document.getElementById('municipio').value.trim();
+        // var Encuestado = document.getElementById('estado').value.trim();
+        // var telefono = document.getElementById('tel-encuestado').value.trim();
+>>>>>>> 771b2c2c9c9164e4198f5a4bf5ddfb791c7ecb1f
 
 //       if (genero1.checked) {
 //         generoSeleccionado = genero1.value;
@@ -1855,7 +1876,7 @@ function manejadorValidacion(e) {
           
           //continuamos siguiente objeto
           cursor.continue();
-
+   
         }else{
           cadena += "</table>";
           document.getElementById("salidaSelec").innerHTML = cadena;
@@ -1866,6 +1887,7 @@ function manejadorValidacion(e) {
             //document.getElementById("m"+id).onclick= Editar;
 
           }
+          actualizarAlmacenPreguntaReactivos()
         }
        }
     }
@@ -1902,7 +1924,7 @@ function manejadorValidacion(e) {
         storeOtroObjeto.add({id2:reactivo.id, TipoRes: reactivo.TipoRes, fechaCreacion: Date.now()});
           //alert ("Elementos seleccionados"+llave);
           //var id2 = llave.value
-          
+          actualizarAlmacenPreguntaReactivos()
           // objectStore2.add({id2:llave,fechaCreacion:Date.now()})
 
         }
@@ -2395,9 +2417,36 @@ function mostrarVarSelec() {
       }
       
 
+      
       function abrirPestanaConFormulario(IdEn) {
         var nuevaPestana = window.open("", "_blank");
-        var contenidoHTML = "<h2 class='bg-text-black text-center p-3 text-uppercase text-black'></h2>";
+      
+        nuevaPestana.document.write(`
+          <!DOCTYPE html>
+          <html lang="en">
+          <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+            <title>Encuesta</title>
+          </head>
+          <body>
+            <div class="container mt-3">
+              <div class="card">
+                <div class="card-header bg-light">
+                  <h2 class="text-center" id="tituloEncuesta"></h2>
+                </div>
+                <div class="card-body" id="contenidoEncuesta">
+                  <!-- Aquí se agregará el contenido de la encuesta -->
+                </div>
+              </div>
+            </div>
+          </body>
+          </html>
+        `);
+      
+        var tituloEncuesta = nuevaPestana.document.getElementById("tituloEncuesta");
+        var contenidoEncuesta = nuevaPestana.document.getElementById("contenidoEncuesta");
       
         var transaction = db.transaction("Encuesta", "readonly");
         var encuestaObjectStore = transaction.objectStore("Encuesta");
@@ -2406,7 +2455,7 @@ function mostrarVarSelec() {
         encuestaRequest.onsuccess = function(event) {
           var encuesta = event.target.result;
           if (encuesta) {
-            contenidoHTML += "<h1 class='bg-text-black text-center p-3 text-uppercase text-black' style='text-align: center' font-size: 'x-large' padding: '10px 50px 20px'; font-weight: bold;'>" + encuesta.Titulo + "</h1>";
+            tituloEncuesta.textContent = encuesta.Titulo;
       
             var reactivosObjectStore = db.transaction("EncuestaFinal", "readonly").objectStore("EncuestaFinal");
             var reactivosRequest = reactivosObjectStore.getAll();
@@ -2419,23 +2468,98 @@ function mostrarVarSelec() {
                 });
       
                 reactivosFiltrados.forEach(function(reactivo) {
-                  contenidoHTML += "<div style='text-align: center;'>";
-                  contenidoHTML += "<label style=' color: black; padding: 10px 50px 20px;; text-transform: uppercase; font-weight: bold;' for='reactivo" + reactivo.reactivoId + "'>"+ reactivo.reactivoId + "</label>";
-                  contenidoHTML += "<br>";
-                  contenidoHTML += "<input class='form-control' type='text' id='reactivo" + reactivo.reactivoId + "' name='reactivo" + reactivo.reactivoId + "'><br>";
-                  contenidoHTML += "</div>";
-                });
+                  var reactivoDiv = nuevaPestana.document.createElement("div");
+                  reactivoDiv.innerHTML = `
+                    <h5>${reactivo.reactivoId}</h5>
+                  `;
+                  contenidoEncuesta.appendChild(reactivoDiv);
       
-                nuevaPestana.document.open();
-                nuevaPestana.document.write(contenidoHTML);
-                nuevaPestana.document.close();
-              }
-            };
+                  var tipoRespuesta = reactivo.TipoRes;
+      
+                  if (tipoRespuesta === 1) {
+                    var preguntaInput = nuevaPestana.document.createElement("input");
+                    preguntaInput.setAttribute("type", "text");
+                    preguntaInput.classList.add("form-control");
+                    contenidoEncuesta.appendChild(preguntaInput);
+                    contenidoEncuesta.appendChild(nuevaPestana.document.createElement("br"));
+                  } else if (tipoRespuesta === 2) {
+                    var respuestas = ["Sí", "No"];
+                    for (var i = 0; i < respuestas.length; i++) {
+                      var respuestaDiv = nuevaPestana.document.createElement("div");
+                      respuestaDiv.classList.add("form-check", "form-check-inline", "col-md-4");
+      
+                      var respuestaLabel = nuevaPestana.document.createElement("label");
+                      var respuestaInput = nuevaPestana.document.createElement("input");
+                      respuestaInput.setAttribute("type", "radio");
+                      respuestaInput.setAttribute("name", "respuesta");
+                      respuestaInput.setAttribute("value", respuestas[i]);
+                      respuestaInput.classList.add("form-check-input");
+      
+                      respuestaLabel.textContent = respuestas[i];
+                      respuestaLabel.classList.add("form-check-label", "form-check-inline");
+      
+                      respuestaDiv.appendChild(respuestaInput);
+                      respuestaDiv.appendChild(respuestaLabel);
+      
+                      respuestaDiv.appendChild(nuevaPestana.document.createElement("br"));
+      
+                      contenidoEncuesta.appendChild(respuestaDiv);
+                    }
+                  }  else if (tipoRespuesta === 3 || tipoRespuesta === 4) {
+                    var respuestasDiv = nuevaPestana.document.createElement("div");
+                    respuestasDiv.classList.add("col-md-4");
+                  
+                    var objectStoreReOpM = db.transaction("ReOpM").objectStore("ReOpM");
+                    objectStoreReOpM.openCursor().onsuccess = function(event) {
+                      var cursorReOpM = event.target.result;
+                      if (cursorReOpM) {
+                        if (cursorReOpM.value.Reactivo === reactivo.reactivoId) {
+                          var matchingReOpM = cursorReOpM.value;
+                          var respuestas = [
+                            matchingReOpM.Respuesta,
+                            matchingReOpM.Respuesta2,
+                            matchingReOpM.Respuesta3,
+                            matchingReOpM.Respuesta4,
+                            matchingReOpM.Respuesta5
+                          ];
+                  
+                          respuestas.forEach(function(opcion, index) {
+                            if (opcion !== "") {
+                              var respuestaLabel = nuevaPestana.document.createElement("label");
+                              var respuestaInput = nuevaPestana.document.createElement("input");
+                  
+                              respuestaInput.classList.add("form-check-input");
+                              respuestaLabel.textContent = opcion;
+                              respuestaLabel.classList.add("form-check-label", "form-check-inline");
+                  
+                              if (tipoRespuesta === 3) {
+                                respuestaInput.setAttribute("type", "checkbox");
+                                respuestaInput.setAttribute("name", "respuesta_" + reactivo.reactivoId + "_checkbox_" + index); // Sufijo '_checkbox' para checkboxes
+                              } else if (tipoRespuesta === 4) {
+                                respuestaInput.setAttribute("type", "radio");
+                                respuestaInput.setAttribute("name", "respuesta_" + reactivo.reactivoId + "_radio"); // Sin sufijo para radio buttons
+                              }
+                  
+                              var respuestaDivIndividual = nuevaPestana.document.createElement("div");
+                              respuestaDivIndividual.appendChild(respuestaInput);
+                              respuestaDivIndividual.appendChild(respuestaLabel);
+                  
+                              respuestasDiv.appendChild(respuestaDivIndividual);
+                            }
+                          });
+                        }
+                        cursorReOpM.continue();
+                      }
+                    };
+                  
+                    contenidoEncuesta.appendChild(respuestasDiv);
+                  }
+              });
+            }
           }
-        };
-      }
-      
-
+        }
+      };
+    }
       function buscarEVar() {
         var cadena = "<table class='table table-bordered'>";
         var objectStore = db.transaction("Encuesta_Variables").objectStore("Encuesta_Variables");
@@ -3023,13 +3147,14 @@ function ResOpMul(){
   var respuesta3 = document.getElementById("Respuesta3").value.trim();
   var respuesta4 = document.getElementById("Respuesta4").value.trim();
   var respuesta5 = document.getElementById("Respuesta5").value.trim();
+  var reactivo = document.getElementById("ReactivoCre").value.trim();
 
   var ResOpMul = db.transaction(["ReOpM"], "readwrite").objectStore("ReOpM");
 
   if(respuesta ==''){
     alert("Escriba una respuesta ");
   }else{
-      ResOpMul.add({Respuesta:respuesta,Respuesta2:respuesta2,Respuesta3:respuesta3,Respuesta4:respuesta4,Respuesta5:respuesta5})
+      ResOpMul.add({Respuesta:respuesta,Respuesta2:respuesta2,Respuesta3:respuesta3,Respuesta4:respuesta4,Respuesta5:respuesta5,Reactivo:reactivo})
   } 
     ResOpMul.onsuccess = function(e){
     console.log(e);
@@ -3423,14 +3548,13 @@ function refrescarAlmacen() {
     // leer todos los objetos del almacén
     const getAllRequest = store.getAll();
     getAllRequest.onsuccess = function(event) {
-      const objetos = event.target.result;
-      
-
+      const objetos = event.target.result.reverse(); // Invertir el orden de los objetos
+    
       // limpiar la lista del modal
       const miLista = document.getElementById('modalcuerpo');
       miLista.innerHTML = '';
-
-      // agregar los valores a la lista del modal
+    
+      // agregar los valores a la lista del modal (en orden inverso)
       for (const objeto of objetos) {
         const li = document.createElement('p');
         li.textContent = objeto.id2;
@@ -3545,10 +3669,10 @@ function selec3(e){
 }
 
 function mostrarPreguntas() {
-
   var objectStore = db.transaction("preguntaReactivos").objectStore("preguntaReactivos");
+  var preguntasContainer = document.getElementById("preguntas-container");
 
-  objectStore.openCursor().onsuccess = function(event) {
+  objectStore.openCursor().onsuccess = function (event) {
     var cursor = event.target.result;
 
     if (cursor) {
@@ -3557,53 +3681,154 @@ function mostrarPreguntas() {
 
       var preguntaDiv = document.createElement("div");
       var preguntaLabel = document.createElement("label");
-      var preguntaInput = document.createElement("TEXTAREA");
-
-      var respuestaDiv = document.createElement("div");
-
-      var respuestaSi = document.createElement("input");
-      var respuestaSiLabel = document.createElement("label");
-      respuestaSiLabel.textContent ='Sí';
-      var respuestaNo = document.createElement("input");
-      var respuestaNoLabel = document.createElement("label");
-      respuestaNoLabel.textContent = "No";
       preguntaLabel.textContent = pregunta + ": ";
-      
+
+      // Agregar el salto de línea después de la preguntaLabel
+      preguntaDiv.appendChild(preguntaLabel);
+      preguntaDiv.appendChild(document.createElement("br"));
+
       if (tipoRespuesta === 1) {
-        preguntaDiv.appendChild(preguntaLabel);
-        preguntaDiv.appendChild(preguntaInput);
+        var preguntaInput = document.createElement("input");
         preguntaInput.setAttribute("type", "text");
-        
+        preguntaInput.classList.add("form-control");
+        preguntaDiv.appendChild(preguntaInput);
+        // Agregar espacios adicionales con <br>
+        preguntaDiv.appendChild(document.createElement("br"));
+        // preguntaDiv.appendChild(document.createElement("br"));
+
       } else if (tipoRespuesta === 2) {
-        preguntaDiv.appendChild(preguntaLabel);
-      
-        respuestaSi.setAttribute("type", "radio");
-        respuestaSi.setAttribute("name", "respuesta");
-        respuestaSi.setAttribute("value", "si");
-        respuestaDiv.appendChild(respuestaSiLabel);
-        respuestaDiv.appendChild(respuestaSi);
-       
-        respuestaNo.setAttribute("type", "radio");
-        respuestaNo.setAttribute("name", "respuesta");
-        respuestaNo.setAttribute("value", "no");
-        respuestaDiv.appendChild(respuestaNoLabel);
-        respuestaDiv.appendChild(respuestaNo);
+        var respuestas = ["Sí", "No"];
+        for (var i = 0; i < respuestas.length; i++) {
+          var respuestaDiv = document.createElement("div");
+          respuestaDiv.classList.add("form-check", "form-check-inline", "col-md-4"); // Agregar clases form-check, form-check-inline, y col-md-4
         
-        preguntaDiv.appendChild(respuestaDiv);
+          var respuestaLabel = document.createElement("label");
+          var respuestaInput = document.createElement("input");
+          respuestaInput.setAttribute("type", "radio");
+          respuestaInput.setAttribute("name", "respuesta");
+          respuestaInput.setAttribute("value", respuestas[i]);
+          respuestaInput.classList.add("form-check-input"); // Agregar clase form-check-input
+        
+          respuestaLabel.textContent = respuestas[i];
+          respuestaLabel.classList.add("form-check-label", "form-check-inline"); // Agregar clases form-check-label y form-check-inline
+        
+          respuestaDiv.appendChild(respuestaInput);
+          respuestaDiv.appendChild(respuestaLabel);
 
-       
+          // Agregar espacios adicionales con <br>
+          respuestaDiv.appendChild(document.createElement("br"));
+          // respuestaDiv.appendChild(document.createElement("br"));
+        
+          preguntaDiv.appendChild(respuestaDiv);
+        }
+
       } else if (tipoRespuesta === 3) {
-        preguntaInput.setAttribute("type", "select");
-      }
+        // Buscar coincidencia en ReOpM utilizando el valor de pregunta
+        var objectStoreReOpM = db.transaction("ReOpM").objectStore("ReOpM");
+        var matchingReOpM;
+        objectStoreReOpM.openCursor().onsuccess = function (event) {
+            var cursorReOpM = event.target.result;
+            if (cursorReOpM) {
+                if (cursorReOpM.value.Reactivo === pregunta) {
+                    matchingReOpM = cursorReOpM.value;
+                    console.log("Coincidencia encontrada en ReOpM:", matchingReOpM);
+                }
+                cursorReOpM.continue();
+            } else {
+                if (matchingReOpM) {
+                    // Obtener valores de Respuesta, Respuesta2, Respuesta3, Respuesta4 y Respuesta5
+                    var respuestas = [
+                        matchingReOpM.Respuesta,
+                        matchingReOpM.Respuesta2,
+                        matchingReOpM.Respuesta3,
+                        matchingReOpM.Respuesta4,
+                        matchingReOpM.Respuesta5
+                    ];
+    
+                    // Agregar casillas de verificación basadas en las respuestas obtenidas
+                    respuestas.forEach(function (opcion) {
+                        if (opcion !== "") {
+                            var respuestaDiv = document.createElement("div");
+                            respuestaDiv.classList.add("form-check", "form-check-inline", "col-md-4");
+    
+                            var respuestaLabel = document.createElement("label");
+                            var respuestaInput = document.createElement("input");
+                            respuestaInput.setAttribute("type", "checkbox");
+                            respuestaInput.classList.add("form-check-input");
+                            respuestaLabel.textContent = opcion;
+                            respuestaLabel.classList.add("form-check-label", "form-check-inline");
+    
+                            respuestaDiv.appendChild(respuestaInput);
+                            respuestaDiv.appendChild(respuestaLabel);
+                            
+                            // Agregar espacios adicionales con <br>
+                            respuestaDiv.appendChild(document.createElement("br"));
+                            preguntaDiv.appendChild(respuestaDiv);
+                        }
+                    });
+                } else {
+                    console.log("No se encontró coincidencia en ReOpM para la pregunta:", pregunta);
+                }
+            }
+        };
+    }  else if (tipoRespuesta === 4) {
+      // Buscar coincidencia en ReOpM utilizando el valor de pregunta
+      var objectStoreReOpM = db.transaction("ReOpM").objectStore("ReOpM");
+      var matchingReOpM;
+      objectStoreReOpM.openCursor().onsuccess = function (event) {
+          var cursorReOpM = event.target.result;
+          if (cursorReOpM) {
+              if (cursorReOpM.value.Reactivo === pregunta) {
+                  matchingReOpM = cursorReOpM.value;
+                  console.log("Coincidencia encontrada en ReOpM:", matchingReOpM);
+              }
+              cursorReOpM.continue();
+          } else {
+              if (matchingReOpM) {
+                  // Obtener valores de Respuesta, Respuesta2, Respuesta3, Respuesta4 y Respuesta5
+                  var respuestas = [
+                      matchingReOpM.Respuesta,
+                      matchingReOpM.Respuesta2,
+                      matchingReOpM.Respuesta3,
+                      matchingReOpM.Respuesta4,
+                      matchingReOpM.Respuesta5
+                  ];
+  
+                  // Agregar radio buttons basados en las respuestas obtenidas
+                  respuestas.forEach(function (opcion) {
+                      if (opcion !== "") {
+                          var respuestaDiv = document.createElement("div");
+                          respuestaDiv.classList.add("form-check", "form-check-inline", "col-md-4");
+  
+                          var respuestaLabel = document.createElement("label");
+                          var respuestaInput = document.createElement("input");
+                          respuestaInput.setAttribute("type", "radio");
+                          respuestaInput.setAttribute("name", "respuesta_" + pregunta); // Agregar nombre para agrupar radio buttons
+                          respuestaInput.classList.add("form-check-input");
+                          respuestaLabel.textContent = opcion;
+                          respuestaLabel.classList.add("form-check-label", "form-check-inline");
+  
+                          respuestaDiv.appendChild(respuestaInput);
+                          respuestaDiv.appendChild(respuestaLabel);
+                          
+                          // Agregar espacios adicionales con <br>
+                          respuestaDiv.appendChild(document.createElement("br"));
+                          preguntaDiv.appendChild(respuestaDiv);
+                      }
+                  });
+              } else {
+                  console.log("No se encontró coincidencia en ReOpM para la pregunta:", pregunta);
+              }
+          }
+      };
+  }
 
-      document.getElementById("preguntas-container").appendChild(preguntaDiv);
+      preguntasContainer.appendChild(preguntaDiv);
 
       cursor.continue();
     }
   };
-
 }
-
 
  
   var encuestaId;
@@ -3628,7 +3853,7 @@ function crearEncuestaFinal() {
         Titulo: Titulo,
         Objetivo: Objetivo,
         Instrucciones: Instrucciones,
-        fechaCreacionE: fechaCreacionE
+        fechaCreacionER: fechaCreacionER
       });
 
     request.onsuccess = async function(e) {
@@ -3639,10 +3864,11 @@ function crearEncuestaFinal() {
       var tx = db.transaction(["EncuestaFinal"], "readwrite");
       var store = tx.objectStore("EncuestaFinal");
 
-      reactivosSeleccionados.forEach(function(reactivoId) {
+      reactivosSeleccionados.forEach(function(reactivo) {
         store.add({
           encuestaId: encuestaId,
-          reactivoId: reactivoId
+          reactivoId: reactivo.id2,
+          TipoRes: reactivo.TipoRes
         });
       });
       
@@ -3680,9 +3906,12 @@ async function obtenerReactivosSeleccionados() {
     cursor.onsuccess = function(event) {
       var cursor = event.target.result;
       if (cursor) {
-        var valor = cursor.value.id2;
-        if (!reactivosSeleccionados.includes(valor) && contieneCheckboxId(checkboxes, valor)) {
-          reactivosSeleccionados.push(valor);
+        var id2 = cursor.value.id2;
+        var TipoRes = cursor.value.TipoRes;
+        if (!reactivosSeleccionados.some(item => item.id2 === id2)) {
+          if (contieneCheckboxId(checkboxes, id2)) {
+            reactivosSeleccionados.push({ id2, TipoRes });
+          }
         }
         cursor.continue();
       } else {
@@ -3703,10 +3932,7 @@ function contieneCheckboxId(checkboxes, id) {
   return false;
 }
 
-
 // Función para mostrar en el formulario los reactivos de una encuesta específica
-
-
 
 
   function mostrarEncuesta() {
@@ -4603,7 +4829,7 @@ function editarLogo(imageDataUrl) {
     };
   });
 }
-/*
+
 async function guardarDatos() {
   try {
     await validarImagenLogo();
@@ -4614,4 +4840,84 @@ async function guardarDatos() {
     // Si hay algún error en alguna de las funciones, mostramos el mensaje de error.
     console.error("Error al guardar los datos:", error);
   }
-}*/
+}
+
+function MostrarLogo() {
+  var datosUsuario = localStorage.getItem("datosUsuario");
+  if (!datosUsuario) {
+    console.log("No hay datos de usuario en el almacenamiento.");
+    return;
+  }
+
+  var datos = JSON.parse(datosUsuario);
+  var primerValor = datos.valor1;
+
+  console.log("El valor de primerValor es:", primerValor);
+
+  var dbRequest = indexedDB.open('Janal', 1);
+
+  dbRequest.onerror = function (event) {
+    console.error("Error al abrir la base de datos:", event.target.error);
+  };
+
+  dbRequest.onsuccess = function (event) {
+    var database = event.target.result;
+    var transaction = database.transaction(['Encuestador'], 'readwrite');
+    var objectStoreEncuestador = transaction.objectStore('Encuestador');
+
+    var cursorRequest = objectStoreEncuestador.openCursor();
+
+    cursorRequest.onerror = function (event) {
+      console.error("Error al abrir el cursor:", event.target.error);
+    };
+
+    cursorRequest.onsuccess = function (event) {
+      var cursor = event.target.result;
+
+      if (cursor) {
+        var objeto = cursor.value;
+        var correoEncuestador = objeto.correo;
+
+        if (correoEncuestador === primerValor) {
+          console.log("El valor coincide.");
+          var dataUrlValue = objeto.dataUrl;
+          console.log("El valor del parámetro dataUrl es:", dataUrlValue);
+
+          // Mostrar la imagen en el elemento img con el id "logoInstituto"
+          var logoInstitutoElement = document.getElementById("logoInstituto");
+          if (logoInstitutoElement) {
+            logoInstitutoElement.src = dataUrlValue;
+          }
+        }
+
+        cursor.continue();
+      } else {
+        console.log("No se encontró el valor en el cursor.");
+      }
+    };
+  };
+
+  dbRequest.onupgradeneeded = function (event) {
+    var database = event.target.result;
+    var objectStoreEncuestador = database.createObjectStore('Encuestador', { keyPath: 'correo' });
+
+    // Agregar índices u otras configuraciones en caso necesario.
+    // objectStoreEncuestador.createIndex(...);
+  };
+}
+
+//Actualicar almacen 
+function actualizarAlmacenPreguntaReactivos() {
+  var tx = db.transaction("preguntaReactivos", "readonly");
+  var storePreguntaReactivos = tx.objectStore("preguntaReactivos");
+
+  // Abre un cursor para recorrer todos los elementos en el almacen
+  storePreguntaReactivos.openCursor().onsuccess = function(event) {
+      var cursor = event.target.result;
+      if (cursor) {
+          // Aquí puedes hacer algo con los datos del cursor
+          console.log("Elemento en almacen preguntaReactivos:", cursor.value);
+          cursor.continue();
+      }
+  };
+}
