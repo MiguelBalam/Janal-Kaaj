@@ -124,15 +124,15 @@ var ObjectStoreReac;
       db= ev.target.result;
       mostrarPreguntas();
       EncuestaVistaPV2()
-      
+    
       mostrarVarSelec()
-      buscarEVarCre()
+     
     
       mostrarEncuesta()
       
       reactivoscrear()
       buscar()
-      Encuesta1()
+     
       //mostrarVarSelec() 
       EncuestaVarMostrar()
    EncuestaVarMostrar(encuestaVarId)
@@ -143,8 +143,10 @@ var ObjectStoreReac;
       //EncuestaVarMostrar() 
       cargarPagina()
       
+      Encuesta1()
+      buscarEVarCre()
       buscarE()
-      
+     
       //mostrarEncuestaVar(encuestaVarId)
    
 
@@ -197,147 +199,281 @@ var ObjectStoreReac;
 
 // registro de datos
 //-----------------------------------------------------------------------------------------------------------------------
-    document.formEncuestado.addEventListener('submit',(ev)=>{
+//     document.formEncuestado.addEventListener('submit',(ev)=>{
         
-        ev.preventDefault();
-        var correo = document.getElementById('Correo').value.trim();
-        var Contrasenia = document.getElementById('contrasenia').value.trim();
-        var Contrasenia2 = document.getElementById('contrasenia2').value.trim();
-        var Nombre= document.getElementById('nombrecompletos').value.trim();
-        var ApellidoP = document.getElementById('apellidopaterno').value.trim();
-        var ApellidoM= document.getElementById('apellidomaterno').value.trim();
-        var generoSeleccionado = '';
-        var genero1 = document.getElementById('inlineRadio1');
-        var genero2 = document.getElementById('inlineRadio2');
-        var Edad= document.getElementById('edad').value.trim();
-        // var Proce= document.getElementById('procedencia').value.trim();
-        var Telefono = document.getElementById('tel').value.trim();
-        // var localidad =document.getElementById('localidad').value.trim();
-        // var ciudad =document.getElementById('cuidad').value.trim();
-        // var Municipio =document.getElementById('municipio').value.trim();
-        // var Encuestado = document.getElementById('estado').value.trim();
-        // var telefono = document.getElementById('tel-encuestado').value.trim();
+//         ev.preventDefault();
+   
+//         var correo = document.getElementById('Correo').value.trim();
+//         var Contrasenia = document.getElementById('Contrasenia').value.trim();
+//         var Contrasenia2 = document.getElementById('Contrasenia2').value.trim();
+//         var Nombre= document.getElementById('nombrecompletos').value.trim();
+//         var ApellidoP = document.getElementById('apellidopaterno').value.trim();
+//         var ApellidoM= document.getElementById('apellidomaterno').value.trim();
+//         var generoSeleccionado = '';
+//         var genero1 = document.getElementById('inlineRadio1');
+//         var genero2 = document.getElementById('inlineRadio2');
+//         var Edad= document.getElementById('edad').value.trim();
+//         // var Proce= document.getElementById('procedencia').value.trim();
+//         var Telefono = document.getElementById('tel').value.trim();
+   
 
-      if (genero1.checked) {
-        generoSeleccionado = genero1.value;
-      } else if (genero2.checked) {
-        generoSeleccionado = genero2.value;
-      }
+//       if (genero1.checked) {
+//         generoSeleccionado = genero1.value;
+//       } else if (genero2.checked) {
+//         generoSeleccionado = genero2.value;
+//       }
         
-        verificarPasswords();
+//         verificarPasswords();
 
-        let Usuario = {
-        Nombre,
-        ApellidoP,
-        ApellidoM,
-        Genero: generoSeleccionado,
-        Edad,
-        Telefono,
-        correo
+//         let Usuario = {
+//         Nombre,
+//         ApellidoP,
+//         ApellidoM,
+//         Genero: generoSeleccionado,
+//         Edad,
+//         Telefono,
+//         correo
 
-        }
-        let Autenticasion = {
-            correo,
-            Contrasenia,
-            Contrasenia2
-            }
-            // let Encuestador = {
-            //   Proce
-
-            //      }
-             
+//         }
+//         let Autenticasion = {
+//             correo,
+//             Contrasenia,
+//             Contrasenia2
+//             }
         
-        let tx = makeTX('Usuario','readwrite');
-        let txA = makeTX2('Autenticasion','readwrite');
-        let txB = makeTX3('Encuestador','readwrite');
+//         let tx = makeTX('Usuario','readwrite');
+//         let txA = makeTX2('Autenticasion','readwrite');
+//         let txB = makeTX3('Encuestador','readwrite');
 
-        tx.oncomplete = (ev)=>{
-            console.log (ev);
-            var elementos = document.getElementsByName("inlineRadioOptions");
-            for(var i=0; i<elementos.length; i++) {
-              alert(" Elemento: " + elementos[i].value + "\n Seleccionado: " + elementos[i].checked);
-        }
-      };
-        txA.oncomplete = (ev)=>{
+//         tx.oncomplete = (ev)=>{
+//             console.log (ev);
+//             var elementos = document.getElementsByName("inlineRadioOptions");
+//             for(var i=0; i<elementos.length; i++) {
+//               alert(" Elemento: " + elementos[i].value + "\n Seleccionado: " + elementos[i].checked);
+//         }
+//       };
+//         txA.oncomplete = (ev)=>{
 
-          verificarPasswords();
+//           verificarPasswords();
          
-            // console.log (ev);
+//             // console.log (ev);
 
-            // Aquí se muestra la alerta SweetAlert2
-          Swal.fire({
-            icon: 'success',
+//             // Aquí se muestra la alerta SweetAlert2
+//           Swal.fire({
+//             icon: 'success',
 
-            title: '¡Datos enviados correctamente!',
-            text: 'Gracias por completar la encuesta.',
-            confirmButtonText: 'Aceptar',
-            allowOutsideClick: false,
-            allowEscapeKey: false
-          }).then((result) => {
-            if (result.isConfirmed) {
-              // Redirige a la página "login.html" en español
-              window.location.href = 'login.html';
-            }
-          });
+//             title: '¡Datos enviados correctamente!',
+//             text: 'Gracias por completar la encuesta.',
+//             confirmButtonText: 'Aceptar',
+//             allowOutsideClick: false,
+//             allowEscapeKey: false
+//           }).then((result) => {
+//             if (result.isConfirmed) {
+//               // Redirige a la página "login.html" en español
+//               window.location.href = 'login.html';
+//             }
+//           });
             
-        };
-        let store = tx.objectStore('Usuario');
-        let request = store.add(Usuario);
-        let store2 = txA.objectStore('Autenticasion');
-        let request2 = store2.add(Autenticasion);
-        let store3 = txB.objectStore('Encuestador');
-        let request3 = store3.add(Encuestador);
+//         };
+//         let store = tx.objectStore('Usuario');
+//         let request = store.add(Usuario);
+//         let store2 = txA.objectStore('Autenticasion');
+//         let request2 = store2.add(Autenticasion);
+//         let store3 = txB.objectStore('Encuestador');
+//         let request3 = store3.add(Encuestador);
         
-        validar();
-        request.onsuccess = (ev) => {
-          check();  
-          console.log('successfully added an object',ev);
-          document.getElementById('EncuestadoForm').reset(); 
-        };
-        request.onerror = (eve) => {
-          console.log('error in request to add',eve);
-        };
-        request2.onsuccess = (ev) => {
-            console.log('successfully added an object',ev);
+//         validar();
+//         request.onsuccess = (ev) => {
+//           check();  
+//           console.log('successfully added an object',ev);
+//           document.getElementById('EncuestadoForm').reset(); 
+//         };
+//         request.onerror = (eve) => {
+//           console.log('error in request to add',eve);
+//         };
+//         request2.onsuccess = (ev) => {
+//             console.log('successfully added an object',ev);
         
-          };
-          request2.onerror = (eve) => {
-            console.log('error in request to add',eve);
-          };
-          request3.onsuccess = (ev) => {
-            console.log('successfully added an object',ev);
-          };
-          request3.onerror = (eve) => {
-            console.log('error in request to add',eve);
-          }; 
+//           };
+//           request2.onerror = (eve) => {
+//             console.log('error in request to add',eve);
+//           };
+//           request3.onsuccess = (ev) => {
+//             console.log('successfully added an object',ev);
+//           };
+//           request3.onerror = (eve) => {
+//             console.log('error in request to add',eve);
+//           }; 
 
 
-    });
+//     });
 
-    function makeTX(storeName, mode) {
-        let tx = db.transaction(storeName, mode);
-        tx.onerror = (eve) => {
-          console.warn(eve);
-        };
-        return tx;
-    }
-    function makeTX2(storeName, mode) {
+//     function makeTX(storeName, mode) {
+//         let tx = db.transaction(storeName, mode);
+//         tx.onerror = (eve) => {
+//           console.warn(eve);
+//         };
+//         return tx;
+//     }
+//     function makeTX2(storeName, mode) {
       
-        let tx = db.transaction(storeName, mode);
-        tx.onerror = (eve) => {
-          console.warn(eve);
-        };
-        return tx;
-    }
-    function makeTX3(storeName, mode) {
-        let tx = db.transaction(storeName, mode);
-        tx.onerror = (eve) => {
-          console.warn(eve);
-        };
-        return tx;
-    }
+//         let tx = db.transaction(storeName, mode);
+//         tx.onerror = (eve) => {
+//           console.warn(eve);
+//         };
+//         return tx;
+//     }
+//     function makeTX3(storeName, mode) {
+//         let tx = db.transaction(storeName, mode);
+//         tx.onerror = (eve) => {
+//           console.warn(eve);
+//         };
+//         return tx;
+//     }
 
-})();
+// })
+document.formEncuestado.addEventListener('submit',(ev)=>{
+        
+  ev.preventDefault();
+  var correo = document.getElementById('Correo').value.trim();
+  var Contrasenia = document.getElementById('Contrasenia').value.trim();
+  var Contrasenia2 = document.getElementById('Contrasenia2').value.trim();
+  var Nombre= document.getElementById('nombrecompletos').value.trim();
+  var ApellidoP = document.getElementById('apellidopaterno').value.trim();
+  var ApellidoM= document.getElementById('apellidomaterno').value.trim();
+  var generoSeleccionado = '';
+  var genero1 = document.getElementById('inlineRadio1');
+  var genero2 = document.getElementById('inlineRadio2');
+  var Edad= document.getElementById('edad').value.trim();
+  // var Proce= document.getElementById('procedencia').value.trim();
+  var Telefono = document.getElementById('tel').value.trim();
+  // var localidad =document.getElementById('localidad').value.trim();
+  // var ciudad =document.getElementById('cuidad').value.trim();
+  // var Municipio =document.getElementById('municipio').value.trim();
+  // var Encuestado = document.getElementById('estado').value.trim();
+  // var telefono = document.getElementById('tel-encuestado').value.trim();
+
+if (genero1.checked) {
+  generoSeleccionado = genero1.value;
+} else if (genero2.checked) {
+  generoSeleccionado = genero2.value;
+}
+  
+  verificarPasswords();
+
+  let Usuario = {
+  Nombre,
+  ApellidoP,
+  ApellidoM,
+  Genero: generoSeleccionado,
+  Edad,
+  Telefono,
+  correo
+
+  }
+  let Autenticasion = {
+      correo,
+      Contrasenia,
+      Contrasenia2
+      }
+      // let Encuestador = {
+      //   Proce
+
+      //      }
+       
+  
+  let tx = makeTX('Usuario','readwrite');
+  let txA = makeTX2('Autenticasion','readwrite');
+  let txB = makeTX3('Encuestador','readwrite');
+
+  tx.oncomplete = (ev)=>{
+      console.log (ev);
+      var elementos = document.getElementsByName("inlineRadioOptions");
+      for(var i=0; i<elementos.length; i++) {
+        alert(" Elemento: " + elementos[i].value + "\n Seleccionado: " + elementos[i].checked);
+  }
+};
+  txA.oncomplete = (ev)=>{
+
+    verificarPasswords();
+   
+      // console.log (ev);
+
+      // Aquí se muestra la alerta SweetAlert2
+    Swal.fire({
+      icon: 'success',
+
+      title: '¡Datos enviados correctamente!',
+      text: 'Gracias por completar la encuesta.',
+      confirmButtonText: 'Aceptar',
+      allowOutsideClick: false,
+      allowEscapeKey: false
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // Redirige a la página "login.html" en español
+        window.location.href = 'login.html';
+      }
+    });
+      
+  };
+  let store = tx.objectStore('Usuario');
+  let request = store.add(Usuario);
+  let store2 = txA.objectStore('Autenticasion');
+  let request2 = store2.add(Autenticasion);
+  let store3 = txB.objectStore('Encuestador');
+  let request3 = store3.add(Encuestador);
+  
+  validar();
+  request.onsuccess = (ev) => {
+    check();  
+    console.log('successfully added an object',ev);
+    document.getElementById('EncuestadoForm').reset(); 
+  };
+  request.onerror = (eve) => {
+    console.log('error in request to add',eve);
+  };
+  request2.onsuccess = (ev) => {
+      console.log('successfully added an object',ev);
+  
+    };
+    request2.onerror = (eve) => {
+      console.log('error in request to add',eve);
+    };
+    request3.onsuccess = (ev) => {
+      console.log('successfully added an object',ev);
+    };
+    request3.onerror = (eve) => {
+      console.log('error in request to add',eve);
+    }; 
+
+
+});
+
+function makeTX(storeName, mode) {
+  let tx = db.transaction(storeName, mode);
+  tx.onerror = (eve) => {
+    console.warn(eve);
+  };
+  return tx;
+}
+function makeTX2(storeName, mode) {
+
+  let tx = db.transaction(storeName, mode);
+  tx.onerror = (eve) => {
+    console.warn(eve);
+  };
+  return tx;
+}
+function makeTX3(storeName, mode) {
+  let tx = db.transaction(storeName, mode);
+  tx.onerror = (eve) => {
+    console.warn(eve);
+  };
+  return tx;
+}
+
+
+ })();
 
 
 //Subir Noticas
@@ -1190,8 +1326,8 @@ function eliminarUsuario() {
 
 function verificarPasswords() {
  
- var pass1 = document.getElementById('contrasenia').value;
-  var pass2 = document.getElementById('contrasenia2').value;
+ var pass1 = document.getElementById('Contrasenia').value;
+  var pass2 = document.getElementById('Contrasenia2').value;
   
   if (pass1 != pass2) {
 
@@ -1282,6 +1418,8 @@ function manejadorValidacion(e) {
               }, 3000); // 5 segundos de retardo (5000 milisegundos)
         }
     }
+
+    
 
     function enviarFormulario() {
       
@@ -2287,7 +2425,7 @@ function selecVP(e) {
             cursor.continue();
           } else {
             cadena += "</table>";
-            document.getElementById("crear_encuesta").innerHTML = cadena;
+            document.getElementById("crear_encuestaVar").innerHTML = cadena;
       
             var btns = document.getElementsByClassName("ver-formulario2-btn");
             for (var i = 0; i < btns.length; i++) {

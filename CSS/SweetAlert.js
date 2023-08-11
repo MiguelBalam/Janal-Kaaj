@@ -698,12 +698,12 @@ if (telEncuestadorElement) {
   telEncuestadorElement.addEventListener("keyup", habilitarFormEncuestador);
 }
 
-var contraEncuestadorElement = document.getElementById("contrasenia");
+var contraEncuestadorElement = document.getElementById("Contrasenia");
 if (contraEncuestadorElement) {
   contraEncuestadorElement.addEventListener("keyup", habilitarFormEncuestador);
 }
 
-var contra2EncuestadorElement = document.getElementById("contrasenia2");
+var contra2EncuestadorElement = document.getElementById("Contrasenia2");
 if (contra2EncuestadorElement) {
   contra2EncuestadorElement.addEventListener("keyup", habilitarFormEncuestador);
 }
