@@ -32,34 +32,34 @@
       <i class="bx seleccionador"></i>
       <span class="logo_name">Janal Kaaj</span>
     </div>
-
-
+  
+  
     <ul class="nav-links">
       <li>
         <a href="/pestañas_Encuestador/dashboard.html">
           <i class="bx bx-grid-alt"></i>
           <span class="link_name">Dashboard</span>
         </a>
-
+  
         <ul class="sub-menu blank">
           <li><a href="/pestañas_Encuestador/dashboard.html">Dashboard</a></li>
         </ul>
       </li>
-
-
+  
+  
       <li>
         <a href="/login.html">
           <i class='bx bx-home-alt'></i>
           <span class="link_name">Login</span>
         </a>
-
+  
         <ul class="sub-menu blank">
           <li><a class="link_name" href="/login.html">Login</a></li>
         </ul>
       </li>
-
-
-
+  
+  
+  
       <li>
         <div class="iocn-link">
           <a href="crear_Evariables.html">
@@ -71,7 +71,7 @@
           </ul>
         </div>
       </li>
-
+  
       <li>
         <div class="iocn-link">
           <a href="crear.html">
@@ -83,8 +83,8 @@
           <li><a class="link_name" href="crear.html">Crear reactivos</a></li>
         </ul>
       </li>
-
-
+  
+  
       <li>
         <a href="#">
           <i class="bx bx-pie-chart-alt-2"></i>
@@ -94,8 +94,8 @@
           <li><a class="link_name" href="#">Análisis</a></li>
         </ul>
       </li>
-
-
+  
+  
       <li>
         <a href="#">
           <i class="bx bx-line-chart"></i>
@@ -105,7 +105,7 @@
           <li><a class="link_name" href="#">Graficas</a></li>
         </ul>
       </li>
-
+  
       <li>
         <a href="#">
           <i class="bx bx-cog"></i>
@@ -115,7 +115,19 @@
           <li><a class="link_name" href="#">Configuración</a></li>
         </ul>
       </li>
-
+  
+      <!-- Cerrar cesion -->
+      <li id="cerrarSesionBtnContainer">
+        <a href="#" id="cerrarSesionBtn" onclick="confirmarCerrarSesion()">
+          <i class="bx bx-log-out"></i>
+          <span class="link_name">Cerrar Sesión</span>
+        </a>
+        <ul class="sub-menu blank">
+          <li><a class="link_name" href="#" onclick="confirmarCerrarSesion()">Cerrar Sesión</a></li>
+  
+        </ul>
+      </li>
+  
     </ul>
   </div>
   
@@ -132,8 +144,8 @@
         <form method="post" action="" name="form" id="formularioCR">
 
           <div class="row mb-4">
-            <label class="col-sm-4 col-form-label px-5">Titulo: </label>
-            <div class="col-sm-8">
+            <label class="col-sm-12 col-md-4 col-form-label px-5">Titulo: </label>
+            <div class="col-sm-12 col-md-8">
               <input placeholder="Agregar Titulo" type="text" class="form-control" id="TituloVar" name="TituloVar">
             </div>
           </div>
@@ -161,53 +173,58 @@
           </div>
 
           <div class="row mb-4">
-            <div class="col-sm-12 col-form-label px-5 text-center">
-              <div class="form-floating">
+            <div class="col-sm-12 col-form-label text-center">
+          
+              <div class="bg-text-black text-center p-3 text-uppercase text-black">
+                <h5>Opciones para Agregar, Crear y Editar las variables</h5>
+              </div>
 
-                <button type="button"
-                  onclick="window.location.href='../pestañas_Encuestador/variable_tipo_variable_NoEdit.html'"
-                  class="btn btn-outline-success bg-border-mostaza bg-text-mostaza"
-                  id="boton_seleccionar">Variables</button>
+                <div class="d-flex flex-column flex-sm-row justify-content-center align-items-center"> <!-- Utilizamos las clases flex para el diseño responsive y centramos vertical y horizontalmente -->
+                  <button type="button"
+                    onclick="window.location.href='../pestañas_Encuestador/variable_tipo_variable_NoEdit.html'"
+                    class="btn btn-outline-success bg-border-mostaza bg-text-mostaza mb-2 me-2 w-100"
+                    id="boton_seleccionar">Agregar</button>
 
-                <button type="button"
-                  onclick="window.location.href='../pestañas_Encuestador/variable_tipo_variable.html'"
-                  class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" id="boton_seleccionar">Editar
-                  Variables</button>
+                    <button type="button"
+                    onclick="window.location.href='../pestañas_Encuestador/variable_crear_variable.html'"
+                    class="btn btn-outline-success bg-border-mostaza bg-text-mostaza mb-2 me-2 w-100" id="disenio_boton">Crear</button>
+          
+                  <button type="button"
+                    onclick="window.location.href='../pestañas_Encuestador/variable_tipo_variable.html'"
+                    class="btn btn-outline-success bg-border-mostaza bg-text-mostaza mb-2 w-100" id="boton_seleccionar">Editar</button>
+              </div>
+              
+            </div>
+          </div>
+          
+          
+          <div class="bg-text-black text-center p-3 text-uppercase text-black">
+            <h5>Lista de variables que tienes agregadas o creadas</h5>
+          </div>
+          <div class="bg-text-black text-center p-3 text-black">
+            <div id="VariablesSeleccionadas"></div>
+            <div id="salidaVarC"></div>
+            <div class="p-3" id="salidaVarC2"></div>
+          </div>
 
-
-
-
-                <button type="button"
-                  onclick="window.location.href='../pestañas_Encuestador/variable_crear_variable.html'"
-                  class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" id="disenio_boton">Crear
-                  Variables</button>
-
+          <div class="row mb-4">
+            <div class="col-sm-12 col-form-label text-center">
+              <div class="d-flex flex-column flex-sm-row justify-content-center align-items-center">
+          
+                <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza mb-2 me-2 w-100" onclick="crearEncuestaFinalVariables()"
+                  name="boton-crear-encuestaVar" id="boton-crear-encuestaVar" type="submit" disabled> Crear encuesta</button>
+          
+                <button type="button" class="btn btn-outline-success bg-border-mostaza bg-text-mostaza mb-2 me-2 w-100"
+                  onclick="window.location.href='../pestañas_Encuestador/dashboard.html'" id="disenio_boton">Cancelar</button>
+          
+                <button type="button" class="btn btn-outline-success bg-border-mostaza bg-text-mostaza mb-2 w-100" id="mostrarTablaBtn">Vista
+                  previa</button>
+          
+                <!-- <button id="mostrarTablaBtn">Mostrar Tabla de Encuesta y Variables</button> -->
               </div>
             </div>
           </div>
-
-          <div id="VariablesSeleccionadas"></div>
-          <div id="salidaVarC"></div>
-
-
-          <div class="p-3" id="salidaVarC2"></div>
-
-          <div class=" row mb-4 p-3">
-            <div class="col-sm-12 text-center">
-              <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza"
-                onclick="crearEncuestaFinalVariables()" name="boton-crear-encuestaVar" id="boton-crear-encuestaVar"
-                type="submit" disabled> Crear Encuesta</button>
-
-              <button type="button" class="btn btn-outline-success bg-border-mostaza bg-text-mostaza"
-                onclick="window.location.href='../pestañas_Encuestador/dashboard.html'"
-                id="disenio_boton">Cancelar</button>
-
-              <button type="button" class="btn btn-outline-success bg-border-mostaza bg-text-mostaza"
-                id="mostrarTablaBtn">Vista Previa</button>
-
-              <!-- <button id="mostrarTablaBtn">Mostrar Tabla de Encuesta y Variables</button> -->
-            </div>
-          </div>
+          
         </form>
       </div>
     </section>

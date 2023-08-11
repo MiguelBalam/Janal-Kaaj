@@ -52,6 +52,7 @@
     <div class="row align-items-start">
       <div class="col-sm-6">
         <div class="row text-sm-start">
+
           <div class="col-sm-4 text-sm-start py-3">
             <label for="nombrecompletos" class="col-form-label text-dark px-4">Nombre: </label>
           </div>
@@ -82,6 +83,12 @@
             </div>
           </div>
           <div class="col-sm-4 text-sm-start py-3">
+            <label for="nombrecompletos" class="col-form-label px-4 text-dark">Teléfono: </label>
+          </div>
+          <div class="col-sm-8 text-sm-start py-3 px-4">
+            <input type="tel" placeholder="Télefono" class="form-control" id="telefono" disabled>
+          </div>
+          <div class="col-sm-4 text-sm-start py-3">
             <label for="nombrecompletos" class="col-form-label px-4 text-dark">Edad: </label>
           </div>
           <div class="col-sm-8 text-sm-start py-3 px-4">
@@ -99,6 +106,14 @@
         <div class="row text-sm-start ">
 
           <div class="col-sm-4 text-sm-start py-3">
+            <label for="nombrecompletos" class="col-form-label px-4 text-dark">Correo: </label>
+          </div>
+          <div class="col-sm-8 text-sm-start py-3 px-4">
+            <input type="email" placeholder="correo@gmail.com" class="form-control" id="aqui" disabled>
+            <small class="text-muted">Este campo no se puede editar</small>
+          </div>
+
+          <div class="col-sm-4 text-sm-start py-3">
             <label for="nombrecompletos" class="col-form-label px-4 text-dark">Institución: </label>
           </div>
           <div class="col-sm-8 text-sm-start py-3 px-4">
@@ -113,19 +128,7 @@
             <div class="col-sm-3 d-flex justify-content-center"><button class="btnn btn-outline-warning text-white"
               type="submit" id="boton-editar-logo" onclick="">Editar</button></div>
           </div> --> 
-          <div class="col-sm-4 text-sm-start py-3">
-            <label for="nombrecompletos" class="col-form-label px-4 text-dark">Correo: </label>
-          </div>
-          <div class="col-sm-8 text-sm-start py-3 px-4">
-            <input type="email" placeholder="correo@gmail.com" class="form-control" id="aqui" disabled>
-          </div>
-
-          <div class="col-sm-4 text-sm-start py-3">
-            <label for="nombrecompletos" class="col-form-label px-4 text-dark">Teléfono: </label>
-          </div>
-          <div class="col-sm-8 text-sm-start py-3 px-4">
-            <input type="tel" placeholder="Télefono" class="form-control" id="telefono" disabled>
-          </div>
+       
           <div class="col-sm-4 text-sm-start py-3">
             <label for="nombrecompletos" class="col-form-label px-4 text-dark">Logo de la Institución: </label>
           </div>
@@ -183,9 +186,9 @@
       <div class="col-sm-6">
         <div class="row d-flex justify-content-between">
           <div class="col-sm-3 d-flex justify-content-center ms-auto"><button
-              class="btnn btn-outline-warning text-white" type="submit" id="boton-cancelar">Cancelar</button></div>
+              class="btnn btn-outline-warning text-white" type="submit" id="boton-cancelar" onclick="CanEncues()">Cancelar</button></div>
           <div class="col-sm-3 d-flex justify-content-center"><button class="btnn btn-outline-warning text-white"
-              type="submit" id="boton-editar" onclick="">Editar</button></div>
+              type="submit" id="boton-editar" onclick="editarEncues()">Editar</button></div>
           <div class="col-sm-3 d-flex justify-content-center"><button class="btnn btn-outline-warning text-white"
               type="submit" id="boton-guardar" onclick="miFuncionEditar()">Guardar</button></div>
         </div>

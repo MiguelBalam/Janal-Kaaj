@@ -13,7 +13,7 @@
         integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
         crossorigin="anonymous"></script>
     <link rel="stylesheet" href="../CSS/style.css">
-    
+
     <link rel="stylesheet" href="../node_modules/@sweetalert2/themes/bootstrap-4/bootstrap-4.min.css">
     <script src="../node_modules/sweetalert2/dist/sweetalert2.all.js"></script>
 
@@ -112,6 +112,18 @@
                 </ul>
             </li>
 
+            <!-- Cerrar cesion -->
+            <li id="cerrarSesionBtnContainer">
+                <a href="#" id="cerrarSesionBtn" onclick="confirmarCerrarSesion()">
+                    <i class="bx bx-log-out"></i>
+                    <span class="link_name">Cerrar Sesión</span>
+                </a>
+                <ul class="sub-menu blank">
+                    <li><a class="link_name" href="#" onclick="confirmarCerrarSesion()">Cerrar Sesión</a></li>
+
+                </ul>
+            </li>
+
         </ul>
     </div>
 
@@ -130,44 +142,47 @@
 
                 <div class="row mb-4">
 
-                    <div class=" col-sm-12 col-form-label px-5">
-                        <div class="card-header ">
-                            Seleccione las variables
-                        </div>
 
-                        <!-- <div class="row mb-4">
-                            <div class="col-3 text-center">
-                                <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza"
-                                    onclick="location.href='../pestañas_Encuestador/reactivos.html'"
-                                    id="boton_crear"><img src="../Img/borrar.png" height="18px" width="18px"> </button>
-                            </div>
-                        </div>
-                         -->
-                        <div id="salida4"></div>
-                        <div id="salidaseleccionar"></div>
-                        <div id="salidaseleccionar2"></div>
+                    <!-- <div class="row mb-4">
+                                    <div class="col-3 text-center">
+                                        <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza"
+                                            onclick="location.href='../pestañas_Encuestador/reactivos.html'"
+                                            id="boton_crear"><img src="../Img/borrar.png" height="18px" width="18px"> </button>
+                                    </div>
+                                </div>
+                                 -->
+                    <div id="salida4"></div>
+                    <div id="salidaseleccionar"></div>
+                    <div id="salidaseleccionar2"></div>
 
 
-                        <div class="row mb-4">
+                </div>
 
-                            <div class="col-sm-12 text-center">
-                                <button onclick="window.location.href='../pestañas_Encuestador/crear_Evariables.html'"
-                                    class="btn btn-outline-success bg-border-mostaza bg-text-mostaza"
-                                    id="boton_volverNo">Volver</button>
-                                <button onclick="window.location.href='../pestañas_Encuestador/crear_Evariables.html'"
-                                    class="btn btn-outline-success bg-border-mostaza bg-text-mostaza"
-                                    id="guardarV">Guardar</button>
-                            </div>
+                <!-- botones  -->
+                <div class="row mb-4">
+                    <div class="col-sm-12 col-form-label text-center">
+
+                        <div class="d-flex flex-column flex-sm-row justify-content-center align-items-center">
+
+                            <button onclick="window.location.href='../pestañas_Encuestador/crear_Evariables.html'"
+                                class="btn btn-outline-success bg-border-mostaza bg-text-mostaza mb-2 col-sm-4 col-12 me-2"
+                                id="boton_volverNo">Volver</button>
+                            <button onclick="window.location.href='../pestañas_Encuestador/crear_Evariables.html'"
+                                class="btn btn-outline-success bg-border-mostaza bg-text-mostaza mb-2 col-sm-4 col-12"
+                                id="guardarV">Guardar</button>
 
                         </div>
 
                     </div>
                 </div>
 
-            </div>
-        </section>
 
+            </div>
+
+        </section>
     </section>
+
+
     <script>
         let arrow = document.querySelectorAll(".arrow");
         for (var i = 0; i < arrow.length; i++) {
