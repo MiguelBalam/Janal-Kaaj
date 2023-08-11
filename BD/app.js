@@ -4120,6 +4120,16 @@ function miFuncionEditar() {
                   var updateRequestAutenticasion = cursorAutenticasion.update(objetoAutenticasion);
                   updateRequestAutenticasion.onsuccess = function (event) {
                     console.log("Objeto Autenticasion actualizado correctamente:", objetoAutenticasion);
+                    // Agregar alerta SweetAlert
+                      Swal.fire({
+                        icon: 'success',
+                        title: 'Guardado exitoso',
+                        text: 'Los datos se han guardado correctamente.',
+                      });
+
+                      setTimeout(function () {
+                        window.location.href = '../pestañas_Encuestador/dashboard.html';
+                      }, 4000); // 4000 milisegundos (4 segundos)
                   };
                 } else {
                   console.log("No se encontró el objeto coincidente en el almacén Autenticacion");
