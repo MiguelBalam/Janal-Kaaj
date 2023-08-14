@@ -57,33 +57,32 @@
 
       <li>
         <div class="iocn-link">
-          <a href="crear_Evariables.html">
+          <a href="#" onclick="showAlert('variables')"> <!-- Llamamos a showAlert con el argumento 'variables' -->
             <i class='bx bx-file-blank'></i>
             <span class="link_name">Crear variables</span>
           </a>
           <ul class="sub-menu blank">
-            <li><a class="link_name" href="crear_Evariables.html">Crear variables</a></li>
-            
+            <a class="link_name" href="#" onclick="showAlert('variables')">Crear variables</a>
           </ul>
         </div>
       </li>
 
       <li>
         <div class="iocn-link">
-          <a href="crear.html">
+          <a href="#" onclick="showAlert('reactivos')"> <!-- Llamamos a showAlert con el argumento 'reactivos' -->
             <i class='bx bx-file-blank'></i>
             <span class="link_name">Crear reactivos</span>
           </a>
         </div>
         <ul class="sub-menu blank">
-          <li><a class="link_name" href="crear.html">Crear reactivos</a></li>
+          <a class="link_name" href="#" onclick="showAlert('reactivos')">Crear reactivos</a>
         </ul>
       </li>
 
 
       <li>
         <a href="/pestañas_Encuestador/encuestaAplicadas.html">
-          <i class='bx bx-clipboard bx-tada' ></i>
+          <i class='bx bx-clipboard bx-tada'></i>
           <span class="link_name">Encuestas aplicadas</span>
         </a>
         <ul class="sub-menu blank">
@@ -122,7 +121,7 @@
         </ul>
       </li> -->
 
-      
+
       <li>
         <a href="perfil_Encuestador.html">
           <i class='bx bx-user'></i>
@@ -133,17 +132,17 @@
         </ul>
       </li>
 
-        <!-- Cerrar cesion -->
-        <li id="cerrarSesionBtnContainer">
-            <a href="#" id="cerrarSesionBtn" onclick="confirmarCerrarSesion()">
-                <i class="bx bx-log-out"></i>
-                <span class="link_name">Cerrar Sesión</span>
-            </a>
-            <ul class="sub-menu blank">
-                <li><a class="link_name" href="#" onclick="confirmarCerrarSesion()">Cerrar Sesión</a></li>
-                
-            </ul>
-        </li>
+      <!-- Cerrar cesion -->
+      <li id="cerrarSesionBtnContainer">
+        <a href="#" id="cerrarSesionBtn" onclick="confirmarCerrarSesion()">
+          <i class="bx bx-log-out"></i>
+          <span class="link_name">Cerrar Sesión</span>
+        </a>
+        <ul class="sub-menu blank">
+          <li><a class="link_name" href="#" onclick="confirmarCerrarSesion()">Cerrar Sesión</a></li>
+
+        </ul>
+      </li>
     </ul>
   </div>
 
@@ -155,7 +154,7 @@
     <!-- Fin Dashboard -->
     <div class="container">
       <div class="row justify-content-center">
-        <div class="col-sm-10 col-md-8 col-lg-6 p-4 shadow-lg bg-light rounded">
+        <div class="col-12 col-sm-10 col-md-8 col-lg-6 p-4 shadow-lg bg-light rounded">
           <div class="row">
             <div class="col-12">
               <h3 class="text-center mb-4">Bienvenido</h3>
@@ -180,10 +179,10 @@
                 de
                 encuestas.</label>
               <div class="col-sm-12 text-center">
-                <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" id="tip_encuesta"
+                <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" id="tip_encuesta1"
                   onclick="window.location.href='../pestañas_Encuestador/crear_Evariables.html'">Encuesta
                   tipo variables </button>
-                <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" id="tip_encuesta"
+                <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" id="tip_encuesta2"
                   onclick="window.location.href='../pestañas_Encuestador/crear.html'">Encuesta
                   tipo reactivos</button>
               </div>
@@ -260,11 +259,51 @@
     sidebarBtn.addEventListener("click", () => {
       sidebar.classList.toggle("close");
     });
-
   </script>
 
-    <script src="../BD/app.js"></script>
-    <script src="../CSS/SweetAlert.js"></script>
+  <!-- desactivar los botones si no hay conexion a internet  -->
+  <script>
+    var button1 = document.getElementById('tip_encuesta1');
+    var button2 = document.getElementById('tip_encuesta2');
+
+    function checkInternetConnection() {
+      var online = navigator.onLine;
+
+      // Habilitar o deshabilitar los botones en función de la conexión
+      button1.disabled = !online;
+      button2.disabled = !online;
+    }
+
+    // Verificar la conexión inicialmente
+    checkInternetConnection();
+
+    // Agregar un listener para verificar cambios en la conexión
+    window.addEventListener('online', checkInternetConnection);
+    window.addEventListener('offline', checkInternetConnection);
+  </script>
+
+  <script>
+    function showAlert(type) {
+      var online = navigator.onLine;
+      if (!online) {
+        Swal.fire({
+          icon: 'error',
+          title: '¡Sin conexión a Internet!',
+          text: `Necesitas conexión a Internet para crear ${type}.`,
+        });
+      } else {
+        // Redirigir a la página correspondiente
+        if (type === 'variables') {
+          window.location.href = 'crear_Evariables.html';
+        } else if (type === 'reactivos') {
+          window.location.href = 'crear.html';
+        }
+      }
+    }
+  </script>
+
+  <script src="../BD/app.js"></script>
+  <script src="../CSS/SweetAlert.js"></script>
 
 </body>
 

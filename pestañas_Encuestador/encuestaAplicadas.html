@@ -57,26 +57,25 @@
 
       <li>
         <div class="iocn-link">
-          <a href="crear_Evariables.html">
+          <a href="#" onclick="showAlert('variables')"> <!-- Llamamos a showAlert con el argumento 'variables' -->
             <i class='bx bx-file-blank'></i>
             <span class="link_name">Crear variables</span>
           </a>
           <ul class="sub-menu blank">
-            <li><a class="link_name" href="crear_Evariables.html">Crear variables</a></li>
-
+            <a class="link_name" href="#" onclick="showAlert('variables')">Crear variables</a>
           </ul>
         </div>
       </li>
 
       <li>
         <div class="iocn-link">
-          <a href="crear.html">
+          <a href="#" onclick="showAlert('reactivos')"> <!-- Llamamos a showAlert con el argumento 'reactivos' -->
             <i class='bx bx-file-blank'></i>
             <span class="link_name">Crear reactivos</span>
           </a>
         </div>
         <ul class="sub-menu blank">
-          <li><a class="link_name" href="crear.html">Crear reactivos</a></li>
+          <a class="link_name" href="#" onclick="showAlert('reactivos')">Crear reactivos</a>
         </ul>
       </li>
 
@@ -122,7 +121,7 @@
         </ul>
       </li> -->
 
-      
+
       <li>
         <a href="perfil_Encuestador.html">
           <i class='bx bx-user'></i>
@@ -174,6 +173,26 @@
     sidebarBtn.addEventListener("click", () => {
       sidebar.classList.toggle("close");
     });
+  </script>
+
+  <script>
+    function showAlert(type) {
+      var online = navigator.onLine;
+      if (!online) {
+        Swal.fire({
+          icon: 'error',
+          title: '¡Sin conexión a Internet!',
+          text: `Necesitas conexión a Internet para crear ${type}.`,
+        });
+      } else {
+        // Redirigir a la página correspondiente
+        if (type === 'variables') {
+          window.location.href = 'crear_Evariables.html';
+        } else if (type === 'reactivos') {
+          window.location.href = 'crear.html';
+        }
+      }
+    }
   </script>
 
   <script src="../BD/app.js"></script>
