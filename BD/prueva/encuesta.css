@@ -1,0 +1,175 @@
+body {
+    background-color: #f2f1f0;
+    color: #222;
+}
+
+body, textarea, input{
+    color: #222;
+    font: 13px/1 "Helvetica Neue",Arial,sans-serif;
+}
+#mainForm {
+    width: 750px;
+    max-width: 800px;
+    margin: 50px auto;
+    background-color: #fff;
+    box-shadow: 0 0 7px #888;
+    padding: 50px;
+    border: 1px solid #929394;
+    min-height: 900px;
+}
+.logo{
+    display: flex;
+    width: 150px;
+    height: auto;
+}
+#mainForm {
+    width: 800px;
+    max-width: 800px;
+    margin: 50px auto;
+    background-color: #fff;
+    box-shadow: 0 0 7px #888;
+    padding: 50px;
+    border: 1px solid #929394;
+    min-height: 900px;
+}
+.conteFlex{
+    margin: 2px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+.conteFlex span:hover{
+    cursor: pointer;
+    background-color: #c9e71c;
+    color: #000000;
+    font-weight:800;
+}
+.conteFlex label:hover{
+    cursor: pointer;
+}
+.conteFlex span{
+    background-color: #a4ffd8;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    display: block;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-size: 15px;
+    padding: 17px 0px;
+}
+input[type="radio"]{
+    position: absolute;            
+    display:none; 
+    cursor: pointer;
+    color:#6be7ed;
+    background-color: #61e2e9;
+    /* opacity: 0; */
+}
+.checkenRepuesta{
+    color:#000000;
+    font-weight: 800;
+    background-color:#f2be5c !important;
+}
+.progress-bar{
+    background-color: #8dc53c !important;
+    background-image: none;
+}
+.btn-primary{
+    width: 100%;
+    color: #fff;
+    background-color: #218838;
+    border-color: #1e7e34;
+    margin-top:20px
+}
+.btn-primary:hover{
+    opacity: 0.9;
+    background-color: #218838 !important; 
+}
+.btn.disabled, .btn[disabled], fieldset[disabled] .btn {
+    width: 100%;
+    color:#000000;
+    background-color: #6be7ed !important;
+    border-color: #ccc !important;
+}
+.loader{
+   position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 100000000;
+    background: #cecece;
+    opacity: 0.5; 
+}
+.form-group{
+    margin-top: 15px !important;
+}
+.btn:hover, .btn:focus {
+    background-color: #218838 !important;
+    border-color: #218838 !important;
+   text-decoration: black !important;
+  }
+input[type=text]{
+    padding: 5px;
+}
+input:focus {
+    border: 1px solid  #f3b033;
+    outline: none !important;
+}
+#mensaje{
+    display: none;
+    color: black;
+    background-color: #e0a800;
+    border-color: #d39e00;
+    padding: 15px;
+    border-radius: 3px;
+    font-size: 18px;
+    text-align: center;
+}
+
+#cabecera{
+    background-color: #555;
+    line-height: 2;
+  }
+
+  table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    width: 100%;
+    background-color: transparent;
+}
+td,
+th {
+    padding: 2px;
+    border: 1px solid #aaa !important;
+}
+.progress{
+    margin-top:10px;
+     background-color: #999 !important;
+}
+#btnDescarga{
+    display: flex;
+    justify-content: end;
+    margin-bottom: 30px;
+}
+#withImg{
+    display: flex;
+    justify-content: space-around;
+    height: auto;
+    max-width: 50px !important;
+}
+
+#boton-enviar:hover {
+    background-color: var(--mostaza) !important;
+    color: rgb(255, 255, 255) !important;
+    border-color: var(--mostaza) !important;
+}
+
+.centered-inputs {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%; /* Optional: adjust to your design needs */
+}

@@ -59,25 +59,35 @@
 
       <li>
         <div class="iocn-link">
-          <a href="crear_Evariables.html">
+          <a href="#" onclick="showAlert('variables')"> <!-- Llamamos a showAlert con el argumento 'variables' -->
             <i class='bx bx-file-blank'></i>
             <span class="link_name">Crear variables</span>
           </a>
           <ul class="sub-menu blank">
-            <li><a class="link_name" href="crear_Evariables.html">Crear variables</a></li>
+            <a class="link_name" href="#" onclick="showAlert('variables')">Crear variables</a>
           </ul>
         </div>
       </li>
 
       <li>
         <div class="iocn-link">
-          <a href="crear.html">
+          <a href="#" onclick="showAlert('reactivos')"> <!-- Llamamos a showAlert con el argumento 'reactivos' -->
             <i class='bx bx-file-blank'></i>
             <span class="link_name">Crear reactivos</span>
           </a>
         </div>
         <ul class="sub-menu blank">
-          <li><a class="link_name" href="crear.html">Crear reactivos</a></li>
+          <a class="link_name" href="#" onclick="showAlert('reactivos')">Crear reactivos</a>
+        </ul>
+      </li>
+
+      <li>
+        <a href="/pestañas_Encuestador/encuestaAplicadas.html">
+          <i class='bx bx-clipboard bx-tada'></i>
+          <span class="link_name">Encuestas aplicadas</span>
+        </a>
+        <ul class="sub-menu blank">
+          <li><a class="link_name" href="/pestañas_Encuestador/encuestaAplicadas.html">Encuestas aplicadas</a></li>
         </ul>
       </li>
 
@@ -103,13 +113,24 @@
         </ul>
       </li>
 
+      <!-- <li>
+                <a href="#">
+                <i class="bx bx-cog"></i>
+                <span class="link_name">Configuración</span>
+                </a>
+                <ul class="sub-menu blank">
+                <li><a class="link_name" href="#">Configuración</a></li>
+                </ul>
+            </li> -->
+
+
       <li>
-        <a href="#">
-          <i class="bx bx-cog"></i>
-          <span class="link_name">Configuración</span>
+        <a href="perfil_Encuestador.html">
+          <i class='bx bx-user'></i>
+          <span class="link_name">Perfil</span>
         </a>
         <ul class="sub-menu blank">
-          <li><a class="link_name" href="#">Configuración</a></li>
+          <li><a class="link_name" href="perfil_Encuestador.html">Perfil</a></li>
         </ul>
       </li>
 
@@ -256,39 +277,20 @@
             </div>
           </div>
 
-
-          <!-- <div id="añadir_nueva_respuesta"></div>
-                            <div class="row">
-                              <div class="col-8"> </div>
-                            <div class="col-4 ">
-                              <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza"
-                                  id="Añadir_nuevo" type="button"  onclick="clonarNodo()"> Añadir Nuevo 
-                                  </button>
-                            </div>
-                            </div> -->
-
-
-
-
         </form>
 
-        <!-- botones  -->
-        <div class="row mb-4">
-          <div class="col-sm-12 col-form-label text-center">
+        <div class="p-4 col-sm-12 px-3 text-center">
 
-            <div class="d-flex flex-column flex-sm-row justify-content-center align-items-center">
+          <div class="d-flex flex-column flex-sm-row justify-content-center align-items-center">
 
-              <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza mb-2 me-2 w-100"
-                id="boton_guardar" onclick="ResOpMul(), CrearReactivo()">Crear</button>
-              <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza mb-2 me-2 w-100"
-                id="boton_guardar" onclick="GuardarReactivos()">Guardar</button>
-              <button onclick=" return cancelar()"
-                class="btn btn-outline-success bg-border-mostaza bg-text-mostaza mb-2 w-100"
-                id="boton_cancelar">Cancelar</button>
+            <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza mb-2 me-2 w-100"
+              id="boton_crearReactivo" onclick="ResOpMul(), CrearReactivo()">Crear</button>
+            <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza mb-2 me-2 w-100" id="boton_guardar"
+              onclick="GuardarReactivos()">Guardar</button>
+            <button onclick=" return cancelar()"
+              class="btn btn-outline-success bg-border-mostaza bg-text-mostaza mb-2 w-100"
+              id="boton_cancelar">Cancelar</button>
 
-
-
-            </div>
           </div>
         </div>
 
@@ -326,6 +328,27 @@
       sidebar.classList.toggle("close");
     });
   </script>
+
+  <script>
+    function showAlert(type) {
+      var online = navigator.onLine;
+      if (!online) {
+        Swal.fire({
+          icon: 'error',
+          title: '¡Sin conexión a Internet!',
+          text: `Necesitas conexión a Internet para crear ${type}.`,
+        });
+      } else {
+        // Redirigir a la página correspondiente
+        if (type === 'variables') {
+          window.location.href = 'crear_Evariables.html';
+        } else if (type === 'reactivos') {
+          window.location.href = 'crear.html';
+        }
+      }
+    }
+  </script>
+
   <script src="../BD/app.js"></script>
   <script src="../CSS/SweetAlert.js"></script>
 </body>

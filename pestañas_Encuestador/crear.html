@@ -11,8 +11,6 @@
         integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
         crossorigin="anonymous"></script>
     <link rel="stylesheet" href="../CSS/style.css">
-
-
     <link rel="stylesheet" href="../node_modules/@sweetalert2/themes/bootstrap-4/bootstrap-4.min.css">
     <script src="../node_modules/sweetalert2/dist/sweetalert2.all.js"></script>
 
@@ -58,25 +56,38 @@
 
             <li>
                 <div class="iocn-link">
-                    <a href="crear_Evariables.html">
+                    <a href="#" onclick="showAlert('variables')">
+                        <!-- Llamamos a showAlert con el argumento 'variables' -->
                         <i class='bx bx-file-blank'></i>
                         <span class="link_name">Crear variables</span>
                     </a>
                     <ul class="sub-menu blank">
-                        <li><a class="link_name" href="crear_Evariables.html">Crear variables</a></li>
+                        <a class="link_name" href="#" onclick="showAlert('variables')">Crear variables</a>
                     </ul>
                 </div>
             </li>
 
             <li>
                 <div class="iocn-link">
-                    <a href="crear.html">
+                    <a href="#" onclick="showAlert('reactivos')">
+                        <!-- Llamamos a showAlert con el argumento 'reactivos' -->
                         <i class='bx bx-file-blank'></i>
                         <span class="link_name">Crear reactivos</span>
                     </a>
                 </div>
                 <ul class="sub-menu blank">
-                    <li><a class="link_name" href="crear.html">Crear reactivos</a></li>
+                    <a class="link_name" href="#" onclick="showAlert('reactivos')">Crear reactivos</a>
+                </ul>
+            </li>
+
+            <li>
+                <a href="/pestañas_Encuestador/encuestaAplicadas.html">
+                    <i class='bx bx-clipboard bx-tada'></i>
+                    <span class="link_name">Encuestas aplicadas</span>
+                </a>
+                <ul class="sub-menu blank">
+                    <li><a class="link_name" href="/pestañas_Encuestador/encuestaAplicadas.html">Encuestas aplicadas</a>
+                    </li>
                 </ul>
             </li>
 
@@ -102,13 +113,24 @@
                 </ul>
             </li>
 
-            <li>
+            <!-- <li>
                 <a href="#">
-                    <i class="bx bx-cog"></i>
-                    <span class="link_name">Configuración</span>
+                <i class="bx bx-cog"></i>
+                <span class="link_name">Configuración</span>
                 </a>
                 <ul class="sub-menu blank">
-                    <li><a class="link_name" href="#">Configuración</a></li>
+                <li><a class="link_name" href="#">Configuración</a></li>
+                </ul>
+            </li> -->
+
+
+            <li>
+                <a href="perfil_Encuestador.html">
+                    <i class='bx bx-user'></i>
+                    <span class="link_name">Perfil</span>
+                </a>
+                <ul class="sub-menu blank">
+                    <li><a class="link_name" href="perfil_Encuestador.html">Perfil</a></li>
                 </ul>
             </li>
 
@@ -137,13 +159,13 @@
         <!-- Fin Dashboard -->
         <section class="d-flex justify-content-center my-4">
 
-            <div class=" col-md-7 p-3 shadow-lg mb-5 bg-white rounded">
+            <div class="col-12 col-sm-10 col-md-8 col-lg-6 col-lg-6 p-3 shadow-lg mb-5 bg-white rounded">
 
                 <h1 class="bg-text-black text-center p-3 text-uppercase text-black">Crear Encuesta de Reactivos</h1>
 
                 <div class="row mb-4">
-                    <label class="col-sm-4 col-form-label px-5">Usuario: </label>
-                    <div class="col-sm-8">
+                    <label class="col-md-4 col-form-label px-5">Usuario: </label>
+                    <div class="col-md-8">
                         <input id="aqui" name="aqui" type="text" class="form-control" disabled>
                     </div>
                 </div>
@@ -240,7 +262,7 @@
         </section>
 
         <div class="modal fade" id="Modal_vistaPrevia" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable ">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="ModalLabel">Vista previa</h5>
@@ -248,14 +270,17 @@
                     </div>
                     <div class="modal-body">
                         <div class="col d-flex justify-content-end">
-                            <img id="logoInstituto" height="60" width="60" alt="Logo">
+                            <img id="logoInstituto" height="110" width="110" alt="Logo">
                         </div>
                         <div id="Encabezado">
                             <!-- Contenido del encabezado -->
                         </div>
-                        <div id="modalcuerpo">
-                            <!-- Contenido del cuerpo del modal -->
+                        <div class="p-3">
+                            <h5> Reactivos Seleccionados </h5>
                         </div>
+                        <!-- <div id="modalcuerpo">
+                             Contenido del cuerpo del modal 
+                        </div> -->
                         <div id="preguntas-container">
                             <!-- Contenido de las preguntas -->
                         </div>
@@ -290,6 +315,26 @@
         sidebarBtn.addEventListener("click", () => {
             sidebar.classList.toggle("close");
         });
+    </script>
+
+    <script>
+        function showAlert(type) {
+            var online = navigator.onLine;
+            if (!online) {
+                Swal.fire({
+                    icon: 'error',
+                    title: '¡Sin conexión a Internet!',
+                    text: `Necesitas conexión a Internet para crear ${type}.`,
+                });
+            } else {
+                // Redirigir a la página correspondiente
+                if (type === 'variables') {
+                    window.location.href = 'crear_Evariables.html';
+                } else if (type === 'reactivos') {
+                    window.location.href = 'crear.html';
+                }
+            }
+        }
     </script>
     <script src="../BD/app.js"></script>
     <script src="../CSS/SweetAlert.js"></script>

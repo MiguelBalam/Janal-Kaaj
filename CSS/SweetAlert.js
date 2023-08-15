@@ -620,45 +620,27 @@ function habilitarFormEncuestador() {
   var contra = document.getElementById("Contrasenia").value;
   var contra2 = document.getElementById("Contrasenia2").value;
 
-  if (nombre !== "" && apellido !== "" && apellido2 !== "" && edad !== "" && localidad !== "" && email !== "" && tel !== "" && contra !== "" && contra2 !== "") {
-    var val = 0;
+  var val = 0;
 
-    if (nombre == "") {
-      val++;
-    }
-    if (apellido == "") {
-      val++;
-    }
-    if (apellido2 == "") {
-      val++;
-    }
-    if (edad == "") {
-      val++;
-    }
-    if (localidad == "") {
-      val++;
-    }
-    if (email == "") {
-      val++;
-    }
-    if (tel == "") {
-      val++;
-    }
-    if (contra == "") {
-      val++;
-    }
-    if (contra2 == "") {
-      val++;
-    }
+  // Verificar cada campo y aumentar el contador si está vacío
+  if (nombre === "") val++;
+  if (apellido === "") val++;
+  if (apellido2 === "") val++;
+  if (edad === "") val++;
+  if (localidad === "") val++;
+  if (email === "") val++;
+  if (tel === "") val++;
+  if (contra === "") val++;
+  if (contra2 === "") val++;
 
-    if (val == 0) {
-      // notiEncuestador();
-      // console.log("Error: listo estan llenos" + val);
-      document.getElementById("boton-enviar").disabled = false; // Habilitar el botón de enviar
-    } else {
-      console.log("Error: " + val);
-      document.getElementById("boton-enviar").disabled = true; // Mantener el botón de enviar deshabilitado
-    } 
+  // Habilitar o deshabilitar el botón según el contador
+  var botonEnviar = document.getElementById("boton-enviar");
+  if (val === 0) {
+    // Habilitar el botón de enviar
+    botonEnviar.disabled = false;
+  } else {
+    // Deshabilitar el botón de enviar
+    botonEnviar.disabled = true;
   }
 }
 
@@ -698,12 +680,12 @@ if (telEncuestadorElement) {
   telEncuestadorElement.addEventListener("keyup", habilitarFormEncuestador);
 }
 
-var contraEncuestadorElement = document.getElementById("contrasenia");
+var contraEncuestadorElement = document.getElementById("Contrasenia");
 if (contraEncuestadorElement) {
   contraEncuestadorElement.addEventListener("keyup", habilitarFormEncuestador);
 }
 
-var contra2EncuestadorElement = document.getElementById("contrasenia2");
+var contra2EncuestadorElement = document.getElementById("Contrasenia2");
 if (contra2EncuestadorElement) {
   contra2EncuestadorElement.addEventListener("keyup", habilitarFormEncuestador);
 }
@@ -791,3 +773,39 @@ callerFun();
 
 }
 
+// Perfil encuestador cancelar
+function CanEncues() {
+
+  Swal.fire({
+    title: '¿Estás seguro de cancelar?',
+    text: "Asegúrate de guardar los datos.",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Si, seguro',
+    cancelButtonText: 'Cancelar',
+  }).then((result) => {
+    if (result.isConfirmed) {
+      Swal(ree());
+
+    }
+  });
+
+  function ree() {
+    window.location.href = "../pestañas_Encuestador/dashboard.html";
+  }
+
+}
+
+// editar Perfil encuestador cancelar
+function editarEncues() {
+
+  Swal.fire({
+    title: 'Puede editar los datos',
+    text: "Ingrese correctamente los datos",
+    icon: 'info',
+    confirmButtonColor: '#3085d6',
+    confirmButtonText: 'Enterado',
+  })
+}

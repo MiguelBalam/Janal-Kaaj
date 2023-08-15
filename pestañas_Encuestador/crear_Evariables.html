@@ -13,8 +13,8 @@
     integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
     crossorigin="anonymous"></script>
   <link rel="stylesheet" href="../CSS/style.css">
-  
-  
+
+
 
   <link rel="stylesheet" href="../node_modules/@sweetalert2/themes/bootstrap-4/bootstrap-4.min.css">
   <script src="../node_modules/sweetalert2/dist/sweetalert2.all.js"></script>
@@ -32,59 +32,67 @@
       <i class="bx seleccionador"></i>
       <span class="logo_name">Janal Kaaj</span>
     </div>
-  
-  
+
+
     <ul class="nav-links">
       <li>
         <a href="/pestañas_Encuestador/dashboard.html">
           <i class="bx bx-grid-alt"></i>
           <span class="link_name">Dashboard</span>
         </a>
-  
+
         <ul class="sub-menu blank">
           <li><a href="/pestañas_Encuestador/dashboard.html">Dashboard</a></li>
         </ul>
       </li>
-  
-  
+
+
       <li>
         <a href="/login.html">
           <i class='bx bx-home-alt'></i>
           <span class="link_name">Login</span>
         </a>
-  
+
         <ul class="sub-menu blank">
           <li><a class="link_name" href="/login.html">Login</a></li>
         </ul>
       </li>
-  
-  
-  
+
+
       <li>
         <div class="iocn-link">
-          <a href="crear_Evariables.html">
+          <a href="#" onclick="showAlert('variables')"> <!-- Llamamos a showAlert con el argumento 'variables' -->
             <i class='bx bx-file-blank'></i>
             <span class="link_name">Crear variables</span>
           </a>
           <ul class="sub-menu blank">
-            <li><a class="link_name" href="crear_Evariables.html">Crear variables</a></li>
+            <a class="link_name" href="#" onclick="showAlert('variables')">Crear variables</a>
           </ul>
         </div>
       </li>
-  
+
       <li>
         <div class="iocn-link">
-          <a href="crear.html">
+          <a href="#" onclick="showAlert('reactivos')"> <!-- Llamamos a showAlert con el argumento 'reactivos' -->
             <i class='bx bx-file-blank'></i>
             <span class="link_name">Crear reactivos</span>
           </a>
         </div>
         <ul class="sub-menu blank">
-          <li><a class="link_name" href="crear.html">Crear reactivos</a></li>
+          <a class="link_name" href="#" onclick="showAlert('reactivos')">Crear reactivos</a>
         </ul>
       </li>
-  
-  
+
+      <li>
+        <a href="/pestañas_Encuestador/encuestaAplicadas.html">
+          <i class='bx bx-clipboard bx-tada'></i>
+          <span class="link_name">Encuestas aplicadas</span>
+        </a>
+        <ul class="sub-menu blank">
+          <li><a class="link_name" href="/pestañas_Encuestador/encuestaAplicadas.html">Encuestas aplicadas</a></li>
+        </ul>
+      </li>
+
       <li>
         <a href="#">
           <i class="bx bx-pie-chart-alt-2"></i>
@@ -94,8 +102,8 @@
           <li><a class="link_name" href="#">Análisis</a></li>
         </ul>
       </li>
-  
-  
+
+
       <li>
         <a href="#">
           <i class="bx bx-line-chart"></i>
@@ -105,8 +113,8 @@
           <li><a class="link_name" href="#">Graficas</a></li>
         </ul>
       </li>
-  
-      <li>
+
+      <!-- <li>
         <a href="#">
           <i class="bx bx-cog"></i>
           <span class="link_name">Configuración</span>
@@ -114,8 +122,19 @@
         <ul class="sub-menu blank">
           <li><a class="link_name" href="#">Configuración</a></li>
         </ul>
+      </li> -->
+
+
+      <li>
+        <a href="perfil_Encuestador.html">
+          <i class='bx bx-user'></i>
+          <span class="link_name">Perfil</span>
+        </a>
+        <ul class="sub-menu blank">
+          <li><a class="link_name" href="perfil_Encuestador.html">Perfil</a></li>
+        </ul>
       </li>
-  
+
       <!-- Cerrar cesion -->
       <li id="cerrarSesionBtnContainer">
         <a href="#" id="cerrarSesionBtn" onclick="confirmarCerrarSesion()">
@@ -124,13 +143,13 @@
         </a>
         <ul class="sub-menu blank">
           <li><a class="link_name" href="#" onclick="confirmarCerrarSesion()">Cerrar Sesión</a></li>
-  
+
         </ul>
       </li>
-  
+
     </ul>
   </div>
-  
+
   <section class="home-section">
     <div class="home-content">
       <i class="bx bx-menu"></i>
@@ -139,7 +158,7 @@
     <!-- Fin Dashboard -->
 
     <section class="d-flex justify-content-center">
-      <div class="col-sm-7 p-3 shadow-lg mb-5 bg-white rounded">
+      <div class="col-12 col-sm-10 col-md-8 col-lg-6 p-3 shadow-lg mb-5 bg-white rounded">
         <h1 class="bg-text-black text-center p-3 text-uppercase text-black">Crear Encuesta Variables</h1>
         <form method="post" action="" name="form" id="formularioCR">
 
@@ -174,30 +193,33 @@
 
           <div class="row mb-4">
             <div class="col-sm-12 col-form-label text-center">
-          
+
               <div class="bg-text-black text-center p-3 text-uppercase text-black">
                 <h5>Opciones para Agregar, Crear y Editar las variables</h5>
               </div>
 
-                <div class="d-flex flex-column flex-sm-row justify-content-center align-items-center"> <!-- Utilizamos las clases flex para el diseño responsive y centramos vertical y horizontalmente -->
-                  <button type="button"
-                    onclick="window.location.href='../pestañas_Encuestador/variable_tipo_variable_NoEdit.html'"
-                    class="btn btn-outline-success bg-border-mostaza bg-text-mostaza mb-2 me-2 w-100"
-                    id="boton_seleccionar">Agregar</button>
+              <div class="d-flex flex-column flex-sm-row justify-content-center align-items-center">
+                <!-- Utilizamos las clases flex para el diseño responsive y centramos vertical y horizontalmente -->
+                <button type="button"
+                  onclick="window.location.href='../pestañas_Encuestador/variable_tipo_variable_NoEdit.html'"
+                  class="btn btn-outline-success bg-border-mostaza bg-text-mostaza mb-2 me-2 w-100"
+                  id="boton_seleccionar">Agregar</button>
 
-                    <button type="button"
-                    onclick="window.location.href='../pestañas_Encuestador/variable_crear_variable.html'"
-                    class="btn btn-outline-success bg-border-mostaza bg-text-mostaza mb-2 me-2 w-100" id="disenio_boton">Crear</button>
-          
-                  <button type="button"
-                    onclick="window.location.href='../pestañas_Encuestador/variable_tipo_variable.html'"
-                    class="btn btn-outline-success bg-border-mostaza bg-text-mostaza mb-2 w-100" id="boton_seleccionar">Editar</button>
+                <button type="button"
+                  onclick="window.location.href='../pestañas_Encuestador/variable_crear_variable.html'"
+                  class="btn btn-outline-success bg-border-mostaza bg-text-mostaza mb-2 me-2 w-100"
+                  id="disenio_boton">Crear</button>
+
+                <button type="button"
+                  onclick="window.location.href='../pestañas_Encuestador/variable_tipo_variable.html'"
+                  class="btn btn-outline-success bg-border-mostaza bg-text-mostaza mb-2 w-100"
+                  id="boton_seleccionar">Editar</button>
               </div>
-              
+
             </div>
           </div>
-          
-          
+
+
           <div class="bg-text-black text-center p-3 text-uppercase text-black">
             <h5>Lista de variables que tienes agregadas o creadas</h5>
           </div>
@@ -210,21 +232,24 @@
           <div class="row mb-4">
             <div class="col-sm-12 col-form-label text-center">
               <div class="d-flex flex-column flex-sm-row justify-content-center align-items-center">
-          
-                <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza mb-2 me-2 w-100" onclick="crearEncuestaFinalVariables()"
-                  name="boton-crear-encuestaVar" id="boton-crear-encuestaVar" type="submit" disabled> Crear encuesta</button>
-          
+
+                <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza mb-2 me-2 w-100"
+                  onclick="crearEncuestaFinalVariables()" name="boton-crear-encuestaVar" id="boton-crear-encuestaVar"
+                  type="submit" disabled> Crear encuesta</button>
+
                 <button type="button" class="btn btn-outline-success bg-border-mostaza bg-text-mostaza mb-2 me-2 w-100"
-                  onclick="window.location.href='../pestañas_Encuestador/dashboard.html'" id="disenio_boton">Cancelar</button>
-          
-                <button type="button" class="btn btn-outline-success bg-border-mostaza bg-text-mostaza mb-2 w-100" id="mostrarTablaBtn">Vista
+                  onclick="window.location.href='../pestañas_Encuestador/dashboard.html'"
+                  id="disenio_boton">Cancelar</button>
+
+                <button type="button" class="btn btn-outline-success bg-border-mostaza bg-text-mostaza mb-2 w-100"
+                  id="mostrarTablaBtn">Vista
                   previa</button>
-          
+
                 <!-- <button id="mostrarTablaBtn">Mostrar Tabla de Encuesta y Variables</button> -->
               </div>
             </div>
           </div>
-          
+
         </form>
       </div>
     </section>
@@ -245,9 +270,29 @@
       sidebar.classList.toggle("close");
     });
   </script>
+  
+  <script>
+    function showAlert(type) {
+      var online = navigator.onLine;
+      if (!online) {
+        Swal.fire({
+          icon: 'error',
+          title: '¡Sin conexión a Internet!',
+          text: `Necesitas conexión a Internet para crear ${type}.`,
+        });
+      } else {
+        // Redirigir a la página correspondiente
+        if (type === 'variables') {
+          window.location.href = 'crear_Evariables.html';
+        } else if (type === 'reactivos') {
+          window.location.href = 'crear.html';
+        }
+      }
+    }
+  </script>
 
-<script src="../CSS/SweetAlert.js"></script>
-<script src="../BD/app.js"></script>
+  <script src="../CSS/SweetAlert.js"></script>
+  <script src="../BD/app.js"></script>
 
 </body>
 
