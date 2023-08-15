@@ -38,6 +38,7 @@ var ObjectStoreReac;
         ObjectStore.createIndex('cuerpo', 'cuerpo', { unique: false });
         ObjectStore.createIndex('valor', 'valor', { unique: false });
         
+        
         //Usuarios Administrador
         ObjectStore = db.createObjectStore('Administrador', {keyPath:'id', autoIncrement: true});
         ObjectStore.createIndex('Nombre', 'Nombre', { unique: true });
@@ -45,7 +46,8 @@ var ObjectStoreReac;
         //usuario
 
         ObjectStore = db.createObjectStore("Usuariosactivo", {keyPath: "id"});
-        ObjectStore = db.createObjectStore("Usuarios", {autoIncrement: true});
+        //ObjectStore = db.createObjectStore("Usuarios", {autoIncrement: true});
+        ObjectStore = db.createObjectStore("Usuarios", { keyPath : 'id', autoIncrement: true});
 
         ObjectStore = db.createObjectStore("EncuestaFinal", {autoIncrement: true});
         ObjectStore.createIndex("encuestaId","",{unique:true});
@@ -197,8 +199,8 @@ var ObjectStoreReac;
         
         ev.preventDefault();
         var correo = document.getElementById('Correo').value.trim();
-        var Contrasenia = document.getElementById('contrasenia').value.trim();
-        var Contrasenia2 = document.getElementById('contrasenia2').value.trim();
+        var Contrasenia = document.getElementById('Contrasenia').value.trim();
+        var Contrasenia2 = document.getElementById('Contrasenia2').value.trim();
         var Nombre= document.getElementById('nombrecompletos').value.trim();
         var ApellidoP = document.getElementById('apellidopaterno').value.trim();
         var ApellidoM= document.getElementById('apellidomaterno').value.trim();
@@ -206,7 +208,7 @@ var ObjectStoreReac;
         var genero1 = document.getElementById('inlineRadio1');
         var genero2 = document.getElementById('inlineRadio2');
         var Edad= document.getElementById('edad').value.trim();
-        // var Proce= document.getElementById('procedencia').value.trim();
+        //var Proce= document.getElementById('procedencia').value.trim();
         var Telefono = document.getElementById('tel').value.trim();
         // var localidad =document.getElementById('localidad').value.trim();
         // var ciudad =document.getElementById('cuidad').value.trim();
@@ -336,6 +338,133 @@ var ObjectStoreReac;
 })();
 
 
+function agregarUsuario() {
+  const formulario = document.getElementById('formEncuestado');
+  formulario.addEventListener('submit', function(event) {
+    event.preventDefault();
+    const Nombre = document.getElementById('nombrecompletos').value;
+    const ApellidoP = document.getElementById('apellidopaterno').value;
+    const ApellidoM = document.getElementById('apellidomaterno').value;
+    const genero1 = document.getElementById('inlineRadio1');
+    const genero2 = document.getElementById('inlineRadio2');
+    const generoSeleccionado = genero1.checked ? genero1.value : genero2.value;
+    const Edad = document.getElementById('edad').value;
+    const Localidad = document.getElementById('localidad').value;
+    const Ciudad = document.getElementById('ciudad').value;
+    const Municipio = document.getElementById('municipio').value;
+    const Estado = document.getElementById('estado').value;
+    const Correo = document.getElementById('Email-encuestado').value;
+    const Contrasenia = document.getElementById('contra-encuestado').value;
+    const Contrasenia2 = document.getElementById('contra-encuestado2').value;
+    const Telefono = document.getElementById('tel-encuestado').value;
+
+    guardarEncuestado(Nombre, ApellidoP, ApellidoM, Edad, Localidad, Ciudad, Municipio, 
+      Estado, Correo, Contrasenia, Telefono, generoSeleccionado);
+
+    guardarUsuario(Correo, Contrasenia, Contrasenia2);
+
+    alertaEncuestado();
+
+    //document.getElementById("formEncuestado").reset();
+
+  });
+}
+function alertaEncuestado(){
+  Swal.fire({
+    icon: 'success',
+    title: '¡Datos enviados correctamente!',
+    text: 'Gracias por completar la encuesta.',
+    confirmButtonText: 'Aceptar',
+    allowOutsideClick: false,
+    allowEscapeKey: false
+  }).then((result) => {
+    if (result.isConfirmed) {
+      // Redirige a la página "login.html" en español
+      window.location.href = 'login.html';
+    }
+  });
+}
+
+function guardarEncuestado(Nombre, ApellidoP, ApellidoM, Edad, Localidad, Ciudad, Municipio, 
+  Estado, Correo, Contrasenia, Telefono, generoSeleccionado) {
+  const request = indexedDB.open('Janal', 1); // Abre la base de datos 'Janal' con la versión 1
+
+  request.onerror = function(event) {
+    console.log('Error al abrir la base de datos'); // Maneja el evento de error si hay un problema al abrir la base de datos
+  };
+  request.onsuccess = function(event) {
+    const db = event.target.result; // Asigna el resultado a la variable db en el ámbito global
+
+    // Iniciar una transacción en el ObjectStore "Usuarios"
+    const transaction = db.transaction("Usuarios", "readwrite");
+    const objectStore = transaction.objectStore("Usuarios");
+
+    // Crear un objeto con los datos a almacenar
+    const encuestado = {
+      Nombre: Nombre,
+      ApellidoP: ApellidoP,
+      ApellidoM: ApellidoM,
+      Genero: generoSeleccionado,
+      Edad: Edad,
+      Localidad: Localidad,
+      Ciudad: Ciudad,
+      Municipio: Municipio,
+      Estado: Estado,
+      Correo: Correo,
+      Contrasenia: Contrasenia,
+      Telefono: Telefono
+    };
+
+      // Agregar el objeto a la base de datos
+      const addRequest = objectStore.add(encuestado);
+      addRequest.onsuccess = function(event) {
+        console.log("Datos agregados exitosamente a la base de datos.");
+      };
+  
+      addRequest.onerror = function(event) {
+        console.error("Error al agregar los datos:", event.target.error);
+      };
+  
+    transaction.oncomplete = function(event) {
+      db.close(); // Cierra la conexión con la base de datos una vez que la transacción se completa
+    };
+  };
+}
+
+function guardarUsuario(Correo, Contrasenia, Contrasenia2) {
+  const request = indexedDB.open('Janal', 1); 
+
+  request.onerror = function(event) {
+    console.log('Error al abrir la base de datos');
+  };
+  request.onsuccess = function(event) {
+    const db = event.target.result; 
+    const transaction = db.transaction('Autenticasion','readwrite');
+    const objectStore = transaction.objectStore("Autenticasion");
+
+    // Crear un objeto con los datos a almacenar
+    const usuario = {
+      Correo: Correo,
+      Contrasenia: Contrasenia,
+      Contrasenia2: Contrasenia2
+    };
+      // Agregar el objeto a la base de datos
+      const addRequest = objectStore.add(usuario);
+      addRequest.onsuccess = function(event) {
+        console.log("Datos agregados exitosamente a la base de datos.");
+      };
+  
+      addRequest.onerror = function(event) {
+        console.error("Error al agregar los datos:", event.target.error);
+      };
+      
+    transaction.oncomplete = function(event) {
+      db.close(); // Cierra la conexión con la base de datos una vez que la transacción se completa
+    };
+  };
+}
+
+
 //Subir Noticas
 
 
@@ -364,6 +493,13 @@ function agregarEventoFormulario() {
     });
 
     document.getElementById("formularioNews").reset();
+
+    document.getElementById("img-result").src = "";
+
+    const feedbackElements = document.querySelectorAll(".valid-feedback, .invalid-feedback");
+    for (const element of feedbackElements) {
+      element.style.display = "none";
+    }
 
   });
 }
@@ -609,7 +745,7 @@ function restablecer(id) {
   request.onupgradeneeded = function (event) {
     const db = event.target.result;
     const objectStore = db.createObjectStore('Noticias', { keyPath: 'id', autoIncrement: true });
-    // Puedes definir la estructura de la tabla 'Noticias' aquí si aún no existe
+    
   };
 
   request.onsuccess = function (event) {
@@ -702,35 +838,49 @@ function mostrarEditNoticias(id) {
   };
 }
 
-// Additional functions and event handlers...
-
-
 function boton(id){
-    // Obtener el ID del botón que se hizo clic
-    
     const botonId = obtenerUltimoValorId(id);
-    
-    // Cambiar a una nueva pestaña
     window.location.href = './editarNoticias.html?id=' + encodeURIComponent(botonId);
 }
-function botonSegAlim(id){
-  // Obtener el ID del botón que se hizo clic
-  
+function botonSegAlim(id){ 
   const botonId = obtenerUltimoValorId(id);
-  
-  // Cambiar a una nueva pestaña
-  window.location.href = './seguridad-alimentaria.html#noticia' + encodeURIComponent(botonId);
+  window.location.href = './seguridad-alimentaria.html?id=' + encodeURIComponent(botonId);
 }
-
 function botonUpload(id){
-  // Obtener el ID del botón que se hizo clic
-  
   const botonId = obtenerUltimoValorId(id);
   appendUpToValor(botonId);
-  // Cambiar a una nueva pestaña
-  
+  //publicarNoticia(botonId);
 }
 
+function buscarNoticiaPorTitulo() {
+  var buscarTitulo = document.getElementById("buscar-titulo").value;
+  var resultadosDiv = document.getElementById("resultados");
+
+  resultadosDiv.innerHTML = "";
+  var transaction = db.transaction(["Noticias"]);
+  var objectStore = transaction.objectStore("Noticias");
+  var index = objectStore.index("titulo");
+  var cursorRequest = index.openCursor();
+
+  cursorRequest.onsuccess = function(event) {
+    var cursor = event.target.result;
+    if (cursor) {
+      var tituloEnNoticia = cursor.value.titulo;
+      if (tituloEnNoticia.includes(buscarTitulo)) {
+        console.log("Título encontrado:", cursor.value.titulo);
+        resultadosDiv.innerHTML += "<div>" + cursor.value.titulo + cursor.value.id + "</div>";
+      }
+      // Continúa con el siguiente resultado
+      cursor.continue();
+    } else {
+      console.log("Búsqueda completada");
+    }
+  };
+
+  cursorRequest.onerror = function(event) {
+    console.error("Error al abrir el cursor:", event.target.error);
+  };
+}
 
 
 // Crear Cards para noticias
@@ -740,7 +890,6 @@ function crearTarjetas(numTarjetas) {
   let contador = 1; // Contador para el ID de las tarjetas
 
   for (let i = 0; i < numTarjetas; i++) {
-    // Creamos los elementos y configuramos sus atributos
     const divColSm12 = document.createElement('div');
     divColSm12.className = 'col-sm-12';
     divColSm12.id = `noticia${contador}`;
@@ -1054,17 +1203,54 @@ function appendUpToValor(id){
       if (noticia) {
         //noticia.valor = 'up';
         noticia.valor = noticia.valor === 'up' ? 'down' : 'up'; // Cambiar entre 'up' y 'down'
+        
         const updateRequest = objectStore.put(noticia);
-
+        
+       /* if (noticia.valor === 'up') {
+          Swal.fire({
+            title: 'Desea Publicar esta noticia?',
+            showDenyButton: true,
+            showCancelButton: false,
+            confirmButtonText: 'Si',
+          }).then((result) => {
+            if (result.isConfirmed) {
+              Swal.fire('Proceso exitoso', '', 'success');
+              noticia.className ="btn btnUpload";
+              noticia.valor = "down";
+              objectStore.put(noticia);
+            } else if (result.isDenied) {
+              
+            }
+          })
+        } else if (noticia.valor === 'down') {
+          Swal.fire({
+            title: 'Desea Quitar esta noticia?',
+            showDenyButton: true,
+            showCancelButton: false,
+            confirmButtonText: 'Si',
+          }).then((result) => {
+            if (result.isConfirmed) {
+              Swal.fire('Proceso exitoso', '', 'success');
+              noticia.className ="btn";
+              noticia.valor = "up";
+              objectStore.put(noticia);
+            } else if (result.isDenied) {
+              
+            }
+          })
+        }*/
+        
         updateRequest.onsuccess = function() {
-          console.log(`Campo 'valor' de la noticia con ID ${id} actualizado a 'up'`);
+          console.log(`Campo 'valor' de la noticia con ID ${id} actualizado a 'up'`);          
+        
         };
   
         updateRequest.onerror = function() {
           console.error('Error al actualizar el campo "valor" de la noticia');
         };
       } else {
-        console.error(`No se encontró la noticia con ID ${id}`);
+        //console.error(`No se encontró la noticia con ID ${id}`);
+
       }
     };
   
@@ -1073,25 +1259,14 @@ function appendUpToValor(id){
     };
   }
 
+  
 function refreshPage() {
     location.reload();
 }
-function showConfirmationPopup() {
-  var message = "¿Estás seguro de continuar?";
-  var result = window.confirm(message);
-
-  if (result) {
-      alert("Has elegido continuar.");
-  } else {
-      alert("Has cancelado la acción.");
-  }
-}
-
-
 
 function publicarNoticia(id){ 
   const idnoti = document.getElementById(id);
-  if(idnoti.value == 'Q'){
+  if(idnoti.valor == 'down'){
     Swal.fire({
       title: 'Desea Publicar esta noticia?',
       showDenyButton: true,
@@ -1101,13 +1276,13 @@ function publicarNoticia(id){
       if (result.isConfirmed) {
         Swal.fire('Proceso exitoso', '', 'success');
         idnoti.className ="btn btnUpload";
-        idnoti.value = "P"
+        idnoti.valor = "up";
       } else if (result.isDenied) {
         
       }
     })
   }
-  if(idnoti.value == 'P'){
+  if(idnoti.valor == 'up'){
     Swal.fire({
       title: 'Desea Quitar esta noticia?',
       showDenyButton: true,
@@ -1117,7 +1292,7 @@ function publicarNoticia(id){
       if (result.isConfirmed) {
         Swal.fire('Proceso exitoso', '', 'success');
         idnoti.className ="btn";
-        idnoti.value = "Q"
+        idnoti.valor = "down";
       } else if (result.isDenied) {
         
       }
@@ -1141,36 +1316,41 @@ function limpiarFormNoticias() {
 // --Cierra mostrar datos noticias--
 
 //Jalar datos del Administrador
+
 /*
 function obtenerUsuario(id) {
+  const transaction = db.transaction('Administrador', 'readonly');
+  const objectStore = transaction.objectStore('Administrador');
 
+  const requestGet = objectStore.get(1);
 
-    const transaction = db.transaction('Administrador', 'readonly');
-    const objectStore = transaction.objectStore('Administrador');
-
-    const requestGet = objectStore.get(id);
-
-    requestGet.onsuccess = function(event) {
+  requestGet.onsuccess = function(event) {
       const usuario = event.target.result;
 
       if (usuario) {
-        // Asignar los valores del usuario a los campos de los inputs
-        document.getElementById("nombre").value = usuario.nombre;
-        document.getElementById("apellidoPa").value = usuario.apellidoPa;
-        document.getElementById("apellidoMa").value = usuario.apellidoMa;
-        document.getElementById("instituto").value = usuario.instituto;
-        document.getElementById("edad").value = usuario.edad;
-        document.getElementById("contra").value = usuario.contra;
-        document.getElementById("telefono").value = usuario.telefono;
-        document.getElementById("correo").value = usuario.correo;
-        document.whiskeyForm.setAttribute('data-key', usuario.id);
+          document.getElementById("nombre").value = usuario.nombre;
+          document.getElementById("apellidoPa").value = usuario.apellidoPa;
+          document.getElementById("apellidoMa").value = usuario.apellidoMa;
+          document.getElementById("instituto").value = usuario.instituto;
+          document.getElementById("edad").value = usuario.edad;
+          document.getElementById("contra").value = usuario.contra;
+          document.getElementById("telefono").value = usuario.telefono;
+          document.getElementById("correo").value = usuario.correo;
+          //document.whiskeyForm.setAttribute('data-key', usuario.id);
       } else {
-        console.log('No se encontró el usuario con el ID especificado');
+          console.log('No se encontró el usuario con el ID especificado');
       }
-    };
+  };
 
-}
-*/
+  transaction.onerror = function(event) {
+      console.error('Error en la transacción:', event.target.error);
+  };
+
+  transaction.onabort = function(event) {
+      console.warn('Transacción abortada:', event.target.error);
+  };
+}*/
+
 /*
 function abrirBaseDatos() {
   const request = indexedDB.open('Janal', 1);
@@ -1193,7 +1373,7 @@ function abrirBaseDatos() {
  
 function guardarCambiosNoticia(idd) {
   const id = parseInt(idd);
-  console.log("ddd", id);
+  //console.log("ddd", id);
   const titulo = document.getElementById('titulo').value;
   const cuerpo = document.getElementById('noticia').value;
   const imagenBase64 = document.getElementById('img-result').src.split(',')[1];
@@ -1289,8 +1469,8 @@ function eliminarUsuario(id) {
 
 function verificarPasswords() {
  
- var pass1 = document.getElementById('contrasenia').value;
-  var pass2 = document.getElementById('contrasenia2').value;
+ var pass1 = document.getElementById('Contrasenia').value;
+  var pass2 = document.getElementById('Contrasenia2').value;
   
   if (pass1 != pass2) {
 
@@ -1305,6 +1485,26 @@ function verificarPasswords() {
 }
 //return true;
 }
+
+function compararContrasenias() {
+  const contra1 = document.getElementById('contra-encuestado').value;
+  const contra2 = document.getElementById('contra-encuestado2').value;
+
+  if (contra1 !== contra2) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Las contraseñas no coinciden',
+      text: 'Por favor, asegúrate de que las contraseñas sean iguales.',
+      confirmButtonText: 'Aceptar'
+    });
+
+    // Reinicia el formulario
+    document.getElementById('formEncuestado').reset();
+  } else {
+    agregarUsuario(); 
+  }
+}
+
 
 // validar que los campos esten completos y evitar registro
 function validar(){

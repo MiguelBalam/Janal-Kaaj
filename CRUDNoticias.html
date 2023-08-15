@@ -63,10 +63,21 @@
       <div class="container p-5">
         <h1 class="text-center text-black">Noticias General</h1>
         <div class="row" id="editarNoticias">
-          <a onClick="" href="noticias.html" class="btn" type="submit" id="prueba4">CREAR</a>
+          <div class="row align-items-center mb-3">
+          <div class="col-lg-1">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <button onclick="buscarNoticiaPorTitulo();">dd</button>
+          </div>
+          <div class="col-lg-10">
+           <input type="text" name="search" placeholder="Buscar" class="form-control" id="buscar-titulo" required>
+            </div>
+          <div class="col-lg-1">
+            <a onClick="" href="noticias.html" class="btn" type="submit" id="prueba4"><i class="fa-solid fa-file-circle-plus"></i></a>
+             </div>
+           </div>
+          
 
-
-          <div class="col-lg-3">
+          <!-- <div class="col-lg-3">
             <div class="card">
               <div class="card-body">
                 <img src="./pestanas_Encuestado/Img/2.jpg" class="img-fluid rounded">
@@ -81,14 +92,11 @@
               </div>
               </div>
             </div>
-          </div>
-
-        
-
-          
+          </div> -->
 
           
         </div>
+        <div class="row bg-dark text-white" id="resultados">ffff</div>
       </div>
     </section>
   
@@ -150,8 +158,8 @@
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"
     integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
     crossorigin="anonymous"></script>
-  <link rel="stylesheet" href="/node_modules/@sweetalert2/themes/bootstrap-4/bootstrap-4.min.css">
-  <script src="/node_modules/sweetalert2/dist/sweetalert2.all.js"></script>
+  <link rel="stylesheet" href="./node_modules/@sweetalert2/themes/bootstrap-4/bootstrap-4.min.css">
+  <script src="./node_modules/sweetalert2/dist/sweetalert2.all.js"></script>
   <script src="./CSS/SweetAlert.js"></script>
   <script src="./CSS/prueba.js"></script>
   <script src="BD/app.js"></script>
