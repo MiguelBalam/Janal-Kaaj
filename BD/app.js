@@ -121,6 +121,8 @@ var ObjectStoreReac;
     DBOpenReq.addEventListener('success',(ev)=>{
      
       db= ev.target.result;
+      exportarAJSON();
+      mostrarPreguntas();
       EncuestaVistaPV2()
     
       mostrarVarSelec()
@@ -200,137 +202,137 @@ var ObjectStoreReac;
 
 // registro de datos
 //-----------------------------------------------------------------------------------------------------------------------
-    document.formEncuestado.addEventListener('submit',(ev)=>{
+    // document.formEncuestado.addEventListener('submit',(ev)=>{
         
-        ev.preventDefault();
+    //     ev.preventDefault();
    
-        var correo = document.getElementById('Correo').value.trim();
-        var Contrasenia = document.getElementById('Contrasenia').value.trim();
-        var Contrasenia2 = document.getElementById('Contrasenia2').value.trim();
-        var Nombre= document.getElementById('nombrecompletos').value.trim();
-        var ApellidoP = document.getElementById('apellidopaterno').value.trim();
-        var ApellidoM= document.getElementById('apellidomaterno').value.trim();
-        var generoSeleccionado = '';
-        var genero1 = document.getElementById('inlineRadio1');
-        var genero2 = document.getElementById('inlineRadio2');
-        var Edad= document.getElementById('edad').value.trim();
-        // var Proce= document.getElementById('procedencia').value.trim();
-        var Telefono = document.getElementById('tel').value.trim();
+    //     var correo = document.getElementById('Correo').value.trim();
+    //     var Contrasenia = document.getElementById('Contrasenia').value.trim();
+    //     var Contrasenia2 = document.getElementById('Contrasenia2').value.trim();
+    //     var Nombre= document.getElementById('nombrecompletos').value.trim();
+    //     var ApellidoP = document.getElementById('apellidopaterno').value.trim();
+    //     var ApellidoM= document.getElementById('apellidomaterno').value.trim();
+    //     var generoSeleccionado = '';
+    //     var genero1 = document.getElementById('inlineRadio1');
+    //     var genero2 = document.getElementById('inlineRadio2');
+    //     var Edad= document.getElementById('edad').value.trim();
+    //     // var Proce= document.getElementById('procedencia').value.trim();
+    //     var Telefono = document.getElementById('tel').value.trim();
    
 
-      if (genero1.checked) {
-        generoSeleccionado = genero1.value;
-      } else if (genero2.checked) {
-        generoSeleccionado = genero2.value;
-      }
+    //   if (genero1.checked) {
+    //     generoSeleccionado = genero1.value;
+    //   } else if (genero2.checked) {
+    //     generoSeleccionado = genero2.value;
+    //   }
         
-        verificarPasswords();
+    //     verificarPasswords();
 
-        let Usuario = {
-        Nombre,
-        ApellidoP,
-        ApellidoM,
-        Genero: generoSeleccionado,
-        Edad,
-        Telefono,
-        correo
+    //     let Usuario = {
+    //     Nombre,
+    //     ApellidoP,
+    //     ApellidoM,
+    //     Genero: generoSeleccionado,
+    //     Edad,
+    //     Telefono,
+    //     correo
 
-        }
-        let Autenticasion = {
-            correo,
-            Contrasenia,
-            Contrasenia2
-            }
+    //     }
+    //     let Autenticasion = {
+    //         correo,
+    //         Contrasenia,
+    //         Contrasenia2
+    //         }
         
-        let tx = makeTX('Usuario','readwrite');
-        let txA = makeTX2('Autenticasion','readwrite');
-        let txB = makeTX3('Encuestador','readwrite');
+    //     let tx = makeTX('Usuario','readwrite');
+    //     let txA = makeTX2('Autenticasion','readwrite');
+    //     let txB = makeTX3('Encuestador','readwrite');
 
-        tx.oncomplete = (ev)=>{
-            console.log (ev);
-            var elementos = document.getElementsByName("inlineRadioOptions");
-            for(var i=0; i<elementos.length; i++) {
-              alert(" Elemento: " + elementos[i].value + "\n Seleccionado: " + elementos[i].checked);
-        }
-      };
-        txA.oncomplete = (ev)=>{
+    //     tx.oncomplete = (ev)=>{
+    //         console.log (ev);
+    //         var elementos = document.getElementsByName("inlineRadioOptions");
+    //         for(var i=0; i<elementos.length; i++) {
+    //           alert(" Elemento: " + elementos[i].value + "\n Seleccionado: " + elementos[i].checked);
+    //     }
+    //   };
+    //     txA.oncomplete = (ev)=>{
 
-          verificarPasswords();
+    //       verificarPasswords();
          
-            // console.log (ev);
+    //         // console.log (ev);
 
-            // Aquí se muestra la alerta SweetAlert2
-          Swal.fire({
-            icon: 'success',
+    //         // Aquí se muestra la alerta SweetAlert2
+    //       Swal.fire({
+    //         icon: 'success',
 
-            title: '¡Datos enviados correctamente!',
-            text: 'Gracias por completar la encuesta.',
-            confirmButtonText: 'Aceptar',
-            allowOutsideClick: false,
-            allowEscapeKey: false
-          }).then((result) => {
-            if (result.isConfirmed) {
-              // Redirige a la página "login.html" en español
-              window.location.href = 'login.html';
-            }
-          });
+    //         title: '¡Datos enviados correctamente!',
+    //         text: 'Gracias por completar la encuesta.',
+    //         confirmButtonText: 'Aceptar',
+    //         allowOutsideClick: false,
+    //         allowEscapeKey: false
+    //       }).then((result) => {
+    //         if (result.isConfirmed) {
+    //           // Redirige a la página "login.html" en español
+    //           window.location.href = 'login.html';
+    //         }
+    //       });
             
-        };
-        let store = tx.objectStore('Usuario');
-        let request = store.add(Usuario);
-        let store2 = txA.objectStore('Autenticasion');
-        let request2 = store2.add(Autenticasion);
-        let store3 = txB.objectStore('Encuestador');
-        let request3 = store3.add(Encuestador);
+    //     };
+    //     let store = tx.objectStore('Usuario');
+    //     let request = store.add(Usuario);
+    //     let store2 = txA.objectStore('Autenticasion');
+    //     let request2 = store2.add(Autenticasion);
+    //     let store3 = txB.objectStore('Encuestador');
+    //     let request3 = store3.add(Encuestador);
         
-        validar();
-        request.onsuccess = (ev) => {
-          check();  
-          console.log('successfully added an object',ev);
-          document.getElementById('EncuestadoForm').reset(); 
-        };
-        request.onerror = (eve) => {
-          console.log('error in request to add',eve);
-        };
-        request2.onsuccess = (ev) => {
-            console.log('successfully added an object',ev);
+    //     validar();
+    //     request.onsuccess = (ev) => {
+    //       check();  
+    //       console.log('successfully added an object',ev);
+    //       document.getElementById('EncuestadoForm').reset(); 
+    //     };
+    //     request.onerror = (eve) => {
+    //       console.log('error in request to add',eve);
+    //     };
+    //     request2.onsuccess = (ev) => {
+    //         console.log('successfully added an object',ev);
         
-          };
-          request2.onerror = (eve) => {
-            console.log('error in request to add',eve);
-          };
-          request3.onsuccess = (ev) => {
-            console.log('successfully added an object',ev);
-          };
-          request3.onerror = (eve) => {
-            console.log('error in request to add',eve);
-          }; 
+    //       };
+    //       request2.onerror = (eve) => {
+    //         console.log('error in request to add',eve);
+    //       };
+    //       request3.onsuccess = (ev) => {
+    //         console.log('successfully added an object',ev);
+    //       };
+    //       request3.onerror = (eve) => {
+    //         console.log('error in request to add',eve);
+    //       }; 
 
 
-    });
+    // });
 
-    function makeTX(storeName, mode) {
-        let tx = db.transaction(storeName, mode);
-        tx.onerror = (eve) => {
-          console.warn(eve);
-        };
-        return tx;
-    }
-    function makeTX2(storeName, mode) {
+    // function makeTX(storeName, mode) {
+    //     let tx = db.transaction(storeName, mode);
+    //     tx.onerror = (eve) => {
+    //       console.warn(eve);
+    //     };
+    //     return tx;
+    // }
+    // function makeTX2(storeName, mode) {
       
-        let tx = db.transaction(storeName, mode);
-        tx.onerror = (eve) => {
-          console.warn(eve);
-        };
-        return tx;
-    }
-    function makeTX3(storeName, mode) {
-        let tx = db.transaction(storeName, mode);
-        tx.onerror = (eve) => {
-          console.warn(eve);
-        };
-        return tx;
-    }
+    //     let tx = db.transaction(storeName, mode);
+    //     tx.onerror = (eve) => {
+    //       console.warn(eve);
+    //     };
+    //     return tx;
+    // }
+    // function makeTX3(storeName, mode) {
+    //     let tx = db.transaction(storeName, mode);
+    //     tx.onerror = (eve) => {
+    //       console.warn(eve);
+    //     };
+    //     return tx;
+    // }
 
 // })
 document.formEncuestado.addEventListener('submit',(ev)=>{
@@ -4873,6 +4875,49 @@ function MostrarLogo() {
     // objectStoreEncuestador.createIndex(...);
   };
 }
+
+
+function exportarAJSON() {
+  // Definir jsonData fuera del alcance de DBOpenReq.onsuccess
+  let jsonData;
+
+  // Abrir la base de datos
+  const DBOpenReq = indexedDB.open('Janal', 1);
+
+  DBOpenReq.onsuccess = function(event) {
+    const db = event.target.result;
+    const transaction = db.transaction(['Categoria_encuesta'], 'readonly');
+    const objectStore = transaction.objectStore('Categoria_encuesta');
+  
+    const data = [];
+    const cursorRequest = objectStore.openCursor();
+  
+    cursorRequest.onsuccess = function(event) {
+      const cursor = event.target.result;
+      if (cursor) {
+        data.push(cursor.value);
+        cursor.continue();
+      }
+    };
+  
+    transaction.oncomplete = function() {
+      // Paso 2: Empaquetar los datos en un archivo JSON
+      jsonData = JSON.stringify(data);
+      const parsedData = JSON.parse(jsonData);
+      console.log(parsedData);
+    
+      // Paso 3: Subir el archivo JSON a tu base de datos en el hosting
+      // Puedes usar una función para subir el archivo JSON a tu servidor cuando tengas conexión a Internet.
+      subirDatos(jsonData);
+    };
+  };
+
+  console.log(jsonData);
+}
+
+// Llamar a la función para iniciar la exportación
+
+
 
 //Actualicar almacen 
 function actualizarAlmacenPreguntaReactivos() {
