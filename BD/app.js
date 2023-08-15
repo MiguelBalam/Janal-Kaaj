@@ -122,23 +122,15 @@ var ObjectStoreReac;
      
       db= ev.target.result;
       EncuestaVistaPV2()
-<<<<<<< HEAD
     
       mostrarVarSelec()
      
-    
       mostrarEncuesta()
       
       reactivoscrear()
       buscar()
      
       //mostrarVarSelec() 
-=======
-      reactivoscrear()
-      buscar()
-      Encuesta1()
-      mostrarVarSelec() 
->>>>>>> b5716a3f2c1af3082e55377d4c0cf1a768569ff8
       EncuestaVarMostrar()
    EncuestaVarMostrar(encuestaVarId)
 
@@ -208,26 +200,10 @@ var ObjectStoreReac;
 
 // registro de datos
 //-----------------------------------------------------------------------------------------------------------------------
-//     document.formEncuestado.addEventListener('submit',(ev)=>{
+    document.formEncuestado.addEventListener('submit',(ev)=>{
         
-<<<<<<< HEAD
-//         ev.preventDefault();
-   
-//         var correo = document.getElementById('Correo').value.trim();
-//         var Contrasenia = document.getElementById('Contrasenia').value.trim();
-//         var Contrasenia2 = document.getElementById('Contrasenia2').value.trim();
-//         var Nombre= document.getElementById('nombrecompletos').value.trim();
-//         var ApellidoP = document.getElementById('apellidopaterno').value.trim();
-//         var ApellidoM= document.getElementById('apellidomaterno').value.trim();
-//         var generoSeleccionado = '';
-//         var genero1 = document.getElementById('inlineRadio1');
-//         var genero2 = document.getElementById('inlineRadio2');
-//         var Edad= document.getElementById('edad').value.trim();
-//         // var Proce= document.getElementById('procedencia').value.trim();
-//         var Telefono = document.getElementById('tel').value.trim();
-   
-=======
         ev.preventDefault();
+   
         var correo = document.getElementById('Correo').value.trim();
         var Contrasenia = document.getElementById('Contrasenia').value.trim();
         var Contrasenia2 = document.getElementById('Contrasenia2').value.trim();
@@ -240,126 +216,121 @@ var ObjectStoreReac;
         var Edad= document.getElementById('edad').value.trim();
         // var Proce= document.getElementById('procedencia').value.trim();
         var Telefono = document.getElementById('tel').value.trim();
-        // var localidad =document.getElementById('localidad').value.trim();
-        // var ciudad =document.getElementById('cuidad').value.trim();
-        // var Municipio =document.getElementById('municipio').value.trim();
-        // var Encuestado = document.getElementById('estado').value.trim();
-        // var telefono = document.getElementById('tel-encuestado').value.trim();
->>>>>>> 771b2c2c9c9164e4198f5a4bf5ddfb791c7ecb1f
+   
 
-//       if (genero1.checked) {
-//         generoSeleccionado = genero1.value;
-//       } else if (genero2.checked) {
-//         generoSeleccionado = genero2.value;
-//       }
+      if (genero1.checked) {
+        generoSeleccionado = genero1.value;
+      } else if (genero2.checked) {
+        generoSeleccionado = genero2.value;
+      }
         
-//         verificarPasswords();
+        verificarPasswords();
 
-//         let Usuario = {
-//         Nombre,
-//         ApellidoP,
-//         ApellidoM,
-//         Genero: generoSeleccionado,
-//         Edad,
-//         Telefono,
-//         correo
+        let Usuario = {
+        Nombre,
+        ApellidoP,
+        ApellidoM,
+        Genero: generoSeleccionado,
+        Edad,
+        Telefono,
+        correo
 
-//         }
-//         let Autenticasion = {
-//             correo,
-//             Contrasenia,
-//             Contrasenia2
-//             }
+        }
+        let Autenticasion = {
+            correo,
+            Contrasenia,
+            Contrasenia2
+            }
         
-//         let tx = makeTX('Usuario','readwrite');
-//         let txA = makeTX2('Autenticasion','readwrite');
-//         let txB = makeTX3('Encuestador','readwrite');
+        let tx = makeTX('Usuario','readwrite');
+        let txA = makeTX2('Autenticasion','readwrite');
+        let txB = makeTX3('Encuestador','readwrite');
 
-//         tx.oncomplete = (ev)=>{
-//             console.log (ev);
-//             var elementos = document.getElementsByName("inlineRadioOptions");
-//             for(var i=0; i<elementos.length; i++) {
-//               alert(" Elemento: " + elementos[i].value + "\n Seleccionado: " + elementos[i].checked);
-//         }
-//       };
-//         txA.oncomplete = (ev)=>{
+        tx.oncomplete = (ev)=>{
+            console.log (ev);
+            var elementos = document.getElementsByName("inlineRadioOptions");
+            for(var i=0; i<elementos.length; i++) {
+              alert(" Elemento: " + elementos[i].value + "\n Seleccionado: " + elementos[i].checked);
+        }
+      };
+        txA.oncomplete = (ev)=>{
 
-//           verificarPasswords();
+          verificarPasswords();
          
-//             // console.log (ev);
+            // console.log (ev);
 
-//             // Aquí se muestra la alerta SweetAlert2
-//           Swal.fire({
-//             icon: 'success',
+            // Aquí se muestra la alerta SweetAlert2
+          Swal.fire({
+            icon: 'success',
 
-//             title: '¡Datos enviados correctamente!',
-//             text: 'Gracias por completar la encuesta.',
-//             confirmButtonText: 'Aceptar',
-//             allowOutsideClick: false,
-//             allowEscapeKey: false
-//           }).then((result) => {
-//             if (result.isConfirmed) {
-//               // Redirige a la página "login.html" en español
-//               window.location.href = 'login.html';
-//             }
-//           });
+            title: '¡Datos enviados correctamente!',
+            text: 'Gracias por completar la encuesta.',
+            confirmButtonText: 'Aceptar',
+            allowOutsideClick: false,
+            allowEscapeKey: false
+          }).then((result) => {
+            if (result.isConfirmed) {
+              // Redirige a la página "login.html" en español
+              window.location.href = 'login.html';
+            }
+          });
             
-//         };
-//         let store = tx.objectStore('Usuario');
-//         let request = store.add(Usuario);
-//         let store2 = txA.objectStore('Autenticasion');
-//         let request2 = store2.add(Autenticasion);
-//         let store3 = txB.objectStore('Encuestador');
-//         let request3 = store3.add(Encuestador);
+        };
+        let store = tx.objectStore('Usuario');
+        let request = store.add(Usuario);
+        let store2 = txA.objectStore('Autenticasion');
+        let request2 = store2.add(Autenticasion);
+        let store3 = txB.objectStore('Encuestador');
+        let request3 = store3.add(Encuestador);
         
-//         validar();
-//         request.onsuccess = (ev) => {
-//           check();  
-//           console.log('successfully added an object',ev);
-//           document.getElementById('EncuestadoForm').reset(); 
-//         };
-//         request.onerror = (eve) => {
-//           console.log('error in request to add',eve);
-//         };
-//         request2.onsuccess = (ev) => {
-//             console.log('successfully added an object',ev);
+        validar();
+        request.onsuccess = (ev) => {
+          check();  
+          console.log('successfully added an object',ev);
+          document.getElementById('EncuestadoForm').reset(); 
+        };
+        request.onerror = (eve) => {
+          console.log('error in request to add',eve);
+        };
+        request2.onsuccess = (ev) => {
+            console.log('successfully added an object',ev);
         
-//           };
-//           request2.onerror = (eve) => {
-//             console.log('error in request to add',eve);
-//           };
-//           request3.onsuccess = (ev) => {
-//             console.log('successfully added an object',ev);
-//           };
-//           request3.onerror = (eve) => {
-//             console.log('error in request to add',eve);
-//           }; 
+          };
+          request2.onerror = (eve) => {
+            console.log('error in request to add',eve);
+          };
+          request3.onsuccess = (ev) => {
+            console.log('successfully added an object',ev);
+          };
+          request3.onerror = (eve) => {
+            console.log('error in request to add',eve);
+          }; 
 
 
-//     });
+    });
 
-//     function makeTX(storeName, mode) {
-//         let tx = db.transaction(storeName, mode);
-//         tx.onerror = (eve) => {
-//           console.warn(eve);
-//         };
-//         return tx;
-//     }
-//     function makeTX2(storeName, mode) {
+    function makeTX(storeName, mode) {
+        let tx = db.transaction(storeName, mode);
+        tx.onerror = (eve) => {
+          console.warn(eve);
+        };
+        return tx;
+    }
+    function makeTX2(storeName, mode) {
       
-//         let tx = db.transaction(storeName, mode);
-//         tx.onerror = (eve) => {
-//           console.warn(eve);
-//         };
-//         return tx;
-//     }
-//     function makeTX3(storeName, mode) {
-//         let tx = db.transaction(storeName, mode);
-//         tx.onerror = (eve) => {
-//           console.warn(eve);
-//         };
-//         return tx;
-//     }
+        let tx = db.transaction(storeName, mode);
+        tx.onerror = (eve) => {
+          console.warn(eve);
+        };
+        return tx;
+    }
+    function makeTX3(storeName, mode) {
+        let tx = db.transaction(storeName, mode);
+        tx.onerror = (eve) => {
+          console.warn(eve);
+        };
+        return tx;
+    }
 
 // })
 document.formEncuestado.addEventListener('submit',(ev)=>{
@@ -2267,7 +2238,6 @@ function mostrarVarSelec() {
         };
       }
       
-<<<<<<< HEAD
       function buscarEVarCre() {
         var cadena = "<table class='table table-bordered'>";
         var objectStore = db.transaction("Encuesta_Variables").objectStore("Encuesta_Variables");
@@ -2408,8 +2378,6 @@ function mostrarVarSelec() {
       }
       
 
-=======
->>>>>>> b5716a3f2c1af3082e55377d4c0cf1a768569ff8
       function redireccionarPagina(encuestaId) {
         // Aquí puedes redirigir a la página deseada utilizando el ID de la encuesta
         // Por ejemplo:
