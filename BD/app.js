@@ -194,152 +194,14 @@ var ObjectStoreReac;
       // refrescarAlmacen()
      
        mostrarPreguntas();
-     
-    
-  
+ 
    
-      
+     
       EncuestaV()
       
     });
 
-// registro de datos
-//-----------------------------------------------------------------------------------------------------------------------
-//     document.formEncuestado.addEventListener('submit',(ev)=>{
-        
-//         ev.preventDefault();
-   
-//         var correo = document.getElementById('Correo').value.trim();
-//         var Contrasenia = document.getElementById('Contrasenia').value.trim();
-//         var Contrasenia2 = document.getElementById('Contrasenia2').value.trim();
-//         var Nombre= document.getElementById('nombrecompletos').value.trim();
-//         var ApellidoP = document.getElementById('apellidopaterno').value.trim();
-//         var ApellidoM= document.getElementById('apellidomaterno').value.trim();
-//         var generoSeleccionado = '';
-//         var genero1 = document.getElementById('inlineRadio1');
-//         var genero2 = document.getElementById('inlineRadio2');
-//         var Edad= document.getElementById('edad').value.trim();
-//         // var Proce= document.getElementById('procedencia').value.trim();
-//         var Telefono = document.getElementById('tel').value.trim();
-   
-
-//       if (genero1.checked) {
-//         generoSeleccionado = genero1.value;
-//       } else if (genero2.checked) {
-//         generoSeleccionado = genero2.value;
-//       }
-        
-//         verificarPasswords();
-
-//         let Usuario = {
-//         Nombre,
-//         ApellidoP,
-//         ApellidoM,
-//         Genero: generoSeleccionado,
-//         Edad,
-//         Telefono,
-//         correo
-
-//         }
-//         let Autenticasion = {
-//             correo,
-//             Contrasenia,
-//             Contrasenia2
-//             }
-        
-//         let tx = makeTX('Usuario','readwrite');
-//         let txA = makeTX2('Autenticasion','readwrite');
-//         let txB = makeTX3('Encuestador','readwrite');
-
-//         tx.oncomplete = (ev)=>{
-//             console.log (ev);
-//             var elementos = document.getElementsByName("inlineRadioOptions");
-//             for(var i=0; i<elementos.length; i++) {
-//               alert(" Elemento: " + elementos[i].value + "\n Seleccionado: " + elementos[i].checked);
-//         }
-//       };
-//         txA.oncomplete = (ev)=>{
-
-//           verificarPasswords();
-         
-//             // console.log (ev);
-
-//             // Aquí se muestra la alerta SweetAlert2
-//           Swal.fire({
-//             icon: 'success',
-
-//             title: '¡Datos enviados correctamente!',
-//             text: 'Gracias por completar la encuesta.',
-//             confirmButtonText: 'Aceptar',
-//             allowOutsideClick: false,
-//             allowEscapeKey: false
-//           }).then((result) => {
-//             if (result.isConfirmed) {
-//               // Redirige a la página "login.html" en español
-//               window.location.href = 'login.html';
-//             }
-//           });
-            
-//         };
-//         let store = tx.objectStore('Usuario');
-//         let request = store.add(Usuario);
-//         let store2 = txA.objectStore('Autenticasion');
-//         let request2 = store2.add(Autenticasion);
-//         let store3 = txB.objectStore('Encuestador');
-//         let request3 = store3.add(Encuestador);
-        
-//         validar();
-//         request.onsuccess = (ev) => {
-//           check();  
-//           console.log('successfully added an object',ev);
-//           document.getElementById('EncuestadoForm').reset(); 
-//         };
-//         request.onerror = (eve) => {
-//           console.log('error in request to add',eve);
-//         };
-//         request2.onsuccess = (ev) => {
-//             console.log('successfully added an object',ev);
-        
-//           };
-//           request2.onerror = (eve) => {
-//             console.log('error in request to add',eve);
-//           };
-//           request3.onsuccess = (ev) => {
-//             console.log('successfully added an object',ev);
-//           };
-//           request3.onerror = (eve) => {
-//             console.log('error in request to add',eve);
-//           }; 
-
-
-//     });
-
-//     function makeTX(storeName, mode) {
-//         let tx = db.transaction(storeName, mode);
-//         tx.onerror = (eve) => {
-//           console.warn(eve);
-//         };
-//         return tx;
-//     }
-//     function makeTX2(storeName, mode) {
-      
-//         let tx = db.transaction(storeName, mode);
-//         tx.onerror = (eve) => {
-//           console.warn(eve);
-//         };
-//         return tx;
-//     }
-//     function makeTX3(storeName, mode) {
-//         let tx = db.transaction(storeName, mode);
-//         tx.onerror = (eve) => {
-//           console.warn(eve);
-//         };
-//         return tx;
-//     }
-
-// })
-document.formEncuestado.addEventListener('submit',(ev)=>{
-        
+document.formEncuestado.addEventListener('submit',(ev)=>{        
   ev.preventDefault();
   var correo = document.getElementById('Correo').value.trim();
   var Contrasenia = document.getElementById('Contrasenia').value.trim();
@@ -647,14 +509,14 @@ function agregarEventoFormulario() {
 }
 
 function guardarDatos(titulo, cuerpo, imagen, valor) {
-  const request = indexedDB.open('Janal', 1); // Abre la base de datos 'Janal' con la versión 1
+  const request = indexedDB.open('Janal', 1); 
 
   request.onerror = function(event) {
-    console.log('Error al abrir la base de datos'); // Maneja el evento de error si hay un problema al abrir la base de datos
+    console.log('Error al abrir la base de datos'); 
   };
 
   request.onsuccess = function(event) {
-    const db = event.target.result; // Obtiene la referencia a la base de datos
+    const db = event.target.result; 
     var reader = new FileReader(); // Crea una instancia de FileReader, que se utiliza para leer el contenido del archivo
   
     // reader.readAsDataURL(file); 
@@ -675,7 +537,7 @@ function guardarDatos(titulo, cuerpo, imagen, valor) {
       };
   
       transaction.oncomplete = function(event) {
-        db.close(); // Cierra la conexión con la base de datos una vez que la transacción se completa
+        db.close(); 
       };
     };
     
@@ -684,65 +546,6 @@ function guardarDatos(titulo, cuerpo, imagen, valor) {
 }
 
 //Mostrar datos noticias
-/*
-function mostrarDatos() {
-  const request = indexedDB.open('Janal', 1);
-
-  request.onerror = function(event) {
-    console.log('Error al abrir la base de datos');
-  };
-
-  request.onsuccess = function(event) {
-    const db = event.target.result;
-
-    const transaction = db.transaction('Noticias', 'readonly');
-    const objectStore = transaction.objectStore('Noticias');
-
-    const requestGet = objectStore.get(id);
-
-    requestGet.onsuccess = function(event) {
-      const data = event.target.result;
-
-      if (data) {
-        const titulo = data.titulo;
-        const cuerpo = data.cuerpo;
-
-        const pElement = document.getElementById('titulo');
-        pElement.textContent = `${titulo}`;
-
-        const pElement2 = document.getElementById('cuerpo');
-        pElement2.textContent = `${cuerpo}`;
-      } else {
-        console.log('No se encontraron datos con el ID especificado');
-      }
-    };
-
-    requestGet.onerror = function(event) {
-      console.log('Error al obtener los datos');
-    };
-
-    transaction.oncomplete = function(event) {
-      db.close();
-    };
-  };
-  doImageTest();
-}
-*/
-/*function doImageTest() {
-  console.log('doImageTest');
-  let image = document.querySelector('#image');
-  let recordToLoad = parseInt(3);
-  if(recordToLoad === '') recordToLoad = 1;
-
-  let trans = db.transaction(['Noticias'], 'readonly');
-  //hard coded id
-  let req = trans.objectStore('Noticias').get(recordToLoad);
-  req.onsuccess = function(e) {
-    let record = e.target.result;
-    console.log('get success', record);
-    image.src = 'data:image/jpeg;base64,' + btoa(record.data);
-  }
-}*/
 
 function mostrarNoticiasEnTarjetas() {
 
@@ -4999,17 +4802,17 @@ function editarLogo(imageDataUrl) {
   });
 }
 
-async function guardarDatos() {
-  try {
-    await validarImagenLogo();
-    await editarLogo(imageDataUrl);
-    // Ambas funciones se han completado con éxito, ahora recargamos la página.
-    location.reload();
-  } catch (error) {
-    // Si hay algún error en alguna de las funciones, mostramos el mensaje de error.
-    console.error("Error al guardar los datos:", error);
-  }
-}
+// async function guardarDatos() {
+//   try {
+//     await validarImagenLogo();
+//     await editarLogo(imageDataUrl);
+//     // Ambas funciones se han completado con éxito, ahora recargamos la página.
+//     location.reload();
+//   } catch (error) {
+//     // Si hay algún error en alguna de las funciones, mostramos el mensaje de error.
+//     console.error("Error al guardar los datos:", error);
+//   }
+// }
 
 function MostrarLogo() {
   var datosUsuario = localStorage.getItem("datosUsuario");
