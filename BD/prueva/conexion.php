@@ -6,7 +6,7 @@ $servername= "162.241.60.169";
 $dbname = "janalkaa_kaaj";
 
 // Creamos la conexión
-$con = new mysqli($servername, $username, $password, $dbname);
+$conexion = mysqli_connect($servername, $username, $password, $dbname);
 mysqli_set_charset($con,"utf8");
 
 // Verificamos la conexión

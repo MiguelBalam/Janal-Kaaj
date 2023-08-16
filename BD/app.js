@@ -15,28 +15,25 @@ var db;
 var ObjectStore;
 var ObjectStoreReac;
 
- (function conectarDB(){
-    
-   // let objectStore = null;
-    let DBOpenReq =indexedDB.open('Janal',1);
+ (function conectarDB() {
+  let DBOpenReq = indexedDB.open('Janal', 1);
 
-    DBOpenReq.addEventListener('error',(err)=>{
-        console.warn(err);
-    });
-    
-    //Creacion de tablas u objetos
-    DBOpenReq.addEventListener('upgradeneeded',(ev)=>{
-        db = ev.target.result;       
-        
-        ObjectStore = db.createObjectStore("Usuario", { keyPath : 'id', autoIncrement: true});
-        ObjectStore.createIndex("Nombre","Nombre",{unique:true});
-      
+  DBOpenReq.addEventListener('error', (err) => {
+    console.warn(err);
+  });
+
+  DBOpenReq.addEventListener('upgradeneeded', (ev) => {
+    db = ev.target.result;
+
+    ObjectStore = db.createObjectStore("Usuario", { keyPath: 'id', autoIncrement: true });
+    ObjectStore.createIndex("Nombre", "Nombre", { unique: true });
 
         //Noticias
         ObjectStore = db.createObjectStore('Noticias', {keyPath:'id', autoIncrement: true});
         ObjectStore.createIndex('titulo', 'titulo', { unique: false });
         ObjectStore.createIndex('cuerpo', 'cuerpo', { unique: false });
         ObjectStore.createIndex('valor', 'valor', { unique: false });
+        
         
         //Usuarios Administrador
         ObjectStore = db.createObjectStore('Administrador', {keyPath:'id', autoIncrement: true});
@@ -45,7 +42,8 @@ var ObjectStoreReac;
         //usuario
 
         ObjectStore = db.createObjectStore("Usuariosactivo", {keyPath: "id"});
-        ObjectStore = db.createObjectStore("Usuarios", {autoIncrement: true});
+        //ObjectStore = db.createObjectStore("Usuarios", {autoIncrement: true});
+        ObjectStore = db.createObjectStore("Usuarios", { keyPath : 'id', autoIncrement: true});
 
         ObjectStore = db.createObjectStore("EncuestaFinal", {autoIncrement: true});
         ObjectStore.createIndex("encuestaId","",{unique:true});
@@ -118,9 +116,8 @@ var ObjectStoreReac;
     //   console.log("triste");
     // });
     //funciones para cursores
-    DBOpenReq.addEventListener('success',(ev)=>{
-     
-      db= ev.target.result;
+    DBOpenReq.addEventListener('success', (ev) => {
+      db = ev.target.result;
       exportarAJSON();
       mostrarPreguntas();
       EncuestaVistaPV2()
@@ -192,15 +189,14 @@ var ObjectStoreReac;
       // refrescarAlmacen()
      
        mostrarPreguntas();
-     
-    
-  
+ 
    
-      
+     
       EncuestaV()
       
     });
 
+<<<<<<< HEAD
 // registro de datos
 //-----------------------------------------------------------------------------------------------------------------------
 //     document.formEncuestado.addEventListener('submit',(ev)=>{
@@ -338,6 +334,9 @@ var ObjectStoreReac;
 // })
 document.formEncuestado.addEventListener('submit',(ev)=>{
         
+=======
+document.formEncuestado.addEventListener('submit',(ev)=>{        
+>>>>>>> e9dc38b9063ebf9d8fdafd68569da03705d6d949
   ev.preventDefault();
   var correo = document.getElementById('Correo').value.trim();
   var Contrasenia = document.getElementById('Contrasenia').value.trim();
@@ -386,11 +385,11 @@ if (genero1.checked) {
       //      }
        
   
-  let tx = makeTX('Usuario','readwrite');
-  let txA = makeTX2('Autenticasion','readwrite');
-  let txB = makeTX3('Encuestador','readwrite');
-
-  tx.oncomplete = (ev)=>{
+      let tx = makeTX('Usuario', 'readwrite');
+      let txA = makeTX2('Autenticasion', 'readwrite');
+      let txB = makeTX3('Encuestador', 'readwrite');
+    
+      tx.oncomplete = (ev) => {
       console.log (ev);
       var elementos = document.getElementsByName("inlineRadioOptions");
       for(var i=0; i<elementos.length; i++) {
@@ -475,9 +474,134 @@ function makeTX3(storeName, mode) {
   };
   return tx;
 }
-
-
  })();
+
+
+function agregarUsuario() {
+  const formulario = document.getElementById('formEncuestado');
+  formulario.addEventListener('submit', function(event) {
+    event.preventDefault();
+    const Nombre = document.getElementById('nombrecompletos').value;
+    const ApellidoP = document.getElementById('apellidopaterno').value;
+    const ApellidoM = document.getElementById('apellidomaterno').value;
+    const genero1 = document.getElementById('inlineRadio1');
+    const genero2 = document.getElementById('inlineRadio2');
+    const generoSeleccionado = genero1.checked ? genero1.value : genero2.value;
+    const Edad = document.getElementById('edad').value;
+    const Localidad = document.getElementById('localidad').value;
+    const Ciudad = document.getElementById('ciudad').value;
+    const Municipio = document.getElementById('municipio').value;
+    const Estado = document.getElementById('estado').value;
+    const Correo = document.getElementById('Email-encuestado').value;
+    const Contrasenia = document.getElementById('contra-encuestado').value;
+    const Contrasenia2 = document.getElementById('contra-encuestado2').value;
+    const Telefono = document.getElementById('tel-encuestado').value;
+
+    guardarEncuestado(Nombre, ApellidoP, ApellidoM, Edad, Localidad, Ciudad, Municipio, 
+      Estado, Correo, Contrasenia, Telefono, generoSeleccionado);
+
+    guardarUsuario(Correo, Contrasenia, Contrasenia2);
+
+    alertaEncuestado();
+
+    //document.getElementById("formEncuestado").reset();
+
+  });
+}
+function alertaEncuestado(){
+  Swal.fire({
+    icon: 'success',
+    title: '¡Datos enviados correctamente!',
+    text: 'Gracias por completar la encuesta.',
+    confirmButtonText: 'Aceptar',
+    allowOutsideClick: false,
+    allowEscapeKey: false
+  }).then((result) => {
+    if (result.isConfirmed) {
+      // Redirige a la página "login.html" en español
+      window.location.href = 'login.html';
+    }
+  });
+}
+
+function guardarEncuestado(Nombre, ApellidoP, ApellidoM, Edad, Localidad, Ciudad, Municipio, 
+  Estado, Correo, Contrasenia, Telefono, generoSeleccionado) {
+  const request = indexedDB.open('Janal', 1); // Abre la base de datos 'Janal' con la versión 1
+
+  request.onerror = function(event) {
+    console.log('Error al abrir la base de datos'); // Maneja el evento de error si hay un problema al abrir la base de datos
+  };
+  request.onsuccess = function(event) {
+    const db = event.target.result; // Asigna el resultado a la variable db en el ámbito global
+
+    // Iniciar una transacción en el ObjectStore "Usuarios"
+    const transaction = db.transaction("Usuarios", "readwrite");
+    const objectStore = transaction.objectStore("Usuarios");
+
+    // Crear un objeto con los datos a almacenar
+    const encuestado = {
+      Nombre: Nombre,
+      ApellidoP: ApellidoP,
+      ApellidoM: ApellidoM,
+      Genero: generoSeleccionado,
+      Edad: Edad,
+      Localidad: Localidad,
+      Ciudad: Ciudad,
+      Municipio: Municipio,
+      Estado: Estado,
+      Correo: Correo,
+      Contrasenia: Contrasenia,
+      Telefono: Telefono
+    };
+
+      // Agregar el objeto a la base de datos
+      const addRequest = objectStore.add(encuestado);
+      addRequest.onsuccess = function(event) {
+        console.log("Datos agregados exitosamente a la base de datos.");
+      };
+  
+      addRequest.onerror = function(event) {
+        console.error("Error al agregar los datos:", event.target.error);
+      };
+  
+    transaction.oncomplete = function(event) {
+      // db.close(); // Cierra la conexión con la base de datos una vez que la transacción se completa
+    };
+  };
+}
+
+function guardarUsuario(Correo, Contrasenia, Contrasenia2) {
+  const request = indexedDB.open('Janal', 1); 
+
+  request.onerror = function(event) {
+    console.log('Error al abrir la base de datos');
+  };
+  request.onsuccess = function(event) {
+    const db = event.target.result; 
+    const transaction = db.transaction('Autenticasion','readwrite');
+    const objectStore = transaction.objectStore("Autenticasion");
+
+    // Crear un objeto con los datos a almacenar
+    const usuario = {
+      Correo: Correo,
+      Contrasenia: Contrasenia,
+      Contrasenia2: Contrasenia2
+    };
+      // Agregar el objeto a la base de datos
+      const addRequest = objectStore.add(usuario);
+      addRequest.onsuccess = function(event) {
+        console.log("Datos agregados exitosamente a la base de datos.");
+      };
+  
+      addRequest.onerror = function(event) {
+        console.error("Error al agregar los datos:", event.target.error);
+      };
+      
+    transaction.oncomplete = function(event) {
+      // db.close(); // Cierra la conexión con la base de datos una vez que la transacción se completa
+    };
+  };
+}
 
 
 //Subir Noticas
@@ -509,18 +633,25 @@ function agregarEventoFormulario() {
 
     document.getElementById("formularioNews").reset();
 
+    document.getElementById("img-result").src = "";
+
+    const feedbackElements = document.querySelectorAll(".valid-feedback, .invalid-feedback");
+    for (const element of feedbackElements) {
+      element.style.display = "none";
+    }
+
   });
 }
 
 function guardarDatos(titulo, cuerpo, imagen, valor) {
-  const request = indexedDB.open('Janal', 1); // Abre la base de datos 'Janal' con la versión 1
+  const request = indexedDB.open('Janal', 1); 
 
   request.onerror = function(event) {
-    console.log('Error al abrir la base de datos'); // Maneja el evento de error si hay un problema al abrir la base de datos
+    console.log('Error al abrir la base de datos'); 
   };
 
   request.onsuccess = function(event) {
-    const db = event.target.result; // Obtiene la referencia a la base de datos
+    const db = event.target.result; 
     var reader = new FileReader(); // Crea una instancia de FileReader, que se utiliza para leer el contenido del archivo
   
     // reader.readAsDataURL(file); 
@@ -541,7 +672,7 @@ function guardarDatos(titulo, cuerpo, imagen, valor) {
       };
   
       transaction.oncomplete = function(event) {
-        db.close(); // Cierra la conexión con la base de datos una vez que la transacción se completa
+        // db.close(); 
       };
     };
     
@@ -550,65 +681,6 @@ function guardarDatos(titulo, cuerpo, imagen, valor) {
 }
 
 //Mostrar datos noticias
-/*
-function mostrarDatos() {
-  const request = indexedDB.open('Janal', 1);
-
-  request.onerror = function(event) {
-    console.log('Error al abrir la base de datos');
-  };
-
-  request.onsuccess = function(event) {
-    const db = event.target.result;
-
-    const transaction = db.transaction('Noticias', 'readonly');
-    const objectStore = transaction.objectStore('Noticias');
-
-    const requestGet = objectStore.get(id);
-
-    requestGet.onsuccess = function(event) {
-      const data = event.target.result;
-
-      if (data) {
-        const titulo = data.titulo;
-        const cuerpo = data.cuerpo;
-
-        const pElement = document.getElementById('titulo');
-        pElement.textContent = `${titulo}`;
-
-        const pElement2 = document.getElementById('cuerpo');
-        pElement2.textContent = `${cuerpo}`;
-      } else {
-        console.log('No se encontraron datos con el ID especificado');
-      }
-    };
-
-    requestGet.onerror = function(event) {
-      console.log('Error al obtener los datos');
-    };
-
-    transaction.oncomplete = function(event) {
-      db.close();
-    };
-  };
-  doImageTest();
-}
-*/
-/*function doImageTest() {
-  console.log('doImageTest');
-  let image = document.querySelector('#image');
-  let recordToLoad = parseInt(3);
-  if(recordToLoad === '') recordToLoad = 1;
-
-  let trans = db.transaction(['Noticias'], 'readonly');
-  //hard coded id
-  let req = trans.objectStore('Noticias').get(recordToLoad);
-  req.onsuccess = function(e) {
-    let record = e.target.result;
-    console.log('get success', record);
-    image.src = 'data:image/jpeg;base64,' + btoa(record.data);
-  }
-}*/
 
 function mostrarNoticiasEnTarjetas() {
 
@@ -646,7 +718,7 @@ function mostrarNoticiasEnTarjetas() {
     };
 
     transaction.oncomplete = function(event) {
-      db.close();
+      // db.close();
     };
   
 }
@@ -726,7 +798,7 @@ function mostrarNoticiasIndex() {
   };
 
   transaction.oncomplete = function(event) {
-    db.close();
+    // db.close();
   };
 
 }
@@ -753,7 +825,7 @@ function restablecer(id) {
   request.onupgradeneeded = function (event) {
     const db = event.target.result;
     const objectStore = db.createObjectStore('Noticias', { keyPath: 'id', autoIncrement: true });
-    // Puedes definir la estructura de la tabla 'Noticias' aquí si aún no existe
+    
   };
 
   request.onsuccess = function (event) {
@@ -789,13 +861,13 @@ function restablecer(id) {
       console.log('Transacción completada.');
       // Now you can perform additional read or write operations if needed.
       // Or if you don't need any further operations, you can close the connection here.
-      db.close();
+      // db.close();
     };
 
     transaction.onerror = function (event) {
       console.log('Error en la transacción:', event.target.error);
       // Close the connection if an error occurs during the transaction.
-      db.close();
+      // db.close();
     };
   };
 
@@ -836,45 +908,59 @@ function mostrarEditNoticias(id) {
     console.log('Transacción completada.');
     // Now you can perform additional read or write operations if needed.
     // Or if you don't need any further operations, you can close the connection here.
-    db.close();
+    // db.close();
   };
 
   transaction.onerror = function (event) {
     console.log('Error en la transacción:', event.target.error);
     // Close the connection if an error occurs during the transaction.
-    db.close();
+    // db.close();
   };
 }
 
-// Additional functions and event handlers...
-
-
 function boton(id){
-    // Obtener el ID del botón que se hizo clic
-    
     const botonId = obtenerUltimoValorId(id);
-    
-    // Cambiar a una nueva pestaña
     window.location.href = './editarNoticias.html?id=' + encodeURIComponent(botonId);
 }
-function botonSegAlim(id){
-  // Obtener el ID del botón que se hizo clic
-  
+function botonSegAlim(id){ 
   const botonId = obtenerUltimoValorId(id);
-  
-  // Cambiar a una nueva pestaña
-  window.location.href = './seguridad-alimentaria.html#noticia' + encodeURIComponent(botonId);
+  window.location.href = './seguridad-alimentaria.html?id=' + encodeURIComponent(botonId);
 }
-
 function botonUpload(id){
-  // Obtener el ID del botón que se hizo clic
-  
   const botonId = obtenerUltimoValorId(id);
   appendUpToValor(botonId);
-  // Cambiar a una nueva pestaña
-  
+  //publicarNoticia(botonId);
 }
 
+function buscarNoticiaPorTitulo() {
+  var buscarTitulo = document.getElementById("buscar-titulo").value;
+  var resultadosDiv = document.getElementById("resultados");
+
+  resultadosDiv.innerHTML = "";
+  var transaction = db.transaction(["Noticias"]);
+  var objectStore = transaction.objectStore("Noticias");
+  var index = objectStore.index("titulo");
+  var cursorRequest = index.openCursor();
+
+  cursorRequest.onsuccess = function(event) {
+    var cursor = event.target.result;
+    if (cursor) {
+      var tituloEnNoticia = cursor.value.titulo;
+      if (tituloEnNoticia.includes(buscarTitulo)) {
+        console.log("Título encontrado:", cursor.value.titulo);
+        resultadosDiv.innerHTML += "<div>" + cursor.value.titulo + cursor.value.id + "</div>";
+      }
+      // Continúa con el siguiente resultado
+      cursor.continue();
+    } else {
+      console.log("Búsqueda completada");
+    }
+  };
+
+  cursorRequest.onerror = function(event) {
+    console.error("Error al abrir el cursor:", event.target.error);
+  };
+}
 
 
 // Crear Cards para noticias
@@ -884,7 +970,6 @@ function crearTarjetas(numTarjetas) {
   let contador = 1; // Contador para el ID de las tarjetas
 
   for (let i = 0; i < numTarjetas; i++) {
-    // Creamos los elementos y configuramos sus atributos
     const divColSm12 = document.createElement('div');
     divColSm12.className = 'col-sm-12';
     divColSm12.id = `noticia${contador}`;
@@ -1198,17 +1283,54 @@ function appendUpToValor(id){
       if (noticia) {
         //noticia.valor = 'up';
         noticia.valor = noticia.valor === 'up' ? 'down' : 'up'; // Cambiar entre 'up' y 'down'
+        
         const updateRequest = objectStore.put(noticia);
-
+        
+       /* if (noticia.valor === 'up') {
+          Swal.fire({
+            title: 'Desea Publicar esta noticia?',
+            showDenyButton: true,
+            showCancelButton: false,
+            confirmButtonText: 'Si',
+          }).then((result) => {
+            if (result.isConfirmed) {
+              Swal.fire('Proceso exitoso', '', 'success');
+              noticia.className ="btn btnUpload";
+              noticia.valor = "down";
+              objectStore.put(noticia);
+            } else if (result.isDenied) {
+              
+            }
+          })
+        } else if (noticia.valor === 'down') {
+          Swal.fire({
+            title: 'Desea Quitar esta noticia?',
+            showDenyButton: true,
+            showCancelButton: false,
+            confirmButtonText: 'Si',
+          }).then((result) => {
+            if (result.isConfirmed) {
+              Swal.fire('Proceso exitoso', '', 'success');
+              noticia.className ="btn";
+              noticia.valor = "up";
+              objectStore.put(noticia);
+            } else if (result.isDenied) {
+              
+            }
+          })
+        }*/
+        
         updateRequest.onsuccess = function() {
-          console.log(`Campo 'valor' de la noticia con ID ${id} actualizado a 'up'`);
+          console.log(`Campo 'valor' de la noticia con ID ${id} actualizado a 'up'`);          
+        
         };
   
         updateRequest.onerror = function() {
           console.error('Error al actualizar el campo "valor" de la noticia');
         };
       } else {
-        console.error(`No se encontró la noticia con ID ${id}`);
+        //console.error(`No se encontró la noticia con ID ${id}`);
+
       }
     };
   
@@ -1217,25 +1339,14 @@ function appendUpToValor(id){
     };
   }
 
+  
 function refreshPage() {
     location.reload();
 }
-function showConfirmationPopup() {
-  var message = "¿Estás seguro de continuar?";
-  var result = window.confirm(message);
-
-  if (result) {
-      alert("Has elegido continuar.");
-  } else {
-      alert("Has cancelado la acción.");
-  }
-}
-
-
 
 function publicarNoticia(id){ 
   const idnoti = document.getElementById(id);
-  if(idnoti.value == 'Q'){
+  if(idnoti.valor == 'down'){
     Swal.fire({
       title: 'Desea Publicar esta noticia?',
       showDenyButton: true,
@@ -1245,13 +1356,13 @@ function publicarNoticia(id){
       if (result.isConfirmed) {
         Swal.fire('Proceso exitoso', '', 'success');
         idnoti.className ="btn btnUpload";
-        idnoti.value = "P"
+        idnoti.valor = "up";
       } else if (result.isDenied) {
         
       }
     })
   }
-  if(idnoti.value == 'P'){
+  if(idnoti.valor == 'up'){
     Swal.fire({
       title: 'Desea Quitar esta noticia?',
       showDenyButton: true,
@@ -1261,7 +1372,7 @@ function publicarNoticia(id){
       if (result.isConfirmed) {
         Swal.fire('Proceso exitoso', '', 'success');
         idnoti.className ="btn";
-        idnoti.value = "Q"
+        idnoti.valor = "down";
       } else if (result.isDenied) {
         
       }
@@ -1285,36 +1396,41 @@ function limpiarFormNoticias() {
 // --Cierra mostrar datos noticias--
 
 //Jalar datos del Administrador
+
 /*
 function obtenerUsuario(id) {
+  const transaction = db.transaction('Administrador', 'readonly');
+  const objectStore = transaction.objectStore('Administrador');
 
+  const requestGet = objectStore.get(1);
 
-    const transaction = db.transaction('Administrador', 'readonly');
-    const objectStore = transaction.objectStore('Administrador');
-
-    const requestGet = objectStore.get(id);
-
-    requestGet.onsuccess = function(event) {
+  requestGet.onsuccess = function(event) {
       const usuario = event.target.result;
 
       if (usuario) {
-        // Asignar los valores del usuario a los campos de los inputs
-        document.getElementById("nombre").value = usuario.nombre;
-        document.getElementById("apellidoPa").value = usuario.apellidoPa;
-        document.getElementById("apellidoMa").value = usuario.apellidoMa;
-        document.getElementById("instituto").value = usuario.instituto;
-        document.getElementById("edad").value = usuario.edad;
-        document.getElementById("contra").value = usuario.contra;
-        document.getElementById("telefono").value = usuario.telefono;
-        document.getElementById("correo").value = usuario.correo;
-        document.whiskeyForm.setAttribute('data-key', usuario.id);
+          document.getElementById("nombre").value = usuario.nombre;
+          document.getElementById("apellidoPa").value = usuario.apellidoPa;
+          document.getElementById("apellidoMa").value = usuario.apellidoMa;
+          document.getElementById("instituto").value = usuario.instituto;
+          document.getElementById("edad").value = usuario.edad;
+          document.getElementById("contra").value = usuario.contra;
+          document.getElementById("telefono").value = usuario.telefono;
+          document.getElementById("correo").value = usuario.correo;
+          //document.whiskeyForm.setAttribute('data-key', usuario.id);
       } else {
-        console.log('No se encontró el usuario con el ID especificado');
+          console.log('No se encontró el usuario con el ID especificado');
       }
-    };
+  };
 
-}
-*/
+  transaction.onerror = function(event) {
+      console.error('Error en la transacción:', event.target.error);
+  };
+
+  transaction.onabort = function(event) {
+      console.warn('Transacción abortada:', event.target.error);
+  };
+}*/
+
 /*
 function abrirBaseDatos() {
   const request = indexedDB.open('Janal', 1);
@@ -1337,7 +1453,7 @@ function abrirBaseDatos() {
  
 function guardarCambiosNoticia(idd) {
   const id = parseInt(idd);
-  console.log("ddd", id);
+  //console.log("ddd", id);
   const titulo = document.getElementById('titulo').value;
   const cuerpo = document.getElementById('noticia').value;
   const imagenBase64 = document.getElementById('img-result').src.split(',')[1];
@@ -1388,7 +1504,7 @@ function guardarCambiosNoticia(idd) {
 
     transaction.oncomplete = function (event) {
       console.log('Transacción completada.');
-      db.close();
+      // db.close();
     };
     
   };
@@ -1449,6 +1565,26 @@ function verificarPasswords() {
 }
 //return true;
 }
+
+function compararContrasenias() {
+  const contra1 = document.getElementById('contra-encuestado').value;
+  const contra2 = document.getElementById('contra-encuestado2').value;
+
+  if (contra1 !== contra2) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Las contraseñas no coinciden',
+      text: 'Por favor, asegúrate de que las contraseñas sean iguales.',
+      confirmButtonText: 'Aceptar'
+    });
+
+    // Reinicia el formulario
+    document.getElementById('formEncuestado').reset();
+  } else {
+    agregarUsuario(); 
+  }
+}
+
 
 // validar que los campos esten completos y evitar registro
 function validar(){
@@ -2025,65 +2161,55 @@ function manejadorValidacion(e) {
     }
 
 
-    function EncuestaVistaPV2(){
+    function EncuestaVistaPV2() {
       var transaction = db.transaction(["Encuesta"], "readwrite");
       var objectStore = transaction.objectStore("Encuesta");
       var index = objectStore.index("EncuestaTitulo");
       var index2 = objectStore.index("EncuestaObjetivo");
       var index3 = objectStore.index("EncuestaInstruccion");
       var newestItem = null;
-      var newestItem2 = null
-      var newestItem3 = null
-      var newestItem4 = null
-// Crear un cursor para recorrer los objetos en el índice
-        var request = index.openCursor(null,'prev');
-        var request = index2.openCursor(null,'prev');
-        var request = index3.openCursor(null,'prev');
-      request.onsuccess = function(event) {
+      var newestItem2 = null;
+      var newestItem3 = null;
+    
+      var request = index.openCursor(null, 'prev');
+      request.onsuccess = function (event) {
         var cursor = event.target.result;
-        newestItem4 = cursor.value.TituloE;
-
-      if (!newestItem || Titulo.fechaCreacionE > newestItem.fechaCreacionE && !newestItem2 || floatingTextarea2.fechaCreacionE > newestItem2.fechaCreacionE  && !newestItem3 || floatingTextarea21.fechaCreacionE > newestItem3.fechaCreacionE ) {
-       newestItem = Titulo;
-       newestItem2 = floatingTextarea2;
-       newestItem3 = floatingTextarea21;
-       //newestItem4 = TituloE;
-       //newestItem3 = cursor.value.Instrucciones;
-        cursor.continue();
-      }
-      else {
-        var cadena ="<table>";
-        cadena += "<table class='table'>";
-        cadena += "<div class='row'>";
-        cadena += "<div class='col'>";
-        cadena += "<h5>Título:</h5>";
-        cadena += "<p>" + newestItem + "</p>";
-        cadena += "</div>";
-        cadena += "<div class='row'>";
-        cadena += "<div class='col'>";
-        cadena += "<h5>Objetivo:</h5>";
-        cadena += "<p>" + newestItem2 + "</p>";
-        cadena += "</div>";
-        cadena += "<div class='row'>";
-        cadena += "<div class='col'>";
-        cadena += "<h5>Instrucciones:</h5>";
-        cadena += "<p>" + newestItem3 + "</p>";
-        cadena += "</div>";
-        cadena += "</div>";
-        cadena += "</table>";
-        // Mostrar el objeto más reciente en la pantalla
-        console.log(newestItem);
-        console.log(newestItem4);
-        console.log(newestItem2);
-        cadena += "</table>";
-        document.getElementById("Encabezado").innerHTML = cadena;
-        
-
-}
-
-};
-
-}
+    
+        if (cursor) {
+          var currentItem = cursor.value;
+    
+          if (!newestItem || currentItem.fechaCreacionE > newestItem.fechaCreacionE) {
+            newestItem = currentItem;
+            newestItem2 = cursor.value.Objetivo;
+            newestItem3 = cursor.value.Instrucciones;
+    
+            cursor.continue();
+          } else {
+            var cadena = "<table>";
+            cadena += "<table class='table'>";
+            cadena += "<div class='row'>";
+            cadena += "<div class='col'>";
+            cadena += "<h5>Título:</h5>";
+            cadena += "<p>" + newestItem.Titulo + "</p>";
+            cadena += "</div>";
+            cadena += "<div class='row'>";
+            cadena += "<div class='col'>";
+            cadena += "<h5>Objetivo:</h5>";
+            cadena += "<p>" + newestItem2 + "</p>";
+            cadena += "</div>";
+            cadena += "<div class='row'>";
+            cadena += "<div class='col'>";
+            cadena += "<h5>Instrucciones:</h5>";
+            cadena += "<p>" + newestItem3 + "</p>";
+            cadena += "</div>";
+            cadena += "</div>";
+            cadena += "</table>";
+    
+            document.getElementById("Encabezado").innerHTML = cadena;
+          }
+        }
+      };
+    }
 
 
 
@@ -2202,6 +2328,9 @@ function mostrarVarSelec() {
   };
   EncuestaVarMostrar(encuestaVarId)
 }
+// document.addEventListener("DOMContentLoaded", function() {
+//   buscarE();
+// });
 
       function buscarE() {
         var cadena = "<table class='table table-bordered'>";
@@ -2389,147 +2518,316 @@ function mostrarVarSelec() {
       
 
       
-      function abrirPestanaConFormulario(IdEn) {
-        var nuevaPestana = window.open("", "_blank");
+    //   function abrirPestanaConFormulario(IdEn) {
+    //     var nuevaPestana = window.open("", "_blank");
       
-        nuevaPestana.document.write(`
-          <!DOCTYPE html>
-          <html lang="en">
-          <head>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-            <title>Encuesta</title>
-          </head>
-          <body>
-            <div class="container mt-3">
-              <div class="card">
-                <div class="card-header bg-light">
-                  <h2 class="text-center" id="tituloEncuesta"></h2>
-                </div>
-                <div class="card-body" id="contenidoEncuesta">
-                  <!-- Aquí se agregará el contenido de la encuesta -->
-                </div>
+    //     nuevaPestana.document.write(`
+    //       <!DOCTYPE html>
+    //       <html lang="en">
+    //       <head>
+    //         <meta charset="UTF-8">
+    //         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    //         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    //         <title>Encuesta</title>
+    //       </head>
+    //       <body>
+    //         <div class="container mt-3">
+    //           <div class="card">
+    //             <div class="card-header bg-light">
+    //               <h2 class="text-center" id="tituloEncuesta"></h2>
+    //             </div>
+    //             <div class="card-body" id="contenidoEncuesta">
+    //               <!-- Aquí se agregará el contenido de la encuesta -->
+    //             </div>
+    //           </div>
+    //         </div>
+    //       </body>
+    //       </html>
+    //     `);
+      
+    //     var tituloEncuesta = nuevaPestana.document.getElementById("tituloEncuesta");
+    //     var contenidoEncuesta = nuevaPestana.document.getElementById("contenidoEncuesta");
+      
+    //     var transaction = db.transaction("Encuesta", "readonly");
+    //     var encuestaObjectStore = transaction.objectStore("Encuesta");
+    //     var encuestaRequest = encuestaObjectStore.get(parseInt(IdEn));
+      
+    //     encuestaRequest.onsuccess = function(event) {
+    //       var encuesta = event.target.result;
+    //       if (encuesta) {
+    //         tituloEncuesta.textContent = encuesta.Titulo;
+      
+    //         var reactivosObjectStore = db.transaction("EncuestaFinal", "readonly").objectStore("EncuestaFinal");
+    //         var reactivosRequest = reactivosObjectStore.getAll();
+      
+    //         reactivosRequest.onsuccess = function(event) {
+    //           var reactivos = event.target.result;
+    //           if (reactivos) {
+    //             var reactivosFiltrados = reactivos.filter(function(reactivo) {
+    //               return reactivo.encuestaId === parseInt(IdEn);
+    //             });
+      
+    //             reactivosFiltrados.forEach(function(reactivo) {
+    //               var reactivoDiv = nuevaPestana.document.createElement("div");
+    //               reactivoDiv.innerHTML = `
+    //                 <h5>${reactivo.reactivoId}</h5>
+    //               `;
+    //               contenidoEncuesta.appendChild(reactivoDiv);
+      
+    //               var tipoRespuesta = reactivo.TipoRes;
+      
+    //               if (tipoRespuesta === 1) {
+    //                 var preguntaInput = nuevaPestana.document.createElement("input");
+    //                 preguntaInput.setAttribute("type", "text");
+    //                 preguntaInput.classList.add("form-control");
+    //                 contenidoEncuesta.appendChild(preguntaInput);
+    //                 contenidoEncuesta.appendChild(nuevaPestana.document.createElement("br"));
+    //               } else if (tipoRespuesta === 2) {
+    //                 var respuestas = ["Sí", "No"];
+    //                 for (var i = 0; i < respuestas.length; i++) {
+    //                   var respuestaDiv = nuevaPestana.document.createElement("div");
+    //                   respuestaDiv.classList.add("form-check", "form-check-inline", "col-md-4");
+      
+    //                   var respuestaLabel = nuevaPestana.document.createElement("label");
+    //                   var respuestaInput = nuevaPestana.document.createElement("input");
+    //                   respuestaInput.setAttribute("type", "radio");
+    //                   respuestaInput.setAttribute("name", "respuesta");
+    //                   respuestaInput.setAttribute("value", respuestas[i]);
+    //                   respuestaInput.classList.add("form-check-input");
+      
+    //                   respuestaLabel.textContent = respuestas[i];
+    //                   respuestaLabel.classList.add("form-check-label", "form-check-inline");
+      
+    //                   respuestaDiv.appendChild(respuestaInput);
+    //                   respuestaDiv.appendChild(respuestaLabel);
+      
+    //                   respuestaDiv.appendChild(nuevaPestana.document.createElement("br"));
+      
+    //                   contenidoEncuesta.appendChild(respuestaDiv);
+    //                 }
+    //               }  else if (tipoRespuesta === 3 || tipoRespuesta === 4) {
+    //                 var respuestasDiv = nuevaPestana.document.createElement("div");
+    //                 respuestasDiv.classList.add("col-md-4");
+                  
+    //                 var objectStoreReOpM = db.transaction("ReOpM").objectStore("ReOpM");
+    //                 objectStoreReOpM.openCursor().onsuccess = function(event) {
+    //                   var cursorReOpM = event.target.result;
+    //                   if (cursorReOpM) {
+    //                     if (cursorReOpM.value.Reactivo === reactivo.reactivoId) {
+    //                       var matchingReOpM = cursorReOpM.value;
+    //                       var respuestas = [
+    //                         matchingReOpM.Respuesta,
+    //                         matchingReOpM.Respuesta2,
+    //                         matchingReOpM.Respuesta3,
+    //                         matchingReOpM.Respuesta4,
+    //                         matchingReOpM.Respuesta5
+    //                       ];
+                  
+    //                       respuestas.forEach(function(opcion, index) {
+    //                         if (opcion !== "") {
+    //                           var respuestaLabel = nuevaPestana.document.createElement("label");
+    //                           var respuestaInput = nuevaPestana.document.createElement("input");
+                  
+    //                           respuestaInput.classList.add("form-check-input");
+    //                           respuestaLabel.textContent = opcion;
+    //                           respuestaLabel.classList.add("form-check-label", "form-check-inline");
+                  
+    //                           if (tipoRespuesta === 3) {
+    //                             respuestaInput.setAttribute("type", "checkbox");
+    //                             respuestaInput.setAttribute("name", "respuesta_" + reactivo.reactivoId + "_checkbox_" + index); // Sufijo '_checkbox' para checkboxes
+    //                           } else if (tipoRespuesta === 4) {
+    //                             respuestaInput.setAttribute("type", "radio");
+    //                             respuestaInput.setAttribute("name", "respuesta_" + reactivo.reactivoId + "_radio"); // Sin sufijo para radio buttons
+    //                           }
+                  
+    //                           var respuestaDivIndividual = nuevaPestana.document.createElement("div");
+    //                           respuestaDivIndividual.appendChild(respuestaInput);
+    //                           respuestaDivIndividual.appendChild(respuestaLabel);
+                  
+    //                           respuestasDiv.appendChild(respuestaDivIndividual);
+    //                         }
+    //                       });
+    //                     }
+    //                     cursorReOpM.continue();
+    //                   }
+    //                 };
+                  
+    //                 contenidoEncuesta.appendChild(respuestasDiv);
+    //               }
+    //           });
+    //         }
+    //       }
+    //     }
+    //   };
+    // }
+
+    function abrirPestanaConFormulario(IdEn) {
+      // Generar el contenido HTML dinámico aquí
+      var dynamicHtml = `
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+          <meta charset="UTF-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+          <title>Encuesta</title>
+        </head>
+        <body>
+          <div class="container mt-3">
+            <div class="card">
+              <div class="card-header bg-light">
+                <h2 class="text-center" id="tituloEncuesta"></h2>
+              </div>
+              <div class="card-body" id="contenidoEncuesta">
+                <!-- Aquí se agregará el contenido de la encuesta -->
               </div>
             </div>
-          </body>
-          </html>
-        `);
-      
+          </div>
+        </body>
+        </html>
+      `;
+    
+      const cacheName = 'formulario-cache';
+      const cacheKey = `formulario-${IdEn}`;
+      const htmlResponse = new Response(dynamicHtml, {
+        headers: { 'Content-Type': 'text/html' }
+      });
+    
+      caches.open(cacheName).then(cache => {
+        cache.put(cacheKey, htmlResponse);
+      });
+    
+      var nuevaPestana = window.open("", "_blank");
+    
+      nuevaPestana.document.write(dynamicHtml);
+    
+      nuevaPestana.document.addEventListener('DOMContentLoaded', function() {
         var tituloEncuesta = nuevaPestana.document.getElementById("tituloEncuesta");
         var contenidoEncuesta = nuevaPestana.document.getElementById("contenidoEncuesta");
-      
-        var transaction = db.transaction("Encuesta", "readonly");
-        var encuestaObjectStore = transaction.objectStore("Encuesta");
-        var encuestaRequest = encuestaObjectStore.get(parseInt(IdEn));
-      
-        encuestaRequest.onsuccess = function(event) {
-          var encuesta = event.target.result;
-          if (encuesta) {
-            tituloEncuesta.textContent = encuesta.Titulo;
-      
-            var reactivosObjectStore = db.transaction("EncuestaFinal", "readonly").objectStore("EncuestaFinal");
-            var reactivosRequest = reactivosObjectStore.getAll();
-      
-            reactivosRequest.onsuccess = function(event) {
-              var reactivos = event.target.result;
-              if (reactivos) {
-                var reactivosFiltrados = reactivos.filter(function(reactivo) {
-                  return reactivo.encuestaId === parseInt(IdEn);
-                });
-      
-                reactivosFiltrados.forEach(function(reactivo) {
-                  var reactivoDiv = nuevaPestana.document.createElement("div");
-                  reactivoDiv.innerHTML = `
-                    <h5>${reactivo.reactivoId}</h5>
-                  `;
-                  contenidoEncuesta.appendChild(reactivoDiv);
-      
-                  var tipoRespuesta = reactivo.TipoRes;
-      
-                  if (tipoRespuesta === 1) {
-                    var preguntaInput = nuevaPestana.document.createElement("input");
-                    preguntaInput.setAttribute("type", "text");
-                    preguntaInput.classList.add("form-control");
-                    contenidoEncuesta.appendChild(preguntaInput);
-                    contenidoEncuesta.appendChild(nuevaPestana.document.createElement("br"));
-                  } else if (tipoRespuesta === 2) {
-                    var respuestas = ["Sí", "No"];
-                    for (var i = 0; i < respuestas.length; i++) {
-                      var respuestaDiv = nuevaPestana.document.createElement("div");
-                      respuestaDiv.classList.add("form-check", "form-check-inline", "col-md-4");
-      
-                      var respuestaLabel = nuevaPestana.document.createElement("label");
-                      var respuestaInput = nuevaPestana.document.createElement("input");
-                      respuestaInput.setAttribute("type", "radio");
-                      respuestaInput.setAttribute("name", "respuesta");
-                      respuestaInput.setAttribute("value", respuestas[i]);
-                      respuestaInput.classList.add("form-check-input");
-      
-                      respuestaLabel.textContent = respuestas[i];
-                      respuestaLabel.classList.add("form-check-label", "form-check-inline");
-      
-                      respuestaDiv.appendChild(respuestaInput);
-                      respuestaDiv.appendChild(respuestaLabel);
-      
-                      respuestaDiv.appendChild(nuevaPestana.document.createElement("br"));
-      
-                      contenidoEncuesta.appendChild(respuestaDiv);
-                    }
-                  }  else if (tipoRespuesta === 3 || tipoRespuesta === 4) {
-                    var respuestasDiv = nuevaPestana.document.createElement("div");
-                    respuestasDiv.classList.add("col-md-4");
-                  
-                    var objectStoreReOpM = db.transaction("ReOpM").objectStore("ReOpM");
-                    objectStoreReOpM.openCursor().onsuccess = function(event) {
-                      var cursorReOpM = event.target.result;
-                      if (cursorReOpM) {
-                        if (cursorReOpM.value.Reactivo === reactivo.reactivoId) {
-                          var matchingReOpM = cursorReOpM.value;
-                          var respuestas = [
-                            matchingReOpM.Respuesta,
-                            matchingReOpM.Respuesta2,
-                            matchingReOpM.Respuesta3,
-                            matchingReOpM.Respuesta4,
-                            matchingReOpM.Respuesta5
-                          ];
-                  
-                          respuestas.forEach(function(opcion, index) {
-                            if (opcion !== "") {
-                              var respuestaLabel = nuevaPestana.document.createElement("label");
-                              var respuestaInput = nuevaPestana.document.createElement("input");
-                  
-                              respuestaInput.classList.add("form-check-input");
-                              respuestaLabel.textContent = opcion;
-                              respuestaLabel.classList.add("form-check-label", "form-check-inline");
-                  
-                              if (tipoRespuesta === 3) {
-                                respuestaInput.setAttribute("type", "checkbox");
-                                respuestaInput.setAttribute("name", "respuesta_" + reactivo.reactivoId + "_checkbox_" + index); // Sufijo '_checkbox' para checkboxes
-                              } else if (tipoRespuesta === 4) {
-                                respuestaInput.setAttribute("type", "radio");
-                                respuestaInput.setAttribute("name", "respuesta_" + reactivo.reactivoId + "_radio"); // Sin sufijo para radio buttons
-                              }
-                  
-                              var respuestaDivIndividual = nuevaPestana.document.createElement("div");
-                              respuestaDivIndividual.appendChild(respuestaInput);
-                              respuestaDivIndividual.appendChild(respuestaLabel);
-                  
-                              respuestasDiv.appendChild(respuestaDivIndividual);
-                            }
-                          });
-                        }
-                        cursorReOpM.continue();
+    
+        var transaction = indexedDB.open('Janal');
+    
+        transaction.onsuccess = function(event) {
+          var db = event.target.result;
+    
+          var encuestaObjectStore = db.transaction("Encuesta", "readonly").objectStore("Encuesta");
+          var encuestaRequest = encuestaObjectStore.get(parseInt(IdEn));
+    
+          encuestaRequest.onsuccess = function(event) {
+            var encuesta = event.target.result;
+            if (encuesta) {
+              tituloEncuesta.textContent = encuesta.Titulo;
+    
+              var reactivosObjectStore = db.transaction("Encuesta_Final", "readonly").objectStore("Encuesta_Final");
+              var reactivosRequest = reactivosObjectStore.getAll(); 
+    
+              reactivosRequest.onsuccess = function(event) {
+                var reactivos = event.target.result;
+                if (reactivos) {
+                  var reactivosFiltrados = reactivos.filter(function(reactivo) {
+                    return reactivo.encuestaId === parseInt(IdEn);
+                  });
+    
+                  reactivosFiltrados.forEach(function(reactivo) {
+                    var reactivoDiv = nuevaPestana.document.createElement("div");
+                    reactivoDiv.innerHTML = `
+                      <h5>${reactivo.reactivoId}</h5>
+                    `;
+                    contenidoEncuesta.appendChild(reactivoDiv);
+    
+                    var tipoRespuesta = reactivo.TipoRes;
+    
+                    if (tipoRespuesta === 1) {
+                      var preguntaInput = nuevaPestana.document.createElement("input");
+                      preguntaInput.setAttribute("type", "text");
+                      preguntaInput.classList.add("form-control");
+                      contenidoEncuesta.appendChild(preguntaInput);
+                      contenidoEncuesta.appendChild(nuevaPestana.document.createElement("br"));
+                    } else if (tipoRespuesta === 2) {
+                      var respuestas = ["Sí", "No"];
+                      for (var i = 0; i < respuestas.length; i++) {
+                        var respuestaDiv = nuevaPestana.document.createElement("div");
+                        respuestaDiv.classList.add("form-check", "form-check-inline", "col-md-4");
+    
+                        var respuestaLabel = nuevaPestana.document.createElement("label");
+                        var respuestaInput = nuevaPestana.document.createElement("input");
+                        respuestaInput.setAttribute("type", "radio");
+                        respuestaInput.setAttribute("name", "respuesta");
+                        respuestaInput.setAttribute("value", respuestas[i]);
+                        respuestaInput.classList.add("form-check-input");
+    
+                        respuestaLabel.textContent = respuestas[i];
+                        respuestaLabel.classList.add("form-check-label", "form-check-inline");
+    
+                        respuestaDiv.appendChild(respuestaInput);
+                        respuestaDiv.appendChild(respuestaLabel);
+    
+                        respuestaDiv.appendChild(nuevaPestana.document.createElement("br"));
+    
+                        contenidoEncuesta.appendChild(respuestaDiv);
                       }
-                    };
-                  
-                    contenidoEncuesta.appendChild(respuestasDiv);
-                  }
-              });
+                    } else if (tipoRespuesta === 3 || tipoRespuesta === 4) {
+                      var respuestasDiv = nuevaPestana.document.createElement("div");
+                      respuestasDiv.classList.add("col-md-4");
+    
+                      var objectStoreReOpM = db.transaction("ReOpM").objectStore("ReOpM");
+                      objectStoreReOpM.openCursor().onsuccess = function(event) {
+                        var cursorReOpM = event.target.result;
+                        if (cursorReOpM) {
+                          if (cursorReOpM.value.Reactivo === reactivo.reactivoId) {
+                            var matchingReOpM = cursorReOpM.value;
+                            var respuestas = [
+                              matchingReOpM.Respuesta,
+                              matchingReOpM.Respuesta2,
+                              matchingReOpM.Respuesta3,
+                              matchingReOpM.Respuesta4,
+                              matchingReOpM.Respuesta5
+                            ];
+    
+                            respuestas.forEach(function(opcion, index) {
+                              if (opcion !== "") {
+                                var respuestaLabel = nuevaPestana.document.createElement("label");
+                                var respuestaInput = nuevaPestana.document.createElement("input");
+    
+                                respuestaInput.classList.add("form-check-input");
+                                respuestaLabel.textContent = opcion;
+                                respuestaLabel.classList.add("form-check-label", "form-check-inline");
+    
+                                if (tipoRespuesta === 3) {
+                                  respuestaInput.setAttribute("type", "checkbox");
+                                  respuestaInput.setAttribute("name", "respuesta_" + reactivo.reactivoId + "_checkbox_" + index); // Sufijo '_checkbox' para checkboxes
+                                } else if (tipoRespuesta === 4) {
+                                  respuestaInput.setAttribute("type", "radio");
+                                  respuestaInput.setAttribute("name", "respuesta_" + reactivo.reactivoId + "_radio"); // Sin sufijo para radio buttons
+                                }
+    
+                                var respuestaDivIndividual = nuevaPestana.document.createElement("div");
+                                respuestaDivIndividual.appendChild(respuestaInput);
+                                respuestaDivIndividual.appendChild(respuestaLabel);
+    
+                                respuestasDiv.appendChild(respuestaDivIndividual);
+                              }
+                            });
+                          }
+                          cursorReOpM.continue();
+                        }
+                      };
+    
+                      contenidoEncuesta.appendChild(respuestasDiv);
+                    }
+                  });
+                }
+                console.log("Reactivos cargados correctamente.");
+              };
             }
-          }
-        }
-      };
+            console.log("Encuesta cargada correctamente.");
+          };
+        };
+    
+        transaction.onerror = function(event) {
+          console.error("Error al abrir la base de datos: " + event.target.errorCode);
+        };
+      });
     }
       function buscarEVar() {
         var cadena = "<table class='table table-bordered'>";
@@ -3805,69 +4103,83 @@ function mostrarPreguntas() {
   var encuestaId;
 
 
-function crearEncuestaFinal() {
-  var creador = document.getElementById("aqui").value;
-  var Titulo = document.getElementById("Titulo").value.trim();
-  var Objetivo = document.getElementById("floatingTextarea2").value.trim();
-  var Instrucciones = document.getElementById('floatingTextarea21').value.trim();
-  var fechaCreacionE = Date.now(); // Obtener la fecha actual en milisegundos
+  var encuestaId;
 
-  var form = document.getElementById('formulario');
 
-  form.addEventListener('submit', async function(eve) {
-    eve.preventDefault();
-
-    var request = db.transaction(["Encuesta"], "readwrite")
-      .objectStore("Encuesta")
-      .add({
-        creador: creador,
-        Titulo: Titulo,
-        Objetivo: Objetivo,
-        Instrucciones: Instrucciones,
-        fechaCreacionER: fechaCreacionER
-      });
-
-    request.onsuccess = async function(e) {
-      encuestaId = e.target.result;
-      console.log("Encuesta creada con id: ", encuestaId, Titulo);
-      var reactivosSeleccionados = await obtenerReactivosSeleccionados() 
-     
-      var tx = db.transaction(["EncuestaFinal"], "readwrite");
-      var store = tx.objectStore("EncuestaFinal");
-
-      reactivosSeleccionados.forEach(function(reactivo) {
-        store.add({
-          encuestaId: encuestaId,
-          reactivoId: reactivo.id2,
-          TipoRes: reactivo.TipoRes
+  function crearEncuestaFinal() {
+    var creador = document.getElementById("aqui").value;
+    var Titulo = document.getElementById("Titulo").value.trim();
+    var Objetivo = document.getElementById("floatingTextarea2").value.trim();
+    var Instrucciones = document.getElementById('floatingTextarea21').value.trim();
+    var fechaCreacionE = Date.now(); // Obtener la fecha actual en milisegundos
+  
+    var form = document.getElementById('formulario');
+  
+    form.addEventListener('submit', async function(eve) {
+      eve.preventDefault();
+  
+      var request = db.transaction(["Encuesta"], "readwrite")
+        .objectStore("Encuesta")
+        .add({
+          creador: creador,
+          Titulo: Titulo,
+          Objetivo: Objetivo,
+          Instrucciones: Instrucciones,
+          fechaCreacionE: fechaCreacionE
         });
-      });
-      
-      tx.oncomplete = function() {
-        console.log("Relación entre la encuesta y los reactivos creada correctamente");
+  
+      request.onsuccess = async function(e) {
+        encuestaId = e.target.result;
+        console.log("Encuesta creada con id:", encuestaId, "Título:", Titulo);
+        var reactivosSeleccionados = await obtenerReactivosSeleccionados();
+  
+        var tx = db.transaction(["EncuestaFinal"], "readwrite");
+        tx.oncomplete = function() {
+          console.log("Transacción de EncuestaFinal completada");
+        };
+        tx.onerror = function(event) {
+          console.error("Error en la transacción de EncuestaFinal:", event.target.errorCode);
+        };
+  
+        var store = tx.objectStore("EncuestaFinal");
+        reactivosSeleccionados.forEach(function(reactivo) {
+          var addRequest = store.add({
+            encuestaId: encuestaId,
+            reactivoId: reactivo.id2,
+            TipoRes: reactivo.TipoRes
+          });
+          addRequest.onerror = function(event) {
+            console.error("Error al agregar en el almacén de EncuestaFinal:", event.target.errorCode);
+          };
+        });
+  
+        tx.oncomplete = function() {
+          console.log("Relación entre la encuesta y los reactivos creada correctamente");
+        };
+  
+        Swal.fire({
+          title: "Acción exitosa",
+          text: "La encuesta se ha creado correctamente.",
+          icon: "success",
+          timer: 4000, // Mostrar el aviso por 3 segundos
+          showConfirmButton: true,
+          timerProgressBar: true,
+          confirmButtonColor: '#3085d6',
+          confirmButtonText: 'Okay'
+        }).then(function() {
+          // Aquí puedes agregar el código que debe ejecutarse después de que el aviso desaparezca
+          buscarE();
+          EncuestaVistaPV2();
+        });
       };
-
-      Swal.fire({
-        title: "Acción exitosa",
-        text: "La encuesta se ha creado correctamente.",
-        icon: "success",
-        timer: 4000, // Mostrar el aviso por 3 segundos
-        showConfirmButton: true,
-        timerProgressBar: true,
-        confirmButtonColor: '#3085d6',
-        confirmButtonText: 'Okay'
-      }).then(function() {
-        // Aquí puedes agregar el código que debe ejecutarse después de que el aviso desaparezca
-        buscarE();
-        EncuestaVistaPV2();
-      });
-    };
-  });
-}
+    });
+  }
 
 async function obtenerReactivosSeleccionados() {
   var reactivosSeleccionados = [];
   var checkboxes = document.querySelectorAll("input[type='checkbox'][id^='s']:checked");
+
+  console.log("Total de checkboxes seleccionados:", checkboxes.length);
 
   var transaction = db.transaction(["preguntaReactivos"], "readonly");
   var objectStore = transaction.objectStore("preguntaReactivos");
@@ -3879,6 +4191,7 @@ async function obtenerReactivosSeleccionados() {
       if (cursor) {
         var id2 = cursor.value.id2;
         var TipoRes = cursor.value.TipoRes;
+        console.log("Obteniendo reactivo:", id2, TipoRes);
         if (!reactivosSeleccionados.some(item => item.id2 === id2)) {
           if (contieneCheckboxId(checkboxes, id2)) {
             reactivosSeleccionados.push({ id2, TipoRes });
@@ -3886,6 +4199,7 @@ async function obtenerReactivosSeleccionados() {
         }
         cursor.continue();
       } else {
+        console.log("Reactivos seleccionados:", reactivosSeleccionados);
         resolve();
       }
     };
@@ -3902,7 +4216,6 @@ function contieneCheckboxId(checkboxes, id) {
   }
   return false;
 }
-
 // Función para mostrar en el formulario los reactivos de una encuesta específica
 
 
@@ -4801,17 +5114,17 @@ function editarLogo(imageDataUrl) {
   });
 }
 
-async function guardarDatos() {
-  try {
-    await validarImagenLogo();
-    await editarLogo(imageDataUrl);
-    // Ambas funciones se han completado con éxito, ahora recargamos la página.
-    location.reload();
-  } catch (error) {
-    // Si hay algún error en alguna de las funciones, mostramos el mensaje de error.
-    console.error("Error al guardar los datos:", error);
-  }
-}
+// async function guardarDatos() {
+//   try {
+//     await validarImagenLogo();
+//     await editarLogo(imageDataUrl);
+//     // Ambas funciones se han completado con éxito, ahora recargamos la página.
+//     location.reload();
+//   } catch (error) {
+//     // Si hay algún error en alguna de las funciones, mostramos el mensaje de error.
+//     console.error("Error al guardar los datos:", error);
+//   }
+// }
 
 function MostrarLogo() {
   var datosUsuario = localStorage.getItem("datosUsuario");
@@ -4920,7 +5233,7 @@ function exportarAJSON() {
 
 
 
-//Actualicar almacen 
+// Actualicar almacen 
 function actualizarAlmacenPreguntaReactivos() {
   var tx = db.transaction("preguntaReactivos", "readonly");
   var storePreguntaReactivos = tx.objectStore("preguntaReactivos");
