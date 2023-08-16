@@ -196,7 +196,6 @@ var ObjectStoreReac;
       
     });
 
-<<<<<<< HEAD
 // registro de datos
 //-----------------------------------------------------------------------------------------------------------------------
 //     document.formEncuestado.addEventListener('submit',(ev)=>{
@@ -334,9 +333,6 @@ var ObjectStoreReac;
 // })
 document.formEncuestado.addEventListener('submit',(ev)=>{
         
-=======
-document.formEncuestado.addEventListener('submit',(ev)=>{        
->>>>>>> e9dc38b9063ebf9d8fdafd68569da03705d6d949
   ev.preventDefault();
   var correo = document.getElementById('Correo').value.trim();
   var Contrasenia = document.getElementById('Contrasenia').value.trim();
@@ -4134,14 +4130,9 @@ function mostrarPreguntas() {
         var reactivosSeleccionados = await obtenerReactivosSeleccionados();
   
         var tx = db.transaction(["EncuestaFinal"], "readwrite");
-        tx.oncomplete = function() {
-          console.log("Transacción de EncuestaFinal completada");
-        };
-        tx.onerror = function(event) {
-          console.error("Error en la transacción de EncuestaFinal:", event.target.errorCode);
-        };
-  
         var store = tx.objectStore("EncuestaFinal");
+
+  
         reactivosSeleccionados.forEach(function(reactivo) {
           var addRequest = store.add({
             encuestaId: encuestaId,
@@ -4155,6 +4146,10 @@ function mostrarPreguntas() {
   
         tx.oncomplete = function() {
           console.log("Relación entre la encuesta y los reactivos creada correctamente");
+        };
+        
+        tx.onerror = function(event) {
+          console.error("Error en la transacción de EncuestaFinal:", event.target.errorCode);
         };
   
         Swal.fire({
@@ -4193,7 +4188,7 @@ async function obtenerReactivosSeleccionados() {
         var TipoRes = cursor.value.TipoRes;
         console.log("Obteniendo reactivo:", id2, TipoRes);
         if (!reactivosSeleccionados.some(item => item.id2 === id2)) {
-          if (contieneCheckboxId(checkboxes, id2)) {
+          if (contieneCheckboxId(checkboxes, id2,TipoRes)) {
             reactivosSeleccionados.push({ id2, TipoRes });
           }
         }
@@ -4656,7 +4651,7 @@ async function obtenerVariablesSeleccionados() {
       var cursor = event.target.result;
       if (cursor) {
         var valor = cursor.value.VariablesId;
-        if (!VariablesSeleccionados.includes(valor) && contieneCheckboxId(checkboxes, valor)) {
+        if (!VariablesSeleccionados.includes(valor) && contieneCheckboxIdVAR(checkboxes, valor)) {
           VariablesSeleccionados.push(valor);
         }
         cursor.continue();
@@ -4669,7 +4664,7 @@ async function obtenerVariablesSeleccionados() {
   return VariablesSeleccionados;
 }
 
-function contieneCheckboxId(checkboxes, id) {
+function contieneCheckboxIdVAR(checkboxes, id) {
   for (var i = 0; i < checkboxes.length; i++) {
     if (checkboxes[i].id === 'sV' + id) {
       return true;
