@@ -122,7 +122,6 @@ var ObjectStoreReac;
      
       db= ev.target.result;
       EncuestaVistaPV2()
-<<<<<<< HEAD
     
       mostrarVarSelec()
      
@@ -133,12 +132,6 @@ var ObjectStoreReac;
       buscar()
      
       //mostrarVarSelec() 
-=======
-      reactivoscrear()
-      buscar()
-      Encuesta1()
-      mostrarVarSelec() 
->>>>>>> b5716a3f2c1af3082e55377d4c0cf1a768569ff8
       EncuestaVarMostrar()
    EncuestaVarMostrar(encuestaVarId)
 
@@ -210,7 +203,6 @@ var ObjectStoreReac;
 //-----------------------------------------------------------------------------------------------------------------------
 //     document.formEncuestado.addEventListener('submit',(ev)=>{
         
-<<<<<<< HEAD
 //         ev.preventDefault();
    
 //         var correo = document.getElementById('Correo').value.trim();
@@ -226,26 +218,6 @@ var ObjectStoreReac;
 //         // var Proce= document.getElementById('procedencia').value.trim();
 //         var Telefono = document.getElementById('tel').value.trim();
    
-=======
-        ev.preventDefault();
-        var correo = document.getElementById('Correo').value.trim();
-        var Contrasenia = document.getElementById('Contrasenia').value.trim();
-        var Contrasenia2 = document.getElementById('Contrasenia2').value.trim();
-        var Nombre= document.getElementById('nombrecompletos').value.trim();
-        var ApellidoP = document.getElementById('apellidopaterno').value.trim();
-        var ApellidoM= document.getElementById('apellidomaterno').value.trim();
-        var generoSeleccionado = '';
-        var genero1 = document.getElementById('inlineRadio1');
-        var genero2 = document.getElementById('inlineRadio2');
-        var Edad= document.getElementById('edad').value.trim();
-        // var Proce= document.getElementById('procedencia').value.trim();
-        var Telefono = document.getElementById('tel').value.trim();
-        // var localidad =document.getElementById('localidad').value.trim();
-        // var ciudad =document.getElementById('cuidad').value.trim();
-        // var Municipio =document.getElementById('municipio').value.trim();
-        // var Encuestado = document.getElementById('estado').value.trim();
-        // var telefono = document.getElementById('tel-encuestado').value.trim();
->>>>>>> 771b2c2c9c9164e4198f5a4bf5ddfb791c7ecb1f
 
 //       if (genero1.checked) {
 //         generoSeleccionado = genero1.value;
@@ -2267,7 +2239,6 @@ function mostrarVarSelec() {
         };
       }
       
-<<<<<<< HEAD
       function buscarEVarCre() {
         var cadena = "<table class='table table-bordered'>";
         var objectStore = db.transaction("Encuesta_Variables").objectStore("Encuesta_Variables");
@@ -2408,8 +2379,6 @@ function mostrarVarSelec() {
       }
       
 
-=======
->>>>>>> b5716a3f2c1af3082e55377d4c0cf1a768569ff8
       function redireccionarPagina(encuestaId) {
         // Aquí puedes redirigir a la página deseada utilizando el ID de la encuesta
         // Por ejemplo:

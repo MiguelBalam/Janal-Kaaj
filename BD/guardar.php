@@ -31,9 +31,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($conn->connect_error) {
         die("Conexión fallida: " . $conn->connect_error);
     }
-
+    $hashedContrasenia = password_hash($Contrasenia, PASSWORD_DEFAULT);
     // Insertar datos en la tabla UsuariosEncuestador
-    $sql2 = "INSERT INTO Autenticacion (correo, contraseña) VALUES ('$correo', '$Contrasenia')";
+    $sql2 = "INSERT INTO Autenticacion (correo, contraseña) VALUES ('$correo', '$hashedContrasenia')";
     if ($conn->query($sql2) === TRUE) {
         // Obtener el ID autogenerado de la inserción en Autenticacion
         $idAutenticacion = $conn->insert_id;

@@ -1,4 +1,3 @@
-
 document.formEncuestado.addEventListener('submit', (ev) => {
   ev.preventDefault();
 
@@ -49,29 +48,30 @@ document.formEncuestado.addEventListener('submit', (ev) => {
   xhr.send(formData);
 })
 
- function controlPHP() {
-    var usuario = document.getElementById('Usuario').value;
-    var contraseniaL = document.getElementById('contraseniaL').value;
-  
-    var xhr = new XMLHttpRequest();
-    xhr.open('POST', '/BD/login.php', true);
-    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    xhr.onreadystatechange = function () {
+function controlPHP() {
+  var correo = document.getElementById('Usuario').value;
+  var contraseniaL = document.getElementById('contraseniaL').value;
+
+  var xhr = new XMLHttpRequest();
+  xhr.open('POST', '/BD/login.php', true);
+  xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+  xhr.onreadystatechange = function () {
       if (xhr.readyState === 4) {
-        if (xhr.status === 200) {
-          var response = JSON.parse(xhr.responseText);
-          if (response.success) {
-            window.location.href = '/dashboard.html'; // Página después del inicio de sesión exitoso
+          if (xhr.status === 200) {
+              var response = JSON.parse(xhr.responseText);
+              if (response.success) {
+                  window.location.href = '/pestañas_Encuestador/dashboard.html'; // Página después del inicio de sesión exitoso
+              } else {
+                  alert(response.error); // Mostrar una alerta si el inicio de sesión falla
+              }
           } else {
-            // Mostrar una alerta si el inicio de sesión falla
+              console.error('Error en la solicitud AJAX.');
           }
-        } else {
-          console.error('Error en la solicitud AJAX.');
-        }
       }
-    };
-    
-    var data = 'correo=' + encodeURIComponent(usuario) + '&contraseña=' + encodeURIComponent(contraseniaL);
-    xhr.send(data);
   };
+  
+  var data = 'correo=' + encodeURIComponent(correo) + '&contraseniaL=' + encodeURIComponent(contraseniaL);
+  xhr.send(data);
+}
+
   
