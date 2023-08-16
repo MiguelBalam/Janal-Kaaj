@@ -309,18 +309,38 @@
   </section>
 
   <script>
-    let arrow = document.querySelectorAll(".arrow");
+    // Guardar el estado de la barra lateral en el localStorage
+    function saveSidebarState(state) {
+      localStorage.setItem('sidebarState', state);
+    }
+
+    // Cargar el estado de la barra lateral del localStorage
+    function loadSidebarState() {
+      return localStorage.getItem('sidebarState') || 'expanded'; // Valor predeterminado: expandido
+    }
+
+    let arrow = document.querySelectorAll('.arrow');
     for (var i = 0; i < arrow.length; i++) {
-      arrow[i].addEventListener("click", (e) => {
-        let arrowParent = e.target.parentElement.parentElement; //selecting main parent of arrow
-        arrowParent.classList.toggle("showMenu");
+      arrow[i].addEventListener('click', (e) => {
+        let arrowParent = e.target.parentElement.parentElement; // seleccionar el elemento principal padre de la flecha
+        arrowParent.classList.toggle('showMenu');
       });
     }
-    let sidebar = document.querySelector(".sidebar");
-    let sidebarBtn = document.querySelector(".bx-menu");
+
+    let sidebar = document.querySelector('.sidebar');
+    let sidebarBtn = document.querySelector('.bx-menu');
     console.log(sidebarBtn);
-    sidebarBtn.addEventListener("click", () => {
-      sidebar.classList.toggle("close");
+
+    // Aplicar el estado almacenado al cargar la página
+    window.addEventListener('DOMContentLoaded', () => {
+      const initialState = loadSidebarState();
+      sidebar.classList.toggle('close', initialState === 'collapsed');
+    });
+
+    sidebarBtn.addEventListener('click', () => {
+      sidebar.classList.toggle('close');
+      const newState = sidebar.classList.contains('close') ? 'collapsed' : 'expanded';
+      saveSidebarState(newState);
     });
   </script>
 
