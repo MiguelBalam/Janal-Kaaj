@@ -114,27 +114,31 @@ self.addEventListener('activate', e => {
     e.waitUntil( respuesta );
 });
 
-self.addEventListener( 'fetch', e => {
-
-
-    const respuesta = caches.match( e.request ).then( res => {
-
-        if ( res ) {
-            return res;
+self.addEventListener('fetch', e => {
+    if (e.request.url.includes('formulario')) {
+      e.respondWith(
+        caches.match(e.request).then(cachedResponse => {
+          if (cachedResponse) {
+            return cachedResponse;
+          }
+  
+          // Si no está en caché, busca en la red y almacena en caché dinámico
+          return fetch(e.request).then(newRes => {
+            return actualizaCacheDinamico(DYNAMIC_CACHE, e.request, newRes);
+          });
+        })
+      );
+    } else {
+      const respuesta = caches.match(e.request).then(res => {
+        if (res) {
+          return res;
         } else {
-
-            return fetch( e.request ).then( newRes => {
-
-                return actualizaCacheDinamico( DYNAMIC_CACHE, e.request, newRes );
-
-            });
-
+          return fetch(e.request).then(newRes => {
+            return actualizaCacheDinamico(DYNAMIC_CACHE, e.request, newRes);
+          });
         }
-
-    });
-
-
-
-    e.respondWith( respuesta );
-
-}); 
+      });
+  
+      e.respondWith(respuesta);
+    }
+  });

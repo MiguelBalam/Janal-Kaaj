@@ -143,16 +143,18 @@ Yo os las entrego tales como son, en su frescor de carne y de rosa. Sólo existe
     <div class="footerB fs-6 py-1">Copyright &copy; Janal Kaaj 2023</div>
   </footer>
   <script>
-    window.addEventListener('load', function() {
+    window.onload = function() {
       // Aquí colocas el código de la función que deseas ejecutar al abrir la pestaña
-      mostrarIDBoton();
-    });
+      setTimeout(mostrarIDBoton, 2000);
+    };
 
     function mostrarIDBoton() {
       const urlParams = new URLSearchParams(window.location.search);
       const botonId = urlParams.get('id');
-      console.log(botonId);
-      window.location.href = './seguridad-alimentaria.html#noticia' + botonId;
+      //console.log("xxxxxxxxxx",botonId);
+      
+     window.location.href = './seguridad-alimentaria.html#noticia' + botonId;
+     
     }
     /*
     (() => {
