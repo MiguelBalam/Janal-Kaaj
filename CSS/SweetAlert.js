@@ -634,7 +634,7 @@ function habilitarFormEncuestador() {
   if (contra2 === "") val++;
 
   // Habilitar o deshabilitar el botón según el contador
-  var botonEnviar = document.getElementById("boton-enviar");
+  var botonEnviar = document.getElementById("boton-enviaru");
   if (val === 0) {
     // Habilitar el botón de enviar
     botonEnviar.disabled = false;

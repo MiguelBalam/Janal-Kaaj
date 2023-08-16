@@ -282,18 +282,13 @@
         <!-- botones  -->
         <div class="row mb-4">
           <div class="col-sm-12 col-form-label text-center">
-
-            <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza mb-2 me-2 w-100"
-              id="boton_crearReactivo" onclick="ResOpMul(), CrearReactivo()">Crear</button>
-            <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza mb-2 me-2 w-100" id="boton_guardar"
-              onclick="GuardarReactivos()">Guardar</button>
-            <button onclick=" return cancelar()"
-              class="btn btn-outline-success bg-border-mostaza bg-text-mostaza mb-2 w-100"
-              id="boton_cancelar">Cancelar</button>
-
+            <div class="d-flex justify-content-between">
+              <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza mb-2 col-sm-4" id="boton_crearReactivo" onclick="ResOpMul(), CrearReactivo()">Crear</button>
+              <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza mb-2 col-sm-4" id="boton_guardar" onclick="GuardarReactivos()">Guardar</button>
+              <button onclick="return cancelar()" class="btn btn-outline-success bg-border-mostaza bg-text-mostaza mb-2 col-sm-4" id="boton_cancelar">Cancelar</button>
+            </div>
           </div>
         </div>
-
 
 
         <h3 class="bg-text-black text-center p-3 text-uppercase text-black">Vista Previa Reactivos</h3>
