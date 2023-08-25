@@ -6,76 +6,149 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Janal-Kaaj</title>
   <!-- Bootstrap -->
+  <link rel="stylesheet" href="CSS/styleDashboard.css" />
   <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
   <link rel="stylesheet" href="CSS/bootstrap.min.css">
   <link rel="stylesheet" href="CSS/style.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300&display=swap" rel="stylesheet">
+  <!-- <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> -->
+  <!-- <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@300&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300&display=swap" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300&display=swap" rel="stylesheet"> -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+    crossorigin="anonymous"></script>
   <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="../node_modules/@sweetalert2/themes/bootstrap-4/bootstrap-4.min.css">
+  <script src="../node_modules/sweetalert2/dist/sweetalert2.all.js"></script>
+
+  <!-- Boxiocns CDN Link -->
+  <link href="https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css" rel="stylesheet" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 </head>
 
-<body class="IBM">
-  <nav class="navbar navbar-expand-lg fixed-top navbar-mi-colorLP" id="mainNav">
-    <div class="container">
-      <a class="navbar-brand" href="index.html">
-        <img src="./Img/Oficial_JanalKaaj.png" width="130px" height="65px">
-      </a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" 
-      data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-        Menu
-        <i class="fas fa-bars ms-1"></i>
-      </button>
-      <div class="collapse navbar-collapse justify-content-end" id="navbarResponsive">
-          <ul class="navbar-nav ms-auto py-4 py-lg-0">
-            <li class="nav-item"><a class="nav-link" href="planes_servicios.html">Planes y servicios</a></li>
-            <li class="nav-item"><a class="nav-link" target="_blank" href="seguridad-alimentaria.html">Seguridad-Alimentaria</a></li>
-            <li class="nav-item"><a class="nav-link" href="Estadistica/index.html">Estadísticas</a></li>
-            <li class="nav-item"><a class="nav-link" href="contactanos.html">Contáctanos</a></li>
-            <li class="nav-item"><a class="nav-link" href="login.html">Iniciar Sesión</a></li>
-            <li class="nav-item"><button type="button" data-bs-toggle="modal" data-bs-target="#myModal" class="nav-link btnn btn-outline-warning text-white" data-bs-target="#myModal">Registrarse</button></li>
-          </ul>      
-    </div>
-  </nav>
-  <div class="modal" tabindex="-1" id="myModal">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content align-content-center">
-        <div class="modal-header">
-          <h5 class="modal-title">Registro</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+<body>
+       <!-- Dashboard -->
+       <div class="sidebar close">
+        <div class="logo-details">
+          <i class="bx seleccionador"></i>
+          <span class="logo_name">Janal Kaaj</span>
         </div>
-        <div class="modal-body">
-          <p>Usteded quiere registrarse, ¿Cómo encuestado o encuestador?</p>
-        </div>
-        <div class="modal-footer">
-          <a type="button" class="nav-link btnn btn-outline-warning text-white" href="form_encuestados.html">Encuestado</a>
-          <a type="button" class="nav-link btnn btn-outline-warning text-white" href="form_encuestador.html">Encuestador</a>
-        </div>
+        <ul class="nav-links">
+          <li>
+            <a href="#">
+              <i class="bx bx-grid-alt"></i>
+              <span class="link_name">Dashboard</span>
+            </a>
+            <ul class="sub-menu blank">
+              <li><a class="link_name" href="#">Category</a></li>
+            </ul>
+          </li>
+          <li>
+            <div class="iocn-link">
+              <a href="pestañas_SuperUsuario/perfil_admin.html">
+                <i class="bx bx-collection"></i>
+                <span class="link_name">Perfil</span>
+              </a>
+            </div>
+            <ul class="sub-menu blank">
+              <li><a class="link_name" href="pestañas_SuperUsuario/perfil_admin.html">Perfil</a></li>
+            </ul>
+          </li>
+          <li>
+            <div class="iocn-link">
+              <a href="CRUDNoticias.html">
+                <i class="bx bx-book-alt"></i>
+                <span class="link_name">Noticias</span>
+              </a>
+              <i class="bx bxs-chevron-down arrow"></i>
+            </div>
+            <ul class="sub-menu">
+              <li><a class="link_name" href="#">Noticias</a></li>
+              <li><a href="noticias.html">Crear</a></li>
+            </ul>
+          </li>
+          <li>
+            <a href="#">
+              <i class="bx bx-pie-chart-alt-2"></i>
+              <span class="link_name">Reportes</span>
+            </a>
+            <ul class="sub-menu blank">
+              <li><a class="link_name" href="#">Reportes</a></li>
+            </ul>
+          </li>
+          <li>
+            <a href="#">
+              <i class="bx bx-compass"></i>
+              <span class="link_name">Encuestadores</span>
+            </a>
+            <ul class="sub-menu blank">
+              <li><a class="link_name" href="#">Encuestadores</a></li>
+            </ul>
+          </li>
+          <li>
+            <a href="#">
+              <i class="bx bx-history"></i>
+              <span class="link_name">History</span>
+            </a>
+            <ul class="sub-menu blank">
+              <li><a class="link_name" href="#">History</a></li>
+            </ul>
+          </li>
+          <li>
+            <a href="#">
+              <i class="bx bx-cog"></i>
+              <span class="link_name">Ajustes</span>
+            </a>
+            <ul class="sub-menu blank">
+              <li><a class="link_name" href="#">Ajustes</a></li>
+            </ul>
+          </li>
+
+          <li id="cerrarSesionBtnContainer">
+            <a href="#" id="cerrarSesionBtn" onclick="confirmarCerrarSesion()">
+              <i class="bx bx-log-out"></i>
+              <span class="link_name">Cerrar Sesión</span>
+            </a>
+            <ul class="sub-menu blank">
+              <li><a class="link_name" href="#" onclick="confirmarCerrarSesion()">Cerrar Sesión</a></li>
+    
+            </ul>
+          </li>
+        </ul>
       </div>
-    </div>
-  </div>
-  <!--News-->
+      
+    <section class="home-section">
+        <div class="home-content">
+          <i class="bx bx-menu"></i>
+          <span class="text">Noticias</span>
+        </div>
+      <!-- FIN Dashboard -->
   
-    <section class="text-center bg-light">
+    <section class="text-center sectionDash">
       <div class="container p-5">
         <h1 class="text-center text-black">Noticias General</h1>
-        <div class="row" id="editarNoticias">
+        
+        <div class="row " id="editarNoticiass">
           <div class="row align-items-center mb-3">
-          <div class="col-lg-1">
-            <i class="fa-solid fa-magnifying-glass"></i>
-            <button onclick="buscarNoticiaPorTitulo();">dd</button>
-          </div>
-          <div class="col-lg-10">
-           <input type="text" name="search" placeholder="Buscar" class="form-control" id="buscar-titulo" required>
+            
+            <div class="col-lg-11">
+             <input type="text" name="search" placeholder="Buscar" class="form-control" id="buscar-titulo" required>
             </div>
-          <div class="col-lg-1">
-            <a onClick="" href="noticias.html" class="btn" type="submit" id="prueba4"><i class="fa-solid fa-file-circle-plus"></i></a>
+            <!-- <div class="col-lg-1">
+              <a onClick="" href="noticias.html" class="btn" type="submit" id="prueba4"><i class="fa-solid fa-magnifying-glass"></i> </a>             
+            </div> -->
+            <div class="col-lg-1">
+              <a onClick="" href="noticias.html" class="btn" type="submit" id="prueba4"><i class="fa-solid fa-file-circle-plus"></i></a>
+            </div>
+            
              </div>
-           </div>
-          
+             
+             <div class="row crud" id="editarNoticias">
+
+             </div>
 
           <!-- <div class="col-lg-3">
             <div class="card">
@@ -96,12 +169,11 @@
 
           
         </div>
-        <div class="row bg-dark text-white" id="resultados">ffff</div>
       </div>
     </section>
-  
+  </section>
 
-  <footer class="footer">
+  <!-- <footer class="footer">
     <div class="container py-4">
         <div class="row align-items-center">
             <div class="col-sm-4 text-center "><img src="./Img/Oficial_JanalKaaj.png" width="180px" height="90px"></div>
@@ -124,27 +196,21 @@
         </div>
     </div>
     <div class="footerB fs-6 py-1">Copyright &copy; Janal Kaaj 2023</div>
-  </footer>
+  </footer> -->
   <script>
-    (() => {
-        'use strict'
+      let arrow = document.querySelectorAll(".arrow");
+      for (var i = 0; i < arrow.length; i++) {
+        arrow[i].addEventListener("click", (e) => {
+          let arrowParent = e.target.parentElement.parentElement; // seleccionando el padre principal de la flecha
+          arrowParent.classList.toggle("showMenu");
+        });
+      }
 
-        // Fetch all the forms we want to apply custom Bootstrap validation styles to
-        const forms = document.querySelectorAll('.needs-validation')
-
-        // Loop over them and prevent submission
-        Array.from(forms).forEach(form => {
-            form.addEventListener('submit', event => {
-                if (!form.checkValidity()) {
-                    event.preventDefault()
-                    event.stopPropagation()
-                }
-
-                form.classList.add('was-validated')
-            }, false)
-        })
-    })()
-
+      let sidebar = document.querySelector(".sidebar");
+      let sidebarBtn = document.querySelector(".bx-menu");
+      sidebarBtn.addEventListener("click", () => {
+        sidebar.classList.toggle("close");
+      });
   
 
 </script>
@@ -160,7 +226,7 @@
     crossorigin="anonymous"></script>
   <link rel="stylesheet" href="./node_modules/@sweetalert2/themes/bootstrap-4/bootstrap-4.min.css">
   <script src="./node_modules/sweetalert2/dist/sweetalert2.all.js"></script>
-  <script src="./CSS/SweetAlert.js"></script>
+  <script src="../CSS/SweetAlert.js"></script>
   <script src="./CSS/prueba.js"></script>
   <script src="BD/app.js"></script>
 </body>
