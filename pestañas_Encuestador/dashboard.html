@@ -81,12 +81,12 @@
 
 
       <li>
-        <a href="/pestañas_Encuestador/encuestaAplicadas.html">
+        <a href="../BD/prueva/encuAplica.php">
           <i class='bx bx-clipboard bx-tada'></i>
           <span class="link_name">Encuestas aplicadas</span>
         </a>
         <ul class="sub-menu blank">
-          <li><a class="link_name" href="/pestañas_Encuestador/encuestaAplicadas.html">Encuestas aplicadas</a></li>
+          <li><a class="link_name" href="../BD/prueva/encuAplica.php">Encuestas aplicadas</a></li>
         </ul>
       </li>
 
@@ -246,19 +246,47 @@
   </section>
 
   <script>
-    let arrow = document.querySelectorAll(".arrow");
+    // Guardar el estado de la barra lateral en el localStorage
+    function saveSidebarState(state) {
+      localStorage.setItem('sidebarState', state);
+    }
+
+    // Cargar el estado de la barra lateral del localStorage
+    function loadSidebarState() {
+      return localStorage.getItem('sidebarState') || 'expanded'; // Valor predeterminado: expandido
+    }
+
+    let arrow = document.querySelectorAll('.arrow');
     for (var i = 0; i < arrow.length; i++) {
-      arrow[i].addEventListener("click", (e) => {
-        let arrowParent = e.target.parentElement.parentElement; //selecting main parent of arrow
-        arrowParent.classList.toggle("showMenu");
+      arrow[i].addEventListener('click', (e) => {
+        let arrowParent = e.target.parentElement.parentElement; // seleccionar el elemento principal padre de la flecha
+        arrowParent.classList.toggle('showMenu');
       });
     }
-    let sidebar = document.querySelector(".sidebar");
-    let sidebarBtn = document.querySelector(".bx-menu");
+
+    let sidebar = document.querySelector('.sidebar');
+    let sidebarBtn = document.querySelector('.bx-menu');
     console.log(sidebarBtn);
-    sidebarBtn.addEventListener("click", () => {
-      sidebar.classList.toggle("close");
+
+// Aplicar el estado almacenado al cargar la página
+window.addEventListener('DOMContentLoaded', () => {
+  const initialState = loadSidebarState();
+  if (window.innerWidth <= 400) {
+    // Si el ancho de la ventana es menor o igual a 400px (dispositivo móvil),
+    // siempre oculta la barra lateral en la carga inicial.
+    sidebar.classList.add('close');
+    saveSidebarState('collapsed'); // Guarda el estado colapsado en el almacenamiento local
+  } else {
+    sidebar.classList.toggle('close', initialState === 'collapsed');
+  }
+});
+
+    sidebarBtn.addEventListener('click', () => {
+      sidebar.classList.toggle('close');
+      const newState = sidebar.classList.contains('close') ? 'collapsed' : 'expanded';
+      saveSidebarState(newState);
     });
+
   </script>
 
   <!-- desactivar los botones si no hay conexion a internet  -->

@@ -15,22 +15,18 @@ var db;
 var ObjectStore;
 var ObjectStoreReac;
 
- (function conectarDB(){
-    
-   // let objectStore = null;
-    let DBOpenReq =indexedDB.open('Janal',1);
+ (function conectarDB() {
+  let DBOpenReq = indexedDB.open('Janal', 1);
 
-    DBOpenReq.addEventListener('error',(err)=>{
-        console.warn(err);
-    });
-    
-    //Creacion de tablas u objetos
-    DBOpenReq.addEventListener('upgradeneeded',(ev)=>{
-        db = ev.target.result;       
-        
-        ObjectStore = db.createObjectStore("Usuario", { keyPath : 'id', autoIncrement: true});
-        ObjectStore.createIndex("Nombre","Nombre",{unique:true});
-      
+  DBOpenReq.addEventListener('error', (err) => {
+    console.warn(err);
+  });
+
+  DBOpenReq.addEventListener('upgradeneeded', (ev) => {
+    db = ev.target.result;
+
+    ObjectStore = db.createObjectStore("Usuario", { keyPath: 'id', autoIncrement: true });
+    ObjectStore.createIndex("Nombre", "Nombre", { unique: true });
 
         //Noticias
         ObjectStore = db.createObjectStore('Noticias', {keyPath:'id', autoIncrement: true});
@@ -120,9 +116,8 @@ var ObjectStoreReac;
     //   console.log("triste");
     // });
     //funciones para cursores
-    DBOpenReq.addEventListener('success',(ev)=>{
-     
-      db= ev.target.result;
+    DBOpenReq.addEventListener('success', (ev) => {
+      db = ev.target.result;
       exportarAJSON();
       mostrarPreguntas();
       EncuestaVistaPV2()
@@ -254,11 +249,11 @@ if (genero1.checked) {
       //      }
        
   
-  let tx = makeTX('Usuario','readwrite');
-  let txA = makeTX2('Autenticasion','readwrite');
-  let txB = makeTX3('Encuestador','readwrite');
-
-  tx.oncomplete = (ev)=>{
+      let tx = makeTX('Usuario', 'readwrite');
+      let txA = makeTX2('Autenticasion', 'readwrite');
+      let txB = makeTX3('Encuestador', 'readwrite');
+    
+      tx.oncomplete = (ev) => {
       console.log (ev);
       var elementos = document.getElementsByName("inlineRadioOptions");
       for(var i=0; i<elementos.length; i++) {
@@ -451,6 +446,9 @@ function guardarEncuestado(Nombre, ApellidoP, ApellidoM, Edad, Localidad, Pais, 
         console.error("Error al agregar los datos:", event.target.error);
       };
   
+    transaction.oncomplete = function(event) {
+      // db.close(); // Cierra la conexión con la base de datos una vez que la transacción se completa
+    };
   };
 }
 
@@ -743,8 +741,6 @@ function guardarDatos(titulo, cuerpo, imagen, valor) {
 //Mostrar datos noticias
 
 
-
-
 function mostrarIDBoton2() {
   var urlParams = new URLSearchParams(window.location.search);
   var botonId = urlParams.get('id');
@@ -972,7 +968,6 @@ function setupImageUploader() {
     }
   })
 }
-
 
 
 // Crear Cards para noticias
@@ -2067,65 +2062,55 @@ function manejadorValidacion(e) {
     }
 
 
-    function EncuestaVistaPV2(){
+    function EncuestaVistaPV2() {
       var transaction = db.transaction(["Encuesta"], "readwrite");
       var objectStore = transaction.objectStore("Encuesta");
       var index = objectStore.index("EncuestaTitulo");
       var index2 = objectStore.index("EncuestaObjetivo");
       var index3 = objectStore.index("EncuestaInstruccion");
       var newestItem = null;
-      var newestItem2 = null
-      var newestItem3 = null
-      var newestItem4 = null
-// Crear un cursor para recorrer los objetos en el índice
-        var request = index.openCursor(null,'prev');
-        var request = index2.openCursor(null,'prev');
-        var request = index3.openCursor(null,'prev');
-      request.onsuccess = function(event) {
+      var newestItem2 = null;
+      var newestItem3 = null;
+    
+      var request = index.openCursor(null, 'prev');
+      request.onsuccess = function (event) {
         var cursor = event.target.result;
-        newestItem4 = cursor.value.TituloE;
-
-      if (!newestItem || Titulo.fechaCreacionE > newestItem.fechaCreacionE && !newestItem2 || floatingTextarea2.fechaCreacionE > newestItem2.fechaCreacionE  && !newestItem3 || floatingTextarea21.fechaCreacionE > newestItem3.fechaCreacionE ) {
-       newestItem = Titulo;
-       newestItem2 = floatingTextarea2;
-       newestItem3 = floatingTextarea21;
-       //newestItem4 = TituloE;
-       //newestItem3 = cursor.value.Instrucciones;
-        cursor.continue();
-      }
-      else {
-        var cadena ="<table>";
-        cadena += "<table class='table'>";
-        cadena += "<div class='row'>";
-        cadena += "<div class='col'>";
-        cadena += "<h5>Título:</h5>";
-        cadena += "<p>" + newestItem + "</p>";
-        cadena += "</div>";
-        cadena += "<div class='row'>";
-        cadena += "<div class='col'>";
-        cadena += "<h5>Objetivo:</h5>";
-        cadena += "<p>" + newestItem2 + "</p>";
-        cadena += "</div>";
-        cadena += "<div class='row'>";
-        cadena += "<div class='col'>";
-        cadena += "<h5>Instrucciones:</h5>";
-        cadena += "<p>" + newestItem3 + "</p>";
-        cadena += "</div>";
-        cadena += "</div>";
-        cadena += "</table>";
-        // Mostrar el objeto más reciente en la pantalla
-        console.log(newestItem);
-        console.log(newestItem4);
-        console.log(newestItem2);
-        cadena += "</table>";
-        document.getElementById("Encabezado").innerHTML = cadena;
-        
-
-}
-
-};
-
-}
+    
+        if (cursor) {
+          var currentItem = cursor.value;
+    
+          if (!newestItem || currentItem.fechaCreacionE > newestItem.fechaCreacionE) {
+            newestItem = currentItem;
+            newestItem2 = cursor.value.Objetivo;
+            newestItem3 = cursor.value.Instrucciones;
+    
+            cursor.continue();
+          } else {
+            var cadena = "<table>";
+            cadena += "<table class='table'>";
+            cadena += "<div class='row'>";
+            cadena += "<div class='col'>";
+            cadena += "<h5>Título:</h5>";
+            cadena += "<p>" + newestItem.Titulo + "</p>";
+            cadena += "</div>";
+            cadena += "<div class='row'>";
+            cadena += "<div class='col'>";
+            cadena += "<h5>Objetivo:</h5>";
+            cadena += "<p>" + newestItem2 + "</p>";
+            cadena += "</div>";
+            cadena += "<div class='row'>";
+            cadena += "<div class='col'>";
+            cadena += "<h5>Instrucciones:</h5>";
+            cadena += "<p>" + newestItem3 + "</p>";
+            cadena += "</div>";
+            cadena += "</div>";
+            cadena += "</table>";
+    
+            document.getElementById("Encabezado").innerHTML = cadena;
+          }
+        }
+      };
+    }
 
 
 
@@ -2244,6 +2229,9 @@ function mostrarVarSelec() {
   };
   EncuestaVarMostrar(encuestaVarId)
 }
+// document.addEventListener("DOMContentLoaded", function() {
+//   buscarE();
+// });
 
       function buscarE() {
         var cadena = "<table class='table table-bordered'>";
@@ -2431,147 +2419,316 @@ function mostrarVarSelec() {
       
 
       
-      function abrirPestanaConFormulario(IdEn) {
-        var nuevaPestana = window.open("", "_blank");
+    //   function abrirPestanaConFormulario(IdEn) {
+    //     var nuevaPestana = window.open("", "_blank");
       
-        nuevaPestana.document.write(`
-          <!DOCTYPE html>
-          <html lang="en">
-          <head>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-            <title>Encuesta</title>
-          </head>
-          <body>
-            <div class="container mt-3">
-              <div class="card">
-                <div class="card-header bg-light">
-                  <h2 class="text-center" id="tituloEncuesta"></h2>
-                </div>
-                <div class="card-body" id="contenidoEncuesta">
-                  <!-- Aquí se agregará el contenido de la encuesta -->
-                </div>
+    //     nuevaPestana.document.write(`
+    //       <!DOCTYPE html>
+    //       <html lang="en">
+    //       <head>
+    //         <meta charset="UTF-8">
+    //         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    //         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    //         <title>Encuesta</title>
+    //       </head>
+    //       <body>
+    //         <div class="container mt-3">
+    //           <div class="card">
+    //             <div class="card-header bg-light">
+    //               <h2 class="text-center" id="tituloEncuesta"></h2>
+    //             </div>
+    //             <div class="card-body" id="contenidoEncuesta">
+    //               <!-- Aquí se agregará el contenido de la encuesta -->
+    //             </div>
+    //           </div>
+    //         </div>
+    //       </body>
+    //       </html>
+    //     `);
+      
+    //     var tituloEncuesta = nuevaPestana.document.getElementById("tituloEncuesta");
+    //     var contenidoEncuesta = nuevaPestana.document.getElementById("contenidoEncuesta");
+      
+    //     var transaction = db.transaction("Encuesta", "readonly");
+    //     var encuestaObjectStore = transaction.objectStore("Encuesta");
+    //     var encuestaRequest = encuestaObjectStore.get(parseInt(IdEn));
+      
+    //     encuestaRequest.onsuccess = function(event) {
+    //       var encuesta = event.target.result;
+    //       if (encuesta) {
+    //         tituloEncuesta.textContent = encuesta.Titulo;
+      
+    //         var reactivosObjectStore = db.transaction("EncuestaFinal", "readonly").objectStore("EncuestaFinal");
+    //         var reactivosRequest = reactivosObjectStore.getAll();
+      
+    //         reactivosRequest.onsuccess = function(event) {
+    //           var reactivos = event.target.result;
+    //           if (reactivos) {
+    //             var reactivosFiltrados = reactivos.filter(function(reactivo) {
+    //               return reactivo.encuestaId === parseInt(IdEn);
+    //             });
+      
+    //             reactivosFiltrados.forEach(function(reactivo) {
+    //               var reactivoDiv = nuevaPestana.document.createElement("div");
+    //               reactivoDiv.innerHTML = `
+    //                 <h5>${reactivo.reactivoId}</h5>
+    //               `;
+    //               contenidoEncuesta.appendChild(reactivoDiv);
+      
+    //               var tipoRespuesta = reactivo.TipoRes;
+      
+    //               if (tipoRespuesta === 1) {
+    //                 var preguntaInput = nuevaPestana.document.createElement("input");
+    //                 preguntaInput.setAttribute("type", "text");
+    //                 preguntaInput.classList.add("form-control");
+    //                 contenidoEncuesta.appendChild(preguntaInput);
+    //                 contenidoEncuesta.appendChild(nuevaPestana.document.createElement("br"));
+    //               } else if (tipoRespuesta === 2) {
+    //                 var respuestas = ["Sí", "No"];
+    //                 for (var i = 0; i < respuestas.length; i++) {
+    //                   var respuestaDiv = nuevaPestana.document.createElement("div");
+    //                   respuestaDiv.classList.add("form-check", "form-check-inline", "col-md-4");
+      
+    //                   var respuestaLabel = nuevaPestana.document.createElement("label");
+    //                   var respuestaInput = nuevaPestana.document.createElement("input");
+    //                   respuestaInput.setAttribute("type", "radio");
+    //                   respuestaInput.setAttribute("name", "respuesta");
+    //                   respuestaInput.setAttribute("value", respuestas[i]);
+    //                   respuestaInput.classList.add("form-check-input");
+      
+    //                   respuestaLabel.textContent = respuestas[i];
+    //                   respuestaLabel.classList.add("form-check-label", "form-check-inline");
+      
+    //                   respuestaDiv.appendChild(respuestaInput);
+    //                   respuestaDiv.appendChild(respuestaLabel);
+      
+    //                   respuestaDiv.appendChild(nuevaPestana.document.createElement("br"));
+      
+    //                   contenidoEncuesta.appendChild(respuestaDiv);
+    //                 }
+    //               }  else if (tipoRespuesta === 3 || tipoRespuesta === 4) {
+    //                 var respuestasDiv = nuevaPestana.document.createElement("div");
+    //                 respuestasDiv.classList.add("col-md-4");
+                  
+    //                 var objectStoreReOpM = db.transaction("ReOpM").objectStore("ReOpM");
+    //                 objectStoreReOpM.openCursor().onsuccess = function(event) {
+    //                   var cursorReOpM = event.target.result;
+    //                   if (cursorReOpM) {
+    //                     if (cursorReOpM.value.Reactivo === reactivo.reactivoId) {
+    //                       var matchingReOpM = cursorReOpM.value;
+    //                       var respuestas = [
+    //                         matchingReOpM.Respuesta,
+    //                         matchingReOpM.Respuesta2,
+    //                         matchingReOpM.Respuesta3,
+    //                         matchingReOpM.Respuesta4,
+    //                         matchingReOpM.Respuesta5
+    //                       ];
+                  
+    //                       respuestas.forEach(function(opcion, index) {
+    //                         if (opcion !== "") {
+    //                           var respuestaLabel = nuevaPestana.document.createElement("label");
+    //                           var respuestaInput = nuevaPestana.document.createElement("input");
+                  
+    //                           respuestaInput.classList.add("form-check-input");
+    //                           respuestaLabel.textContent = opcion;
+    //                           respuestaLabel.classList.add("form-check-label", "form-check-inline");
+                  
+    //                           if (tipoRespuesta === 3) {
+    //                             respuestaInput.setAttribute("type", "checkbox");
+    //                             respuestaInput.setAttribute("name", "respuesta_" + reactivo.reactivoId + "_checkbox_" + index); // Sufijo '_checkbox' para checkboxes
+    //                           } else if (tipoRespuesta === 4) {
+    //                             respuestaInput.setAttribute("type", "radio");
+    //                             respuestaInput.setAttribute("name", "respuesta_" + reactivo.reactivoId + "_radio"); // Sin sufijo para radio buttons
+    //                           }
+                  
+    //                           var respuestaDivIndividual = nuevaPestana.document.createElement("div");
+    //                           respuestaDivIndividual.appendChild(respuestaInput);
+    //                           respuestaDivIndividual.appendChild(respuestaLabel);
+                  
+    //                           respuestasDiv.appendChild(respuestaDivIndividual);
+    //                         }
+    //                       });
+    //                     }
+    //                     cursorReOpM.continue();
+    //                   }
+    //                 };
+                  
+    //                 contenidoEncuesta.appendChild(respuestasDiv);
+    //               }
+    //           });
+    //         }
+    //       }
+    //     }
+    //   };
+    // }
+
+    function abrirPestanaConFormulario(IdEn) {
+      // Generar el contenido HTML dinámico aquí
+      var dynamicHtml = `
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+          <meta charset="UTF-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+          <title>Encuesta</title>
+        </head>
+        <body>
+          <div class="container mt-3">
+            <div class="card">
+              <div class="card-header bg-light">
+                <h2 class="text-center" id="tituloEncuesta"></h2>
+              </div>
+              <div class="card-body" id="contenidoEncuesta">
+                <!-- Aquí se agregará el contenido de la encuesta -->
               </div>
             </div>
-          </body>
-          </html>
-        `);
-      
+          </div>
+        </body>
+        </html>
+      `;
+    
+      const cacheName = 'formulario-cache';
+      const cacheKey = `formulario-${IdEn}`;
+      const htmlResponse = new Response(dynamicHtml, {
+        headers: { 'Content-Type': 'text/html' }
+      });
+    
+      caches.open(cacheName).then(cache => {
+        cache.put(cacheKey, htmlResponse);
+      });
+    
+      var nuevaPestana = window.open("", "_blank");
+    
+      nuevaPestana.document.write(dynamicHtml);
+    
+      nuevaPestana.document.addEventListener('DOMContentLoaded', function() {
         var tituloEncuesta = nuevaPestana.document.getElementById("tituloEncuesta");
         var contenidoEncuesta = nuevaPestana.document.getElementById("contenidoEncuesta");
-      
-        var transaction = db.transaction("Encuesta", "readonly");
-        var encuestaObjectStore = transaction.objectStore("Encuesta");
-        var encuestaRequest = encuestaObjectStore.get(parseInt(IdEn));
-      
-        encuestaRequest.onsuccess = function(event) {
-          var encuesta = event.target.result;
-          if (encuesta) {
-            tituloEncuesta.textContent = encuesta.Titulo;
-      
-            var reactivosObjectStore = db.transaction("EncuestaFinal", "readonly").objectStore("EncuestaFinal");
-            var reactivosRequest = reactivosObjectStore.getAll();
-      
-            reactivosRequest.onsuccess = function(event) {
-              var reactivos = event.target.result;
-              if (reactivos) {
-                var reactivosFiltrados = reactivos.filter(function(reactivo) {
-                  return reactivo.encuestaId === parseInt(IdEn);
-                });
-      
-                reactivosFiltrados.forEach(function(reactivo) {
-                  var reactivoDiv = nuevaPestana.document.createElement("div");
-                  reactivoDiv.innerHTML = `
-                    <h5>${reactivo.reactivoId}</h5>
-                  `;
-                  contenidoEncuesta.appendChild(reactivoDiv);
-      
-                  var tipoRespuesta = reactivo.TipoRes;
-      
-                  if (tipoRespuesta === 1) {
-                    var preguntaInput = nuevaPestana.document.createElement("input");
-                    preguntaInput.setAttribute("type", "text");
-                    preguntaInput.classList.add("form-control");
-                    contenidoEncuesta.appendChild(preguntaInput);
-                    contenidoEncuesta.appendChild(nuevaPestana.document.createElement("br"));
-                  } else if (tipoRespuesta === 2) {
-                    var respuestas = ["Sí", "No"];
-                    for (var i = 0; i < respuestas.length; i++) {
-                      var respuestaDiv = nuevaPestana.document.createElement("div");
-                      respuestaDiv.classList.add("form-check", "form-check-inline", "col-md-4");
-      
-                      var respuestaLabel = nuevaPestana.document.createElement("label");
-                      var respuestaInput = nuevaPestana.document.createElement("input");
-                      respuestaInput.setAttribute("type", "radio");
-                      respuestaInput.setAttribute("name", "respuesta");
-                      respuestaInput.setAttribute("value", respuestas[i]);
-                      respuestaInput.classList.add("form-check-input");
-      
-                      respuestaLabel.textContent = respuestas[i];
-                      respuestaLabel.classList.add("form-check-label", "form-check-inline");
-      
-                      respuestaDiv.appendChild(respuestaInput);
-                      respuestaDiv.appendChild(respuestaLabel);
-      
-                      respuestaDiv.appendChild(nuevaPestana.document.createElement("br"));
-      
-                      contenidoEncuesta.appendChild(respuestaDiv);
-                    }
-                  }  else if (tipoRespuesta === 3 || tipoRespuesta === 4) {
-                    var respuestasDiv = nuevaPestana.document.createElement("div");
-                    respuestasDiv.classList.add("col-md-4");
-                  
-                    var objectStoreReOpM = db.transaction("ReOpM").objectStore("ReOpM");
-                    objectStoreReOpM.openCursor().onsuccess = function(event) {
-                      var cursorReOpM = event.target.result;
-                      if (cursorReOpM) {
-                        if (cursorReOpM.value.Reactivo === reactivo.reactivoId) {
-                          var matchingReOpM = cursorReOpM.value;
-                          var respuestas = [
-                            matchingReOpM.Respuesta,
-                            matchingReOpM.Respuesta2,
-                            matchingReOpM.Respuesta3,
-                            matchingReOpM.Respuesta4,
-                            matchingReOpM.Respuesta5
-                          ];
-                  
-                          respuestas.forEach(function(opcion, index) {
-                            if (opcion !== "") {
-                              var respuestaLabel = nuevaPestana.document.createElement("label");
-                              var respuestaInput = nuevaPestana.document.createElement("input");
-                  
-                              respuestaInput.classList.add("form-check-input");
-                              respuestaLabel.textContent = opcion;
-                              respuestaLabel.classList.add("form-check-label", "form-check-inline");
-                  
-                              if (tipoRespuesta === 3) {
-                                respuestaInput.setAttribute("type", "checkbox");
-                                respuestaInput.setAttribute("name", "respuesta_" + reactivo.reactivoId + "_checkbox_" + index); // Sufijo '_checkbox' para checkboxes
-                              } else if (tipoRespuesta === 4) {
-                                respuestaInput.setAttribute("type", "radio");
-                                respuestaInput.setAttribute("name", "respuesta_" + reactivo.reactivoId + "_radio"); // Sin sufijo para radio buttons
-                              }
-                  
-                              var respuestaDivIndividual = nuevaPestana.document.createElement("div");
-                              respuestaDivIndividual.appendChild(respuestaInput);
-                              respuestaDivIndividual.appendChild(respuestaLabel);
-                  
-                              respuestasDiv.appendChild(respuestaDivIndividual);
-                            }
-                          });
-                        }
-                        cursorReOpM.continue();
+    
+        var transaction = indexedDB.open('Janal');
+    
+        transaction.onsuccess = function(event) {
+          var db = event.target.result;
+    
+          var encuestaObjectStore = db.transaction("Encuesta", "readonly").objectStore("Encuesta");
+          var encuestaRequest = encuestaObjectStore.get(parseInt(IdEn));
+    
+          encuestaRequest.onsuccess = function(event) {
+            var encuesta = event.target.result;
+            if (encuesta) {
+              tituloEncuesta.textContent = encuesta.Titulo;
+    
+              var reactivosObjectStore = db.transaction("Encuesta_Final", "readonly").objectStore("Encuesta_Final");
+              var reactivosRequest = reactivosObjectStore.getAll(); 
+    
+              reactivosRequest.onsuccess = function(event) {
+                var reactivos = event.target.result;
+                if (reactivos) {
+                  var reactivosFiltrados = reactivos.filter(function(reactivo) {
+                    return reactivo.encuestaId === parseInt(IdEn);
+                  });
+    
+                  reactivosFiltrados.forEach(function(reactivo) {
+                    var reactivoDiv = nuevaPestana.document.createElement("div");
+                    reactivoDiv.innerHTML = `
+                      <h5>${reactivo.reactivoId}</h5>
+                    `;
+                    contenidoEncuesta.appendChild(reactivoDiv);
+    
+                    var tipoRespuesta = reactivo.TipoRes;
+    
+                    if (tipoRespuesta === 1) {
+                      var preguntaInput = nuevaPestana.document.createElement("input");
+                      preguntaInput.setAttribute("type", "text");
+                      preguntaInput.classList.add("form-control");
+                      contenidoEncuesta.appendChild(preguntaInput);
+                      contenidoEncuesta.appendChild(nuevaPestana.document.createElement("br"));
+                    } else if (tipoRespuesta === 2) {
+                      var respuestas = ["Sí", "No"];
+                      for (var i = 0; i < respuestas.length; i++) {
+                        var respuestaDiv = nuevaPestana.document.createElement("div");
+                        respuestaDiv.classList.add("form-check", "form-check-inline", "col-md-4");
+    
+                        var respuestaLabel = nuevaPestana.document.createElement("label");
+                        var respuestaInput = nuevaPestana.document.createElement("input");
+                        respuestaInput.setAttribute("type", "radio");
+                        respuestaInput.setAttribute("name", "respuesta");
+                        respuestaInput.setAttribute("value", respuestas[i]);
+                        respuestaInput.classList.add("form-check-input");
+    
+                        respuestaLabel.textContent = respuestas[i];
+                        respuestaLabel.classList.add("form-check-label", "form-check-inline");
+    
+                        respuestaDiv.appendChild(respuestaInput);
+                        respuestaDiv.appendChild(respuestaLabel);
+    
+                        respuestaDiv.appendChild(nuevaPestana.document.createElement("br"));
+    
+                        contenidoEncuesta.appendChild(respuestaDiv);
                       }
-                    };
-                  
-                    contenidoEncuesta.appendChild(respuestasDiv);
-                  }
-              });
+                    } else if (tipoRespuesta === 3 || tipoRespuesta === 4) {
+                      var respuestasDiv = nuevaPestana.document.createElement("div");
+                      respuestasDiv.classList.add("col-md-4");
+    
+                      var objectStoreReOpM = db.transaction("ReOpM").objectStore("ReOpM");
+                      objectStoreReOpM.openCursor().onsuccess = function(event) {
+                        var cursorReOpM = event.target.result;
+                        if (cursorReOpM) {
+                          if (cursorReOpM.value.Reactivo === reactivo.reactivoId) {
+                            var matchingReOpM = cursorReOpM.value;
+                            var respuestas = [
+                              matchingReOpM.Respuesta,
+                              matchingReOpM.Respuesta2,
+                              matchingReOpM.Respuesta3,
+                              matchingReOpM.Respuesta4,
+                              matchingReOpM.Respuesta5
+                            ];
+    
+                            respuestas.forEach(function(opcion, index) {
+                              if (opcion !== "") {
+                                var respuestaLabel = nuevaPestana.document.createElement("label");
+                                var respuestaInput = nuevaPestana.document.createElement("input");
+    
+                                respuestaInput.classList.add("form-check-input");
+                                respuestaLabel.textContent = opcion;
+                                respuestaLabel.classList.add("form-check-label", "form-check-inline");
+    
+                                if (tipoRespuesta === 3) {
+                                  respuestaInput.setAttribute("type", "checkbox");
+                                  respuestaInput.setAttribute("name", "respuesta_" + reactivo.reactivoId + "_checkbox_" + index); // Sufijo '_checkbox' para checkboxes
+                                } else if (tipoRespuesta === 4) {
+                                  respuestaInput.setAttribute("type", "radio");
+                                  respuestaInput.setAttribute("name", "respuesta_" + reactivo.reactivoId + "_radio"); // Sin sufijo para radio buttons
+                                }
+    
+                                var respuestaDivIndividual = nuevaPestana.document.createElement("div");
+                                respuestaDivIndividual.appendChild(respuestaInput);
+                                respuestaDivIndividual.appendChild(respuestaLabel);
+    
+                                respuestasDiv.appendChild(respuestaDivIndividual);
+                              }
+                            });
+                          }
+                          cursorReOpM.continue();
+                        }
+                      };
+    
+                      contenidoEncuesta.appendChild(respuestasDiv);
+                    }
+                  });
+                }
+                console.log("Reactivos cargados correctamente.");
+              };
             }
-          }
-        }
-      };
+            console.log("Encuesta cargada correctamente.");
+          };
+        };
+    
+        transaction.onerror = function(event) {
+          console.error("Error al abrir la base de datos: " + event.target.errorCode);
+        };
+      });
     }
       function buscarEVar() {
         var cadena = "<table class='table table-bordered'>";
@@ -3847,69 +4004,82 @@ function mostrarPreguntas() {
   var encuestaId;
 
 
-function crearEncuestaFinal() {
-  var creador = document.getElementById("aqui").value;
-  var Titulo = document.getElementById("Titulo").value.trim();
-  var Objetivo = document.getElementById("floatingTextarea2").value.trim();
-  var Instrucciones = document.getElementById('floatingTextarea21').value.trim();
-  var fechaCreacionE = Date.now(); // Obtener la fecha actual en milisegundos
+  var encuestaId;
 
-  var form = document.getElementById('formulario');
 
-  form.addEventListener('submit', async function(eve) {
-    eve.preventDefault();
-
-    var request = db.transaction(["Encuesta"], "readwrite")
-      .objectStore("Encuesta")
-      .add({
-        creador: creador,
-        Titulo: Titulo,
-        Objetivo: Objetivo,
-        Instrucciones: Instrucciones,
-        fechaCreacionER: fechaCreacionER
-      });
-
-    request.onsuccess = async function(e) {
-      encuestaId = e.target.result;
-      console.log("Encuesta creada con id: ", encuestaId, Titulo);
-      var reactivosSeleccionados = await obtenerReactivosSeleccionados() 
-     
-      var tx = db.transaction(["EncuestaFinal"], "readwrite");
-      var store = tx.objectStore("EncuestaFinal");
-
-      reactivosSeleccionados.forEach(function(reactivo) {
-        store.add({
-          encuestaId: encuestaId,
-          reactivoId: reactivo.id2,
-          TipoRes: reactivo.TipoRes
+  function crearEncuestaFinal() {
+    var creador = document.getElementById("aqui").value;
+    var Titulo = document.getElementById("Titulo").value.trim();
+    var Objetivo = document.getElementById("floatingTextarea2").value.trim();
+    var Instrucciones = document.getElementById('floatingTextarea21').value.trim();
+    var fechaCreacionE = Date.now(); // Obtener la fecha actual en milisegundos
+  
+    var form = document.getElementById('formulario');
+  
+    form.addEventListener('submit', async function(eve) {
+      eve.preventDefault();
+  
+      var request = db.transaction(["Encuesta"], "readwrite")
+        .objectStore("Encuesta")
+        .add({
+          creador: creador,
+          Titulo: Titulo,
+          Objetivo: Objetivo,
+          Instrucciones: Instrucciones,
+          fechaCreacionE: fechaCreacionE
         });
-      });
-      
-      tx.oncomplete = function() {
-        console.log("Relación entre la encuesta y los reactivos creada correctamente");
-      };
+  
+      request.onsuccess = async function(e) {
+        encuestaId = e.target.result;
+        console.log("Encuesta creada con id:", encuestaId, "Título:", Titulo);
+        var reactivosSeleccionados = await obtenerReactivosSeleccionados();
+  
+        var tx = db.transaction(["EncuestaFinal"], "readwrite");
+        var store = tx.objectStore("EncuestaFinal");
 
-      Swal.fire({
-        title: "Acción exitosa",
-        text: "La encuesta se ha creado correctamente.",
-        icon: "success",
-        timer: 4000, // Mostrar el aviso por 3 segundos
-        showConfirmButton: true,
-        timerProgressBar: true,
-        confirmButtonColor: '#3085d6',
-        confirmButtonText: 'Okay'
-      }).then(function() {
-        // Aquí puedes agregar el código que debe ejecutarse después de que el aviso desaparezca
-        buscarE();
-        EncuestaVistaPV2();
-      });
-    };
-  });
-}
+  
+        reactivosSeleccionados.forEach(function(reactivo) {
+          var addRequest = store.add({
+            encuestaId: encuestaId,
+            reactivoId: reactivo.id2,
+            TipoRes: reactivo.TipoRes
+          });
+          addRequest.onerror = function(event) {
+            console.error("Error al agregar en el almacén de EncuestaFinal:", event.target.errorCode);
+          };
+        });
+  
+        tx.oncomplete = function() {
+          console.log("Relación entre la encuesta y los reactivos creada correctamente");
+        };
+        
+        tx.onerror = function(event) {
+          console.error("Error en la transacción de EncuestaFinal:", event.target.errorCode);
+        };
+  
+        Swal.fire({
+          title: "Acción exitosa",
+          text: "La encuesta se ha creado correctamente.",
+          icon: "success",
+          timer: 4000, // Mostrar el aviso por 3 segundos
+          showConfirmButton: true,
+          timerProgressBar: true,
+          confirmButtonColor: '#3085d6',
+          confirmButtonText: 'Okay'
+        }).then(function() {
+          // Aquí puedes agregar el código que debe ejecutarse después de que el aviso desaparezca
+          buscarE();
+          EncuestaVistaPV2();
+        });
+      };
+    });
+  }
 
 async function obtenerReactivosSeleccionados() {
   var reactivosSeleccionados = [];
   var checkboxes = document.querySelectorAll("input[type='checkbox'][id^='s']:checked");
+
+  console.log("Total de checkboxes seleccionados:", checkboxes.length);
 
   var transaction = db.transaction(["preguntaReactivos"], "readonly");
   var objectStore = transaction.objectStore("preguntaReactivos");
@@ -3921,13 +4091,15 @@ async function obtenerReactivosSeleccionados() {
       if (cursor) {
         var id2 = cursor.value.id2;
         var TipoRes = cursor.value.TipoRes;
+        console.log("Obteniendo reactivo:", id2, TipoRes);
         if (!reactivosSeleccionados.some(item => item.id2 === id2)) {
-          if (contieneCheckboxId(checkboxes, id2)) {
+          if (contieneCheckboxId(checkboxes, id2,TipoRes)) {
             reactivosSeleccionados.push({ id2, TipoRes });
           }
         }
         cursor.continue();
       } else {
+        console.log("Reactivos seleccionados:", reactivosSeleccionados);
         resolve();
       }
     };
@@ -3944,7 +4116,6 @@ function contieneCheckboxId(checkboxes, id) {
   }
   return false;
 }
-
 // Función para mostrar en el formulario los reactivos de una encuesta específica
 
 
@@ -4385,7 +4556,7 @@ async function obtenerVariablesSeleccionados() {
       var cursor = event.target.result;
       if (cursor) {
         var valor = cursor.value.VariablesId;
-        if (!VariablesSeleccionados.includes(valor) && contieneCheckboxId(checkboxes, valor)) {
+        if (!VariablesSeleccionados.includes(valor) && contieneCheckboxIdVAR(checkboxes, valor)) {
           VariablesSeleccionados.push(valor);
         }
         cursor.continue();
@@ -4398,7 +4569,7 @@ async function obtenerVariablesSeleccionados() {
   return VariablesSeleccionados;
 }
 
-function contieneCheckboxId(checkboxes, id) {
+function contieneCheckboxIdVAR(checkboxes, id) {
   for (var i = 0; i < checkboxes.length; i++) {
     if (checkboxes[i].id === 'sV' + id) {
       return true;
@@ -4962,7 +5133,7 @@ function exportarAJSON() {
 
 
 
-//Actualicar almacen 
+// Actualicar almacen 
 function actualizarAlmacenPreguntaReactivos() {
   var tx = db.transaction("preguntaReactivos", "readonly");
   var storePreguntaReactivos = tx.objectStore("preguntaReactivos");

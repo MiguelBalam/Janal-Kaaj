@@ -80,3 +80,42 @@ function GuardarRes() {
         }
     }); 
 }
+
+function GuardarResVariable() {
+    let formFormato = $('#formFormato').serialize();
+    let spanCodigo = document.querySelector('#codigo2').textContent;
+    let codigo = Number(spanCodigo);
+
+    let responses = {}; // Crear un objeto para almacenar las respuestas
+    $('[name^="respuesta["]').each(function() {
+        var questionId = $(this).data('id');
+        var value = $(this).val();
+
+        // Si el valor no es cero, almacenarlo
+        if (value !== "0") {
+            if (!responses[questionId]) {
+                responses[questionId] = [];
+            }
+            responses[questionId].push(value);
+        }
+
+        console.log("Question ID: " + questionId + ", Value: " + value);
+    });
+    
+    console.log("JSON.stringify(responses): " + JSON.stringify(responses));
+
+    $.ajax({
+        url: 'GuardarResVariable.php',
+        type: 'POST',
+        data: formFormato + '&codigo=' + codigo + '&responses=' + JSON.stringify(responses),
+        dataType: 'json',
+        success: function (data) {
+            console.log(data);
+            if (data.respuesta) {
+                alert('Felicitaciones, encuesta llenada correctamente.');
+                location.href = "../prueva/index.php";
+            }
+        }
+    });
+}
+
