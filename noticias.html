@@ -1,68 +1,130 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Janal-Kaaj</title>
-  <!-- Bootstrap -->
-  <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
-  <link rel="stylesheet" href="CSS/bootstrap.min.css">
-  <link rel="stylesheet" href="CSS/style.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@300&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300&display=swap" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
-</head>
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Janal-Kaaj</title>
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="CSS/styleDashboard.css" />
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+    <link rel="stylesheet" href="CSS/bootstrap.min.css">
+    <link rel="stylesheet" href="CSS/style.css">
 
-<body class="IBM">
-  <nav class="navbar navbar-expand-lg fixed-top navbar-mi-colorLP" id="mainNav">
-    <div class="container">
-      <a class="navbar-brand" href="index.html">
-        <img src="./Img/Oficial_JanalKaaj.png" width="130px" height="65px">
-      </a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" 
-      data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-        Menu
-        <i class="fas fa-bars ms-1"></i>
-      </button>
-      <div class="collapse navbar-collapse justify-content-end" id="navbarResponsive">
-          <ul class="navbar-nav ms-auto py-4 py-lg-0">
-            <li class="nav-item"><a class="nav-link" href="planes_servicios.html">Planes y servicios</a></li>
-            <li class="nav-item"><a class="nav-link" target="_blank" href="https://www.acnur.org/nutricion-y-seguridad-alimentaria.html">Seguridad-Alimentaria</a></li>
-            <li class="nav-item"><a class="nav-link" href="Estadistica/index.html">Estadísticas</a></li>
-            <li class="nav-item"><a class="nav-link" href="contactanos.html">Contáctanos</a></li>
-            <li class="nav-item"><a class="nav-link" href="login.html">Iniciar Sesión</a></li>
-            <li class="nav-item"><button type="button" data-bs-toggle="modal" data-bs-target="#myModal" class="nav-link btnn btn-outline-warning text-white" data-bs-target="#myModal">Registrarse</button></li>
-          </ul>      
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="../node_modules/@sweetalert2/themes/bootstrap-4/bootstrap-4.min.css">
+    <script src="../node_modules/sweetalert2/dist/sweetalert2.all.js"></script>
+  
+    <!-- Boxiocns CDN Link -->
+    <link href="https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css" rel="stylesheet" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+
+
+  
+  <body>
+    
+  <div class="sidebar close">
+    <div class="logo-details">
+      <i class="bx seleccionador"></i>
+      <span class="logo_name">Janal Kaaj</span>
     </div>
-  </nav>
-  <div class="modal" tabindex="-1" id="myModal">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content align-content-center">
-        <div class="modal-header">
-          <h5 class="modal-title">Registro</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    <ul class="nav-links">
+      <li>
+        <a href="#">
+          <i class="bx bx-grid-alt"></i>
+          <span class="link_name">Dashboard</span>
+        </a>
+        <ul class="sub-menu blank">
+          <li><a class="link_name" href="#">Category</a></li>
+        </ul>
+      </li>
+      <li>
+        <div class="iocn-link">
+          <a href="pestañas_SuperUsuario/perfil_admin.html">
+            <i class="bx bx-collection"></i>
+            <span class="link_name">Perfil</span>
+          </a>
         </div>
-        <div class="modal-body">
-          <p>Usteded quiere registrarse, ¿Cómo encuestado o encuestador?</p>
+        <ul class="sub-menu blank">
+          <li><a class="link_name" href="pestañas_SuperUsuario/perfil_admin.html">Perfil</a></li>
+        </ul>
+      </li>
+      <li>
+        <div class="iocn-link">
+          <a href="CRUDNoticias.html">
+            <i class="bx bx-book-alt"></i>
+            <span class="link_name">Noticias</span>
+          </a>
+          <i class="bx bxs-chevron-down arrow"></i>
         </div>
-        <div class="modal-footer">
-          <a type="button" class="nav-link btnn btn-outline-warning text-white" href="form_encuestados.html">Encuestado</a>
-          <a type="button" class="nav-link btnn btn-outline-warning text-white" href="form_encuestador.html">Encuestador</a>
-        </div>
-      </div>
-    </div>
+        <ul class="sub-menu">
+          <li><a class="link_name" href="CRUDNoticias.html">Noticias</a></li>
+          <li><a href="noticias.html">Crear</a></li>
+        </ul>
+      </li>
+      <li>
+        <a href="#">
+          <i class="bx bx-pie-chart-alt-2"></i>
+          <span class="link_name">Reportes</span>
+        </a>
+        <ul class="sub-menu blank">
+          <li><a class="link_name" href="#">Reportes</a></li>
+        </ul>
+      </li>
+      <li>
+        <a href="#">
+          <i class="bx bx-compass"></i>
+          <span class="link_name">Encuestadores</span>
+        </a>
+        <ul class="sub-menu blank">
+          <li><a class="link_name" href="#">Encuestadores</a></li>
+        </ul>
+      </li>
+      <li>
+        <a href="#">
+          <i class="bx bx-history"></i>
+          <span class="link_name">History</span>
+        </a>
+        <ul class="sub-menu blank">
+          <li><a class="link_name" href="#">History</a></li>
+        </ul>
+      </li>
+      <li>
+        <a href="#">
+          <i class="bx bx-cog"></i>
+          <span class="link_name">Ajustes</span>
+        </a>
+        <ul class="sub-menu blank">
+          <li><a class="link_name" href="#">Ajustes</a></li>
+        </ul>
+      </li>
+      <li id="cerrarSesionBtnContainer">
+        <a href="#" id="cerrarSesionBtn" onclick="confirmarCerrarSesion()">
+          <i class="bx bx-log-out"></i>
+          <span class="link_name">Cerrar Sesión</span>
+        </a>
+        <ul class="sub-menu blank">
+          <li><a class="link_name" href="#" onclick="confirmarCerrarSesion()">Cerrar Sesión</a></li>
+
+        </ul>
+      </li>
+    </ul>
   </div>
-  <!--News-->
-  <header class="section">
+  
+<section class="home-section">
+    <div class="home-content">
+      <i class="bx bx-menu"></i>
+      <span class="text">Noticias</span>
+    </div>
+  <!-- FIN Dashboard -->
+  <header class="">
     <div class="container">
       <section class="d-flex justify-content-center py-5">
         <div class="col-sm-6 p-3 shadow-lg mb-5 bg-white rounded">
-            <h2 class="main__title text-center text-dark py-3">Noticias</h2>
+            <h2 class="main__title text-center text-dark py-3">Crear Noticias</h2>
             <form class="needs-validation" id="formularioNews" name="prueba">
               <div id="grupo__nombrecompletos" class="row mb-3">
                 <label for="nombrecompletos" class="col-sm-4 col-form-label px-4 text-dark">Título: </label>
@@ -120,32 +182,13 @@
       </div>
     </div>
   </header>
+</section>
 
-  <footer class="footer">
-    <div class="container py-4">
-        <div class="row align-items-center">
-            <div class="col-sm-4 text-center "><img src="./Img/Oficial_JanalKaaj.png" width="180px" height="90px"></div>
-            <div class="col-sm-4 my-3 my-lg-0 text-center">
-                <h5 class="">Enlaces</h5>
-               
-                <a class="link-dark text-decoration-none" target="_blank" href="https://www.aecoc.es/actividad/seguridad-alimentaria-calidad/">AECOC</a><br>
-                <a class="link-dark text-decoration-none" target="_blank" href="https://www.gob.mx/segalmex">Segalmex</a><br>
-                <a class="link-dark text-decoration-none" target="_blank" href="https://www.gob.mx/agricultura">GOB MX</a><br>
-                <a class="link-dark text-decoration-none" target="_blank" href="https://www.fao.org/statistics/es/">FAO</a><br>
-                <a class="link-dark text-decoration-none" target="_blank" href="https://www.acnur.org/nutricion-y-seguridad-alimentaria.html">ACNUR</a>
-            </div>
-            <div class="col-sm-4 text-center">
-              <h5>Contacto</h5>
-              <p>Dudas e información a <br>iscproyectoslc@gmail.com</p>
-              <h5>Síguenos</h5>
-              <a class="btn btn-dark btn-social mx-2" target="_blank" href="https://www.facebook.com/profile.php?id=100093048912704" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-              <a class="btn btn-dark btn-social mx-2" target="_blank" href="https://instagram.com/janal_kaaj?igshid=MzNlNGNkZWQ4Mg==" aria-label="LinkedIn"><i class="fab fa-instagram"></i></a>
-            </div>
-        </div>
-    </div>
-    <div class="footerB fs-6 py-1">Copyright &copy; Janal Kaaj 2023</div>
-  </footer>
   <script>
+    window.addEventListener('load', function() {
+      // Aquí colocas el código de la función que deseas ejecutar al abrir la pestaña
+      setupImageUploader();
+    });
     (() => {
         'use strict'
 
@@ -164,7 +207,19 @@
             }, false)
         })
     })()
+    let arrow = document.querySelectorAll(".arrow");
+      for (var i = 0; i < arrow.length; i++) {
+        arrow[i].addEventListener("click", (e) => {
+          let arrowParent = e.target.parentElement.parentElement; // seleccionando el padre principal de la flecha
+          arrowParent.classList.toggle("showMenu");
+        });
+      }
 
+      let sidebar = document.querySelector(".sidebar");
+      let sidebarBtn = document.querySelector(".bx-menu");
+      sidebarBtn.addEventListener("click", () => {
+        sidebar.classList.toggle("close");
+      });
   
 
 </script>

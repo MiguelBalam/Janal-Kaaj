@@ -26,7 +26,7 @@ const APP_SHELL = [
     'pestañas_Encuestador/EncuestaFinalVariable.html',
     'pestañas_Encuestador/EncuestaVariables.html',
     'pestañas_Encuestador/EncuestasFinales.html',
-    'pestañas_Encuestador/perfil_Encuestado.html',
+    'pestañas_Encuestador/perfil_Encuestador.html',
     'pestañas_Encuestador/reactivo_categoria.html',
     'pestañas_Encuestador/reactivo_tipos_Encuestas.html',
     'pestañas_Encuestador/variable_crear_variable.html',
