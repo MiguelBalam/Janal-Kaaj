@@ -66,6 +66,7 @@ var ObjectStoreReac;
         ObjectStore=db.createObjectStore("Encuesta_Reactivo", {autoIncrement: true});
         ObjectStore.createIndex("Descripcion","Descripcion",{unique:true});
         ObjectStore.createIndex("Cate","Cate",{unique:false});
+        ObjectStore.createIndex("TipoRespuesta","TipoRespuesta",{unique:false});
         
 
 
@@ -1702,14 +1703,14 @@ function manejadorValidacion(e) {
           ];
     
           var reactivos =[
-            {id:"1",Descripcion:"La miel que vende ¿en qué periodo del año se produjo (meses del año)?",Cate:"Miel"},
-            {id:"2",Descripcion:"¿Cuantos años lleva trabajando con las abejas ?",Cate:"Miel"},
-            {id:"3",Descripcion:"¿Cuantas cajas tiene?",Cate:"Ganaderia"},
-            {id:"4",Descripcion:"¿Cuanta miel produce anualmente?",Cate:"Ganaeria"},
-            {id:"5",Descripcion:"¿Cuantas veces al año extrae miel en una colmena?",Cate:"Otro"},
-            {id:"6",Descripcion:"¿Su produccion comparte espacio con otros animales domesticos?", Cate:"Miel"},
-            {id:"7",Descripcion:"¿Cuales?", Cate:"Miel"},
-            {id:"8",Descripcion:"¿Como sabe cuando es el momento de la cosecha", Cate:"Agricultura"}
+            {id:"1",Descripcion:"La miel que vende ¿en qué periodo del año se produjo (meses del año)?",Cate:"Miel",TipoRespuesta:"1"},
+            {id:"2",Descripcion:"¿Cuantos años lleva trabajando con las abejas ?",Cate:"Miel",TipoRespuesta:"1"},
+            {id:"3",Descripcion:"¿Cuantas cajas tiene?",Cate:"Ganaderia",TipoRespuesta:"1"},
+            {id:"4",Descripcion:"¿Cuanta miel produce anualmente?",Cate:"Ganaeria",TipoRespuesta:"1"},
+            {id:"5",Descripcion:"¿Cuantas veces al año extrae miel en una colmena?",Cate:"Otro",TipoRespuesta:"1"},
+            {id:"6",Descripcion:"¿Su produccion comparte espacio con otros animales domesticos?", Cate:"Miel",TipoRespuesta:"2"},
+            {id:"7",Descripcion:"¿Cuales?", Cate:"Miel",TipoRespuesta:"1"},
+            {id:"8",Descripcion:"¿Como sabe cuando es el momento de la cosecha", Cate:"Agricultura",TipoRespuesta:"2"}
             
         ];
     
@@ -4836,6 +4837,7 @@ function deshabilitarBotones(aqui) {
     }
   });
 }
+
 function miFuncionEditar() {
   console.log("Iniciando ejecución de la función.");
 

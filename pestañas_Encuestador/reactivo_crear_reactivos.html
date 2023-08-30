@@ -196,7 +196,7 @@
             <label class="col-sm-5 col-form-label px-5">Tipo respuesta:</label>
             <div class="col-sm-7">
               <select class="form-select" id="TipoRes" aria-placeholder="Opciones" aria-label="Default select example"
-                NAME="Tipos" onChange="TiposOnChange(this)">
+                name="Tipos" onChange="TiposOnChange(this)">
                 <option selected value="6">Opciones</option>
                 <option value="1">Abiertas</option>
                 <option value="2">Si / No</option>
@@ -216,21 +216,23 @@
                 desea:</label>
               <div class="col-4">
                 <select class="form-select" id="respuestasSelec" aria-label="Default select example"
-                  NAME="respuestasSelec" onChange="TiposOpciones(this)">
-                  <option selected value="16">Número de opciones </option>
-                  <option name="numRespuestas" value="11">1</option>
-                  <option name="numRespuestas" value="12">2</option>
-                  <option name="numRespuestas" value="13">3</option>
-                  <option name="numRespuestas" value="14">4</option>
-                  <option name="numRespuestas" value="15">5</option>
+                  name="respuestasSelec" onChange="TiposOpciones(this)">
+                  <option  value="16">Número de opciones </option>
+                  <option  value="11">1</option>
+                  <option value="12">2</option>
+                  <option  value="13">3</option>
+                  <option  value="14">4</option>
+                  <option  value="15">5</option>
                 </select>
 
               </div>
             </div>
           </div>
+          
           <div id="Respuestas" style="display: none;">
 
           </div>
+
           <div id="DivInputs">
             <div class="input-group flex-nowrap, row mb-4" id="Opcion1" style="display: none;">
               <label class="col-6 col-form-label px-5">Escriba su respuesta: </label>
@@ -283,8 +285,8 @@
         <div class="row mb-4">
           <div class="col-sm-12 col-form-label text-center">
             <div class="d-flex justify-content-between">
-              <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza mb-2 col-sm-4" id="boton_crearReactivo" onclick="ResOpMul(), CrearReactivo()">Crear</button>
-              <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza mb-2 col-sm-4" id="boton_guardar" onclick="GuardarReactivos()">Guardar</button>
+              <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza mb-2 col-sm-4" id="boton_crearReactivo" onclick=" guardarReactivos(),ResOpMul(), CrearReactivo()">Crear</button>
+              <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza mb-2 col-sm-4" id="boton_guardar" onclick="recuperarR()">Guardar</button>
               <button onclick="return cancelar()" class="btn btn-outline-success bg-border-mostaza bg-text-mostaza mb-2 col-sm-4" id="boton_cancelar">Cancelar</button>
             </div>
           </div>
@@ -363,8 +365,8 @@
       }
     }
   </script>
-
-  <script src="../BD/app.js"></script>
+ <script src="/BD/prueva/encuesta.js"></script>
+  <!-- <script src="../BD/app.js"></script> -->
   <script src="../CSS/SweetAlert.js"></script>
 </body>
 

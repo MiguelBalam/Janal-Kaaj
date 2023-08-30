@@ -76,6 +76,45 @@
                 </tr>
             </tbody>
         </table>
+
+
+        <div class="col-sm-6 p-3">
+
+<div class="row mb-3">
+<label for="nombrecompletos" class="col-sm-4 col-form-label px-4">Nombre:</label>
+<div class="col-sm-8">
+<input type="text" class="form-control" name="nombre" id="nombre">
+</div>
+
+<label for="nombrecompletos" class="col-sm-4 col-form-label px-4">Localidad:</label>
+<div class="col-sm-8">
+<input type="text" class="form-control" name="localidad" id="localidad">
+</div>
+</div>
+
+<div class="row mb-3">
+<label for="genero" class="col-sm-4 col-form-label px-4">Género:</label>
+<div class="col-sm-8">
+<div class="form-check form-check-inline col-md-4">
+    <input class="form-check-input" type="checkbox" name="sexo" id="generoMasculino" value="Masculino" required>
+    <label class="form-check-label" for="generoMasculino">Masculino</label>
+</div>
+<div class="form-check form-check-inline col-md-4">
+    <input class="form-check-input" type="checkbox" name="sexo" id="generoFemenino" value="Femenino" required>
+    <label class="form-check-label" for="generoFemenino">Femenino</label>
+</div>
+</div>
+</div>
+
+<div class="row mb-3">
+<label for="edad" class="col-sm-4 col-form-label px-4">Edad:</label>
+<div class="col-sm-8">
+<input type="number" class="form-control" name="edad" id="edad">
+</div>
+</div>
+
+</div>
+
         <?php
 $username  = "janalkaa_admin";
 $password = "janalkaaj2023";

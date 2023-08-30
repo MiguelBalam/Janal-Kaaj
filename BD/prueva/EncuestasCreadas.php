@@ -62,7 +62,7 @@
                 <tr>
                     <td rowspan="4" style="text-align:center"><img src="/Img/lOGOCONACYT.png" class="col-sm-4 my-3 my-lg-0 text-center"></td>
                     <td rowspan="3" class="col-sm-4 text-center">DATOS ENCUESTA</td>
-                    <td><small><strong>CÓDIGO:</strong> <span name="codigo2" id="codigo2"><?php echo rand(); ?></span></small></td>
+                    <td><small><strong>CÓDIGO:</strong> <span name="codigo" id="codigo"><?php echo rand(); ?></span></small></td>
                 </tr>
                 <tr>
                     <td><small><strong>VERSIÓN:</strong> <?php echo '1'; ?></small></td>
@@ -116,7 +116,7 @@
 </div>
 
         <?php
-$username = "janalkaa_admin";
+$username  = "janalkaa_admin";
 $password = "janalkaaj2023";
 $servername = "162.241.60.169";
 $dbname = "janalkaa_kaaj";
@@ -130,96 +130,105 @@ if ($con->connect_error) {
     die("Conexión fallida: " . $con->connect_error);
 }
 
-$idEncuesta = '3';
+if (isset($_GET['id_encuesta'])) {
+    // Recupera el valor de id_encuesta de la URL
+    $id_encuesta = $_GET['id_encuesta'];
 
-// Consulta para seleccionar las preguntas que coinciden con el ID de la encuesta y tienen estatus '1'
-$sqlPreguntas = "SELECT ev.id_Variables, v.Nobre_Var
-                 FROM Encuesta_Variables ev
-                 JOIN Variable v ON ev.id_Variables = v.id_variable
-                 WHERE ev.id_encuesta = '$idEncuesta'";
-
-$query = mysqli_query($con, $sqlPreguntas);
-
-// Verificar si se obtuvieron resultados de la consulta
-if ($query) {
-    $arrayRespuestas = array(
-        "0" => "0",
-        "1" => "1",
-        "2" => "2",
-        "3" => "3",
-        "P" => "p",
-    );
+    // Aquí deberías incluir el código para obtener los datos de la encuesta y reactivos utilizando la función obtenerEncuesta($id_encuesta)
+    function obtenerEncuesta($id_encuesta) {
+        global $con;
+    
+        $query_encuesta = "SELECT * FROM encuestas WHERE id_encuesta = $id_encuesta";
+        $result_encuesta = $con->query($query_encuesta);
+        $encuesta = $result_encuesta->fetch_assoc();
+    
+        $query_reactivos = "SELECT * FROM reactivosCreados WHERE id_reactivoC IN (SELECT id_reactivo FROM encuesta_FinalReactivos WHERE id_encuesta = $id_encuesta)";
+        $result_reactivos = $con->query($query_reactivos);
+        $reactivos = [];
+        while ($row = $result_reactivos->fetch_assoc()) {
+            $reactivos[] = $row;
+        }
+    
+        // Verificar si se obtuvieron resultados de la consulta
+        $arrayRespuestas = array(
+            "SI" => "SI",
+            "NO" => "NO",
+        );
+        
+        return ['encuesta' => $encuesta, 'reactivos' => $reactivos, 'arrayRespuestas' => $arrayRespuestas];
+    }
+    
+    // Obtener datos de la encuesta con ID específico
+    $id_encuesta = $_GET['id_encuesta']; // Recupera el valor de id_encuesta de la URL
+    $datos_encuesta = obtenerEncuesta($id_encuesta);
+    $arrayRespuestas = $datos_encuesta['arrayRespuestas'];
 }
 ?>
 
-<p id="total" data-totalPreg="<?php echo mysqli_num_rows($query); ?>"></p>
+
+<p id="totalPreguntasBD"  data-totalPreg="<?php echo count($datos_encuesta['arrayRespuestas']); ?>"></p>
 <br><br>
-<div class="table-responsive">
-<h4 class="text-center">Encuesta:</h4>
-<form id="formFormato" return false;>
+       
+        <form id="formFormatoGS" onsubmit="GuardarRes(); return false;">
+       
+<h4 class="text-center"><?php echo $datos_encuesta['encuesta']['titulo']; ?></h4>
 
-<table class='table table-bordered'>
-    <tr>
-        <th>Influencia</th>
-        <?php
-        while ($dataRow = mysqli_fetch_array($query)) {
-            $variableName = strtoupper($dataRow['Nobre_Var']);
-            echo "<th>$variableName</th>";
-        }
-        ?>
-    </tr>
-    <?php
-    mysqli_data_seek($query, 0); // Reiniciar el puntero de resultados
-    while ($dataRow = mysqli_fetch_array($query)) {
-        $questionId = $dataRow['id_Variables'];
-        ?>
-        <tr>
-            <td><?php echo strtoupper($dataRow['Nobre_Var']); ?></td>
-            <?php
-            // Mostrar celdas de respuesta
-            for ($i = 0; $i < 21; $i++) {
-                $respuestaName = "respuesta[$questionId]";
+        <?php 
+foreach ($datos_encuesta['reactivos'] as $dataRow) {
+    $questionId = $dataRow['id_reactivoC'];
+    $responseType = $dataRow['id_tipoRespuesta'];
+    $id_tipoRespuesta = $dataRow['id_tipoRespuesta'];
+            $query_tipoRespuesta = "SELECT nombre_tipo_respuesta FROM tiposRespuesta WHERE id_tipoRespuesta = $id_tipoRespuesta";
+            $result_tipoRespuesta = $con->query($query_tipoRespuesta);
+            $tipoRespuesta = $result_tipoRespuesta->fetch_assoc();
+           
+?>
+
+<tr id="reactivos_<?php echo $questionId; ?>">
+    <td><?php echo $questionId; ?></td>
+    <td><?php echo strtoupper($dataRow['descripcion']); ?></td>
+    <td class="centered-inputs"> <!-- Apply a class for centering -->
+        <div class="conteFlex">
+            <?php if ($tipoRespuesta['nombre_tipo_respuesta']== 2 ) { ?>
                 
-                $valorVariable = ($i < 21) ? array_search($i, $arrayRespuestas) : $arrayRespuestas[$i];
-                $valorVariable = "0";
-                echo "<td>
-                <select name='$respuestaName' data-id='$questionId' onchange='handleSelectChange(this)'>
-                <option value='0' " . ($valorVariable == "0" ? "selected" : "") . ">0</option>
-                <option value='1' " . ($valorVariable == "1" ? "selected" : "") . ">1</option>
-                <option value='2' " . ($valorVariable == "2" ? "selected" : "") . ">2</option>
-                <option value='3' " . ($valorVariable == "3" ? "selected" : "") . ">3</option>
-                <option value='P' " . ($valorVariable == "P" ? "selected" : "") . ">P</option>
-                </select>
-                </td>";
-            }
-            ?>
-        </tr>
-        <?php
-    }
-    ?>
-</table>
-</div>
-</form>
+                <?php foreach ($arrayRespuestas as $clave => $valor) { ?>
+                    <label class="class_<?php echo $questionId; ?>" id="spanId_<?php echo $questionId . '_' . $clave; ?>" onclick="respuesta('<?php echo $questionId; ?>','<?php echo $clave; ?>')">
+                        <input type="radio" name="respuesta[<?php echo $questionId; ?>]" id="idResp_<?php echo $questionId . $clave; ?>" value="<?php echo $clave; ?>">
+                        <?php echo ($valor); ?>
+                    </label>
+                <?php } ?>
+            <?php } elseif ($tipoRespuesta['nombre_tipo_respuesta']== 1) {  ?>
+                    <!-- Create text input or text area -->
+                <?php if ($tipoRespuesta['nombre_tipo_respuesta'] == 1) { ?>
+                    <textarea class="form-control" name="respuesta[<?php echo $questionId; ?>]" id="idResp_<?php echo $questionId; ?>"></textarea>
+                <?php } else { ?>
+                    <input class="form-control" type="text" name="respuesta[<?php echo $questionId; ?>]" id="idResp_<?php echo $questionId; ?>">
+                <?php } ?>
+            <?php } ?>
+        </div>
+    </td>
+</tr>
 
-
+<?php } ?>
 
             <div class="form-group">
                 <label for="observacion">Observaciones</label>
                 <textarea name="observacion" class="form-control" rows="3">No hay observación</textarea>
             </div>
-           
+            <button type="submit" class="btn btn-primary" name="btnSend" id="btnSend">DEBES RESPONDER TODAS LAS PREGUNTAS</button>
         </form>
-        <button type="button" class="btn btn-primary" id="btn" onclick=" GuardarResVariable() ">GUARDAR RESPUESTA</button>
-        <!-- <div class="progress">
+        <div class="progress">
             <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">
                 0%
             </div>
-        </div> -->
+        </div>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="node_modules/@sweetalert2/themes/bootstrap-4/bootstrap-4.min.css">
+  <script src="node_modules/sweetalert2/dist/sweetalert2.all.js"></script>    
     <script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script>
 <script src="../prueva/encuesta.js"></script>
 </body>
