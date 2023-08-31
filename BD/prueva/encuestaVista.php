@@ -88,11 +88,6 @@ $id_encuesta = $_GET['id_encuesta'];
 $variables_encuesta = obtenerVariablesEncuesta($id_encuesta);
 ?>
 
-
-
-
-
-    
     <!DOCTYPE html>
     <html>
     <head>
