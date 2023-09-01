@@ -160,7 +160,13 @@
     <section class="d-flex justify-content-center">
       <div class="col-12 col-sm-10 col-md-8 col-lg-6 p-3 shadow-lg mb-5 bg-white rounded">
         <h1 class="bg-text-black text-center p-3 text-uppercase text-black">Crear Encuesta Variables</h1>
-        <form method="post" action="" name="form" id="formularioCR">
+        <div class="row mb-4">
+          <label class="col-md-4 col-form-label px-5">Usuario: </label>
+          <div class="col-md-8">
+              <input id="aqui" name="aqui" type="text" class="form-control" disabled>
+          </div>
+      </div>
+        <form  name="form" id="formularioCR" action="guardar_encuestaVariable.php" method="post">
 
           <div class="row mb-4">
             <label class="col-sm-12 col-md-4 col-form-label px-5">Titulo: </label>
@@ -223,10 +229,12 @@
           <div class="bg-text-black text-center p-3 text-uppercase text-black">
             <h5>Lista de variables que tienes agregadas o creadas</h5>
           </div>
+          <div id="variablesTable"></div>
           <div class="bg-text-black text-center p-3 text-black">
             <div id="VariablesSeleccionadas"></div>
             <div id="salidaVarC"></div>
             <div class="p-3" id="salidaVarC2"></div>
+          
           </div>
 
           <div class="row mb-4">
@@ -234,7 +242,7 @@
               <div class="d-flex flex-column flex-sm-row justify-content-center align-items-center">
 
                 <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza mb-2 me-2 w-100"
-                  onclick="crearEncuestaFinalVariables()" name="boton-crear-encuestaVar" id="boton-crear-encuestaVar"
+                  onclick="crearFinalVariables(),crearEncuestaFinalVariables()" name="boton-crear-encuestaVar" id="boton-crear-encuestaVar"
                   type="submit" disabled> Crear encuesta</button>
 
                 <button type="button" class="btn btn-outline-success bg-border-mostaza bg-text-mostaza mb-2 me-2 w-100"
@@ -249,12 +257,45 @@
               </div>
             </div>
           </div>
-
+        
         </form>
       </div>
     </section>
   </section>
+ 
 
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var userId = localStorage.getItem('user_id');
+        var userCorreo = localStorage.getItem('user_correo');
+        
+        if (userId) {
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', '/BD/infoUser.php?id=' + userId, true);
+            xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4) {
+            if (xhr.status === 200) {
+                try {
+                    var userInfo = JSON.parse(xhr.responseText);
+                    if (userInfo && userInfo.error) {
+                        console.error('Error obteniendo información del usuario:', userInfo.error);
+                    } else {
+                      document.getElementById('aqui').value = userCorreo;
+                    }
+                } catch (error) {
+                    console.error('Error al analizar la respuesta JSON:', error);
+                }
+            } else {
+                console.error('Error en la solicitud AJAX para obtener información del usuario.');
+            }
+        }
+    };
+            xhr.send();
+        }
+        recuperarV()
+    });
+  
+             </script>
   <script>
     // Guardar el estado de la barra lateral en el localStorage
     function saveSidebarState(state) {
@@ -310,10 +351,10 @@
       }
     }
   </script>
-
+   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="../BD/prueva/encuestavariables.js"></script>
   <script src="../CSS/SweetAlert.js"></script>
   <script src="../BD/app.js"></script>
-
 </body>
 
 </html>

@@ -66,6 +66,7 @@ var ObjectStoreReac;
         ObjectStore=db.createObjectStore("Encuesta_Reactivo", {autoIncrement: true});
         ObjectStore.createIndex("Descripcion","Descripcion",{unique:true});
         ObjectStore.createIndex("Cate","Cate",{unique:false});
+        ObjectStore.createIndex("TipoRespuesta","TipoRespuesta",{unique:false});
         
 
 
@@ -138,9 +139,13 @@ var ObjectStoreReac;
       buscarVar()
       Encuesta1()
       agregarDatosAdmin()
-      mostrarNoticiasEnTarjetas()
+      
+      
       crearCardIndex()
-      crearCardNoticias()
+      crearTarjetas()
+      buscarNoticiaPorTitulo()
+      //habilitarBusquedaPorEnter("buscar-titulo", buscarNoticiaPorTitulo)
+      habilitarBusquedaPorInput("buscar-titulo", buscarNoticiaPorTitulo)
       mostrarVarSelec() 
       EncuestaVarMostrar()
       //EncuestaVarMostrar() 
@@ -152,19 +157,19 @@ var ObjectStoreReac;
      
       //mostrarEncuestaVar(encuestaVarId)
    
-
-     
+      
+      
      
     
     //  EncuestaVistaVariables()
       Variables()
       mostrarEncuestaV() 
-    
      
       mostrarVarSelec()
       buscarV()
       
      
+
       //EncaEncuestaVista()
       
      // buscarEVar()
@@ -174,7 +179,6 @@ var ObjectStoreReac;
       buscarEVar()
      
      //mostrarPreguntas();
- 
     
      
     // EncuestaVistaP()
@@ -196,6 +200,7 @@ var ObjectStoreReac;
       
     });
 
+    
 document.formEncuestado.addEventListener('submit',(ev)=>{        
   ev.preventDefault();
   var correo = document.getElementById('Correo').value.trim();
@@ -312,6 +317,7 @@ if (genero1.checked) {
 
 });
 
+
 function makeTX(storeName, mode) {
   let tx = db.transaction(storeName, mode);
   tx.onerror = (eve) => {
@@ -349,7 +355,7 @@ function agregarUsuario() {
     const generoSeleccionado = genero1.checked ? genero1.value : genero2.value;
     const Edad = document.getElementById('edad').value;
     const Localidad = document.getElementById('localidad').value;
-    const Ciudad = document.getElementById('ciudad').value;
+    const Pais = document.getElementById('ciudad').value;
     const Municipio = document.getElementById('municipio').value;
     const Estado = document.getElementById('estado').value;
     const Correo = document.getElementById('Email-encuestado').value;
@@ -357,7 +363,9 @@ function agregarUsuario() {
     const Contrasenia2 = document.getElementById('contra-encuestado2').value;
     const Telefono = document.getElementById('tel-encuestado').value;
 
-    guardarEncuestado(Nombre, ApellidoP, ApellidoM, Edad, Localidad, Ciudad, Municipio, 
+    
+
+    guardarEncuestado(Nombre, ApellidoP, ApellidoM, Edad, Localidad, Pais, Municipio, 
       Estado, Correo, Contrasenia, Telefono, generoSeleccionado);
 
     guardarUsuario(Correo, Contrasenia, Contrasenia2);
@@ -372,7 +380,7 @@ function alertaEncuestado(){
   Swal.fire({
     icon: 'success',
     title: '¡Datos enviados correctamente!',
-    text: 'Gracias por completar la encuesta.',
+    text: 'Gracias por registrarse en Janal Kaaj',
     confirmButtonText: 'Aceptar',
     allowOutsideClick: false,
     allowEscapeKey: false
@@ -383,9 +391,23 @@ function alertaEncuestado(){
     }
   });
 }
+function alertaEditarEncuestado(){
+  Swal.fire({
+    icon: 'success',
+    title: '¡Datos Actualizados Correctamente!',
+    confirmButtonText: 'Aceptar',
+    allowOutsideClick: false,
+    allowEscapeKey: false
+  }).then((result) => {
+    if (result.isConfirmed) {
+      // Redirige a la página "login.html" en español
+      bloquearElementos();
+    }
+  });
+}
 
-function guardarEncuestado(Nombre, ApellidoP, ApellidoM, Edad, Localidad, Ciudad, Municipio, 
-  Estado, Correo, Contrasenia, Telefono, generoSeleccionado) {
+function guardarEncuestado(Nombre, ApellidoP, ApellidoM, Edad, Localidad, Pais, Municipio, 
+  Estado, correo, Contrasenia, Telefono, generoSeleccionado) {
   const request = indexedDB.open('Janal', 1); // Abre la base de datos 'Janal' con la versión 1
 
   request.onerror = function(event) {
@@ -398,18 +420,19 @@ function guardarEncuestado(Nombre, ApellidoP, ApellidoM, Edad, Localidad, Ciudad
     const transaction = db.transaction("Usuarios", "readwrite");
     const objectStore = transaction.objectStore("Usuarios");
 
+    const generoTexto = generoSeleccionado === 'inlineRadio1' ? 'Masculino' : 'Femenino';
     // Crear un objeto con los datos a almacenar
     const encuestado = {
       Nombre: Nombre,
       ApellidoP: ApellidoP,
       ApellidoM: ApellidoM,
-      Genero: generoSeleccionado,
+      Genero: generoTexto,
       Edad: Edad,
       Localidad: Localidad,
-      Ciudad: Ciudad,
+      Pais: Pais,
       Municipio: Municipio,
       Estado: Estado,
-      Correo: Correo,
+      correo: correo,
       Contrasenia: Contrasenia,
       Telefono: Telefono
     };
@@ -430,7 +453,7 @@ function guardarEncuestado(Nombre, ApellidoP, ApellidoM, Edad, Localidad, Ciudad
   };
 }
 
-function guardarUsuario(Correo, Contrasenia, Contrasenia2) {
+function guardarUsuario(correo, Contrasenia, Contrasenia2) {
   const request = indexedDB.open('Janal', 1); 
 
   request.onerror = function(event) {
@@ -443,7 +466,7 @@ function guardarUsuario(Correo, Contrasenia, Contrasenia2) {
 
     // Crear un objeto con los datos a almacenar
     const usuario = {
-      Correo: Correo,
+      correo: correo,
       Contrasenia: Contrasenia,
       Contrasenia2: Contrasenia2
     };
@@ -457,11 +480,187 @@ function guardarUsuario(Correo, Contrasenia, Contrasenia2) {
         console.error("Error al agregar los datos:", event.target.error);
       };
       
-    transaction.oncomplete = function(event) {
-      // db.close(); // Cierra la conexión con la base de datos una vez que la transacción se completa
+  };
+}
+
+function mostrarEncuestados(id) {
+  const transaction = db.transaction('Usuarios', 'readonly');
+  const objectStore = transaction.objectStore('Usuarios');
+
+  const requestGetAll = objectStore.get(3);
+
+  requestGetAll.onsuccess = function (event) {
+    const encuestado = event.target.result;
+
+    if (encuestado) {
+      const nombre = document.getElementById('nombre');
+      const apellidoP = document.getElementById('apellidoPa');
+      const apellidoM = document.getElementById('apellidoMa');
+      const edad = document.getElementById('edad');
+      const localidad = document.getElementById('localidad');
+      const pais = document.getElementById('pais');
+      const municipio = document.getElementById('municipio');
+      const estado = document.getElementById('estado');
+      const correo = document.getElementById('correo');
+      const telefono = document.getElementById('telefono');
+      const contra = document.getElementById('contra');
+      const genMas = document.getElementById('genMas');
+      const genFem = document.getElementById('genfem');
+            
+        nombre.value = encuestado.Nombre;
+        apellidoP.value = encuestado.ApellidoP;
+        apellidoM.value = encuestado.ApellidoM;
+        edad.value = encuestado.Edad;
+        localidad.value = encuestado.Localidad;
+        pais.value = encuestado.Pais;
+        municipio.value = encuestado.Municipio;
+        estado.value = encuestado.Estado;
+        correo.value = encuestado.correo;
+        telefono.value = encuestado.Telefono;
+        contra.value = encuestado.Contrasenia;
+
+        if (encuestado.Genero === 'Masculino') {
+          genMas.checked = true;
+        } else if (encuestado.Genero === 'Femenino') {
+          genFem.checked = true;
+        }
+      } else {
+        console.log('No se encontró ningún encuestado con ID 1 en la base de datos');
+      }
+  };
+
+  requestGetAll.onerror = function (event) {
+    console.log('Error al obtener la noticia:', event.target.error);
+  };
+
+  transaction.oncomplete = function (event) {
+    console.log('Transacción completada.');
+    //db.close();
+  };
+
+  transaction.onerror = function (event) {
+    console.log('Error en la transacción:', event.target.error);
+    //db.close();
+  };
+}
+
+function editarDatosEncuestado() {
+  
+    const nombre = document.getElementById('nombre').value;
+    const apellidoP = document.getElementById('apellidoPa').value;
+    const apellidoM = document.getElementById('apellidoMa').value;
+    const edad = document.getElementById('edad').value;
+    const localidad = document.getElementById('localidad').value;
+    const pais = document.getElementById('pais').value;
+    const municipio = document.getElementById('municipio').value;
+    const estado = document.getElementById('estado').value;
+    const correo = document.getElementById('correo').value;
+    const telefono = document.getElementById('telefono').value;
+    const contra = document.getElementById('contra').value;
+    const genero1 = document.getElementById('genMas');
+    const genero2= document.getElementById('genfem');
+    const generoSeleccionado = genero1.checked ? genero1.value : genero2.value;
+
+    const request = indexedDB.open('Janal', 1);
+    request.onsuccess = function (event) {
+      const db = event.target.result;
+      console.log('Base de datos abierta correctamente.');
+
+    const transaction = db.transaction('Usuarios', 'readwrite');
+    const objectStore = transaction.objectStore('Usuarios');
+
+    const requestGet = objectStore.get(3); // Obtener el encuestado con ID 1
+
+    requestGet.onsuccess = function(event) {
+      const encuestado = event.target.result;
+
+      if (encuestado) {
+          // Actualizar los valores en el objeto encuestado
+          encuestado.Nombre = nombre;
+          encuestado.ApellidoP = apellidoP;
+          encuestado.ApellidoM = apellidoM;
+          encuestado.Edad = edad;
+          encuestado.Localidad = localidad;
+          encuestado.Pais = pais;
+          encuestado.Municipio = municipio;
+          encuestado.Estado = estado;
+          encuestado.correo = correo;
+          encuestado.Telefono = telefono;
+          encuestado.Contrasenia = contra;
+          encuestado.Genero = generoSeleccionado;
+          
+
+          // Actualizar los datos en la base de datos
+          const requestUpdate = objectStore.put(encuestado);
+
+          requestUpdate.onsuccess = function(event) {
+            console.log('Datos actualizados correctamente en la base de datos.');
+            alertaEditarEncuestado();
+          };
+
+          requestUpdate.onerror = function(event) {
+            console.error('Error al actualizar los datos:', event.target.error);
+          };
+
+          
+        
+      } else {
+        console.log('No se encontró ningún encuestado con ID 1 en la base de datos');
+      }
+    };
+
+    requestGet.onerror = function(event) {
+      console.log('Error al obtener los datos:', event.target.error);
     };
   };
 }
+
+function desbloquearElementos() {
+  const elementos = [
+    document.getElementById('nombre'),
+    document.getElementById('apellidoPa'),
+    document.getElementById('apellidoMa'),
+    document.getElementById('edad'),
+    document.getElementById('localidad'),
+    document.getElementById('pais'),
+    document.getElementById('municipio'),
+    document.getElementById('estado'),
+    document.getElementById('correo'),
+    document.getElementById('telefono'),
+    document.getElementById('contra'),
+    document.getElementById('genMas'),
+    document.getElementById('genfem'),
+    document.getElementById('boton-guardar') // Asumiendo que 'gato' es el ID del botón
+  ];
+
+  elementos.forEach(elemento => {
+    elemento.disabled = false; // Desbloquea el elemento
+  });
+}
+
+function bloquearElementos() {
+  const elementos = [
+    document.getElementById('nombre'),
+    document.getElementById('apellidoPa'),
+    document.getElementById('apellidoMa'),
+    document.getElementById('edad'),
+    document.getElementById('localidad'),
+    document.getElementById('pais'),
+    document.getElementById('municipio'),
+    document.getElementById('estado'),
+    document.getElementById('correo'),
+    document.getElementById('telefono'),
+    document.getElementById('contra'),
+    document.getElementById('genMas'),
+    document.getElementById('genfem'),
+    document.getElementById('boton-guardar') // Asumiendo que 'gato' es el ID del botón
+  ];
+
+  elementos.forEach(elemento => {
+    elemento.disabled = true; // Desbloquea el elemento
+  });
+}
+
 
 
 //Subir Noticas
@@ -532,7 +731,7 @@ function guardarDatos(titulo, cuerpo, imagen, valor) {
       };
   
       transaction.oncomplete = function(event) {
-        // db.close(); 
+        //db.close(); 
       };
     };
     
@@ -542,126 +741,7 @@ function guardarDatos(titulo, cuerpo, imagen, valor) {
 
 //Mostrar datos noticias
 
-function mostrarNoticiasEnTarjetas() {
 
-    const transaction = db.transaction('Noticias', 'readonly');
-    const objectStore = transaction.objectStore('Noticias');
-
-    const requestGetAll = objectStore.getAll();
-
-    requestGetAll.onsuccess = function(event) {
-      const noticias = event.target.result;
-
-      if (noticias && noticias.length > 0) {
-        // Crea las tarjetas con la cantidad de noticias obtenidas
-        crearTarjetas(noticias.length);
-        
-
-        // Llenar cada tarjeta con los datos de las noticias
-        for (let i = 0; i < noticias.length; i++) {
-          const noticia = noticias[i];
-          const tituloElement = document.getElementById(`titulo${i + 1}`);
-          const cuerpoElement = document.getElementById(`cuerpo${i + 1}`);
-          const imageElement = document.getElementById(`image${i + 1}`);
-
-          tituloElement.textContent = noticia.titulo;
-          cuerpoElement.textContent = noticia.cuerpo;
-          imageElement.src = 'data:image/jpeg;base64,' + btoa(noticia.data);
-        }
-      } else {
-        console.log('No se encontraron noticias en la base de datos');
-      }
-    };
-
-    requestGetAll.onerror = function(event) {
-      console.log('Error al obtener las noticias');
-    };
-
-    transaction.oncomplete = function(event) {
-      // db.close();
-    };
-  
-}
-/*function mostrarNoticiasIndex2() {
-  const transaction = db.transaction('Noticias', 'readonly');
-  const objectStore = transaction.objectStore('Noticias');
-
-  const requestGetAll = objectStore.getAll();
-
-  requestGetAll.onsuccess = function(event) {
-    const noticias = event.target.result;
-
-    if (noticias && noticias.length > 0) {
-      // Crea las tarjetas con la cantidad de noticias obtenidas
-      crearCardIndex(noticias.length);
-
-      // Llenar cada tarjeta con los datos de las noticias que tienen título "abc"
-      for (let i = 0; i < noticias.length; i++) {
-        const noticia = noticias[i];
-        if (noticia.valor === "up") { // Filtrar por título "abc"
-          const tituloElement = document.getElementById(`titulo${i + 1}`);
-          const cuerpoElement = document.getElementById(`cuerpo${i + 1}`);
-          const imageElement = document.getElementById(`img${i + 1}`);
-
-          tituloElement.textContent = noticia.titulo;
-          cuerpoElement.textContent = noticia.cuerpo;
-          imageElement.src = 'data:image/jpeg;base64,' + btoa(noticia.data);
-        }
-      }
-    } else {
-      console.log('No se encontraron noticias en la base de datos');
-    }
-  };
-
-  requestGetAll.onerror = function(event) {
-    console.log('Error al obtener las noticias');
-  };
-
-  transaction.oncomplete = function(event) {
-    db.close();
-  };
-} */
-
-function mostrarNoticiasIndex() {
-
-  const transaction = db.transaction('Noticias', 'readonly');
-  const objectStore = transaction.objectStore('Noticias');
-
-  const requestGetAll = objectStore.getAll();
-
-  requestGetAll.onsuccess = function(event) {
-    const noticias = event.target.result;
-
-    if (noticias && noticias.length > 0) {
-      // Crea las tarjetas con la cantidad de noticias obtenidas
-      crearCardIndex(noticias.length);
-      
-
-      // Llenar cada tarjeta con los datos de las noticias
-      for (let i = 0; i < noticias.length; i++) {
-        const noticia = noticias[i];
-        const tituloElement = document.getElementById(`titulo${i + 1}`);
-        const cuerpoElement = document.getElementById(`cuerpo${i + 1}`);
-        const imageElement = document.getElementById(`img${i + 1}`);
-
-        tituloElement.textContent = noticia.titulo;
-        cuerpoElement.textContent = noticia.cuerpo;
-        imageElement.src = 'data:image/jpeg;base64,' + btoa(noticia.data);
-      }
-    } else {
-      console.log('No se encontraron noticias en la base de datos');
-    }
-  };
-
-  requestGetAll.onerror = function(event) {
-    console.log('Error al obtener las noticias');
-  };
-
-  transaction.oncomplete = function(event) {
-    // db.close();
-  };
-
-}
 function mostrarIDBoton2() {
   var urlParams = new URLSearchParams(window.location.search);
   var botonId = urlParams.get('id');
@@ -719,15 +799,10 @@ function restablecer(id) {
 
     transaction.oncomplete = function (event) {
       console.log('Transacción completada.');
-      // Now you can perform additional read or write operations if needed.
-      // Or if you don't need any further operations, you can close the connection here.
-      // db.close();
     };
 
     transaction.onerror = function (event) {
       console.log('Error en la transacción:', event.target.error);
-      // Close the connection if an error occurs during the transaction.
-      // db.close();
     };
   };
 
@@ -746,7 +821,7 @@ function mostrarEditNoticias(id) {
 
   requestGetAll.onsuccess = function (event) {
     const noticiaa = event.target.result;
-    console.log('id:', id);
+    //console.log('id:', id);
     if (noticiaa) {
       const tituloElement = document.getElementById('titulo');
       const cuerpoElement = document.getElementById('noticia');
@@ -766,15 +841,10 @@ function mostrarEditNoticias(id) {
 
   transaction.oncomplete = function (event) {
     console.log('Transacción completada.');
-    // Now you can perform additional read or write operations if needed.
-    // Or if you don't need any further operations, you can close the connection here.
-    // db.close();
   };
 
   transaction.onerror = function (event) {
     console.log('Error en la transacción:', event.target.error);
-    // Close the connection if an error occurs during the transaction.
-    // db.close();
   };
 }
 
@@ -789,110 +859,203 @@ function botonSegAlim(id){
 function botonUpload(id){
   const botonId = obtenerUltimoValorId(id);
   appendUpToValor(botonId);
-  //publicarNoticia(botonId);
+}
+
+
+function habilitarBusquedaPorInput(inputId, funcionBusqueda) {
+  const inputElement = document.getElementById(inputId);
+  inputElement.addEventListener("input", function() {
+    funcionBusqueda();
+  });
 }
 
 function buscarNoticiaPorTitulo() {
   var buscarTitulo = document.getElementById("buscar-titulo").value;
-  var resultadosDiv = document.getElementById("resultados");
+  var resultadosDiv = document.getElementById("editarNoticias");
 
-  resultadosDiv.innerHTML = "";
+  resultadosDiv.innerHTML = ""; // Limpiar el contenido anterior
   var transaction = db.transaction(["Noticias"]);
   var objectStore = transaction.objectStore("Noticias");
   var index = objectStore.index("titulo");
   var cursorRequest = index.openCursor();
 
-  cursorRequest.onsuccess = function(event) {
-    var cursor = event.target.result;
-    if (cursor) {
-      var tituloEnNoticia = cursor.value.titulo;
-      if (tituloEnNoticia.includes(buscarTitulo)) {
-        console.log("Título encontrado:", cursor.value.titulo);
-        resultadosDiv.innerHTML += "<div>" + cursor.value.titulo + cursor.value.id + "</div>";
+  // Verificar si el campo de búsqueda está vacío
+  if (!buscarTitulo) {
+    // Si está vacío, mostrar todas las noticias sin ejecutar la búsqueda
+    cursorRequest.onsuccess = function(event) {
+      var cursor = event.target.result;
+      if (cursor) {
+        crearCardNoticias(cursor.value.id);
+        cursor.continue();
+      } else {
+        console.log("Búsqueda completada");
       }
-      // Continúa con el siguiente resultado
-      cursor.continue();
-    } else {
-      console.log("Búsqueda completada");
-    }
-  };
+    };
 
-  cursorRequest.onerror = function(event) {
-    console.error("Error al abrir el cursor:", event.target.error);
-  };
+    cursorRequest.onerror = function(event) {
+      console.error("Error al abrir el cursor:", event.target.error);
+    };
+  } else {
+    cursorRequest.onsuccess = function(event) {
+      var cursor = event.target.result;
+      if (cursor) {
+        var tituloEnNoticia = cursor.value.titulo;
+        if (tituloEnNoticia.includes(buscarTitulo)) {
+          console.log("Título encontrado:", cursor.value.titulo);
+
+          // Ejecutar la función crearCardNoticias() con el ID de la noticia
+          crearCardNoticias(cursor.value.id);
+
+          // Continúa con el siguiente resultado
+          cursor.continue();
+        } else {
+          // Continúa con el siguiente resultado
+          cursor.continue();
+        }
+      } else {
+        console.log("Búsqueda completada");
+      }
+    };
+
+    cursorRequest.onerror = function(event) {
+      console.error("Error al abrir el cursor:", event.target.error);
+    };
+  }
+  
+}
+
+function setupImageUploader() {
+  const $fileInput = document.getElementById('image')
+  const $dropZone = document.getElementById('result-image')
+  const $img = document.getElementById('img-result')
+
+  $dropZone.addEventListener('click', () => $fileInput.click())
+
+  $dropZone.addEventListener('dragover', (e) => {
+    e.preventDefault()
+    $dropZone.classList.add('form-file__result--active')
+  })
+
+  $dropZone.addEventListener('dragleave', (e) => {
+    e.preventDefault()
+    $dropZone.classList.remove('form-file__result--active')
+  })
+
+  const uploadImage = (file) => {
+    const fileReader = new FileReader()
+    fileReader.readAsDataURL(file)
+
+    fileReader.addEventListener('load', (e) => {
+      $img.setAttribute('src', e.target.result)
+    })
+    //$img.innerHTML = '';
+  }
+
+  $dropZone.addEventListener('drop', (e) => {
+    e.preventDefault()
+    const file = e.dataTransfer.files[0]
+
+    if (file && file.type.startsWith('image/')) {
+      $fileInput.files = e.dataTransfer.files
+      uploadImage(file)
+    }
+  })
+
+  $fileInput.addEventListener('change', (e) => {
+    const file = e.target.files[0]
+
+    if (file && file.type.startsWith('image/')) {
+      uploadImage(file)
+    }
+  })
 }
 
 
 // Crear Cards para noticias
 
-function crearTarjetas(numTarjetas) {
+function crearTarjetas() {
   const container = document.getElementById('noticiass'); // El elemento contenedor donde se agregarán las tarjetas
-  let contador = 1; // Contador para el ID de las tarjetas
+  const transaction = db.transaction('Noticias', 'readonly');
+  const objectStore = transaction.objectStore('Noticias');
+  const requestGetAll = objectStore.getAll();
 
-  for (let i = 0; i < numTarjetas; i++) {
-    const divColSm12 = document.createElement('div');
-    divColSm12.className = 'col-sm-12';
-    divColSm12.id = `noticia${contador}`;
+  requestGetAll.onsuccess = (event) => {
+    const noticiasData = event.target.result;
+    console.log('Todos los datos de la tabla Noticias:', noticiasData);
 
-    const divCard2 = document.createElement('div');
-    divCard2.className = 'card';
+    noticiasData.forEach((noticia) => {
+      const contador = noticia.id; // Aquí obtienes el key path id de cada objeto
+      console.log('ID:', contador);
 
-    const divCardBody = document.createElement('div');
-    divCardBody.className = 'card-body';
+      const divColSm12 = document.createElement('div');
+      divColSm12.className = 'col-sm-12';
+      divColSm12.id = `noticia${contador}`;
 
-    const divRow = document.createElement('div');
-    divRow.className = 'row';
+      const divCard2 = document.createElement('div');
+      divCard2.className = 'card';
 
-    const divColLg3_1 = document.createElement('div');
-    divColLg3_1.className = 'col-sm-3';
+      const divCardBody = document.createElement('div');
+      divCardBody.className = 'card-body';
 
-    const divColSm6 = document.createElement('div');
-    divColSm6.className = 'col-sm-6 card-img';
+      const divRow = document.createElement('div');
+      divRow.className = 'row';
 
-    const img = document.createElement('img');
-    img.id = `image${contador}`;
-    img.className = 'img-fluid rounded';
+      const divColLg3_1 = document.createElement('div');
+      divColLg3_1.className = 'col-sm-3';
 
-    const divColLg3_2 = document.createElement('div');
-    divColLg3_2.className = 'col-sm-3';
+      const divColSm6 = document.createElement('div');
+      divColSm6.className = 'col-sm-6 card-img';
 
-    const divCardTitulo = document.createElement('div');
-    divCardTitulo.className = 'card-titulo';
+      const img = document.createElement('img');
+      img.id = `image${contador}`;
+      img.className = 'img-fluid rounded';
 
-    const pTitulo = document.createElement('p');
-    pTitulo.className = 'fs-6 fw-bold p_top';
-    pTitulo.id = `titulo${contador}`;
-    //pTitulo.textContent = `CARD NUMERO ${contador}`;
+      const divColLg3_2 = document.createElement('div');
+      divColLg3_2.className = 'col-sm-3';
 
-    const divLineClamp = document.createElement('div');
-    divLineClamp.className = 'card-texto';
+      const divCardTitulo = document.createElement('div');
+      divCardTitulo.className = 'card-titulo';
 
-    const pCuerpo = document.createElement('p');
-    pCuerpo.id = `cuerpo${contador}`;
-    //pCuerpo.textContent = 'Dolor modi';
+      const pTitulo = document.createElement('p');
+      pTitulo.className = 'fs-6 fw-bold p_top';
+      pTitulo.id = `titulo${contador}`;
+      //pTitulo.textContent = `CARD NUMERO ${contador}`;
 
-    const divFlexRow = document.createElement('div');
-    divFlexRow.className = 'flex-row text-end';
+      const divLineClamp = document.createElement('div');
+      divLineClamp.className = 'card-texto';
 
-    // Construimos la estructura jerárquica
-    divColSm12.appendChild(divCard2);
-    divCard2.appendChild(divCardBody);
-    divCardBody.appendChild(divRow);
-    divRow.appendChild(divColLg3_1);
-    divRow.appendChild(divColSm6);
-    divColSm6.appendChild(img);
-    divRow.appendChild(divColLg3_2);
-    divCardBody.appendChild(divCardTitulo);
-    divCardTitulo.appendChild(pTitulo);
-    divCardBody.appendChild(divLineClamp);
-    divLineClamp.appendChild(pCuerpo);
-    divCardBody.appendChild(divFlexRow);
+      const pCuerpo = document.createElement('p');
+      pCuerpo.id = `cuerpo${contador}`;
+      //pCuerpo.textContent = 'Dolor modi';
 
-    // Agregamos la tarjeta al contenedor
-    container.appendChild(divColSm12);
+      const divFlexRow = document.createElement('div');
+      divFlexRow.className = 'flex-row text-end';
 
-    contador++; 
-  }
+      // Construimos la estructura jerárquica
+      divColSm12.appendChild(divCard2);
+      divCard2.appendChild(divCardBody);
+      divCardBody.appendChild(divRow);
+      divRow.appendChild(divColLg3_1);
+      divRow.appendChild(divColSm6);
+      divColSm6.appendChild(img);
+      divRow.appendChild(divColLg3_2);
+      divCardBody.appendChild(divCardTitulo);
+      divCardTitulo.appendChild(pTitulo);
+      divCardBody.appendChild(divLineClamp);
+      divLineClamp.appendChild(pCuerpo);
+      divCardBody.appendChild(divFlexRow);
+
+      // Agregamos la tarjeta al contenedor
+      container.appendChild(divColSm12);
+      pTitulo.textContent = noticia.titulo;
+      pCuerpo.textContent = noticia.cuerpo;
+      img.src = 'data:image/jpeg;base64,' + btoa(noticia.data);
+    });
+  };
+
+  requestGetAll.onerror = (event) => {
+    console.error('Error al obtener los datos de la tabla Noticias', event);
+  };
 }
 
 //cards para noticas index
@@ -979,20 +1142,18 @@ function crearCardIndex() {
   };
 }
 
-function crearCardNoticias() {
+function crearCardNoticias(idNoticia) {
   const container = document.getElementById('editarNoticias');
 
   const transaction = db.transaction('Noticias', 'readonly');
   const objectStore = transaction.objectStore('Noticias');
-  const requestGetAll = objectStore.getAll();
+  const requestGet = objectStore.get(idNoticia);
 
-  requestGetAll.onsuccess = (event) => {
-    const noticiasData = event.target.result;
-    console.log('Todos los datos de la tabla Noticias:', noticiasData);
+  requestGet.onsuccess = (event) => {
+    const noticia = event.target.result;
 
-    noticiasData.forEach((noticia) => {
-      const contador = noticia.id; // Aquí obtienes el key path id de cada objeto
-      console.log('ID:', contador);
+    if (noticia) {
+      const contador = noticia.id; // Aquí obtienes el key path id del objeto
 
       const colDiv = document.createElement('div');
       colDiv.className = 'col-lg-3';
@@ -1036,6 +1197,10 @@ function crearCardNoticias() {
       const icon = document.createElement("i");
       icon.className = "fa-solid fa-file-arrow-up";
 
+      if (noticia.valor === 'up') {
+        linkElement.classList.add('btnUpload');
+      }
+
       const linkElement2 = document.createElement("button");
       linkElement2.className = "btn";
       linkElement2.onclick = function() {
@@ -1072,20 +1237,18 @@ function crearCardNoticias() {
 
       container.appendChild(colDiv);
 
-      // Llenar cada tarjeta con los datos de la noticia
+      // Llenar la tarjeta con los datos de la noticia
       titleParagraph.textContent = noticia.titulo;
       bodyParagraph.textContent = noticia.cuerpo;
       imgElement.src = 'data:image/jpeg;base64,' + btoa(noticia.data);
-    });
+    }
   };
 
-  requestGetAll.onerror = (event) => {
-    console.error('Error al obtener los datos de la tabla Noticias', event);
+  requestGet.onerror = (event) => {
+    console.error('Error al obtener la noticia', event);
   };
 }
 
-
-//recien agregado
 function obtenerUltimoValorId(id) { 
   const partes = id.split(/\D+/); 
   const numeros = partes.filter((parte) => parte !== '');
@@ -1096,150 +1259,69 @@ function obtenerUltimoValorId(id) {
   }
 }
 
-
 function obtenerIdBoton(id) {
   const ultimoNumero = obtenerUltimoValorId(id);
-  var message = "¿Estás seguro de eliminar esta noticia?";
-  var result = window.confirm(message);
-
-  if (result) {
-      alert("Noticia eliminada con éxito");
+  Swal.fire({
+    title: 'Esta seguro de eliminar esta noticia?',
+    showDenyButton: true,
+    showCancelButton: false,
+    confirmButtonText: 'Si',
+  }).then((result) => {
+    if (result.isConfirmed) {
+      Swal.fire('Proceso exitoso', '', 'success');
       eliminarUsuario(ultimoNumero);
       location.reload();
-  } else {
-      
-  }
-  /*
-  if (ultimoNumero !== null) {
-    Swal.fire({
-      title: '¿Estás seguro de eliminar esta noticia?',
-      showDenyButton: true,
-      showCancelButton: false,
-      confirmButtonText: 'Si',
-    }).then((result) => {
-      if (result.isConfirmed) {
-        Swal.fire('Noticia eliminada', '', 'success')
-        console.log("Último número del ID:", ultimoNumero);*/
-        //console.log("Último número del ID:", ultimoNumero);
-        //eliminarUsuario(ultimoNumero);
-     /* } else if (result.isDenied) {
-        
-      }
-    })
-    
-  } else {
-    console.log("No se encontró ningún número en el ID.");
-  }*/
+    }
+  });
 }
-function appendUpToValor(id){
-    const transaction = db.transaction(['Noticias'], 'readwrite');
-    const objectStore = transaction.objectStore('Noticias');
 
-    const getRequest = objectStore.get(id);
-  
-    getRequest.onsuccess = function(event) {
-      const noticia = event.target.result;
-  
-      if (noticia) {
-        //noticia.valor = 'up';
-        noticia.valor = noticia.valor === 'up' ? 'down' : 'up'; // Cambiar entre 'up' y 'down'
-        
-        const updateRequest = objectStore.put(noticia);
-        
-       /* if (noticia.valor === 'up') {
-          Swal.fire({
-            title: 'Desea Publicar esta noticia?',
-            showDenyButton: true,
-            showCancelButton: false,
-            confirmButtonText: 'Si',
-          }).then((result) => {
-            if (result.isConfirmed) {
-              Swal.fire('Proceso exitoso', '', 'success');
-              noticia.className ="btn btnUpload";
-              noticia.valor = "down";
-              objectStore.put(noticia);
-            } else if (result.isDenied) {
-              
-            }
-          })
-        } else if (noticia.valor === 'down') {
-          Swal.fire({
-            title: 'Desea Quitar esta noticia?',
-            showDenyButton: true,
-            showCancelButton: false,
-            confirmButtonText: 'Si',
-          }).then((result) => {
-            if (result.isConfirmed) {
-              Swal.fire('Proceso exitoso', '', 'success');
-              noticia.className ="btn";
-              noticia.valor = "up";
-              objectStore.put(noticia);
-            } else if (result.isDenied) {
-              
-            }
-          })
-        }*/
-        
-        updateRequest.onsuccess = function() {
-          console.log(`Campo 'valor' de la noticia con ID ${id} actualizado a 'up'`);          
-        
-        };
-  
-        updateRequest.onerror = function() {
-          console.error('Error al actualizar el campo "valor" de la noticia');
-        };
+function appendUpToValor(id) {
+  const transaction = db.transaction(['Noticias'], 'readwrite');
+  const objectStore = transaction.objectStore('Noticias');
+
+  const getRequest = objectStore.get(id);
+  const noticia2 = document.getElementById('btnPubli' + id);
+ 
+  getRequest.onsuccess = function (event) {
+    const noticia = event.target.result;
+
+    if (noticia) {
+      let newValue;
+      let swalTitle;
+       
+      if (noticia.valor === 'up') {
+        newValue = 'down';
+        swalTitle = 'Noticia Retirada';
+        noticia2.className = "btn";
       } else {
-        //console.error(`No se encontró la noticia con ID ${id}`);
-
+        newValue = 'up';
+        swalTitle = 'Noticia Publicada';
+        noticia2.className = "btn btnUpload";
       }
-    };
-  
-    getRequest.onerror = function() {
-      console.error('Error al obtener la noticia para editar');
-    };
-  }
 
-  
+      Swal.fire({
+        title: swalTitle,
+        showDenyButton: false,
+        showCancelButton: false,
+        confirmButtonText: 'Confirmar',
+      })
+      noticia.valor = newValue;
+      const updateRequest = objectStore.put(noticia);
+      updateRequest.onsuccess = function () {
+      console.log(`Valor de noticia actualizado a ${newValue}`); 
+          };            
+    }
+  };
+
+  getRequest.onerror = function () {
+    console.error('Error al obtener la noticia para editar');
+  };
+}
+
 function refreshPage() {
     location.reload();
 }
 
-function publicarNoticia(id){ 
-  const idnoti = document.getElementById(id);
-  if(idnoti.valor == 'down'){
-    Swal.fire({
-      title: 'Desea Publicar esta noticia?',
-      showDenyButton: true,
-      showCancelButton: false,
-      confirmButtonText: 'Si',
-    }).then((result) => {
-      if (result.isConfirmed) {
-        Swal.fire('Proceso exitoso', '', 'success');
-        idnoti.className ="btn btnUpload";
-        idnoti.valor = "up";
-      } else if (result.isDenied) {
-        
-      }
-    })
-  }
-  if(idnoti.valor == 'up'){
-    Swal.fire({
-      title: 'Desea Quitar esta noticia?',
-      showDenyButton: true,
-      showCancelButton: false,
-      confirmButtonText: 'Si',
-    }).then((result) => {
-      if (result.isConfirmed) {
-        Swal.fire('Proceso exitoso', '', 'success');
-        idnoti.className ="btn";
-        idnoti.valor = "down";
-      } else if (result.isDenied) {
-        
-      }
-    })
-  }
-  
-}
 function limpiarFormNoticias() {
   document.getElementById("formularioNews").reset();
 
@@ -1251,66 +1333,6 @@ function limpiarFormNoticias() {
   }
 }
 
-      
-
-// --Cierra mostrar datos noticias--
-
-//Jalar datos del Administrador
-
-/*
-function obtenerUsuario(id) {
-  const transaction = db.transaction('Administrador', 'readonly');
-  const objectStore = transaction.objectStore('Administrador');
-
-  const requestGet = objectStore.get(1);
-
-  requestGet.onsuccess = function(event) {
-      const usuario = event.target.result;
-
-      if (usuario) {
-          document.getElementById("nombre").value = usuario.nombre;
-          document.getElementById("apellidoPa").value = usuario.apellidoPa;
-          document.getElementById("apellidoMa").value = usuario.apellidoMa;
-          document.getElementById("instituto").value = usuario.instituto;
-          document.getElementById("edad").value = usuario.edad;
-          document.getElementById("contra").value = usuario.contra;
-          document.getElementById("telefono").value = usuario.telefono;
-          document.getElementById("correo").value = usuario.correo;
-          //document.whiskeyForm.setAttribute('data-key', usuario.id);
-      } else {
-          console.log('No se encontró el usuario con el ID especificado');
-      }
-  };
-
-  transaction.onerror = function(event) {
-      console.error('Error en la transacción:', event.target.error);
-  };
-
-  transaction.onabort = function(event) {
-      console.warn('Transacción abortada:', event.target.error);
-  };
-}*/
-
-/*
-function abrirBaseDatos() {
-  const request = indexedDB.open('Janal', 1);
-
-  request.onupgradeneeded = function(event) {
-    db = event.target.result;
-    const objectStore = db.createObjectStore('Noticias', { keyPath: 'id', autoIncrement: true });
-    // Puedes definir la estructura de la tabla 'Noticias' aquí si aún no existe
-  };
-
-  request.onsuccess = function(event) {
-    db = event.target.result;
-    console.log('Base de datos abierta correctamente.');
-  };
-
-  request.onerror = function(event) {
-    console.log('Error al abrir la base de datos:', event.target.error);
-  };
-}*/
- 
 function guardarCambiosNoticia(idd) {
   const id = parseInt(idd);
   //console.log("ddd", id);
@@ -1334,7 +1356,7 @@ function guardarCambiosNoticia(idd) {
     const objectStore = transaction.objectStore('Noticias');
 
     const requestUpdate = objectStore.get(id);
-
+    if (titulo && cuerpo && imagenBase64) {
     requestUpdate.onsuccess = function (event) {
       const noticia = event.target.result;
 
@@ -1348,6 +1370,21 @@ function guardarCambiosNoticia(idd) {
         requestUpdateData.onsuccess = function (event) {
           console.log('Noticia actualizada con éxito.');
           //window.history.back(); 
+          
+            Swal.fire({
+              icon: 'success',
+              title: '¡Datos Actualizados Correctamente!',
+              confirmButtonText: 'Aceptar',
+              allowOutsideClick: false,
+              allowEscapeKey: false
+            }).then((result) => {
+              if (result.isConfirmed) {
+                // Redirige a la página "login.html" en español             
+                mostrarEditNoticias(id)
+              }
+            });
+          
+          
         };
 
         requestUpdateData.onerror = function (event) {
@@ -1357,14 +1394,21 @@ function guardarCambiosNoticia(idd) {
         console.log('No se encontró la noticia con el ID especificado.');
       }
     };
-    
+  }else{
+    Swal.fire({
+      icon: 'error',
+      title: 'Complete todos los campos',
+      showDenyButton: false,
+      showCancelButton: false,
+      confirmButtonText: 'Confirmar',
+    })
+  }
     requestUpdate.onerror = function (event) {
       console.log('Error al obtener la noticia:', event.target.error);
     };
 
     transaction.oncomplete = function (event) {
       console.log('Transacción completada.');
-      // db.close();
     };
     
   };
@@ -1400,8 +1444,6 @@ function eliminarUsuario(id) {
     };
   }
 }
-
-
 
 
 //Verificar que las dos contraseñas coincidan
@@ -1566,14 +1608,14 @@ function manejadorValidacion(e) {
           ];
     
           var reactivos =[
-            {id:"1",Descripcion:"La miel que vende ¿en qué periodo del año se produjo (meses del año)?",Cate:"Miel"},
-            {id:"2",Descripcion:"¿Cuantos años lleva trabajando con las abejas ?",Cate:"Miel"},
-            {id:"3",Descripcion:"¿Cuantas cajas tiene?",Cate:"Ganaderia"},
-            {id:"4",Descripcion:"¿Cuanta miel produce anualmente?",Cate:"Ganaeria"},
-            {id:"5",Descripcion:"¿Cuantas veces al año extrae miel en una colmena?",Cate:"Otro"},
-            {id:"6",Descripcion:"¿Su produccion comparte espacio con otros animales domesticos?", Cate:"Miel"},
-            {id:"7",Descripcion:"¿Cuales?", Cate:"Miel"},
-            {id:"8",Descripcion:"¿Como sabe cuando es el momento de la cosecha", Cate:"Agricultura"}
+            {id:"1",Descripcion:"La miel que vende ¿en qué periodo del año se produjo (meses del año)?",Cate:"Miel",TipoRespuesta:"1"},
+            {id:"2",Descripcion:"¿Cuantos años lleva trabajando con las abejas ?",Cate:"Miel",TipoRespuesta:"1"},
+            {id:"3",Descripcion:"¿Cuantas cajas tiene?",Cate:"Ganaderia",TipoRespuesta:"1"},
+            {id:"4",Descripcion:"¿Cuanta miel produce anualmente?",Cate:"Ganaeria",TipoRespuesta:"1"},
+            {id:"5",Descripcion:"¿Cuantas veces al año extrae miel en una colmena?",Cate:"Otro",TipoRespuesta:"1"},
+            {id:"6",Descripcion:"¿Su produccion comparte espacio con otros animales domesticos?", Cate:"Miel",TipoRespuesta:"2"},
+            {id:"7",Descripcion:"¿Cuales?", Cate:"Miel",TipoRespuesta:"1"},
+            {id:"8",Descripcion:"¿Como sabe cuando es el momento de la cosecha", Cate:"Agricultura",TipoRespuesta:"2"}
             
         ];
     
@@ -4700,6 +4742,7 @@ function deshabilitarBotones(aqui) {
     }
   });
 }
+
 function miFuncionEditar() {
   console.log("Iniciando ejecución de la función.");
 

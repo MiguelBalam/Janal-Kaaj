@@ -13,8 +13,34 @@ if ($con->connect_error) {
     die("Conexión fallida: " . $con->connect_error);
 }
 
-$responses = $_POST['respuesta'];
+// $nombre = $_POST['nombre'];
+// $localidad = $_POST['localidad'];
+// $genero = $_POST['sexo'];
+// $edad = $_POST['edad'];
+
+
+// $insertEncuestado = "INSERT INTO encuestado_respuesta (codigo, nombre, localidad, genero, edad) 
+//                      VALUES ('$codigo', '$nombre', '$localidad', '$genero', '$edad')";
+// $resultadoInsertEncuestado = mysqli_query($con, $insertEncuestado);
+
+// Datos del encuestado
+$nombre = mysqli_real_escape_string($con, $_POST['nombre']);
+$localidad = mysqli_real_escape_string($con, $_POST['localidad']);
+$genero = mysqli_real_escape_string($con, $_POST['sexo']); // Puedes ajustar esto según cómo manejes los checkboxes de género
+$edad = mysqli_real_escape_string($con, $_POST['edad']);
 $codigo = $_POST['codigo'];
+// Insertar datos del encuestado en la tabla 'datos_encuestado'
+$insertDatosEncuestado = "INSERT INTO encuestado_respuesta(nombre, localidad, genero, edad, codigo)
+                          VALUES ('$nombre', '$localidad', '$genero', '$edad', '$codigo')";
+
+$resultadoInsertDatos = mysqli_query($con, $insertDatosEncuestado);
+
+
+
+
+
+$responses = $_POST['respuesta'];
+
 $observacion = $_POST['observacion'];
 
 foreach ($responses as $idPreg => $respPreg) {
@@ -61,7 +87,8 @@ foreach ($responses as $idPreg => $respPreg) {
     $resultadoInsert = mysqli_query($con, $InsertEncuesta);
 }
 
-$response = array("respuesta" => $resultadoInsert);
+$response = array("respuesta" => $resultadoInsert, "insertDatosEncuestado" => $resultadoInsertDatos);
+
 echo json_encode($response);
 ?>
 

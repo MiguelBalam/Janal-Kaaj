@@ -16,14 +16,27 @@ if ($con->connect_error) {
 // $responses = $_POST['respuesta'];
 // $codigo = $_POST['codigo'];
 // $observacion = $_POST['observacion'];
+$nombre = mysqli_real_escape_string($con, $_POST['nombre']);
+$localidad = mysqli_real_escape_string($con, $_POST['localidad']);
+$genero = mysqli_real_escape_string($con, $_POST['sexo']); // Puedes ajustar esto según cómo manejes los checkboxes de género
+$edad = mysqli_real_escape_string($con, $_POST['edad']);
+$codigo = $_POST['codigo'];
+// Insertar datos del encuestado en la tabla 'datos_encuestado'
+$insertDatosEncuestado = "INSERT INTO encuestado_respuesta(nombre, localidad, genero, edad, codigo)
+                          VALUES ('$nombre', '$localidad', '$genero', '$edad', '$codigo')";
+
+$resultadoInsertDatos = mysqli_query($con, $insertDatosEncuestado);
+
 
 $responses = json_decode($_POST['responses'], true);
-$codigo = $_POST['codigo'];
+
 // $observacion = $_POST['observacion'];
 
 foreach ($responses as $idPreg => $respArray) {
     foreach ($respArray as $respPreg) {
         $respuestaEscapada = mysqli_real_escape_string($con, $respPreg); // Escapar la respuesta
+       
+       
         
         // Crear y ejecutar la consulta SQL para insertar la respuesta
         $InsertEncuesta = "INSERT INTO respuesta_Encuesta_Variables (
@@ -37,11 +50,10 @@ foreach ($responses as $idPreg => $respArray) {
             '$codigo',
             NOW()
         )";
-        
         $resultadoInsert = mysqli_query($con, $InsertEncuesta);
     }
 }
 
-$response = array("respuesta" => $resultadoInsert);
+$response = array("respuesta" => $resultadoInsert,"insertDatosEncuestado" => $resultadoInsertDatos);
 echo json_encode($response);
 ?>

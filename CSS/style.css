@@ -304,6 +304,11 @@ text-align: center;
   color: rgb(255, 255, 255) !important;
   border-color: var(--mostaza) !important; 
 }
+.btnUpload {
+  background-color: var(--verde) !important;
+  color: rgb(255, 255, 255) !important;
+  border-color: var(--verde) !important; 
+}
 #boton_crear:hover {
   background-color: var(--mostaza) !important;
   color: rgb(255, 255, 255) !important;
@@ -439,6 +444,13 @@ background-repeat: no-repeat;
 background-position: 1rem center;
 text-align: center;
 }
+#buscar-titulo::placeholder{
+  background-image: url(../Img/lupa.png);
+  background-size: 15px 15px;
+  background-repeat: no-repeat;
+  background-position: 1rem center;
+  text-align: center;
+  }
 .Alerta {
 font-size: 24px; /* Tamaño del icono */
 cursor: pointer;
@@ -678,7 +690,16 @@ transition: box-shadow 0.15s ease-in-out;
     background-position: center center;
     background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url(/pestanas_Encuestado/Img/2.jpg);
     
-}
+   }
+   .sectionDash {
+    position: relative;
+    height: 100%;
+    width: 100%;
+    background-size: cover;
+    background-position: center center;
+    background: #ffffff;
+    
+   }
 .custom-textarea {
   height: 200px;
   width: 100%;
@@ -962,6 +983,9 @@ background: #e3e3e3;
   color: #646464;
   font-style: italic;
 }
-
+.crud {
+  min-height: 570px; /* Cambia esta altura según tus necesidades */
+  
+}
   
  
