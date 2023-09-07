@@ -1,5 +1,9 @@
 {
     "require": {
+<<<<<<< HEAD
         "firebase/php-jwt": "^6.8"
+=======
+        "phpoffice/phpspreadsheet": "^1.29"
+>>>>>>> 133f40a45e418ec4ebcae905b703bfa9ad760adb
     }
 }
