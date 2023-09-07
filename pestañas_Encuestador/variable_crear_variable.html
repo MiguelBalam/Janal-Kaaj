@@ -186,20 +186,21 @@
                     </div>
                 </form>
 
+                
                 <!-- botones  -->
                 <div class="row mb-4">
                     <div class="col-sm-12 col-form-label text-center">
 
                         <div class="d-flex flex-column flex-sm-row justify-content-center align-items-center">
 
-                            <button type="button"
+                            <button 
                                 class="btn btn-outline-success bg-border-mostaza bg-text-mostaza mb-2 me-2 w-100"
-                                onclick="CrearVariable(),notiCrearVariables(),limpiarFormulario(),habilitarbtn2()"
+                                onclick="crearVariable2(),CrearVariable(),notiCrearVariables(),limpiarFormulario(),habilitarbtn2()"
                                 id="boton_crear_variable">Crear</button>
 
-                            <button type="button"
+                            <button 
                                 class="btn btn-outline-success bg-border-mostaza bg-text-mostaza mb-2 me-2 w-100"
-                                onclick="window.location.href='../pestañas_Encuestador/crear_Evariables.html'"
+                                onclick="recuperarV(),window.location.href='../pestañas_Encuestador/crear_Evariables.html'"
                                 id="boton_guardar_variable">Guardar</button>
 
                             <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza mb-2 w-100"
@@ -207,7 +208,7 @@
                         </div>
 
                     </div>
-
+                </div>
                     <!-- tabla bd -->
                     <div class="bg-text-black text-center p-3 text-uppercase text-black">
                         <h5>Vista previa de variables</h5>
@@ -278,14 +279,9 @@
             }
         }
     </script>
-
-
-    <script src="../BD/app.js"></script>
+ <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="/BD/prueva/obtener_variables.php"></script>
+    <!-- <script src="../BD/app.js"></script> -->
     <script src="../CSS/SweetAlert.js"></script>
-
 </body>
-
-<script src="../BD/app.js"></script>
-<script src="../CSS/SweetAlert.js"></script>
-
 </html>

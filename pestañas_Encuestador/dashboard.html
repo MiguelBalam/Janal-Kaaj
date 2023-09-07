@@ -170,6 +170,37 @@
             </div>
           </div>
 
+         <script>
+document.addEventListener('DOMContentLoaded', function () {
+    var userId = localStorage.getItem('user_id');
+    var userCorreo = localStorage.getItem('user_correo');
+    
+    if (userId) {
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', '/BD/infoUser.php?id=' + userId, true);
+        xhr.onreadystatechange = function () {
+    if (xhr.readyState === 4) {
+        if (xhr.status === 200) {
+            try {
+                var userInfo = JSON.parse(xhr.responseText);
+                if (userInfo && userInfo.error) {
+                    console.error('Error obteniendo información del usuario:', userInfo.error);
+                } else {
+                  document.getElementById('aqui').value = userCorreo;
+                }
+            } catch (error) {
+                console.error('Error al analizar la respuesta JSON:', error);
+            }
+        } else {
+            console.error('Error en la solicitud AJAX para obtener información del usuario.');
+        }
+    }
+};
+        xhr.send();
+    }
+});
+         </script>
+
           <div class="row justify-content-center p-3 ">
             <div class="col-12">
               <h3 class="text-center mb-4">Crear encuestas.</h3>
@@ -226,17 +257,23 @@
                     <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" type="submit"
                       id="boton_filtrar" onclick="realizarBusqueda()">Filtrar</button>
                   </div>
+                  
+
                 </div>
               </form>
             </div>
           </div>
 
-
+      
+            
 
           <div class="row justify-content-center">
+            <div id="resultado2"></div>
+            <div id="tabla_encuestas"></div>
             <div id="crear_encuesta"></div>
             <div id="crear_encuestaVar"></div>
             <div id="resultado"></div>
+           
 
           </div>
         </div>
@@ -329,10 +366,15 @@ window.addEventListener('DOMContentLoaded', () => {
       }
     }
   </script>
-
-  <script src="../BD/app.js"></script>
+  <script src="/BD/registroUsuarios/registro.js"></script>
+   <script src="/BD/src/jsSC.js"></script>
+  <script src="/BD/src/sync.js"></script>
+ 
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+   <script src="/BD/prueva/encuesta.js"></script>
+ <script> src="/BD/infoUser.php" </script>
   <script src="../CSS/SweetAlert.js"></script>
-
+    <script src="/BD/src/sincronizar.php"></script>
 </body>
 
 </html>

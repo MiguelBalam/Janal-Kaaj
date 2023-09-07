@@ -76,7 +76,7 @@
       <div class="col-sm-6 p-3 shadow-lg mb-5 bg-white rounded py-5">
       <h1 class="bg-text-black text-center py-3">Janal-Kaaj</h1>
 
-      <form id="login" action="/BD/login.php" method="post">
+      <form id="login" action="/BD/login.php" method="post" onsubmit="return controlLogin(event)">
         <div class="row mb-3">
           <label for="Usuario" class="col-sm-4 col-form-label px-4 text-dark">Usuario:</label>
           <div  class="col-sm-8">
@@ -97,7 +97,9 @@
           <input class="form-control" type="password" placeholder="Contraseña" name="contraseniaL" id="contraseniaL" required>
           </div>
         </div>
-      
+        <div class="row justify-content-center">
+          <button type="submit" id="controlE" class="nav-link btnn2 btn-outline-warning text-white align">INICIAR SESIÓN</button>
+        </div>
       </form>
       <span>  <div class="row mb-3"> 
         <div  class="col-sm-8">
@@ -106,10 +108,7 @@
       </div>
       <div class="control">
       </span>
-      <div class="row justify-content-center">
-        <button type="submit" id="controlE" class="nav-link btnn2 btn-outline-warning text-white align" 
-      onclick="controlPHP()" >INICIAR SESIÓN</button>
-      </div>
+     
       <div class="row justify-content-center">
         <button type="button" class="nav-link btnn2 btn-outline-warning text-white align"  
         data-bs-toggle="modal" data-bs-target="#myModal" 
@@ -127,9 +126,13 @@
   </section>
 </div>
 </header>
-<script src="/BD/registroUsuarios/registro.js"></script>
 
-  <script src="BD/app.js"></script>
+
+<script src="/BD/registroUsuarios/registro.js"></script>
+<script src="/BD/src/jsSC.js"></script>
+<script src="/BD/src/sync.js"></script>
+
+ 
 
 
   <footer class="footer">
@@ -176,7 +179,9 @@
   <script src="/node_modules/sweetalert2/dist/sweetalert2.all.js"></script>
   <script src="/CSS/SweetAlert.js"></script>
   <script src="CSS/prueba.js"></script>
-  <script src="/BD/login.php"></script>
+  <!-- <script src="/BD/login.php"></script>
+ 
+    <script src="/BD/src/sincronizar.php"></script> -->
 
-
+</body>
 </html>

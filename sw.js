@@ -1,8 +1,10 @@
 // importScripts('https://cdn.jsdelivr.net/npm/pouchdb@8.0.1/dist/pouchdb.min.js');
+
 importScripts('BD/sw-utils.js');
 
 const STATIC_CACHE = 'static-v1';
 const DYNAMIC_CACHE = 'dynamic-v1';
+self.DYNAMIC_CACHE = DYNAMIC_CACHE
 const INMUTABLE_CACHE = 'inmutable-v1';
 
 // cosas que si van a cambiar
@@ -35,7 +37,10 @@ const APP_SHELL = [
     'pestanas_Encuestado/perfil.html',
     'pestañas_SuperUsuario/dashboard.html',
     'pestañas_SuperUsuario/noticias.html',
-    'pestañas_SuperUsuario/perfil_admin.html'
+    'pestañas_SuperUsuario/perfil_admin.html',
+    'BD/registroUsuarios/registro.js',
+    'BD/src/sync.js',
+   
 ];
 
 // cosas que no van a cambiar

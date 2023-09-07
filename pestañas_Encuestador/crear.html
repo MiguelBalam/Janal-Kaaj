@@ -170,7 +170,7 @@
                     </div>
                 </div>
 
-                <form name="form" id="formulario" action="">
+                <form name="form" id="formulario" action="guardar_encuesta.php" method="post">
                     <input type="hidden" name="fechaCreacionER" id="fechaCreacionER">
 
                     <div class="row mb-4">
@@ -234,6 +234,9 @@
                     <div class="bg-text-black text-center p-3 text-uppercase text-black">
                         <h5>Lista de reactivos que tienes agregadas o creadas</h5>
                     </div>
+
+                    <div id="reactivosTable"></div>
+
                     <div class="bg-text-black text-center p-3 text-black">
                         <div class="row">
                             <div id="salida2"></div>
@@ -243,7 +246,7 @@
 
                     <div class="row mb-4">
                         <div class="col-sm-4 offset-sm-4 text-center">
-                            <button onclick=" crearEncuestaFinal(),refrescarAlmacen()"
+                            <button onclick=" crearEncuestaFinal2(),crearEncuestaFinal(),refrescarAlmacen()"
                                 class="btn btn-outline-success bg-border-mostaza bg-text-mostaza mb-2 w-100"
                                 id="boton-crear-encuesta" type="submit" data-bs-toggle="modal"
                                 data-bs-target="#Modal_vistaPrevia" disabled>Crear Encuesta</button>
@@ -260,7 +263,39 @@
                 </div>
             </div>
         </section>
-
+       
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                var userId = localStorage.getItem('user_id');
+                var userCorreo = localStorage.getItem('user_correo');
+                
+                if (userId) {
+                    var xhr = new XMLHttpRequest();
+                    xhr.open('GET', '/BD/infoUser.php?id=' + userId, true);
+                    xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4) {
+                    if (xhr.status === 200) {
+                        try {
+                            var userInfo = JSON.parse(xhr.responseText);
+                            if (userInfo && userInfo.error) {
+                                console.error('Error obteniendo información del usuario:', userInfo.error);
+                            } else {
+                              document.getElementById('aqui').value = userCorreo;
+                            }
+                        } catch (error) {
+                            console.error('Error al analizar la respuesta JSON:', error);
+                        }
+                    } else {
+                        console.error('Error en la solicitud AJAX para obtener información del usuario.');
+                    }
+                }
+            };
+                    xhr.send();
+                }
+                recuperarR()
+            });
+          
+                     </script>
         <div class="modal fade" id="Modal_vistaPrevia" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable ">
                 <div class="modal-content">
@@ -363,6 +398,9 @@ window.addEventListener('DOMContentLoaded', () => {
             }
         }
     </script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="/BD/prueva/encuesta.js"></script>
+     <script src="/BD/registroUsuarios/registro.js"></script>
     <script src="../BD/app.js"></script>
     <script src="../CSS/SweetAlert.js"></script>
 </body>

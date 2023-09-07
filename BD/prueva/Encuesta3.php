@@ -76,6 +76,45 @@
                 </tr>
             </tbody>
         </table>
+
+
+        <div class="col-sm-6 p-3">
+
+<div class="row mb-3">
+<label for="nombrecompletos" class="col-sm-4 col-form-label px-4">Nombre:</label>
+<div class="col-sm-8">
+<input type="text" class="form-control" name="nombre" id="nombre">
+</div>
+
+<label for="nombrecompletos" class="col-sm-4 col-form-label px-4">Localidad:</label>
+<div class="col-sm-8">
+<input type="text" class="form-control" name="localidad" id="localidad">
+</div>
+</div>
+
+<div class="row mb-3">
+<label for="genero" class="col-sm-4 col-form-label px-4">Género:</label>
+<div class="col-sm-8">
+<div class="form-check form-check-inline col-md-4">
+    <input class="form-check-input" type="checkbox" name="sexo" id="generoMasculino" value="Masculino" required>
+    <label class="form-check-label" for="generoMasculino">Masculino</label>
+</div>
+<div class="form-check form-check-inline col-md-4">
+    <input class="form-check-input" type="checkbox" name="sexo" id="generoFemenino" value="Femenino" required>
+    <label class="form-check-label" for="generoFemenino">Femenino</label>
+</div>
+</div>
+</div>
+
+<div class="row mb-3">
+<label for="edad" class="col-sm-4 col-form-label px-4">Edad:</label>
+<div class="col-sm-8">
+<input type="number" class="form-control" name="edad" id="edad">
+</div>
+</div>
+
+</div>
+
         <?php
 $username = "janalkaa_admin";
 $password = "janalkaaj2023";
@@ -140,8 +179,9 @@ if ($query) {
             // Mostrar celdas de respuesta
             for ($i = 0; $i < 21; $i++) {
                 $respuestaName = "respuesta[$questionId]";
-                $valorVariable = ($i < 21) ? array_search($i, $arrayRespuestas) : $arrayRespuestas[$i];
                 
+                $valorVariable = ($i < 21) ? array_search($i, $arrayRespuestas) : $arrayRespuestas[$i];
+                $valorVariable = "0";
                 echo "<td>
                 <select name='$respuestaName' data-id='$questionId' onchange='handleSelectChange(this)'>
                 <option value='0' " . ($valorVariable == "0" ? "selected" : "") . ">0</option>
@@ -168,8 +208,8 @@ if ($query) {
                 <textarea name="observacion" class="form-control" rows="3">No hay observación</textarea>
             </div>
            
-        </form>
-        <button type="button" class="btn btn-primary" id="btn" onclick=" GuardarResVariable() ">DEBES RESPONDER TODAS LAS PREGUNTAS</button>
+        
+        <button type="button" class="btn btn-primary" id="btn" onclick=" GuardarResVariable() ">GUARDAR RESPUESTA</button>
         <!-- <div class="progress">
             <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">
                 0%
