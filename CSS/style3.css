@@ -285,6 +285,12 @@
   overflow: hidden; 
 }
 
+ .card-img img {
+   width: 100%;
+   height: 100%;
+   object-fit: cover; 
+ }
+
 .card-titulo{
   height: 90px;
   overflow: auto;

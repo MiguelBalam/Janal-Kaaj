@@ -198,7 +198,7 @@ var ObjectStoreReac;
       EncuestaV()
       
     });
-
+ 
     
 document.formEncuestado.addEventListener('submit',(ev)=>{        
   ev.preventDefault();
@@ -677,7 +677,7 @@ function agregarEventoFormulario() {
     const imagen = document.getElementById('image').files[0];
 
     // Llama a la función para almacenar los datos en la base de datos
-    guardarDatos(titulo, cuerpo, imagen, valor);
+    guardarDatosNoticias(titulo, cuerpo, imagen, valor);
 
     Swal.fire({
       title: 'Se han enviado los datos',
@@ -701,7 +701,7 @@ function agregarEventoFormulario() {
   });
 }
 
-function guardarDatos(titulo, cuerpo, imagen, valor) {
+function guardarDatosNoticias(titulo, cuerpo, imagen, valor) {
   const request = indexedDB.open('Janal', 1); 
 
   request.onerror = function(event) {
@@ -1003,11 +1003,11 @@ function crearTarjetas() {
       divColLg3_1.className = 'col-sm-3';
 
       const divColSm6 = document.createElement('div');
-      divColSm6.className = 'col-sm-6 card-img';
+      divColSm6.className = 'col-sm-6';
 
       const img = document.createElement('img');
       img.id = `image${contador}`;
-      img.className = 'img-fluid rounded';
+      img.className = 'img-fluid rounded card-img';
 
       const divColLg3_2 = document.createElement('div');
       divColLg3_2.className = 'col-sm-3';
@@ -1085,7 +1085,7 @@ function crearCardIndex() {
   cardBodyDiv.className = "card-body";
 
   const divimg = document.createElement('div');
-    divimg.className = 'card-img';
+    divimg.className = 'card-img img';
 
   const imgElement = document.createElement("img");
   imgElement.className = "img-fluid rounded";
@@ -1109,8 +1109,8 @@ function crearCardIndex() {
 
   const linkElement = document.createElement("a");
   linkElement.onclick = function() {
-        botonSegAlim(this.id);
-      }
+    mostrarNoticia(this.id); // Llama a una función para mostrar la noticia
+  };
   linkElement.className = "link-card";
   linkElement.id = `link${contador}`;
   linkElement.textContent = `Ver más..`;
@@ -1141,6 +1141,20 @@ function crearCardIndex() {
   };
 }
 
+function mostrarNoticia(id) {
+  // Obtén el ID de la noticia desde el enlace
+  const noticiaId = id.replace("link", ""); // Elimina el prefijo "link" para obtener el ID
+
+  // Aquí puedes usar la noticiaId para cargar la noticia desde tu base de datos o donde esté almacenada.
+  // Por ejemplo, puedes hacer una solicitud AJAX o cargar la noticia desde un objeto en memoria.
+
+  // Abre una nueva ventana o pestaña con la noticia completa
+  const url = './seguridad-alimentaria.html?id=' + noticiaId;
+  window.open(url, '_self');
+  
+}
+
+
 function crearCardNoticias(idNoticia) {
   const container = document.getElementById('editarNoticias');
 
@@ -1165,7 +1179,7 @@ function crearCardNoticias(idNoticia) {
       cardBodyDiv.className = "card-body";
 
       const divimg = document.createElement('div');
-      divimg.className = 'card-img2';
+      divimg.className = 'card-img2 img';
 
       const imgElement = document.createElement("img");
       imgElement.className = "img-fluid rounded";
