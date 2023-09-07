@@ -19,40 +19,72 @@ function respuesta(idPregunta, idRespuesta) {
     contadorChecken();
 }
 
+// function contadorChecken() {
+//     let valoresCheck = [];
+//     $("input[type=radio]:checked, input[type=text]").each(function () {
+//         valoresCheck.push(this.value);
+//     });
+
+//     let totalChecken = valoresCheck.length;
+//     let totalPBD = document.querySelector('#totalPreguntasBD');
+//     let totalPreguntas = Number(totalPBD.dataset.totalpreg);
+
+//     let porcentaje = (totalChecken * 50) / totalPreguntas;
+//     let porcentajeDecimale = Number(porcentaje.toFixed(3));
+
+//     let sustraerEntero = Number(porcentaje.toFixed(3).substring(0, 3));
+
+//     accionBtn(sustraerEntero);
+
+//     let barraPro = document.querySelector(".progress-bar");
+//     barraPro.style.width = `${porcentajeDecimale}%`;
+//     barraPro.textContent = `${sustraerEntero}%`;
+// }
+
+// function accionBtn(sustraerEntero = 0) {
+//     let btnEnviar = document.querySelector('#btnSend');
+//     btnEnviar.disabled = true;
+
+//     if (sustraerEntero == '100') {
+//         btnEnviar.disabled = false;
+//         btnEnviar.textContent = 'Guardar Respuestas';
+//     } else {
+//         btnEnviar.disabled = true;
+//     }
+// }
+
 function contadorChecken() {
-    let valoresCheck = [];
-    $("input[type=radio]:checked, input[type=text]").each(function () {
-        valoresCheck.push(this.value);
+    let totalPreguntas = Number(document.querySelector('#totalPreguntasBD').dataset.totalpreg);
+    let elementosCompletados = 0;
+
+    // Recorre todos los elementos de entrada (ya sean casillas de verificación o campos de texto)
+    $("input[type=radio], input[type=text]").each(function () {
+        if ($(this).val() !== '') {
+            elementosCompletados++;
+        }
     });
 
-    let totalChecken = valoresCheck.length;
-    let totalPBD = document.querySelector('#totalPreguntasBD');
-    let totalPreguntas = Number(totalPBD.dataset.totalpreg);
+    let porcentaje = (elementosCompletados / totalPreguntas) * 100;
+    let porcentajeRedondeado = Math.round(porcentaje);
 
-    let porcentaje = (totalChecken * 50) / totalPreguntas;
-    let porcentajeDecimale = Number(porcentaje.toFixed(3));
-
-    let sustraerEntero = Number(porcentaje.toFixed(3).substring(0, 3));
-
-    accionBtn(sustraerEntero);
+    accionBtn(porcentajeRedondeado);
 
     let barraPro = document.querySelector(".progress-bar");
-    barraPro.style.width = `${porcentajeDecimale}%`;
-    barraPro.textContent = `${sustraerEntero}%`;
+    barraPro.style.width = `${porcentajeRedondeado}%`;
+    barraPro.textContent = `${porcentajeRedondeado}%`;
 }
 
-function accionBtn(sustraerEntero = 0) {
+function accionBtn(porcentajeRedondeado = '0') {
     let btnEnviar = document.querySelector('#btnSend');
     btnEnviar.disabled = true;
 
-    if (sustraerEntero == '100') {
+    if (porcentajeRedondeado >= 100) {
         btnEnviar.disabled = false;
-        btnEnviar.textContent = 'Crear nuevo Registro';
+        btnEnviar.textContent = 'Guardar Respuestas';
     } else {
         btnEnviar.disabled = true;
     }
 }
-
 
 
 function GuardarRes() {
@@ -70,13 +102,13 @@ function GuardarRes() {
         let value = $(this).val();
         inputValue[questionId] = value;
     });
-
+    let idEncuesta = obtenerElIdDeLaEncuesta();
     $.ajax({
         url: 'GuardarRes.php',
         type: 'POST',
         data: formFormatoGS + '&codigo=' + codigo + '&nombre=' + nombre +
             '&localidad=' + localidad + '&sexo=' + sexo + '&edad=' + edad +
-            '&inputValue=' + JSON.stringify(inputValue),
+            '&inputValue=' + JSON.stringify(inputValue) + '&idEncuesta=' + idEncuesta,
         dataType: 'json',
         success: function (data) {
             console.log(data);
@@ -87,6 +119,12 @@ function GuardarRes() {
         }
     }); 
 }
+function obtenerElIdDeLaEncuesta() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const idEncuesta = urlParams.get('id_encuesta');
+    return idEncuesta;
+}
+
 
 
 
@@ -399,24 +437,49 @@ $(function() {
 //     }
 // }
 
+// function aplicarEncuesta(id_encuesta) {
+//     var conf = confirm("¿Estás seguro de aplicar la Encuesta?");
+//     if (conf == true) {
+       
+//     if (id_encuesta == 1) {
+//                 window.location.href = '/BD/prueva/Encuesta2.php';
+//             } else  if (id_encuesta == 2) {
+//             window.location.href = '/BD/prueva/index.php';
+//         }else  if (id_encuesta == 3) {
+//             window.location.href = '/BD/prueva/Encuesta3.php';
+//         } else {
+//             $.post("/BD/prueva/aplicarEncuesta.php", {id_encuesta: id_encuesta}, function (data, status) {
+//                 window.location.href = '/BD/prueva/EncuestasAplicar.php?id_encuesta=' + id_encuesta;
+//             });
+//         }
+       
+//     }
+    
+// }
+
 function aplicarEncuesta(id_encuesta) {
     var conf = confirm("¿Estás seguro de aplicar la Encuesta?");
     if (conf == true) {
-       
-    if (id_encuesta == 1) {
-                window.location.href = '/BD/prueva/Encuesta2.php';
-            } else  if (id_encuesta == 2) {
-            window.location.href = '/BD/prueva/index.php';
-        }else  if (id_encuesta == 3) {
-            window.location.href = '/BD/prueva/Encuesta3.php';
+        // Construye la URL base de acuerdo al ID de la encuesta
+        var baseUrl = '/BD/prueva/';
+        if (id_encuesta == 1) {
+            baseUrl += 'Encuesta2.php';
+        } else if (id_encuesta == 2) {
+            baseUrl += 'index.php';
+        } else if (id_encuesta == 3) {
+            baseUrl += 'Encuesta3.php';
         } else {
+            // Si no es un ID específico, envía una solicitud POST y redirige
             $.post("/BD/prueva/aplicarEncuesta.php", {id_encuesta: id_encuesta}, function (data, status) {
-                window.location.href = '/BD/prueva/EncuestasCreadas.php?id_encuesta=' + id_encuesta;
+                window.location.href = '/BD/prueva/EncuestasAplicar.php?id_encuesta=' + id_encuesta;
             });
+            return; // Evita que se ejecute el código de redirección general
         }
-       
+
+        // Agrega el ID de la encuesta a la URL y redirige
+        window.location.href = baseUrl + '?id_encuesta=' + id_encuesta;
     }
-    
 }
+
 
 

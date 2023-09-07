@@ -4,6 +4,14 @@
 
 namespace Composer\Autoload;
 
+<<<<<<< HEAD
+class ComposerStaticInitc0b105251dc27c1bce9092fd7572957a
+{
+    public static $prefixLengthsPsr4 = array (
+        'F' => 
+        array (
+            'Firebase\\JWT\\' => 13,
+=======
 class ComposerStaticInit95516b9b727ada62351ad2d0fddf8298
 {
     public static $files = array (
@@ -29,10 +37,16 @@ class ComposerStaticInit95516b9b727ada62351ad2d0fddf8298
         'C' => 
         array (
             'Complex\\' => 8,
+>>>>>>> 133f40a45e418ec4ebcae905b703bfa9ad760adb
         ),
     );
 
     public static $prefixDirsPsr4 = array (
+<<<<<<< HEAD
+        'Firebase\\JWT\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/firebase/php-jwt/src',
+=======
         'ZipStream\\' => 
         array (
             0 => __DIR__ . '/..' . '/maennchen/zipstream-php/src',
@@ -71,6 +85,7 @@ class ComposerStaticInit95516b9b727ada62351ad2d0fddf8298
             array (
                 0 => __DIR__ . '/..' . '/ezyang/htmlpurifier/library',
             ),
+>>>>>>> 133f40a45e418ec4ebcae905b703bfa9ad760adb
         ),
     );
 
@@ -81,10 +96,16 @@ class ComposerStaticInit95516b9b727ada62351ad2d0fddf8298
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
+<<<<<<< HEAD
+            $loader->prefixLengthsPsr4 = ComposerStaticInitc0b105251dc27c1bce9092fd7572957a::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInitc0b105251dc27c1bce9092fd7572957a::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInitc0b105251dc27c1bce9092fd7572957a::$classMap;
+=======
             $loader->prefixLengthsPsr4 = ComposerStaticInit95516b9b727ada62351ad2d0fddf8298::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInit95516b9b727ada62351ad2d0fddf8298::$prefixDirsPsr4;
             $loader->prefixesPsr0 = ComposerStaticInit95516b9b727ada62351ad2d0fddf8298::$prefixesPsr0;
             $loader->classMap = ComposerStaticInit95516b9b727ada62351ad2d0fddf8298::$classMap;
+>>>>>>> 133f40a45e418ec4ebcae905b703bfa9ad760adb
 
         }, null, ClassLoader::class);
     }

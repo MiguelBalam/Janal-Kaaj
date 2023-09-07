@@ -24,7 +24,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $instrucciones = $_POST["instrucciones"];
 
     // Insertar la encuesta en la tabla 'encuestas'
-    $sql = "INSERT INTO encuestas (id_usuario, titulo, objetivo, instrucciones) VALUES (?, ?, ?, ?)";
+    $sql = "INSERT INTO encuestasVariables (id_usuario, titulo, objetivo, instrucciones) VALUES (?, ?, ?, ?)";
     $stmt = $con->prepare($sql);
     $stmt->bind_param("isss", $id_usuario, $titulo, $objetivo, $instrucciones);
 

@@ -32,7 +32,6 @@ if (isset($_POST['id_encuesta']) && $_POST['id_encuesta'] != "") {
         while ($row = $result_reactivos->fetch_assoc()) {
             $reactivos[] = $row;
         }
-    
         // Verificar si se obtuvieron resultados de la consulta
         
         return ['encuesta' => $encuesta, 'reactivos' => $reactivos];

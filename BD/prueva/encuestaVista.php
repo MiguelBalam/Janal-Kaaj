@@ -17,18 +17,25 @@ if ($con->connect_error) {
 if (isset($_GET['id_encuesta'])) {
     // Recupera el valor de id_encuesta de la URL
     $id_encuesta = $_GET['id_encuesta'];
+    $id_encuestaVar = $_GET['id_encuesta'];
 
     // Aquí deberías incluir el código para obtener los datos de la encuesta y reactivos utilizando la función obtenerEncuesta($id_encuesta)
     function obtenerEncuesta($id_encuesta) {
         global $con;
-    
+        $query_encuestaVar = "SELECT * FROM encuestasVariables WHERE id_encuesta = $id_encuesta";
+        $result_encuesta = $con->query($query_encuestaVar);
+        $encuestaVar = $result_encuesta->fetch_assoc();
+        
         $query_encuesta = "SELECT * FROM encuestas WHERE id_encuesta = $id_encuesta";
         $result_encuesta = $con->query($query_encuesta);
         $encuesta = $result_encuesta->fetch_assoc();
+        
+       
     
         $query_reactivos = "SELECT * FROM reactivosCreados WHERE id_reactivoC IN (SELECT id_reactivo FROM encuesta_FinalReactivos WHERE id_encuesta = $id_encuesta)";
         $result_reactivos = $con->query($query_reactivos);
         $reactivos = [];
+
         while ($row = $result_reactivos->fetch_assoc()) {
             $reactivos[] = $row;
         }
@@ -41,7 +48,7 @@ if (isset($_GET['id_encuesta'])) {
                 $reactivos[] = $row;
             }
         }
-        return ['encuesta' => $encuesta, 'reactivos' => $reactivos];
+        return ['encuesta' => $encuesta, 'encuestaVar' => $encuestaVar,'reactivos' => $reactivos];
     }
     
     // Obtener datos de la encuesta con ID específico
@@ -60,32 +67,32 @@ $arrayRespuestas = array(
 );
 function obtenerVariablesEncuesta($id_encuesta) {
     global $con;
-    
-    $query_variable = "SELECT * FROM Variable WHERE id_variable IN (SELECT id_Variables FROM encuesta_FinalVariables WHERE id_encuesta = $id_encuesta)";
-    $result_variables = $con->query($query_variable);
     $variables = [];
+
+    if ($id_encuesta == 3) {
+        $query_varia = "SELECT ev.id_Variables, v.Nobre_Var
+        FROM Encuesta_Variables ev
+        JOIN Variable v ON ev.id_Variables = v.id_variable
+        WHERE ev.id_encuesta = '$id_encuesta'";
+        $result_varia = $con->query($query_varia);
+        while ($row = $result_varia->fetch_assoc()) {
+            $variables[] = $row;
+        }
+    }else{
+        $query_variable = "SELECT * FROM Variable WHERE id_variable IN (SELECT id_variable FROM encuesta_FinalVariables WHERE id_encuesta = $id_encuesta)";
+    $result_variables = $con->query($query_variable);
     while ($row = $result_variables->fetch_assoc()) {
         $variables[] = $row;
     }
 
-    if ($id_encuesta == 3) {
-        $query_variables = "SELECT ev.id_Variables, v.Nobre_Var
-        FROM Encuesta_Variables ev
-        JOIN Variable v ON ev.id_Variables = v.id_variable
-        WHERE ev.id_encuesta = '$id_encuesta'";
-        
-        $result_variables = $con->query($query_variables);
-        while ($row = $result_variables->fetch_assoc()) {
-            $variables[] = $row;
-        }
     }
    
     
     return $variables;
 }
 
-$id_encuesta = $_GET['id_encuesta'];
-$variables_encuesta = obtenerVariablesEncuesta($id_encuesta);
+$id_encuestaVar = $_GET['id_encuesta'];
+$variables_encuesta = obtenerVariablesEncuesta($id_encuestaVar);
 ?>
 
     <!DOCTYPE html>
@@ -145,17 +152,29 @@ $variables_encuesta = obtenerVariablesEncuesta($id_encuesta);
           </div>
         </div>
       </div>
+   
+  
 
       <div id="mainForm" class="text-center">
     <table class= 'table table-bordered' id="header">
             <tbody class="color-fondo IBM">
+        
                 <tr>
                     <td rowspan="4" style="text-align:center"><img src="/Img/lOGOCONACYT.png" class="col-sm-4 my-3 my-lg-0 text-center"></td>
                     <td rowspan="3" class="col-sm-4 text-center">DATOS ENCUESTA</td>
-                    <td><small><strong>TITULO:</strong> <span name="T" id="T"><?php echo $datos_encuesta['encuesta']['titulo']; ?></span></small></td>
+                    <td><small><strong>TITULO:</strong> <span name="T" id="T"><?php echo isset($datos_encuesta['encuesta']['titulo']) ? $datos_encuesta['encuesta']['titulo'] : ''; ?>
+                    <?php if (isset($datos_encuesta['encuestaVar'])){
+                          echo '<span name="T" id="T">' . (isset($datos_encuesta['encuestaVar']['titulo']) ? $datos_encuesta['encuestaVar']['titulo'] : '') . '</span>';
+                    } ?>
+                </span></small></td>
+                   
                 </tr>
                 <tr>
-                    <td><small><strong>OBJETIVO:</strong><?php echo $datos_encuesta['encuesta']['objetivo']; ?></small></td>
+                    <td><small><strong>OBJETIVO:</strong><?php echo isset($datos_encuesta['encuesta']['objetivo']) ? $datos_encuesta['encuesta']['objetivo'] : ''; ?>
+                    <?php if (isset($datos_encuesta['encuestaVar'])){
+                          echo (isset($datos_encuesta['encuestaVar']['objetivo']) ? $datos_encuesta['encuestaVar']['objetivo'] : '') ;
+                    } ?>
+                </small></td>
                 </tr>
               
             </tbody>
@@ -201,7 +220,6 @@ $variables_encuesta = obtenerVariablesEncuesta($id_encuesta);
                 echo '</label>';
                 echo '<label class="form-check-label" for="reactivo_'.$reactivo['id_pregunta'].'_no">No</label>';
                 echo '<input class="form-check-input" type="checkbox" name="reactivo_'.$reactivo['id_pregunta'].'" id="reactivo_'.$reactivo['id_pregunta'].'_no" value="No">';
-         
                 echo '</td>';
                 echo '</tr>';
                 echo '</tbody>';
@@ -258,41 +276,33 @@ $variables_encuesta = obtenerVariablesEncuesta($id_encuesta);
         <div class="table-responsive">
         <table class='table table-bordered'>
             <tr>
-                <?php
-                echo "<th>.INFLUENCIA.</th>";
-                foreach ($variables_encuesta as $variable) {
-                    echo "<th>" . strtoupper($variable['Nobre_Var']) . "</th>";
-                }
-                ?>
+            <th>.INFLUENCIA.</th>
+                <?php foreach ($variables_encuesta as $variable) : ?>
+                    <th><?= strtoupper($variable['Nobre_Var']) ?></th>
+                <?php endforeach; ?>
             </tr>
-            <?php
-
-           
-            foreach ($variables_encuesta as $variable) {
-                echo "<tr>";
-                echo "<td>" . strtoupper($variable['Nobre_Var']) . "</td>"; // Muestra el valor Nombre_Var en la primera columna
-                
-                foreach ($variables_encuesta as $otherVariable) {
-                    $questionId = $otherVariable['id_Variables'];
-                    $respuestaName = "respuesta[$questionId][" . $variable['Nobre_Var'] . "]";
-                 
-                    
-                    $valorVariable = isset($arrayRespuestas[$questionId][$variable['Nobre_Var']]) ? $arrayRespuestas[$questionId][$variable['Nobre_Var']] : "0";
-                    
-                    // Generar celda de respuesta similar al ejemplo
-                    echo "<td>
-                        <select name='$respuestaName' data-id='$questionId' onchange='handleSelectChange(this)'>
-                            <option value='0' " . ($valorVariable == "0" ? "selected" : "") . ">0</option>
-                            <option value='1' " . ($valorVariable == "1" ? "selected" : "") . ">1</option>
-                            <option value='2' " . ($valorVariable == "2" ? "selected" : "") . ">2</option>
-                            <option value='3' " . ($valorVariable == "3" ? "selected" : "") . ">3</option>
-                            <option value='P' " . ($valorVariable == "P" ? "selected" : "") . ">P</option>
-                        </select>
-                    </td>";
-                }
-                echo "</tr>";
-            }
-            ?>
+            <?php foreach ($variables_encuesta as $variable) : ?>
+                <tr>
+                    <td><?= strtoupper($variable['Nobre_Var']) ?></td>
+                    <?php foreach ($variables_encuesta as $otherVariable) : ?>
+                        <td>
+                            <?php
+                           // $questionId = $otherVariable['id_Variables'];
+                          // $questionId = $otherVariable['id_Variables'];
+                           $respuestaName = "respuesta[][" . $variable['Nobre_Var'] . "]";
+                           $valorVariable = isset($arrayRespuestasVar[$variable['Nobre_Var']]) ? $arrayRespuestasVar[$variable['Nobre_Var']] : "0";
+                            ?>
+                          <select name="<?= $respuestaName ?>" data-id="" onchange="handleSelectChange(this)">
+                                <option value="0" <?= ($valorVariable == "0" ? "selected" : "") ?>>0</option>
+                                <option value="1" <?= ($valorVariable == "1" ? "selected" : "") ?>>1</option>
+                                <option value="2" <?= ($valorVariable == "2" ? "selected" : "") ?>>2</option>
+                                <option value="3" <?= ($valorVariable == "3" ? "selected" : "") ?>>3</option>
+                                <option value="P" <?= ($valorVariable == "P" ? "selected" : "") ?>>P</option>
+                            </select>
+                        </td>
+                    <?php endforeach; ?>
+                </tr>
+            <?php endforeach; ?>
         </table>
         </div>
         <?php } ?>  

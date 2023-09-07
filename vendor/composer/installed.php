@@ -3,7 +3,11 @@
         'name' => '__root__',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
+<<<<<<< HEAD
+        'reference' => '15bffb914fd7ad34e1c5a6bf568130bba91df8f0',
+=======
         'reference' => '61687f14cedf81222d0412506a6f0fb85a08d63b',
+>>>>>>> 133f40a45e418ec4ebcae905b703bfa9ad760adb
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -13,12 +17,24 @@
         '__root__' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
+<<<<<<< HEAD
+            'reference' => '15bffb914fd7ad34e1c5a6bf568130bba91df8f0',
+=======
             'reference' => '61687f14cedf81222d0412506a6f0fb85a08d63b',
+>>>>>>> 133f40a45e418ec4ebcae905b703bfa9ad760adb
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
             'dev_requirement' => false,
         ),
+<<<<<<< HEAD
+        'firebase/php-jwt' => array(
+            'pretty_version' => 'v6.8.1',
+            'version' => '6.8.1.0',
+            'reference' => '5dbc8959427416b8ee09a100d7a8588c00fb2e26',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../firebase/php-jwt',
+=======
         'ezyang/htmlpurifier' => array(
             'pretty_version' => 'v4.16.0',
             'version' => '4.16.0.0',
@@ -97,6 +113,7 @@
             'reference' => '764e0b3939f5ca87cb904f570ef9be2d78a07865',
             'type' => 'library',
             'install_path' => __DIR__ . '/../psr/simple-cache',
+>>>>>>> 133f40a45e418ec4ebcae905b703bfa9ad760adb
             'aliases' => array(),
             'dev_requirement' => false,
         ),

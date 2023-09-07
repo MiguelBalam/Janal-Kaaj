@@ -130,38 +130,94 @@ if ($con->connect_error) {
     die("Conexión fallida: " . $con->connect_error);
 }
 
+// if (isset($_GET['id_encuesta'])) {
+//     // Recupera el valor de id_encuesta de la URL
+//     $id_encuesta = $_GET['id_encuesta'];
+
+//     // Aquí deberías incluir el código para obtener los datos de la encuesta y reactivos utilizando la función obtenerEncuesta($id_encuesta)
+//     function obtenerEncuesta($id_encuesta) {
+//         global $con;
+    
+//         $query_encuesta = "SELECT * FROM encuestas WHERE id_encuesta = $id_encuesta";
+//         $result_encuesta = $con->query($query_encuesta);
+//         $encuesta = $result_encuesta->fetch_assoc();
+    
+//         $query_reactivos = "SELECT * FROM reactivosCreados WHERE id_reactivoC IN (SELECT id_reactivo FROM encuesta_FinalReactivos WHERE id_encuesta = $id_encuesta)";
+//         $result_reactivos = $con->query($query_reactivos);
+//         $reactivos = [];
+//         while ($row = $result_reactivos->fetch_assoc()) {
+//             $reactivos[] = $row;
+//         }
+    
+//         // Verificar si se obtuvieron resultados de la consulta
+//         $arrayRespuestas = array(
+//             "SI" => "SI",
+//             "NO" => "NO",
+//         );
+        
+//         return ['encuesta' => $encuesta, 'reactivos' => $reactivos, 'arrayRespuestas' => $arrayRespuestas];
+//     }
+    
+//     // Obtener datos de la encuesta con ID específico
+//     $id_encuesta = $_GET['id_encuesta']; // Recupera el valor de id_encuesta de la URL
+//     $datos_encuesta = obtenerEncuesta($id_encuesta);
+//     $arrayRespuestas = $datos_encuesta['arrayRespuestas'];
+// }
+// 
 if (isset($_GET['id_encuesta'])) {
     // Recupera el valor de id_encuesta de la URL
     $id_encuesta = $_GET['id_encuesta'];
-
-    // Aquí deberías incluir el código para obtener los datos de la encuesta y reactivos utilizando la función obtenerEncuesta($id_encuesta)
-    function obtenerEncuesta($id_encuesta) {
+    function obtenerDatosEncuesta($id_encuesta) {
         global $con;
-    
+
+        // Consulta para obtener datos de la encuesta y reactivos
         $query_encuesta = "SELECT * FROM encuestas WHERE id_encuesta = $id_encuesta";
         $result_encuesta = $con->query($query_encuesta);
         $encuesta = $result_encuesta->fetch_assoc();
-    
+
         $query_reactivos = "SELECT * FROM reactivosCreados WHERE id_reactivoC IN (SELECT id_reactivo FROM encuesta_FinalReactivos WHERE id_encuesta = $id_encuesta)";
         $result_reactivos = $con->query($query_reactivos);
         $reactivos = [];
         while ($row = $result_reactivos->fetch_assoc()) {
             $reactivos[] = $row;
         }
-    
-        // Verificar si se obtuvieron resultados de la consulta
+
+        // Consulta para obtener datos de las variables
+        $query_variables = "SELECT * FROM Variable WHERE id_variable IN (SELECT id_variables FROM encuesta_FinalVariables WHERE id_encuesta = $id_encuesta)";
+        $result_variables = $con->query($query_variables);
+        $variables = [];
+        while ($row = $result_variables->fetch_assoc()) {
+            $variables[] = $row;
+        }
+
         $arrayRespuestas = array(
-            "SI" => "SI",
-            "NO" => "NO",
-        );
-        
-        return ['encuesta' => $encuesta, 'reactivos' => $reactivos, 'arrayRespuestas' => $arrayRespuestas];
+                     "SI" => "SI",
+                    "NO" => "NO",
+               );
+               $arrayRespuestasVar = array(
+                "0" => "0",
+                "1" => "1",
+                "2" => "2",
+                "3" => "3",
+                "P" => "p",
+            );
+
+        return [
+            'encuesta' => $encuesta,
+            'reactivos' => $reactivos,
+            'variables' => $variables,
+            'arrayRespuestas' => $arrayRespuestas,
+            'arrayRespuestasVar' => $arrayRespuestasVar
+            // Otros datos si es necesario
+        ];
     }
+
     
     // Obtener datos de la encuesta con ID específico
     $id_encuesta = $_GET['id_encuesta']; // Recupera el valor de id_encuesta de la URL
-    $datos_encuesta = obtenerEncuesta($id_encuesta);
+   $datos_encuesta = obtenerDatosEncuesta($id_encuesta);
     $arrayRespuestas = $datos_encuesta['arrayRespuestas'];
+    $arrayRespuestasVar = $datos_encuesta['arrayRespuestasVar'];
 }
 ?>
 
