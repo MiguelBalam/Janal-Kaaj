@@ -15,11 +15,11 @@ $resultados = array();
 $codigoBusqueda = '';
 
 // Verificar si se proporcionó un código para la búsqueda
-if (isset($_GET['codigo_respuestas_encuesta'])) {
-    $codigoBusqueda = $_GET['codigo_respuestas_encuesta'];
+if (isset($_GET['codigo_busqueda'])) {
+    $codigoBusqueda = $_GET['codigo_busqueda'];
 
     // Consultar registros con el código proporcionado
-    $sqlBusqueda = "SELECT * FROM vista_encuesta WHERE `codigo_respuestas_encuesta = '$codigoBusqueda'";
+    $sqlBusqueda = "SELECT * FROM vista_personalizada WHERE codigo = '$codigoBusqueda'";
     $queryBusqueda = mysqli_query($con, $sqlBusqueda);
 
     // Verificar si se obtuvieron resultados de la consulta
@@ -42,24 +42,22 @@ if (isset($_GET['codigo_respuestas_encuesta'])) {
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="../../CSS/style.css">
 
-    <link rel="stylesheet" href="../node_modules/@sweetalert2/themes/bootstrap-4/bootstrap-4.min.css">
-    <script src="../node_modules/sweetalert2/dist/sweetalert2.all.js"></script>
+    <link rel="stylesheet" href="../../node_modules/@sweetalert2/themes/bootstrap-4/bootstrap-4.min.css">
+    <script src="../../node_modules/sweetalert2/dist/sweetalert2.all.js"></script>
 
-    <!-- Boxiocns CDN Link -->
-    <link href="https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css" rel="stylesheet" />
+        <!-- Boxiocns CDN Link -->
+        <link href="https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css" rel="stylesheet" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
 </head>
 
 <body>
-
-    <!-- Dashboard -->
-    <div class="sidebar close">
+<!-- Dashboard -->
+<div class="sidebar close">
         <div class="logo-details">
             <i class="bx seleccionador"></i>
             <span class="logo_name">Janal Kaaj</span>
         </div>
-
 
         <ul class="nav-links">
             <li>
@@ -75,7 +73,7 @@ if (isset($_GET['codigo_respuestas_encuesta'])) {
 
 
             <li>
-                <a href="/login.html">
+                <a href="login.html">
                     <i class='bx bx-home-alt'></i>
                     <span class="link_name">Login</span>
                 </a>
@@ -110,6 +108,7 @@ if (isset($_GET['codigo_respuestas_encuesta'])) {
                     <a class="link_name" href="#" onclick="showAlert('reactivos')">Crear reactivos</a>
                 </ul>
             </li>
+            
 
 
             <li>
@@ -184,107 +183,139 @@ if (isset($_GET['codigo_respuestas_encuesta'])) {
             <span class="text">Encuestas aplicadas</span>
         </div>
         <!-- Fin Dashboard -->
+
         <section class="d-flex justify-content-center">
             <div class="col-12 col-md-10 col-lg-8 col-xl-10 p-3 shadow-lg mb-5 bg-white rounded">
-                <h1>Buscar Resultados de Encuesta por Código</h1>
-                <form method="get" action="">
-                    <label for="codigo_busqueda">Ingrese el Código: </label>
-                    <input type="text" name="codigo_busqueda" required>
-                    <button type="submit" class="btn btn-outline-success bg-border-mostaza bg-text-mostaza">Buscar</button>
-                </form>
 
-                <!-- Mostrar códigos únicos -->
-                
-                <table>
-                    <thead>
+    <h1>Buscar Resultados de Encuesta por Código</h1>
+    <form method="get" action="">
+        <label for="codigo_busqueda">Ingrese el Código: </label>
+        <input type="text" name="codigo_busqueda" required>
+        <button type="submit">Buscar</button>
+    </form>
+
+    <!-- Mostrar códigos únicos -->
+    <h2>Códigos de Encuestas Aplicadas:</h2>
+    <table>
+    <thead>
+        <tr>
+            <th>Código</th>
+            <th>Nombre del encuestado</th>
+            <th>Nombre del encuestado</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php
+        $sqlCodigos = "SELECT codigo, nombre FROM vista_personalizada GROUP BY codigo HAVING COUNT(*) > 1";
+        $queryCodigos = mysqli_query($con, $sqlCodigos);
+
+        while ($row = mysqli_fetch_assoc($queryCodigos)) {
+            echo '<tr><td>' . $row['codigo'] . '</td><td>' . $row['nombre'] . '</td></tr>';
+        }
+        ?>
+    </tbody>
+</table>
+
+
+
+
+    <?php if (!empty($resultados)) { ?>
+        <h2>Resultados de la Búsqueda:</h2>
+        <table>
+        <thead>
+                <tr>
+                    <th>Nombre del encuestado</th>
+                    <td rowspan="<?php echo count($resultados); ?>"><?php echo $resultados[0]['nombre']; ?></td>
+                </tr>
+            </thead>
+
+            <thead>
+                <tr>
+                    <th>Localidad</th>
+                    <td rowspan="<?php echo count($resultados); ?>"><?php echo $resultados[0]['localidad']; ?></td>
+                </tr>
+            </thead>
+            
+            <thead>
+                <tr>
+                    <th>Género</th>
+                    <td rowspan="<?php echo count($resultados); ?>"><?php echo $resultados[0]['genero']; ?></td>
+                </tr>
+            </thead>
+
+            <thead>
+                <tr>
+                    <th>Edad</th>
+                    <td rowspan="<?php echo count($resultados); ?>"><?php echo $resultados[0]['edad']; ?></td>
+                </tr>
+            </thead>
+            <thead>
+                <tr>
+                    <th>Código</th>
+                    <td rowspan="<?php echo count($resultados); ?>"><?php echo $resultados[0]['codigo']; ?></td>
+                </tr>
+            </thead>
+            <thead>
+                <tr>
+                    <th>Fecha de Creación</th>
+                    <td rowspan="<?php echo count($resultados); ?>"><?php echo $resultados[0]['fecha']; ?></td>
+
+                </tr>
+            </thead>
+            <tbody>
+                <thead>
+                    <tr>
+                        <th>Preguntas</th>
+                        <th>Respuestas</th>
+                    </tr>
+                </thead>
+                <?php foreach ($resultados as $index => $resultado) { ?>
+                    <?php if ($index > 0) { ?>
                         <tr>
-                            <th>Código de la encuesta aplicada</th>
+                        <?php } ?>
+                        <td><?php echo $resultado['descripcion']; ?></td>
+                        <td><?php echo $resultado['respuesta']; ?></td>
+                        <?php if ($index > 0) { ?>
                         </tr>
-                    </thead>
-                    <tbody>
-                        <?php
-                        $sqlCodigos = "SELECT DISTINCT codigo_respuestas_encuesta FROM vista_encuesta";
-                        $queryCodigos = mysqli_query($con, $sqlCodigos);
-
-                        while ($codigo = mysqli_fetch_assoc($queryCodigos)) {
-                            echo '<tr><td>' . $codigo['codigo_respuestas_encuesta'] . '</td></tr>';
-                        }
-                        ?>
-                    </tbody>
-                </table>
-
-                <?php if (!empty($resultados)) { ?>
-
-                    <table>
-                        <h2>Resultados de la Búsqueda:</h2>
-                        <thead>
-                            <tr>
-                                <th>Código</th>
-                                <td rowspan="<?php echo count($resultados); ?>"><?php echo $resultados[0]['codigo_respuestas_encuesta']; ?></td>
-                            </tr>
-                        </thead>
-                        <thead>
-                            <tr>
-                                <th>Fecha de Creación</th>
-                                <td rowspan="<?php echo count($resultados); ?>"><?php echo $resultados[0]['fecha_creacion_respuestas_encuesta']; ?></td>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <thead>
-                                <tr>
-                                    <th>Preguntas</th>
-                                    <th>Respuestas</th>
-                                </tr>
-                            </thead>
-                            <?php foreach ($resultados as $index => $resultado) { ?>
-                                <?php if ($index > 0) { ?>
-                                    <tr>
-                                    <?php } ?>
-                                    <td><?php echo $resultado['descripcion_reactivos']; ?></td>
-                                    <td><?php echo $resultado['respuesta_respuestas_encuesta']; ?></td>
-                                    <?php if ($index > 0) { ?>
-                                    </tr>
-                                <?php } ?>
-                            <?php } ?>
-                        </tbody>
-                        <tfoot>
-                            <tr>
-                                <th>Observación</th>
-                                <td><?php echo $resultados[0]['observacion_respuestas_encuesta']; ?></td>
-                            </tr>
-                        </tfoot>
-                    </table>
-
-
-
-                <?php } elseif (isset($_GET['codigo_respuestas_encuesta'])) { ?>
-                    <script>
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Código No Encontrado',
-                            text: 'El código ingresado no existe en la tabla de resultados.',
-                            confirmButtonColor: '#218838'
-                        });
-                    </script>
+                    <?php } ?>
                 <?php } ?>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th>Observación</th>
+                    <td><?php echo $resultados[0]['observacion']; ?></td>
+                </tr>
+            </tfoot>
+        </table>
 
-                <?php if (!empty($resultados)) { ?>
-                    <h2>Opciones de descarga:</h2>
-                    <table>
-                        <!-- ... Tu tabla de resultados existente ... -->
-                    </table>
 
-                    <!-- Agregar botón de descarga -->
-                    <form method="post" action="descargar_excel.php">
-                        <input type="hidden" name="codigo_respuestas_encuesta" value="<?php echo $codigoBusqueda; ?>">
-                        <button type="submit" class="btn btn-outline-success bg-border-mostaza bg-text-mostaza">Descargar Resultados en Excel</button>
-                    </form>
-                <?php } elseif (isset($_GET['codigo_respuestas_encuesta'])) { ?>
-                    <!-- ... Tu script de error existente ... -->
-                <?php } ?>
-        </section>
-        </div>
-    </section>
+
+    <?php } elseif (isset($_GET['codigo_busqueda'])) { ?>
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'Código No Encontrado',
+                text: 'El código ingresado no existe en la tabla de resultados.',
+                confirmButtonColor: '#218838'
+            });
+        </script>
+    <?php } ?>
+
+    <?php if (!empty($resultados)) { ?>
+        <h2>Resultados de la Búsqueda:</h2>
+        <table>
+            <!-- ... Tu tabla de resultados existente ... -->
+        </table>
+
+        <!-- Agregar botón de descarga -->
+        <form method="post" action="descargar_excel.php">
+            <input type="hidden" name="codigo_busqueda" value="<?php echo $codigoBusqueda; ?>">
+            <button type="submit">Descargar Resultados en Excel</button>
+        </form>
+    <?php } elseif (isset($_GET['codigo_busqueda'])) { ?>
+        <!-- ... Tu script de error existente ... -->
+    <?php } ?>
+
     <script>
         // Guardar el estado de la barra lateral en el localStorage
         function saveSidebarState(state) {
@@ -328,10 +359,10 @@ if (isset($_GET['codigo_respuestas_encuesta'])) {
         });
     </script>
 
+    </div>
+    </section>
 
-
-    <script src = "../../BD/prueva/encuesta.js"></script>
-    <script src = "../../CSS/SweetAlert.js"></script>
+    </section>
 </body>
 
 </html>
