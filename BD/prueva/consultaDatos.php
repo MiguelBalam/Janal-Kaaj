@@ -11,20 +11,27 @@ if ($con->connect_error) {
     die("Conexión fallida: " . $con->connect_error);
 }
 
-$resultados = array();
 $codigoBusqueda = '';
 
 // Verificar si se proporcionó un código para la búsqueda
 if (isset($_GET['codigo_busqueda'])) {
     $codigoBusqueda = $_GET['codigo_busqueda'];
 
-    // Consultar registros con el código proporcionado
-    $sqlBusqueda = "SELECT * FROM vista_personalizada WHERE codigo = '$codigoBusqueda'";
-    $queryBusqueda = mysqli_query($con, $sqlBusqueda);
+    // Consultar en vista_personalizada
+    $sqlBusquedaPersonalizada = "SELECT * FROM vista_personalizada WHERE codigo = '$codigoBusqueda'";
+    $queryBusquedaPersonalizada = mysqli_query($con, $sqlBusquedaPersonalizada);
 
-    // Verificar si se obtuvieron resultados de la consulta
-    if (mysqli_num_rows($queryBusqueda) > 0) {
-        $resultados = mysqli_fetch_all($queryBusqueda, MYSQLI_ASSOC);
+    // Consultar en vista_encuestaMiel
+    $sqlBusquedaEncuestaMiel = "SELECT * FROM vista_encuestaMiel WHERE codigo = '$codigoBusqueda'";
+    $queryBusquedaEncuestaMiel = mysqli_query($con, $sqlBusquedaEncuestaMiel);
+
+    // Verificar en cuál de las vistas se encontró el código
+    if (mysqli_num_rows($queryBusquedaPersonalizada) > 0) {
+        $resultados = mysqli_fetch_all($queryBusquedaPersonalizada, MYSQLI_ASSOC);
+        $vistaUtilizada = 'vista_personalizada';
+    } elseif (mysqli_num_rows($queryBusquedaEncuestaMiel) > 0) {
+        $resultados = mysqli_fetch_all($queryBusquedaEncuestaMiel, MYSQLI_ASSOC);
+        $vistaUtilizada = 'vista_encuestaMiel';
     }
 }
 ?>
@@ -45,15 +52,15 @@ if (isset($_GET['codigo_busqueda'])) {
     <link rel="stylesheet" href="../../node_modules/@sweetalert2/themes/bootstrap-4/bootstrap-4.min.css">
     <script src="../../node_modules/sweetalert2/dist/sweetalert2.all.js"></script>
 
-        <!-- Boxiocns CDN Link -->
-        <link href="https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css" rel="stylesheet" />
+    <!-- Boxiocns CDN Link -->
+    <link href="https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css" rel="stylesheet" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
 </head>
 
 <body>
-<!-- Dashboard -->
-<div class="sidebar close">
+    <!-- Dashboard -->
+    <div class="sidebar close">
         <div class="logo-details">
             <i class="bx seleccionador"></i>
             <span class="logo_name">Janal Kaaj</span>
@@ -108,16 +115,16 @@ if (isset($_GET['codigo_busqueda'])) {
                     <a class="link_name" href="#" onclick="showAlert('reactivos')">Crear reactivos</a>
                 </ul>
             </li>
-            
+
 
 
             <li>
-                <a href="../BD/prueva/encuAplica.php">
+                <a href="../../BD/prueva/consultaDatos.php">
                     <i class='bx bx-clipboard bx-tada'></i>
                     <span class="link_name">Encuestas aplicadas</span>
                 </a>
                 <ul class="sub-menu blank">
-                    <li><a class="link_name" href="../BD/prueva/encuAplica.php">Encuestas aplicadas</a></li>
+                    <li><a class="link_name" href="../../BD/prueva/consultaDatos.php">Encuestas aplicadas</a></li>
                 </ul>
             </li>
 
@@ -187,180 +194,185 @@ if (isset($_GET['codigo_busqueda'])) {
         <section class="d-flex justify-content-center">
             <div class="col-12 col-md-10 col-lg-8 col-xl-10 p-3 shadow-lg mb-5 bg-white rounded">
 
-    <h1>Buscar Resultados de Encuesta por Código</h1>
-    <form method="get" action="">
-        <label for="codigo_busqueda">Ingrese el Código: </label>
-        <input type="text" name="codigo_busqueda" required>
-        <button type="submit">Buscar</button>
-    </form>
+                <h1>Buscar Resultados de Encuesta por Código</h1>
+                <form method="get" action="">
+                    <label for="codigo_busqueda">Ingrese el Código: </label>
+                    <input type="text" name="codigo_busqueda" required>
+                    <button type="submit" class="btn btn-outline-success bg-border-mostaza bg-text-mostaza">Buscar</button>
+                </form>
 
-    <!-- Mostrar códigos únicos -->
-    <h2>Códigos de Encuestas Aplicadas:</h2>
-    <table>
-    <thead>
-        <tr>
-            <th>Código</th>
-            <th>Nombre del encuestado</th>
-            <th>Nombre del encuestado</th>
-        </tr>
-    </thead>
-    <tbody>
-        <?php
-        $sqlCodigos = "SELECT codigo, nombre FROM vista_personalizada GROUP BY codigo HAVING COUNT(*) > 1";
-        $queryCodigos = mysqli_query($con, $sqlCodigos);
-
-        while ($row = mysqli_fetch_assoc($queryCodigos)) {
-            echo '<tr><td>' . $row['codigo'] . '</td><td>' . $row['nombre'] . '</td></tr>';
-        }
-        ?>
-    </tbody>
-</table>
-
-
-
-
-    <?php if (!empty($resultados)) { ?>
-        <h2>Resultados de la Búsqueda:</h2>
-        <table>
-        <thead>
-                <tr>
-                    <th>Nombre del encuestado</th>
-                    <td rowspan="<?php echo count($resultados); ?>"><?php echo $resultados[0]['nombre']; ?></td>
-                </tr>
-            </thead>
-
-            <thead>
-                <tr>
-                    <th>Localidad</th>
-                    <td rowspan="<?php echo count($resultados); ?>"><?php echo $resultados[0]['localidad']; ?></td>
-                </tr>
-            </thead>
-            
-            <thead>
-                <tr>
-                    <th>Género</th>
-                    <td rowspan="<?php echo count($resultados); ?>"><?php echo $resultados[0]['genero']; ?></td>
-                </tr>
-            </thead>
-
-            <thead>
-                <tr>
-                    <th>Edad</th>
-                    <td rowspan="<?php echo count($resultados); ?>"><?php echo $resultados[0]['edad']; ?></td>
-                </tr>
-            </thead>
-            <thead>
-                <tr>
-                    <th>Código</th>
-                    <td rowspan="<?php echo count($resultados); ?>"><?php echo $resultados[0]['codigo']; ?></td>
-                </tr>
-            </thead>
-            <thead>
-                <tr>
-                    <th>Fecha de Creación</th>
-                    <td rowspan="<?php echo count($resultados); ?>"><?php echo $resultados[0]['fecha']; ?></td>
-
-                </tr>
-            </thead>
-            <tbody>
-                <thead>
-                    <tr>
-                        <th>Preguntas</th>
-                        <th>Respuestas</th>
-                    </tr>
-                </thead>
-                <?php foreach ($resultados as $index => $resultado) { ?>
-                    <?php if ($index > 0) { ?>
+                <!-- Mostrar códigos únicos -->
+                <h2>Códigos de Encuestas Aplicadas:</h2>
+                <table>
+                    <thead>
                         <tr>
-                        <?php } ?>
-                        <td><?php echo $resultado['descripcion']; ?></td>
-                        <td><?php echo $resultado['respuesta']; ?></td>
-                        <?php if ($index > 0) { ?>
+                            <th>Código</th>
+                            <th>Nombre del encuestado</th>
+                            <th>Localidad</th>
                         </tr>
-                    <?php } ?>
+                    </thead>
+                    <tbody>
+                        <?php
+                        $sqlCodigos = "SELECT codigo, nombre, localidad FROM vista_personalizada GROUP BY codigo HAVING COUNT(*) > 1";
+                        $queryCodigos = mysqli_query($con, $sqlCodigos);
+
+                        $sqlCodigoss = "SELECT codigo, nombre, localidad FROM vista_encuestaMiel GROUP BY codigo HAVING COUNT(*) > 1";
+                        $queryCodigoss = mysqli_query($con, $sqlCodigoss);
+
+                        while ($row = mysqli_fetch_assoc($queryCodigos)) {
+                            echo '<tr><td>' . $row['codigo'] . '</td><td>' . $row['nombre'] . '</td><td>' . $row['localidad'] . '</td></tr>';
+                        }
+
+                        while ($row = mysqli_fetch_assoc($queryCodigoss)) {
+                            echo '<tr><td>' . $row['codigo'] . '</td><td>' . $row['nombre'] . '</td><td>' . $row['localidad'] . '</td></tr>';
+                        }
+                        ?>
+                    </tbody>
+                </table>
+
+
+                <?php if (!empty($resultados)) { ?>
+                    <h2>Resultados de la Búsqueda:</h2>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Nombre del encuestado</th>
+                                <td rowspan="<?php echo count($resultados); ?>"><?php echo $resultados[0]['nombre']; ?></td>
+                            </tr>
+                        </thead>
+
+                        <thead>
+                            <tr>
+                                <th>Localidad</th>
+                                <td rowspan="<?php echo count($resultados); ?>"><?php echo $resultados[0]['localidad']; ?></td>
+                            </tr>
+                        </thead>
+
+                        <thead>
+                            <tr>
+                                <th>Género</th>
+                                <td rowspan="<?php echo count($resultados); ?>"><?php echo $resultados[0]['genero']; ?></td>
+                            </tr>
+                        </thead>
+
+                        <thead>
+                            <tr>
+                                <th>Edad</th>
+                                <td rowspan="<?php echo count($resultados); ?>"><?php echo $resultados[0]['edad']; ?></td>
+                            </tr>
+                        </thead>
+                        <thead>
+                            <tr>
+                                <th>Código</th>
+                                <td rowspan="<?php echo count($resultados); ?>"><?php echo $resultados[0]['codigo']; ?></td>
+                            </tr>
+                        </thead>
+                        <thead>
+                            <tr>
+                                <th>Fecha de Creación</th>
+                                <td rowspan="<?php echo count($resultados); ?>"><?php echo $resultados[0]['fecha']; ?></td>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <thead>
+                                <tr>
+                                    <th>Preguntas</th>
+                                    <th>Respuestas</th>
+                                </tr>
+                            </thead>
+                            <?php foreach ($resultados as $index => $resultado) { ?>
+                                <?php if ($index > 0) { ?>
+                                    <tr>
+                                    <?php } ?>
+                                    <td><?php echo $resultado['descripcion']; ?></td>
+                                    <td><?php echo $resultado['respuesta']; ?></td>
+                                    <?php if ($index > 0) { ?>
+                                    </tr>
+                                <?php } ?>
+                            <?php } ?>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th>Observación</th>
+                                <td><?php echo $resultados[0]['observacion']; ?></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+
+
+
+                <?php } elseif (isset($_GET['codigo_busqueda'])) { ?>
+                    <script>
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Código No Encontrado',
+                            text: 'El código ingresado no existe en la tabla de resultados.',
+                            confirmButtonColor: '#218838'
+                        });
+                    </script>
                 <?php } ?>
-            </tbody>
-            <tfoot>
-                <tr>
-                    <th>Observación</th>
-                    <td><?php echo $resultados[0]['observacion']; ?></td>
-                </tr>
-            </tfoot>
-        </table>
 
+                <?php if (!empty($resultados)) { ?>
+                    <h2>Resultados de la Búsqueda:</h2>
+                    <table>
+                        <!-- ... Tu tabla de resultados existente ... -->
+                    </table>
 
+                    <!-- Agregar botón de descarga -->
+                    <form method="post" action="descargar_excel.php">
+                        <input type="hidden" name="codigo_busqueda" value="<?php echo $codigoBusqueda; ?>">
+                        <button type="submit" class="btn btn-outline-success bg-border-mostaza bg-text-mostaza">Descargar Resultados en Excel</button>
+                    </form>
+                <?php } elseif (isset($_GET['codigo_busqueda'])) { ?>
+                    <!-- ... Tu script de error existente ... -->
+                <?php } ?>
 
-    <?php } elseif (isset($_GET['codigo_busqueda'])) { ?>
-        <script>
-            Swal.fire({
-                icon: 'error',
-                title: 'Código No Encontrado',
-                text: 'El código ingresado no existe en la tabla de resultados.',
-                confirmButtonColor: '#218838'
-            });
-        </script>
-    <?php } ?>
+                <script>
+                    // Guardar el estado de la barra lateral en el localStorage
+                    function saveSidebarState(state) {
+                        localStorage.setItem('sidebarState', state);
+                    }
 
-    <?php if (!empty($resultados)) { ?>
-        <h2>Resultados de la Búsqueda:</h2>
-        <table>
-            <!-- ... Tu tabla de resultados existente ... -->
-        </table>
+                    // Cargar el estado de la barra lateral del localStorage
+                    function loadSidebarState() {
+                        return localStorage.getItem('sidebarState') || 'expanded'; // Valor predeterminado: expandido
+                    }
 
-        <!-- Agregar botón de descarga -->
-        <form method="post" action="descargar_excel.php">
-            <input type="hidden" name="codigo_busqueda" value="<?php echo $codigoBusqueda; ?>">
-            <button type="submit">Descargar Resultados en Excel</button>
-        </form>
-    <?php } elseif (isset($_GET['codigo_busqueda'])) { ?>
-        <!-- ... Tu script de error existente ... -->
-    <?php } ?>
+                    let arrow = document.querySelectorAll('.arrow');
+                    for (var i = 0; i < arrow.length; i++) {
+                        arrow[i].addEventListener('click', (e) => {
+                            let arrowParent = e.target.parentElement.parentElement; // seleccionar el elemento principal padre de la flecha
+                            arrowParent.classList.toggle('showMenu');
+                        });
+                    }
 
-    <script>
-        // Guardar el estado de la barra lateral en el localStorage
-        function saveSidebarState(state) {
-            localStorage.setItem('sidebarState', state);
-        }
+                    let sidebar = document.querySelector('.sidebar');
+                    let sidebarBtn = document.querySelector('.bx-menu');
+                    console.log(sidebarBtn);
 
-        // Cargar el estado de la barra lateral del localStorage
-        function loadSidebarState() {
-            return localStorage.getItem('sidebarState') || 'expanded'; // Valor predeterminado: expandido
-        }
+                    // Aplicar el estado almacenado al cargar la página
+                    window.addEventListener('DOMContentLoaded', () => {
+                        const initialState = loadSidebarState();
+                        if (window.innerWidth <= 400) {
+                            // Si el ancho de la ventana es menor o igual a 400px (dispositivo móvil),
+                            // siempre oculta la barra lateral en la carga inicial.
+                            sidebar.classList.add('close');
+                            saveSidebarState('collapsed'); // Guarda el estado colapsado en el almacenamiento local
+                        } else {
+                            sidebar.classList.toggle('close', initialState === 'collapsed');
+                        }
+                    });
 
-        let arrow = document.querySelectorAll('.arrow');
-        for (var i = 0; i < arrow.length; i++) {
-            arrow[i].addEventListener('click', (e) => {
-                let arrowParent = e.target.parentElement.parentElement; // seleccionar el elemento principal padre de la flecha
-                arrowParent.classList.toggle('showMenu');
-            });
-        }
+                    sidebarBtn.addEventListener('click', () => {
+                        sidebar.classList.toggle('close');
+                        const newState = sidebar.classList.contains('close') ? 'collapsed' : 'expanded';
+                        saveSidebarState(newState);
+                    });
+                </script>
 
-        let sidebar = document.querySelector('.sidebar');
-        let sidebarBtn = document.querySelector('.bx-menu');
-        console.log(sidebarBtn);
-
-        // Aplicar el estado almacenado al cargar la página
-        window.addEventListener('DOMContentLoaded', () => {
-            const initialState = loadSidebarState();
-            if (window.innerWidth <= 400) {
-                // Si el ancho de la ventana es menor o igual a 400px (dispositivo móvil),
-                // siempre oculta la barra lateral en la carga inicial.
-                sidebar.classList.add('close');
-                saveSidebarState('collapsed'); // Guarda el estado colapsado en el almacenamiento local
-            } else {
-                sidebar.classList.toggle('close', initialState === 'collapsed');
-            }
-        });
-
-        sidebarBtn.addEventListener('click', () => {
-            sidebar.classList.toggle('close');
-            const newState = sidebar.classList.contains('close') ? 'collapsed' : 'expanded';
-            saveSidebarState(newState);
-        });
-    </script>
-
-    </div>
-    </section>
+            </div>
+        </section>
 
     </section>
 </body>
