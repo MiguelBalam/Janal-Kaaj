@@ -1,3 +1,17 @@
+
+<?php
+$codeLength = 10; // Longitud deseada del código
+$code = '';
+
+// Generar el código aleatorio
+for ($i = 0; $i < $codeLength; $i++) {
+    $code .= rand(0, 9); // Generar un número aleatorio entre 0 y 9 y agregarlo al código
+}
+
+// Imprimir el código generado en tu página
+echo $code;
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -62,7 +76,7 @@
                 <tr>
                     <td rowspan="4" style="text-align:center"><img src="/Img/lOGOCONACYT.png" class="col-sm-4 my-3 my-lg-0 text-center"></td>
                     <td rowspan="3" class="col-sm-4 text-center">DATOS ENCUESTA</td>
-                    <td><small><strong>CÓDIGO:</strong> <span name="codigo" id="codigo"><?php echo rand(); ?></span></small></td>
+                    <td><small><strong>CÓDIGO:</strong> <span name="codigo" id="codigo"><?php echo $code; ?></span></small></td>
                 </tr>
                 <tr>
                     <td><small><strong>VERSIÓN:</strong> <?php echo '1'; ?></small></td>
