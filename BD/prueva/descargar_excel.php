@@ -19,10 +19,20 @@ use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 if (isset($_POST['codigo_busqueda'])) {
     $codigoBusqueda = $_POST['codigo_busqueda'];
 
-    // Consulta los resultados de la búsqueda
-    $sqlBusqueda = "SELECT * FROM vista_encuesta WHERE codigo = '$codigoBusqueda'";
-    $queryBusqueda = mysqli_query($con, $sqlBusqueda);
-    $resultados = mysqli_fetch_all($queryBusqueda, MYSQLI_ASSOC);
+    // Define an empty array to store the results
+    $resultados = [];
+
+    // Check if the code exists in each table and fetch results
+    $tables = ['vista_inseAlimen', 'vista_enMiel', 'vista_enTextil'];
+    foreach ($tables as $table) {
+        $sqlBusqueda = "SELECT * FROM $table WHERE codigo = '$codigoBusqueda'";
+        $queryBusqueda = mysqli_query($con, $sqlBusqueda);
+        $tableResults = mysqli_fetch_all($queryBusqueda, MYSQLI_ASSOC);
+
+        if (!empty($tableResults)) {
+            $resultados = array_merge($resultados, $tableResults);
+        }
+    }
 
     // Create an Excel file
     $spreadsheet = new Spreadsheet();
@@ -34,13 +44,45 @@ if (isset($_POST['codigo_busqueda'])) {
     $sheet->setCellValue('D1', 'Respuestas');
     $sheet->setCellValue('E1', 'Observación');
 
+    // Set the width of the "Preguntas" and "Respuestas" columns
+    $sheet->getColumnDimension('A')->setWidth(10); // Adjust the width as needed
+    $sheet->getColumnDimension('B')->setWidth(18); // Adjust the width as needed
+    $sheet->getColumnDimension('C')->setWidth(115); // Adjust the width as needed
+    $sheet->getColumnDimension('D')->setWidth(40); // Adjust the width as needed
+    $sheet->getColumnDimension('E')->setWidth(20); // Adjust the width as needed
+
+    // Change the font color of columns 'A' HASTA 'E' to black
+    $sheet->getStyle('A')->getFont()->getColor()->setRGB('000000');
+    $sheet->getStyle('B')->getFont()->getColor()->setRGB('000000');
+    $sheet->getStyle('C')->getFont()->getColor()->setRGB('000000');
+    $sheet->getStyle('D')->getFont()->getColor()->setRGB('000000');
+    $sheet->getStyle('E')->getFont()->getColor()->setRGB('000000');
+
+
+    // Initialize variables to store code, date, and observation
+    $codigo = '';
+    $fechaCreacion = '';
+    $observacion = '';
+
     $row = 2;
     foreach ($resultados as $resultado) {
-        $sheet->setCellValue('A' . $row, $resultado['codigo']);
-        $sheet->setCellValue('B' . $row, $resultado['created']);
+        // Set code, date, and observation only once
+        if (empty($codigo)) {
+            $codigo = $resultado['codigo'];
+            $sheet->setCellValue('A2', $codigo);
+        }
+        if (empty($fechaCreacion)) {
+            $fechaCreacion = $resultado['created'];
+            $sheet->setCellValue('B2', $fechaCreacion);
+        }
+        if (empty($observacion)) {
+            $observacion = $resultado['observacion'];
+            $sheet->setCellValue('E2', $observacion);
+        }
+
+        // List questions and answers
         $sheet->setCellValue('C' . $row, $resultado['descripcion']);
         $sheet->setCellValue('D' . $row, $resultado['respuesta']);
-        $sheet->setCellValue('E' . $row, $resultado['observacion']);
         $row++;
     }
 
@@ -54,4 +96,3 @@ if (isset($_POST['codigo_busqueda'])) {
     header('Location: index.php'); // Change this to the name of your main file
     exit();
 }
-?>

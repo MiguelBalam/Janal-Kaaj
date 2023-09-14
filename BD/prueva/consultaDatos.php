@@ -32,7 +32,7 @@ if (isset($_GET['codigo_busqueda'])) {
     // Verificar en cuál de las vistas se encontró el código
     if (mysqli_num_rows($queryBusquedaInse) > 0) {
         $resultados = mysqli_fetch_all($queryBusquedaInse, MYSQLI_ASSOC);
-        $vistaUtilizada = 'vista_personalizada';
+        $vistaUtilizada = 'vista_inseAlimen';
     } elseif (mysqli_num_rows($queryBusquedaEncuestaMiel) > 0) {
         $resultados = mysqli_fetch_all($queryBusquedaEncuestaMiel, MYSQLI_ASSOC);
         $vistaUtilizada = 'vista_encuestaMiel';
@@ -218,7 +218,8 @@ if (isset($_GET['codigo_busqueda'])) {
                                 <th>Nombre del encuestado</th>
                                 <th>Localidad</th>
                                 <th>Tipo de Encuesta</th>
-                                <th>Opciones</th>
+                                <th>Visualización</th>
+                                <th>Descargas</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -233,48 +234,66 @@ if (isset($_GET['codigo_busqueda'])) {
                             $queryCodigosss = mysqli_query($con, $sqlCodigosss);
 
                             while ($row = mysqli_fetch_assoc($queryCodigos)) {
-                                echo '<tr>
-                                    <td>' . $row['codigo'] . '</td>
-                                    <td>' . $row['nombre'] . '</td>
-                                    <td>' . $row['localidad'] . '</td>
-                                    <td>Encuesta Pública de Inseguridad alimantaria</td>
-                                    <td>
-                                    <form method="get" action="">
+                                echo '<td>' . $row['codigo'] . '</td>
+                                        <td>' . $row['nombre'] . '</td>
+                                        <td>' . $row['localidad'] . '</td>
+                                        <td>Encuesta Pública de Inseguridad alimantaria</td>
+                                        <td>
+                                        <form method="get" action="">
                                         <input type="hidden" name="codigo_busqueda" value="' . $row['codigo'] . '">
                                         <button type="submit" class="ver-encuesta-btn btn btn-outline-success bg-border-mostaza bg-text-mostaza">Ver Encuesta</button>
-                                    </form>
-                                </td>
-                              </tr>';
+                                        </form>
+                                        </td>
+                            
+                                        <td>
+                                        <form method="post" action="descargar_excel.php">
+                                        <input type="hidden" name="codigo_busqueda" value="' . $row['codigo'] . '">
+                                        <button type="submit" class="descargar-encuesta-btn btn btn-outline-success bg-border-mostaza bg-text-mostaza">Descargar</button>
+                                        </form>
+                                        </td>
+                                        </tr>';
                             }
 
                             while ($row = mysqli_fetch_assoc($queryCodigoss)) {
-                                echo '<tr>
-                                    <td>' . $row['codigo'] . '</td>
-                                    <td>' . $row['nombre'] . '</td>
-                                    <td>' . $row['localidad'] . '</td>
-                                    <td>Encuesta Pública de Miel</td>
-                                    <td>
-                                    <form method="get" action="">
+                                echo '<td>' . $row['codigo'] . '</td>
+                                        <td>' . $row['nombre'] . '</td>
+                                        <td>' . $row['localidad'] . '</td>
+                                        <td>Encuesta Pública de Miel</td>
+                                        <td>
+                                        <form method="get" action="">
                                         <input type="hidden" name="codigo_busqueda" value="' . $row['codigo'] . '">
                                         <button type="submit" class="ver-encuesta-btn btn btn-outline-success bg-border-mostaza bg-text-mostaza">Ver Encuesta</button>
-                                    </form>
-                                </td>
-                              </tr>';
+                                        </form>
+                                        </td>
+            
+                                        <td>
+                                        <form method="post" action="descargar_excel.php">
+                                        <input type="hidden" name="codigo_busqueda" value="' . $row['codigo'] . '">
+                                        <button type="submit" class="descargar-encuesta-btn btn btn-outline-success bg-border-mostaza bg-text-mostaza">Descargar</button>
+                                        </form>
+                                        </td>
+                                        </tr>';
                             }
 
                             while ($row = mysqli_fetch_assoc($queryCodigosss)) {
-                                echo '<tr>
-                                    <td>' . $row['codigo'] . '</td>
-                                    <td>' . $row['nombre'] . '</td>
-                                    <td>' . $row['localidad'] . '</td>
-                                    <td>Encuesta Pública de Textil</td>
-                                    <td>
-                                    <form method="get" action="">
+                                echo '<td>' . $row['codigo'] . '</td>
+                                        <td>' . $row['nombre'] . '</td>
+                                        <td>' . $row['localidad'] . '</td>
+                                        <td>Encuesta Pública de Textil</td>
+                                        <td>
+                                        <form method="get" action="">
                                         <input type="hidden" name="codigo_busqueda" value="' . $row['codigo'] . '">
                                         <button type="submit" class="ver-encuesta-btn btn btn-outline-success bg-border-mostaza bg-text-mostaza">Ver Encuesta</button>
-                                    </form>
-                                </td>
-                              </tr>';
+                                        </form>
+                                        </td>
+                            
+                                        <td>
+                                        <form method="post" action="descargar_excel.php">
+                                        <input type="hidden" name="codigo_busqueda" value="' . $row['codigo'] . '">
+                                        <button type="submit" class="descargar-encuesta-btn btn btn-outline-success bg-border-mostaza bg-text-mostaza">Descargar</button>
+                                        </form>
+                                        </td>
+                                        </tr>';
                             }
 
                             ?>
