@@ -1,30 +1,26 @@
 const $grafica = document.querySelector("#grafica");
-// Las etiquetas son las que van en el eje X. 
-const etiquetas = ["Enero", "Febrero", "Marzo", "Abril"]
-// Podemos tener varios conjuntos de datos. Comencemos con uno
-const datosVentas2020 = {
-    label: "Ventas por mes",
-    data: [5000, 1200, 4567, 5102], // La data es un arreglo que debe tener la misma cantidad de valores que la cantidad de etiquetas
-    backgroundColor: 'rgba(54, 162, 235, 0.2)', // Color de fondo
-    borderColor: 'rgba(54, 162, 235, 1)', // Color del borde
-    borderWidth: 1,// Ancho del borde
+const etiquetas = ["Seguridad", "Inseguridad Leve", "Inseguridad Moderada", "Inseguridad Severa"];
+
+// Utiliza la variable totalRespuestas en tus datos
+const datosClasificacion = {
+    label: "Clasificación de inseguridad alimentaria",
+    data: [totalRespuestas, 0, 3, 1], // Usamos totalRespuestas aquí
+    borderColor: 'rgba(0, 143, 16, 0.8)',
+    borderWidth: 1,
+    fill: false,
 };
+
 new Chart($grafica, {
-    type: 'line',// Tipo de gráfica
+    type: 'line',
     data: {
         labels: etiquetas,
-        datasets: [
-            datosVentas2020,
-            // Aquí más datos...
-        ]
+        datasets: [datosClasificacion]
     },
     options: {
         scales: {
-            yAxes: [{
-                ticks: {
-                    beginAtZero: true
-                }
-            }],
-        },
+            y: {
+                beginAtZero: true
+            }
+        }
     }
 });
