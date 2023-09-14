@@ -21,6 +21,7 @@ const APP_SHELL = [
     'planes_servicios.html',
     'BD/sw-utils.js',
     'BD/app.js',
+    './BD/sinInternet/encuesta.html',
     'pestañas_Encuestador/crear_Evariables.html',
     'pestañas_Encuestador/crear.html',
     'pestañas_Encuestador/editR.html',
@@ -39,7 +40,10 @@ const APP_SHELL = [
     'pestañas_SuperUsuario/noticias.html',
     'pestañas_SuperUsuario/perfil_admin.html',
     'BD/registroUsuarios/registro.js',
+    'BD/src/jsSC.js',
     'BD/src/sync.js',
+   
+   
    
 ];
 
@@ -119,6 +123,7 @@ self.addEventListener('activate', e => {
     e.waitUntil( respuesta );
 });
 
+
 self.addEventListener('fetch', e => {
     if (e.request.url.includes('formulario')) {
       e.respondWith(
@@ -127,7 +132,7 @@ self.addEventListener('fetch', e => {
             return cachedResponse;
           }
   
-          // Si no está en caché, busca en la red y almacena en caché dinámico
+         // Si no está en caché, busca en la red y almacena en caché dinámico
           return fetch(e.request).then(newRes => {
             return actualizaCacheDinamico(DYNAMIC_CACHE, e.request, newRes);
           });

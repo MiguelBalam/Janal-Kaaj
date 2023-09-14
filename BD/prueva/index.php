@@ -1,3 +1,25 @@
+<?php
+// Deshabilitar la caché del navegador
+header("Cache-Control: no-cache, must-revalidate");
+header("Expires: Sat, 26 Jul 1997 05:00:00 GMT");
+header("Pragma: no-cache");
+?>
+
+
+<?php
+$codeLength = 10; // Longitud deseada del código
+$code = '';
+
+// Generar el código aleatorio
+for ($i = 0; $i < $codeLength; $i++) {
+    $code .= rand(0, 9); // Generar un número aleatorio entre 0 y 9 y agregarlo al código
+}
+
+// Imprimir el código generado en tu página
+echo $code;
+?>
+
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -62,7 +84,7 @@
                 <tr>
                     <td rowspan="4" style="text-align:center"><img src="/Img/lOGOCONACYT.png" class="col-sm-4 my-3 my-lg-0 text-center"></td>
                     <td rowspan="3" class="col-sm-4 text-center">DATOS ENCUESTA</td>
-                    <td><small><strong>CÓDIGO:</strong> <span name="codigo" id="codigo"><?php echo rand(); ?></span></small></td>
+                    <td><small><strong>CÓDIGO:</strong> <span name="codigo" id="codigo"><?php echo $code; ?></span></small></td>
                 </tr>
                 <tr>
                     <td><small><strong>VERSIÓN:</strong> <?php echo '1'; ?></small></td>
@@ -212,8 +234,6 @@ while ($dataRow = mysqli_fetch_array($query)) {
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
-  <link rel="stylesheet" href="node_modules/@sweetalert2/themes/bootstrap-4/bootstrap-4.min.css">
-  <script src="node_modules/sweetalert2/dist/sweetalert2.all.js"></script>    
     <script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script>
 <script src="../prueva/encuesta.js"></script>
 </body>
