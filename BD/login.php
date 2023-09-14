@@ -4,6 +4,7 @@ session_start();
 
 require '/xampp/htdocs/Janal-Kaaj/vendor/autoload.php'; // Asegúrate de que la ruta sea correcta según tu proyecto
 
+
 use Firebase\JWT\JWT;
 
 $username = "janalkaa_admin";

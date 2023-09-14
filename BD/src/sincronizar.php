@@ -29,28 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     }
 
     echo json_encode($data);
-} elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Endpoint para enviar datos a MySQL
-    $requestData = json_decode(file_get_contents('php://input'), true);
-
-    if (!$requestData) {
-        die('Error al decodificar los datos JSON.');
-    }
-
-    // Insertar los datos en MySQL
-    $insertQuery = 'INSERT INTO tu_tabla (campo1, campo2, campo3) VALUES (?, ?, ?)';
-    $stmt = $mysqli->prepare($insertQuery);
-    $stmt->bind_param('sss', $requestData['campo1'], $requestData['campo2'], $requestData['campo3']);
-
-    if ($stmt->execute()) {
-        echo json_encode(['message' => 'Datos insertados correctamente']);
-    } else {
-        die('Error al insertar datos en MySQL: ' . $stmt->error);
-    }
-} else {
-    http_response_code(405); // Método no permitido
-    echo json_encode(['error' => 'Método no permitido']);
-}
+}  
 
 $mysqli->close();
 ?>

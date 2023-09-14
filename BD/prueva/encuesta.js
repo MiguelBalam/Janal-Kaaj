@@ -102,7 +102,7 @@ function GuardarRes() {
         let value = $(this).val();
         inputValue[questionId] = value;
     });
-    let idEncuesta = obtenerElIdDeLaEncuesta();
+   
     $.ajax({
         url: 'GuardarRes.php',
         type: 'POST',
@@ -119,11 +119,11 @@ function GuardarRes() {
         }
     }); 
 }
-function obtenerElIdDeLaEncuesta() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const idEncuesta = urlParams.get('id_encuesta');
-    return idEncuesta;
-}
+// function obtenerElIdDeLaEncuesta() {
+//     const urlParams = new URLSearchParams(window.location.search);
+//     const idEncuesta = urlParams.get('id_encuesta');
+//     return idEncuesta;
+// }
 
 
 
@@ -482,4 +482,33 @@ function aplicarEncuesta(id_encuesta) {
 }
 
 
+// function aplicarEncuesta(id_encuesta) {
+//     var conf = confirm("¿Estás seguro de aplicar la Encuesta?");
+//     if (conf == true) {
+//         // Verifica si el usuario tiene una conexión activa a Internet
+//         if (window.navigator.onLine) {
+//             // Construye la URL base de acuerdo al ID de la encuesta
+//             var baseUrl = '';
+//             if (id_encuesta == 1) {
+//                 baseUrl += 'Encuesta2.php';
+//             } else if (id_encuesta == 2) {
+//                 baseUrl += 'index.php';
+//             } else if (id_encuesta == 3) {
+//                 baseUrl += 'Encuesta3.php';
+//             } else {
+//                 // Si no es un ID específico, envía una solicitud POST y redirige
+//                 $.post("/BD/prueva/aplicarEncuesta.php", {id_encuesta: id_encuesta}, function (data, status) {
+//                     window.location.href = '/BD/prueva/EncuestasAplicar.php?id_encuesta=' + id_encuesta;
+//                 });
+//                 return; // Evita que se ejecute el código de redirección general
+//             }
+
+//             // Agrega el ID de la encuesta a la URL y redirige
+//             window.location.href = baseUrl + '?id_encuesta=' + id_encuesta;
+//         } else {
+//             // Si no hay conexión a Internet, redirige a encuesta.html (ruta relativa)
+//             window.location.href = '/pestañas_Encuestador/';
+//         }
+//     }
+// }
 

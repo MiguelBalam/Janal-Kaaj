@@ -21,6 +21,7 @@ const APP_SHELL = [
     'planes_servicios.html',
     'BD/sw-utils.js',
     'BD/app.js',
+    './BD/sinInternet/encuesta.html',
     'pestañas_Encuestador/crear_Evariables.html',
     'pestañas_Encuestador/crear.html',
     'pestañas_Encuestador/editR.html',
@@ -38,8 +39,12 @@ const APP_SHELL = [
     'pestañas_SuperUsuario/dashboard.html',
     'pestañas_SuperUsuario/noticias.html',
     'pestañas_SuperUsuario/perfil_admin.html',
+    'BD/prueva/EncuestasAplicar.php',
     'BD/registroUsuarios/registro.js',
+    'BD/src/jsSC.js',
     'BD/src/sync.js',
+   
+   
    
 ];
 
