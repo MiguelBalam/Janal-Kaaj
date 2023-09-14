@@ -91,7 +91,7 @@
               </ul>
             </li>
             <li>
-              <a href="configuracion.html">
+              <a href="#">
                 <i class="bx bx-cog"></i>
                 <span class="link_name">Ajustes</span>
               </a>
@@ -116,78 +116,104 @@
       <section class="home-section">
           <div class="home-content">
             <i class="bx bx-menu"></i>
-            <span class="text">Noticias</span>
+            <span class="text">Ajustes</span>
           </div>
         <!-- FIN Dashboard -->
-      <header class="">
-        <div class="container">
-          <section class="d-flex justify-content-center py-5">
-            <div class="col-sm-6 p-3 shadow-lg mb-5 bg-white rounded">
-                <h2 class="main__title text-center text-dark py-3">Editar Noticias</h2>
-                <form class="needs-validation" name="editNew">
-                  <div id="grupo__nombrecompletos" class="row mb-3">
-                    <label for="nombrecompletos" class="col-sm-4 col-form-label px-4 text-dark">Título: </label>
-                    <div  class="col-sm-8">
-                      <textarea type="text" name="titulo" placeholder="Título" class="form-control" id="titulo" required></textarea>
-                        <div class="valid-feedback">
-                            Correcto
-                        </div>
-                        <div class="invalid-feedback">
-                            Llene el campo
-                        </div>
-                    </div>
-                  </div>
-                  <div id="grupo__nombrecompletos" class="row mb-3">
-                    <label for="nombrecompletos" class="col-sm-4 col-form-label px-4 text-dark">Cuerpo: </label>
-                    <div  class="col-sm-8">
-                      <textarea placeholder="Noticia" name="noticia" class="form-control text-dark custom-textarea" id="noticia" required></textarea>
-                        <div class="valid-feedback">
-                            Correcto
-                        </div>
-                        <div class="invalid-feedback">
-                            Llene el campo
-                        </div>
-                    </div>
+        <header class="">
+          <div class="container">
+            <section class="d-flex justify-content-center py-5">
+              
+              <div class="col-sm-6 p-3 shadow-lg mb-5 bg-white rounded">
+                  <h2 class="main__title text-center text-dark py-3">Configuración</h2>
+                  <h4 class="text-center text-dark py-3">Planes y servicios</h4>
+                  <div class="row justify-content-center py-4">
+                    <button onClick="" type="button" class="nav-link btnYellow btn-outline-warning text-white align">Básico</button>
+                    <button onClick="" type="button" class="nav-link btnGreen btn-outline-warning text-white align">Platinum</button>
+                    <button onClick="" type="button" class="nav-link btnGreen2 btn-outline-warning text-white align">Premium</button>
                   </div>
 
-                  <div id="grupo__image" class="row mb-3 ">
-                    <label for="image" class="col-sm-4 col-form-label px-4 text-dark">Imagen: </label>
-                    <div  class="col-sm-8 ">
-                      <div class="">
-                      <input class="py-3 form-control" type="file" name="imagen" id="image"  accept="image/*">
-                        <!--<div class="valid-feedback">
-                            Correcto
-                        </div>
-                        <div class="invalid-feedback">
-                            Llene el campo
-                        </div> -->
-                        <label class="col-form-label sugerencia">Sugerencia: Usar imágenes horizontales</label>
-                      </div>
-                        <div class="form-file__result" id="result-image">
-                          <img id="img-result" alt=""/>
-                        </div>
-                    </div>  
+                  <div class="row justify-content-center py-4">
+                    <h4 class="text-center text-dark py-3">Enlaces</h4>
+                    <table class="text-center py-4 mb-3">
+                      <tr>
+                        <th>xxx</th>
+                        <th>xxx</th>
+                      </tr>
+                      <tr class="">
+                        <td>xxx</td>
+                        <td><input name="" type="checkbox"   /></td>
+                      </tr>
+                      <tr class="">
+                        <td>xxx</td>
+                        <td><input name="" type="checkbox"  checked="checked" /></td>
+                      </tr>
+                      <tr class="">
+                        <td>xxx</td>
+                        <td><input name="" type="checkbox"  checked="checked" /></td>
+                      </tr>
+                    </table>
+                    <button onClick="" type="button" class="nav-link btnn btn-outline-warning text-white align">Agregar</button>
+                    <button onClick="" type="button" class="nav-link btnn btn-outline-warning text-white align">Eliminar</button>
+                    <button onClick="" type="button" class="nav-link btnn btn-outline-warning text-white align">Guardar</button>
                   </div>
                   
                   <div class="row justify-content-center py-4">
-                    <button onClick="refreshPage();" type="button" 
-                    class="nav-link btnn btn-outline-warning text-white align">Restablecer</button>
-                    <button onClick="mostrarIDBoton2();" class="btnn btn-outline-warning text-white"
-                    type="button" id="enviarNoticia">Actualizar</button>
-                  </div>      
-                    
-                </form>
-              </div>
-            </section>
+                    <h4 class="text-center text-dark py-3">Imagen de Fondo</h4>
+                       
+                      <div id="grupo__image" class="row mb-3 ">
+                        <label for="image" class="col-sm-4 col-form-label px-4 text-dark">Imagen: </label>
+                        <div  class="col-sm-8 ">
+                          <div class="">
+                          <input class="py-3 form-control" type="file" name="imagen" id="image"  accept="image/*" required>
+                             <!--<div class="valid-feedback">
+                                Correcto
+                            </div>
+                            <div class="invalid-feedback">
+                                Llene el campo
+                            </div> -->
+                            <label class="col-form-label sugerencia">Sugerencia: Usar imágenes horizontales</label>
+                          </div>
+                            <div class="form-file__result" id="result-image">
+                              <img id="img-result" alt=""/>
+                            </div>
+                        </div>  
+                      </div>
+                      
+
+                    <div class="row justify-content-center py-4">
+                    <button onClick="" type="button" class="nav-link btnn btn-outline-warning text-white align">Restablecer</button>
+                    <button onClick="" type="button" class="nav-link btnn btn-outline-warning text-white align">Guardar</button>
+                  </div>
+                  </div>
+
+                  <div class="row justify-content-center ">
+                    <h4 class="text-center text-dark py-3">Contacto</h4>
+                    <div class="col-sm-4 text-sm-start">
+                      <label for="nombrecompletos" class="col-form-label text-dark px-4">Correo: </label>
+                    </div>
+                    <div class="col-sm-8 text-sm-start px-4">
+                      <input type="text" placeholder="Nombre" class="form-control" id="nombre" value="">
+                    </div>
+                    <div class="row justify-content-center py-4">
+                    <button onClick="" type="button" class="nav-link btnn btn-outline-warning text-white align">Restablecer</button>
+                    <button onClick="" type="button" class="nav-link btnn btn-outline-warning text-white align">Guardar</button>
+                  </div>
+                  </div>
+                </div>
+
+                
+
+                
+
+              </section>
+            </div>
           </div>
-        </div>
-      </header>
+        </header>
       </section>
 
   <script>
     window.addEventListener('load', function() {
       // Aquí colocas el código de la función que deseas ejecutar al abrir la pestaña
-      mostrarIDBoton();
       setupImageUploader();
     });
     (() => {
@@ -208,13 +234,6 @@
             }, false)
         })
     })()
-
-    function mostrarIDBoton() {
-      const urlParams = new URLSearchParams(window.location.search);
-      const botonId = urlParams.get('id');
-      console.log(botonId);
-      mostrarEditNoticias(botonId);
-    }
     let arrow = document.querySelectorAll(".arrow");
       for (var i = 0; i < arrow.length; i++) {
         arrow[i].addEventListener("click", (e) => {
@@ -244,7 +263,7 @@
   <link rel="stylesheet" href="/node_modules/@sweetalert2/themes/bootstrap-4/bootstrap-4.min.css">
   <script src="/node_modules/sweetalert2/dist/sweetalert2.all.js"></script>
   <script src="/CSS/SweetAlert.js"></script>
-  <script src="CSS/prueba.js"></script>
+  <script src="./CSS/prueba.js"></script>
   <script src="BD/app.js"></script>
 </body>
 
