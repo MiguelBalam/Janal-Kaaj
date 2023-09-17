@@ -2,7 +2,7 @@
 
 if (navigator.onLine) {
   // La aplicación está en línea, realiza una solicitud a la API para obtener datos
-  //obtenerDatosDesdeAPI();
+  obtenerDatosDesdeAPI();
  
   //sincronizarActualizacionesConMySQL()
 } else {
@@ -20,7 +20,7 @@ window.addEventListener('online', () => {
 
   //obtenerDatosDesdeAPI();
   //sincronizarActualizaciones();
- // sincronizarActualizaciones()
+ sincronizarActualizaciones()
 });
 
 // Agregar un listener para el evento 'offline'

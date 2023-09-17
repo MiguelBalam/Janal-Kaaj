@@ -1,3 +1,17 @@
+
+<script>
+var url = window.location.href;
+var swLocation = '/Janal-Kaaj/sw.js';
+
+
+if (navigator.serviceWorker){
+
+  if (url.includes('localhost')){
+        swLocation = '/sw.js';
+    }
+  navigator.serviceWorker.register(swLocation);
+}
+</script>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -253,21 +267,23 @@
         <div class="footerB fs-6 py-1">Copyright &copy; Janal Kaaj 2023</div>
       </footer>
 <script>
-  function ellipsis_box(elemento, max_chars){
-	limite_text = $(elemento).text();
-	if (limite_text.length > max_chars)
-	{
-	limite = limite_text.substr(0, max_chars)+" ...";
-	$(elemento).text(limite);
-	}
-	}
-	$(function()
-	{
-	ellipsis_box(".limitado", 40);
-	});
+  // function ellipsis_box(elemento, max_chars){
+	// limite_text = $(elemento).text();
+	// if (limite_text.length > max_chars)
+	// {
+	// limite = limite_text.substr(0, max_chars)+" ...";
+	// $(elemento).text(limite);
+	// }
+	// }
+	// $(function()
+	// {
+	// ellipsis_box(".limitado", 40);
+	// });
   
 </script>
     <!-- BOOTSTRAP SCRIPTS -->
+    <script src="sw.js"></script>
+ 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
@@ -276,7 +292,7 @@
     <script src="node_modules/sweetalert2/dist/sweetalert2.all.js"></script>    
     <Script src="CSS/prueba.js"></Script>
     <script src="CSS/SweetAlert.js"></script>
-    <script src="BD/app.js"></script>
+    <!-- <script src="BD/app.js"></script> -->
     <script src="/BD/src/sync.js"></script>
     <script src="/BD/src/sincronizar.php"></script>
   </body>

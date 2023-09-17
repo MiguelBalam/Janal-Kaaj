@@ -428,6 +428,17 @@ $(function() {
     mostrarEncuestas(); // Llamando a la función
 });
 
+function mostrarAplicador() {
+    // Mostrar encuestas con el método ajax POST
+    $.post("/BD/sinInternet/mostrarEncuestasAp.php", {}, function(data, status) {
+        $("#tabla_encuestas").html(data);
+    });
+}
+
+// Mostrar encuestas al cargar la página
+$(function() {
+    mostrarAplicador(); // Llamando a la función
+});
 // function aplicarEncuesta(id_encuesta) {
 //     var conf = confirm("¿Estás seguro de aplicar la Encuesta?");
 //     if (conf == true) {

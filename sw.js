@@ -1,6 +1,5 @@
-// importScripts('https://cdn.jsdelivr.net/npm/pouchdb@8.0.1/dist/pouchdb.min.js');
+//importScripts('https://cdn.jsdelivr.net/npm/pouchdb@8.0.1/dist/pouchdb.min.js');
 
-importScripts('BD/sw-utils.js');
 
 const STATIC_CACHE = 'static-v1';
 const DYNAMIC_CACHE = 'dynamic-v1';
@@ -10,41 +9,37 @@ const INMUTABLE_CACHE = 'inmutable-v1';
 // cosas que si van a cambiar
 const APP_SHELL = [
     // '/',
-    'conocenos.html',
-    'contactanos.html',
-    'editarNoticias.html',
-    'form_encuestador.html',
-    'form_encuestados.html',
-    'index.html',
-    'login.html',
-    'noticias.html',
-    'planes_servicios.html',
-    'BD/sw-utils.js',
-    'BD/app.js',
-    './BD/sinInternet/encuesta.html',
-    'pestañas_Encuestador/crear_Evariables.html',
-    'pestañas_Encuestador/crear.html',
-    'pestañas_Encuestador/editR.html',
-    'pestañas_Encuestador/dashboard.html',
-    'pestañas_Encuestador/EncuestaFinalVariable.html',
-    'pestañas_Encuestador/EncuestaVariables.html',
-    'pestañas_Encuestador/EncuestasFinales.html',
-    'pestañas_Encuestador/perfil_Encuestador.html',
-    'pestañas_Encuestador/reactivo_categoria.html',
-    'pestañas_Encuestador/reactivo_tipos_Encuestas.html',
-    'pestañas_Encuestador/variable_crear_variable.html',
-    'pestañas_Encuestador/variable_tipo_variable_NoEdit.html',
-    'pestañas_Encuestador/variable_tipo_variable.html',
-    'pestanas_Encuestado/perfil.html',
-    'pestañas_SuperUsuario/dashboard.html',
-    'pestañas_SuperUsuario/noticias.html',
-    'pestañas_SuperUsuario/perfil_admin.html',
-    'BD/registroUsuarios/registro.js',
-    'BD/src/jsSC.js',
-    'BD/src/sync.js',
-   
-   
-   
+    // '/conocenos.html',
+    // '/contactanos.html',
+    // '/editarNoticias.html',
+    // '/form_encuestador.html',
+    // '/form_encuestados.html',
+    // '/index.html',
+    // '/login.html',
+    // //'planes_servicios.html',
+    // '/BD/sw-utils.js',
+    // '/BD/app.js',
+    // '/BD/sinInternet/encuesta.html',
+    // '/pestañas_Encuestador/crear_Evariables.html',
+    // '/pestañas_Encuestador/crear.html',
+    // '/pestañas_Encuestador/editR.html',
+    // '/pestañas_Encuestador/dashboard.html',
+    // '/pestañas_Encuestador/EncuestaFinalVariable.html',
+    // '/pestañas_Encuestador/EncuestaVariables.html',
+    // '/pestañas_Encuestador/EncuestasFinales.html',
+    // '/pestañas_Encuestador/perfil_Encuestador.html',
+    // '/pestañas_Encuestador/reactivo_categoria.html',
+    // '/pestañas_Encuestador/reactivo_tipos_Encuestas.html',
+    // '/pestañas_Encuestador/variable_crear_variable.html',
+    // '/pestañas_Encuestador/variable_tipo_variable_NoEdit.html',
+    // '/pestañas_Encuestador/variable_tipo_variable.html',
+    // '/pestanas_Encuestado/perfil.html',
+    // '/pestañas_SuperUsuario/dashboard.html',
+    // '/pestañas_SuperUsuario/noticias.html',
+    // '/pestañas_SuperUsuario/perfil_admin.html',
+    // '/BD/registroUsuarios/registro.js',
+    // '/BD/src/jsSC.js',
+    // '/BD/src/sync.js',
 ];
 
 // cosas que no van a cambiar
@@ -59,32 +54,32 @@ const APP_SHELL_INMUTABLE = [
     'https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js',
     'https://fonts.gstatic.com/s/ibmplexsans/v14/zYX9KVElMYYaJe8bpLHnCwDKjXr8AIFsdP3pBms.woff2',
     'https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css',
-    'pestanas_Encuestado/Img/1.jpg',
-    'pestanas_Encuestado/Img/2.jpg',
-    'pestanas_Encuestado/Img/3.jpg',
-    'pestanas_Encuestado/Img/4.jpg',
-    'pestanas_Encuestado/Img/5.jpg',
-    'Img/Blanco.png',
-    'Img/bloquear.png',
-    'Img/borrar.png',
-    'Img/Crear.svg', 
-    'Img/edit.svg',
-    'Img/Fondo Transparente.png',
-    'Img/gmail.png',
-    'Img/Icono-Telefono.png',
-    'Img/usuario (2).png',
-    'Img/Form1.png',
-    'Img/From2.png',
-    'Img/From3.png',
-    'Img/lOGOCONACYT.png',
-    'Img/Oficial_JanalKaaj.png',
-    'Img/Oficial_JanalKaaj.jpg',
-    'CSS/funcion.js',
-    'CSS/prueba.js',
-    'CSS/style.css',
-    'CSS/style3.css',
-    'CSS/styleDashboard.css',
-    'CSS/SweetAlert.js'
+    '/pestanas_Encuestado/Img/1.jpg',
+    '/pestanas_Encuestado/Img/2.jpg',
+    '/pestanas_Encuestado/Img/3.jpg',
+    '/pestanas_Encuestado/Img/4.jpg',
+    '/pestanas_Encuestado/Img/5.jpg',
+    '/Img/Blanco.png',
+    '/Img/bloquear.png',
+    '/Img/borrar.png',
+    '/Img/Crear.svg', 
+    '/Img/edit.svg',
+    '/Img/Fondo Transparente.png',
+    '/Img/gmail.png',
+    '/Img/Icono-Telefono.png',
+    '/Img/usuario (2).png',
+    '/Img/Form1.png',
+    '/Img/From2.png',
+    '/Img/From3.png',
+    '/Img/lOGOCONACYT.png',
+    '/Img/Oficial_JanalKaaj.png',
+    '/Img/Oficial_JanalKaaj.jpg',
+    '/CSS/funcion.js',
+    '/CSS/prueba.js',
+    '/CSS/style.css',
+    '/CSS/style3.css',
+    '/CSS/styleDashboard.css',
+    '/CSS/SweetAlert.js',
 ]; 
 
 self.addEventListener('install', e => {
@@ -152,3 +147,22 @@ self.addEventListener('fetch', e => {
       e.respondWith(respuesta);
     }
   });
+
+
+  function actualizaCacheDinamico( dynamicCache, req, res ) {
+
+
+    if ( res.ok ) {
+  
+        return caches.open( dynamicCache ).then( cache => {
+  
+            cache.put( req, res.clone() );
+            
+            return res.clone();
+  
+        });
+  
+    } else {
+        return res;
+    }
+  }
