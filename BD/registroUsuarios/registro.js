@@ -420,6 +420,7 @@ function almacenarTokenEnIndexedDB(correo, token, tipoUsuario) {
       console.log('Token almacenado en IndexedDB correctamente');
       if (tipoUsuario === "encuestador") {
         window.location.href = '/pestañas_Encuestador/dashboard.html';
+        var correoUsuario = correo;
       } else if (tipoUsuario === "aplicador") {
         window.location.href = '/pestanas_Encuestado/dashAplicador.html';
       } else {
@@ -446,7 +447,7 @@ function mostrarEncuestasAsignadas(correo) {
       if (xhr.status === 200) {
         // Manipula la respuesta del servidor para mostrar las encuestas asignadas
         var data = xhr.responseText;
-        document.getElementById('tabla_encuestas').innerHTML = data;
+        document.getElementById('tabla_Aplicador').innerHTML = data;
       } else {
         console.error('Error en la solicitud AJAX para mostrar encuestas asignadas.', xhr.status, xhr.statusText);
       }

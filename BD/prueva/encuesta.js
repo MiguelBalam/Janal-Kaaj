@@ -431,7 +431,7 @@ $(function() {
 function mostrarAplicador() {
     // Mostrar encuestas con el método ajax POST
     $.post("/BD/sinInternet/mostrarEncuestasAp.php", {}, function(data, status) {
-        $("#tabla_encuestas").html(data);
+        $("#tabla_Aplicador").html(data);
     });
 }
 

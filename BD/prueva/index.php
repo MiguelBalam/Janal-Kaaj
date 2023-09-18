@@ -20,6 +20,7 @@ echo $code;
 ?>
 
 
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -92,14 +93,13 @@ echo $code;
                 <tr>
                     <td><small><strong>VIGENCIA:</strong> <?php echo date('Y-m-d'); ?></small></td>
                 </tr>
+                
                 <tr>
                     <td class="col-sm-4 text-center">TIPO DE ENCUESTA</td>
                     <td><small><strong>TIPO:</strong> <?php echo 'Publico'; ?></small></td>
                 </tr>
             </tbody>
         </table>
-
-
         <div class="col-sm-6 p-3">
 
 <div class="row mb-3">

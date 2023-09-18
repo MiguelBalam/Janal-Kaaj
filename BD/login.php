@@ -62,6 +62,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Devolver el token al cliente
             echo json_encode(["success" => true, "id" => $row['id'], "token" => $token, "tipoUsuario" => $tipoUsuario]);
            // echo json_encode(["success" => true, "id" => $row['id'], "token" => $token]);
+           
         } else {
             echo json_encode(["success" => false, "error" => "Contraseña incorrecta" . $storedContrasenia]);
         }

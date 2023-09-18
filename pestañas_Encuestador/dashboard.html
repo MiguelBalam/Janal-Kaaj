@@ -208,7 +208,8 @@ document.addEventListener('DOMContentLoaded', function () {
                     console.error('Error obteniendo información del usuario:', userInfo.error);
                 } else {
                   document.getElementById('aqui').value = userCorreo;
-                  document.getElementById('Institucion').value = userCorreo;
+                  document.getElementById('userCorreo').textContent = userCorreo;
+                 // document.getElementById('Institucion').value = userCorreo;
                 }
             } catch (error) {
                 console.error('Error al analizar la respuesta JSON:', error);
