@@ -1,3 +1,17 @@
+
+<script>
+    var url = window.location.href;
+    var swLocation = '/Janal-Kaaj/sw.js';
+    
+    
+    if (navigator.serviceWorker){
+    
+      if (url.includes('localhost')){
+            swLocation = '/sw.js';
+        }
+      navigator.serviceWorker.register(swLocation);
+    }
+    </script>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -339,7 +353,8 @@
             return false;
         }
     </script>
-
+  <script src="/BD/sw-utils.js"></script>
+  <script src="sw.js"></script>
 <script src="/BD/registroUsuarios/registro.js"></script>
   <!-- <script  src="BD/app.js"></script> -->
   <script src="CSS/SweetAlert.js"></script>
@@ -353,11 +368,7 @@
   <script src="node_modules/sweetalert2/dist/sweetalert2.all.js"></script>    
   <!-- <script src="CSS/SweetAlert.js"></script> -->
   <script src="CSS/prueba.js"></script>
-  
- 
   <script src="/BD/guardar.php"></script>
-
-
 </body>
 
 </html>

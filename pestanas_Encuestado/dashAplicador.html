@@ -79,27 +79,6 @@
         </ul>
       </li>
 
-      <li>
-        <a href="/pestanas_Encuestado/Aplicador.html">
-          <i class='bx bx-home-alt'></i>
-          <span class="link_name">Alta Aplicadores</span>
-        </a>
-
-        <ul class="sub-menu blank">
-          <li><a class="link_name" href="/pestanas_Encuestado//Aplicador.html">Alta Aplicadores</a></li>
-        </ul>
-      </li>
-
-      <li>
-        <a href="/pestanas_Encuestado/asignarE.php">
-          <i class='bx bx-home-alt'></i>
-          <span class="link_name">Alta Aplicadores</span>
-        </a>
-
-        <ul class="sub-menu blank">
-          <li><a class="link_name" href="/pestanas_Encuestado/asignarE.php">Asiganar</a></li>
-        </ul>
-      </li>
 
       <li>
         <a href="../BD/prueva/consultaDatos.php">
@@ -181,7 +160,7 @@
               <h3 class="text-center mb-4">Bienvenido</h3>
             </div>
             <div class="col-12 text-center mb-2">
-              <label class="col-form-label">Usted es un <span class="fw-bold">Encuestador.</span></label>
+              <label class="col-form-label">Usted es un <span class="fw-bold">Aplicador.</span></label>
             </div>
             <div class="col-12" id="grupo__nombrecompletos">
               <label for="nombrecompletos" class="col-form-label mb-2">Usted inició sesión con el correo:</label>
@@ -198,7 +177,7 @@ document.addEventListener('DOMContentLoaded', function () {
     
     if (userId) {
         var xhr = new XMLHttpRequest();
-        xhr.open('GET', '/BD/infoUser.php?id=' + userId  , true);
+        xhr.open('GET', '/BD/infoApli.php?id=' + userId, true);
         xhr.onreadystatechange = function () {
     if (xhr.readyState === 4) {
         if (xhr.status === 200) {
@@ -208,8 +187,6 @@ document.addEventListener('DOMContentLoaded', function () {
                     console.error('Error obteniendo información del usuario:', userInfo.error);
                 } else {
                   document.getElementById('aqui').value = userCorreo;
-                  document.getElementById('userCorreo').textContent = userCorreo;
-                 // document.getElementById('Institucion').value = userCorreo;
                 }
             } catch (error) {
                 console.error('Error al analizar la respuesta JSON:', error);
@@ -226,21 +203,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
           <div class="row justify-content-center p-3 ">
             <div class="col-12">
-              <h3 class="text-center mb-4">Crear encuestas.</h3>
             </div>
             <div class="col-12">
-              <label for="nombrecompletos" class="col-form-label px-4 text-center mb-2">Usted puede crear dos tipos
-                de
-                encuestas.</label>
-              <div class="col-sm-12 text-center">
-                <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" id="tip_encuesta1"
-                  onclick="window.location.href='../pestañas_Encuestador/crear_Evariables.html'">Encuesta
-                  tipo variables </button>
-                <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" id="tip_encuesta2"
-                  onclick="window.location.href='../pestañas_Encuestador/crear.html'">Encuesta
-                  tipo reactivos</button>
-              </div>
-            </div>
           </div>
 
           <div class="row justify-content-center p-4">
@@ -289,7 +253,7 @@ document.addEventListener('DOMContentLoaded', function () {
           </div>
           <div class="row justify-content-center">
             <div id="resultado2"></div>
-            <div id="tabla_encuestas"></div>
+            <div id="tabla_Aplicador"></div>
             <div id="crear_encuesta"></div>
             <div id="crear_encuestaVar"></div>
             <div id="resultado"></div>

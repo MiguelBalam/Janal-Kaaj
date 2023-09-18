@@ -2,7 +2,7 @@
 
 if (navigator.onLine) {
   // La aplicación está en línea, realiza una solicitud a la API para obtener datos
-  //obtenerDatosDesdeAPI();
+  obtenerDatosDesdeAPI();
  
   //sincronizarActualizacionesConMySQL()
 } else {
@@ -20,7 +20,7 @@ window.addEventListener('online', () => {
 
   //obtenerDatosDesdeAPI();
   //sincronizarActualizaciones();
- // sincronizarActualizaciones()
+ sincronizarActualizaciones()
 });
 
 // Agregar un listener para el evento 'offline'
@@ -53,7 +53,8 @@ window.addEventListener('offline', () => {
     function almacenarDatosEnIndexedDB(data) {
       // Nombre de la base de datos y versión
       const dbName = 'miBaseDeDatos';
-      const tables = ['reactivos', 'encuestas', 'encuestado_respuesta', 'respuestas_encuesta'];
+      const tables = ['reactivos', 'encuestas', 'encuestado_respuesta', 'respuestas_encuesta','asignaciones','encuesta_FinalReactivos',
+      'reactivosCreados'];
       // Abre una conexión con la base de datos o crea una nueva si no existe
       const request = indexedDB.open(dbName);
       let store;
@@ -84,6 +85,16 @@ window.addEventListener('offline', () => {
 
               break;
             case 'respuestas_encuesta':
+              keyPath;
+              break;
+
+              case 'asignaciones':
+              keyPath;
+              break;
+              case 'encuesta_FinalReactivos':
+              keyPath;
+              break;
+              case 'reactivosCreados':
               keyPath;
               break;
             // Puedes agregar más casos para otras tablas si es necesario

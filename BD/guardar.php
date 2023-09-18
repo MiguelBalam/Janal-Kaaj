@@ -32,10 +32,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         die("Conexión fallida: " . $conn->connect_error);
     }
         $hashedContrasenia = password_hash($Contrasenia, PASSWORD_DEFAULT);
-        // Insertar datos en la tabla UsuariosEncuestador
+    
         $sql2 = "INSERT INTO Autenticacion (correo, contraseña) VALUES ('$correo', '$hashedContrasenia')";
         if ($conn->query($sql2) === TRUE) {
-            // Obtener el ID autogenerado de la inserción en Autenticacion
+           
             $idAutenticacion = $conn->insert_id;
 
             // Insertar datos en la tabla UsuariosEncuestador con la referencia al ID de autenticación
@@ -44,7 +44,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             if ($conn->query($sql) === TRUE) {
                 echo "Datos registrados correctamente";
-                header("Location: http://localhost:3000/login.html");
+             header("Location: http://localhost:3000/login.html");
                 exit;
             } else {
                 echo "Error en la inserción en la tabla UsuariosEncuestador: " . $sql . "<br>" . $conn->error;

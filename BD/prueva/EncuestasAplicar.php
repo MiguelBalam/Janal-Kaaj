@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-C:\xampp\php
-=======
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -389,4 +386,3 @@ echo $code;
 <script src="../prueva/encuesta.js"></script>
 </body>
 </html>
->>>>>>> ba388961a6a0665e9401c733d0a1270f63ead1bc

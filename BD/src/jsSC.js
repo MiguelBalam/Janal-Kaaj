@@ -109,9 +109,9 @@ function mostrarEncuestas() {
       </div>
     </nav>
     <div id="mainForm" class="text-center">
+    <div id="mainForm">
     <table class="table table-bordered">
     <tbody class="color-fondo IBM">
-
         <tr>
             <td rowspan="4" style="text-align:center"><img src="/Img/lOGOCONACYT.png" class="col-sm-4 my-3 my-lg-0 text-center"></td>
             <td rowspan="3" class="col-sm-4 text-center">DATOS ENCUESTA</td>
@@ -129,6 +129,7 @@ function mostrarEncuestas() {
         </tr>
     </tbody>
 </table>
+</div>
 <div class="col-sm-6 p-3">
 
 <div class="row mb-3">
@@ -167,8 +168,8 @@ function mostrarEncuestas() {
 </div>
         
             <form id="formFormatoGS" class="needs-validation" data-encuesta-id="${id_encuesta}">
-                <table  class="form-control text-center">
-                    <tbody class="centered-inputs" id="preguntasContainer">
+                <table>
+                    <tbody class= "row justify-content-center" id="preguntasContainer">
                         <!-- Preguntas se cargarán aquí desde IndexedDB -->
                     </tbody>
                 </table>
@@ -255,6 +256,8 @@ index.openCursor(IDBKeyRange.only(id_encuesta)).onsuccess = function (event) {
         var responseType = cursor.value.id_tipo_respuesta;
         var preguntaDiv = document.createElement("div");
         var preguntaLabel = document.createElement("label");
+       preguntaLabel.classList.add("col-form-label")
+        //preguntaDiv.classList.add("form-control");
         preguntaLabel.textContent = pregunta + ": ";
         preguntaDiv.appendChild(preguntaLabel);
 
@@ -265,21 +268,24 @@ index.openCursor(IDBKeyRange.only(id_encuesta)).onsuccess = function (event) {
             var arrayRespuestas = ["SI", "NO"];
             for (var i = 0; i < arrayRespuestas.length; i++) {
                 var respuestaDiv = document.createElement("div");
-                respuestaDiv.classList.add("form-check", "form-check-inline", "col-md-4");
-
-                var respuestaLabel = document.createElement("label");
+               // respuestaDiv.classList.add("conteFlex", "class_", "col-md-4");
+               
+                var respuestaLabel = document.createElement("span");
+                respuestaLabel.classList.add("class_");
                 var respuestaInput = document.createElement("input");
+                //respuestaInput.classList.add("class_");
                 respuestaInput.setAttribute("type", "checkbox");
                 respuestaInput.setAttribute("name", "respuesta");
-                respuestaInput.setAttribute("class", "centered-inputs");
                 respuestaInput.setAttribute("value", arrayRespuestas[i]);
-                respuestaInput.classList.add("form-check-input");
-
+                
                 respuestaLabel.textContent = arrayRespuestas[i];
-                respuestaLabel.classList.add("form-check-label", "form-check-inline");
+               
+                respuestaLabel.appendChild(respuestaInput)
+               
+                //respuestaLabel.classList.add("form-check-label", "form-check-inline");
 
-                respuestaDiv.appendChild(respuestaInput);
-                respuestaDiv.appendChild(respuestaLabel);
+                //respuestaDiv.appendChild(respuestaInput);
+               respuestaDiv.appendChild(respuestaLabel);
 
                 // Agregar un atributo data-id con el ID de la pregunta
                 respuestaDiv.setAttribute("data-id", cursor.value.id_pregunta);
