@@ -202,9 +202,6 @@ document.formAplicador.addEventListener('submit', (ev) => {
 // login.js
 
 
-
-
-
 function controlLogin(event) {
   event.preventDefault(); // Prevenir el envío del formulario por defecto
  console.log("controlLogin se llamó correctamente.");
@@ -423,7 +420,9 @@ function almacenarTokenEnIndexedDB(correo, token, tipoUsuario) {
         var correoUsuario = correo;
       } else if (tipoUsuario === "aplicador") {
         window.location.href = '/pestanas_Encuestado/dashAplicador.html';
-      } else {
+      } else if (tipoUsuario === "encuestado") {
+        window.location.href = '/pestanas_Encuestado/perfil.php'; 
+      }else {
         console.error('Tipo de usuario no reconocido:', tipoUsuario);
         // Puedes redirigir a una página de error o a una página predeterminada en caso de tipo de usuario desconocido.
       }
