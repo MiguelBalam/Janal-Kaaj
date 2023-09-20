@@ -2,21 +2,19 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Crear Encuesta</title>
   <link rel="stylesheet" href="/CSS/styleDashboard.css" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous" />
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
     crossorigin="anonymous"></script>
-  <link rel="stylesheet" href="../CSS/style.css">
+  <link rel="stylesheet" href="../CSS/style.css" />
 
-
-
-  <link rel="stylesheet" href="../node_modules/@sweetalert2/themes/bootstrap-4/bootstrap-4.min.css">
+  <link rel="stylesheet" href="../node_modules/@sweetalert2/themes/bootstrap-4/bootstrap-4.min.css" />
   <script src="../node_modules/sweetalert2/dist/sweetalert2.all.js"></script>
 
   <!-- Boxiocns CDN Link -->
@@ -25,14 +23,12 @@
 </head>
 
 <body>
-
   <!-- Dashboard -->
   <div class="sidebar close">
     <div class="logo-details">
       <i class="bx seleccionador"></i>
       <span class="logo_name">Janal Kaaj</span>
     </div>
-
 
     <ul class="nav-links">
       <li>
@@ -42,14 +38,15 @@
         </a>
 
         <ul class="sub-menu blank">
-          <li><a href="/pestañas_Encuestador/dashboard.html">Dashboard</a></li>
+          <li>
+            <a href="/pestañas_Encuestador/dashboard.html">Dashboard</a>
+          </li>
         </ul>
       </li>
 
-
       <li>
         <a href="/login.html">
-          <i class='bx bx-home-alt'></i>
+          <i class="bx bx-home-alt"></i>
           <span class="link_name">Login</span>
         </a>
 
@@ -58,11 +55,11 @@
         </ul>
       </li>
 
-
       <li>
         <div class="iocn-link">
-          <a href="#" onclick="showAlert('variables')"> <!-- Llamamos a showAlert con el argumento 'variables' -->
-            <i class='bx bx-file-blank'></i>
+          <a href="#" onclick="showAlert('variables')">
+            <!-- Llamamos a showAlert con el argumento 'variables' -->
+            <i class="bx bx-file-blank"></i>
             <span class="link_name">Crear variables</span>
           </a>
           <ul class="sub-menu blank">
@@ -73,8 +70,9 @@
 
       <li>
         <div class="iocn-link">
-          <a href="#" onclick="showAlert('reactivos')"> <!-- Llamamos a showAlert con el argumento 'reactivos' -->
-            <i class='bx bx-file-blank'></i>
+          <a href="#" onclick="showAlert('reactivos')">
+            <!-- Llamamos a showAlert con el argumento 'reactivos' -->
+            <i class="bx bx-file-blank"></i>
             <span class="link_name">Crear reactivos</span>
           </a>
         </div>
@@ -85,11 +83,13 @@
 
       <li>
         <a href="/pestañas_Encuestador/encuestaAplicadas.html">
-          <i class='bx bx-clipboard bx-tada'></i>
+          <i class="bx bx-clipboard bx-tada"></i>
           <span class="link_name">Encuestas aplicadas</span>
         </a>
         <ul class="sub-menu blank">
-          <li><a class="link_name" href="/pestañas_Encuestador/encuestaAplicadas.html">Encuestas aplicadas</a></li>
+          <li>
+            <a class="link_name" href="/pestañas_Encuestador/encuestaAplicadas.html">Encuestas aplicadas</a>
+          </li>
         </ul>
       </li>
 
@@ -102,7 +102,6 @@
           <li><a class="link_name" href="#">Análisis</a></li>
         </ul>
       </li>
-
 
       <li>
         <a href="#">
@@ -124,14 +123,15 @@
         </ul>
       </li> -->
 
-
       <li>
         <a href="perfil_Encuestador.html">
-          <i class='bx bx-user'></i>
+          <i class="bx bx-user"></i>
           <span class="link_name">Perfil</span>
         </a>
         <ul class="sub-menu blank">
-          <li><a class="link_name" href="perfil_Encuestador.html">Perfil</a></li>
+          <li>
+            <a class="link_name" href="perfil_Encuestador.html">Perfil</a>
+          </li>
         </ul>
       </li>
 
@@ -142,11 +142,11 @@
           <span class="link_name">Cerrar Sesión</span>
         </a>
         <ul class="sub-menu blank">
-          <li><a class="link_name" href="#" onclick="confirmarCerrarSesion()">Cerrar Sesión</a></li>
-
+          <li>
+            <a class="link_name" href="#" onclick="confirmarCerrarSesion()">Cerrar Sesión</a>
+          </li>
         </ul>
       </li>
-
     </ul>
   </div>
 
@@ -159,19 +159,21 @@
 
     <section class="d-flex justify-content-center">
       <div class="col-12 col-sm-10 col-md-8 col-lg-6 p-3 shadow-lg mb-5 bg-white rounded">
-        <h1 class="bg-text-black text-center p-3 text-uppercase text-black">Crear Encuesta Variables</h1>
+        <h1 class="bg-text-black text-center p-3 text-uppercase text-black">
+          Crear Encuesta Variables
+        </h1>
         <div class="row mb-4">
           <label class="col-md-4 col-form-label px-5">Usuario: </label>
           <div class="col-md-8">
-              <input id="aqui" name="aqui" type="text" class="form-control" disabled>
+            <input id="aqui" name="aqui" type="text" class="form-control" disabled />
           </div>
-      </div>
-        <form  name="form" id="formularioCR" action="guardar_encuestaVariable.php" method="post">
-
+        </div>
+        <form name="form" id="formularioCR" action="guardar_encuestaVariable.php" method="post">
           <div class="row mb-4">
-            <label class="col-sm-12 col-md-4 col-form-label px-5">Titulo: </label>
+            <label class="col-sm-12 col-md-4 col-form-label px-5">Titulo:
+            </label>
             <div class="col-sm-12 col-md-8">
-              <input placeholder="Agregar Titulo" type="text" class="form-control" id="TituloVar" name="TituloVar">
+              <input placeholder="Agregar Titulo" type="text" class="form-control" id="TituloVar" name="TituloVar" />
             </div>
           </div>
 
@@ -199,7 +201,6 @@
 
           <div class="row mb-4">
             <div class="col-sm-12 col-form-label text-center">
-
               <div class="bg-text-black text-center p-3 text-uppercase text-black">
                 <h5>Opciones para Agregar, Crear y Editar las variables</h5>
               </div>
@@ -209,22 +210,24 @@
                 <button type="button"
                   onclick="window.location.href='../pestañas_Encuestador/variable_tipo_variable_NoEdit.html'"
                   class="btn btn-outline-success bg-border-mostaza bg-text-mostaza mb-2 me-2 w-100"
-                  id="boton_seleccionar">Agregar</button>
+                  id="boton_seleccionar">
+                  Agregar
+                </button>
 
                 <button type="button"
                   onclick="window.location.href='../pestañas_Encuestador/variable_crear_variable.html'"
-                  class="btn btn-outline-success bg-border-mostaza bg-text-mostaza mb-2 me-2 w-100"
-                  id="disenio_boton">Crear</button>
+                  class="btn btn-outline-success bg-border-mostaza bg-text-mostaza mb-2 me-2 w-100" id="disenio_boton">
+                  Crear
+                </button>
 
                 <button type="button"
                   onclick="window.location.href='../pestañas_Encuestador/variable_tipo_variable.html'"
-                  class="btn btn-outline-success bg-border-mostaza bg-text-mostaza mb-2 w-100"
-                  id="boton_seleccionar">Editar</button>
+                  class="btn btn-outline-success bg-border-mostaza bg-text-mostaza mb-2 w-100" id="boton_seleccionar">
+                  Editar
+                </button>
               </div>
-
             </div>
           </div>
-
 
           <div class="bg-text-black text-center p-3 text-uppercase text-black">
             <h5>Lista de variables que tienes agregadas o creadas</h5>
@@ -234,100 +237,106 @@
             <div id="VariablesSeleccionadas"></div>
             <div id="salidaVarC"></div>
             <div class="p-3" id="salidaVarC2"></div>
-          
           </div>
 
           <div class="row mb-4">
             <div class="col-sm-12 col-form-label text-center">
               <div class="d-flex flex-column flex-sm-row justify-content-center align-items-center">
-
                 <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza mb-2 me-2 w-100"
-                  onclick="crearFinalVariables(),crearEncuestaFinalVariables()" name="boton-crear-encuestaVar" id="boton-crear-encuestaVar"
-                  type="submit" disabled> Crear encuesta</button>
+                  onclick="crearFinalVariables(),crearEncuestaFinalVariables()" name="boton-crear-encuestaVar"
+                  id="boton-crear-encuestaVar" type="submit" disabled>
+                  Crear encuesta
+                </button>
 
                 <button type="button" class="btn btn-outline-success bg-border-mostaza bg-text-mostaza mb-2 me-2 w-100"
-                  onclick="window.location.href='../pestañas_Encuestador/dashboard.html'"
-                  id="disenio_boton">Cancelar</button>
+                  onclick="window.location.href='../pestañas_Encuestador/dashboard.html'" id="disenio_boton">
+                  Cancelar
+                </button>
 
                 <button type="button" class="btn btn-outline-success bg-border-mostaza bg-text-mostaza mb-2 w-100"
-                  id="mostrarTablaBtn">Vista
-                  previa</button>
+                  id="mostrarTablaBtn">
+                  Vista previa
+                </button>
 
                 <!-- <button id="mostrarTablaBtn">Mostrar Tabla de Encuesta y Variables</button> -->
               </div>
             </div>
           </div>
-        
         </form>
       </div>
     </section>
   </section>
- 
 
   <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        var userId = localStorage.getItem('user_id');
-        var userCorreo = localStorage.getItem('user_correo');
-        
-        if (userId) {
-            var xhr = new XMLHttpRequest();
-            xhr.open('GET', '/BD/infoUser.php?id=' + userId, true);
-            xhr.onreadystatechange = function () {
-        if (xhr.readyState === 4) {
+    document.addEventListener("DOMContentLoaded", function () {
+      var userId = localStorage.getItem("user_id");
+      var userCorreo = localStorage.getItem("user_correo");
+
+      if (userId) {
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", "/BD/infoUser.php?id=" + userId, true);
+        xhr.onreadystatechange = function () {
+          if (xhr.readyState === 4) {
             if (xhr.status === 200) {
-                try {
-                    var userInfo = JSON.parse(xhr.responseText);
-                    if (userInfo && userInfo.error) {
-                        console.error('Error obteniendo información del usuario:', userInfo.error);
-                    } else {
-                      document.getElementById('aqui').value = userCorreo;
-                    }
-                } catch (error) {
-                    console.error('Error al analizar la respuesta JSON:', error);
+              try {
+                var userInfo = JSON.parse(xhr.responseText);
+                if (userInfo && userInfo.error) {
+                  console.error(
+                    "Error obteniendo información del usuario:",
+                    userInfo.error
+                  );
+                } else {
+                  document.getElementById("aqui").value = userCorreo;
                 }
+              } catch (error) {
+                console.error("Error al analizar la respuesta JSON:", error);
+              }
             } else {
-                console.error('Error en la solicitud AJAX para obtener información del usuario.');
+              console.error(
+                "Error en la solicitud AJAX para obtener información del usuario."
+              );
             }
-        }
-    };
-            xhr.send();
-        }
-        recuperarV()
+          }
+        };
+        xhr.send();
+      }
+      recuperarV();
     });
-  
-             </script>
+  </script>
   <script>
     // Guardar el estado de la barra lateral en el localStorage
     function saveSidebarState(state) {
-      localStorage.setItem('sidebarState', state);
+      localStorage.setItem("sidebarState", state);
     }
 
     // Cargar el estado de la barra lateral del localStorage
     function loadSidebarState() {
-      return localStorage.getItem('sidebarState') || 'expanded'; // Valor predeterminado: expandido
+      return localStorage.getItem("sidebarState") || "expanded"; // Valor predeterminado: expandido
     }
 
-    let arrow = document.querySelectorAll('.arrow');
+    let arrow = document.querySelectorAll(".arrow");
     for (var i = 0; i < arrow.length; i++) {
-      arrow[i].addEventListener('click', (e) => {
+      arrow[i].addEventListener("click", (e) => {
         let arrowParent = e.target.parentElement.parentElement; // seleccionar el elemento principal padre de la flecha
-        arrowParent.classList.toggle('showMenu');
+        arrowParent.classList.toggle("showMenu");
       });
     }
 
-    let sidebar = document.querySelector('.sidebar');
-    let sidebarBtn = document.querySelector('.bx-menu');
+    let sidebar = document.querySelector(".sidebar");
+    let sidebarBtn = document.querySelector(".bx-menu");
     console.log(sidebarBtn);
 
     // Aplicar el estado almacenado al cargar la página
-    window.addEventListener('DOMContentLoaded', () => {
+    window.addEventListener("DOMContentLoaded", () => {
       const initialState = loadSidebarState();
-      sidebar.classList.toggle('close', initialState === 'collapsed');
+      sidebar.classList.toggle("close", initialState === "collapsed");
     });
 
-    sidebarBtn.addEventListener('click', () => {
-      sidebar.classList.toggle('close');
-      const newState = sidebar.classList.contains('close') ? 'collapsed' : 'expanded';
+    sidebarBtn.addEventListener("click", () => {
+      sidebar.classList.toggle("close");
+      const newState = sidebar.classList.contains("close")
+        ? "collapsed"
+        : "expanded";
       saveSidebarState(newState);
     });
   </script>
@@ -337,22 +346,22 @@
       var online = navigator.onLine;
       if (!online) {
         Swal.fire({
-          icon: 'error',
-          title: '¡Sin conexión a Internet!',
+          icon: "error",
+          title: "¡Sin conexión a Internet!",
           text: `Necesitas conexión a Internet para crear ${type}.`,
         });
       } else {
         // Redirigir a la página correspondiente
-        if (type === 'variables') {
-          window.location.href = 'crear_Evariables.html';
-        } else if (type === 'reactivos') {
-          window.location.href = 'crear.html';
+        if (type === "variables") {
+          window.location.href = "crear_Evariables.html";
+        } else if (type === "reactivos") {
+          window.location.href = "crear.html";
         }
       }
     }
   </script>
-   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="../BD/prueva/encuestavariables.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="../BD/prueva/encuestavariables.js"></script>
   <script src="../CSS/SweetAlert.js"></script>
   <script src="../BD/app.js"></script>
 </body>
