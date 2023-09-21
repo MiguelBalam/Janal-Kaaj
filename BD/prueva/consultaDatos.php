@@ -416,21 +416,27 @@ if (isset($_GET['codigo_busqueda'])) {
                                             } ?>>
                     <?php if (!empty($resultados)) { ?>
                         <h2>Opciones: </h2>
-                        <!-- Agregar botón de descarga -->
+                        <!-- Botón para descargar en Excel -->
                         <form method="post" action="descargar_excel.php">
                             <input type="hidden" name="codigo_busqueda" value="<?php echo $codigoBusqueda; ?>">
                             <button type="submit" class="btn btn-outline-success bg-border-mostaza bg-text-mostaza">Descargar Resultados en Excel</button>
+                        </form>
+
+                        <!-- Botón para descargar en PDF -->
+                        <form method="post" action="descargar_pdf.php">
+                            <input type="hidden" name="codigo_busqueda" value="<?php echo $codigoBusqueda; ?>">
+                            <button type="submit" class="btn btn-outline-success bg-border-mostaza bg-text-mostaza">Descargar Resultados en PDF</button>
+                            <!-- Agregar enlace o botón para descargar el PDF -->
+                            <?php if (!empty($resultados)) { ?>
+                                <a href="descargar_pdf.php?codigo_busqueda=<?php echo $codigoBusqueda; ?>" class="btn btn-outline-success bg-border-mostaza bg-text-mostaza">Descargar Resultados en PDF</a>
+                            <?php } ?>
+
                         </form>
                     <?php } elseif (isset($_GET['codigo_busqueda'])) { ?>
                         <!-- ... Tu script de error existente ... -->
                     <?php } ?>
                 </div>
 
-
-                <!-- Sección para mostrar los resultados de la encuesta -->
-                <?php if (isset($_GET['codigo_busqueda']) && !empty($resultados)) { ?>
-
-                <?php } ?>
 
                 <script>
                     // Guardar el estado de la barra lateral en el localStorage
@@ -511,11 +517,8 @@ if (isset($_GET['codigo_busqueda'])) {
                         });
                     });
                 </script>
-
-
             </div>
         </section>
-
     </section>
 </body>
 
