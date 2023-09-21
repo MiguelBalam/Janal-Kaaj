@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var nombre = document.getElementById('nombrecompletos').value.trim();
     var apellidoPaterno = document.getElementById('apellidopaterno').value.trim();
     var apellidoMaterno = document.getElementById('apellidomaterno').value.trim();
-    var generoSeleccionado = genero1.checked ? genero1.value : genero2.value;
+    var generoSeleccionado = '';
     var genero1 = document.getElementById('inlineRadio1');
     var genero2 = document.getElementById('inlineRadio2');
     var edad = document.getElementById('edad').value.trim();

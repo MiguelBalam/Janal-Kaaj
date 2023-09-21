@@ -11,8 +11,12 @@ if ($con->connect_error) {
     die("Conexión fallida: " . $con->connect_error);
 }
 
-$userId = $_GET['userId'];
+$userId = $_GET['userId']; // Obtener el ID de usuario de la URL
+
 $query = "SELECT nombre, apellidoPaterno, apellidoMaterno, edad, genero, localidad, municipio, estado, pais, telefono FROM UsuarioEncuestado WHERE id = $userId";
+
+$queryA = "SELECT correo, contraseña FROM Encuestado_A WHERE id = $userId";
+
 
 
 $result = $con->query($query);
@@ -30,7 +34,6 @@ if ($result->num_rows > 0) {
     $pais = $row["pais"];
     $telefono = $row["telefono"];
 } else {
-    // Establece valores predeterminados si no se encuentra un registro con ID 1
     $nombreEncuestado= "";
     $apellidoPaterno = "";
     $apellidoMaterno = "";
@@ -42,6 +45,18 @@ if ($result->num_rows > 0) {
     $pais = "";
     $telefono = "";
 }
+
+$result = $con->query($queryA);
+if ($result->num_rows > 0) {
+  $row = $result->fetch_assoc();
+  $correo = $row["correo"];
+  //$contraa = $row["contra"];
+}else {
+  $correo= "";
+  $contraa= "";
+}
+
+
 
 ?>
 
@@ -172,49 +187,61 @@ if ($result->num_rows > 0) {
 
     <h2 class="main__title text-center text-dark py-3">Información Personal del Encuestado</h2>
   <div class="container py-4">
+  <form id="formulario" method="post" action="guardarPerfil.php">
     <div class="row align-items-center">
       <div class="col-sm-6">
+      
         <div class="row text-sm-start">
           <div class="col-sm-4 text-sm-start py-4">
             <label for="nombrecompletos" class="col-form-label text-dark px-4">Nombre: </label>
           </div>
           <div class="col-sm-8 text-sm-start py-4 px-4">
-           <input type="text" placeholder="Nombre" class="form-control" id="nombre" value="<?php echo $nombreEncuestado; ?>">
+          <input name="nombre" type="text" placeholder="Nombre" class="form-control" id="nombre" value="<?php echo $nombreEncuestado; ?>">
           </div>
           <div class="col-sm-4 text-sm-start py-4">
             <label for="nombrecompletos" class="col-form-label px-4 text-dark">Apellido Paterno: </label>
           </div>
           <div class="col-sm-8 text-sm-start py-4 px-4">
-          <input type="text" placeholder="Apellido Paterno" class="form-control" id="apellidoPa" value="<?php echo $apellidoPaterno; ?>">
+          <input name="apellidoPa" type="text" placeholder="Apellido Paterno" class="form-control" id="apellidoPa" value="<?php echo $apellidoPaterno; ?>">
           </div>
           <div class="col-sm-4 text-sm-start py-4">
             <label for="nombrecompletos" class="col-form-label px-4 text-dark">Apellido Materno: </label>
           </div>
           <div class="col-sm-8 text-sm-start py-4 px-4">
-          <input type="text" placeholder="Apellido Materno" class="form-control" id="apellidoMa" value="<?php echo $apellidoMaterno; ?>">
+          <input name="apellidoMa" type="text" placeholder="Apellido Materno" class="form-control" id="apellidoMa" value="<?php echo $apellidoMaterno; ?>">
           </div>
           <div class="col-sm-4 text-sm-start py-4">
             <label for="nombrecompletos" class="col-form-label px-4 text-dark">Género: </label>
           </div>
-          <div class="col-sm-8 text-sm-center py-4 px-4">
+          <!-- <div class="col-sm-8 text-sm-center py-4 px-4">
           <div class="col d-flex justify-content-between">
                 <label for="opcion1">Masculino</label>
                 <input type="radio" id="genMas" name="opciones" value="Masculino" <?php echo ($genero === 'option1') ? 'checked' : ''; ?>>
                 <label for="opcion2">Femenino</label>
                 <input type="radio" id="genFem" name="opciones" value="Femenino" <?php echo ($genero === 'option2') ? 'checked' : ''; ?>>
             </div>
+          </div> -->
+          <div class="col-sm-8 text-sm-center py-4 px-4">
+            <div class="col d-flex justify-content-between">
+              <label for="opcion1">Masculino</label>
+              <input type="radio" id="genMas" name="genero" value="Masculino" <?php echo ($genero === 'Masculino') ? 'checked' : ''; ?>>
+              <label for="opcion2">Femenino</label>
+              <input type="radio" id="genFem" name="genero" value="Femenino" <?php echo ($genero === 'Femenino') ? 'checked' : ''; ?>>
+            </div>
           </div>
           <div class="col-sm-4 text-sm-start py-4">
             <label for="nombrecompletos" class="col-form-label px-4 text-dark">Edad: </label>
+           
           </div>
           <div class="col-sm-8 text-sm-start py-4 px-4">
-          <input type="number" placeholder="Edad" class="form-control" id="edad" value="<?php echo $edad; ?>">
+          <input name="edad" type="number" placeholder="Edad" class="form-control" id="edad" value="<?php echo $edad; ?>">
           </div>
           <div class="col-sm-4 text-sm-start py-4">
             <label for="nombrecompletos" class="col-form-label px-4 text-dark">Contraseña: </label>
           </div>
           <div class="col-sm-8 text-sm-start py-4 px-4">
-            <input type="password" placeholder="Contraseña" class="form-control" id="contra"> 
+            <input name="contra" type="password" placeholder="Contraseña" class="form-control" id="contra" >
+            <!-- value="<?php echo $contraa; ?>">  -->
           </div>
         </div>
       </div>
@@ -225,73 +252,112 @@ if ($result->num_rows > 0) {
             <label for="nombrecompletos" class="col-form-label px-4 text-dark">Correo: </label>
           </div>
           <div class="col-sm-8 text-sm-start py-4 px-4">
-            <input type="email" placeholder="correo@gmail.com" class="form-control" id="correo"> 
+            <input name="correo" type="email" placeholder="correo@gmail.com" class="form-control" id="correo" value="<?php echo $correo; ?>"> 
           </div>
           <div class="col-sm-4 text-sm-start py-4">
             <label for="nombrecompletos" class="col-form-label px-4 text-dark">Teléfono: </label>
           </div>
           <div class="col-sm-8 text-sm-start py-4 px-4">
-          <input type="tel" placeholder="Teléfono" class="form-control" id="telefono" value="<?php echo $telefono; ?>">
+          <input name="telefono" type="tel" placeholder="Teléfono" class="form-control" id="telefono" value="<?php echo $telefono; ?>">
           </div>
           <div class="col-sm-4 text-sm-start py-4">
             <label for="nombrecompletos" class="col-form-label px-4 text-dark">Localidad: </label>
           </div>
           <div class="col-sm-8 text-sm-start py-4 px-4">
-          <input type="text" placeholder="Localidad" class="form-control" id="localidad" value="<?php echo $localidad; ?>">
+          <input name="localidad" type="text" placeholder="Localidad" class="form-control" id="localidad" value="<?php echo $localidad; ?>">
           </div>
           <div class="col-sm-4 text-sm-start py-4">
             <label for="nombrecompletos" class="col-form-label px-4 text-dark">Municipio: </label>
           </div>
           <div class="col-sm-8 text-sm-start py-4 px-4">
-          <input type="text" placeholder="Municipio" class="form-control" id="municipio" value="<?php echo $municipio; ?>">
+          <input name="municipio" type="text" placeholder="Municipio" class="form-control" id="municipio" value="<?php echo $municipio; ?>">
           </div>
           <div class="col-sm-4 text-sm-start py-4">
             <label for="nombrecompletos" class="col-form-label px-4 text-dark">Estado: </label>
           </div>
           <div class="col-sm-8 text-sm-start py-4 px-4">
-          <input type="text" placeholder="Estado" class="form-control" id="estado" value="<?php echo $estado; ?>">
+          <input name="estado" type="text" placeholder="Estado" class="form-control" id="estado" value="<?php echo $estado; ?>">
           </div>
           <div class="col-sm-4 text-sm-start py-4">
             <label for="nombrecompletos" class="col-form-label px-4 text-dark">País: </label>
           </div>
           <div class="col-sm-8 text-sm-start py-4 px-4">
-          <input type="text" placeholder="País" class="form-control" id="pais" value="<?php echo $pais; ?>">
+          <input name="pais" type="text" placeholder="País" class="form-control" id="pais" value="<?php echo $pais; ?>">
           </div>             
         </div>
+        <input type="hidden" name="userId" value="<?php echo $userId; ?>">
+
       </div>
-        
+      
     </div>
+    
     <div class="row py-5">
       <div class="col-sm-6 text-center"></div>
       <div class="col-sm-6">
         <div class="row d-flex justify-content-between">
-          <div class="col-sm-3 d-flex justify-content-center ms-auto"><button class="btn btn-outline-warning" type="submit" id="boton-restaurar" onclick="mostrarEncuestados(id)">Restaurar</button></div>
-          <div class="col-sm-3 d-flex justify-content-center"><button class="btn btn-outline-warning " type="submit" id="boton-editar" onclick="desbloquearElementos()">Editar</button></div>
-          <div class="col-sm-3 d-flex justify-content-center"><button class="btn btn-outline-warning" type="submit" id="boton-guardar" onclick="editarDatosEncuestado()">Guardar</button></div>
+          <!-- <div class="col-sm-3 d-flex justify-content-center ms-auto"><button class="btn btn-outline-warning" type="submit" 
+          id="boton-restaurar" onclick="mostrarEncuestados(id)">Restaurar</button></div> -->
+
+          <div class="col-sm-3 d-flex justify-content-center ms-auto">
+            <button class="btn btn-outline-warning" type="button" id="boton-restaurar">Restaurar</button>
+          </div>
+
+          <div class="col-sm-3 d-flex justify-content-center"><a class="btn btn-outline-warning " type="button" id="boton-editar" 
+          onclick="desbloquearElementos()">Editar</a></div>
+          
+          <!-- <div class="col-sm-3 d-flex justify-content-center"><button class="btn btn-outline-warning" type="submit" id="boton-guardar" 
+          onclick="editarDatosEncuestado()">Guardar</button></div> -->
+          <div class="col-sm-3 d-flex justify-content-center">
+      <button type="submit" class="btn btn-outline-warning" id="boton-guardar">Guardar</button>
+   </div>
         </div>
       </div>
     </div>
+    </form>
   </div>
 
-                <script>
+
+<script>
+
 var userId = localStorage.getItem('user_id');
 
-var xhr = new XMLHttpRequest();
-xhr.open('GET', '/ruta-de-tu-archivo-php.php?userId=' + userId, true);
-xhr.onreadystatechange = function () {
-  if (xhr.readyState === 4) {
-    if (xhr.status === 200) {
-      // Aquí puedes manejar la respuesta del servidor, si es necesario
-      console.log('Respuesta del servidor:', xhr.responseText);
-    } else {
-      console.error('Error en la solicitud AJAX:', xhr.status, xhr.statusText);
+// Verifica si userId es válido antes de realizar la solicitud AJAX
+if (userId) {
+  var xhr = new XMLHttpRequest();
+  xhr.open('GET', '/pestanas_Encuestado/perfil.php?userId=' + userId, true);
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState === 4) {
+      if (xhr.status === 200) {
+        // Aquí puedes manejar la respuesta del servidor, si es necesario
+        console.log('Respuesta del servidor:', xhr.responseText);
+      } else {
+        console.error('Error en la solicitud AJAX:', xhr.status, xhr.statusText);
+      }
     }
-  }
-};
-xhr.send();
+  };
+  xhr.send();
+} else {
+  console.error('userId no está disponible en el localStorage.');
+}
 
-// Utiliza los datos en tu página
 console.log('ID de usuario:', userId);
+//PONLO PRIMERO
+// document.addEventListener('DOMContentLoaded', function() {
+//   // Guarda los valores originales en el atributo "data-original-value"
+//   var fields = document.querySelectorAll('[data-original-value]');
+//   fields.forEach(function(field) {
+//     field.dataset.originalValue = field.value;
+//   });
+
+//   // Agrega un evento click al botón "Restaurar"
+//   var botonRestaurar = document.getElementById('boton-restaurar');
+//   botonRestaurar.addEventListener('click', function() {
+//     // Restaura el contenido del formulario al valor original
+//     fields.forEach(function(field) {
+//       field.value = field.dataset.originalValue;
+//     });
+//   });
+// });
 
                     window.addEventListener('load', function() {
                     // Aquí colocas el código de la función que deseas ejecutar al abrir la pestaña
