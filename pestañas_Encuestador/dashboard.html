@@ -80,7 +80,7 @@
       </li>
 
       <li>
-        <a href="/pestanas_Encuestado/Aplicador.html">
+        <a id="pruebaApli" href="#" onclick="redireccionarConUserId()">
           <i class='bx bx-book-add'></i>
           <span class="link_name">Alta Aplicadores</span>
         </a>
@@ -222,6 +222,21 @@ document.addEventListener('DOMContentLoaded', function () {
         xhr.send();
     }
 });
+//para enviar el id a agregar aplicador
+function redireccionarConUserId() {
+    var userId = localStorage.getItem('user_id');
+    
+    if (userId) {
+        // Construir la URL con userId
+        var urlConUserId = `/pestanas_Encuestado/Aplicador.html?userId=${userId}`;
+        
+        // Redirigir al usuario a la nueva URL
+        window.location.href = urlConUserId;
+    } else {
+        // Si userId no está disponible, simplemente redirigir sin él
+        window.location.href = '/pestanas_Encuestado/Aplicador.html';
+    }
+}
          </script>
 
           <div class="row justify-content-center p-3 ">

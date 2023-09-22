@@ -20,13 +20,13 @@ document.addEventListener('DOMContentLoaded', function () {
     var estado = document.getElementById('estado').value.trim(); // Agregado
     var municipio = document.getElementById('municipio').value.trim(); // Agregado
 
-    
+
     if (genero1.checked) {
       generoSeleccionado = "Masculino";
     } else if (genero2.checked) {
       generoSeleccionado = "Femenino";
     }
-    
+
 
     var formData = new FormData();
     formData.append('Email-encuestado', correo);

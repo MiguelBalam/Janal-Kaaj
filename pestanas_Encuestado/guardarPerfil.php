@@ -47,4 +47,3 @@ if ($con->query($query) === TRUE) {
 
 // Cerrar la conexión a la base de datos
 $con->close();
-?>

@@ -281,8 +281,9 @@ $localidadSeleccionada = isset($_POST['localidad']) ? $_POST['localidad'] : '';
 </body>
 
 </html>
-
+<h2 class="py-4">Gráfico de área - Total de respuestas</h2>
 <canvas id="grafica" width="100%" height="30%"></canvas>
+<h2 class="py-4">Gráfico tipo dona - % respecto al total de respuestas</h2>
 <canvas id="pastel" width="100%" height="30%"></canvas>
 </div>
 </section>
@@ -348,24 +349,51 @@ $localidadSeleccionada = isset($_POST['localidad']) ? $_POST['localidad'] : '';
 
 
   new Chart($grafica, {
-    type: 'line', // Tipo de gráfica
-    data: {
-      labels: etiquetas,
-      datasets: [
-        datosClasificacion,
-        // Aquí más datos...
-      ]
-    },
-    options: {
-      scales: {
-        yAxes: [{
-          ticks: {
-            beginAtZero: true
-          }
-        }],
+  type: 'line',
+  data: {
+    labels: etiquetas,
+    datasets: [
+      datosClasificacion,
+    ]
+  },
+  options: {
+    scales: {
+      y: {
+        min: 0,
+        beginAtZero: true,
+        ticks: {
+          color: 'rgb(255, 99, 132)',
+        },
       },
-    }
-  });
+      x: {
+        ticks: {
+          color: 'rgb(255, 99, 132)',
+        },
+      },
+    },
+    plugins: {
+      legend: {
+        display: true,
+        position: 'left',
+        labels: {
+          color: 'rgb(255, 99, 132)',
+          font: {
+            size: 16,
+          },
+        },
+      },
+    },
+  },
+});
+
+// Agregar un título personalizado al eje Y
+// const ctx = $grafica.getContext('2d');
+// ctx.font = '18px Arial';
+// ctx.fillStyle = 'rgb(255, 99, 132)';
+// ctx.fillText('Leyenda en el Eje Y', 30, $grafica.height / 2); // Ajusta las coordenadas y el texto según tus necesidades
+
+
+
 
   const $grafica2 = document.querySelector("#pastel");
   const etiquetas2 = ["Seguridad", "Inseguridad Leve", "Inseguridad Moderada", "Inseguridad Severa"];
@@ -392,13 +420,35 @@ $localidadSeleccionada = isset($_POST['localidad']) ? $_POST['localidad'] : '';
       }],
     },
     options: {
+      // tooltips: {
+      //   callbacks: {
+      //     label: function(tooltipItem, data) {
+      //       return data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index] + '%';
+      //     },
+      //   },
+      // },
+      animation: {
+        animateRotate: true, // Habilitar animación de rotación
+        animateScale: true, // Habilitar animación de escala
+      },
       tooltips: {
         callbacks: {
           label: function(tooltipItem, data) {
-            return data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index] + '%';
+            const label = data.labels[tooltipItem.index];
+            const valor = data.datasets[0].data[tooltipItem.index];
+            return `${label}: ${valor.toFixed(2)}%`;
           },
         },
       },
+      legend: {
+      display: true,
+      position: 'right', // Coloca la leyenda en la parte derecha
+      labels: {
+        boxWidth: 20, // Ancho de la caja de color
+        padding: 10, // Espacio entre las cajas de color y el texto
+        fontStyle: 'bold', // Estilo de fuente
+      },
+    },
     },
 
   });

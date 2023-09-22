@@ -260,6 +260,10 @@
     </section>
 
     <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const userId = urlParams.get('userId');
+
+        console.log(userId);
         // Guardar el estado de la barra lateral en el localStorage
         function saveSidebarState(state) {
             localStorage.setItem("sidebarState", state);
