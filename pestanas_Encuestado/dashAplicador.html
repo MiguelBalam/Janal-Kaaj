@@ -31,7 +31,7 @@
 
     <ul class="nav-links">
       <li>
-        <a href="/pestañas_Encuestador/dashboard.html">
+        <a href="/pestanas_Encuestador/dashboard.html">
           <i class="bx bx-grid-alt"></i>
           <span class="link_name">Dashboard</span>
         </a>
@@ -171,13 +171,44 @@
           </div>
 
          <script>
+// document.addEventListener('DOMContentLoaded', function () {
+//     var userId = localStorage.getItem('user_id');
+//     var userCorreo = localStorage.getItem('user_correo');
+    
+//     if (userId) {
+//         var xhr = new XMLHttpRequest();
+//         xhr.open('GET', '/BD/infoApli.php?id=' + userId, true);
+//         xhr.onreadystatechange = function () {
+//     if (xhr.readyState === 4) {
+//         if (xhr.status === 200) {
+//             try {
+//                 var userInfo = JSON.parse(xhr.responseText);
+//                 if (userInfo && userInfo.error) {
+//                     console.error('Error obteniendo información del usuario:', userInfo.error);
+//                 } else {
+//                   document.getElementById('aqui').value = userCorreo;
+//                 }
+//             } catch (error) {
+//                 console.error('Error al analizar la respuesta JSON:', error);
+//             }
+//         } else {
+//             console.error('Error en la solicitud AJAX para obtener información del usuario.');
+//         }
+//     }
+// };
+//         xhr.send();
+//     }
+// });
+
 document.addEventListener('DOMContentLoaded', function () {
     var userId = localStorage.getItem('user_id');
     var userCorreo = localStorage.getItem('user_correo');
     
+    // Verificar si el usuario está en línea
+ 
     if (userId) {
         var xhr = new XMLHttpRequest();
-        xhr.open('GET', '/BD/infoApli.php?id=' + userId, true);
+        xhr.open('GET', '/BD/infoApli.php?id=' + userId  , true);
         xhr.onreadystatechange = function () {
     if (xhr.readyState === 4) {
         if (xhr.status === 200) {
@@ -187,6 +218,8 @@ document.addEventListener('DOMContentLoaded', function () {
                     console.error('Error obteniendo información del usuario:', userInfo.error);
                 } else {
                   document.getElementById('aqui').value = userCorreo;
+                  //document.getElementById('userCorreo').textContent = userCorreo;
+                 // document.getElementById('Institucion').value = userCorreo;
                 }
             } catch (error) {
                 console.error('Error al analizar la respuesta JSON:', error);
@@ -197,9 +230,43 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 };
         xhr.send();
-    }
+    } 
+    verificar()
 });
          </script>
+           <script>
+            function verificar() {
+          if (!navigator.onLine) {
+            // La aplicación no tiene conexión a internet, obtén el correo del LocalStorage
+            var correo = localStorage.getItem('user_correo');
+        
+            if (correo) {
+              // Si se encontró el correo en el LocalStorage, usa el correo como clave primaria para obtener el token de IndexedDB
+              var request = indexedDB.open('miBaseDeDatos', 2);
+        
+              request.onsuccess = function(event) {
+                var db = event.target.result;
+                var transaction = db.transaction('miAlmacen', 'readonly');
+                var objectStore = transaction.objectStore('miAlmacen');
+        
+                var getRequest = objectStore.get(correo); // Usa el correo como clave primaria
+                console.log(getRequest);
+                getRequest.onsuccess = function(event) {
+                  var tokenData = event.target.result;
+                  console.log(tokenData);
+                  if (tokenData) {
+                    // Si se encontró el token en IndexedDB, colócalo en el campo de contraseña
+                    var correo = document.getElementById('aqui');
+                    correo.value = tokenData.correo;
+                  }
+                };
+              };
+            } else {
+              console.log('Correo no encontrado en el LocalStorage');
+            }
+          }
+        }
+          </script>
 
           <div class="row justify-content-center p-3 ">
             <div class="col-12">
@@ -252,6 +319,7 @@ document.addEventListener('DOMContentLoaded', function () {
             </div>
           </div>
           <div class="row justify-content-center">
+            <div id="resultadoApli"></div>
             <div id="resultado2"></div>
             <div id="tabla_Aplicador"></div>
             <div id="crear_encuesta"></div>
@@ -350,7 +418,7 @@ window.addEventListener('DOMContentLoaded', () => {
       }
     }
   </script>
-    
+        
   <script src="/BD/registroUsuarios/registro.js"></script>
    <script src="/BD/src/jsSC.js"></script>
   <script src="/BD/src/sync.js"></script>

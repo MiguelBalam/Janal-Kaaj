@@ -1550,7 +1550,7 @@ function manejadorValidacion(e) {
                 if (!request.result) {
                   mostrarAlertaCorreo();
                 } else if (Contrasenia == request.result.Contrasenia) {
-                  control(window.location.href = 'pestañas_Encuestador/dashboard.html');
+                  control(window.location.href = 'pestanas_Encuestador/dashboard.html');
                 } else {
                   mostrarAlerta();
                 }
@@ -2429,7 +2429,7 @@ function mostrarVarSelec() {
       function redireccionarPagina(encuestaId) {
         // Aquí puedes redirigir a la página deseada utilizando el ID de la encuesta
         // Por ejemplo:
-        window.location.href = "../pestañas_Encuestador/EncuestaApi.html";
+        window.location.href = "../pestanas_Encuestador/EncuestaApi.html";
       }
       
 
@@ -2780,7 +2780,7 @@ function mostrarVarSelec() {
       function redireccionarPaginaVar(encuestaIdVar) {
         // Aquí puedes redirigir a la página deseada utilizando el ID de la encuesta
         // Por ejemplo:
-        window.location.href = "../pestañas_Encuestador/EncuestaFinalVariable.html";
+        window.location.href = "../pestanas_Encuestador/EncuestaFinalVariable.html";
       }
 
      
@@ -2827,7 +2827,7 @@ function mostrarVarSelec() {
 
          function CrearReactivo(){
           //control();
-          // var url_string = window.location.href="/pestañas_Encuestador/reactivo_crear_reactivos.html"; //
+          // var url_string = window.location.href="/pestanas_Encuestador/reactivo_crear_reactivos.html"; //
           // var url = new URL(url_string);
           // var c = url.searchParams.get("Usuario");
           // document.getElementById("aqui").value = c;
@@ -4610,7 +4610,7 @@ function contieneCheckboxIdVAR(checkboxes, id) {
 
 function mostrarTablaEnOtraPestana(encuestaVarId) {
  
-  var nuevaVentana = window.open('/pestañas_Encuestador/EncuestaVariables.html');
+  var nuevaVentana = window.open('/pestanas_Encuestador/EncuestaVariables.html');
 
   // Cuando la ventana se haya cargado, llama a la función EncuestaVarMostrar para mostrar la tabla
   nuevaVentana.onload = function () {
@@ -4848,7 +4848,7 @@ function miFuncionEditar() {
                       });
 
                       setTimeout(function () {
-                        window.location.href = '../pestañas_Encuestador/dashboard.html';
+                        window.location.href = '../pestanas_Encuestador/dashboard.html';
                       }, 4000); // 4000 milisegundos (4 segundos)
                   };
                 } else {

@@ -29,12 +29,12 @@ $localidad = mysqli_real_escape_string($con, $_POST['localidad']);
 $genero = mysqli_real_escape_string($con, $_POST['sexo']); // Puedes ajustar esto según cómo manejes los checkboxes de género
 $edad = mysqli_real_escape_string($con, $_POST['edad']);
 $codigo = $_POST['codigo'];
-
+$Aplicador=$_POST['userCorreo'];
 $idEncuesta = mysqli_real_escape_string($con, $_POST['idEncuesta']);
 
 // Insertar datos del encuestado en la tabla 'datos_encuestado'
-$insertDatosEncuestado = "INSERT INTO encuestado_respuesta(nombre, localidad, genero, edad, codigo,id_encuesta)
-                          VALUES ('$nombre', '$localidad', '$genero', '$edad', '$codigo',$idEncuesta)";
+$insertDatosEncuestado = "INSERT INTO encuestado_respuesta(nombre, localidad, genero, edad, codigo, id_encuesta, Aplicador)
+                          VALUES ('$nombre', '$localidad', '$genero', '$edad', '$codigo',$idEncuesta,'$Aplicador')";
 
 $resultadoInsertDatos = mysqli_query($con, $insertDatosEncuestado);
 $responses = $_POST['respuesta'];
@@ -54,7 +54,8 @@ foreach ($responses as $idPreg => $respPreg) {
             id_pregunta,
             respuesta,
             observacion,
-            created
+            created,
+            Aplicador
         ) VALUES (
             '$idEncuesta',
             '$idEncuestado',
@@ -62,7 +63,8 @@ foreach ($responses as $idPreg => $respPreg) {
             '$idPreg',
             '$respuestaInput',
             '$observacion',
-            NOW()
+            NOW(),
+            '$Aplicador'
         )";
     } else {
         // Si la respuesta no es un array, se trata de una opción de respuesta
@@ -75,7 +77,8 @@ foreach ($responses as $idPreg => $respPreg) {
             id_pregunta,
             respuesta,
             observacion,
-            created
+            created,
+            Aplicador
         ) VALUES (
             '$idEncuesta',
             '$idEncuestado',
@@ -83,7 +86,8 @@ foreach ($responses as $idPreg => $respPreg) {
             '$idPreg',
             '$respuesta',
             '$observacion',
-            NOW()
+            NOW(),
+            '$Aplicador'
         )";
     }
     

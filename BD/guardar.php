@@ -44,7 +44,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             if ($conn->query($sql) === TRUE) {
                 echo "Datos registrados correctamente";
-             header("Location: http://localhost:3000/login.html");
+           
                 exit;
             } else {
                 echo "Error en la inserción en la tabla UsuariosEncuestador: " . $sql . "<br>" . $conn->error;

@@ -94,59 +94,93 @@ self.addEventListener('install', e => {
         e.waitUntil(Promise.all([cacheStatic, cacheInmutable]));
 
 });
-
 self.addEventListener('activate', e => {
+  e.waitUntil(
+    caches.keys().then(keys => {
+      return Promise.all(keys.map(key => {
+        if (key !== STATIC_CACHE && key !== DYNAMIC_CACHE) {
+          return caches.delete(key);
+        }
+      }));
+    })
+  );
+});
 
-    const respuesta = caches.keys().then( keys => {
+// self.addEventListener('activate', e => {
 
-        keys.forEach( key => {
+//     const respuesta = caches.keys().then( keys => {
 
-            if (  key !== STATIC_CACHE && key.includes('static') ) {
-                return caches.delete(key);
-            }
+//         keys.forEach( key => {
 
-            if (  key !== DYNAMIC_CACHE && key.includes('dynamic') ) {
-                return caches.delete(key);
-            }
+//             if (  key !== STATIC_CACHE && key.includes('static') ) {
+//                 return caches.delete(key);
+//             }
 
-        }); 
+//             if (  key !== DYNAMIC_CACHE && key.includes('dynamic') ) {
+//                 return caches.delete(key);
+//             }
 
-    });
+//         }); 
+
+//     });
 
 
 
-    e.waitUntil( respuesta );
+//     e.waitUntil( respuesta );
+// });
+
+self.addEventListener('fetch', e => {
+  e.respondWith(
+    fetch(e.request)
+      .then(res => {
+        // Si la solicitud se completó correctamente, actualiza la caché dinámico
+        if (res && res.ok) {
+          return caches.open(DYNAMIC_CACHE)
+            .then(cache => {
+              cache.put(e.request, res.clone());
+              return res;
+            });
+        }
+        // Si la solicitud falla o no se puede actualizar la caché dinámico, devuelve la respuesta original en caché si está disponible
+        return caches.match(e.request)
+          .then(cachedResponse => cachedResponse || res);
+      })
+      .catch(err => {
+        // En caso de error en la red, intenta obtener la respuesta desde la caché
+        return caches.match(e.request);
+      })
+  );
 });
 
 
-self.addEventListener('fetch', e => {
-    if (e.request.url.includes('formulario')) {
-      e.respondWith(
-        caches.match(e.request).then(cachedResponse => {
-          if (cachedResponse) {
-            return cachedResponse;
-          }
+// self.addEventListener('fetch', e => {
+//     if (e.request.url.includes('formulario')) {
+//       e.respondWith(
+//         caches.match(e.request).then(cachedResponse => {
+//           if (cachedResponse) {
+//             return cachedResponse;
+//           }
   
-         // Si no está en caché, busca en la red y almacena en caché dinámico
-          return fetch(e.request).then(newRes => {
-            return actualizaCacheDinamico(DYNAMIC_CACHE, e.request, newRes);
-          });
-        })
-      );
-    } else {
-      const respuesta = caches.match(e.request).then(res => {
-        if (res) {
-          return res;
-        } else {
-          return fetch(e.request).then(newRes => {
-            return actualizaCacheDinamico(DYNAMIC_CACHE, e.request, newRes);
-          });
-        }
-      });
+//          // Si no está en caché, busca en la red y almacena en caché dinámico
+//           return fetch(e.request).then(newRes => {
+//             return actualizaCacheDinamico(DYNAMIC_CACHE, e.request, newRes);
+//           });
+//         })
+//       );
+//     } else {
+//       const respuesta = caches.match(e.request).then(res => {
+//         if (res) {
+//           return res;
+//         } else {
+//           return fetch(e.request).then(newRes => {
+//             return actualizaCacheDinamico(DYNAMIC_CACHE, e.request, newRes);
+//           });
+//         }
+//       });
   
-      e.respondWith(respuesta);
-    }
-  });
+//       e.respondWith(respuesta);
+//     }
+//   });
 
 
   function actualizaCacheDinamico( dynamicCache, req, res ) {

@@ -7,9 +7,10 @@ if (navigator.onLine) {
   //sincronizarActualizacionesConMySQL()
 } else {
   // La aplicación está fuera de línea, muestra un mensaje o realiza otras acciones apropiadas
- 
  // mostrarDatosDesdeIndexedDB()
-  mostrarEncuestas();
+  //mostrarEncuestas();
+  //mostrarEncuestasApli();
+ // mostrarEncuestasApli(correo)
   // mostrarMensajeOffline();
   // mostrarDatosDesdeIndexedDB();
 }
@@ -17,15 +18,11 @@ if (navigator.onLine) {
 // Agregar un listener para el evento 'online'
 window.addEventListener('online', () => {
   // La aplicación ha vuelto en línea, realiza una solicitud a la API para obtener datos
-
-  //obtenerDatosDesdeAPI();
-  //sincronizarActualizaciones();
  sincronizarActualizaciones()
 });
 
 // Agregar un listener para el evento 'offline'
 window.addEventListener('offline', () => {
-  // La aplicación ha pasado a estar fuera de línea, muestra un mensaje o realiza otras acciones apropiadas
   mostrarMensajeOffline();
 
 });
@@ -53,10 +50,11 @@ window.addEventListener('offline', () => {
     function almacenarDatosEnIndexedDB(data) {
       // Nombre de la base de datos y versión
       const dbName = 'miBaseDeDatos';
+      const dbVersion = 1;
       const tables = ['reactivos', 'encuestas', 'encuestado_respuesta', 'respuestas_encuesta','asignaciones','encuesta_FinalReactivos',
-      'reactivosCreados'];
+      'reactivosCreados','tiposRespuesta'];
       // Abre una conexión con la base de datos o crea una nueva si no existe
-      const request = indexedDB.open(dbName);
+      const request = indexedDB.open(dbName,dbVersion);
       let store;
       request.onerror = (event) => {
         console.error('Error al abrir la base de datos:', event.target.error);
@@ -90,13 +88,21 @@ window.addEventListener('offline', () => {
 
               case 'asignaciones':
               keyPath;
+              index = 'aplicador';
               break;
               case 'encuesta_FinalReactivos':
               keyPath;
+              index = 'id_encuesta';
               break;
               case 'reactivosCreados':
               keyPath;
+              index = 'id_tipoRespuesta';
               break;
+
+              case 'tiposRespuesta':
+                keyPath='id_tipoRespuesta';
+              
+                break;
             // Puedes agregar más casos para otras tablas si es necesario
           }
           if (!db.objectStoreNames.contains(table)) {
@@ -142,6 +148,7 @@ window.addEventListener('offline', () => {
     // Implementa la lógica para mostrar un mensaje al usuario
     // cuando la aplicación esté fuera de línea
     console.log('no se puede hacer nada')
+    verificarConexionYRecuperarToken()
   }
   
 

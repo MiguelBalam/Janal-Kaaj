@@ -312,7 +312,7 @@ $variables_encuesta = obtenerVariablesEncuesta($id_encuestaVar);
     <div class="row mb-2">
         <div class="d-grid gap-2 col-6 mx-auto">
         <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza " type="submit">Editar</button>
-        <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza " type="button"  onclick="window.location.href='/pestañas_Encuestador/dashboard.html'">Guardar</button>
+        <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza " type="button"  onclick="window.location.href='/pestanas_Encuestador/dashboard.html'">Guardar</button>
          </div>
         </div>
       </div>
