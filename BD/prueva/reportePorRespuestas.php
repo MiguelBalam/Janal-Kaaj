@@ -45,7 +45,7 @@ $localidadSeleccionada = isset($_POST['localidad']) ? $_POST['localidad'] : '';
             <tr>
                 <td>N.O. de pregunta</td>
                 <td>Descripción</td>
-                <td>Localidad</td>
+                <td>Total</td>
 
             </tr>
         </thead>

@@ -63,6 +63,11 @@ if (isset($_GET['codigo_busqueda'])) {
     <link href="https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css" rel="stylesheet" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+
+
 </head>
 
 <body>
@@ -201,17 +206,31 @@ if (isset($_GET['codigo_busqueda'])) {
         <section class="container-fluid d-flex justify-content-center">
             <div class="col-12 col-md-10 col-lg-8 col-xl-10 p-3 shadow-lg mb-5 bg-white rounded">
 
-                <h1>Buscar Resultados de Encuesta por Código</h1>
-                <form method="get" action="">
-                    <label for="codigo_busqueda">Ingrese el Código: </label>
-                    <input type="text" name="codigo_busqueda" required>
-                    <button type="submit" class="btn btn-outline-success bg-border-mostaza bg-text-mostaza">Buscar</button>
-                </form>
+                <div class="container">
+                    <div class="row justify-content-center mb-3">
+                        <div class="col-12">
+                            <h3 class="text-center mb-4">Encuestas aplicadas</h3>
+                        </div>
+                        <div class="col-sm-6 col-md-4 text-center mb-2">
+                            <form method="get" action="">
+                                <label class="col-form-label px-4 text-center">Ingrese el Código:</label>
+                        </div>
+                        <div class="col-sm-6 col-md-4 mb-2">
+                            <input type="text" name="codigo_busqueda" class="form-control" placeholder="Código" aria-label="Código" required>
+                        </div>
+                        <div class="col-12 col-sm-12 col-md-4 mb-2 text-center">
+                            <button type="submit" class="btn btn-outline-success bg-border-mostaza bg-text-mostaza">Buscar</button>
+                        </div>
+                        </form>
+                    </div>
+                </div>
+
 
                 <!-- Mostrar códigos únicos -->
-                <h2>Códigos de Encuestas Aplicadas:</h2>
-                <div class="table-responsive">
-                    <table class="table table-striped table-bordered">
+
+                <div class="table-responsive" class="table-responsive" id="tablaCodigos">
+                    <h2>Encuestas Aplicadas</h2>
+                    <table class="table table-striped table-bordered" id="encuestasTable" class="table table-striped table-bordered">
                         <thead>
                             <tr>
                                 <th>Código</th>
@@ -299,98 +318,85 @@ if (isset($_GET['codigo_busqueda'])) {
                             ?>
                         </tbody>
 
-                        <nav aria-label="Page navigation">
-                            <ul class="pagination justify-content-center">
-                                <li class="page-item disabled">
-                                    <span class="page-link">Anterior</span>
-                                </li>
-                                <li class="page-item active">
-                                    <span class="page-link">1</span>
-                                </li>
-                                <li class="page-item">
-                                    <a class="page-link" href="#">2</a>
-                                </li>
-                                <li class="page-item">
-                                    <a class="page-link" href="#">3</a>
-                                </li>
-                                <li class="page-item">
-                                    <a class="page-link" href="#">Siguiente</a>
-                                </li>
-                            </ul>
-                        </nav>
-
                     </table>
                 </div>
 
 
                 <?php if (!empty($resultados)) { ?>
-                    <h2>Visualizacíon de la encuesta</h2>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Nombre del encuestado</th>
-                                <td rowspan="<?php echo count($resultados); ?>"><?php echo $resultados[0]['nombre']; ?></td>
-                            </tr>
-                        </thead>
-
-                        <thead>
-                            <tr>
-                                <th>Localidad</th>
-                                <td rowspan="<?php echo count($resultados); ?>"><?php echo $resultados[0]['localidad']; ?></td>
-                            </tr>
-                        </thead>
-
-                        <thead>
-                            <tr>
-                                <th>Género</th>
-                                <td rowspan="<?php echo count($resultados); ?>"><?php echo $resultados[0]['genero']; ?></td>
-                            </tr>
-                        </thead>
-
-                        <thead>
-                            <tr>
-                                <th>Edad</th>
-                                <td rowspan="<?php echo count($resultados); ?>"><?php echo $resultados[0]['edad']; ?></td>
-                            </tr>
-                        </thead>
-                        <thead>
-                            <tr>
-                                <th>Código</th>
-                                <td rowspan="<?php echo count($resultados); ?>"><?php echo $resultados[0]['codigo']; ?></td>
-                            </tr>
-                        </thead>
-                        <thead>
-                            <tr>
-                                <th>Fecha de Creación</th>
-                                <td rowspan="<?php echo count($resultados); ?>"><?php echo $resultados[0]['created']; ?></td>
-
-                            </tr>
-                        </thead>
-                        <tbody>
+                    <div id="resultadosBusqueda" style="display: none;">
+                        <h2>Visualizacíon de la encuesta</h2>
+                        <table>
                             <thead>
                                 <tr>
-                                    <th>Preguntas</th>
-                                    <th>Respuestas</th>
+                                    <th>Nombre del encuestado</th>
+                                    <td rowspan="<?php echo count($resultados); ?>"><?php echo $resultados[0]['nombre']; ?></td>
                                 </tr>
                             </thead>
-                            <?php foreach ($resultados as $index => $resultado) { ?>
-                                <?php if ($index > 0) { ?>
+
+                            <thead>
+                                <tr>
+                                    <th>Localidad</th>
+                                    <td rowspan="<?php echo count($resultados); ?>"><?php echo $resultados[0]['localidad']; ?></td>
+                                </tr>
+                            </thead>
+
+                            <thead>
+                                <tr>
+                                    <th>Género</th>
+                                    <td rowspan="<?php echo count($resultados); ?>"><?php echo $resultados[0]['genero']; ?></td>
+                                </tr>
+                            </thead>
+
+                            <thead>
+                                <tr>
+                                    <th>Edad</th>
+                                    <td rowspan="<?php echo count($resultados); ?>"><?php echo $resultados[0]['edad']; ?></td>
+                                </tr>
+                            </thead>
+                            <thead>
+                                <tr>
+                                    <th>Código</th>
+                                    <td rowspan="<?php echo count($resultados); ?>"><?php echo $resultados[0]['codigo']; ?></td>
+                                </tr>
+                            </thead>
+                            <thead>
+                                <tr>
+                                    <th>Fecha de Creación</th>
+                                    <td rowspan="<?php echo count($resultados); ?>"><?php echo $resultados[0]['created']; ?></td>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <thead>
                                     <tr>
-                                    <?php } ?>
-                                    <td><?php echo $resultado['descripcion']; ?></td>
-                                    <td><?php echo $resultado['respuesta']; ?></td>
-                                    <?php if ($index > 0) { ?>
+                                        <th>Preguntas</th>
+                                        <th>Respuestas</th>
                                     </tr>
+                                </thead>
+                                <?php foreach ($resultados as $index => $resultado) { ?>
+                                    <?php if ($index > 0) { ?>
+                                        <tr>
+                                        <?php } ?>
+                                        <td><?php echo $resultado['descripcion']; ?></td>
+                                        <td><?php echo $resultado['respuesta']; ?></td>
+                                        <?php if ($index > 0) { ?>
+                                        </tr>
+                                    <?php } ?>
                                 <?php } ?>
-                            <?php } ?>
-                        </tbody>
-                        <tfoot>
-                            <tr>
-                                <th>Observación</th>
-                                <td><?php echo $resultados[0]['observacion']; ?></td>
-                            </tr>
-                        </tfoot>
-                    </table>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th>Observación</th>
+                                    <td><?php echo $resultados[0]['observacion']; ?></td>
+                                </tr>
+                            </tfoot>
+                        </table>
+
+                        <div class="d-flex justify-content-center mt-3">
+                            <button onclick="volverATablaCodigos()" class="btn btn-outline-success bg-border-mostaza bg-text-mostaza">Volver la tabla de resultados</button>
+                        </div>
+
+                    </div>
 
 
 
@@ -405,27 +411,32 @@ if (isset($_GET['codigo_busqueda'])) {
                     </script>
                 <?php } ?>
 
-                <?php if (!empty($resultados)) { ?>
-                    <h2>Resultados de la Búsqueda:</h2>
-                    <table>
-                        <!-- ... Tu tabla de resultados existente ... -->
-                    </table>
+                <div id="opcionesDescarga" <?php if (empty($resultados) && !isset($_GET['codigo_busqueda'])) {
+                                                echo 'style="display: none;"';
+                                            } ?>>
+                    <?php if (!empty($resultados)) { ?>
+                        <h2>Opciones: </h2>
+                        <!-- Botón para descargar en Excel -->
+                        <form method="post" action="descargar_excel.php">
+                            <input type="hidden" name="codigo_busqueda" value="<?php echo $codigoBusqueda; ?>">
+                            <button type="submit" class="btn btn-outline-success bg-border-mostaza bg-text-mostaza">Descargar Resultados en Excel</button>
+                        </form>
 
-                    <!-- Agregar botón de descarga -->
-                    <form method="post" action="descargar_excel.php">
-                        <input type="hidden" name="codigo_busqueda" value="<?php echo $codigoBusqueda; ?>">
-                        <button type="submit" class="btn btn-outline-success bg-border-mostaza bg-text-mostaza">Descargar Resultados en Excel</button>
-                    </form>
-                <?php } elseif (isset($_GET['codigo_busqueda'])) { ?>
-                    <!-- ... Tu script de error existente ... -->
-                <?php } ?>
+                        <!-- Botón para descargar en PDF -->
+                        <form method="post" action="descargar_pdf.php">
+                            <input type="hidden" name="codigo_busqueda" value="<?php echo $codigoBusqueda; ?>">
+                            <button type="submit" class="btn btn-outline-success bg-border-mostaza bg-text-mostaza">Descargar Resultados en PDF</button>
+                            <!-- Agregar enlace o botón para descargar el PDF -->
+                            <?php if (!empty($resultados)) { ?>
+                                <a href="descargar_pdf.php?codigo_busqueda=<?php echo $codigoBusqueda; ?>" class="btn btn-outline-success bg-border-mostaza bg-text-mostaza">Descargar Resultados en PDF</a>
+                            <?php } ?>
 
-                <!-- Sección para mostrar los resultados de la encuesta -->
-                <?php if (isset($_GET['codigo_busqueda']) && !empty($resultados)) { ?>
-                    <table>
-                        <!-- ... Tu tabla de resultados de encuesta ... -->
-                    </table>
-                <?php } ?>
+                        </form>
+                    <?php } elseif (isset($_GET['codigo_busqueda'])) { ?>
+                        <!-- ... Tu script de error existente ... -->
+                    <?php } ?>
+                </div>
+
 
                 <script>
                     // Guardar el estado de la barra lateral en el localStorage
@@ -469,10 +480,45 @@ if (isset($_GET['codigo_busqueda'])) {
                         saveSidebarState(newState);
                     });
                 </script>
+                <script>
+                    function mostrarResultadosBusqueda() {
+                        document.getElementById("tablaCodigos").style.display = "none";
+                        document.getElementById("resultadosBusqueda").style.display = "block";
+                        document.getElementById("opcionesDescarga").style.display = "block";
+                    }
 
+                    function volverATablaCodigos() {
+                        document.getElementById("tablaCodigos").style.display = "block";
+                        document.getElementById("resultadosBusqueda").style.display = "none";
+                        document.getElementById("opcionesDescarga").style.display = "none";
+                    }
+
+
+                    // Lógica para mostrar los resultados de la búsqueda cuando se realiza una búsqueda exitosa
+                    <?php if (!empty($resultados)) { ?>
+                        mostrarResultadosBusqueda();
+                    <?php } ?>
+                </script>
+                <script>
+                    $(document).ready(function() {
+                        $('#encuestasTable').DataTable({
+                            paging: true, // Habilita la paginación
+                            pageLength: 10, // Define el número de filas por página (ajusta según tus necesidades)
+                            lengthChange: false, // Oculta la opción de cambiar el número de filas por página
+                            searching: false, // Oculta la barra de búsqueda si no es necesaria
+                            info: false, // Oculta la información de la página actual y total de páginas
+                            dom: '<"row"<"col-md-6"l><"col-md-6"f>>tp',
+                            language: {
+                                paginate: {
+                                    previous: 'Anterior', // Cambia el texto del botón "Anterior"
+                                    next: 'Siguiente' // Cambia el texto del botón "Siguiente"
+                                }
+                            }
+                        });
+                    });
+                </script>
             </div>
         </section>
-
     </section>
 </body>
 

@@ -202,10 +202,6 @@ document.formAplicador.addEventListener('submit', (ev) => {
 // login.js
 
 
-
-
-
-
 function controlLogin(event) {
   event.preventDefault(); // Prevenir el envío del formulario por defecto
  console.log("controlLogin se llamó correctamente.");
@@ -409,7 +405,7 @@ function almacenarTokenEnIndexedDB(correo, token, tipoUsuario) {
   // Nombre de la base de datos y versión
   const dbName = 'miBaseDeDatos';
   const dbVersion = 2;
-
+  var userId = localStorage.getItem('user_id');
   // Abre una conexión con la base de datos o crea una nueva si no existe
   const request = indexedDB.open(dbName, dbVersion);
 
@@ -443,7 +439,9 @@ function almacenarTokenEnIndexedDB(correo, token, tipoUsuario) {
     
       } else if (tipoUsuario === "aplicador") {
         window.location.href = '/pestanas_Encuestado/dashAplicador.html';
-      } else {
+      } else if (tipoUsuario === "encuestado") {
+        window.location.href = '/pestanas_Encuestado/perfil.php?userId=' + userId; 
+      }else {
         console.error('Tipo de usuario no reconocido:', tipoUsuario);
         // Puedes redirigir a una página de error o a una página predeterminada en caso de tipo de usuario desconocido.
       }

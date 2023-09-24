@@ -80,8 +80,8 @@
       </li>
 
       <li>
-        <a href="/pestanas_Encuestado/Aplicador.html">
-          <i class='bx bx-home-alt'></i>
+        <a id="pruebaApli" href="#" onclick="redireccionarConUserId()">
+          <i class='bx bx-book-add'></i>
           <span class="link_name">Alta Aplicadores</span>
         </a>
 
@@ -92,12 +92,12 @@
 
       <li>
         <a href="/pestanas_Encuestado/asignarE.php">
-          <i class='bx bx-home-alt'></i>
-          <span class="link_name">Alta Aplicadores</span>
+          <i class='bx bxs-user-check'></i>
+          <span class="link_name">Asignar</span>
         </a>
 
         <ul class="sub-menu blank">
-          <li><a class="link_name" href="/pestanas_Encuestado/asignarE.php">Asiganar</a></li>
+          <li><a class="link_name" href="/pestanas_Encuestado/asignarE.php">Asignar</a></li>
         </ul>
       </li>
 
@@ -224,6 +224,21 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     verificar() 
 });
+//para enviar el id a agregar aplicador
+function redireccionarConUserId() {
+    var userId = localStorage.getItem('user_id');
+    
+    if (userId) {
+        // Construir la URL con userId
+        var urlConUserId = `/pestanas_Encuestado/Aplicador.html?userId=${userId}`;
+        
+        // Redirigir al usuario a la nueva URL
+        window.location.href = urlConUserId;
+    } else {
+        // Si userId no está disponible, simplemente redirigir sin él
+        window.location.href = '/pestanas_Encuestado/Aplicador.html';
+    }
+}
          </script>
 
           <div class="row justify-content-center p-3 ">
