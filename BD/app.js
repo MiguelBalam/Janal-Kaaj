@@ -1,14 +1,14 @@
-// var url = window.location.href;
-// var swLocation = '/Janal-Kaaj/sw.js';
+ var url = window.location.href;
+ var swLocation = '/Janal-Kaaj/sw.js';
 
 
-// if (navigator.serviceWorker){
+ if (navigator.serviceWorker){
 
-//   if (url.includes('localhost')){
-//         swLocation = '/sw.js';
-//     }
-//   navigator.serviceWorker.register(swLocation);
-// }
+   if (url.includes('localhost:3000')){
+         swLocation = '/sw.js';
+     }
+   navigator.serviceWorker.register(swLocation);
+ }
 
 // creacion de la base de datos
 var db;
