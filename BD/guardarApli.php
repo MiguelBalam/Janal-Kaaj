@@ -11,7 +11,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $Nombre = $_POST["nombrecompletos"];
     $ApellidoP = $_POST["apellidopaterno"];
     $ApellidoM = $_POST["apellidomaterno"];
-
+    $userId = $_POST['userId'];;  
     
 
     // Conexión a la base de datos
@@ -27,6 +27,35 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($con->connect_error) {
         die("Conexión fallida: " . $con->connect_error);
     }
+   
+    // Cambia esto al valor real de $userId
+
+  
+    $consulta = "SELECT id FROM UsuariosEncuestador WHERE id_Autenticacion = $userId";
+    
+
+    // Ejecuta la consulta en la base de datos
+    $resultado = $con->query($consulta);
+
+    // Verifica si la consulta se ejecutó correctamente
+    if ($resultado === false) {
+        // Manejo de error, por ejemplo:
+        echo "Error en la consulta: " . $con->error;
+    } else {
+        // Verifica si se encontró un registro en la tabla
+        if ($resultado->num_rows > 0) {
+            // Obtiene el ID correspondiente
+            $fila = $resultado->fetch_assoc();
+            $idCorrespondiente = $fila["id"];
+            
+            // Imprime el ID correspondiente en pantalla
+            //echo "El ID correspondiente es: " . $idCorrespondiente;
+        } else {
+            // No se encontró ningún registro correspondiente en la tabla
+           // echo "No se encontraron registros para el userId: " . $userId;
+        }
+    }
+
         // Insertar datos en la tabla UsuariosEncuestador
         $hashedContrasenia = password_hash($contraseña, PASSWORD_DEFAULT);
 
@@ -36,8 +65,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $idAutenticacion = $con->insert_id;
 
             // Insertar datos en la tabla UsuariosEncuestador con la referencia al ID de autenticación
-            $sql = "INSERT INTO AplicadoresDeEncuestas(id_Autenticacion, Nombre, ApellidoP, ApellidoM)
-                    VALUES ('$idAutenticacion', '$Nombre', '$ApellidoP', '$ApellidoM')";
+            $sql = "INSERT INTO AplicadoresDeEncuestas(id_Autenticacion, Nombre, ApellidoP, ApellidoM, id_Encuestador)
+            VALUES ('$idAutenticacion', '$Nombre', '$ApellidoP', '$ApellidoM', '$idCorrespondiente')";
 
             if ($con->query($sql) === TRUE) {
                 echo "Datos registrados correctamente";
@@ -47,7 +76,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         } else {
             echo "Error en la inserción en la tabla AutenticacionApli: " . $sql2 . "<br>" . $con->error;
         }
-        // Cerrar la conexión
+        // // Cerrar la conexión
         $con->close();
     }
     ob_end_flush();
