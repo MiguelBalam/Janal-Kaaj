@@ -86,7 +86,7 @@
         </a>
 
         <ul class="sub-menu blank">
-          <li><a class="link_name" href="/pestanas_Encuestado//Aplicador.html">Alta Aplicadores</a></li>
+          <li><a class="link_name" href="/pestanas_Encuestado//Aplicador.php">Alta Aplicadores</a></li>
         </ul>
       </li>
 
@@ -224,19 +224,19 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     verificar() 
 });
-//para enviar el id a agregar aplicador
+//para enviar el id a agregar aplicador 
 function redireccionarConUserId() {
     var userId = localStorage.getItem('user_id');
     
     if (userId) {
         // Construir la URL con userId
-        var urlConUserId = `/pestanas_Encuestado/Aplicador.html?userId=${userId}`;
+        var urlConUserId = `/pestanas_Encuestado/Aplicador.php?userId=${userId}`;
         
         // Redirigir al usuario a la nueva URL
         window.location.href = urlConUserId;
     } else {
         // Si userId no está disponible, simplemente redirigir sin él
-        window.location.href = '/pestanas_Encuestado/Aplicador.html';
+        window.location.href = '/pestanas_Encuestado/Aplicador.php';
     }
 }
          </script>

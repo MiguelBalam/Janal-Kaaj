@@ -13,7 +13,7 @@ if ($con->connect_error) {
 }
 
 // Obtener los valores del formulario
-$userId = $_POST['userId'];  // Asegúrate de que el formulario tenga un campo oculto para el userId
+$userId = $_POST['userId'];  
 
 $nombreEncuestado = $_POST['nombre'];
 $apellidoPaterno = $_POST['apellidoPa'];
