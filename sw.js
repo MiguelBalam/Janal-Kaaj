@@ -39,38 +39,7 @@ const APP_SHELL = [
   "/BD/src/jsSC.js",
   "/BD/src/sync.js",
   "/BD/src/App.js",
-  "/BD/src/sincronizar.php",
-  "/BD/prueva/conexion.php",
-  "/BD/prueva/consultaDatos.php",
-  "/BD/prueva/crear_variable.php",
-  "/BD/prueva/descarga_pdf.php",
-  "/BD/prueva/EfinalR.php",
-  "/BD/prueva/EfinalV.php",
-  "/BD/prueva/descargar_excel.php",
-  "/BD/prueva/Encuesta2.php",
-  "/BD/prueva/Encuesta3.php",
-  "/BD/prueva/EncuestasAplicar.php",
-  "/BD/prueva/EncuestasCreadas.php",
-  "/BD/prueva/encuestaVista.php",
-  "/BD/prueva/graficasELCSA.php",
-  "/BD/prueva/graficasELCSAClasi.php",
-  "/BD/prueva/guardar_encuesta.php",
-  "/BD/prueva/guardar_encuestaVariable.php",
-  "/BD/prueva/guardar_Reactivos.php",
-  "/BD/prueva/GuardarRes.php",
-  "/BD/prueva/GuardarResVariable.php",
-  "/BD/prueva/index.php",
-  "/BD/prueva/mostrarEncuesta.php",
-  "/BD/prueva/obtener_reactivos.php",
-  "/BD/prueva/obtener_variables.php",
-  "/BD/prueva/obtener_Variables2.php",
-  "/BD/prueva/reporteEncuestaCerrada.php",
-  "/BD/prueva/reportePorRespuestas.php",
-  "/BD/guardar.php",
-  "/BD/guardarApli.php",
-  "/BD/guardarEncuestado.php",
-  "/BD/infoApli.php",
-  "/BD/infoUser.php",
+  "/pestanas_Encuestado/dashAplicador.html",
 
 ];
 
@@ -115,7 +84,9 @@ const APP_SHELL_INMUTABLE = [
   "/BD/prueva/encuesta.js",
   "/BD/prueva/encuestavariables.js",
   "/BD/prueva/estilostabla.css",
-  "/BD/graficas.js"
+  "/BD/graficas.js",
+  "/manifest.json",
+  "/node_modules/@sweetalert2/themes/bootstrap-4/bootstrap-4.min.css"
 ];
 
 self.addEventListener("install", (e) => {

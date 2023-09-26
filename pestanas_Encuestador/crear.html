@@ -36,7 +36,7 @@
                 </a>
 
                 <ul class="sub-menu blank">
-                    <li><a href="/pestanas_Encuestador/dashboard.html">Dashboard</a></li>
+                    <li><a href="" id="mostrarSeccion1">Dashboard</a></li>
                 </ul>
             </li>
 
@@ -81,16 +81,36 @@
             </li>
 
             <li>
-                <a href="/pestanas_Encuestador/encuestaAplicadas.html">
+                <a id="pruebaApli" href="/pestanas_Encuestado/Aplicador.html" onclick="redireccionarConUserId()">
+                    <i class='bx bx-book-add'></i>
+                    <span class="link_name">Alta Aplicadores</span>
+                </a>
+
+                <ul class="sub-menu blank">
+                    <li><a class="link_name" href="/pestanas_Encuestado/Aplicador.html">Alta Aplicadores</a></li>
+                </ul>
+            </li>
+
+            <li>
+                <a href="/pestanas_Encuestado/asignarE.php">
+                    <i class='bx bxs-user-check'></i>
+                    <span class="link_name">Asignar</span>
+                </a>
+
+                <ul class="sub-menu blank">
+                    <li><a class="link_name" href="/pestanas_Encuestado/asignarE.php">Asignar</a></li>
+                </ul>
+            </li>
+
+            <li>
+                <a href="../BD/prueva/consultaDatos.php">
                     <i class='bx bx-clipboard bx-tada'></i>
                     <span class="link_name">Encuestas aplicadas</span>
                 </a>
                 <ul class="sub-menu blank">
-                    <li><a class="link_name" href="/pestanas_Encuestador/encuestaAplicadas.html">Encuestas aplicadas</a>
-                    </li>
+                    <li><a class="link_name" href="../BD/prueva/consultaDatos.php">Encuestas aplicadas</a></li>
                 </ul>
             </li>
-
 
             <li>
                 <a href="#">
@@ -114,13 +134,13 @@
             </li>
 
             <!-- <li>
-                <a href="#">
+              <a href="#">
                 <i class="bx bx-cog"></i>
                 <span class="link_name">Configuración</span>
-                </a>
-                <ul class="sub-menu blank">
+              </a>
+              <ul class="sub-menu blank">
                 <li><a class="link_name" href="#">Configuración</a></li>
-                </ul>
+              </ul>
             </li> -->
 
 
@@ -145,16 +165,13 @@
 
                 </ul>
             </li>
-
         </ul>
     </div>
-
-
 
     <section class="home-section">
         <div class="home-content">
             <i class="bx bx-menu"></i>
-            <span class="text">Crear encuesta</span>
+            <span class="text">Dashboard</span>
         </div>
         <!-- Fin Dashboard -->
         <section class="d-flex justify-content-center my-4">
@@ -244,7 +261,7 @@
                         </div>
                     </div>
 
-                
+
                 </form>
                 <div class="row mb-4">
                     <div class="col-sm-4 offset-sm-4 text-center">
@@ -263,39 +280,39 @@
                 </div>
             </div>
         </section>
-       
+
         <script>
             document.addEventListener('DOMContentLoaded', function () {
                 var userId = localStorage.getItem('user_id');
                 var userCorreo = localStorage.getItem('user_correo');
-                
+
                 if (userId) {
                     var xhr = new XMLHttpRequest();
                     xhr.open('GET', '/BD/infoUser.php?id=' + userId, true);
                     xhr.onreadystatechange = function () {
-                if (xhr.readyState === 4) {
-                    if (xhr.status === 200) {
-                        try {
-                            var userInfo = JSON.parse(xhr.responseText);
-                            if (userInfo && userInfo.error) {
-                                console.error('Error obteniendo información del usuario:', userInfo.error);
+                        if (xhr.readyState === 4) {
+                            if (xhr.status === 200) {
+                                try {
+                                    var userInfo = JSON.parse(xhr.responseText);
+                                    if (userInfo && userInfo.error) {
+                                        console.error('Error obteniendo información del usuario:', userInfo.error);
+                                    } else {
+                                        document.getElementById('aqui').value = userCorreo;
+                                    }
+                                } catch (error) {
+                                    console.error('Error al analizar la respuesta JSON:', error);
+                                }
                             } else {
-                              document.getElementById('aqui').value = userCorreo;
+                                console.error('Error en la solicitud AJAX para obtener información del usuario.');
                             }
-                        } catch (error) {
-                            console.error('Error al analizar la respuesta JSON:', error);
                         }
-                    } else {
-                        console.error('Error en la solicitud AJAX para obtener información del usuario.');
-                    }
-                }
-            };
+                    };
                     xhr.send();
                 }
                 recuperarR()
             });
-          
-                     </script>
+
+        </script>
         <div class="modal fade" id="Modal_vistaPrevia" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable ">
                 <div class="modal-content">
@@ -359,18 +376,18 @@
         let sidebarBtn = document.querySelector('.bx-menu');
         console.log(sidebarBtn);
 
-// Aplicar el estado almacenado al cargar la página
-window.addEventListener('DOMContentLoaded', () => {
-  const initialState = loadSidebarState();
-  if (window.innerWidth <= 400) {
-    // Si el ancho de la ventana es menor o igual a 400px (dispositivo móvil),
-    // siempre oculta la barra lateral en la carga inicial.
-    sidebar.classList.add('close');
-    saveSidebarState('collapsed'); // Guarda el estado colapsado en el almacenamiento local
-  } else {
-    sidebar.classList.toggle('close', initialState === 'collapsed');
-  }
-});
+        // Aplicar el estado almacenado al cargar la página
+        window.addEventListener('DOMContentLoaded', () => {
+            const initialState = loadSidebarState();
+            if (window.innerWidth <= 400) {
+                // Si el ancho de la ventana es menor o igual a 400px (dispositivo móvil),
+                // siempre oculta la barra lateral en la carga inicial.
+                sidebar.classList.add('close');
+                saveSidebarState('collapsed'); // Guarda el estado colapsado en el almacenamiento local
+            } else {
+                sidebar.classList.toggle('close', initialState === 'collapsed');
+            }
+        });
 
         sidebarBtn.addEventListener('click', () => {
             sidebar.classList.toggle('close');
@@ -401,7 +418,7 @@ window.addEventListener('DOMContentLoaded', () => {
     <script src="/BD/src/sync.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="/BD/prueva/encuesta.js"></script>
-     <script src="/BD/registroUsuarios/registro.js"></script>
+    <script src="/BD/registroUsuarios/registro.js"></script>
     <!-- <script src="../BD/app.js"></script> -->
     <script src="../CSS/SweetAlert.js"></script>
 </body>
