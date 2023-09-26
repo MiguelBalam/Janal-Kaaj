@@ -80,7 +80,7 @@ if (isset($_GET['codigo_busqueda'])) {
 
         <ul class="nav-links">
             <li>
-                <a href="/pestañas_Encuestador/dashboard.html">
+                <a href="/pestanas_Encuestador/dashboard.html">
                     <i class="bx bx-grid-alt"></i>
                     <span class="link_name">Dashboard</span>
                 </a>

@@ -95,11 +95,14 @@ if (isset($_GET['id_encuesta'])) {
         };
     
         // Consulta para obtener datos de las variables
+                                         
         $query_variables = "SELECT * FROM Variable WHERE id_variable IN (SELECT id_variable FROM encuesta_FinalVariables WHERE id_encuesta = $id_encuesta)";
         $result_variables = $con->query($query_variables);
         $variables = [];
+        
         while ($row = $result_variables->fetch_assoc()) {
             $variables[] = $row;
+           
         }
     
         $arrayRespuestas = array(
@@ -153,7 +156,7 @@ echo $code;
         <table class= 'table table-bordered' id="header">
             <tbody class="color-fondo IBM">
                 <tr>
-                    <td rowspan="4" style="text-align:center"><img src="/Img/lOGOCONACYT.png" class="col-sm-4 my-3 my-lg-0 text-center"></td>
+                    <td rowspan="5" style="text-align:center"><img src="/Img/lOGOCONACYT.png" class="col-sm-4 my-3 my-lg-0 text-center"></td>
                     <td rowspan="3" class="col-sm-4 text-center">DATOS ENCUESTA</td>
                     <td><small><strong>CÓDIGO:</strong> <span name="codigo" id="codigo"><?php echo $code; ?></span></small></td>
                 </tr>
@@ -162,6 +165,10 @@ echo $code;
                 </tr>
                 <tr>
                     <td><small><strong>VIGENCIA:</strong> <?php echo date('Y-m-d'); ?></small></td>
+                </tr>
+                <tr>
+                    <td class="col-sm-4 text-center">APLICADOR</td>
+                    <td><small><strong>CORREO:</strong><span name="userCorreo" id="userCorreo"></span></small></td>
                 </tr>
                 <tr>
                     <td class="col-sm-4 text-center">TIPO DE ENCUESTA</td>
@@ -269,7 +276,7 @@ echo $code;
          <table class= 'table table-bordered' id="header">
             <tbody class="color-fondo IBM">
                 <tr>
-                    <td rowspan="4" style="text-align:center"><img src="/Img/lOGOCONACYT.png" class="col-sm-4 my-3 my-lg-0 text-center"></td>
+                    <td rowspan="5" style="text-align:center"><img src="/Img/lOGOCONACYT.png" class="col-sm-4 my-3 my-lg-0 text-center"></td>
                     <td rowspan="3" class="col-sm-4 text-center">DATOS ENCUESTA</td>
                     <td><small><strong>CÓDIGO:</strong> <span name="codigo2" id="codigo2"><?php echo rand(); ?></span></small></td>
                 </tr>
@@ -278,6 +285,10 @@ echo $code;
                 </tr>
                 <tr>
                     <td><small><strong>VIGENCIA:</strong> <?php echo date('Y-m-d'); ?></small></td>
+                </tr>
+                <tr>
+                    <td class="col-sm-4 text-center">APLICADOR</td>
+                    <td><small><strong>CORREO:</strong><span name="userCorreo" id="userCorreo"></span></small></td>
                 </tr>
                 <tr>
                     <td class="col-sm-4 text-center">TIPO DE ENCUESTA</td>
@@ -334,13 +345,26 @@ echo $code;
 <tr>
             <th>.INFLUENCIA.</th>
                 <?php foreach ($datos_encuesta['variables'] as $variable) : ?>
-                    <th><?= strtoupper($variable['Nobre_Var']) ?></th>
+                    <!-- //<th><?= strtoupper($variable['Nobre_Var']) ?></th> -->
+                    <th data-encabezados="<?= $variable['id_variable'] ?>"><?= strtoupper($variable['Nobre_Var']) ?></th>
+                 
                 <?php endforeach; ?>
             </tr>
             <?php foreach ($datos_encuesta['variables'] as $variable) : ?>
+                <?php $firstQuestionId = null; // Variable para almacenar el primer questionId en la fila ?>
                 <tr>
-                    <td><?= strtoupper($variable['Nobre_Var']) ?></td>
+              
+                    <td><?= strtoupper($variable['Nobre_Var']) ?>
+                    <?php  
+                   $questionId=$variable['id_variable'];
+                if ($firstQuestionId === null) {
+                            $firstQuestionId = $questionId;
+                        }
+                        ?>
+                </td>
+                   
                     <?php foreach ($datos_encuesta['variables'] as $otherVariable) : ?>
+                     
                         <td>
                             <?php
                            // $questionId = $otherVariable['id_Variables'];
@@ -348,7 +372,9 @@ echo $code;
                            $respuestaName = "respuesta[$questionId][" . $variable['Nobre_Var'] . "]";
                            $valorVariable = isset($arrayRespuestasVar[$questionId][$variable['Nobre_Var']]) ? $arrayRespuestasVar[$questionId][$variable['Nobre_Var']] : "0";
                             ?>
-                           <select name="<?php echo $respuestaName; ?>" data-id="<?php echo $questionId; ?>" onchange="handleSelectChange(this)">
+              
+                     
+                           <select name="<?php echo $respuestaName; ?>"  data-questionid="<?=$firstQuestionId?>" data-encabezados="<?= $otherVariable['id_variable'] ?>" onchange="handleSelectChange(this)">
                                 <option value="0" <?= ($valorVariable == "0" ? "selected" : "") ?>>0</option>
                                 <option value="1" <?= ($valorVariable == "1" ? "selected" : "") ?>>1</option>
                                 <option value="2" <?= ($valorVariable == "2" ? "selected" : "") ?>>2</option>
@@ -377,7 +403,15 @@ echo $code;
 }
 ?>
  
-      
+ <script>
+document.addEventListener('DOMContentLoaded', function () {
+   // var userId = localStorage.getItem('user_id');
+    var userCorreo = localStorage.getItem('user_correo');
+   // document.getElementById('aqui').value = userCorreo;
+ document.getElementById('userCorreo').textContent = userCorreo;
+                 // document.getElementById('Institucion').value = userCorreo;
+});
+         </script>
 
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>

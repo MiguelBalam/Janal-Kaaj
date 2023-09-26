@@ -31,7 +31,7 @@
 
     <ul class="nav-links">
       <li>
-        <a href="/pestañas_Encuestador/dashboard.html">
+        <a href="/pestanas_Encuestador/dashboard.html">
           <i class="bx bx-grid-alt"></i>
           <span class="link_name">Dashboard</span>
         </a>
@@ -195,6 +195,7 @@
 document.addEventListener('DOMContentLoaded', function () {
     var userId = localStorage.getItem('user_id');
     var userCorreo = localStorage.getItem('user_correo');
+    var userCorreo2 = localStorage.getItem('correo');
     
     if (userId) {
         var xhr = new XMLHttpRequest();
@@ -221,6 +222,7 @@ document.addEventListener('DOMContentLoaded', function () {
 };
         xhr.send();
     }
+    verificar() 
 });
 //para enviar el id a agregar aplicador 
 function redireccionarConUserId() {
@@ -249,10 +251,10 @@ function redireccionarConUserId() {
                 encuestas.</label>
               <div class="col-sm-12 text-center">
                 <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" id="tip_encuesta1"
-                  onclick="window.location.href='../pestañas_Encuestador/crear_Evariables.html'">Encuesta
+                  onclick="window.location.href='../pestanas_Encuestador/crear_Evariables.html'">Encuesta
                   tipo variables </button>
                 <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" id="tip_encuesta2"
-                  onclick="window.location.href='../pestañas_Encuestador/crear.html'">Encuesta
+                  onclick="window.location.href='../pestanas_Encuestador/crear.html'">Encuesta
                   tipo reactivos</button>
               </div>
             </div>
@@ -316,8 +318,41 @@ function redireccionarConUserId() {
       </div>
     </div>
   </section>
-
   <script>
+    function verificar() {
+  if (!navigator.onLine) {
+    // La aplicación no tiene conexión a internet, obtén el correo del LocalStorage
+    var correo = localStorage.getItem('user_correo');
+
+    if (correo) {
+      // Si se encontró el correo en el LocalStorage, usa el correo como clave primaria para obtener el token de IndexedDB
+      var request = indexedDB.open('miBaseDeDatos', 2);
+
+      request.onsuccess = function(event) {
+        var db = event.target.result;
+        var transaction = db.transaction('miAlmacen', 'readonly');
+        var objectStore = transaction.objectStore('miAlmacen');
+
+        var getRequest = objectStore.get(correo); // Usa el correo como clave primaria
+        console.log(getRequest);
+        getRequest.onsuccess = function(event) {
+          var tokenData = event.target.result;
+          console.log(tokenData);
+          if (tokenData) {
+            // Si se encontró el token en IndexedDB, colócalo en el campo de contraseña
+            var correo = document.getElementById('aqui');
+            correo.value = tokenData.correo;
+          }
+        };
+      };
+    } else {
+      console.log('Correo no encontrado en el LocalStorage');
+    }
+  }
+}
+  </script>
+  <script>
+  
     // Guardar el estado de la barra lateral en el localStorage
     function saveSidebarState(state) {
       localStorage.setItem('sidebarState', state);
@@ -402,10 +437,10 @@ window.addEventListener('DOMContentLoaded', () => {
     }
   </script>
     
-  <script src="/BD/registroUsuarios/registro.js"></script>
+
    <script src="/BD/src/jsSC.js"></script>
   <script src="/BD/src/sync.js"></script>
-
+  <script src="/BD/registroUsuarios/registro.js"></script>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="/BD/prueva/encuesta.js"></script>
  <script> src="/BD/infoUser.php" </script>

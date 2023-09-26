@@ -1,9 +1,9 @@
-window.addEventListener('load', (event) => {
-    let miBody = document.body;
-       miBody.classList.remove('loader');
-       accionBtn(sustraerEntero=0);
+// window.addEventListener('load', (event) => {
+//     let miBody = document.body;
+//        miBody.classList.remove('loader');
+//        accionBtn(sustraerEntero=0);
 
-});
+// });
 
 
 function crearVariable2() {
@@ -26,7 +26,7 @@ function crearVariable2() {
 
     xhr.send(data);
 }
-
+const variablesSeleccionadas = [];
 function recuperarV() {
     const variablesTable = document.getElementById("variablesTable");
 
@@ -38,8 +38,8 @@ function recuperarV() {
         console.log(xhr.readyState, xhr.status);
         if (xhr.readyState === 4 && xhr.status === 200) {
             // Procesar la respuesta y construir la tabla
-            const variables = JSON.parse(xhr.responseText);
-            const tableHTML = buildVariablesTable(variables);
+            const variableR = JSON.parse(xhr.responseText);
+            const tableHTML = buildVariablesTable(variableR);
             variablesTable.innerHTML = tableHTML;
         }
         console.log(xhr.responseText);
@@ -48,15 +48,15 @@ function recuperarV() {
 };
 
 // Función para construir la tabla de reactivos
-function buildVariablesTable(variablesData) {
+function buildVariablesTable(variablesDataR) {
     let tableHTML = "<table class= 'table table-bordered'>";
     tableHTML += "<tr><th>Seleccionar</th><th>Descripción</th></tr>";
 
-    variablesData.forEach((variable) => {
+    variablesDataR.forEach((variableR) => {
         tableHTML += `
             <tr>
-                <td><input type="checkbox" name="variablesIds[]" value="${variable.id_variable}"></td>
-                <td>${variable.Nobre_Var}</td>
+            <td><input type="checkbox" name="variablesIds[]" value="${variableR.id_variable}" onchange="moverVariable(this, ${variableR.id_variable}, '${variableR.Nobre_Var}')"></td>
+                <td>${variableR.Nobre_Var}</td>
             </tr>
         `;
     });
@@ -64,6 +64,23 @@ function buildVariablesTable(variablesData) {
     tableHTML += "</table>";
     return tableHTML;
 }
+function moverVariable(checkbox, id_variable, nombre) {
+    if (checkbox.checked) {
+        variablesSeleccionadas.push({ id_variable, nombre });
+    } else {
+        const index = variablesSeleccionadas.findIndex((item) => item.id_variable === id_variable);
+        if (index !== -1) {
+            variablesSeleccionadas.splice(index, 1);
+        }
+    }
+}
+
+document.getElementById("guardarV").addEventListener("click", function() {
+    // Al hacer clic en el botón de guardar, redirige a otra página con los elementos seleccionados
+    const queryParams = encodeURIComponent(JSON.stringify(variablesSeleccionadas));
+    window.location.href = "/pestanas_Encuestador/crear_Evariables.html?data=" + queryParams;
+});
+
 
 function crearFinalVariables() {
     const form = document.forms.form;
@@ -106,4 +123,64 @@ function crearFinalVariables() {
     };
 
     xhr.send(`id_usuario=${id_usuario}&titulo=${titulo}&objetivo=${objetivo}&instrucciones=${instrucciones}`);
+}
+
+function recuperarV2() {
+    const variablesTable2 = document.getElementById("variablesTable2");
+
+    // Obtener la fecha actual en formato ISO 8601
+    const currentDate = new Date();
+   // const lastUpdateDate = currentDate.toISOString().split('T')[0]; // Obtener solo la parte de la fecha
+    const tiempoTranscurrido = Date.now();
+    const hoy = new Date(tiempoTranscurrido);
+   const lastUpdateDate = hoy.toLocaleDateString()
+   // console.log("lastUpdateDate:", lastUpdateDate );
+
+    var fechaOriginal = lastUpdateDate;
+
+// Divide la fecha en día, mes y año
+var partesFecha = fechaOriginal.split("/");
+var dia = partesFecha[0];
+var mes = partesFecha[1];
+var año = partesFecha[2];
+
+// Formatea la fecha en el nuevo formato "2023-09-21"
+var fechaFormateada = año + '-' + (mes.length === 1 ? '0' + mes : mes) + '-' + (dia.length === 1 ? '0' + dia : dia);
+
+console.log(fechaFormateada);
+
+    // Realizar una solicitud AJAX con el parámetro de fecha
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", `/BD/prueva/obtener_Variables2.php?hoy=${fechaFormateada}`, true);
+
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            // Procesar la respuesta y construir la tabla
+            const variables = JSON.parse(xhr.responseText);
+            const tableHTML = buildVariablesTable2(variables);
+            variablesTable2.innerHTML = tableHTML;
+
+            
+        }
+    };
+
+    xhr.send();
+}
+
+function buildVariablesTable2(variablesData) {
+    let tableHTML = "<table class= 'table table-bordered'>";
+    tableHTML += "<tr><th>Seleccionar</th><th>Descripción</th></tr>";
+
+    variablesData.forEach((variable) => {
+       // const isChecked = selectedVariables.includes(variable.id_variable);
+        tableHTML += `
+            <tr>
+                <td><input type="checkbox" name="variablesIds[]" value="${variable.id_variable}"></td>
+                <td>${variable.Nobre_Var}</td>
+            </tr>
+        `;
+    });
+
+    tableHTML += "</table>";
+    return tableHTML;
 }

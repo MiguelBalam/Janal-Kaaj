@@ -46,7 +46,7 @@ document.formEncuestado.addEventListener('submit', (ev) => {
   xhr.onreadystatechange = function () {
       if (xhr.readyState === 4 && xhr.status === 200) {
           console.log(xhr.responseText);
-          //window.location.href = "/login.html";
+          window.location.href = "/login.html";
       }
   };
   xhr.send(formData);
@@ -134,7 +134,7 @@ document.formAplicador.addEventListener('submit', (ev) => {
 //               if (response.success) {
 //                 localStorage.setItem('user_id', response.id);
 //                // localStorage.setItem('correo', correo);
-//                   window.location.href = '/pestañas_Encuestador/dashboard.html'; // Página después del inicio de sesión exitoso
+//                   window.location.href = '/pestanas_Encuestador/dashboard.html'; // Página después del inicio de sesión exitoso
 //               } 
               
               
@@ -166,7 +166,7 @@ document.formAplicador.addEventListener('submit', (ev) => {
 //                 if (response.success) {
 //                     localStorage.setItem('user_id', response.id);
 //                     localStorage.setItem('user_correo', correo);
-//                     window.location.href = '/pestañas_Encuestador/dashboard.html'; // Página después del inicio de sesión exitoso
+//                     window.location.href = '/pestanas_Encuestador/dashboard.html'; // Página después del inicio de sesión exitoso
 //                 } else {
 //                     alert(response.error); // Mostrar una alerta si el inicio de sesión falla
 //                 }
@@ -189,7 +189,7 @@ document.formAplicador.addEventListener('submit', (ev) => {
 //   // Verificar si los datos de inicio de sesión existen en IndexedDB
 //   buscarDatosEnIndexedDB(correo, contraseniaL, function (encontrado) {
 //     if (encontrado) {
-//       window.location.href = '/pestañas_Encuestador/dashboard.html'; // Redirigir al usuario si los datos se encuentran en IndexedDB
+//       window.location.href = '/pestanas_Encuestador/dashboard.html'; // Redirigir al usuario si los datos se encuentran en IndexedDB
 //       console.log('no se porque no jala')
 //     } else {
 //       // Los datos de inicio de sesión no están en IndexedDB, realizar solicitud al servidor
@@ -208,25 +208,27 @@ function controlLogin(event) {
   var correo = document.getElementById('correo').value;
   var contraseniaL = document.getElementById('contraseniaL').value;
   var tipoUsuario = document.getElementById("tipo_usuario").value;
+  verificarConexionYRecuperarToken()
   if (navigator.onLine) {
     // La aplicación está en línea, realiza una solicitud al servidor
     realizarSolicitudAlServidor(correo, contraseniaL,tipoUsuario);
   } else {
+  
     // La aplicación está fuera de línea
     if (typeof indexedDB === 'undefined') {
       // IndexedDB no está disponible en este navegador, maneja el error
       console.error('IndexedDB no está disponible en este navegador');
       // Puedes mostrar un mensaje de error al usuario aquí
-    } else {
-      // IndexedDB está disponible, intenta buscar datos en IndexedDB
-      buscarDatosEnIndexedDB(correo, contraseniaL, function (encontrado) {
-        if (encontrado) {
-              
-          window.location.href = '/pestañas_Encuestador/dashboard.html'; // Redirigir al usuario si los datos se encuentran en IndexedDB
-        } else {
-          console.log('autenticación falló');
-          // Puedes mostrar un mensaje al usuario indicando que la autenticación falló
-        }
+    } else{
+       buscarDatosEnIndexedDB(correo, contraseniaL, function (tokenAlmacenado) {
+      if (tokenAlmacenado) {
+        console.log('Token almacenado en IndexedDB:', tokenAlmacenado);
+        contraseniaL.value = tokenAlmacenado; // Establecer el token almacenado en el campo de contraseña
+        console.log('Contraseña establecida automáticamente desde IndexedDB');
+      } else {
+        console.log('Token no encontrado en IndexedDB');
+        // Puedes mostrar un mensaje al usuario indicando que no se encontraron datos en IndexedDB
+      }
       });
     }
   }
@@ -252,20 +254,26 @@ function buscarDatosEnIndexedDB(correo, contrasenia, callback) {
     // Buscar los datos de inicio de sesión en IndexedDB
     var getRequest = store.get(correo);
     console.log('Correo:', correo);
-
+   
     getRequest.onsuccess = function (event) {
       storedData = event.target.result;
-
+      //var contra = document.getElementById('aqui');
+    
+console.log(storedData)
       if (storedData) {
         // Recupera el token almacenado en IndexedDB
+        var tipoUsuario = storedData.tipoUsuario;
         var tokenAlmacenado = storedData.token;
+        var correo= storedData.correo;
         console.log('Token almacenado:', tokenAlmacenado);
-
+        console.log('Tipo de usuario:', tipoUsuario);
+        console.log('Tipo de usuario:', correo);
         // Compara el token introducido por el usuario con el almacenado
         if (contrasenia === tokenAlmacenado) {
           // Token correcto
           console.log('Token correcto');
-          // ... Resto del código
+          redirigirAlDashboard(tipoUsuario,correo);
+       
           callback(true);
         } else {
           // Token incorrecto
@@ -277,19 +285,29 @@ function buscarDatosEnIndexedDB(correo, contrasenia, callback) {
         console.log('Datos de inicio de sesión no encontrados en IndexedDB');
         callback(false);
       }
- 
     };
 
     getRequest.onerror = function (event) {
       console.error('Error al buscar datos en IndexedDB:', event.target.error);
       callback(false);
+     
     };
-
+  
     db.close();
   }
 }
 
-
+function redirigirAlDashboard(tipoUsuario) {
+  if (tipoUsuario === 'encuestador') {
+    window.location.href = '/pestanas_Encuestador/dashboard.html';
+    
+  } else if (tipoUsuario === 'aplicador') {
+    window.location.href = '/pestanas_Encuestado/dashAplicador.html'; // Redirigir al dashboard de otro tipo de usuario
+  } else {
+    console.log('Tipo de usuario desconocido');
+    // Puedes manejar el caso de tipo de usuario desconocido aquí
+  }
+}
   
 // function realizarSolicitudAlServidor(correo, contrasenia) {
 //   var xhr = new XMLHttpRequest();
@@ -303,7 +321,7 @@ function buscarDatosEnIndexedDB(correo, contrasenia, callback) {
 //           if (response.success) {
 //             localStorage.setItem('user_id', response.id);
 //             localStorage.setItem('user_correo', correo);
-//             window.location.href = '/pestañas_Encuestador/dashboard.html'; // Redirigir al usuario si el inicio de sesión tiene éxito
+//             window.location.href = '/pestanas_Encuestador/dashboard.html'; // Redirigir al usuario si el inicio de sesión tiene éxito
 //           } else {
 //             alert(response.error); // Mostrar una alerta si el inicio de sesión falla
 //           }
@@ -362,6 +380,7 @@ function realizarSolicitudAlServidor(correo, contrasenia,tipoUsuario) {
    
           localStorage.setItem('user_id', response.id);
           localStorage.setItem('user_correo', correo);
+          localStorage.setItem('tipoUsuario', response.tipoUsuario);
         
         } else {
           alert(response.error); // Mostrar una alerta si el inicio de sesión falla
@@ -416,8 +435,8 @@ function almacenarTokenEnIndexedDB(correo, token, tipoUsuario) {
     transaction.oncomplete = () => {
       console.log('Token almacenado en IndexedDB correctamente');
       if (tipoUsuario === "encuestador") {
-        window.location.href = '/pestañas_Encuestador/dashboard.html';
-        var correoUsuario = correo;
+        window.location.href = '/pestanas_Encuestador/dashboard.html';
+    
       } else if (tipoUsuario === "aplicador") {
         window.location.href = '/pestanas_Encuestado/dashAplicador.html';
       } else if (tipoUsuario === "encuestado") {
@@ -435,6 +454,46 @@ function almacenarTokenEnIndexedDB(correo, token, tipoUsuario) {
     db.close();
   };
 }
+
+
+function verificarConexionYRecuperarToken() {
+  if (!navigator.onLine) {
+    // La aplicación no tiene conexión a internet, obtén el correo del LocalStorage
+    var correo = localStorage.getItem('user_correo');
+
+    if (correo) {
+      // Si se encontró el correo en el LocalStorage, usa el correo como clave primaria para obtener el token de IndexedDB
+      var request = indexedDB.open('miBaseDeDatos', 2);
+
+      request.onsuccess = function(event) {
+        var db = event.target.result;
+        var transaction = db.transaction('miAlmacen', 'readonly');
+        var objectStore = transaction.objectStore('miAlmacen');
+
+        var getRequest = objectStore.get(correo); // Usa el correo como clave primaria
+        console.log(getRequest);
+        getRequest.onsuccess = function(event) {
+          var tokenData = event.target.result;
+          console.log(tokenData);
+          if (tokenData) {
+            // Si se encontró el token en IndexedDB, colócalo en el campo de contraseña
+            var contraseniaL = document.getElementById('contraseniaL');
+            contraseniaL.value = tokenData.token;
+          }
+        };
+      };
+    } else {
+      console.log('Correo no encontrado en el LocalStorage');
+    }
+  }
+}
+
+// Llama a la función para verificar la conexión y recuperar el token
+
+
+// Llama a la función para verificar la conexión y recuperar el token
+
+
 
 function mostrarEncuestasAsignadas(correo) {
   // Realizar una nueva solicitud AJAX para obtener las encuestas asignadas al aplicador
@@ -469,7 +528,7 @@ function mostrarEncuestasAsignadas(correo) {
   //         if (response.success) {
   //           localStorage.setItem('user_id', response.id);
   //           localStorage.setItem('user_correo', correo);
-  //           window.location.href = '/pestañas_Encuestador/dashboard.html'; // Página después del inicio de sesión exitoso
+  //           window.location.href = '/pestanas_Encuestador/dashboard.html'; // Página después del inicio de sesión exitoso
   //         } else {
   //           alert(response.error); // Mostrar una alerta si el inicio de sesión falla
   //         }

@@ -33,13 +33,13 @@
 
         <ul class="nav-links">
             <li>
-                <a href="/pestañas_Encuestador/dashboard.html">
+                <a href="/pestanas_Encuestador/dashboard.html">
                     <i class="bx bx-grid-alt"></i>
                     <span class="link_name">Dashboard</span>
                 </a>
 
                 <ul class="sub-menu blank">
-                    <li><a href="/pestañas_Encuestador/dashboard.html">Dashboard</a></li>
+                    <li><a href="/pestanas_Encuestador/dashboard.html">Dashboard</a></li>
                 </ul>
             </li>
 
@@ -84,12 +84,12 @@
             </li>
 
             <li>
-                <a href="/pestañas_Encuestador/encuestaAplicadas.html">
+                <a href="/pestanas_Encuestador/encuestaAplicadas.html">
                     <i class='bx bx-clipboard bx-tada'></i>
                     <span class="link_name">Encuestas aplicadas</span>
                 </a>
                 <ul class="sub-menu blank">
-                    <li><a class="link_name" href="/pestañas_Encuestador/encuestaAplicadas.html">Encuestas aplicadas</a>
+                    <li><a class="link_name" href="/pestanas_Encuestador/encuestaAplicadas.html">Encuestas aplicadas</a>
                     </li>
                 </ul>
             </li>
@@ -155,15 +155,14 @@
     <section class="home-section">
         <div class="home-content">
             <i class="bx bx-menu"></i>
-            <span class="text">Editar variable</span>
+            <span class="text">Crear variables</span>
         </div>
         <!-- Fin Dashboard -->
-
         <section class="d-flex justify-content-center my-4">
 
             <div class="card col-12 col-sm-10 col-md-8 col-lg-6 p-3 shadow-lg mb-5 bg-white rounded">
 
-                <h1 class="bg-text-black text-center p-3 text-uppercase text-black">Crear nuevas variables</h1>
+                <h1 class="bg-text-black text-center p-3 text-uppercase text-black">Crear nuevos variable</h1>
                 <form id="formulario" action="">
                     <div class="row mb-4">
                         <label class="col-sm-4 col-form-label px-5">Nombre: </label>
@@ -187,43 +186,44 @@
                     </div>
                 </form>
 
+                
                 <!-- botones  -->
                 <div class="row mb-4">
                     <div class="col-sm-12 col-form-label text-center">
 
                         <div class="d-flex flex-column flex-sm-row justify-content-center align-items-center">
 
-                            <button type="button"
+                            <button 
                                 class="btn btn-outline-success bg-border-mostaza bg-text-mostaza mb-2 me-2 w-100"
-                                onclick="CrearVariable(),notiCrearVariables(),limpiarFormulario(),habilitarbtn2()"
-                                id="boton_crear_variable">Actualizar</button>
+                                onclick="crearVariable2(),limpiarFormulario(),CrearVariable(),notiCrearVariables(),limpiarFormulario(),habilitarbtn2()"
+                                id="boton_crear_variable">Crear</button>
 
-                            <button type="button"
+                            <button 
                                 class="btn btn-outline-success bg-border-mostaza bg-text-mostaza mb-2 me-2 w-100"
-                                onclick="window.location.href='../pestañas_Encuestador/crear_Evariables.html'"
+                                onclick="window.location.href='../pestanas_Encuestador/crear_Evariables.html'"
                                 id="boton_guardar_variable">Guardar</button>
 
                             <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza mb-2 w-100"
                                 onclick="return cancelar3()" id="boton_cancelar">Cancelar</button>
+                        </div>
+
+                    </div>
+                </div>
+                    <!-- tabla bd -->
+                    <div class="bg-text-black text-center p-3 text-uppercase text-black">
+                        <h5>Vista previa de variables</h5>
+                    </div>
+
+                    <div class="bg-text-black text-center p-3 text-black">
+                        <div class="row">
+
+                            <div id="salidaVarC"></div>
 
                         </div>
                     </div>
-                </div>
 
-                <div class="bg-text-black text-center p-3 text-uppercase text-black">
-                    <h5>Vista previa de variables</h5>
-                </div>
-
-                <div class="bg-text-black text-center p-3 text-black">
-                    <div class="row">
-                        <div id="salidaVarC"></div>
-                    </div>
-                </div>
-
-            </div>
         </section>
     </section>
-
     <script>
         // Guardar el estado de la barra lateral en el localStorage
         function saveSidebarState(state) {
@@ -279,11 +279,10 @@
             }
         }
     </script>
-
-    <script src="../BD/app.js"></script>
+ <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+ <script src="/BD/prueva/encuestavariables.js"></script>
+<script src="/BD/prueva/obtener_Variables2.php"></script>
+    <!-- <script src="../BD/app.js"></script> -->
     <script src="../CSS/SweetAlert.js"></script>
-
-
 </body>
-
 </html>

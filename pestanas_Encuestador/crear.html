@@ -30,13 +30,13 @@
 
         <ul class="nav-links">
             <li>
-                <a href="/pestañas_Encuestador/dashboard.html">
+                <a href="/pestanas_Encuestador/dashboard.html">
                     <i class="bx bx-grid-alt"></i>
                     <span class="link_name">Dashboard</span>
                 </a>
 
                 <ul class="sub-menu blank">
-                    <li><a href="/pestañas_Encuestador/dashboard.html">Dashboard</a></li>
+                    <li><a href="/pestanas_Encuestador/dashboard.html">Dashboard</a></li>
                 </ul>
             </li>
 
@@ -81,12 +81,12 @@
             </li>
 
             <li>
-                <a href="/pestañas_Encuestador/encuestaAplicadas.html">
+                <a href="/pestanas_Encuestador/encuestaAplicadas.html">
                     <i class='bx bx-clipboard bx-tada'></i>
                     <span class="link_name">Encuestas aplicadas</span>
                 </a>
                 <ul class="sub-menu blank">
-                    <li><a class="link_name" href="/pestañas_Encuestador/encuestaAplicadas.html">Encuestas aplicadas</a>
+                    <li><a class="link_name" href="/pestanas_Encuestador/encuestaAplicadas.html">Encuestas aplicadas</a>
                     </li>
                 </ul>
             </li>
@@ -170,7 +170,7 @@
                     </div>
                 </div>
 
-                <form name="form" id="formulario" action="guardar_encuesta.php" method="post">
+                <form name="form" id="formulario" action="/BD/prueva/guardar_encuesta.php" method="post">
                     <input type="hidden" name="fechaCreacionER" id="fechaCreacionER">
 
                     <div class="row mb-4">
@@ -214,18 +214,18 @@
                                 <button
                                     class="btn btn-outline-success bg-border-mostaza bg-text-mostaza mb-2 me-2 w-100"
                                     type="button" id="boton_crear"
-                                    onclick="location.href='../pestañas_Encuestador/reactivo_crear_reactivos.html'">Crear</button>
+                                    onclick="location.href='../pestanas_Encuestador/reactivo_crear_reactivos.html'">Crear</button>
 
 
                                 <button
                                     class="btn btn-outline-success bg-border-mostaza bg-text-mostaza mb-2 me-2 w-100"
                                     id="boton_agregar" type="button"
-                                    onclick=" Encuesta1(),window.location.href='../pestañas_Encuestador/reactivo_categoria.html'">
+                                    onclick=" Encuesta1(),window.location.href='../pestanas_Encuestador/reactivo_categoria.html'">
                                     Agregar </button>
 
                                 <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza mb-2 w-100"
                                     type="button" id="boton_crear"
-                                    onclick="location.href='../pestañas_Encuestador/editR.html'">Editar</button>
+                                    onclick="location.href='../pestanas_Encuestador/editR.html'">Editar</button>
                             </div>
                         </div>
                     </div>
@@ -244,19 +244,19 @@
                         </div>
                     </div>
 
-                    <div class="row mb-4">
-                        <div class="col-sm-4 offset-sm-4 text-center">
-                            <button onclick=" crearEncuestaFinal2(),crearEncuestaFinal(),refrescarAlmacen()"
-                                class="btn btn-outline-success bg-border-mostaza bg-text-mostaza mb-2 w-100"
-                                id="boton-crear-encuesta" type="submit" data-bs-toggle="modal"
-                                data-bs-target="#Modal_vistaPrevia" disabled>Crear Encuesta</button>
-                        </div>
-                    </div>
+                
                 </form>
-
                 <div class="row mb-4">
                     <div class="col-sm-4 offset-sm-4 text-center">
-                        <button onclick="window.location.href='../pestañas_Encuestador/dashboard.html'"
+                        <button onclick="crearEncuestaFinal2(),crearEncuestaFinal(),refrescarAlmacen()"
+                            class="btn btn-outline-success bg-border-mostaza bg-text-mostaza mb-2 w-100"
+                            id="boton-crear-encuesta" type="submit" data-bs-toggle="modal"
+                            data-bs-target="#Modal_vistaPrevia" disabled>Crear Encuesta</button>
+                    </div>
+                </div>
+                <div class="row mb-4">
+                    <div class="col-sm-4 offset-sm-4 text-center">
+                        <button onclick="window.location.href='../pestanas_Encuestador/dashboard.html'"
                             class="btn btn-outline-success bg-border-mostaza bg-text-mostaza mb-2 w-100">
                             Inicio</button>
                     </div>
@@ -322,7 +322,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button"
-                            onclick="mostrarEncuestaCRE(), window.location.href='../pestañas_Encuestador/dashboard'"
+                            onclick="mostrarEncuestaCRE(), window.location.href='../pestanas_Encuestador/dashboard'"
                             class="btn btn-primary">Guardar cambios</button>
                     </div>
                 </div>

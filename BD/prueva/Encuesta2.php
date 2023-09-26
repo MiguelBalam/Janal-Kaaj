@@ -74,12 +74,16 @@ echo $code;
     <table class= 'table table-bordered' id="header">
             <tbody class="color-fondo IBM">
                 <tr>
-                    <td rowspan="4" style="text-align:center"><img src="/Img/lOGOCONACYT.png" class="col-sm-4 my-3 my-lg-0 text-center"></td>
+                    <td rowspan="5" style="text-align:center"><img src="/Img/lOGOCONACYT.png" class="col-sm-4 my-3 my-lg-0 text-center"></td>
                     <td rowspan="3" class="col-sm-4 text-center">DATOS ENCUESTA</td>
                     <td><small><strong>CÓDIGO:</strong> <span name="codigo" id="codigo"><?php echo $code; ?></span></small></td>
                 </tr>
                 <tr>
                     <td><small><strong>VERSIÓN:</strong> <?php echo '1'; ?></small></td>
+                </tr>
+                <tr>
+                    <td class="col-sm-4 text-center">APLICADOR</td>
+                    <td><small><strong>CORREO:</strong><span name="userCorreo" id="userCorreo"></span></small></td>
                 </tr>
                 <tr>
                     <td><small><strong>VIGENCIA:</strong> <?php echo date('Y-m-d'); ?></small></td>
@@ -213,7 +217,15 @@ while ($dataRow = mysqli_fetch_array($query)) {
             </div>
         </div>
     </div>
-
+    <script>
+document.addEventListener('DOMContentLoaded', function () {
+   // var userId = localStorage.getItem('user_id');
+    var userCorreo = localStorage.getItem('user_correo');
+   // document.getElementById('aqui').value = userCorreo;
+ document.getElementById('userCorreo').textContent = userCorreo;
+                 // document.getElementById('Institucion').value = userCorreo;
+});
+         </script>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>

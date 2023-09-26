@@ -32,15 +32,13 @@
 
     <ul class="nav-links">
       <li>
-        <a href="/pestañas_Encuestador/dashboard.html">
+        <a href="/pestanas_Encuestador/dashboard.html">
           <i class="bx bx-grid-alt"></i>
           <span class="link_name">Dashboard</span>
         </a>
 
         <ul class="sub-menu blank">
-          <li>
-            <a href="/pestañas_Encuestador/dashboard.html">Dashboard</a>
-          </li>
+          <li><a href="/pestanas_Encuestador/dashboard.html">Dashboard</a></li>
         </ul>
       </li>
 
@@ -82,14 +80,12 @@
       </li>
 
       <li>
-        <a href="/pestañas_Encuestador/encuestaAplicadas.html">
-          <i class="bx bx-clipboard bx-tada"></i>
+        <a href="/pestanas_Encuestador/encuestaAplicadas.html">
+          <i class='bx bx-clipboard bx-tada'></i>
           <span class="link_name">Encuestas aplicadas</span>
         </a>
         <ul class="sub-menu blank">
-          <li>
-            <a class="link_name" href="/pestañas_Encuestador/encuestaAplicadas.html">Encuestas aplicadas</a>
-          </li>
+          <li><a class="link_name" href="/pestanas_Encuestador/encuestaAplicadas.html">Encuestas aplicadas</a></li>
         </ul>
       </li>
 
@@ -208,23 +204,21 @@
               <div class="d-flex flex-column flex-sm-row justify-content-center align-items-center">
                 <!-- Utilizamos las clases flex para el diseño responsive y centramos vertical y horizontalmente -->
                 <button type="button"
-                  onclick="window.location.href='../pestañas_Encuestador/variable_tipo_variable_NoEdit.html'"
+                  onclick="window.location.href='../pestanas_Encuestador/variable_tipo_variable_NoEdit.html'"
                   class="btn btn-outline-success bg-border-mostaza bg-text-mostaza mb-2 me-2 w-100"
                   id="boton_seleccionar">
                   Agregar
                 </button>
 
                 <button type="button"
-                  onclick="window.location.href='../pestañas_Encuestador/variable_crear_variable.html'"
-                  class="btn btn-outline-success bg-border-mostaza bg-text-mostaza mb-2 me-2 w-100" id="disenio_boton">
-                  Crear
-                </button>
+                  onclick="window.location.href='../pestanas_Encuestador/variable_crear_variable.html'"
+                  class="btn btn-outline-success bg-border-mostaza bg-text-mostaza mb-2 me-2 w-100"
+                  id="disenio_boton">Crear</button>
 
                 <button type="button"
-                  onclick="window.location.href='../pestañas_Encuestador/variable_tipo_variable.html'"
-                  class="btn btn-outline-success bg-border-mostaza bg-text-mostaza mb-2 w-100" id="boton_seleccionar">
-                  Editar
-                </button>
+                  onclick="window.location.href='../pestanas_Encuestador/variable_tipo_variable.html'"
+                  class="btn btn-outline-success bg-border-mostaza bg-text-mostaza mb-2 w-100"
+                  id="boton_seleccionar">Editar</button>
               </div>
             </div>
           </div>
@@ -232,37 +226,35 @@
           <div class="bg-text-black text-center p-3 text-uppercase text-black">
             <h5>Lista de variables que tienes agregadas o creadas</h5>
           </div>
-          <div id="variablesTable"></div>
+       
+          <div id="variablesTable2"></div>
+          <div id="resultadoDiv"></div>
           <div class="bg-text-black text-center p-3 text-black">
             <div id="VariablesSeleccionadas"></div>
             <div id="salidaVarC"></div>
             <div class="p-3" id="salidaVarC2"></div>
           </div>
+        </form>
+        <div class="row mb-4">
+          <div class="col-sm-12 col-form-label text-center">
+            <div class="d-flex flex-column flex-sm-row justify-content-center align-items-center">
 
-          <div class="row mb-4">
-            <div class="col-sm-12 col-form-label text-center">
-              <div class="d-flex flex-column flex-sm-row justify-content-center align-items-center">
-                <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza mb-2 me-2 w-100"
-                  onclick="crearFinalVariables(),crearEncuestaFinalVariables()" name="boton-crear-encuestaVar"
-                  id="boton-crear-encuestaVar" type="submit" disabled>
-                  Crear encuesta
-                </button>
+              <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza mb-2 me-2 w-100"
+                onclick="crearFinalVariables(),crearEncuestaFinalVariables()" name="boton-crear-encuestaVar" id="boton-crear-encuestaVar"
+                type="submit" disabled> Crear encuesta</button>
 
-                <button type="button" class="btn btn-outline-success bg-border-mostaza bg-text-mostaza mb-2 me-2 w-100"
-                  onclick="window.location.href='../pestañas_Encuestador/dashboard.html'" id="disenio_boton">
-                  Cancelar
-                </button>
+              <button type="button" class="btn btn-outline-success bg-border-mostaza bg-text-mostaza mb-2 me-2 w-100"
+                onclick="window.location.href='../pestanas_Encuestador/dashboard.html'"
+                id="disenio_boton">Cancelar</button>
 
-                <button type="button" class="btn btn-outline-success bg-border-mostaza bg-text-mostaza mb-2 w-100"
-                  id="mostrarTablaBtn">
-                  Vista previa
-                </button>
+              <button type="button" class="btn btn-outline-success bg-border-mostaza bg-text-mostaza mb-2 w-100"
+                id="mostrarTablaBtn">Vista
+                previa</button>
 
-                <!-- <button id="mostrarTablaBtn">Mostrar Tabla de Encuesta y Variables</button> -->
-              </div>
+              <!-- <button id="mostrarTablaBtn">Mostrar Tabla de Encuesta y Variables</button> -->
             </div>
           </div>
-        </form>
+        </div>
       </div>
     </section>
   </section>
@@ -296,13 +288,63 @@
                 "Error en la solicitud AJAX para obtener información del usuario."
               );
             }
-          }
-        };
-        xhr.send();
-      }
-      recuperarV();
+        }
+    };
+            xhr.send();
+        }
+     recuperarV2();
     });
   </script>
+
+<script>
+  function construirTabla(datosSeleccionados) {
+      const resultadoDiv = document.getElementById("resultadoDiv");
+      const table = document.createElement("table");
+
+      table.className = "table table-bordered";
+      const thead = document.createElement("thead");
+      const tbody = document.createElement("tbody");
+      const headerRow = document.createElement("tr");
+
+      // Agregar encabezados de columna
+      const thSeleccionar = document.createElement("th");
+      thSeleccionar.textContent = "Seleccionar";
+      const thDescripcion = document.createElement("th");
+      thDescripcion.textContent = "Descripción";
+
+      headerRow.appendChild(thSeleccionar);
+      headerRow.appendChild(thDescripcion);
+      thead.appendChild(headerRow);
+      table.appendChild(thead);
+
+      // Agregar filas de datos
+      datosSeleccionados.forEach((variable) => {
+          const row = document.createElement("tr");
+          const cellSeleccionar = document.createElement("td");
+          const cellDescripcion = document.createElement("td");
+
+          cellSeleccionar.innerHTML = `<input type="checkbox" name="variablesIds[]" value="${variable.id_variable}")">`; // Puedes personalizar este texto según tu necesidad
+          cellDescripcion.textContent = variable.nombre;
+
+          row.appendChild(cellSeleccionar);
+          row.appendChild(cellDescripcion);
+          tbody.appendChild(row);
+      });
+
+      table.appendChild(tbody);
+
+      resultadoDiv.appendChild(table);
+  }
+
+  const queryParams = new URLSearchParams(window.location.search);
+  const datosSeleccionados = JSON.parse(decodeURIComponent(queryParams.get("data")));
+
+  // Recupera los datos de la URL y construye la tabla
+  construirTabla(datosSeleccionados);
+
+</script>
+
+
   <script>
     // Guardar el estado de la barra lateral en el localStorage
     function saveSidebarState(state) {

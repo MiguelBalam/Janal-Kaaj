@@ -88,7 +88,7 @@ app.get('/', (req, res) => {
 
 
 app.get('/', (req, res) => {
-    const filePath = 'C:/Users/PERSONAL/.vscode/jANALJanal-Kaaj/pestañas_Encuestador/dashboard.html';
+    const filePath = 'C:/Users/PERSONAL/.vscode/jANALJanal-Kaaj/pestanas_Encuestador/dashboard.html';
     res.sendFile(filePath);
   });
 
@@ -285,7 +285,7 @@ app.post('/login', (req, res) => {
         req.session.user = user;
       
         // Redireccionar a la página deseada después del inicio de sesión exitoso
-        res.redirect('/jANALJanal-Kaaj/pestañas_Encuestador/dashboard.html');
+        res.redirect('/jANALJanal-Kaaj/pestanas_Encuestador/dashboard.html');
       });
     });
 });

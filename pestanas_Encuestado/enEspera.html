@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visualización de Datos en IndexedDB</title>
+    <link rel="stylesheet" href="../CSS/styleDashboard.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="../CSS/style.css">
+
+    <link rel="stylesheet" href="../node_modules/@sweetalert2/themes/bootstrap-4/bootstrap-4.min.css">
+    <script src="../node_modules/sweetalert2/dist/sweetalert2.all.js"></script>
+
+    <!-- Boxiocns CDN Link -->
+    <link href="https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css" rel="stylesheet" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+
+<body>
+    <!-- Dashboard -->
+    <div class="sidebar close">
+        <div class="logo-details">
+            <i class="bx seleccionador"></i>
+            <span class="logo_name">Janal Kaaj</span>
+        </div>
+
+
+        <ul class="nav-links">
+            <li>
+                <a href="/pestanas_Encuestado/dashAplicador.html">
+                    <i class="bx bx-grid-alt"></i>
+                    <span class="link_name">Dashboard</span>
+                </a>
+
+                <ul class="sub-menu blank">
+                    <li><a href="/pestanas_Encuestado/dashAplicador.html" id="mostrarSeccion1">Dashboard</a></li>
+                </ul>
+            </li>
+
+
+            <li>
+                <a href="/login.html">
+                    <i class='bx bx-home-alt'></i>
+                    <span class="link_name">Login</span>
+                </a>
+
+                <ul class="sub-menu blank">
+                    <li><a class="link_name" href="/login.html">Login</a></li>
+                </ul>
+            </li>
+
+            <li>
+                <a href="/pestanas_Encuestado/enEspera.html">
+                    <i class='bx bx-clipboard bx-tada'></i>
+                    <span class="link_name">Encuestas aplicadas</span>
+                </a>
+                <ul class="sub-menu blank">
+                    <li><a class="link_name" href="/pestanas_Encuestado/enEspera.html">Encuestas aplicadas</a></li>
+                </ul>
+            </li>
+
+            <!-- Cerrar cesion -->
+            <li id="cerrarSesionBtnContainer">
+                <a href="#" id="cerrarSesionBtn" onclick="confirmarCerrarSesion()">
+                    <i class="bx bx-log-out"></i>
+                    <span class="link_name">Cerrar Sesión</span>
+                </a>
+                <ul class="sub-menu blank">
+                    <li><a class="link_name" href="#" onclick="confirmarCerrarSesion()">Cerrar Sesión</a></li>
+
+                </ul>
+            </li>
+        </ul>
+    </div>
+
+    <section class="home-section">
+        <div class="home-content">
+            <i class="bx bx-menu"></i>
+            <span class="text">Datos Almacenados en IndexedDB</span>
+        </div>
+        <!-- Fin Dashboard -->
+
+        <h2>Datos Almacenados en IndexedDB</h2>
+        <div id="cola-container">
+            <h3>Tabla "cola"</h3>
+            <div id="cola-data">
+                <!-- Aquí se mostrarán los datos de la tabla "cola" -->
+            </div>
+        </div>
+
+        <div id="respuestas-cola-container">
+            <h3>Tabla "RespuestasCola"</h>
+            <div id="respuestas-cola-data">
+                <!-- Aquí se mostrarán los datos de la tabla "RespuestasCola" -->
+            </div>
+        </div>
+    </section>
+    <!-- <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const dbName = 'miBaseDeDatos';
+            const colaObjectStoreName = 'cola';
+            const respuestasColaObjectStoreName = 'RespuestasCola';
+
+            // Función para mostrar datos en una tabla
+            function showData(objectStoreName, containerId) {
+                const request = indexedDB.open(dbName);
+
+                request.onsuccess = (event) => {
+                    const db = event.target.result;
+                    const transaction = db.transaction(objectStoreName, 'readonly');
+                    const objectStore = transaction.objectStore(objectStoreName);
+
+                    const cursorRequest = objectStore.openCursor();
+
+                    cursorRequest.onsuccess = (e) => {
+                        const cursor = e.target.result;
+                        if (cursor) {
+                            const dataContainer = document.getElementById(containerId);
+                            const dataElement = document.createElement('div');
+                            dataElement.textContent = JSON.stringify(cursor.value);
+                            dataContainer.appendChild(dataElement);
+
+                            cursor.continue();
+                        }
+                    };
+
+                    cursorRequest.onerror = (e) => {
+                        console.error('Error al abrir el cursor:', e.target.error);
+                    };
+                };
+
+                request.onerror = (event) => {
+                    console.error('Error al abrir la base de datos:', event.target.error);
+                };
+            }
+
+            // Mostrar datos de la tabla "cola"
+            showData(colaObjectStoreName, 'cola-data');
+
+            // Mostrar datos de la tabla "RespuestasCola"
+            showData(respuestasColaObjectStoreName, 'respuestas-cola-data');
+        });
+    </script> -->
+
+    <script>
+        // Guardar el estado de la barra lateral en el localStorage
+        function saveSidebarState(state) {
+            localStorage.setItem('sidebarState', state);
+        }
+
+        // Cargar el estado de la barra lateral del localStorage
+        function loadSidebarState() {
+            return localStorage.getItem('sidebarState') || 'expanded'; // Valor predeterminado: expandido
+        }
+
+        let arrow = document.querySelectorAll('.arrow');
+        for (var i = 0; i < arrow.length; i++) {
+            arrow[i].addEventListener('click', (e) => {
+                let arrowParent = e.target.parentElement.parentElement; // seleccionar el elemento principal padre de la flecha
+                arrowParent.classList.toggle('showMenu');
+            });
+        }
+
+        let sidebar = document.querySelector('.sidebar');
+        let sidebarBtn = document.querySelector('.bx-menu');
+        console.log(sidebarBtn);
+
+        // Aplicar el estado almacenado al cargar la página
+        window.addEventListener('DOMContentLoaded', () => {
+            const initialState = loadSidebarState();
+            if (window.innerWidth <= 400) {
+                // Si el ancho de la ventana es menor o igual a 400px (dispositivo móvil),
+                // siempre oculta la barra lateral en la carga inicial.
+                sidebar.classList.add('close');
+                saveSidebarState('collapsed'); // Guarda el estado colapsado en el almacenamiento local
+            } else {
+                sidebar.classList.toggle('close', initialState === 'collapsed');
+            }
+        });
+
+        sidebarBtn.addEventListener('click', () => {
+            sidebar.classList.toggle('close');
+            const newState = sidebar.classList.contains('close') ? 'collapsed' : 'expanded';
+            saveSidebarState(newState);
+        });
+
+    </script>
+</body>
+
+</html>

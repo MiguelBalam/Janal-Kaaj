@@ -95,35 +95,35 @@ function GuardarRes() {
     let localidad = $('#localidad').val();
     let sexo = $('#generoMasculino').is(':checked') ? 'Masculino' : 'Femenino';
     let edad = $('#edad').val();
-    
+    var Aplicador = localStorage.getItem('user_correo')
     let inputValue = {};
     $('[name^="respuesta["][name$="[input]"]').each(function() {
         let questionId = $(this).attr('name').match(/\[(\d+)\]\[input\]/)[1];
         let value = $(this).val();
         inputValue[questionId] = value;
     });
-   
+    let idEncuesta = obtenerElIdDeLaEncuesta();
     $.ajax({
         url: 'GuardarRes.php',
         type: 'POST',
         data: formFormatoGS + '&codigo=' + codigo + '&nombre=' + nombre +
             '&localidad=' + localidad + '&sexo=' + sexo + '&edad=' + edad +
-            '&inputValue=' + JSON.stringify(inputValue) + '&idEncuesta=' + idEncuesta,
+            '&inputValue=' + JSON.stringify(inputValue) + '&idEncuesta=' + idEncuesta + '&userCorreo=' + Aplicador,
         dataType: 'json',
         success: function (data) {
             console.log(data);
             if (data.respuesta) {
                 alert('Felicitaciones, encuesta llenada correctamente.');
-                location.href = "/pestañas_Encuestador/dashboard.html";
+                location.href = "/pestanas_Encuestador/dashboard.html";
             }
         }
     }); 
 }
-// function obtenerElIdDeLaEncuesta() {
-//     const urlParams = new URLSearchParams(window.location.search);
-//     const idEncuesta = urlParams.get('id_encuesta');
-//     return idEncuesta;
-// }
+function obtenerElIdDeLaEncuesta() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const idEncuesta = urlParams.get('id_encuesta');
+    return idEncuesta;
+}
 
 
 
@@ -134,9 +134,11 @@ function handleSelectChange(selectElement) {
     // Aquí puedes agregar código para manejar los cambios en los valores seleccionados.
     // Por ejemplo, puedes acceder al valor seleccionado y realizar acciones en función de eso.
     var selectedValue = selectElement.value;
-    var questionId = $(selectElement).data('id');
+    var questionId = $(selectElement).data('questionid');
+    var $encabezados = $(selectElement).data('encabezados');
+    var $col = $(selectElement).data('col');
     
-    console.log("Selected value: " + selectedValue + " for question ID: " + questionId);
+    console.log("Selected value: " + selectedValue + " for question ID: " + questionId + " for question ID: " +$encabezados  + " for question ID: " +$col);
 }
 
 function GuardarResVariable() {
@@ -147,35 +149,49 @@ function GuardarResVariable() {
     let localidad = $('#localidad').val();
     let sexo = $('#generoMasculino').is(':checked') ? 'Masculino' : 'Femenino';
     let edad = $('#edad').val();
+    let Aplicador = localStorage.getItem('user_correo')
     let responses = {}; // Crear un objeto para almacenar las respuestas
     $('[name^="respuesta["]').each(function() {
-        var questionId = $(this).data('id');
+        var questionId = $(this).data('questionid');
+        var encabezados = $(this).data('encabezados');
         var value = $(this).val();
 
         // Si el valor no es cero, almacenarlo
         if (value !== "0") {
             if (!responses[questionId]) {
-                responses[questionId] = [];
+                responses[questionId] = {};
             }
-            responses[questionId].push(value);
+          
+            if (!responses[questionId][encabezados]) {
+                responses[questionId][encabezados] = {
+                    'encabezados': encabezados,
+                    'respuesta': []
+                };
+            }
+    
+            responses[questionId][encabezados]['respuesta'].push(value);
         }
+   
+        
+    //responses[questionId].push(value);
 
-        console.log("Question ID: " + questionId + ", Value: " + value);
+        console.log("Question ID: " + questionId + ", Value: " + value );
     });
+    console.log("Matriz de Respuestas: ", responses);
     
     console.log("JSON.stringify(responses): " + JSON.stringify(responses));
-
+    let idEncuesta = obtenerElIdDeLaEncuesta();
     $.ajax({
         url: 'GuardarResVariable.php',
         type: 'POST',
         data: formFormato + '&codigo=' + codigo + '&nombre=' + nombre +
-        '&localidad=' + localidad + '&sexo=' + sexo + '&edad=' + edad +'&responses=' + JSON.stringify(responses),
+        '&localidad=' + localidad + '&sexo=' + sexo + '&edad=' + edad + '&userCorreo=' + Aplicador +'&idEncuesta=' + idEncuesta  +'&responses=' + JSON.stringify(responses) ,
         dataType: 'json',
         success: function (data) {
             console.log(data);
             if (data.respuesta) {
                 alert('Felicitaciones, encuesta llenada correctamente.');
-                location.href = "/pestañas_Encuestador/dashboard.html";
+                location.href = "/pestanas_Encuestador/dashboard.html";
             }
         }
     });
@@ -373,7 +389,7 @@ function buildReactivosTable(reactivos) {
 
 function crearEncuestaFinal2() {
     const form = document.forms.form;
-    const id_usuario = localStorage.getItem('user_id'); // Obtén el ID de usuario de alguna manera
+    const id_usuario = localStorage.getItem('user_id'); 
     const titulo = form.Titulo.value;
     const objetivo = form.objetivo.value;
     const instrucciones = form.Intruccion.value;
@@ -472,6 +488,8 @@ function aplicarEncuesta(id_encuesta) {
     var conf = confirm("¿Estás seguro de aplicar la Encuesta?");
     if (conf == true) {
         // Construye la URL base de acuerdo al ID de la encuesta
+      
+      
         var baseUrl = '/BD/prueva/';
         if (id_encuesta == 1) {
             baseUrl += 'Encuesta2.php';
@@ -518,7 +536,7 @@ function aplicarEncuesta(id_encuesta) {
 //             window.location.href = baseUrl + '?id_encuesta=' + id_encuesta;
 //         } else {
 //             // Si no hay conexión a Internet, redirige a encuesta.html (ruta relativa)
-//             window.location.href = '/pestañas_Encuestador/';
+//             window.location.href = '/pestanas_Encuestador/';
 //         }
 //     }
 // }
