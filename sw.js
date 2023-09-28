@@ -37,9 +37,10 @@ const APP_SHELL = [
   "/BD/registroUsuarios/registro.js",
   "/BD/registroUsuarios/registroEncuestado.js",
   "/BD/src/jsSC.js",
-  "/BD/src/sync.js",
+  // "/BD/src/sync.js",
   "/BD/src/App.js",
   "/pestanas_Encuestado/dashAplicador.html",
+  "/pestanas_Encuestado/enEspera.html"
 
 ];
 
