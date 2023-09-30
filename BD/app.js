@@ -47,6 +47,7 @@ var ObjectStoreReac;
 
         ObjectStore = db.createObjectStore("EncuestaFinal", {autoIncrement: true});
         ObjectStore.createIndex("encuestaId","",{unique:true});
+        
         ObjectStore=db.createObjectStore("Autenticasion",{keyPath:"correo", autoIncrement: true});
         ObjectStore.createIndex("correo","correo",{unique:true});
 

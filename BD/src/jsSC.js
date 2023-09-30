@@ -733,8 +733,6 @@ console.log(nuevaPestana.codigoValue,nuevaPestana.vigenciaValue)
                   
     
                 } else {
-                    // Ahora, tienes una lista de IDs de encuestas asignadas al usuario
-                    // Puedes utilizar esta lista para buscar las encuestas correspondientes
                         const encuestasRequest = reactivosObjectStore.openCursor();
                         encuestasRequest.onsuccess = (event) => {
                             const cursor = event.target.result;
@@ -761,7 +759,7 @@ console.log(nuevaPestana.codigoValue,nuevaPestana.vigenciaValue)
                                         if (tipoRespuesta) {
                                             const descripcionTipoRespuesta = tipoRespuesta.nombre_tipo_respuesta;
                                             
-                                            if (descripcionTipoRespuesta == 2) {
+                                             if (descripcionTipoRespuesta == 2) {
                                                 var arrayRespuestas = ["SI", "NO"];
                                                 for (var i = 0; i < arrayRespuestas.length; i++) {
                                                     var respuestaDiv = document.createElement("div");
@@ -796,18 +794,57 @@ console.log(nuevaPestana.codigoValue,nuevaPestana.vigenciaValue)
                                                 preguntaInput.setAttribute("data-id", cursor.value.id_reactivoC);
                                                 preguntaDiv.appendChild(preguntaInput);
                                     
+                                            }else if (descripcionTipoRespuesta == 3) {
+                                             
+                                                var id_reactivoC = cursor.value.id_reactivoC;
+                                                console.log(id_reactivoC)
+                                                // Crear un div para las respuestas
+                                                var respuestasDiv = document.createElement("div");
+                                            
+                                                
+                                                var opcionesRespuestaTransaction = db.transaction("opciones_respuesta");
+                                                var opcionesRespuestaObjectStore = opcionesRespuestaTransaction.objectStore("opciones_respuesta");
+                                                var index =  opcionesRespuestaObjectStore.index('id_reactivoC')
+                                                console.log(index)
+                                                var opcionesRespuestaRequest = index.getAll(IDBKeyRange.only(id_reactivoC));
+                                                console.log(opcionesRespuestaRequest)
+                                                opcionesRespuestaRequest.onsuccess = (event) => {
+                                                    const opcionesRespuesta = event.target.result;
+                                            console.log(opcionesRespuesta)
+                                                    // Recorrer las opciones de respuesta y crear checkboxes
+                                                    opcionesRespuesta.forEach((opcion, index) => {
+                                                        if (opcion.descripcion_opcion !== "") {
+                                                            var respuestaLabel = document.createElement("label");
+                                                            var respuestaInput = document.createElement("input");
+                                            
+                                                            respuestaInput.classList.add("form-check-input");
+                                                            respuestaInput.setAttribute("type", "checkbox");
+                                                            respuestaInput.setAttribute("name", "respuesta_" + id_reactivoC + "_checkbox_" + index);
+                                                            respuestaInput.setAttribute("value", opcion.descripcion_opcion);
+                                            
+                                                            respuestaLabel.textContent = opcion.descripcion_opcion;
+                                                            respuestaLabel.classList.add("form-check-label", "form-check-inline");
+                                            
+                                                            respuestaLabel.appendChild(respuestaInput);
+                                                            respuestasDiv.appendChild(respuestaLabel);
+                                                        }
+                                                    });
+                                            
+                                                    // Agregar el div de respuestas al contenedor de preguntas
+                                                    preguntaDiv.appendChild(respuestasDiv);
+                                                };
                                             }
-                                    
+                                           
                                             preguntasContainer.appendChild(preguntaDiv);
                                             console.log(descripcionTipoRespuesta);
                                             //console.log(`Descripción del reactivo: ${descripcion}`);
                                         }
-
+                                       
                                 }
                                 
-                                cursor.continue();
+                              
                             } 
-                            
+                            cursor.continue();
                         };
                        
                            
@@ -892,25 +929,7 @@ function guardarEnIndexedDB(espuestaData,id_encuesta) {
     espuestaData: espuestaData
   
       };
-    // console.log('ID de Encuesta:', id_encuesta);
-    // request.onerror = function (event) {
-    //     console.error("Error al abrir la base de datos: " + event.target.errorCode);
-    // };
-
-    // request.onsuccess = function (event) {
-    //     var db = event.target.result;
-    //     var transaction = db.transaction("respuestas_encuesta", "readwrite");
-
-    //     // Almacena los datos de la encuesta en la tabla "encuesta"
-    //     var encuestaRespuestasStore = transaction.objectStore("respuestas_encuesta");
-      
-    //     var respuestaRequest = encuestaRespuestasStore.add(respuestaData);
-
-    //     respuestaRequest.onsuccess = function (event) {
-    //         console.log("Respuesta de encuesta guardada en IndexedDB");
-    //         registrarActualizacionEnCola(id_encuesta, respuestaData);
-    //     };
-    // };
+   
     registrarActualizacionEnColaRes(dataToUpdate)
 }
 

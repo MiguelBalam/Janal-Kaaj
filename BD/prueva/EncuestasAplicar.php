@@ -156,7 +156,9 @@ echo $code;
         <table class= 'table table-bordered' id="header">
             <tbody class="color-fondo IBM">
                 <tr>
-                    <td rowspan="5" style="text-align:center"><img src="/Img/lOGOCONACYT.png" class="col-sm-4 my-3 my-lg-0 text-center"></td>
+                <td rowspan="5" style="text-align:center">
+                    <img id="imagenUsuario" class="col-sm-4 my-3 my-lg-0 text-center">
+                </td>
                     <td rowspan="3" class="col-sm-4 text-center">DATOS ENCUESTA</td>
                     <td><small><strong>CÓDIGO:</strong> <span name="codigo" id="codigo"><?php echo $code; ?></span></small></td>
                 </tr>
@@ -230,31 +232,50 @@ echo $code;
        ?>
        
        <tr id="reactivos_<?php echo $questionId; ?>">
-           <td><?php echo $questionId; ?></td>
-           <td><?php echo strtoupper($dataRow['descripcion']); ?></td>
-           <td class="centered-inputs"> <!-- Apply a class for centering -->
-               <div class="conteFlex">
-                   <?php if ($tipoRespuesta['nombre_tipo_respuesta']== 2 ) { ?>
-                       
-                       <?php foreach ($arrayRespuestas as $clave => $valor) { ?>
-                           <label class="class_<?php echo $questionId; ?>" id="spanId_<?php echo $questionId . '_' . $clave; ?>" onclick="respuesta('<?php echo $questionId; ?>','<?php echo $clave; ?>')">
-                               <input type="radio" name="respuesta[<?php echo $questionId; ?>]" id="idResp_<?php echo $questionId . $clave; ?>" value="<?php echo $clave; ?>">
-                               <?php echo ($valor); ?>
-                           </label>
-                       <?php } ?>
-                   <?php } elseif ($tipoRespuesta['nombre_tipo_respuesta']== 1) {  ?>
-                           <!-- Create text input or text area -->
-                       <?php if ($tipoRespuesta['nombre_tipo_respuesta'] == 1) { ?>
-                           <textarea class="form-control" name="respuesta[<?php echo $questionId; ?>]" id="idResp_<?php echo $questionId; ?>"></textarea>
-                       <?php } else { ?>
-                           <input class="form-control" type="text" name="respuesta[<?php echo $questionId; ?>]" id="idResp_<?php echo $questionId; ?>">
-                       <?php } ?>
-                   <?php } ?>
-               </div>
-           </td>
-       </tr>
-       
-       <?php } ?>
+        <td><?php echo $questionId; ?></td>
+        <td><?php echo strtoupper($dataRow['descripcion']); ?></td>
+        <td class="centered-inputs">
+            <div class="conteFlex">
+                <?php if ($tipoRespuesta['nombre_tipo_respuesta'] == 2) { ?>
+                    <?php foreach ($arrayRespuestas as $clave => $valor) { ?>
+                        <label class="class_<?php echo $questionId; ?>" id="spanId_<?php echo $questionId . '_' . $clave; ?>" onclick="respuesta('<?php echo $questionId; ?>','<?php echo $clave; ?>')">
+                            <input type="radio" name="respuesta[<?php echo $questionId; ?>]" id="idResp_<?php echo $questionId . $clave; ?>" value="<?php echo $clave; ?>">
+                            <?php echo ($valor); ?>
+                        </label>
+                    <?php } ?>
+                <?php } elseif ($tipoRespuesta['nombre_tipo_respuesta'] == 1) { ?>
+                    <!-- Create text input or text area -->
+                    <?php if ($tipoRespuesta['nombre_tipo_respuesta'] == 1) { ?>
+                        <textarea class="form-control" name="respuesta[<?php echo $questionId; ?>]" id="idResp_<?php echo $questionId; ?>"></textarea>
+                    <?php } else { ?>
+                        <input class="form-control" type="text" name="respuesta[<?php echo $questionId; ?>]" id="idResp_<?php echo $questionId; ?>">
+                    <?php } ?>
+                <?php } elseif ($tipoRespuesta['nombre_tipo_respuesta'] == 3) { ?>
+                    <!-- Consultar opciones de respuesta y crear elementos checkbox -->
+                    <?php
+                    $queryOpciones = "SELECT id_opcion, descripcion_opcion FROM opciones_respuesta WHERE id_reactivoC = $questionId";
+                    $resultOpciones = $con->query($queryOpciones);
+                    
+                    if ($resultOpciones->num_rows > 0) {
+                        while ($opcion = $resultOpciones->fetch_assoc()) {
+                            ?>
+                           
+                            <label>
+                                <input type="checkbox" name="respuesta[<?php echo $questionId; ?>]"id="idResp_<?php echo $questionId . $opcion; ?>" value="<?php echo $opcion['descripcion_opcion']; ?>">
+                                <?php echo $opcion['descripcion_opcion']; ?>
+                            </label>
+                            <?php
+                        }
+                    } else {
+                        echo 'No se encontraron opciones de respuesta para este reactivo.';
+                    }
+                    ?>
+                <?php } ?>
+            </div>
+        </td>
+    </tr>
+    
+<?php } ?>
        
                    <div class="form-group">
                        <label for="observacion">Observaciones</label>
@@ -276,7 +297,9 @@ echo $code;
          <table class= 'table table-bordered' id="header">
             <tbody class="color-fondo IBM">
                 <tr>
-                    <td rowspan="5" style="text-align:center"><img src="/Img/lOGOCONACYT.png" class="col-sm-4 my-3 my-lg-0 text-center"></td>
+                <td rowspan="5" style="text-align:center">
+                    <img id="imagenUsuario" class="col-sm-4 my-3 my-lg-0 text-center">
+                </td>
                     <td rowspan="3" class="col-sm-4 text-center">DATOS ENCUESTA</td>
                     <td><small><strong>CÓDIGO:</strong> <span name="codigo2" id="codigo2"><?php echo rand(); ?></span></small></td>
                 </tr>
@@ -409,9 +432,44 @@ document.addEventListener('DOMContentLoaded', function () {
     var userCorreo = localStorage.getItem('user_correo');
    // document.getElementById('aqui').value = userCorreo;
  document.getElementById('userCorreo').textContent = userCorreo;
-                 // document.getElementById('Institucion').value = userCorreo;
+
+
+ var idAutenticacion = localStorage.getItem('user_id');
+
+if (idAutenticacion) {
+  var xhr = new XMLHttpRequest();
+  xhr.open('GET', '/BD/prueva/obtener_imagen.php?id_usuario=' + idAutenticacion, true);
+
+  xhr.responseType = 'arraybuffer'; // Indicamos que esperamos una respuesta en formato binario
+
+  xhr.onreadystatechange = function() {
+    if (xhr.readyState === 4) {
+      if (xhr.status === 200) {
+        var img = document.getElementById('imagenUsuario');
+        var arrayBuffer = xhr.response; // Obtenemos los datos binarios
+
+        // Convertimos los datos binarios a una URL Base64
+        var base64Data = btoa(String.fromCharCode.apply(null, new Uint8Array(arrayBuffer)));
+        var imageUrl = 'data:image/png;base64,' + base64Data;
+
+        img.src = imageUrl;
+      } else {
+        console.error('Error al obtener la imagen del usuario.');
+      }
+    }
+  };
+
+  xhr.send();
+} else {
+  console.error('ID de autenticación no encontrado en el Local Storage.');
+}
+
+                 
 });
+
+
          </script>
+
 
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>

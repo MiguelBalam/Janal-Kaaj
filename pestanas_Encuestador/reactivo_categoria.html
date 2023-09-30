@@ -168,7 +168,12 @@
                     <h6>Categoría: </h6>
                 </div>
                 <div class="col-sm-5 text-center mb-3">
-                    <select onchange=" mostrarElementosPorCategoria()" id="Categorias_R" class="form-select"
+
+                    <select onchange=" mostrarElementosPorCategoria()" id="Categorias_R" class="form-select" aria-label="Default select example" required>
+                        <option value="">Seleccione una categoría...</option>
+                        <option value="todo">Todo Los Reactivos</option>
+                    </select>
+                    <!-- <select onchange=" mostrarElementosPorCategoria()" id="Categorias_R" class="form-select"
                         aria-label="Default select example" required>
                         <option value="">Seleccione una categoría...</option>
                         <option value="Miel">Miel</option>
@@ -176,7 +181,7 @@
                         <option value="Ganaderia">Ganaderia </option>
                         <option value="Otro">Otro </option>
                         <option value="todo">Todo Los Reactivos</option>
-                    </select>
+                    </select> -->
 
                 </div>
 
@@ -184,9 +189,13 @@
                 <div class="bg-text-black p-3 text-uppercase text-black">
                     <h5>Seleccione las preguntas</h5>
                 </div>
+              
+
                 <div class="bg-text-black text-black">
                     <div class="row">
+                        <div id="reactivosTable"></div>
                         <div class="form-check">
+                          
                             <!-- <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" > -->
                             <label class="form-check-label" for="flexCheckDefault">
                                 <div id="salida"></div>
@@ -220,6 +229,86 @@
 
             </div>
     </section>
+    <!-- <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var userId = localStorage.getItem('user_id');
+            var userCorreo = localStorage.getItem('user_correo');
+            
+            if (userId) {
+                var xhr = new XMLHttpRequest();
+                xhr.open('GET', '/BD/infoUser.php?id=' + userId, true);
+                xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+                    try {
+                        var userInfo = JSON.parse(xhr.responseText);
+                        if (userInfo && userInfo.error) {
+                            console.error('Error obteniendo información del usuario:', userInfo.error);
+                        } else {
+                          document.getElementById('aqui').value = userCorreo;
+                        }
+                    } catch (error) {
+                        console.error('Error al analizar la respuesta JSON:', error);
+                    }
+                } else {
+                    console.error('Error en la solicitud AJAX para obtener información del usuario.');
+                }
+            }
+        };
+                xhr.send();
+            }
+            recuperarR()
+        });
+      
+                 </script> -->
+  <script>
+        document.addEventListener('DOMContentLoaded', function () {
+         
+              $.ajax({
+            url: '/BD/prueva/obtener_categoria.php',
+            type: 'GET',
+            dataType: 'json',
+            success: function(data) {
+                // Llenar el select con las categorías obtenidas
+                var select = document.getElementById('Categorias_R');
+                data.forEach(function(categoria) {
+                    var option = document.createElement('option');
+                    option.value = categoria.id_categorias;
+                    option.textContent = categoria.nombre_categoria;
+                    select.appendChild(option);
+                });
+            },
+            error: function(xhr, status, error) {
+                console.error('Error al obtener las categorías: ' + error);
+            }
+        });
+        });
+
+    
+                 </script>
+<!-- <script>
+    // Al cargar la página, obtener las categorías mediante una solicitud AJAX
+    $(document).ready(function() {
+        $.ajax({
+            url: '/BD/prueva/obtener_categoria.php',
+            type: 'GET',
+            dataType: 'json',
+            success: function(data) {
+                // Llenar el select con las categorías obtenidas
+                var select = document.getElementById('Categorias_R');
+                data.forEach(function(categoria) {
+                    var option = document.createElement('option');
+                    option.value = categoria.id_categoria;
+                    option.textContent = categoria.nombre_categoria;
+                    select.appendChild(option);
+                });
+            },
+            error: function(xhr, status, error) {
+                console.error('Error al obtener las categorías: ' + error);
+            }
+        });
+    });
+</script> -->
 
     <script>
         // Guardar el estado de la barra lateral en el localStorage
@@ -276,9 +365,13 @@
             }
         }
     </script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+     <script src="/BD/src/sync.js"></script>
+     <script src="/BD/prueva/encuesta.js"></script>
 
-    <script src="../BD/app.js"></script>
-    <script src="../CSS/SweetAlert.js"></script>
+      <script src="/BD/registroUsuarios/registro.js"></script>
+     <!-- <script src="../BD/app.js"></script> -->
+     <script src="../CSS/SweetAlert.js"></script>
 </body>
 
 </html>

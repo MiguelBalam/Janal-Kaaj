@@ -285,8 +285,8 @@
         <div class="row mb-4">
           <div class="col-sm-12 col-form-label text-center">
             <div class="d-flex justify-content-between">
-              <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza mb-2 col-sm-4" id="boton_crearReactivo" onclick=" guardarReactivos(),ResOpMul(), CrearReactivo()">Crear</button>
-              <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza mb-2 col-sm-4" id="boton_guardar" onclick="recuperarR()">Guardar</button>
+              <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza mb-2 col-sm-4" id="boton_crearReactivo" onclick="guardarReactivos(),limpiarFormulario2(),ResOpMul(),CrearReactivo()">Crear</button>
+              <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza mb-2 col-sm-4" id="boton_guardar" onclick="window.location.href='/pestanas_Encuestador/crear_Evariables.html'">Guardar</button>
               <button onclick="return cancelar()" class="btn btn-outline-success bg-border-mostaza bg-text-mostaza mb-2 col-sm-4" id="boton_cancelar">Cancelar</button>
             </div>
           </div>
@@ -294,7 +294,7 @@
 
 
         <h3 class="bg-text-black text-center p-3 text-uppercase text-black">Vista Previa Reactivos</h3>
-
+        <div id="reactivosTable2"></div>
         <table id="tabla1" class="table align-middle">
           <tr>
           </tr>
@@ -309,7 +309,38 @@
       </div>
     </section>
   </section>
-
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var userId = localStorage.getItem('user_id');
+        var userCorreo = localStorage.getItem('user_correo');
+        
+        if (userId) {
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', '/BD/infoUser.php?id=' + userId, true);
+            xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4) {
+            if (xhr.status === 200) {
+                try {
+                    var userInfo = JSON.parse(xhr.responseText);
+                    if (userInfo && userInfo.error) {
+                        console.error('Error obteniendo información del usuario:', userInfo.error);
+                    } else {
+                     // document.getElementById('aqui').value = userCorreo;
+                    }
+                } catch (error) {
+                    console.error('Error al analizar la respuesta JSON:', error);
+                }
+            } else {
+                console.error('Error en la solicitud AJAX para obtener información del usuario.');
+            }
+        }
+    };
+            xhr.send();
+        }
+        recuperarR2()
+    });
+  
+             </script>
   <script>
     // Guardar el estado de la barra lateral en el localStorage
     function saveSidebarState(state) {
@@ -365,7 +396,9 @@
       }
     }
   </script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
  <script src="/BD/prueva/encuesta.js"></script>
+ 
   <!-- <script src="../BD/app.js"></script> -->
   <script src="../CSS/SweetAlert.js"></script>
 </body>

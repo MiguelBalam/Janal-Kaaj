@@ -51,8 +51,8 @@ window.addEventListener('offline', () => {
       // Nombre de la base de datos y versión
       const dbName = 'miBaseDeDatos';
       const dbVersion = 1;
-      const tables = ['reactivos', 'encuestas', 'encuestado_respuesta', 'respuestas_encuesta','asignaciones','encuesta_FinalReactivos',
-      'reactivosCreados','tiposRespuesta'];
+      const tables = ['reactivos', 'encuestas', 'encuestado_respuesta', 'respuestas_encuesta','encuesta_FinalReactivos',
+      'reactivosCreados','tiposRespuesta','asignaciones','opciones_respuesta'];
       // Abre una conexión con la base de datos o crea una nueva si no existe
       const request = indexedDB.open(dbName,dbVersion);
       let store;
@@ -85,11 +85,7 @@ window.addEventListener('offline', () => {
             case 'respuestas_encuesta':
               keyPath;
               break;
-
-              case 'asignaciones':
-              keyPath;
-              index = 'aplicador';
-              break;
+         
               case 'encuesta_FinalReactivos':
               keyPath;
               index = 'id_encuesta';
@@ -98,11 +94,17 @@ window.addEventListener('offline', () => {
               keyPath;
               index = 'id_tipoRespuesta';
               break;
-
               case 'tiposRespuesta':
                 keyPath='id_tipoRespuesta';
-              
                 break;
+                case 'asignaciones':
+                  keyPath;
+                  index = 'aplicador';
+                  break;
+                  case 'opciones_respuesta':
+                    keyPath;
+                    index = 'id_reactivoC';
+                    break;
             // Puedes agregar más casos para otras tablas si es necesario
           }
           if (!db.objectStoreNames.contains(table)) {
