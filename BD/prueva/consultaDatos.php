@@ -78,6 +78,7 @@ if (isset($_GET['codigo_busqueda'])) {
             <span class="logo_name">Janal Kaaj</span>
         </div>
 
+
         <ul class="nav-links">
             <li>
                 <a href="/pestanas_Encuestador/dashboard.html">
@@ -92,7 +93,7 @@ if (isset($_GET['codigo_busqueda'])) {
 
 
             <li>
-                <a href="login.html">
+                <a href="/login.html">
                     <i class='bx bx-home-alt'></i>
                     <span class="link_name">Login</span>
                 </a>
@@ -106,37 +107,57 @@ if (isset($_GET['codigo_busqueda'])) {
 
             <li>
                 <div class="iocn-link">
-                    <a href="#" onclick="showAlert('variables')"> <!-- Llamamos a showAlert con el argumento 'variables' -->
+                    <a href="../../pestanas_Encuestador/crear_Evariables.html" > <!-- Llamamos a showAlert con el argumento 'variables' -->
                         <i class='bx bx-file-blank'></i>
                         <span class="link_name">Crear variables</span>
                     </a>
                     <ul class="sub-menu blank">
-                        <a class="link_name" href="#" onclick="showAlert('variables')">Crear variables</a>
+                        <a class="link_name" href="../../pestanas_Encuestador/crear_Evariables.html">Crear variables</a>
                     </ul>
                 </div>
             </li>
 
             <li>
                 <div class="iocn-link">
-                    <a href="#" onclick="showAlert('reactivos')"> <!-- Llamamos a showAlert con el argumento 'reactivos' -->
+                    <a href="../../pestanas_Encuestador/crear.html" > <!-- Llamamos a showAlert con el argumento 'reactivos' -->
                         <i class='bx bx-file-blank'></i>
                         <span class="link_name">Crear reactivos</span>
                     </a>
                 </div>
                 <ul class="sub-menu blank">
-                    <a class="link_name" href="#" onclick="showAlert('reactivos')">Crear reactivos</a>
+                    <a class="link_name" href="../../pestanas_Encuestador/crear.html" >Crear reactivos</a>
                 </ul>
             </li>
 
+            <li>
+                <a id="pruebaApli" href="/pestanas_Encuestado/Aplicador.html" onclick="redireccionarConUserId()">
+                    <i class='bx bx-book-add'></i>
+                    <span class="link_name">Alta Aplicadores</span>
+                </a>
 
+                <ul class="sub-menu blank">
+                    <li><a class="link_name" href="/pestanas_Encuestado/Aplicador.html">Alta Aplicadores</a></li>
+                </ul>
+            </li>
 
             <li>
-                <a href="../../BD/prueva/consultaDatos.php">
+                <a href="/pestanas_Encuestado/asignarE.php">
+                    <i class='bx bxs-user-check'></i>
+                    <span class="link_name">Asignar</span>
+                </a>
+
+                <ul class="sub-menu blank">
+                    <li><a class="link_name" href="/pestanas_Encuestado/asignarE.php">Asignar</a></li>
+                </ul>
+            </li>
+
+            <li>
+                <a href="/BD/prueva/consultaDatos.php">
                     <i class='bx bx-clipboard bx-tada'></i>
                     <span class="link_name">Encuestas aplicadas</span>
                 </a>
                 <ul class="sub-menu blank">
-                    <li><a class="link_name" href="../../BD/prueva/consultaDatos.php">Encuestas aplicadas</a></li>
+                    <li><a class="link_name" href="../BD/prueva/consultaDatos.php">Encuestas aplicadas</a></li>
                 </ul>
             </li>
 
@@ -162,14 +183,14 @@ if (isset($_GET['codigo_busqueda'])) {
             </li>
 
             <!-- <li>
-        <a href="#">
-          <i class="bx bx-cog"></i>
-          <span class="link_name">Configuración</span>
-        </a>
-        <ul class="sub-menu blank">
-          <li><a class="link_name" href="#">Configuración</a></li>
-        </ul>
-      </li> -->
+          <a href="#">
+            <i class="bx bx-cog"></i>
+            <span class="link_name">Configuración</span>
+          </a>
+          <ul class="sub-menu blank">
+            <li><a class="link_name" href="#">Configuración</a></li>
+          </ul>
+        </li> -->
 
 
             <li>
@@ -199,7 +220,7 @@ if (isset($_GET['codigo_busqueda'])) {
     <section class="home-section">
         <div class="home-content">
             <i class="bx bx-menu"></i>
-            <span class="text">Encuestas aplicadas</span>
+            <span class="text">Dashboard</span>
         </div>
         <!-- Fin Dashboard -->
 

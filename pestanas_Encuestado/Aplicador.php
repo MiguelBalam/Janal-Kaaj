@@ -1,3 +1,19 @@
+<?php
+$username  = "janalkaa_admin";
+$password = "janalkaaj2023";
+$servername = "162.241.60.169";
+$dbname = "janalkaa_kaaj";
+
+$con = new mysqli($servername, $username, $password, $dbname);
+mysqli_set_charset($con, "utf8");
+
+if ($con->connect_error) {
+    die("Conexión fallida: " . $con->connect_error);
+}
+
+$userId = $_GET['userId']; // Obtener el ID de usuario de la URL
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -85,7 +101,7 @@
 
                 <ul class="sub-menu blank">
                     <li>
-                        <a class="link_name" href="/pestanas_Encuestado//Aplicador.html">Alta Aplicadores</a>
+                        <a class="link_name" href="/pestanas_Encuestado//Aplicador.php">Alta Aplicadores</a>
                     </li>
                 </ul>
             </li>
@@ -234,6 +250,7 @@
                         <div class="col-sm-8">
                             <input type="password" class="form-control" name="Contrasenia"
                                 placeholder="No.Empleado/Palabra/Numero" id="Contrasenia" required />
+                                <input type="hidden" name="userId" value="<?php echo $userId; ?>">
                             <div class="valid-feedback">Correcto</div>
                             <div class="invalid-feedback">Llene el campo</div>
                         </div>
