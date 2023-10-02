@@ -262,6 +262,21 @@ $variables_encuesta = obtenerVariablesEncuesta($id_encuestaVar);
                 echo '</div>';
                
             }
+            elseif ($tipoRespuesta['nombre_tipo_respuesta'] == 3) {
+                $queryOpciones = "SELECT id_opcion, descripcion_opcion FROM opciones_respuesta WHERE id_reactivoC = " . $reactivo['id_reactivoC'];
+               $resultOpciones = $con->query($queryOpciones);
+    
+               if ($resultOpciones->num_rows > 0) {
+                while ($opcion = $resultOpciones->fetch_assoc()) {
+                    echo '<div class="col-4">';
+                    echo '<label class="form-check-label" for="reactivo_' . $reactivo['id_reactivoC'] . '_opcion_' . $opcion['id_opcion'] . '">' . $opcion['descripcion_opcion'] . '</label>';
+                    echo '<input class="form-check-input" type="checkbox" name="reactivo_' . $reactivo['id_reactivoC'] . '_opcion_' . $opcion['id_opcion'] . '" id="reactivo_' . $reactivo['id_reactivoC'] . '_opcion_' . $opcion['id_opcion'] . '" value="' . $opcion['id_opcion'] . '" ' . ($reactivo['obligatorio'] ? 'required' : '') . '>';
+                    echo '</div>';
+                }
+            }else {
+                echo 'No se encontraron opciones de respuesta para este reactivo.';
+            }
+            }
         ?>
             </div>
             </td>
@@ -311,7 +326,7 @@ $variables_encuesta = obtenerVariablesEncuesta($id_encuestaVar);
     </form>
     <div class="row mb-2">
         <div class="d-grid gap-2 col-6 mx-auto">
-        <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza " type="submit">Editar</button>
+        <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza " type="submit" onclick="window.location.href='/CRUD/encuestaEditar.html'">Editar</button>
         <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza " type="button"  onclick="window.location.href='/pestanas_Encuestador/dashboard.html'">Guardar</button>
          </div>
         </div>

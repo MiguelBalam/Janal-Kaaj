@@ -193,24 +193,25 @@
 
          <script>
 document.addEventListener('DOMContentLoaded', function () {
-    var userId = localStorage.getItem('user_id');
+    //var userId = localStorage.getItem('user_id');
+    var userID = localStorage.getItem('user_id'); // Obtener el ID almacenado
     var userCorreo = localStorage.getItem('user_correo');
-    var userCorreo2 = localStorage.getItem('correo');
-    
-    if (userId) {
-        var xhr = new XMLHttpRequest();
-        xhr.open('GET', '/BD/infoUser.php?id=' + userId  , true);
-        xhr.onreadystatechange = function () {
-    if (xhr.readyState === 4) {
-        if (xhr.status === 200) {
-            try {
+if (userID) {
+    // Enviar una solicitud AJAX para recuperar los datos del usuario por su ID
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', '/BD/infoUser.php?id=' + userID, true);
+
+    xhr.onreadystatechange = function () {
+      console.log(xhr.responseText);
+        if (xhr.readyState === 4 && xhr.status === 200) {
+          try {
                 var userInfo = JSON.parse(xhr.responseText);
+                console.log(userInfo)
                 if (userInfo && userInfo.error) {
                     console.error('Error obteniendo información del usuario:', userInfo.error);
                 } else {
                   document.getElementById('aqui').value = userCorreo;
-                  document.getElementById('userCorreo').textContent = userCorreo;
-                 // document.getElementById('Institucion').value = userCorreo;
+                  
                 }
             } catch (error) {
                 console.error('Error al analizar la respuesta JSON:', error);
@@ -239,6 +240,23 @@ function redireccionarConUserId() {
         window.location.href = '/pestanas_Encuestado/Aplicador.php';
     }
 }
+
+
+//para enviar el id a agregar aplicador
+// function redireccionarConUserId() {
+//     var userId = localStorage.getItem('user_id');
+    
+//     if (userId) {
+//         // Construir la URL con userId
+//         var urlConUserId = `/pestanas_Encuestado/Aplicador.html?userId=${userId}`;
+        
+//         // Redirigir al usuario a la nueva URL
+//         window.location.href = urlConUserId;
+//     } else {
+//         // Si userId no está disponible, simplemente redirigir sin él
+//         window.location.href = '/pestanas_Encuestado/Aplicador.html';
+//     }
+// }
          </script>
 
           <div class="row justify-content-center p-3 ">
@@ -443,9 +461,8 @@ window.addEventListener('DOMContentLoaded', () => {
   <script src="/BD/registroUsuarios/registro.js"></script>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="/BD/prueva/encuesta.js"></script>
- <script> src="/BD/infoUser.php" </script>
   <script src="../CSS/SweetAlert.js"></script>
-    <script src="/BD/src/sincronizar.php"></script>
+
 </body>
 
 </html>

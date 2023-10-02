@@ -370,7 +370,7 @@ function redirigirAlDashboard(tipoUsuario) {
 function realizarSolicitudAlServidor(correo, contrasenia,tipoUsuario) {
   var xhr = new XMLHttpRequest();
   xhr.open('POST', '/BD/login.php', true);
- xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+  xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
   xhr.onreadystatechange = function () {
     if (xhr.readyState === 4) {
       if (xhr.status === 200) {
@@ -541,5 +541,7 @@ function mostrarEncuestasAsignadas(correo) {
   //   var data = 'correo=' + encodeURIComponent(correo) + '&contraseniaL=' + encodeURIComponent(contrasenia);
   //   xhr.send(data);
   // }
-  
+  // Obtener el ID del usuario almacenado en localStorage
+
+
   
