@@ -23,7 +23,7 @@ if (isset($_SESSION['correo'])) {
     // Ahora puedes usar $aplicador_actual en tu consulta SQL como se mostró en respuestas anteriores
 } else {
     // Si el aplicador no ha iniciado sesión, redirigirlo al formulario de inicio de sesión
-    header("Location: login.php");
+    header("Location: login.html");
     exit();
 }
 $aplicador_actual =  $_SESSION['correo']; // Debes obtener el nombre del aplicador actual de alguna manera

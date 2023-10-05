@@ -4,7 +4,7 @@
 
  if (navigator.serviceWorker){
 
-   if (url.includes('localhost:3000')){
+   if (url.includes('localhost')){
          swLocation = '/sw.js';
      }
    navigator.serviceWorker.register(swLocation);
@@ -47,6 +47,7 @@ var ObjectStoreReac;
 
         ObjectStore = db.createObjectStore("EncuestaFinal", {autoIncrement: true});
         ObjectStore.createIndex("encuestaId","",{unique:true});
+        
         ObjectStore=db.createObjectStore("Autenticasion",{keyPath:"correo", autoIncrement: true});
         ObjectStore.createIndex("correo","correo",{unique:true});
 

@@ -18,15 +18,15 @@ if (isset($_GET['codigo_busqueda'])) {
     $codigoBusqueda = $_GET['codigo_busqueda'];
 
     // Consultar en vista_personalizada
-    $sqlBusquedaInse = "SELECT * FROM vista_inseAlimen  WHERE codigo = '$codigoBusqueda'";
+    $sqlBusquedaInse = "SELECT * FROM vista_inseAlimentaria  WHERE codigo = '$codigoBusqueda'";
     $queryBusquedaInse = mysqli_query($con, $sqlBusquedaInse);
 
     // Consultar en vista_encuestaMiel
-    $sqlBusquedaEncuestaMiel = "SELECT * FROM vista_enMiel WHERE codigo = '$codigoBusqueda'";
+    $sqlBusquedaEncuestaMiel = "SELECT * FROM vista_enMieles WHERE codigo = '$codigoBusqueda'";
     $queryBusquedaEncuestaMiel = mysqli_query($con, $sqlBusquedaEncuestaMiel);
 
     // Consultar en vista_encuestaMiel
-    $sqlBusquedaEncuestaTextil = "SELECT * FROM vista_enTextil WHERE codigo = '$codigoBusqueda'";
+    $sqlBusquedaEncuestaTextil = "SELECT * FROM vista_enTextiles WHERE codigo = '$codigoBusqueda'";
     $queryBusquedaEncuestaTextil = mysqli_query($con, $sqlBusquedaEncuestaTextil);
 
     // Verificar en cuál de las vistas se encontró el código
@@ -78,6 +78,7 @@ if (isset($_GET['codigo_busqueda'])) {
             <span class="logo_name">Janal Kaaj</span>
         </div>
 
+
         <ul class="nav-links">
             <li>
                 <a href="/pestanas_Encuestador/dashboard.html">
@@ -92,7 +93,7 @@ if (isset($_GET['codigo_busqueda'])) {
 
 
             <li>
-                <a href="login.html">
+                <a href="/login.html">
                     <i class='bx bx-home-alt'></i>
                     <span class="link_name">Login</span>
                 </a>
@@ -106,37 +107,57 @@ if (isset($_GET['codigo_busqueda'])) {
 
             <li>
                 <div class="iocn-link">
-                    <a href="#" onclick="showAlert('variables')"> <!-- Llamamos a showAlert con el argumento 'variables' -->
+                    <a href="../../pestanas_Encuestador/crear_Evariables.html" > <!-- Llamamos a showAlert con el argumento 'variables' -->
                         <i class='bx bx-file-blank'></i>
                         <span class="link_name">Crear variables</span>
                     </a>
                     <ul class="sub-menu blank">
-                        <a class="link_name" href="#" onclick="showAlert('variables')">Crear variables</a>
+                        <a class="link_name" href="../../pestanas_Encuestador/crear_Evariables.html">Crear variables</a>
                     </ul>
                 </div>
             </li>
 
             <li>
                 <div class="iocn-link">
-                    <a href="#" onclick="showAlert('reactivos')"> <!-- Llamamos a showAlert con el argumento 'reactivos' -->
+                    <a href="../../pestanas_Encuestador/crear.html" > <!-- Llamamos a showAlert con el argumento 'reactivos' -->
                         <i class='bx bx-file-blank'></i>
                         <span class="link_name">Crear reactivos</span>
                     </a>
                 </div>
                 <ul class="sub-menu blank">
-                    <a class="link_name" href="#" onclick="showAlert('reactivos')">Crear reactivos</a>
+                    <a class="link_name" href="../../pestanas_Encuestador/crear.html" >Crear reactivos</a>
                 </ul>
             </li>
 
+            <li>
+                <a id="pruebaApli" href="/pestanas_Encuestado/Aplicador.html" onclick="redireccionarConUserId()">
+                    <i class='bx bx-book-add'></i>
+                    <span class="link_name">Alta Aplicadores</span>
+                </a>
 
+                <ul class="sub-menu blank">
+                    <li><a class="link_name" href="/pestanas_Encuestado/Aplicador.html">Alta Aplicadores</a></li>
+                </ul>
+            </li>
 
             <li>
-                <a href="../../BD/prueva/consultaDatos.php">
+                <a href="/pestanas_Encuestado/asignarE.php">
+                    <i class='bx bxs-user-check'></i>
+                    <span class="link_name">Asignar</span>
+                </a>
+
+                <ul class="sub-menu blank">
+                    <li><a class="link_name" href="/pestanas_Encuestado/asignarE.php">Asignar</a></li>
+                </ul>
+            </li>
+
+            <li>
+                <a href="/BD/prueva/consultaDatos.php">
                     <i class='bx bx-clipboard bx-tada'></i>
                     <span class="link_name">Encuestas aplicadas</span>
                 </a>
                 <ul class="sub-menu blank">
-                    <li><a class="link_name" href="../../BD/prueva/consultaDatos.php">Encuestas aplicadas</a></li>
+                    <li><a class="link_name" href="../BD/prueva/consultaDatos.php">Encuestas aplicadas</a></li>
                 </ul>
             </li>
 
@@ -162,14 +183,14 @@ if (isset($_GET['codigo_busqueda'])) {
             </li>
 
             <!-- <li>
-        <a href="#">
-          <i class="bx bx-cog"></i>
-          <span class="link_name">Configuración</span>
-        </a>
-        <ul class="sub-menu blank">
-          <li><a class="link_name" href="#">Configuración</a></li>
-        </ul>
-      </li> -->
+          <a href="#">
+            <i class="bx bx-cog"></i>
+            <span class="link_name">Configuración</span>
+          </a>
+          <ul class="sub-menu blank">
+            <li><a class="link_name" href="#">Configuración</a></li>
+          </ul>
+        </li> -->
 
 
             <li>
@@ -199,7 +220,7 @@ if (isset($_GET['codigo_busqueda'])) {
     <section class="home-section">
         <div class="home-content">
             <i class="bx bx-menu"></i>
-            <span class="text">Encuestas aplicadas</span>
+            <span class="text">Dashboard</span>
         </div>
         <!-- Fin Dashboard -->
 
@@ -235,6 +256,7 @@ if (isset($_GET['codigo_busqueda'])) {
                             <tr>
                                 <th>Código</th>
                                 <th>Nombre del encuestado</th>
+                                <th>Aplicador</th>
                                 <th>Localidad</th>
                                 <th>Tipo de Encuesta</th>
                                 <th>Visualización</th>
@@ -243,18 +265,19 @@ if (isset($_GET['codigo_busqueda'])) {
                         </thead>
                         <tbody>
                             <?php
-                            $sqlCodigos = "SELECT codigo, nombre, localidad FROM vista_inseAlimen  GROUP BY codigo HAVING COUNT(*) > 1";
+                            $sqlCodigos = "SELECT codigo, nombre, localidad, aplicador FROM vista_inseAlimentaria  GROUP BY codigo HAVING COUNT(*) > 1";
                             $queryCodigos = mysqli_query($con, $sqlCodigos);
 
-                            $sqlCodigoss = "SELECT codigo, nombre, localidad FROM vista_enMiel GROUP BY codigo HAVING COUNT(*) > 1";
+                            $sqlCodigoss = "SELECT codigo, nombre, localidad, aplicador FROM vista_enMieles GROUP BY codigo HAVING COUNT(*) > 1";
                             $queryCodigoss = mysqli_query($con, $sqlCodigoss);
 
-                            $sqlCodigosss = "SELECT codigo, nombre, localidad FROM vista_enTextil GROUP BY codigo HAVING COUNT(*) > 1";
+                            $sqlCodigosss = "SELECT codigo, nombre, localidad, aplicador FROM vista_enTextiles GROUP BY codigo HAVING COUNT(*) > 1";
                             $queryCodigosss = mysqli_query($con, $sqlCodigosss);
 
                             while ($row = mysqli_fetch_assoc($queryCodigos)) {
                                 echo '<td>' . $row['codigo'] . '</td>
                                         <td>' . $row['nombre'] . '</td>
+                                        <td>' . $row['aplicador'] . '</td>
                                         <td>' . $row['localidad'] . '</td>
                                         <td>Encuesta Pública de Inseguridad alimantaria</td>
                                         <td>
@@ -276,6 +299,7 @@ if (isset($_GET['codigo_busqueda'])) {
                             while ($row = mysqli_fetch_assoc($queryCodigoss)) {
                                 echo '<td>' . $row['codigo'] . '</td>
                                         <td>' . $row['nombre'] . '</td>
+                                        <td>' . $row['aplicador'] . '</td>
                                         <td>' . $row['localidad'] . '</td>
                                         <td>Encuesta Pública de Miel</td>
                                         <td>
@@ -297,6 +321,7 @@ if (isset($_GET['codigo_busqueda'])) {
                             while ($row = mysqli_fetch_assoc($queryCodigosss)) {
                                 echo '<td>' . $row['codigo'] . '</td>
                                         <td>' . $row['nombre'] . '</td>
+                                        <td>' . $row['aplicador'] . '</td>
                                         <td>' . $row['localidad'] . '</td>
                                         <td>Encuesta Pública de Textil</td>
                                         <td>
@@ -330,6 +355,13 @@ if (isset($_GET['codigo_busqueda'])) {
                                 <tr>
                                     <th>Nombre del encuestado</th>
                                     <td rowspan="<?php echo count($resultados); ?>"><?php echo $resultados[0]['nombre']; ?></td>
+                                </tr>
+                            </thead>
+
+                            <thead>
+                                <tr>
+                                    <th>Nombre del Aplicador</th>
+                                    <td rowspan="<?php echo count($resultados); ?>"><?php echo $resultados[0]['aplicador']; ?></td>
                                 </tr>
                             </thead>
 

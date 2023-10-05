@@ -30,6 +30,7 @@
       <span class="logo_name">Janal Kaaj</span>
     </div>
 
+
     <ul class="nav-links">
       <li>
         <a href="/pestanas_Encuestador/dashboard.html">
@@ -38,13 +39,14 @@
         </a>
 
         <ul class="sub-menu blank">
-          <li><a href="/pestanas_Encuestador/dashboard.html">Dashboard</a></li>
+          <li><a href="" id="mostrarSeccion1">Dashboard</a></li>
         </ul>
       </li>
 
+
       <li>
         <a href="/login.html">
-          <i class="bx bx-home-alt"></i>
+          <i class='bx bx-home-alt'></i>
           <span class="link_name">Login</span>
         </a>
 
@@ -53,11 +55,12 @@
         </ul>
       </li>
 
+
+
       <li>
         <div class="iocn-link">
-          <a href="#" onclick="showAlert('variables')">
-            <!-- Llamamos a showAlert con el argumento 'variables' -->
-            <i class="bx bx-file-blank"></i>
+          <a href="#" onclick="showAlert('variables')"> <!-- Llamamos a showAlert con el argumento 'variables' -->
+            <i class='bx bx-file-blank'></i>
             <span class="link_name">Crear variables</span>
           </a>
           <ul class="sub-menu blank">
@@ -68,9 +71,8 @@
 
       <li>
         <div class="iocn-link">
-          <a href="#" onclick="showAlert('reactivos')">
-            <!-- Llamamos a showAlert con el argumento 'reactivos' -->
-            <i class="bx bx-file-blank"></i>
+          <a href="#" onclick="showAlert('reactivos')"> <!-- Llamamos a showAlert con el argumento 'reactivos' -->
+            <i class='bx bx-file-blank'></i>
             <span class="link_name">Crear reactivos</span>
           </a>
         </div>
@@ -80,12 +82,34 @@
       </li>
 
       <li>
-        <a href="/pestanas_Encuestador/encuestaAplicadas.html">
+        <a id="pruebaApli" href="/pestanas_Encuestado/Aplicador.html" onclick="redireccionarConUserId()">
+          <i class='bx bx-book-add'></i>
+          <span class="link_name">Alta Aplicadores</span>
+        </a>
+
+        <ul class="sub-menu blank">
+          <li><a class="link_name" href="/pestanas_Encuestado/Aplicador.html">Alta Aplicadores</a></li>
+        </ul>
+      </li>
+
+      <li>
+        <a href="/pestanas_Encuestado/asignarE.php">
+          <i class='bx bxs-user-check'></i>
+          <span class="link_name">Asignar</span>
+        </a>
+
+        <ul class="sub-menu blank">
+          <li><a class="link_name" href="/pestanas_Encuestado/asignarE.php">Asignar</a></li>
+        </ul>
+      </li>
+
+      <li>
+        <a href="/BD/prueva/consultaDatos.php">
           <i class='bx bx-clipboard bx-tada'></i>
           <span class="link_name">Encuestas aplicadas</span>
         </a>
         <ul class="sub-menu blank">
-          <li><a class="link_name" href="/pestanas_Encuestador/encuestaAplicadas.html">Encuestas aplicadas</a></li>
+          <li><a class="link_name" href="../BD/prueva/consultaDatos.php">Encuestas aplicadas</a></li>
         </ul>
       </li>
 
@@ -99,6 +123,7 @@
         </ul>
       </li>
 
+
       <li>
         <a href="#">
           <i class="bx bx-line-chart"></i>
@@ -110,24 +135,23 @@
       </li>
 
       <!-- <li>
-        <a href="#">
-          <i class="bx bx-cog"></i>
-          <span class="link_name">Configuración</span>
-        </a>
-        <ul class="sub-menu blank">
-          <li><a class="link_name" href="#">Configuración</a></li>
-        </ul>
-      </li> -->
+          <a href="#">
+            <i class="bx bx-cog"></i>
+            <span class="link_name">Configuración</span>
+          </a>
+          <ul class="sub-menu blank">
+            <li><a class="link_name" href="#">Configuración</a></li>
+          </ul>
+        </li> -->
+
 
       <li>
         <a href="perfil_Encuestador.html">
-          <i class="bx bx-user"></i>
+          <i class='bx bx-user'></i>
           <span class="link_name">Perfil</span>
         </a>
         <ul class="sub-menu blank">
-          <li>
-            <a class="link_name" href="perfil_Encuestador.html">Perfil</a>
-          </li>
+          <li><a class="link_name" href="perfil_Encuestador.html">Perfil</a></li>
         </ul>
       </li>
 
@@ -138,9 +162,8 @@
           <span class="link_name">Cerrar Sesión</span>
         </a>
         <ul class="sub-menu blank">
-          <li>
-            <a class="link_name" href="#" onclick="confirmarCerrarSesion()">Cerrar Sesión</a>
-          </li>
+          <li><a class="link_name" href="#" onclick="confirmarCerrarSesion()">Cerrar Sesión</a></li>
+
         </ul>
       </li>
     </ul>
@@ -149,7 +172,7 @@
   <section class="home-section">
     <div class="home-content">
       <i class="bx bx-menu"></i>
-      <span class="text">Crear encuesta</span>
+      <span class="text">Dashboard</span>
     </div>
     <!-- Fin Dashboard -->
 
@@ -226,7 +249,7 @@
           <div class="bg-text-black text-center p-3 text-uppercase text-black">
             <h5>Lista de variables que tienes agregadas o creadas</h5>
           </div>
-       
+
           <div id="variablesTable2"></div>
           <div id="resultadoDiv"></div>
           <div class="bg-text-black text-center p-3 text-black">
@@ -240,8 +263,8 @@
             <div class="d-flex flex-column flex-sm-row justify-content-center align-items-center">
 
               <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza mb-2 me-2 w-100"
-                onclick="crearFinalVariables(),crearEncuestaFinalVariables()" name="boton-crear-encuestaVar" id="boton-crear-encuestaVar"
-                type="submit" disabled> Crear encuesta</button>
+                onclick="crearFinalVariables(),crearEncuestaFinalVariables()" name="boton-crear-encuestaVar"
+                id="boton-crear-encuestaVar" type="submit" disabled> Crear encuesta</button>
 
               <button type="button" class="btn btn-outline-success bg-border-mostaza bg-text-mostaza mb-2 me-2 w-100"
                 onclick="window.location.href='../pestanas_Encuestador/dashboard.html'"
@@ -288,16 +311,16 @@
                 "Error en la solicitud AJAX para obtener información del usuario."
               );
             }
-        }
-    };
-            xhr.send();
-        }
-     recuperarV2();
+          }
+        };
+        xhr.send();
+      }
+      recuperarV2();
     });
   </script>
 
-<script>
-  function construirTabla(datosSeleccionados) {
+  <script>
+    function construirTabla(datosSeleccionados) {
       const resultadoDiv = document.getElementById("resultadoDiv");
       const table = document.createElement("table");
 
@@ -319,30 +342,30 @@
 
       // Agregar filas de datos
       datosSeleccionados.forEach((variable) => {
-          const row = document.createElement("tr");
-          const cellSeleccionar = document.createElement("td");
-          const cellDescripcion = document.createElement("td");
+        const row = document.createElement("tr");
+        const cellSeleccionar = document.createElement("td");
+        const cellDescripcion = document.createElement("td");
 
-          cellSeleccionar.innerHTML = `<input type="checkbox" name="variablesIds[]" value="${variable.id_variable}")">`; // Puedes personalizar este texto según tu necesidad
-          cellDescripcion.textContent = variable.nombre;
+        cellSeleccionar.innerHTML = `<input type="checkbox" name="variablesIds[]" value="${variable.id_variable}")">`; // Puedes personalizar este texto según tu necesidad
+        cellDescripcion.textContent = variable.nombre;
 
-          row.appendChild(cellSeleccionar);
-          row.appendChild(cellDescripcion);
-          tbody.appendChild(row);
+        row.appendChild(cellSeleccionar);
+        row.appendChild(cellDescripcion);
+        tbody.appendChild(row);
       });
 
       table.appendChild(tbody);
 
       resultadoDiv.appendChild(table);
-  }
+    }
 
-  const queryParams = new URLSearchParams(window.location.search);
-  const datosSeleccionados = JSON.parse(decodeURIComponent(queryParams.get("data")));
+    const queryParams = new URLSearchParams(window.location.search);
+    const datosSeleccionados = JSON.parse(decodeURIComponent(queryParams.get("data")));
 
-  // Recupera los datos de la URL y construye la tabla
-  construirTabla(datosSeleccionados);
+    // Recupera los datos de la URL y construye la tabla
+    construirTabla(datosSeleccionados);
 
-</script>
+  </script>
 
 
   <script>

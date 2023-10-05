@@ -61,6 +61,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     echo "Error al crear variable.";
 }
 
+
 // if ($_SERVER["REQUEST_METHOD"] == "POST") {
 //     $Nobre_Var = $_POST["Nobre_Var"];
 //     $Siglas = $_POST["Siglas"];
