@@ -215,17 +215,99 @@ $userId = $_GET['userId']; // Obtener el ID de usuario de la URL
         </div>
     </div>
       </form>
-      <table>
-        <thead>
-          <tr>
-            <td>Código de la encuesta aplicada</td>
-            <td>Código convertido</td>
-            <td>Localidad</td>
-            <td>Clasificación de seguridad</td>
-          </tr>
-        </thead>
-        <tbody>
+      
           <?php
+
+          if (!empty($localidadSeleccionada)) {
+            $sqlCodigos2 = "SELECT codigo, 
+                SUM(CASE 
+                    WHEN respuesta = 'NO' THEN 0
+                    WHEN respuesta = 'SI' THEN 1
+                    ELSE NULL
+                END) AS totalRespuestas 
+                FROM nueva_vista
+                WHERE localidad = '$localidadSeleccionada'
+                AND clasi_respuesta = 'Adulto'
+                -- AND id_autenticacion_encuestador = '$userId'
+                GROUP BY codigo";
+                echo '<h2 class="py-4">Hogares integrados solamente por personas adultas</h2>';
+                echo '<table class="table table-bordered table-striped table-hover">';
+                    
+                // Encabezado de la tabla con fondo oscuro
+                echo '<thead class="thead-dark">';
+                echo '<tr>';
+                echo '<th>Código</th>';
+                echo '<th>Total Respuestas</th>';
+                echo '<th>Localidad</th>';
+                echo '<th>Clasificación</th>';
+                echo '</tr>';
+                echo '</thead>';
+
+                // Comienza el cuerpo de la tabla
+                echo '<tbody>';
+            $queryCodigos2 = mysqli_query($con, $sqlCodigos2);
+
+
+            $seguridadCount2 = 0;
+            $inseguridadLeveCount2 = 0;
+            $inseguridadModeradaCount2 = 0;
+            $inseguridadSeveraCount2 = 0;
+
+            while ($codigo2 = mysqli_fetch_assoc($queryCodigos2)) {
+              $totalRespuestas2 = $codigo2['totalRespuestas'];
+              $clasificacion2 = '';
+
+              if ($totalRespuestas2 == 0) {
+                $clasificacion2 = 'Seguridad';
+                $seguridadCount2++;
+              } elseif ($totalRespuestas2 >= 1 && $totalRespuestas2 <= 3) {
+                $clasificacion2 = 'Inseguridad Leve';
+                $inseguridadLeveCount2++;
+              } elseif ($totalRespuestas2 >= 4 && $totalRespuestas2 <= 6) {
+                $clasificacion2 = 'Inseguridad Moderada';
+                $inseguridadModeradaCount2++;
+              } elseif ($totalRespuestas2 >= 7 && $totalRespuestas2 <= 9) {
+                $clasificacion2 = 'Inseguridad Severa';
+                $inseguridadSeveraCount2++;
+              }
+
+              echo '<tr>';
+              echo '<td>' . $codigo2['codigo'] . '</td>';
+              echo '<td>' . $totalRespuestas2 . '</td>';
+              echo '<td>' . $localidadSeleccionada . '</td>';
+              echo '<td>' . $clasificacion2 . '</td>';
+              echo '</tr>';
+            }
+            echo '</tbody>'; // Finaliza el cuerpo de la tabla
+    echo '</table>'; // Finaliza la tabla
+
+            $total2 = $seguridadCount2 + $inseguridadLeveCount2 + $inseguridadModeradaCount2 + $inseguridadSeveraCount2;
+
+            if ($total2 == 0) {
+              echo "No hay datos disponibles.";
+            } else {
+              $seguridadP2 = ($seguridadCount2 / $total2) * 100;
+              $inseguridadLeveP2 = ($inseguridadLeveCount2 / $total2) * 100;
+              $inseguridadModeradaP2 = ($inseguridadModeradaCount2 / $total2) * 100;
+              $inseguridadSeveraP2 = ($inseguridadSeveraCount2 / $total2) * 100;
+
+              // Aquí puedes continuar con el código para usar las variables $seguridadP, $inseguridadLeveP, etc.
+            }
+          }
+
+          ?>
+        
+
+</body>
+
+</html>
+
+<h4 class="py-4">Gráfico de área - Total de respuestas</h4>
+<canvas id="graficaAdulto" width="100%" height="30%"></canvas>
+<h4 class="py-4">Gráfico tipo dona - % respecto al total de respuestas</h4>
+<canvas id="pastelAdulto" width="100%" height="30%"></canvas>
+
+<?php
 
           if (!empty($localidadSeleccionada)) {
             $sqlCodigos = "SELECT codigo, 
@@ -234,11 +316,25 @@ $userId = $_GET['userId']; // Obtener el ID de usuario de la URL
                     WHEN respuesta = 'SI' THEN 1
                     ELSE NULL
                 END) AS totalRespuestas 
-                FROM vista_ELCSA_apli
+                FROM nueva_vista
                 WHERE localidad = '$localidadSeleccionada'
-                AND id_autenticacion_encuestador = '$userId'
+                -- AND id_autenticacion_encuestador = '$userId'
                 GROUP BY codigo";
+                echo '<h2 class="py-4">Hogares integrados por personas adultas y menores de 18 años</h2>';
+                echo '<table class="table table-bordered table-striped table-hover">';
+                    
+                // Encabezado de la tabla con fondo oscuro
+                echo '<thead class="thead-dark">';
+                echo '<tr>';
+                echo '<th>Código</th>';
+                echo '<th>Total Respuestas</th>';
+                echo '<th>Localidad</th>';
+                echo '<th>Clasificación</th>';
+                echo '</tr>';
+                echo '</thead>';
 
+                // Comienza el cuerpo de la tabla
+                echo '<tbody>';
             $queryCodigos = mysqli_query($con, $sqlCodigos);
 
 
@@ -272,6 +368,8 @@ $userId = $_GET['userId']; // Obtener el ID de usuario de la URL
               echo '<td>' . $clasificacion . '</td>';
               echo '</tr>';
             }
+            echo '</tbody>'; // Finaliza el cuerpo de la tabla
+    echo '</table>'; // Finaliza la tabla
 
             $total = $seguridadCount + $inseguridadLeveCount + $inseguridadModeradaCount + $inseguridadSeveraCount;
 
@@ -288,16 +386,11 @@ $userId = $_GET['userId']; // Obtener el ID de usuario de la URL
           }
 
           ?>
-        </tbody>
-      </table>
-
-</body>
-
-</html>
-<h2 class="py-4">Gráfico de área - Total de respuestas</h2>
+<h4 class="py-4">Gráfico de área - Total de respuestas</h4>
 <canvas id="grafica" width="100%" height="30%"></canvas>
-<h2 class="py-4">Gráfico tipo dona - % respecto al total de respuestas</h2>
+<h4 class="py-4">Gráfico tipo dona - % respecto al total de respuestas</h4>
 <canvas id="pastel" width="100%" height="30%"></canvas>
+
 </div>
 </section>
 <script>
@@ -399,15 +492,6 @@ $userId = $_GET['userId']; // Obtener el ID de usuario de la URL
   },
 });
 
-// Agregar un título personalizado al eje Y
-// const ctx = $grafica.getContext('2d');
-// ctx.font = '18px Arial';
-// ctx.fillStyle = 'rgb(255, 99, 132)';
-// ctx.fillText('Leyenda en el Eje Y', 30, $grafica.height / 2); // Ajusta las coordenadas y el texto según tus necesidades
-
-
-
-
   const $grafica2 = document.querySelector("#pastel");
   const etiquetas2 = ["Seguridad", "Inseguridad Leve", "Inseguridad Moderada", "Inseguridad Severa"];
 
@@ -433,13 +517,110 @@ $userId = $_GET['userId']; // Obtener el ID de usuario de la URL
       }],
     },
     options: {
-      // tooltips: {
-      //   callbacks: {
-      //     label: function(tooltipItem, data) {
-      //       return data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index] + '%';
-      //     },
-      //   },
-      // },
+      animation: {
+        animateRotate: true, // Habilitar animación de rotación
+        animateScale: true, // Habilitar animación de escala
+      },
+      tooltips: {
+        callbacks: {
+          label: function(tooltipItem, data) {
+            const label = data.labels[tooltipItem.index];
+            const valor = data.datasets[0].data[tooltipItem.index];
+            return `${label}: ${valor.toFixed(2)}%`;
+          },
+        },
+      },
+      legend: {
+      display: true,
+      position: 'right', // Coloca la leyenda en la parte derecha
+      labels: {
+        boxWidth: 20, // Ancho de la caja de color
+        padding: 10, // Espacio entre las cajas de color y el texto
+        fontStyle: 'bold', // Estilo de fuente
+      },
+    },
+    },
+
+  });
+
+  //_____________________________________________________________________________
+
+  const $graficaA = document.querySelector("#graficaAdulto");
+  const etiquetasA = ["Seguridad", "Inseguridad Leve", "Inseguridad Moderada", "Inseguridad Severa"];
+
+  // Utiliza la variable totalRespuestas en tus datos
+  const datosClasificacionA = {
+    label: "Clasificación de inseguridad alimentaria",
+    data: [<?php echo $seguridadCount2; ?>, <?php echo $inseguridadLeveCount2; ?>, <?php echo  $inseguridadModeradaCount2; ?>, <?php echo $inseguridadSeveraCount2; ?>],
+    backgroundColor: 'rgba(24, 255, 190, 0.23)', // Color de fondo
+    borderColor: 'rgba(58, 222, 176, 0.76)', // Color del borde
+
+  };
+
+
+  new Chart($graficaA, {
+  type: 'line',
+  data: {
+    labels: etiquetasA,
+    datasets: [
+      datosClasificacionA,
+    ]
+  },
+  options: {
+    scales: {
+      y: {
+        min: 0,
+        beginAtZero: true,
+        ticks: {
+          color: 'rgb(255, 99, 132)',
+        },
+      },
+      x: {
+        ticks: {
+          color: 'rgb(255, 99, 132)',
+        },
+      },
+    },
+    plugins: {
+      legend: {
+        display: true,
+        position: 'left',
+        labels: {
+          color: 'rgb(255, 99, 132)',
+          font: {
+            size: 16,
+          },
+        },
+      },
+    },
+  },
+});
+
+  const $graficaA2 = document.querySelector("#pastelAdulto");
+  const etiquetasA2 = ["Seguridad", "Inseguridad Leve", "Inseguridad Moderada", "Inseguridad Severa"];
+
+  const coloresPersonalizadosA = [
+    'rgba(59, 228, 159, 0.8)',
+    'rgba(255, 212, 76, 0.8)',
+    'rgba(255, 159, 49, 0.8)',
+    'rgba(215, 63, 9, 0.8)'
+  ];
+
+  new Chart($graficaA2, {
+    type: 'doughnut',
+    data: {
+      labels: etiquetasA2,
+      datasets: [{
+        data: [
+          <?php echo $seguridadP2; ?>,
+          <?php echo $inseguridadLeveP2; ?>,
+          <?php echo $inseguridadModeradaP2; ?>,
+          <?php echo $inseguridadSeveraP2; ?>
+        ],
+        backgroundColor: coloresPersonalizadosA,
+      }],
+    },
+    options: {
       animation: {
         animateRotate: true, // Habilitar animación de rotación
         animateScale: true, // Habilitar animación de escala
