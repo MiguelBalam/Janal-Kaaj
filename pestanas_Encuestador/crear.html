@@ -375,7 +375,7 @@
             const cellSeleccionar = document.createElement("td");
             const cellDescripcion = document.createElement("td");
   
-            cellSeleccionar.innerHTML = `<input type="checkbox" name="reactivoIds[]" value="${reactivo.id_reactivoC}")">`; // Puedes personalizar este texto según tu necesidad
+            cellSeleccionar.innerHTML = `<input type="checkbox" name="reactivoIds[]" value="${reactivo.id_reactivoC}")">`; 
             cellDescripcion.textContent = reactivo.descripcion;
   
             row.appendChild(cellSeleccionar);
@@ -393,7 +393,6 @@
   
     // Recupera los datos de la URL y construye la tabla
     construirTabla(datosSeleccionados);
- 
   </script>
     <script>
         window.onload = function () {

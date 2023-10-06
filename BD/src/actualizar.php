@@ -28,16 +28,18 @@ foreach ($updatesEncuestado as $updateEncuestado) {
     $encuestadoData = $updateEncuestado['encuestadoData'];
 
     // Insertar encuestado en la tabla encuestado_respuesta
-    $insertQuery = 'INSERT INTO encuestado_respuesta (nombre, localidad, genero, edad, codigo, id_encuesta,Aplicador) VALUES (?, ?, ?, ?, ?, ?,?)';
+    $insertQuery = 'INSERT INTO encuestado_respuesta (nombre, localidad, genero, edad, codigo, id_encuesta, longitud,latitud, Aplicador) VALUES (?, ?, ?, ?, ?, ?,?,?,?)';
     $stmt = $mysqli->prepare($insertQuery);
     $stmt->bind_param(
-        'sssssss',
+        'sssssssss',
         $encuestadoData['nombre'],
         $encuestadoData['localidad'],
         $encuestadoData['genero'],
         $encuestadoData['edad'],
         $encuestadoData['codigo'],
         $id_encuesta,
+        $encuestadoData['longitud'],
+        $encuestadoData['latitud'],
         $encuestadoData['Aplicador'],
     );
 

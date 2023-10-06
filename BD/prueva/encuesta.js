@@ -56,6 +56,8 @@ function GuardarRes() {
     let formFormatoGS = $('#formFormatoGS').serialize();
     let spanCodigo = document.querySelector('#codigo').textContent;
     let codigo = Number(spanCodigo);
+    let longitud = $('#longitud').val();
+    let latitud = $('#latitud').val();
     let nombre = $('#nombre').val();
     let localidad = $('#localidad').val();
     let sexo = $('#generoMasculino').is(':checked') ? 'Masculino' : 'Femenino';
@@ -71,14 +73,14 @@ function GuardarRes() {
     $.ajax({
         url: 'GuardarRes.php',
         type: 'POST',
-        data: formFormatoGS + '&codigo=' + codigo + '&nombre=' + nombre +
+        data: formFormatoGS + '&codigo=' + codigo + '&latitud=' + latitud  + '&longitud=' + longitud + '&nombre=' + nombre +
             '&localidad=' + localidad + '&sexo=' + sexo + '&edad=' + edad +
             '&inputValue=' + JSON.stringify(inputValue) + '&idEncuesta=' + idEncuesta + '&userCorreo=' + Aplicador,
         dataType: 'json',
         success: function (data) {
             console.log(data);
             if (data.respuesta) {
-                alert('Felicitaciones, encuesta llenada correctamente.');
+                alert(data);
                 location.href = "/pestanas_Encuestador/dashboard.html";
             }
         }
@@ -114,6 +116,8 @@ function GuardarResVariable() {
     let localidad = $('#localidad').val();
     let sexo = $('#generoMasculino').is(':checked') ? 'Masculino' : 'Femenino';
     let edad = $('#edad').val();
+    let longitud = $('#longitud').val();
+    let latitud = $('#latitud').val();
     let Aplicador = localStorage.getItem('user_correo')
     let responses = {}; // Crear un objeto para almacenar las respuestas
     $('[name^="respuesta["]').each(function() {
@@ -149,7 +153,7 @@ function GuardarResVariable() {
     $.ajax({
         url: 'GuardarResVariable.php',
         type: 'POST',
-        data: formFormato + '&codigo=' + codigo + '&nombre=' + nombre +
+        data: formFormato + '&codigo=' + codigo + '&latitud=' + latitud  + '&longitud=' + longitud + '&nombre=' + nombre +
         '&localidad=' + localidad + '&sexo=' + sexo + '&edad=' + edad + '&userCorreo=' + Aplicador +'&idEncuesta=' + idEncuesta  +'&responses=' + JSON.stringify(responses) ,
         dataType: 'json',
         success: function (data) {
@@ -504,7 +508,9 @@ function crearEncuestaFinal2() {
     const titulo = form.Titulo.value;
     const objetivo = form.objetivo.value;
     const instrucciones = form.Intruccion.value;
-    const reactivosSeleccionados = form.querySelectorAll('input[name="reactivoIds[]"]:checked');
+    const reactivosSeleccionados = [];
+    const checkboxInputs = form.querySelectorAll('input[name="reactivoIds[]"]:checked');
+   // const reactivosSeleccionados = form.querySelectorAll('input[name="reactivoIds[]"]:checked');
 
     // Realizar una solicitud AJAX para insertar la encuesta en la tabla 'encuestas'
     var xhr = new XMLHttpRequest();
@@ -517,9 +523,9 @@ function crearEncuestaFinal2() {
             const id_encuesta = parseInt(xhr.responseText);
 
             // Insertar los reactivos seleccionados en la tabla 'encuesta_FinalReactivos'
-            reactivosSeleccionados.forEach((reactivo) => {
-                const id_reactivo = parseInt(reactivo.value);
-
+            checkboxInputs.forEach((checkbox) => {
+              //  const id_reactivo = parseInt(reactivo.value);
+              const id_reactivo = checkbox.value
                 // Realizar otra solicitud AJAX para insertar la asociación en 'encuesta_FinalReactivos'
                 var xhr2 = new XMLHttpRequest();
                 xhr2.open("POST", "/BD/prueva/EfinalR.php", true);
@@ -532,6 +538,7 @@ function crearEncuestaFinal2() {
                 };
 
                 xhr2.send(`id_encuesta=${id_encuesta}&id_reactivo=${id_reactivo}&id_usuario=${id_usuario}`);
+                reactivosSeleccionados.push(id_reactivo);
             });
 
             console.log("Encuesta creada con ID: " + id_encuesta);
@@ -539,7 +546,8 @@ function crearEncuestaFinal2() {
     };
 
     xhr.send(`id_usuario=${id_usuario}&titulo=${titulo}&objetivo=${objetivo}&instrucciones=${instrucciones}`);
-    alert('ENCUESTA CREADA')
+
+    window.location.href='/pestanas_Encuestador/dashboard.html'
 }
 
 
@@ -596,7 +604,7 @@ function aplicarEncuesta(id_encuesta) {
         }
 
         // Agregar el ID de la encuesta y el ID de usuario a la URL y redirigir
-        window.location.href ='&id_usuario=' + idUsuario+ baseUrl + '?id_encuesta=' + id_encuesta ;
+        window.location.href = baseUrl += '?id_encuesta=' + id_encuesta;
     }
 }
 

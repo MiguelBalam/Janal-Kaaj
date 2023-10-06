@@ -24,6 +24,8 @@ if ($con->connect_error) {
 // $resultadoInsertEncuestado = mysqli_query($con, $insertEncuestado);
 
 // Datos del encuestado
+$latitud = mysqli_real_escape_string($con, $_POST['latitud']);
+$longitud = mysqli_real_escape_string($con, $_POST['longitud']);
 $nombre = mysqli_real_escape_string($con, $_POST['nombre']);
 $localidad = mysqli_real_escape_string($con, $_POST['localidad']);
 $genero = mysqli_real_escape_string($con, $_POST['sexo']); // Puedes ajustar esto según cómo manejes los checkboxes de género
@@ -33,8 +35,8 @@ $Aplicador=$_POST['userCorreo'];
 $idEncuesta = mysqli_real_escape_string($con, $_POST['idEncuesta']);
 
 // Insertar datos del encuestado en la tabla 'datos_encuestado'
-$insertDatosEncuestado = "INSERT INTO encuestado_respuesta(nombre, localidad, genero, edad, codigo, id_encuesta, Aplicador)
-                          VALUES ('$nombre', '$localidad', '$genero', '$edad', '$codigo',$idEncuesta,'$Aplicador')";
+$insertDatosEncuestado = "INSERT INTO encuestado_respuesta(nombre, localidad, genero, edad, codigo, id_encuesta, latitud, longitud, Aplicador)
+                          VALUES ('$nombre', '$localidad', '$genero', '$edad', '$codigo',$idEncuesta,'$latitud', '$longitud','$Aplicador')";
 
 $resultadoInsertDatos = mysqli_query($con, $insertDatosEncuestado);
 $responses = $_POST['respuesta'];
