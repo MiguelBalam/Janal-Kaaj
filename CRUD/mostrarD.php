@@ -13,29 +13,31 @@ if ($con->connect_error) {
     die("Conexión fallida: " . $con->connect_error);
 }
 
-if (isset($_POST['id_encuesta']) && isset($_POST['id_encuesta']) != "") {
-    // Obtener id_encuesta
-    $id_encuesta = $_POST['id_encuesta'];
+if (isset($_GET['id'])) {
+    // Obtener id_encuesta de la URL
+    $id_encuesta = $_GET['id'];
 
-    // Obtener detalles de la encuesta
-    $query = "SELECT * FROM encuestas WHERE id_encuesta = '$id_encuesta'" ;
+    // Obtener detalles de la encuesta (solo título, objetivo e instrucciones)
+    $query = "SELECT titulo, objetivo, instrucciones FROM encuestas WHERE id_encuesta = '$id_encuesta'";
     if (!$result = mysqli_query($con, $query)) {
         exit(mysqli_error($con));
     }
     $response = array();
     if (mysqli_num_rows($result) > 0) {
-        while ($row = mysqli_fetch_assoc($result)) {
-            $response = $row;
-        }
-    }
-    else {
+        $row = mysqli_fetch_assoc($result);
+        $response = $row;
+    } else {
         $response['status'] = 200;
         $response['message'] = "Información no encontrada!";
     }
-    // display JSON data
-    echo json_encode($response) ;
-}
-else {
+    // Mostrar los datos en formato JSON
+    header('Content-Type: application/json');
+    echo json_encode($response);
+} else {
     $response['status'] = 200;
     $response['message'] = "Consulta Invalida!";
+    // Mostrar los datos en formato JSON
+    header('Content-Type: application/json');
+    echo json_encode($response);
 }
+?>

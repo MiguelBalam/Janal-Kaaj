@@ -104,7 +104,35 @@ echo $code;
                 
             </tbody>
         </table>
+        <script>
+            if ("geolocation" in navigator) {
+  navigator.geolocation.getCurrentPosition(function(position) {
+    var lat = position.coords.latitude;
+    var lon = position.coords.longitude;
+    var ubicacion = lat + ',' + lon;
+    // Poner los valores en los inputs
+    document.getElementById('latitud').value = lat;
+   document.getElementById('longitud').value = lon;
+
+    // Haz algo con las coordenadas (lat y lon) aquí
+  });
+} else {
+  console.log("Geolocalización no es compatible en este dispositivo.");
+}
+
+        </script>
         <div class="col-sm-6 p-3">
+        <div class="row mb-3">
+ <label for="latitud">Latitud:</label>
+<div class="col-sm-8">
+<input type="text" class="form-control" name="latitud" id="latitud">
+</div>
+
+<label for="longitud">Longitud:</label>
+<div class="col-sm-8">
+<input type="text" class="form-control" name="longitud" id="longitud">
+</div>
+ </div>
 
 <div class="row mb-3">
 <label for="nombrecompletos" class="col-sm-4 col-form-label px-4">Nombre:</label>
@@ -244,10 +272,11 @@ document.addEventListener('DOMContentLoaded', function () {
                  // document.getElementById('Institucion').value = userCorreo;
 });
          </script>
+            <script src="/BD/prueva/encuesta.js"></script>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script>
-    <script src="/BD/prueva/encuesta.js"></script>
+ 
 </body>
 </html>

@@ -279,6 +279,15 @@ function mostrarEncuestasApli(aplicador) {
 <div class="col-sm-6 p-3">
 
 <div class="row mb-3">
+<label for="latitud">Latitud:</label>
+<div class="col-sm-8">
+<input type="text" class="form-control" name="latitud" id="latitud">
+</div>
+<div class="col-sm-8">
+<label for="longitud">Longitud:</label>
+<input type="text" class="form-control" name="longitud" id="longitud">
+</div>
+</div>
 <label for="nombrecompletos" class="col-sm-4 col-form-label px-4">Nombre:</label>
 <div class="col-sm-8">
 <input type="text" class="form-control" name="nombre" id="nombre">
@@ -381,8 +390,7 @@ if (userCorreo) {
   
     nuevaPestana.document.write(dynamicHtml);
    
-        // Obtener el formulario por su identificador único
-     
+      
    
         // Ahora puedes ejecutar el código de IndexedDB aquí
         var request = indexedDB.open("miBaseDeDatos");
@@ -498,9 +506,12 @@ console.log(nuevaPestana.codigoValue,nuevaPestana.vigenciaValue)
         edad: nuevaPestana.document.getElementById('edad').value,
         codigo: nuevaPestana.codigoValue,
         id_encuesta: id_encuesta,
-        Aplicador: nuevaPestana.userCorreo 
+        Aplicador: nuevaPestana.userCorreo,
+        longitud: nuevaPestana.document.getElementById('longitud').value,
+        latitud: nuevaPestana.document.getElementById('latitud').value
     };
- 
+    
+      
     for (var i = 0; i < respuestas.length; i++) {
         var espuestaData = respuestas[i];
     guardarEnIndexedDB(espuestaData,id_encuesta);
