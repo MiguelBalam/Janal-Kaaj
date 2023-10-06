@@ -29,13 +29,13 @@
 
         <ul class="nav-links">
             <li>
-                <a href="/pestañas_Encuestador/dashboard.html">
+                <a href="/pestanas_Encuestador/dashboard.html">
                     <i class="bx bx-grid-alt"></i>
                     <span class="link_name">Dashboard</span>
                 </a>
 
                 <ul class="sub-menu blank">
-                    <li><a href="" id="mostrarSeccion1">Dashboard</a></li>
+                    <li><a href="/pestanas_Encuestador/dashboard.html" id="mostrarSeccion1">Dashboard</a></li>
                 </ul>
             </li>
 
@@ -55,12 +55,12 @@
 
             <li>
                 <div class="iocn-link">
-                    <a href="#" onclick="showAlert('variables')"> <!-- Llamamos a showAlert con el argumento 'variables' -->
+                    <a href="/pestanas_Encuestador/crear_Evariables.html" > <!-- Llamamos a showAlert con el argumento 'variables' -->
                         <i class='bx bx-file-blank'></i>
                         <span class="link_name">Crear variables</span>
                     </a>
                     <ul class="sub-menu blank">
-                        <a class="link_name" href="#" onclick="showAlert('variables')">Crear variables</a>
+                        <a class="link_name" href="/pestanas_Encuestador/crear_Evariables.html" >Crear variables</a>
                     </ul>
                 </div>
             </li>
@@ -265,7 +265,7 @@
                     </form>
                     <div class="row mb-3">
                         <div class="d-grid gap-2 col-6 mx-auto mt-3">
-                            <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" type="submit" id="boton-enviard" onclick="window.location.href='/pestañas_Encuestador/dashboard.html'">Volver al Dashboard</button>
+                            <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" type="submit" id="boton-enviard" onclick="window.location.href='/pestanas_Encuestador/dashboard.html'">Volver al Dashboard</button>
                         </div>
                     </div>
                 </div>

@@ -18,15 +18,15 @@ if (isset($_GET['codigo_busqueda'])) {
     $codigoBusqueda = $_GET['codigo_busqueda'];
 
     // Consultar en vista_personalizada
-    $sqlBusquedaInse = "SELECT * FROM vista_inseAlimen  WHERE codigo = '$codigoBusqueda'";
+    $sqlBusquedaInse = "SELECT * FROM vista_inseAlimentaria  WHERE codigo = '$codigoBusqueda'";
     $queryBusquedaInse = mysqli_query($con, $sqlBusquedaInse);
 
     // Consultar en vista_encuestaMiel
-    $sqlBusquedaEncuestaMiel = "SELECT * FROM vista_enMiel WHERE codigo = '$codigoBusqueda'";
+    $sqlBusquedaEncuestaMiel = "SELECT * FROM vista_enMieles WHERE codigo = '$codigoBusqueda'";
     $queryBusquedaEncuestaMiel = mysqli_query($con, $sqlBusquedaEncuestaMiel);
 
     // Consultar en vista_encuestaMiel
-    $sqlBusquedaEncuestaTextil = "SELECT * FROM vista_enTextil WHERE codigo = '$codigoBusqueda'";
+    $sqlBusquedaEncuestaTextil = "SELECT * FROM vista_enTextiles WHERE codigo = '$codigoBusqueda'";
     $queryBusquedaEncuestaTextil = mysqli_query($con, $sqlBusquedaEncuestaTextil);
 
     // Verificar en cuál de las vistas se encontró el código
@@ -256,6 +256,7 @@ if (isset($_GET['codigo_busqueda'])) {
                             <tr>
                                 <th>Código</th>
                                 <th>Nombre del encuestado</th>
+                                <th>Aplicador</th>
                                 <th>Localidad</th>
                                 <th>Tipo de Encuesta</th>
                                 <th>Visualización</th>
@@ -264,18 +265,19 @@ if (isset($_GET['codigo_busqueda'])) {
                         </thead>
                         <tbody>
                             <?php
-                            $sqlCodigos = "SELECT codigo, nombre, localidad FROM vista_inseAlimen  GROUP BY codigo HAVING COUNT(*) > 1";
+                            $sqlCodigos = "SELECT codigo, nombre, localidad, aplicador FROM vista_inseAlimentaria  GROUP BY codigo HAVING COUNT(*) > 1";
                             $queryCodigos = mysqli_query($con, $sqlCodigos);
 
-                            $sqlCodigoss = "SELECT codigo, nombre, localidad FROM vista_enMiel GROUP BY codigo HAVING COUNT(*) > 1";
+                            $sqlCodigoss = "SELECT codigo, nombre, localidad, aplicador FROM vista_enMieles GROUP BY codigo HAVING COUNT(*) > 1";
                             $queryCodigoss = mysqli_query($con, $sqlCodigoss);
 
-                            $sqlCodigosss = "SELECT codigo, nombre, localidad FROM vista_enTextil GROUP BY codigo HAVING COUNT(*) > 1";
+                            $sqlCodigosss = "SELECT codigo, nombre, localidad, aplicador FROM vista_enTextiles GROUP BY codigo HAVING COUNT(*) > 1";
                             $queryCodigosss = mysqli_query($con, $sqlCodigosss);
 
                             while ($row = mysqli_fetch_assoc($queryCodigos)) {
                                 echo '<td>' . $row['codigo'] . '</td>
                                         <td>' . $row['nombre'] . '</td>
+                                        <td>' . $row['aplicador'] . '</td>
                                         <td>' . $row['localidad'] . '</td>
                                         <td>Encuesta Pública de Inseguridad alimantaria</td>
                                         <td>
@@ -297,6 +299,7 @@ if (isset($_GET['codigo_busqueda'])) {
                             while ($row = mysqli_fetch_assoc($queryCodigoss)) {
                                 echo '<td>' . $row['codigo'] . '</td>
                                         <td>' . $row['nombre'] . '</td>
+                                        <td>' . $row['aplicador'] . '</td>
                                         <td>' . $row['localidad'] . '</td>
                                         <td>Encuesta Pública de Miel</td>
                                         <td>
@@ -318,6 +321,7 @@ if (isset($_GET['codigo_busqueda'])) {
                             while ($row = mysqli_fetch_assoc($queryCodigosss)) {
                                 echo '<td>' . $row['codigo'] . '</td>
                                         <td>' . $row['nombre'] . '</td>
+                                        <td>' . $row['aplicador'] . '</td>
                                         <td>' . $row['localidad'] . '</td>
                                         <td>Encuesta Pública de Textil</td>
                                         <td>
@@ -351,6 +355,13 @@ if (isset($_GET['codigo_busqueda'])) {
                                 <tr>
                                     <th>Nombre del encuestado</th>
                                     <td rowspan="<?php echo count($resultados); ?>"><?php echo $resultados[0]['nombre']; ?></td>
+                                </tr>
+                            </thead>
+
+                            <thead>
+                                <tr>
+                                    <th>Nombre del Aplicador</th>
+                                    <td rowspan="<?php echo count($resultados); ?>"><?php echo $resultados[0]['aplicador']; ?></td>
                                 </tr>
                             </thead>
 

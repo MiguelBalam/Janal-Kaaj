@@ -112,23 +112,23 @@
       </li>
 
       <li>
-        <a href="#">
+        <a href="#" onclick="redireccionarConUserId2()">
           <i class="bx bx-pie-chart-alt-2"></i>
           <span class="link_name">Análisis</span>
         </a>
         <ul class="sub-menu blank">
-          <li><a class="link_name" href="#">Análisis</a></li>
+          <li><a class="link_name" href="../BD/prueva/graficasELCSA.php">Análisis</a></li>
         </ul>
       </li>
 
 
       <li>
-        <a href="#">
+        <a href="#" onclick="redireccionarConUserId3()">
           <i class="bx bx-line-chart"></i>
           <span class="link_name">Graficas</span>
         </a>
         <ul class="sub-menu blank">
-          <li><a class="link_name" href="#">Graficas</a></li>
+          <li><a class="link_name" href="../BD/prueva/graficasELCSAClasi.php">Graficas</a></li>
         </ul>
       </li>
 
@@ -241,22 +241,34 @@ function redireccionarConUserId() {
         window.location.href = '/pestanas_Encuestado/Aplicador.php';
     }
 }
-
-//para enviar el id a agregar aplicador
-// function redireccionarConUserId() {
-//     var userId = localStorage.getItem('user_id');
+function redireccionarConUserId2() {
+    var userId = localStorage.getItem('user_id');
     
-//     if (userId) {
-//         // Construir la URL con userId
-//         var urlConUserId = `/pestanas_Encuestado/Aplicador.html?userId=${userId}`;
+    if (userId) {
+        // Construir la URL con userId
+        var urlConUserId = `../BD/prueva/graficasELCSA.php?userId=${userId}`;
         
-//         // Redirigir al usuario a la nueva URL
-//         window.location.href = urlConUserId;
-//     } else {
-//         // Si userId no está disponible, simplemente redirigir sin él
-//         window.location.href = '/pestanas_Encuestado/Aplicador.html';
-//     }
-// }
+        // Redirigir al usuario a la nueva URL
+        window.location.href = urlConUserId;
+    } else {
+        // Si userId no está disponible, simplemente redirigir sin él
+        window.location.href = '../BD/prueva/graficasELCSA.php';
+    }
+}
+function redireccionarConUserId3() {
+    var userId = localStorage.getItem('user_id');
+    
+    if (userId) {
+        // Construir la URL con userId
+        var urlConUserId = `../BD/prueva/graficasELCSAClasi.php?userId=${userId}`;
+        
+        // Redirigir al usuario a la nueva URL
+        window.location.href = urlConUserId;
+    } else {
+        // Si userId no está disponible, simplemente redirigir sin él
+        window.location.href = '../BD/prueva/graficasELCSAClasi.php';
+    }
+}
          </script>
 
           <div class="row justify-content-center p-3 ">

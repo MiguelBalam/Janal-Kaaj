@@ -12,6 +12,7 @@ if ($con->connect_error) {
 }
 
 $localidadSeleccionada = isset($_POST['localidad']) ? $_POST['localidad'] : '';
+$userId = $_GET['userId']; // Obtener el ID de usuario de la URL
 ?>
 
 <!DOCTYPE html>
@@ -52,25 +53,25 @@ $localidadSeleccionada = isset($_POST['localidad']) ? $_POST['localidad'] : '';
 
     <ul class="nav-links">
       <li>
-        <a href="/pestañas_Encuestador/dashboard.html">
+        <a href="../../pestañas_Encuestador/dashboard.html">
           <i class="bx bx-grid-alt"></i>
           <span class="link_name">Dashboard</span>
         </a>
 
         <ul class="sub-menu blank">
-          <li><a href="" id="mostrarSeccion1">Dashboard</a></li>
+          <li><a href="../../pestañas_Encuestador/dashboard.html" id="mostrarSeccion1">Dashboard</a></li>
         </ul>
       </li>
 
 
       <li>
-        <a href="/login.html">
+        <a href="../../login.html">
           <i class='bx bx-home-alt'></i>
           <span class="link_name">Login</span>
         </a>
 
         <ul class="sub-menu blank">
-          <li><a class="link_name" href="/login.html">Login</a></li>
+          <li><a class="link_name" href="../../login.html">Login</a></li>
         </ul>
       </li>
 
@@ -101,34 +102,34 @@ $localidadSeleccionada = isset($_POST['localidad']) ? $_POST['localidad'] : '';
       </li>
 
       <li>
-        <a href="/pestanas_Encuestado/Aplicador.html">
+        <a href="../../pestanas_Encuestado/Aplicador.html">
           <i class='bx bx-book-add'></i>
           <span class="link_name">Alta Aplicadores</span>
         </a>
 
         <ul class="sub-menu blank">
-          <li><a class="link_name" href="/pestanas_Encuestado//Aplicador.html">Alta Aplicadores</a></li>
+          <li><a class="link_name" href="../../pestanas_Encuestado//Aplicador.html">Alta Aplicadores</a></li>
         </ul>
       </li>
 
       <li>
-        <a href="/pestanas_Encuestado/asignarE.php">
+        <a href="../../pestanas_Encuestado/asignarE.php">
           <i class='bx bxs-user-check'></i>
           <span class="link_name">Asiganar</span>
         </a>
 
         <ul class="sub-menu blank">
-          <li><a class="link_name" href="/pestanas_Encuestado/asignarE.php">Asiganar</a></li>
+          <li><a class="link_name" href="../../pestanas_Encuestado/asignarE.php">Asiganar</a></li>
         </ul>
       </li>
 
       <li>
-        <a href="../BD/prueva/consultaDatos.php">
+        <a href="/BD/prueva/consultaDatos.php">
           <i class='bx bx-clipboard bx-tada'></i>
           <span class="link_name">Encuestas aplicadas</span>
         </a>
         <ul class="sub-menu blank">
-          <li><a class="link_name" href="../BD/prueva/consultaDatos.php">Encuestas aplicadas</a></li>
+          <li><a class="link_name" href="/BD/prueva/consultaDatos.php">Encuestas aplicadas</a></li>
         </ul>
       </li>
 
@@ -165,12 +166,12 @@ $localidadSeleccionada = isset($_POST['localidad']) ? $_POST['localidad'] : '';
 
 
       <li>
-        <a href="perfil_Encuestador.html">
+        <a href="../../pestanas_Encuestador/perfil_Encuestador.html">
           <i class='bx bx-user'></i>
           <span class="link_name">Perfil</span>
         </a>
         <ul class="sub-menu blank">
-          <li><a class="link_name" href="perfil_Encuestador.html">Perfil</a></li>
+          <li><a class="link_name" href="../../pestanas_Encuestador/perfil_Encuestador.html">Perfil</a></li>
         </ul>
       </li>
 
@@ -196,12 +197,24 @@ $localidadSeleccionada = isset($_POST['localidad']) ? $_POST['localidad'] : '';
     <!-- Fin Dashboard -->
     <div class="container">
       <form method="post">
-        <select id="lugaresPrueba" name="localidad">
-          <option value="Felipe Carrillo Puerto">Felipe Carrillo Puerto</option>
-          <option value="San Jose Segundo">San Jose Segundo</option>
-          <option value="Dzula">Dzula</option>
-        </select>
-        <button type="submit">Seleccionar Localidad</button>
+      <div class="container mt-5">
+        <div class="row">
+        <div class="col-md-2 py-2">
+        <label for="lugaresPrueba" class="form-label">Elige una localidad:</label>
+        </div>
+            <div class="col-md-6">   
+                <select id="lugaresPrueba" name="localidad" class="form-select">
+                    <option value="Felipe Carrillo Puerto">Felipe Carrillo Puerto</option>
+                    <option value="San Jose Segundo">San Jose Segundo</option>
+                    <option value="Dzula">Dzula</option>
+                </select>
+            </div>
+            <div class="col-md-4">
+            <button type="submit" class="btn">Seleccionar Localidad</button>
+            </div>
+        </div>
+    </div>
+        
       </form>
       <table>
         <thead>
@@ -217,16 +230,18 @@ $localidadSeleccionada = isset($_POST['localidad']) ? $_POST['localidad'] : '';
           <?php
 
 
-          if (!empty($localidadSeleccionada)) {
-            $sqlCodigos = "SELECT id_pregunta, descripcion, 
-        SUM(CASE 
-            WHEN respuesta = 'NO' THEN 0
-            WHEN respuesta = 'SI' THEN 1
-            ELSE NULL
-        END) AS totalRespuestas 
-        FROM vista_inseAlimen
-        WHERE id_pregunta >= 17 AND id_pregunta < 33 AND localidad = '$localidadSeleccionada'
-        GROUP BY id_pregunta, descripcion";
+if (!empty($localidadSeleccionada)) {
+  $sqlCodigos = "SELECT id_pregunta, descripcion, 
+      SUM(CASE 
+          WHEN respuesta = 'NO' THEN 0
+          WHEN respuesta = 'SI' THEN 1
+          ELSE NULL
+      END) AS totalRespuestas 
+      FROM vista_ELCSA_apli
+      WHERE id_pregunta >= 17 AND id_pregunta < 33 
+      AND localidad = '$localidadSeleccionada' 
+      AND id_autenticacion_encuestador = '$userId'
+      GROUP BY id_pregunta, descripcion";
 
             $queryCodigos = mysqli_query($con, $sqlCodigos);
             $contador = 1;
@@ -336,20 +351,16 @@ $localidadSeleccionada = isset($_POST['localidad']) ? $_POST['localidad'] : '';
       datasets: [datosClasificacion]
     },
     options: {
-      animation: {
-        duration: 1000, // Duración de la animación en milisegundos
-        easing: 'easeInOutQuad', // Tipo de interpolación (puedes cambiarlo según tu preferencia)
-      },
-      scales: {
-        y: {
-          min: 0
-        },
-        x: {
-          ticks: {
-            color: 'rgb(255, 99, 132)'
-          }
+        scales: {
+            y: {
+                beginAtZero: true,
+                ticks: {
+                    stepSize: 1, // esto hace que el paso entre ticks sea de 1
+                    min: 0,      // valor mínimo del eje y
+                    max: 2       // valor máximo del eje y
+                }
+            }
         }
-      }
     }
   });
 
