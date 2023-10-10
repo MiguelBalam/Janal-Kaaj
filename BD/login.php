@@ -35,6 +35,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $sql .= "Autenticacion";
     } elseif ($tipoUsuario === "encuestado") {
         $sql .= "Encuestado_A";
+    } elseif ($tipoUsuario === "administrador") {
+        $sql .= "Administador";
     } else {
         echo json_encode(["success" => false, "error" => "Tipo de usuario no válido"]);
         exit;
