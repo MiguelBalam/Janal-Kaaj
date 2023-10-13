@@ -1,4 +1,3 @@
-// Verificar el estado de la conexión al cargar la página
 
 if (navigator.onLine) {
   // La aplicación está en línea, realiza una solicitud a la API para obtener datos
@@ -38,7 +37,13 @@ window.addEventListener('offline', () => {
      
       .then((data) => {
         // Almacena los datos en IndexedDB
-        almacenarDatosEnIndexedDB(data);
+        if (!localStorage.getItem('datosAlmacenados')) {
+          almacenarDatosEnIndexedDB(data);
+        
+          // Actualiza la variable para indicar que los datos ya se han almacenado
+          localStorage.setItem('datosAlmacenados', 'true');
+        }
+        //almacenarDatosEnIndexedDB(data);
        
        
       })
@@ -46,13 +51,15 @@ window.addEventListener('offline', () => {
         console.error('Error:', error);
       });
     }
+    
+
 
     function almacenarDatosEnIndexedDB(data) {
       // Nombre de la base de datos y versión
       const dbName = 'miBaseDeDatos';
       const dbVersion = 1;
       const tables = ['reactivos', 'encuestas', 'encuestado_respuesta', 'respuestas_encuesta','encuesta_FinalReactivos',
-      'reactivosCreados','tiposRespuesta','asignaciones','opciones_respuesta'];
+      'reactivosCreados','tiposRespuesta','asignaciones','opciones_respuesta','Variable','Encuesta_Variables','VariableEncabezado'];
       // Abre una conexión con la base de datos o crea una nueva si no existe
       const request = indexedDB.open(dbName,dbVersion);
       let store;
@@ -105,6 +112,18 @@ window.addEventListener('offline', () => {
                     keyPath;
                     index = 'id_reactivoC';
                     break;
+                    case 'Variable':
+                      keyPath ='id_variable';
+                      index = 'id_variable';
+                      break;
+                      case 'Encuesta_Variables':
+                        keyPath ='id_Variables';
+                        index = 'id_encuesta';
+                        break;
+                        case 'VariableEncabezado':
+                          keyPath;
+                          break;
+                        
             // Puedes agregar más casos para otras tablas si es necesario
           }
           if (!db.objectStoreNames.contains(table)) {
@@ -135,7 +154,10 @@ window.addEventListener('offline', () => {
         transaction.oncomplete = () => {
           console.log('Datos almacenados en IndexedDB correctamente');
           localStorage.setItem('datosAlmacenados', 'true');
-        
+          setTimeout(() => {
+            //alert('Los datos se han cargado correctamente en IndexedDB.');
+            cargarIndex()
+          }, 10000); // 10000 milisegundos = 10 segundos
           db.close();
         };
     
@@ -246,4 +268,5 @@ window.addEventListener('offline', () => {
     }
   }
   
-// Llama a la función para sincronizar las actualizaciones con MySQL cuando la aplicación está en línea
+
+

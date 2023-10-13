@@ -217,6 +217,8 @@ tablaReactivos.on('click', '.eliminar-reactivo', function() {
 });
 
 
+
+
 // Evitar que se envíe el formulario de forma predeterminada
 
     // Obtener los valores de los campos del formulario
@@ -247,8 +249,147 @@ tablaReactivos.on('click', '.eliminar-reactivo', function() {
     });
     }
 // Agregar un evento de envío al formulario
+function actualizarV(){
+    const nuevoValorReactivoCre = $('#NomV').val();
+    const nuevoValorCategoriaReactivos = $('#SiglaV').val();
+    const nuevoValorTipoRes = $('#desV').val();
+                       
 
+    // Realizar una solicitud AJAX para actualizar los datos en el servidor
+    $.ajax({
+        url: '/CRUD/actualizarV.php', // Nombre del archivo PHP para la actualización
+        method: 'POST',
+        data: {
+            id_variable: reactivoSeleccionado.id_variable, // Debes enviar el ID del reactivo que se está editando
+            nuevoValorReactivoCre: nuevoValorReactivoCre,
+            nuevoValorCategoriaReactivos: nuevoValorCategoriaReactivos,
+            nuevoValorTipoRes: nuevoValorTipoRes,
+            },
+        success: function(response) {
+            // Manejar la respuesta del servidor aquí (puede ser un mensaje de éxito o error)
+            console.log(response);
+        },
+        error: function(xhr, status, error) {
+            console.error(error);
+        }
+    });
+    }
 
+$(document).ready(function() {
+    console.log("Documento listo");
+
+    const idEncuesta =obtenerIdEncuestaDesdeURL();; // Asegúrate de obtener el ID de encuesta de alguna manera
+    console.log(idEncuesta)
+    $.ajax({
+        url: '/CRUD/variable.php',
+        method: 'GET',
+        data: {id: idEncuesta},     
+        success: function(data) {
+            console.log("Tipo de dato de data:", typeof data);
+            console.log(data);
+
+            const jsonData = JSON.parse(data);
+            const tablaReactivos = $('#tabla_variables');
+            console.log(tablaReactivos);
+            if (Array.isArray(jsonData)) {
+                console.log(jsonData);
+                jsonData.forEach(function(reactivo) {
+                    const fila = `<tr>
+                        <td>${reactivo.id_variable}</td>
+                        <td>${reactivo.Nobre_Var}</td>
+                        <td><button class="btn btn-primary editar-variable" data-id="${reactivo.id_variable}">Editar</button></td>
+                        <td><button class="btn btn-danger eliminar-variable" data-borrar="${reactivo.id_variable}">Borrar</button></td>
+                    </tr>`;
+                    console.log('Datos del reactivo:');
+                    tablaReactivos.append(fila);
+                 
+                });
+
+                tablaReactivos.on('click', '.editar-variable', function() {
+                    const idVar = $(this).data('id');
+                    // Cambia 5 al valor adecuado
+
+                            // Buscar el reactivo correspondiente en el arreglo jsonData
+                    const reactivoSeleccionado = jsonData.find(reactivo => reactivo.id_variable == idVar);
+                    
+                    if (reactivoSeleccionado) {
+                        // Llenar los campos del formulario con los valores del reactivo seleccionado
+                       // $('#aqui').val(reactivoSeleccionado.descripcion);
+                        $('#NomV').val(reactivoSeleccionado.Nobre_Var);
+                        $('#SiglaV').val(reactivoSeleccionado.Siglas);
+                        $('#desV').val(reactivoSeleccionado.descripcion);
+                        
+                        // Verificar y marcar el checkbox de "Obligatorio" si es necesario
+                       
+                    } 
+                
+                    $('#formulario').submit(function(e) {
+                        e.preventDefault(); // Evitar que se envíe el formulario de forma predeterminada
+                    
+                        // Obtener los valores de los campos del formulario
+                        
+                        const nuevoValorReactivoCre = $('#NomV').val();
+                        const nuevoValorCategoriaReactivos = $('#SiglaV').val();
+                        const nuevoValorTipoRes = $('#desV').val();
+                       
+                        // Realizar una solicitud AJAX para actualizar los datos en el servidor
+                        $.ajax({
+                            url: '/CRUD/actualizarV.php', // Nombre del archivo PHP para la actualización
+                            method: 'POST',
+                            data: {
+                                id_variable: reactivoSeleccionado.id_variable, // Debes enviar el ID del reactivo que se está editando
+                                nuevoValorReactivoCre: nuevoValorReactivoCre,
+                                nuevoValorCategoriaReactivos: nuevoValorCategoriaReactivos,
+                                nuevoValorTipoRes: nuevoValorTipoRes,
+                                },
+                            success: function(response) {
+                                // Manejar la respuesta del servidor aquí (puede ser un mensaje de éxito o error)
+                                console.log(response);
+                            },
+                            error: function(xhr, status, error) {
+                                console.error(error);
+                            }
+                        });
+                    });
+                });
+
+tablaReactivos.on('click', '.eliminar-variable', function() {
+    const idVar = $(this).data('borrar');
+    
+    // Confirmar si el usuario realmente desea eliminar la pregunta
+    const confirmarEliminar = confirm("¿Estás seguro de que deseas eliminar esta Variable?");
+    
+    if (confirmarEliminar) {
+        // Realizar una solicitud AJAX para eliminar la pregunta
+        $.ajax({
+            url: '/CRUD/eliminarV.php', // Nombre del archivo PHP para la eliminación
+            method: 'POST',
+            data: {
+                variable_id: idVar
+            },
+            success: function(response) {
+                // Manejar la respuesta del servidor aquí (puede ser un mensaje de éxito o error)
+                console.log(response);
+                // Actualizar la tabla de reactivos o realizar cualquier otra acción necesaria
+                // ...
+            },
+            error: function(xhr, status, error) {
+                console.error(error);
+            }
+        });
+    }
+});
+
+            
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error(error);
+        }
+       
+    });
+ 
+});
 
 // $(document).ready(function() {
 //     const idEncuesta = obtenerIdEncuestaDesdeURL();
