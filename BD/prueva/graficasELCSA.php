@@ -53,13 +53,13 @@ $userId = $_GET['userId']; // Obtener el ID de usuario de la URL
 
     <ul class="nav-links">
       <li>
-        <a href="../../pestañas_Encuestador/dashboard.html">
+        <a href="../../pestanas_Encuestador/dashboard.html">
           <i class="bx bx-grid-alt"></i>
           <span class="link_name">Dashboard</span>
         </a>
 
         <ul class="sub-menu blank">
-          <li><a href="../../pestañas_Encuestador/dashboard.html" id="mostrarSeccion1">Dashboard</a></li>
+          <li><a href="../../pestanas_Encuestador/dashboard.html" id="mostrarSeccion1">Dashboard</a></li>
         </ul>
       </li>
 
@@ -102,13 +102,13 @@ $userId = $_GET['userId']; // Obtener el ID de usuario de la URL
       </li>
 
       <li>
-        <a href="../../pestanas_Encuestado/Aplicador.html">
+        <a href="../../pestanas_Encuestado/Aplicador.php">
           <i class='bx bx-book-add'></i>
           <span class="link_name">Alta Aplicadores</span>
         </a>
 
         <ul class="sub-menu blank">
-          <li><a class="link_name" href="../../pestanas_Encuestado//Aplicador.html">Alta Aplicadores</a></li>
+          <li><a class="link_name" href="../../pestanas_Encuestado/Aplicador.php">Alta Aplicadores</a></li>
         </ul>
       </li>
 
@@ -124,46 +124,35 @@ $userId = $_GET['userId']; // Obtener el ID de usuario de la URL
       </li>
 
       <li>
-        <a href="/BD/prueva/consultaDatos.php">
+        <a href="../../BD/prueva/consultaDatos.php">
           <i class='bx bx-clipboard bx-tada'></i>
           <span class="link_name">Encuestas aplicadas</span>
         </a>
         <ul class="sub-menu blank">
-          <li><a class="link_name" href="/BD/prueva/consultaDatos.php">Encuestas aplicadas</a></li>
+          <li><a class="link_name" href="../../BD/prueva/consultaDatos.php">Encuestas aplicadas</a></li>
         </ul>
       </li>
 
       <li>
-        <a href="/BD/prueva/graficasELCSAClasi.php">
+        <a href="../../BD/prueva/graficasELCSAClasi.php">
           <i class="bx bx-pie-chart-alt-2"></i>
           <span class="link_name">Análisis</span>
         </a>
         <ul class="sub-menu blank">
-          <li><a class="link_name" href="/BD/prueva/graficasELCSAClasi.php">Análisis</a></li>
+          <li><a class="link_name" href="../../BD/prueva/graficasELCSAClasi.php">Análisis</a></li>
         </ul>
       </li>
 
 
       <li>
-        <a href="/BD/prueva/graficasELCSA.php">
+        <a href="../../BD/prueva/graficasELCSA.php">
           <i class="bx bx-line-chart"></i>
           <span class="link_name">Graficas</span>
         </a>
         <ul class="sub-menu blank">
-          <li><a class="link_name" href="/BD/prueva/graficasELCSA.php">Graficas</a></li>
+          <li><a class="link_name" href="../../BD/prueva/graficasELCSA.php">Graficas</a></li>
         </ul>
       </li>
-
-      <!-- <li>
-        <a href="#">
-          <i class="bx bx-cog"></i>
-          <span class="link_name">Configuración</span>
-        </a>
-        <ul class="sub-menu blank">
-          <li><a class="link_name" href="#">Configuración</a></li>
-        </ul>
-      </li> -->
-
 
       <li>
         <a href="../../pestanas_Encuestador/perfil_Encuestador.html">
@@ -197,88 +186,154 @@ $userId = $_GET['userId']; // Obtener el ID de usuario de la URL
     <!-- Fin Dashboard -->
     <div class="container">
       <form method="post">
-      <div class="container mt-5">
-        <div class="row">
-        <div class="col-md-2 py-2">
-        <label for="lugaresPrueba" class="form-label">Elige una localidad:</label>
-        </div>
-            <div class="col-md-6">   
-                <select id="lugaresPrueba" name="localidad" class="form-select">
-                    <option value="Felipe Carrillo Puerto">Felipe Carrillo Puerto</option>
-                    <option value="San Jose Segundo">San Jose Segundo</option>
-                    <option value="Dzula">Dzula</option>
-                </select>
+        <div class="container mt-5">
+          <div class="row">
+            <div class="col-md-2 py-2">
+              <label for="lugaresPrueba" class="form-label">Elige una localidad:</label>
+            </div>
+            <div class="col-md-6">
+              <select id="lugaresPrueba" name="localidad" class="form-select">
+                <option value="Felipe Carrillo Puerto">Felipe Carrillo Puerto</option>
+                <option value="San Jose Segundo">San Jose Segundo</option>
+                <option value="Dzula">Dzula</option>
+              </select>
             </div>
             <div class="col-md-4">
-            <button type="submit" class="btn">Seleccionar Localidad</button>
+              <button type="submit" class="btn">Seleccionar Localidad</button>
             </div>
+          </div>
         </div>
-    </div>
-        
+
       </form>
-      <table>
-        <thead>
-          <tr>
-            <td>N.O. de pregunta</td>
-            <td>Descripción</td>
-            <td>Total</td>
 
-          </tr>
-        </thead>
-        <tbody>
-
-          <?php
+      <?php
 
 
-if (!empty($localidadSeleccionada)) {
-  $sqlCodigos = "SELECT id_pregunta, descripcion, 
+      if (!empty($localidadSeleccionada)) {
+        $sqlCodigos = "SELECT id_pregunta, descripcion, 
       SUM(CASE 
           WHEN respuesta = 'NO' THEN 0
           WHEN respuesta = 'SI' THEN 1
           ELSE NULL
       END) AS totalRespuestas 
-      FROM vista_ELCSA_apli
+      FROM vista_ELCSA
       WHERE id_pregunta >= 17 AND id_pregunta < 33 
       AND localidad = '$localidadSeleccionada' 
+      AND clasi_respuesta = 'Adulto'
       AND id_autenticacion_encuestador = '$userId'
       GROUP BY id_pregunta, descripcion";
+        echo '<h2 class="py-4">Hogares integrados solamente por personas adultas</h2>';
+        echo '<table class="table table-bordered table-striped table-hover">';
 
-            $queryCodigos = mysqli_query($con, $sqlCodigos);
-            $contador = 1;
-            while ($row = mysqli_fetch_assoc($queryCodigos)) {
-              // Dentro del bucle while
+        // Encabezado de la tabla con fondo oscuro
+        echo '<thead class="thead-dark">';
+        echo '<tr>';
+        echo '<th>N.O. de pregunta</th>';
+        echo '<th>Descripción</th>';
+        echo '<th>Total</th>';
+        echo '</tr>';
+        echo '</thead>';
 
-              $idPregunta = $row['id_pregunta'];
-              $descripcion = $row['descripcion'];
-              $totalRespuestas = $row['totalRespuestas'];
+        // Comienza el cuerpo de la tabla
+        echo '<tbody>';
+        $queryCodigos = mysqli_query($con, $sqlCodigos);
+        $contador = 1;
+        while ($row = mysqli_fetch_assoc($queryCodigos)) {
+          // Dentro del bucle while
 
-              // Almacenar los datos en variables para las gráficas
-              $etiquetas = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16'];
-              $datosGrafica[] = $totalRespuestas;
+          $idPregunta = $row['id_pregunta'];
+          $descripcion = $row['descripcion'];
+          $totalRespuestas = $row['totalRespuestas'];
+
+          // Almacenar los datos en variables para las gráficas
+          $etiquetas = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
+          $datosGrafica[] = $totalRespuestas;
 
 
-              echo '<tr>';
-              echo '<td>' . $contador . '</td>';
-              echo '<td>' . $descripcion . '</td>';
+          echo '<tr>';
+          echo '<td>' . $contador . '</td>';
+          echo '<td>' . $descripcion . '</td>';
 
-              echo '<td>' . $totalRespuestas . '</td>';
-              echo '</tr>';
+          echo '<td>' . $totalRespuestas . '</td>';
+          echo '</tr>';
 
-              $contador++;
-            }
-          }
-          ?>
-        </tbody>
-      </table>
+          $contador++;
+        }
+        echo '</tbody>'; // Finaliza el cuerpo de la tabla
+        echo '</table>'; // Finaliza la tabla
+      }
+      ?>
+
 
 </body>
 
 </html>
-<h2 class="py-4">Gráfico de área - Total de respuestas</h2>
-<canvas id="grafica" width="100%" height="30%"></canvas>
-<h2 class="py-4">Gráfico tipo dona - % respecto al total de respuestas</h2>
-<canvas id="pastel" width="100%" height="30%"></canvas>
+<h4 class="py-4">Gráfico de área - Total de respuestas</h4>
+<canvas id="graficaAdulto" width="100%" height="30%"></canvas>
+<h4 class="py-4">Gráfico tipo dona - % respecto al total de respuestas</h4>
+<canvas id="pastelAdulto" width="100%" height="30%"></canvas>
 
+<?php
+
+
+if (!empty($localidadSeleccionada)) {
+  $sqlCodigos2 = "SELECT id_pregunta, descripcion, 
+SUM(CASE 
+    WHEN respuesta = 'NO' THEN 0
+    WHEN respuesta = 'SI' THEN 1
+    ELSE NULL
+END) AS totalRespuestas 
+FROM vista_ELCSA
+WHERE id_pregunta >= 17 AND id_pregunta < 33 
+AND localidad = '$localidadSeleccionada' 
+AND id_autenticacion_encuestador = '$userId'
+GROUP BY id_pregunta, descripcion";
+  echo '<h2 class="py-4">Hogares integrados por personas adultas y menores de 18 años</h2>';
+  echo '<table class="table table-bordered table-striped table-hover">';
+
+  // Encabezado de la tabla con fondo oscuro
+  echo '<thead class="thead-dark">';
+  echo '<tr>';
+  echo '<th>N.O. de pregunta</th>';
+  echo '<th>Descripción</th>';
+  echo '<th>Total</th>';
+  echo '</tr>';
+  echo '</thead>';
+
+  // Comienza el cuerpo de la tabla
+  echo '<tbody>';
+  $queryCodigos2 = mysqli_query($con, $sqlCodigos2);
+  $contador2 = 1;
+  while ($row = mysqli_fetch_assoc($queryCodigos2)) {
+    // Dentro del bucle while
+
+    $idPregunta2 = $row['id_pregunta'];
+    $descripcion2 = $row['descripcion'];
+    $totalRespuestas2 = $row['totalRespuestas'];
+
+    // Almacenar los datos en variables para las gráficas
+    $etiquetas2 = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16'];
+    $datosGrafica2[] = $totalRespuestas2;
+
+
+    echo '<tr>';
+    echo '<td>' . $contador2 . '</td>';
+    echo '<td>' . $descripcion2 . '</td>';
+
+    echo '<td>' . $totalRespuestas2 . '</td>';
+    echo '</tr>';
+
+    $contador2++;
+  }
+  echo '</tbody>'; // Finaliza el cuerpo de la tabla
+  echo '</table>'; // Finaliza la tabla
+}
+?>
+
+<h4 class="py-4">Gráfico de área - Total de respuestas</h4>
+<canvas id="grafica" width="100%" height="30%"></canvas>
+<h4 class="py-4">Gráfico tipo dona - % respecto al total de respuestas</h4>
+<canvas id="pastel" width="100%" height="30%"></canvas>
 </div>
 </section>
 <script>
@@ -328,7 +383,7 @@ if (!empty($localidadSeleccionada)) {
   });
 
   // Gráfica de barras (line)
-  const $grafica = document.querySelector("#grafica");
+  const $grafica = document.querySelector("#graficaAdulto");
 
   const datosClasificacion = {
     label: "Número de respuestas",
@@ -351,16 +406,16 @@ if (!empty($localidadSeleccionada)) {
       datasets: [datosClasificacion]
     },
     options: {
-        scales: {
-            y: {
-                beginAtZero: true,
-                ticks: {
-                    stepSize: 1, // esto hace que el paso entre ticks sea de 1
-                    min: 0,      // valor mínimo del eje y
-                    max: 2       // valor máximo del eje y
-                }
-            }
+      scales: {
+        y: {
+          beginAtZero: true,
+          ticks: {
+            stepSize: 1, // esto hace que el paso entre ticks sea de 1
+            min: 0, // valor mínimo del eje y
+            max: 2 // valor máximo del eje y
+          }
         }
+      }
     }
   });
 
@@ -368,7 +423,7 @@ if (!empty($localidadSeleccionada)) {
 
 
   // Gráfica de pastel (doughnut)
-  const $grafica2 = document.querySelector("#pastel");
+  const $grafica2 = document.querySelector("#pastelAdulto");
 
   // Generar colores aleatorios
   // function generarColoresAleatorios(n) {
@@ -445,6 +500,136 @@ if (!empty($localidadSeleccionada)) {
         },
       },
       legend: {
+        display: true,
+        position: 'right', // Coloca la leyenda en la parte derecha
+        labels: {
+          boxWidth: 20, // Ancho de la caja de color
+          padding: 10, // Espacio entre las cajas de color y el texto
+          fontStyle: 'bold', // Estilo de fuente
+        },
+      },
+    },
+  });
+
+  // ------------------------------------------------------------------------
+    // Gráfica de barras (line)
+    const $graficaA = document.querySelector("#grafica");
+
+const datosClasificacionA = {
+  label: "Número de respuestas",
+  data: <?php echo json_encode($datosGrafica2); ?>,
+  //backgroundColor: 'rgba(24, 255, 190, 0.23)',
+  //borderColor: 'rgba(58, 222, 176, 0.76)',
+  tension: 0.5,
+  fill: true,
+  borderColor: 'rgb(255, 99, 132)',
+  backgroundColor: 'rgba(255, 99, 132, 0.5)',
+  pointRadius: 5,
+  pointBorderColor: 'rgba(255, 99, 132)',
+  pointBackgroundColor: 'rgba(255, 99, 132)',
+};
+
+new Chart($graficaA, {
+  type: 'line',
+  data: {
+    labels: <?php echo json_encode($etiquetas2); ?>,
+    datasets: [datosClasificacionA]
+  },
+  options: {
+    scales: {
+      y: {
+        beginAtZero: true,
+        ticks: {
+          stepSize: 1, // esto hace que el paso entre ticks sea de 1
+          min: 0, // valor mínimo del eje y
+          max: 2 // valor máximo del eje y
+        }
+      }
+    }
+  }
+});
+
+
+
+
+// Gráfica de pastel (doughnut)
+const $graficaA2 = document.querySelector("#pastel");
+
+// Generar colores aleatorios
+// function generarColoresAleatorios(n) {
+//     const colores = [];
+//     for (let i = 0; i < n; i++) {
+//         const color = `rgba(${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)}, 0.8)`;
+//         colores.push(color);
+//     }
+//     return colores;
+
+// }
+
+function generarColoresA() {
+  const coloresA = [
+    //Morado
+    'rgba(128, 0, 128, 0.8)',
+    'rgba(160, 32, 240, 0.8)',
+    'rgba(192, 64, 255, 0.8)',
+
+    // Azul
+    'rgba(0, 0, 255, 0.8)',
+    'rgba(30, 144, 255, 0.8)',
+    'rgba(70, 130, 180, 0.8)',
+
+    // Verde
+    'rgba(0, 128, 0, 0.8)',
+    'rgba(50, 205, 50, 0.8)',
+    'rgba(173, 255, 47, 0.8)',
+
+    // Amarillo
+    'rgba(255, 247, 0, 1)',
+    'rgba(255, 215, 0, 0.8)',
+    'rgba(255, 235, 59, 0.8)',
+
+    // Naranja
+    'rgba(255, 165, 0, 0.8)',
+    'rgba(255, 135, 0, 1)',
+    'rgba(255, 99, 78, 1)',
+    'rgba(255, 59, 34, 1)',
+  ];
+  return coloresA;
+}
+
+
+
+const coloresAleatoriosA = generarColoresA(<?php echo count($etiquetas2); ?>);
+
+// Calcular el porcentaje en función de las 16 preguntas
+const porcentajesA = <?php echo json_encode($datosGrafica2); ?>.map(valor => (valor / 16) * 100);
+
+const datosPastelA = {
+  labels: <?php echo json_encode($etiquetas2); ?>,
+  datasets: [{
+    data: porcentajesA,
+    backgroundColor: coloresAleatoriosA,
+  }],
+};
+
+new Chart($graficaA2, {
+  type: 'doughnut',
+  data: datosPastelA,
+  options: {
+    animation: {
+      animateRotate: true, // Habilitar animación de rotación
+      animateScale: true, // Habilitar animación de escala
+    },
+    tooltips: {
+      callbacks: {
+        label: function(tooltipItem, data) {
+          const label = data.labels[tooltipItem.index];
+          const valor = data.datasets[0].data[tooltipItem.index];
+          return `${label}: ${valor.toFixed(2)}%`;
+        },
+      },
+    },
+    legend: {
       display: true,
       position: 'right', // Coloca la leyenda en la parte derecha
       labels: {
@@ -453,9 +638,8 @@ if (!empty($localidadSeleccionada)) {
         fontStyle: 'bold', // Estilo de fuente
       },
     },
-    },
-  });
-
+  },
+});
 </script>
 
 </body>
