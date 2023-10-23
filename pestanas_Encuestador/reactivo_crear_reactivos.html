@@ -39,7 +39,7 @@
         </a>
 
         <ul class="sub-menu blank">
-          <li><a href="/pestanas_Encuestador/dashboard.html">Dashboard</a></li>
+          <li><a href="" id="mostrarSeccion1">Dashboard</a></li>
         </ul>
       </li>
 
@@ -82,46 +82,67 @@
       </li>
 
       <li>
-        <a href="/pestanas_Encuestador/encuestaAplicadas.html">
+        <a id="pruebaApli" href="#" onclick="redireccionarConUserId()">
+          <i class='bx bx-book-add'></i>
+          <span class="link_name">Alta Aplicadores</span>
+        </a>
+
+        <ul class="sub-menu blank">
+          <li><a class="link_name" href="/pestanas_Encuestado//Aplicador.php">Alta Aplicadores</a></li>
+        </ul>
+      </li>
+
+      <li>
+        <a href="/pestanas_Encuestado/asignarE.php">
+          <i class='bx bxs-user-check'></i>
+          <span class="link_name">Asignar</span>
+        </a>
+
+        <ul class="sub-menu blank">
+          <li><a class="link_name" href="/pestanas_Encuestado/asignarE.php">Asignar</a></li>
+        </ul>
+      </li>
+
+      <li>
+        <a href="../BD/prueva/consultaDatos.php">
           <i class='bx bx-clipboard bx-tada'></i>
           <span class="link_name">Encuestas aplicadas</span>
         </a>
         <ul class="sub-menu blank">
-          <li><a class="link_name" href="/pestanas_Encuestador/encuestaAplicadas.html">Encuestas aplicadas</a></li>
+          <li><a class="link_name" href="../BD/prueva/consultaDatos.php">Encuestas aplicadas</a></li>
         </ul>
       </li>
 
-
       <li>
-        <a href="#">
+        <a href="#" onclick="redireccionarConUserId2()">
           <i class="bx bx-pie-chart-alt-2"></i>
           <span class="link_name">Análisis</span>
         </a>
         <ul class="sub-menu blank">
-          <li><a class="link_name" href="#">Análisis</a></li>
+          <li><a class="link_name" href="../BD/prueva/graficasELCSA.php">Análisis</a></li>
         </ul>
       </li>
 
 
       <li>
-        <a href="#">
+        <a href="#" onclick="redireccionarConUserId3()">
           <i class="bx bx-line-chart"></i>
           <span class="link_name">Graficas</span>
         </a>
         <ul class="sub-menu blank">
-          <li><a class="link_name" href="#">Graficas</a></li>
+          <li><a class="link_name" href="../BD/prueva/graficasELCSAClasi.php">Graficas</a></li>
         </ul>
       </li>
 
       <!-- <li>
-                <a href="#">
-                <i class="bx bx-cog"></i>
-                <span class="link_name">Configuración</span>
-                </a>
-                <ul class="sub-menu blank">
-                <li><a class="link_name" href="#">Configuración</a></li>
-                </ul>
-            </li> -->
+        <a href="#">
+          <i class="bx bx-cog"></i>
+          <span class="link_name">Configuración</span>
+        </a>
+        <ul class="sub-menu blank">
+          <li><a class="link_name" href="#">Configuración</a></li>
+        </ul>
+      </li> -->
 
 
       <li>
@@ -145,7 +166,6 @@
 
         </ul>
       </li>
-
     </ul>
   </div>
 
@@ -309,6 +329,54 @@
       </div>
     </section>
   </section>
+
+  <script>
+    //para enviar el id a agregar aplicador 
+function redireccionarConUserId() {
+    var userId = localStorage.getItem('user_id');
+    
+    if (userId) {
+        // Construir la URL con userId
+        var urlConUserId = `/pestanas_Encuestado/Aplicador.php?userId=${userId}`;
+        
+        // Redirigir al usuario a la nueva URL
+        window.location.href = urlConUserId;
+    } else {
+        // Si userId no está disponible, simplemente redirigir sin él
+        window.location.href = '/pestanas_Encuestado/Aplicador.php';
+    }
+}
+function redireccionarConUserId2() {
+    var userId = localStorage.getItem('user_id');
+    
+    if (userId) {
+        // Construir la URL con userId
+        var urlConUserId = `../BD/prueva/graficasELCSA.php?userId=${userId}`;
+        
+        // Redirigir al usuario a la nueva URL
+        window.location.href = urlConUserId;
+    } else {
+        // Si userId no está disponible, simplemente redirigir sin él
+        window.location.href = '../BD/prueva/graficasELCSA.php';
+    }
+}
+function redireccionarConUserId3() {
+    var userId = localStorage.getItem('user_id');
+    
+    if (userId) {
+        // Construir la URL con userId
+        var urlConUserId = `../BD/prueva/graficasELCSAClasi.php?userId=${userId}`;
+        
+        // Redirigir al usuario a la nueva URL
+        window.location.href = urlConUserId;
+    } else {
+        // Si userId no está disponible, simplemente redirigir sin él
+        window.location.href = '../BD/prueva/graficasELCSAClasi.php';
+    }
+}
+  </script>
+
+
   <script>
     document.addEventListener('DOMContentLoaded', function () {
         var userId = localStorage.getItem('user_id');
@@ -395,6 +463,44 @@
         }
       }
     }
+
+    function confirmarCerrarSesion() {
+    Swal.fire({
+        title: '¿Estás seguro?',
+        text: '¿Deseas cerrar la sesión?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí, cerrar sesión',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // Si el usuario confirma, eliminar los datos del usuario del almacenamiento local
+            localStorage.removeItem('user_correo');
+            localStorage.removeItem('user_id');
+            localStorage.removeItem('tipoUsuario');
+            console.log("Sesión cerrada correctamente.");
+            
+            // Mostrar una alerta con el mensaje de cierre en dos segundos
+            Swal.fire({
+                title: 'Cerrando sesión...',
+                icon: 'success',
+                timer: 2000,
+                timerProgressBar: true,
+                showConfirmButton: false
+            });
+
+            // Redireccionar a la página de inicio de sesión después de dos segundos
+            setTimeout(function() {
+                window.location.href = '/login.html';
+            }, 2000);
+        } else {
+            // Si el usuario cancela, no hacer nada
+        }
+    });
+}
+
   </script>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
  <script src="/BD/prueva/encuesta.js"></script>

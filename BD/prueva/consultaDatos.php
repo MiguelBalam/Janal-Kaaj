@@ -29,6 +29,10 @@ if (isset($_GET['codigo_busqueda'])) {
     $sqlBusquedaEncuestaTextil = "SELECT * FROM vista_enTextiles WHERE codigo = '$codigoBusqueda'";
     $queryBusquedaEncuestaTextil = mysqli_query($con, $sqlBusquedaEncuestaTextil);
 
+        // Consultar en vista_encuestaMAiz
+        $sqlBusquedaEncuestaMaiz = "SELECT * FROM vista_Maiz WHERE codigo = '$codigoBusqueda'";
+        $queryBusquedaEncuestaMaiz = mysqli_query($con, $sqlBusquedaEncuestaMaiz);
+
     // Verificar en cuál de las vistas se encontró el código
     if (mysqli_num_rows($queryBusquedaInse) > 0) {
         $resultados = mysqli_fetch_all($queryBusquedaInse, MYSQLI_ASSOC);
@@ -39,6 +43,9 @@ if (isset($_GET['codigo_busqueda'])) {
     } elseif ($queryBusquedaEncuestaTextil && mysqli_num_rows($queryBusquedaEncuestaTextil) > 0) {
         $resultados = mysqli_fetch_all($queryBusquedaEncuestaTextil, MYSQLI_ASSOC);
         $vistaUtilizada = 'vista_enTextil';
+    } elseif ($queryBusquedaEncuestaMaiz && mysqli_num_rows($queryBusquedaEncuestaMaiz) > 0) {
+        $resultados = mysqli_fetch_all($queryBusquedaEncuestaMaiz, MYSQLI_ASSOC);
+        $vistaUtilizada = 'vista_Maiz';
     }
 }
 ?>
@@ -130,13 +137,13 @@ if (isset($_GET['codigo_busqueda'])) {
             </li>
 
             <li>
-                <a id="pruebaApli" href="/pestanas_Encuestado/Aplicador.html" onclick="redireccionarConUserId()">
+                <a id="pruebaApli" href="/pestanas_Encuestado/Aplicador.php" onclick="redireccionarConUserId()">
                     <i class='bx bx-book-add'></i>
                     <span class="link_name">Alta Aplicadores</span>
                 </a>
 
                 <ul class="sub-menu blank">
-                    <li><a class="link_name" href="/pestanas_Encuestado/Aplicador.html">Alta Aplicadores</a></li>
+                    <li><a class="link_name" href="/pestanas_Encuestado/Aplicador.php">Alta Aplicadores</a></li>
                 </ul>
             </li>
 
@@ -162,25 +169,24 @@ if (isset($_GET['codigo_busqueda'])) {
             </li>
 
             <li>
-                <a href="#">
-                    <i class="bx bx-pie-chart-alt-2"></i>
-                    <span class="link_name">Análisis</span>
-                </a>
-                <ul class="sub-menu blank">
-                    <li><a class="link_name" href="#">Análisis</a></li>
-                </ul>
-            </li>
+        <a href="/BD/prueva/graficasELCSA.php" onclick="redireccionarConUserId2()">
+          <i class="bx bx-pie-chart-alt-2"></i>
+          <span class="link_name">Análisis</span>
+        </a>
+        <ul class="sub-menu blank">
+          <li><a class="link_name" href="/BD/prueva/graficasELCSA.php">Análisis</a></li>
+        </ul>
+      </li>
 
-
-            <li>
-                <a href="#">
-                    <i class="bx bx-line-chart"></i>
-                    <span class="link_name">Graficas</span>
-                </a>
-                <ul class="sub-menu blank">
-                    <li><a class="link_name" href="#">Graficas</a></li>
-                </ul>
-            </li>
+      <li>
+        <a href="/BD/prueva/graficasELCSAClasi.php" onclick="redireccionarConUserId3()">
+          <i class="bx bx-line-chart"></i>
+          <span class="link_name">Graficas</span>
+        </a>
+        <ul class="sub-menu blank">
+          <li><a class="link_name" href="/BD/prueva/graficasELCSAClasi.php">Graficas</a></li>
+        </ul>
+      </li>
 
             <!-- <li>
           <a href="#">
@@ -194,12 +200,12 @@ if (isset($_GET['codigo_busqueda'])) {
 
 
             <li>
-                <a href="perfil_Encuestador.html">
+                <a href="/pestanas_Encuestador/perfil_Encuestador.html">
                     <i class='bx bx-user'></i>
                     <span class="link_name">Perfil</span>
                 </a>
                 <ul class="sub-menu blank">
-                    <li><a class="link_name" href="perfil_Encuestador.html">Perfil</a></li>
+                    <li><a class="link_name" href="/pestanas_Encuestador/perfil_Encuestador.html">Perfil</a></li>
                 </ul>
             </li>
 
@@ -274,6 +280,9 @@ if (isset($_GET['codigo_busqueda'])) {
                             $sqlCodigosss = "SELECT codigo, nombre, localidad, aplicador FROM vista_enTextiles GROUP BY codigo HAVING COUNT(*) > 1";
                             $queryCodigosss = mysqli_query($con, $sqlCodigosss);
 
+                            $sqlCodigossss = "SELECT codigo, nombre, localidad, aplicador FROM vista_Maiz GROUP BY codigo HAVING COUNT(*) > 1";
+                            $queryCodigossss = mysqli_query($con, $sqlCodigossss);
+
                             while ($row = mysqli_fetch_assoc($queryCodigos)) {
                                 echo '<td>' . $row['codigo'] . '</td>
                                         <td>' . $row['nombre'] . '</td>
@@ -340,6 +349,28 @@ if (isset($_GET['codigo_busqueda'])) {
                                         </tr>';
                             }
 
+                            while ($row = mysqli_fetch_assoc($queryCodigossss)) {
+                                echo '<td>' . $row['codigo'] . '</td>
+                                        <td>' . $row['nombre'] . '</td>
+                                        <td>' . $row['aplicador'] . '</td>
+                                        <td>' . $row['localidad'] . '</td>
+                                        <td>Encuesta Pública de Maiz</td>
+                                        <td>
+                                        <form method="get" action="">
+                                        <input type="hidden" name="codigo_busqueda" value="' . $row['codigo'] . '">
+                                        <button type="submit" class="ver-encuesta-btn btn btn-outline-success bg-border-mostaza bg-text-mostaza">Ver Encuesta</button>
+                                        </form>
+                                        </td>
+                            
+                                        <td>
+                                        <form method="post" action="descargar_excel.php">
+                                        <input type="hidden" name="codigo_busqueda" value="' . $row['codigo'] . '">
+                                        <button type="submit" class="descargar-encuesta-btn btn btn-outline-success bg-border-mostaza bg-text-mostaza">Descargar</button>
+                                        </form>
+                                        </td>
+                                        </tr>';
+                            }
+
                             ?>
                         </tbody>
 
@@ -385,6 +416,21 @@ if (isset($_GET['codigo_busqueda'])) {
                                     <td rowspan="<?php echo count($resultados); ?>"><?php echo $resultados[0]['edad']; ?></td>
                                 </tr>
                             </thead>
+
+                            <thead>
+                                <tr>
+                                    <th>Longitud</th>
+                                    <td rowspan="<?php echo count($resultados); ?>"><?php echo $resultados[0]['longitud']; ?></td>
+                                </tr>
+                            </thead>
+
+                            <thead>
+                                <tr>
+                                    <th>Latitud</th>
+                                    <td rowspan="<?php echo count($resultados); ?>"><?php echo $resultados[0]['latitud']; ?></td>
+                                </tr>
+                            </thead>
+
                             <thead>
                                 <tr>
                                     <th>Código</th>

@@ -78,24 +78,24 @@
             </li>
 
             <li>
-                <a href="/pestanas_Encuestado/Aplicador.html">
+                <a href="/pestanas_Encuestado/Aplicador.php">
                     <i class='bx bx-book-add'></i>
                     <span class="link_name">Alta Aplicadores</span>
                 </a>
 
                 <ul class="sub-menu blank">
-                    <li><a class="link_name" href="/pestanas_Encuestado//Aplicador.html">Alta Aplicadores</a></li>
+                    <li><a class="link_name" href="/pestanas_Encuestado/Aplicador.php">Alta Aplicadores</a></li>
                 </ul>
             </li>
 
             <li>
                 <a href="/pestanas_Encuestado/asignarE.php">
                     <i class='bx bxs-user-check'></i>
-                    <span class="link_name">Asiganar</span>
+                    <span class="link_name">Asignar</span>
                 </a>
 
                 <ul class="sub-menu blank">
-                    <li><a class="link_name" href="/pestanas_Encuestado/asignarE.php">Asiganar</a></li>
+                    <li><a class="link_name" href="/pestanas_Encuestado/asignarE.php">Asignar</a></li>
                 </ul>
             </li>
 
@@ -110,25 +110,25 @@
             </li>
 
             <li>
-                <a href="#">
-                    <i class="bx bx-pie-chart-alt-2"></i>
-                    <span class="link_name">Análisis</span>
+                <a href="../BD/prueva/graficasELCSA.php" onclick="redireccionarConUserId2()">
+                  <i class="bx bx-pie-chart-alt-2"></i>
+                  <span class="link_name">Análisis</span>
                 </a>
                 <ul class="sub-menu blank">
-                    <li><a class="link_name" href="#">Análisis</a></li>
+                  <li><a class="link_name" href="../BD/prueva/graficasELCSA.php">Análisis</a></li>
                 </ul>
-            </li>
-
-
-            <li>
-                <a href="#">
-                    <i class="bx bx-line-chart"></i>
-                    <span class="link_name">Graficas</span>
+              </li>
+        
+        
+              <li>
+                <a href="../BD/prueva/graficasELCSAClasi.php" onclick="redireccionarConUserId3()">
+                  <i class="bx bx-line-chart"></i>
+                  <span class="link_name">Graficas</span>
                 </a>
                 <ul class="sub-menu blank">
-                    <li><a class="link_name" href="#">Graficas</a></li>
+                  <li><a class="link_name" href="../BD/prueva/graficasELCSAClasi.php">Graficas</a></li>
                 </ul>
-            </li>
+              </li>
 
             <!-- <li>
         <a href="#">
@@ -141,13 +141,15 @@
       </li> -->
 
 
-            <li>
-                <a href="perfil_Encuestador.html">
-                    <i class='bx bx-user'></i>
+      <li>
+                <a href="/pestanas_Encuestador/perfil_Encuestador.html">
+                    <i class="bx bx-user"></i>
                     <span class="link_name">Perfil</span>
                 </a>
                 <ul class="sub-menu blank">
-                    <li><a class="link_name" href="perfil_Encuestador.html">Perfil</a></li>
+                    <li>
+                        <a class="link_name" href="/pestanas_Encuestador/perfil_Encuestador.html">Perfil</a>
+                    </li>
                 </ul>
             </li>
 
@@ -173,7 +175,7 @@
         <!-- Fin Dashboard -->
         <div class="container">
             <div class="row justify-content-center">
-                <div class="col-12 col-sm-10 col-md-8 col-lg-6 p-4 shadow-lg bg-light rounded">
+                <div class="col-12 col-sm-10 col-md-8 col-lg-6 p-4 shadow-lg bg-light rounded ">
                     <form action="asignar_encuesta.php" method="post">
                         <h2>Seleccionar Aplicador:</h2>
                         <table>
@@ -390,9 +392,9 @@
             } else {
                 // Redirigir a la página correspondiente
                 if (type === 'variables') {
-                    window.location.href = 'crear_Evariables.html';
+                    window.location.href = '/pestanas_Encuestador/crear_Evariables.html';
                 } else if (type === 'reactivos') {
-                    window.location.href = 'crear.html';
+                    window.location.href = '/pestanas_Encuestador/crear.html';
                 }
             }
         }
