@@ -53,13 +53,13 @@ $userId = $_GET['userId']; // Obtener el ID de usuario de la URL
 
     <ul class="nav-links">
       <li>
-        <a href="../../pestañas_Encuestador/dashboard.html">
+        <a href="../../pestanas_Encuestador/dashboard.html">
           <i class="bx bx-grid-alt"></i>
           <span class="link_name">Dashboard</span>
         </a>
 
         <ul class="sub-menu blank">
-          <li><a href="../../pestañas_Encuestador/dashboard.html" id="mostrarSeccion1">Dashboard</a></li>
+          <li><a href="../../pestanas_Encuestador/dashboard.html" id="mostrarSeccion1">Dashboard</a></li>
         </ul>
       </li>
 
@@ -102,13 +102,13 @@ $userId = $_GET['userId']; // Obtener el ID de usuario de la URL
       </li>
 
       <li>
-        <a href="../../pestanas_Encuestado/Aplicador.html">
+        <a href="../../pestanas_Encuestado/Aplicador.php">
           <i class='bx bx-book-add'></i>
           <span class="link_name">Alta Aplicadores</span>
         </a>
 
         <ul class="sub-menu blank">
-          <li><a class="link_name" href="../../pestanas_Encuestado//Aplicador.html">Alta Aplicadores</a></li>
+          <li><a class="link_name" href="../../pestanas_Encuestado/Aplicador.php">Alta Aplicadores</a></li>
         </ul>
       </li>
 
@@ -124,46 +124,35 @@ $userId = $_GET['userId']; // Obtener el ID de usuario de la URL
       </li>
 
       <li>
-        <a href="../BD/prueva/consultaDatos.php">
+        <a href="../../BD/prueva/consultaDatos.php">
           <i class='bx bx-clipboard bx-tada'></i>
           <span class="link_name">Encuestas aplicadas</span>
         </a>
         <ul class="sub-menu blank">
-          <li><a class="link_name" href="../BD/prueva/consultaDatos.php">Encuestas aplicadas</a></li>
+          <li><a class="link_name" href="../../BD/prueva/consultaDatos.php">Encuestas aplicadas</a></li>
         </ul>
       </li>
 
       <li>
-        <a href="/BD/prueva/graficasELCSAClasi.php">
+        <a href="../../BD/prueva/graficasELCSAClasi.php">
           <i class="bx bx-pie-chart-alt-2"></i>
           <span class="link_name">Análisis</span>
         </a>
         <ul class="sub-menu blank">
-          <li><a class="link_name" href="/BD/prueva/graficasELCSAClasi.php">Análisis</a></li>
+          <li><a class="link_name" href="../../BD/prueva/graficasELCSAClasi.php">Análisis</a></li>
         </ul>
       </li>
 
 
       <li>
-        <a href="/BD/prueva/graficasELCSA.php">
+        <a href="../../BD/prueva/graficasELCSA.php">
           <i class="bx bx-line-chart"></i>
           <span class="link_name">Graficas</span>
         </a>
         <ul class="sub-menu blank">
-          <li><a class="link_name" href="/BD/prueva/graficasELCSA.php">Graficas</a></li>
+          <li><a class="link_name" href="../../BD/prueva/graficasELCSA.php">Graficas</a></li>
         </ul>
       </li>
-
-      <!-- <li>
-        <a href="#">
-          <i class="bx bx-cog"></i>
-          <span class="link_name">Configuración</span>
-        </a>
-        <ul class="sub-menu blank">
-          <li><a class="link_name" href="#">Configuración</a></li>
-        </ul>
-      </li> -->
-
 
       <li>
         <a href="../../pestanas_Encuestador/perfil_Encuestador.html">
@@ -225,10 +214,10 @@ $userId = $_GET['userId']; // Obtener el ID de usuario de la URL
                     WHEN respuesta = 'SI' THEN 1
                     ELSE NULL
                 END) AS totalRespuestas 
-                FROM nueva_vista
+                FROM vista_ELCSA
                 WHERE localidad = '$localidadSeleccionada'
                 AND clasi_respuesta = 'Adulto'
-                -- AND id_autenticacion_encuestador = '$userId'
+                AND id_autenticacion_encuestador = '$userId'
                 GROUP BY codigo";
                 echo '<h2 class="py-4">Hogares integrados solamente por personas adultas</h2>';
                 echo '<table class="table table-bordered table-striped table-hover">';
@@ -316,9 +305,9 @@ $userId = $_GET['userId']; // Obtener el ID de usuario de la URL
                     WHEN respuesta = 'SI' THEN 1
                     ELSE NULL
                 END) AS totalRespuestas 
-                FROM nueva_vista
+                FROM vista_ELCSA
                 WHERE localidad = '$localidadSeleccionada'
-                -- AND id_autenticacion_encuestador = '$userId'
+                AND id_autenticacion_encuestador = '$userId'
                 GROUP BY codigo";
                 echo '<h2 class="py-4">Hogares integrados por personas adultas y menores de 18 años</h2>';
                 echo '<table class="table table-bordered table-striped table-hover">';

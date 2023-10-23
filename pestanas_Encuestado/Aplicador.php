@@ -34,6 +34,7 @@ $userId = $_GET['userId']; // Obtener el ID de usuario de la URL
     <!-- Boxiocns CDN Link -->
     <link href="https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css" rel="stylesheet" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="/CSS/SweetAlert.js"></script>
 </head>
 
 <body>
@@ -198,8 +199,8 @@ $userId = $_GET['userId']; // Obtener el ID de usuario de la URL
         <section class="d-flex justify-content-center">
             <div class="col-12 col-sm-10 col-md-8 col-lg-6 p-3 shadow-lg mb-5 bg-white rounded">
                 <h1 class="color-titulo mb-4 h1TextoTitulo">Agregar Aplicador</h1>
-                <form name="formAplicador" action="/BD/guardarApli.php" method="post" class="needs-validation"
-                    id="formAplicador">
+                <form form id="formularioRC" name="formularioRC" action="/BD/guardarApli.php" method="post" class="needs-validation"
+                    >
                     <div id="grupo__nombrecompletos" class="row mb-3">
                         <label for="nombrecompletos" class="col-sm-4 col-form-label px-4">Nombres:
                         </label>
@@ -258,7 +259,7 @@ $userId = $_GET['userId']; // Obtener el ID de usuario de la URL
                     <div class="row mb-2">
                         <div class="d-grid gap-2 col-6 mx-auto">
                             <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" type="submit"
-                                id="boton-enviaru">
+                              onclick="enviarYLimpiarFormulario()"  id="boton-enviaru">
                                 Guardar
                             </button>
                         </div>
@@ -275,6 +276,29 @@ $userId = $_GET['userId']; // Obtener el ID de usuario de la URL
             </div>
         </section>
     </section>
+    <script>
+function enviarYLimpiarFormulario() {
+    // Obtener el formulario por su ID
+    var formulario = document.getElementById('formularioRC');
+
+    // Aquí puedes agregar código para validar los datos antes del envío si es necesario
+
+    // Enviar el formulario
+    formulario.submit();
+    //alert('Formulario enviado con éxito.');
+ 
+    // Limpiar el formulario después del envío
+    formulario.reset();
+    cargarApli()
+    
+}
+</script>
+
+
+
+
+
+
 
     <script>
         const urlParams = new URLSearchParams(window.location.search);
@@ -365,6 +389,7 @@ $userId = $_GET['userId']; // Obtener el ID de usuario de la URL
             }
         }
     </script>
+      <script src="../CSS/SweetAlert.js"></script>
 </body>
 
 </html>
