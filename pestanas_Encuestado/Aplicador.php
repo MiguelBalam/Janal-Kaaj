@@ -46,13 +46,13 @@ $userId = $_GET['userId']; // Obtener el ID de usuario de la URL
 
         <ul class="nav-links">
             <li>
-                <a href="/pestañas_Encuestador/dashboard.html">
+                <a href="/pestanas_Encuestador/dashboard.html">
                     <i class="bx bx-grid-alt"></i>
                     <span class="link_name">Dashboard</span>
                 </a>
 
                 <ul class="sub-menu blank">
-                    <li><a href="" id="mostrarSeccion1">Dashboard</a></li>
+                    <li><a href="/pestanas_Encuestador/dashboard.html" id="mostrarSeccion1">Dashboard</a></li>
                 </ul>
             </li>
 
@@ -94,14 +94,14 @@ $userId = $_GET['userId']; // Obtener el ID de usuario de la URL
             </li>
 
             <li>
-                <a href="/pestanas_Encuestado/Aplicador.html">
+                <a onclick="redireccionarConUserId()">
                     <i class="bx bx-book-add"></i>
                     <span class="link_name">Alta Aplicadores</span>
                 </a>
 
                 <ul class="sub-menu blank">
                     <li>
-                        <a class="link_name" href="/pestanas_Encuestado//Aplicador.php">Alta Aplicadores</a>
+                        <a class="link_name" onclick="redireccionarConUserId()">Alta Aplicadores</a>
                     </li>
                 </ul>
             </li>
@@ -109,12 +109,12 @@ $userId = $_GET['userId']; // Obtener el ID de usuario de la URL
             <li>
                 <a href="/pestanas_Encuestado/asignarE.php">
                     <i class="bx bxs-user-check"></i>
-                    <span class="link_name">Asiganar</span>
+                    <span class="link_name">Asignar</span>
                 </a>
 
                 <ul class="sub-menu blank">
                     <li>
-                        <a class="link_name" href="/pestanas_Encuestado/asignarE.php">Asiganar</a>
+                        <a class="link_name" href="/pestanas_Encuestado/asignarE.php">Asignar</a>
                     </li>
                 </ul>
             </li>
@@ -132,24 +132,24 @@ $userId = $_GET['userId']; // Obtener el ID de usuario de la URL
             </li>
 
             <li>
-                <a href="#">
-                    <i class="bx bx-pie-chart-alt-2"></i>
-                    <span class="link_name">Análisis</span>
-                </a>
-                <ul class="sub-menu blank">
-                    <li><a class="link_name" href="#">Análisis</a></li>
-                </ul>
-            </li>
+        <a onclick="redireccionarConUserId2()">
+          <i class="bx bx-pie-chart-alt-2"></i>
+          <span class="link_name">Análisis</span>
+        </a>
+        <ul class="sub-menu blank">
+          <li><a class="link_name" onclick="redireccionarConUserId2()">Análisis</a></li>
+        </ul>
+      </li>
 
-            <li>
-                <a href="#">
-                    <i class="bx bx-line-chart"></i>
-                    <span class="link_name">Graficas</span>
-                </a>
-                <ul class="sub-menu blank">
-                    <li><a class="link_name" href="#">Graficas</a></li>
-                </ul>
-            </li>
+      <li>
+        <a onclick="redireccionarConUserId3()">
+          <i class="bx bx-line-chart"></i>
+          <span class="link_name">Graficas</span>
+        </a>
+        <ul class="sub-menu blank">
+          <li><a class="link_name" onclick="redireccionarConUserId3()">Graficas</a></li>
+        </ul>
+      </li>
 
             <!-- <li>
         <a href="#">
@@ -162,13 +162,13 @@ $userId = $_GET['userId']; // Obtener el ID de usuario de la URL
       </li> -->
 
             <li>
-                <a href="perfil_Encuestador.html">
+                <a href="/pestanas_Encuestador/perfil_Encuestador.html">
                     <i class="bx bx-user"></i>
                     <span class="link_name">Perfil</span>
                 </a>
                 <ul class="sub-menu blank">
                     <li>
-                        <a class="link_name" href="perfil_Encuestador.html">Perfil</a>
+                        <a class="link_name" href="/pestanas_Encuestador/perfil_Encuestador.html">Perfil</a>
                     </li>
                 </ul>
             </li>
@@ -198,8 +198,8 @@ $userId = $_GET['userId']; // Obtener el ID de usuario de la URL
         <section class="d-flex justify-content-center">
             <div class="col-12 col-sm-10 col-md-8 col-lg-6 p-3 shadow-lg mb-5 bg-white rounded">
                 <h1 class="color-titulo mb-4 h1TextoTitulo">Agregar Aplicador</h1>
-                <form name="formAplicador" action="/BD/guardarApli.php" method="post" class="needs-validation"
-                    id="formAplicador">
+                <form form id="formularioRC" name="formularioRC" action="/BD/guardarApli.php" method="post" class="needs-validation"
+                    >
                     <div id="grupo__nombrecompletos" class="row mb-3">
                         <label for="nombrecompletos" class="col-sm-4 col-form-label px-4">Nombres:
                         </label>
@@ -258,7 +258,7 @@ $userId = $_GET['userId']; // Obtener el ID de usuario de la URL
                     <div class="row mb-2">
                         <div class="d-grid gap-2 col-6 mx-auto">
                             <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" type="submit"
-                                id="boton-enviaru">
+                              onclick="enviarYLimpiarFormulario() "  id="boton-enviaru">
                                 Guardar
                             </button>
                         </div>
@@ -275,6 +275,26 @@ $userId = $_GET['userId']; // Obtener el ID de usuario de la URL
             </div>
         </section>
     </section>
+    <script>
+function enviarYLimpiarFormulario() {
+    // Obtener el formulario por su ID
+    var formulario = document.getElementById('formularioRC');
+
+    // Aquí puedes agregar código para validar los datos antes del envío si es necesario
+
+    // Enviar el formulario
+    formulario.submit();
+
+    // Limpiar el formulario después del envío
+    formulario.reset();
+}
+</script>
+
+
+
+
+
+
 
     <script>
         const urlParams = new URLSearchParams(window.location.search);
@@ -323,6 +343,36 @@ $userId = $_GET['userId']; // Obtener el ID de usuario de la URL
                 : "expanded";
             saveSidebarState(newState);
         });
+
+        function redireccionarConUserId() {
+        var userId = localStorage.getItem('user_id');
+        if (userId) {
+          var urlConUserId = `/pestanas_Encuestado/Aplicador.php?userId=${userId}`;
+          window.location.href = urlConUserId;
+        } else {
+          window.location.href = '/pestanas_Encuestado/Aplicador.php';
+        }
+      }
+
+      function redireccionarConUserId2() {
+        var userId = localStorage.getItem('user_id');
+        if (userId) {
+          var urlConUserId = `../BD/prueva/graficasELCSA.php?userId=${userId}`;
+          window.location.href = urlConUserId;
+        } else {
+          window.location.href = '../BD/prueva/graficasELCSA.php';
+        }
+      }
+
+      function redireccionarConUserId3() {
+        var userId = localStorage.getItem('user_id');
+        if (userId) {
+          var urlConUserId = `../BD/prueva/graficasELCSAClasi.php?userId=${userId}`;
+          window.location.href = urlConUserId;
+        } else {
+          window.location.href = '../BD/prueva/graficasELCSAClasi.php';
+        }
+      }
     </script>
 
     <!-- desactivar los botones si no hay conexion a internet  -->
@@ -358,13 +408,14 @@ $userId = $_GET['userId']; // Obtener el ID de usuario de la URL
             } else {
                 // Redirigir a la página correspondiente
                 if (type === "variables") {
-                    window.location.href = "crear_Evariables.html";
+                    window.location.href = "/pestanas_Encuestador/crear_Evariables.html";
                 } else if (type === "reactivos") {
-                    window.location.href = "crear.html";
+                    window.location.href = "/pestanas_Encuestador/crear.html";
                 }
             }
         }
     </script>
+      <script src="../CSS/SweetAlert.js"></script>
 </body>
 
 </html>

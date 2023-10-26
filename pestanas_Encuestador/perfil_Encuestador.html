@@ -82,13 +82,13 @@
       </li>
 
       <li>
-        <a id="pruebaApli" href="/pestanas_Encuestado/Aplicador.html" onclick="redireccionarConUserId()">
+        <a onclick="redireccionarConUserId()">
           <i class='bx bx-book-add'></i>
           <span class="link_name">Alta Aplicadores</span>
         </a>
 
         <ul class="sub-menu blank">
-          <li><a class="link_name" href="/pestanas_Encuestado/Aplicador.html">Alta Aplicadores</a></li>
+          <li><a class="link_name" onclick="redireccionarConUserId()">Alta Aplicadores</a></li>
         </ul>
       </li>
 
@@ -114,23 +114,23 @@
       </li>
 
       <li>
-        <a href="#">
+        <a onclick="redireccionarConUserId2()">
           <i class="bx bx-pie-chart-alt-2"></i>
           <span class="link_name">Análisis</span>
         </a>
         <ul class="sub-menu blank">
-          <li><a class="link_name" href="#">Análisis</a></li>
+          <li><a class="link_name" onclick="redireccionarConUserId2()">Análisis</a></li>
         </ul>
       </li>
 
 
       <li>
-        <a href="#">
+        <a onclick="redireccionarConUserId3()">
           <i class="bx bx-line-chart"></i>
           <span class="link_name">Graficas</span>
         </a>
         <ul class="sub-menu blank">
-          <li><a class="link_name" href="#">Graficas</a></li>
+          <li><a class="link_name" onclick="redireccionarConUserId3()">Graficas</a></li>
         </ul>
       </li>
 
@@ -175,7 +175,86 @@
       <span class="text">Dashboard</span>
     </div>
     <!-- Fin Dashboard -->
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        //var userId = localStorage.getItem('user_id');
+        var userID = localStorage.getItem('user_id'); // Obtener el ID almacenado
+        var userCorreo = localStorage.getItem('user_correo');
+        if (userID) {
+          // Enviar una solicitud AJAX para recuperar los datos del usuario por su ID
+          var xhr = new XMLHttpRequest();
+          xhr.open('GET', '/BD/infoUser.php?id=' + userID, true);
 
+          xhr.onreadystatechange = function() {
+            console.log(xhr.responseText);
+            if (xhr.readyState === 4 && xhr.status === 200) {
+              try {
+                var userInfo = JSON.parse(xhr.responseText);
+                console.log(userInfo)
+                if (userInfo && userInfo.error) {
+                  console.error('Error obteniendo información del usuario:', userInfo.error);
+                } else {
+                  document.getElementById('aqui').value = userCorreo;
+
+                }
+              } catch (error) {
+                console.error('Error al analizar la respuesta JSON:', error);
+              }
+            } else {
+              console.error('Error en la solicitud AJAX para obtener información del usuario.');
+            }
+          }
+        };
+        xhr.send();
+
+        verificar()
+      })
+      //para enviar el id a agregar aplicador 
+      function redireccionarConUserId() {
+        var userId = localStorage.getItem('user_id');
+
+        if (userId) {
+          // Construir la URL con userId
+          var urlConUserId = `/pestanas_Encuestado/Aplicador.php?userId=${userId}`;
+
+          // Redirigir al usuario a la nueva URL
+          window.location.href = urlConUserId;
+        } else {
+          // Si userId no está disponible, simplemente redirigir sin él
+          window.location.href = '/pestanas_Encuestado/Aplicador.php';
+        }
+      }
+
+      function redireccionarConUserId2() {
+        var userId = localStorage.getItem('user_id');
+
+        if (userId) {
+          // Construir la URL con userId
+          var urlConUserId = `/BD/prueva/graficasELCSA.php?userId=${userId}`;
+
+          // Redirigir al usuario a la nueva URL
+          window.location.href = urlConUserId;
+        } else {
+          // Si userId no está disponible, simplemente redirigir sin él
+          window.location.href = '/BD/prueva/graficasELCSA.php';
+        }
+      }
+
+      function redireccionarConUserId3() {
+        var userId = localStorage.getItem('user_id');
+
+        if (userId) {
+          // Construir la URL con userId
+          var urlConUserId = `/BD/prueva/graficasELCSAClasi.php?userId=${userId}`;
+
+          // Redirigir al usuario a la nueva URL
+          window.location.href = urlConUserId;
+        } else {
+          // Si userId no está disponible, simplemente redirigir sin él
+          window.location.href = '/BD/prueva/graficasELCSAClasi.php';
+        }
+      }
+    </script>
 
     <!--Perfil-->
 

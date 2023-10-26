@@ -442,7 +442,7 @@ function almacenarTokenEnIndexedDB(correo, token, tipoUsuario) {
       } else if (tipoUsuario === "encuestado") {
         window.location.href = '/pestanas_Encuestado/perfil.php?userId=' + userId; 
       } else if (tipoUsuario === "administrador") {
-        window.location.href = '/pestanas_Encuestado/perfil.php?userId=' + userId;
+        window.location.href = '/pestanas_SuperUsuario/perfil_admin.php?userId=' + userId;
       }else {
         console.error('Tipo de usuario no reconocido:', tipoUsuario);
         // Puedes redirigir a una página de error o a una página predeterminada en caso de tipo de usuario desconocido.

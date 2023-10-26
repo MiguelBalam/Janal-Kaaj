@@ -130,13 +130,13 @@ if (isset($_GET['codigo_busqueda'])) {
             </li>
 
             <li>
-                <a id="pruebaApli" href="/pestanas_Encuestado/Aplicador.html" onclick="redireccionarConUserId()">
+                <a onclick="redireccionarConUserId()">
                     <i class='bx bx-book-add'></i>
                     <span class="link_name">Alta Aplicadores</span>
                 </a>
 
                 <ul class="sub-menu blank">
-                    <li><a class="link_name" href="/pestanas_Encuestado/Aplicador.html">Alta Aplicadores</a></li>
+                    <li><a class="link_name" onclick="redireccionarConUserId()">Alta Aplicadores</a></li>
                 </ul>
             </li>
 
@@ -162,25 +162,24 @@ if (isset($_GET['codigo_busqueda'])) {
             </li>
 
             <li>
-                <a href="#">
-                    <i class="bx bx-pie-chart-alt-2"></i>
-                    <span class="link_name">Análisis</span>
-                </a>
-                <ul class="sub-menu blank">
-                    <li><a class="link_name" href="#">Análisis</a></li>
-                </ul>
-            </li>
+        <a onclick="redireccionarConUserId2()">
+          <i class="bx bx-pie-chart-alt-2"></i>
+          <span class="link_name">Análisis</span>
+        </a>
+        <ul class="sub-menu blank">
+          <li><a class="link_name" onclick="redireccionarConUserId2()">Análisis</a></li>
+        </ul>
+      </li>
 
-
-            <li>
-                <a href="#">
-                    <i class="bx bx-line-chart"></i>
-                    <span class="link_name">Graficas</span>
-                </a>
-                <ul class="sub-menu blank">
-                    <li><a class="link_name" href="#">Graficas</a></li>
-                </ul>
-            </li>
+      <li>
+        <a onclick="redireccionarConUserId3()">
+          <i class="bx bx-line-chart"></i>
+          <span class="link_name">Graficas</span>
+        </a>
+        <ul class="sub-menu blank">
+          <li><a class="link_name" onclick="redireccionarConUserId3()">Graficas</a></li>
+        </ul>
+      </li>
 
             <!-- <li>
           <a href="#">
@@ -194,12 +193,12 @@ if (isset($_GET['codigo_busqueda'])) {
 
 
             <li>
-                <a href="perfil_Encuestador.html">
+                <a href="/pestanas_Encuestador/perfil_Encuestador.html">
                     <i class='bx bx-user'></i>
                     <span class="link_name">Perfil</span>
                 </a>
                 <ul class="sub-menu blank">
-                    <li><a class="link_name" href="perfil_Encuestador.html">Perfil</a></li>
+                    <li><a class="link_name" href="/pestanas_Encuestador/perfil_Encuestador.html">Perfil</a></li>
                 </ul>
             </li>
 
@@ -223,7 +222,86 @@ if (isset($_GET['codigo_busqueda'])) {
             <span class="text">Dashboard</span>
         </div>
         <!-- Fin Dashboard -->
+        <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        //var userId = localStorage.getItem('user_id');
+        var userID = localStorage.getItem('user_id'); // Obtener el ID almacenado
+        var userCorreo = localStorage.getItem('user_correo');
+        if (userID) {
+          // Enviar una solicitud AJAX para recuperar los datos del usuario por su ID
+          var xhr = new XMLHttpRequest();
+          xhr.open('GET', '/BD/infoUser.php?id=' + userID, true);
 
+          xhr.onreadystatechange = function() {
+            console.log(xhr.responseText);
+            if (xhr.readyState === 4 && xhr.status === 200) {
+              try {
+                var userInfo = JSON.parse(xhr.responseText);
+                console.log(userInfo)
+                if (userInfo && userInfo.error) {
+                  console.error('Error obteniendo información del usuario:', userInfo.error);
+                } else {
+                  document.getElementById('aqui').value = userCorreo;
+
+                }
+              } catch (error) {
+                console.error('Error al analizar la respuesta JSON:', error);
+              }
+            } else {
+              console.error('Error en la solicitud AJAX para obtener información del usuario.');
+            }
+          }
+        };
+        xhr.send();
+
+        verificar()
+      })
+      //para enviar el id a agregar aplicador 
+      function redireccionarConUserId() {
+        var userId = localStorage.getItem('user_id');
+
+        if (userId) {
+          // Construir la URL con userId
+          var urlConUserId = `/pestanas_Encuestado/Aplicador.php?userId=${userId}`;
+
+          // Redirigir al usuario a la nueva URL
+          window.location.href = urlConUserId;
+        } else {
+          // Si userId no está disponible, simplemente redirigir sin él
+          window.location.href = '/pestanas_Encuestado/Aplicador.php';
+        }
+      }
+
+      function redireccionarConUserId2() {
+        var userId = localStorage.getItem('user_id');
+
+        if (userId) {
+          // Construir la URL con userId
+          var urlConUserId = `/BD/prueva/graficasELCSA.php?userId=${userId}`;
+
+          // Redirigir al usuario a la nueva URL
+          window.location.href = urlConUserId;
+        } else {
+          // Si userId no está disponible, simplemente redirigir sin él
+          window.location.href = '/BD/prueva/graficasELCSA.php';
+        }
+      }
+
+      function redireccionarConUserId3() {
+        var userId = localStorage.getItem('user_id');
+
+        if (userId) {
+          // Construir la URL con userId
+          var urlConUserId = `/BD/prueva/graficasELCSAClasi.php?userId=${userId}`;
+
+          // Redirigir al usuario a la nueva URL
+          window.location.href = urlConUserId;
+        } else {
+          // Si userId no está disponible, simplemente redirigir sin él
+          window.location.href = '/BD/prueva/graficasELCSAClasi.php';
+        }
+      }
+    </script>
         <section class="container-fluid d-flex justify-content-center">
             <div class="col-12 col-md-10 col-lg-8 col-xl-10 p-3 shadow-lg mb-5 bg-white rounded">
 
@@ -385,6 +463,22 @@ if (isset($_GET['codigo_busqueda'])) {
                                     <td rowspan="<?php echo count($resultados); ?>"><?php echo $resultados[0]['edad']; ?></td>
                                 </tr>
                             </thead>
+                            
+                            
+                            <thead>
+                                <tr>
+                                    <th>Longitud</th>
+                                    <td rowspan="<?php echo count($resultados); ?>"><?php echo $resultados[0]['longitud']; ?></td>
+                                </tr>
+                            </thead>
+
+                            <thead>
+                                <tr>
+                                    <th>Latitud</th>
+                                    <td rowspan="<?php echo count($resultados); ?>"><?php echo $resultados[0]['latitud']; ?></td>
+                                </tr>
+                            </thead>
+                            
                             <thead>
                                 <tr>
                                     <th>Código</th>
@@ -432,43 +526,35 @@ if (isset($_GET['codigo_busqueda'])) {
 
 
 
-                <?php } elseif (isset($_GET['codigo_busqueda'])) { ?>
-                    <script>
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Código No Encontrado',
-                            text: 'El código ingresado no existe en la tabla de resultados.',
-                            confirmButtonColor: '#218838'
-                        });
-                    </script>
-                <?php } ?>
+                          <?php } elseif (isset($_GET['codigo_busqueda'])) { ?>
+    <script>
+        Swal.fire({
+            icon: 'error',
+            title: 'Código No Encontrado',
+            text: 'El código ingresado no existe en la tabla de resultados.',
+            confirmButtonColor: '#218838'
+        });
+    </script>
+<?php } ?>
 
-                <div id="opcionesDescarga" <?php if (empty($resultados) && !isset($_GET['codigo_busqueda'])) {
-                                                echo 'style="display: none;"';
-                                            } ?>>
-                    <?php if (!empty($resultados)) { ?>
-                        <h2>Opciones: </h2>
-                        <!-- Botón para descargar en Excel -->
-                        <form method="post" action="descargar_excel.php">
-                            <input type="hidden" name="codigo_busqueda" value="<?php echo $codigoBusqueda; ?>">
-                            <button type="submit" class="btn btn-outline-success bg-border-mostaza bg-text-mostaza">Descargar Resultados en Excel</button>
-                        </form>
+<div id="opcionesDescarga" <?php if (!isset($resultados) || empty($resultados) && (!isset($_GET['codigo_busqueda']) || empty($_GET['codigo_busqueda']))) {
+    echo 'style="display: none;"';
+} ?>>
+    <?php if (!empty($resultados)) { ?>
+        <h2>Opciones: </h2>
+        <!-- Botón para descargar en Excel -->
+        <form method="post" action="descargar_excel.php">
+            <input type="hidden" name="codigo_busqueda" value="<?php echo isset($_GET['codigo_busqueda']) ? $_GET['codigo_busqueda'] : ''; ?>">
+            <button type="submit" class="btn btn-outline-success bg-border-mostaza bg-text-mostaza">Descargar Resultados en Excel</button>
+        </form>
 
-                        <!-- Botón para descargar en PDF -->
-                        <form method="post" action="descargar_pdf.php">
-                            <input type="hidden" name="codigo_busqueda" value="<?php echo $codigoBusqueda; ?>">
-                            <button type="submit" class="btn btn-outline-success bg-border-mostaza bg-text-mostaza">Descargar Resultados en PDF</button>
-                            <!-- Agregar enlace o botón para descargar el PDF -->
-                            <?php if (!empty($resultados)) { ?>
-                                <a href="descargar_pdf.php?codigo_busqueda=<?php echo $codigoBusqueda; ?>" class="btn btn-outline-success bg-border-mostaza bg-text-mostaza">Descargar Resultados en PDF</a>
-                            <?php } ?>
-
-                        </form>
-                    <?php } elseif (isset($_GET['codigo_busqueda'])) { ?>
-                        <!-- ... Tu script de error existente ... -->
-                    <?php } ?>
-                </div>
-
+        <!-- Botón para descargar en PDF -->
+        <form method="post" action="descarga_pdf.php">
+            <input type="hidden" name="codigo_busqueda" value="<?php echo isset($_GET['codigo_busqueda']) ? $_GET['codigo_busqueda'] : ''; ?>">
+            <button type="submit" class="btn btn-outline-success bg-border-mostaza bg-text-mostaza">Descargar Resultados en PDF</button>
+        </form>
+    <?php } ?>
+</div>
 
                 <script>
                     // Guardar el estado de la barra lateral en el localStorage

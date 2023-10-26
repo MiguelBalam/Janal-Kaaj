@@ -13,7 +13,7 @@ if ($con->connect_error) {
 
 $userId = $_GET['userId']; // Obtener el ID de usuario de la URL
 
-$query = "SELECT nombre, apellidoPaterno, apellidoMaterno, edad, genero, localidad, municipio, estado, pais, telefono FROM UsuarioEncuestado WHERE id = $userId";
+$query = "SELECT nombre, apellidoPaterno, apellidoMaterno, edad, genero, localidad, municipio, estado, pais, telefono FROM UsuarioEncuestado WHERE id_Encuestado = $userId";
 
 $queryA = "SELECT correo, contraseña FROM Encuestado_A WHERE id = $userId";
 

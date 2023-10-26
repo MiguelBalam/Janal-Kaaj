@@ -81,13 +81,13 @@
             </li>
 
             <li>
-                <a id="pruebaApli" href="/pestanas_Encuestado/Aplicador.html" onclick="redireccionarConUserId()">
+                <a onclick="redireccionarConUserId()">
                     <i class='bx bx-book-add'></i>
                     <span class="link_name">Alta Aplicadores</span>
                 </a>
 
                 <ul class="sub-menu blank">
-                    <li><a class="link_name" href="/pestanas_Encuestado/Aplicador.html">Alta Aplicadores</a></li>
+                    <li><a class="link_name" onclick="redireccionarConUserId()">Alta Aplicadores</a></li>
                 </ul>
             </li>
 
@@ -113,23 +113,23 @@
             </li>
 
             <li>
-                <a href="#">
+                <a onclick="redireccionarConUserId2()">
                     <i class="bx bx-pie-chart-alt-2"></i>
                     <span class="link_name">Análisis</span>
                 </a>
                 <ul class="sub-menu blank">
-                    <li><a class="link_name" href="#">Análisis</a></li>
+                    <li><a class="link_name" onclick="redireccionarConUserId2()">Análisis</a></li>
                 </ul>
             </li>
 
 
             <li>
-                <a href="#">
+                <a onclick="redireccionarConUserId3()">
                     <i class="bx bx-line-chart"></i>
                     <span class="link_name">Graficas</span>
                 </a>
                 <ul class="sub-menu blank">
-                    <li><a class="link_name" href="#">Graficas</a></li>
+                    <li><a class="link_name" onclick="redireccionarConUserId3()">Graficas</a></li>
                 </ul>
             </li>
 
@@ -252,7 +252,7 @@
                         <h5>Lista de reactivos que tienes agregadas o creadas</h5>
                     </div>
 
-                  
+
                     <div id="reactivosTable2"></div>
                     <div id="ReactivoDiv"></div>
                     <div class="bg-text-black text-center p-3 text-black">
@@ -312,7 +312,35 @@
                 }
                 recuperarR2()
             });
+            function redireccionarConUserId() {
+                var userId = localStorage.getItem('user_id');
+                if (userId) {
+                    var urlConUserId = `../pestanas_Encuestado/Aplicador.php?userId=${userId}`;
+                    window.location.href = urlConUserId;
+                } else {
+                    window.location.href = '../pestanas_Encuestado/Aplicador.php';
+                }
+            }
 
+            function redireccionarConUserId2() {
+                var userId = localStorage.getItem('user_id');
+                if (userId) {
+                    var urlConUserId = `../BD/prueva/graficasELCSA.php?userId=${userId}`;
+                    window.location.href = urlConUserId;
+                } else {
+                    window.location.href = '../BD/prueva/graficasELCSA.php';
+                }
+            }
+
+            function redireccionarConUserId3() {
+                var userId = localStorage.getItem('user_id');
+                if (userId) {
+                    var urlConUserId = `../BD/prueva/graficasELCSAClasi.php?userId=${userId}`;
+                    window.location.href = urlConUserId;
+                } else {
+                    window.location.href = '../BD/prueva/graficasELCSAClasi.php';
+                }
+            }
         </script>
         <div class="modal fade" id="Modal_vistaPrevia" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable ">
@@ -347,57 +375,57 @@
             </div>
         </div>
     </section>
-    
-<script>
-    function construirTabla(datosSeleccionados) {
-        const resultadoDiv = document.getElementById("ReactivoDiv");
-        const table = document.createElement("table");
-  
-        table.className = "table table-bordered";
-        const thead = document.createElement("thead");
-        const tbody = document.createElement("tbody");
-        const headerRow = document.createElement("tr");
-  
-        // Agregar encabezados de columna
-        const thSeleccionar = document.createElement("th");
-        thSeleccionar.textContent = "Seleccionar";
-        const thDescripcion = document.createElement("th");
-        thDescripcion.textContent = "Descripción";
-  
-        headerRow.appendChild(thSeleccionar);
-        headerRow.appendChild(thDescripcion);
-        thead.appendChild(headerRow);
-        table.appendChild(thead);
-  
-        // Agregar filas de datos
-        datosSeleccionados.forEach((reactivo) => {
-            const row = document.createElement("tr");
-            const cellSeleccionar = document.createElement("td");
-            const cellDescripcion = document.createElement("td");
-  
-            cellSeleccionar.innerHTML = `<input type="checkbox" name="reactivoIds[]" value="${reactivo.id_reactivoC}")">`; 
-            cellDescripcion.textContent = reactivo.descripcion;
-  
-            row.appendChild(cellSeleccionar);
-            row.appendChild(cellDescripcion);
-            tbody.appendChild(row);
-        });
-  
-        table.appendChild(tbody);
-  
-        resultadoDiv.appendChild(table);
-    }
-  
-    const queryParams = new URLSearchParams(window.location.search);
-    const datosSeleccionados = JSON.parse(decodeURIComponent(queryParams.get("data")));
-  
-    // Recupera los datos de la URL y construye la tabla
-    construirTabla(datosSeleccionados);
-  </script>
+
+    <script>
+        function construirTabla(datosSeleccionados) {
+            const resultadoDiv = document.getElementById("ReactivoDiv");
+            const table = document.createElement("table");
+
+            table.className = "table table-bordered";
+            const thead = document.createElement("thead");
+            const tbody = document.createElement("tbody");
+            const headerRow = document.createElement("tr");
+
+            // Agregar encabezados de columna
+            const thSeleccionar = document.createElement("th");
+            thSeleccionar.textContent = "Seleccionar";
+            const thDescripcion = document.createElement("th");
+            thDescripcion.textContent = "Descripción";
+
+            headerRow.appendChild(thSeleccionar);
+            headerRow.appendChild(thDescripcion);
+            thead.appendChild(headerRow);
+            table.appendChild(thead);
+
+            // Agregar filas de datos
+            datosSeleccionados.forEach((reactivo) => {
+                const row = document.createElement("tr");
+                const cellSeleccionar = document.createElement("td");
+                const cellDescripcion = document.createElement("td");
+
+                cellSeleccionar.innerHTML = `<input type="checkbox" name="reactivoIds[]" value="${reactivo.id_reactivoC}")">`;
+                cellDescripcion.textContent = reactivo.descripcion;
+
+                row.appendChild(cellSeleccionar);
+                row.appendChild(cellDescripcion);
+                tbody.appendChild(row);
+            });
+
+            table.appendChild(tbody);
+
+            resultadoDiv.appendChild(table);
+        }
+
+        const queryParams = new URLSearchParams(window.location.search);
+        const datosSeleccionados = JSON.parse(decodeURIComponent(queryParams.get("data")));
+
+        // Recupera los datos de la URL y construye la tabla
+        construirTabla(datosSeleccionados);
+    </script>
     <script>
         window.onload = function () {
 
-          //  MostrarLogo();
+            //  MostrarLogo();
 
         };
     </script>

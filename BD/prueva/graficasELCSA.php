@@ -79,36 +79,36 @@ $userId = $_GET['userId']; // Obtener el ID de usuario de la URL
 
       <li>
         <div class="iocn-link">
-          <a href="#" onclick="showAlert('variables')"> <!-- Llamamos a showAlert con el argumento 'variables' -->
+          <a href="/pestanas_Encuestador/crear_Evariables.html" onclick="showAlert('variables')"> <!-- Llamamos a showAlert con el argumento 'variables' -->
             <i class='bx bx-file-blank'></i>
             <span class="link_name">Crear variables</span>
           </a>
           <ul class="sub-menu blank">
-            <a class="link_name" href="#" onclick="showAlert('variables')">Crear variables</a>
+            <a class="link_name" href="/pestanas_Encuestador/crear_Evariables.html" onclick="showAlert('variables')">Crear variables</a>
           </ul>
         </div>
       </li>
 
       <li>
         <div class="iocn-link">
-          <a href="#" onclick="showAlert('reactivos')"> <!-- Llamamos a showAlert con el argumento 'reactivos' -->
+          <a href="/pestanas_Encuestador/crear.html" onclick="showAlert('reactivos')"> <!-- Llamamos a showAlert con el argumento 'reactivos' -->
             <i class='bx bx-file-blank'></i>
             <span class="link_name">Crear reactivos</span>
           </a>
         </div>
         <ul class="sub-menu blank">
-          <a class="link_name" href="#" onclick="showAlert('reactivos')">Crear reactivos</a>
+          <a class="link_name" href="/pestanas_Encuestador/crear.html" onclick="showAlert('reactivos')">Crear reactivos</a>
         </ul>
       </li>
 
       <li>
-        <a href="../../pestanas_Encuestado/Aplicador.php">
+        <a onclick="redireccionarConUserId()">
           <i class='bx bx-book-add'></i>
           <span class="link_name">Alta Aplicadores</span>
         </a>
 
         <ul class="sub-menu blank">
-          <li><a class="link_name" href="../../pestanas_Encuestado/Aplicador.php">Alta Aplicadores</a></li>
+          <li><a class="link_name" onclick="redireccionarConUserId()">Alta Aplicadores</a></li>
         </ul>
       </li>
 
@@ -134,23 +134,23 @@ $userId = $_GET['userId']; // Obtener el ID de usuario de la URL
       </li>
 
       <li>
-        <a href="../../BD/prueva/graficasELCSAClasi.php">
+        <a href="#" onclick="redireccionarConUserId3()">
           <i class="bx bx-pie-chart-alt-2"></i>
           <span class="link_name">Análisis</span>
         </a>
         <ul class="sub-menu blank">
-          <li><a class="link_name" href="../../BD/prueva/graficasELCSAClasi.php">Análisis</a></li>
+          <li><a class="link_name" onclick="redireccionarConUserId3()">Análisis</a></li>
         </ul>
       </li>
 
 
       <li>
-        <a href="../../BD/prueva/graficasELCSA.php">
+        <a href="#" onclick="redireccionarConUserId2()">
           <i class="bx bx-line-chart"></i>
           <span class="link_name">Graficas</span>
         </a>
         <ul class="sub-menu blank">
-          <li><a class="link_name" href="../../BD/prueva/graficasELCSA.php">Graficas</a></li>
+          <li><a class="link_name" onclick="redireccionarConUserId2()">Graficas</a></li>
         </ul>
       </li>
 
@@ -184,6 +184,87 @@ $userId = $_GET['userId']; // Obtener el ID de usuario de la URL
       <span class="text">Gráficas</span>
     </div>
     <!-- Fin Dashboard -->
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        //var userId = localStorage.getItem('user_id');
+        var userID = localStorage.getItem('user_id'); // Obtener el ID almacenado
+        var userCorreo = localStorage.getItem('user_correo');
+        if (userID) {
+          // Enviar una solicitud AJAX para recuperar los datos del usuario por su ID
+          var xhr = new XMLHttpRequest();
+          xhr.open('GET', '/BD/infoUser.php?id=' + userID, true);
+
+          xhr.onreadystatechange = function() {
+            console.log(xhr.responseText);
+            if (xhr.readyState === 4 && xhr.status === 200) {
+              try {
+                var userInfo = JSON.parse(xhr.responseText);
+                console.log(userInfo)
+                if (userInfo && userInfo.error) {
+                  console.error('Error obteniendo información del usuario:', userInfo.error);
+                } else {
+                  document.getElementById('aqui').value = userCorreo;
+
+                }
+              } catch (error) {
+                console.error('Error al analizar la respuesta JSON:', error);
+              }
+            } else {
+              console.error('Error en la solicitud AJAX para obtener información del usuario.');
+            }
+          }
+        };
+        xhr.send();
+
+        verificar()
+      })
+      //para enviar el id a agregar aplicador 
+      function redireccionarConUserId() {
+        var userId = localStorage.getItem('user_id');
+
+        if (userId) {
+          // Construir la URL con userId
+          var urlConUserId = `../../pestanas_Encuestado/Aplicador.php?userId=${userId}`;
+
+          // Redirigir al usuario a la nueva URL
+          window.location.href = urlConUserId;
+        } else {
+          // Si userId no está disponible, simplemente redirigir sin él
+          window.location.href = '../../pestanas_Encuestado/Aplicador.php';
+        }
+      }
+
+      function redireccionarConUserId2() {
+        var userId = localStorage.getItem('user_id');
+
+        if (userId) {
+          // Construir la URL con userId
+          var urlConUserId = `../../BD/prueva/graficasELCSA.php?userId=${userId}`;
+
+          // Redirigir al usuario a la nueva URL
+          window.location.href = urlConUserId;
+        } else {
+          // Si userId no está disponible, simplemente redirigir sin él
+          window.location.href = '../../BD/prueva/graficasELCSA.php';
+        }
+      }
+
+      function redireccionarConUserId3() {
+        var userId = localStorage.getItem('user_id');
+
+        if (userId) {
+          // Construir la URL con userId
+          var urlConUserId = `../../BD/prueva/graficasELCSAClasi.php?userId=${userId}`;
+
+          // Redirigir al usuario a la nueva URL
+          window.location.href = urlConUserId;
+        } else {
+          // Si userId no está disponible, simplemente redirigir sin él
+          window.location.href = '../../BD/prueva/graficasELCSAClasi.php';
+        }
+      }
+    </script>
+
     <div class="container">
       <form method="post">
         <div class="container mt-5">
@@ -196,6 +277,9 @@ $userId = $_GET['userId']; // Obtener el ID de usuario de la URL
                 <option value="Felipe Carrillo Puerto">Felipe Carrillo Puerto</option>
                 <option value="San Jose Segundo">San Jose Segundo</option>
                 <option value="Dzula">Dzula</option>
+                <option value="Pino Suarez">José María Pino Suárez</option>
+                <option value="Mixtequilla">Mixtequilla</option>
+                <option value="Chun On">Chun On</option>
               </select>
             </div>
             <div class="col-md-4">
@@ -238,11 +322,13 @@ $userId = $_GET['userId']; // Obtener el ID de usuario de la URL
         echo '<tbody>';
         $queryCodigos = mysqli_query($con, $sqlCodigos);
         $contador = 1;
+        $totalGeneral = 0;
         while ($row = mysqli_fetch_assoc($queryCodigos)) {
           // Dentro del bucle while
 
           $idPregunta = $row['id_pregunta'];
           $descripcion = $row['descripcion'];
+          
           $totalRespuestas = $row['totalRespuestas'];
 
           // Almacenar los datos en variables para las gráficas
@@ -257,9 +343,16 @@ $userId = $_GET['userId']; // Obtener el ID de usuario de la URL
           echo '<td>' . $totalRespuestas . '</td>';
           echo '</tr>';
 
+          $totalGeneral += $totalRespuestas;
           $contador++;
         }
         echo '</tbody>'; // Finaliza el cuerpo de la tabla
+        echo '<tfoot>';  // Comienza el pie de la tabla
+        echo '<tr>';
+        echo '<td colspan="2">Total General</td>';
+        echo '<td>' . $totalGeneral . '</td>';     // Muestra el total acumulado en la tercera columna
+        echo '</tr>';
+        echo '</tfoot>'; // Finaliza el pie de la tabla
         echo '</table>'; // Finaliza la tabla
       }
       ?>
@@ -304,6 +397,7 @@ GROUP BY id_pregunta, descripcion";
   echo '<tbody>';
   $queryCodigos2 = mysqli_query($con, $sqlCodigos2);
   $contador2 = 1;
+  $totalGeneral2 = 0;
   while ($row = mysqli_fetch_assoc($queryCodigos2)) {
     // Dentro del bucle while
 
@@ -323,9 +417,16 @@ GROUP BY id_pregunta, descripcion";
     echo '<td>' . $totalRespuestas2 . '</td>';
     echo '</tr>';
 
+    $totalGeneral2 += $totalRespuestas2;
     $contador2++;
   }
   echo '</tbody>'; // Finaliza el cuerpo de la tabla
+  echo '<tfoot>';  // Comienza el pie de la tabla
+  echo '<tr>';
+  echo '<td colspan="2">Total General</td>';
+  echo '<td>' . $totalGeneral2 . '</td>';     // Muestra el total acumulado en la tercera columna
+  echo '</tr>';
+  echo '</tfoot>'; // Finaliza el pie de la tabla
   echo '</table>'; // Finaliza la tabla
 }
 ?>
@@ -336,6 +437,8 @@ GROUP BY id_pregunta, descripcion";
 <canvas id="pastel" width="100%" height="30%"></canvas>
 </div>
 </section>
+
+
 <script>
   // Guardar el estado de la barra lateral en el localStorage
   function saveSidebarState(state) {
@@ -419,22 +522,8 @@ GROUP BY id_pregunta, descripcion";
     }
   });
 
-
-
-
   // Gráfica de pastel (doughnut)
   const $grafica2 = document.querySelector("#pastelAdulto");
-
-  // Generar colores aleatorios
-  // function generarColoresAleatorios(n) {
-  //     const colores = [];
-  //     for (let i = 0; i < n; i++) {
-  //         const color = `rgba(${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)}, 0.8)`;
-  //         colores.push(color);
-  //     }
-  //     return colores;
-
-  // }
 
   function generarColores() {
     const colores = [
@@ -472,8 +561,10 @@ GROUP BY id_pregunta, descripcion";
   const coloresAleatorios = generarColores(<?php echo count($etiquetas); ?>);
 
   // Calcular el porcentaje en función de las 16 preguntas
-  const porcentajes = <?php echo json_encode($datosGrafica); ?>.map(valor => (valor / 16) * 100);
+  const totalGeneral = <?php echo $totalGeneral; ?>;
+  const porcentajes = <?php echo json_encode($datosGrafica); ?>.map(valor => (valor / totalGeneral) * 100);
 
+ 
   const datosPastel = {
     labels: <?php echo json_encode($etiquetas); ?>,
     datasets: [{
@@ -512,134 +603,135 @@ GROUP BY id_pregunta, descripcion";
   });
 
   // ------------------------------------------------------------------------
-    // Gráfica de barras (line)
-    const $graficaA = document.querySelector("#grafica");
+  // Gráfica de barras (line)
+  const $graficaA = document.querySelector("#grafica");
 
-const datosClasificacionA = {
-  label: "Número de respuestas",
-  data: <?php echo json_encode($datosGrafica2); ?>,
-  //backgroundColor: 'rgba(24, 255, 190, 0.23)',
-  //borderColor: 'rgba(58, 222, 176, 0.76)',
-  tension: 0.5,
-  fill: true,
-  borderColor: 'rgb(255, 99, 132)',
-  backgroundColor: 'rgba(255, 99, 132, 0.5)',
-  pointRadius: 5,
-  pointBorderColor: 'rgba(255, 99, 132)',
-  pointBackgroundColor: 'rgba(255, 99, 132)',
-};
+  const datosClasificacionA = {
+    label: "Número de respuestas",
+    data: <?php echo json_encode($datosGrafica2); ?>,
+    //backgroundColor: 'rgba(24, 255, 190, 0.23)',
+    //borderColor: 'rgba(58, 222, 176, 0.76)',
+    tension: 0.5,
+    fill: true,
+    borderColor: 'rgb(255, 99, 132)',
+    backgroundColor: 'rgba(255, 99, 132, 0.5)',
+    pointRadius: 5,
+    pointBorderColor: 'rgba(255, 99, 132)',
+    pointBackgroundColor: 'rgba(255, 99, 132)',
+  };
 
-new Chart($graficaA, {
-  type: 'line',
-  data: {
-    labels: <?php echo json_encode($etiquetas2); ?>,
-    datasets: [datosClasificacionA]
-  },
-  options: {
-    scales: {
-      y: {
-        beginAtZero: true,
-        ticks: {
-          stepSize: 1, // esto hace que el paso entre ticks sea de 1
-          min: 0, // valor mínimo del eje y
-          max: 2 // valor máximo del eje y
+  new Chart($graficaA, {
+    type: 'line',
+    data: {
+      labels: <?php echo json_encode($etiquetas2); ?>,
+      datasets: [datosClasificacionA]
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true,
+          ticks: {
+            stepSize: 1, // esto hace que el paso entre ticks sea de 1
+            min: 0, // valor mínimo del eje y
+            max: 2 // valor máximo del eje y
+          }
         }
       }
     }
+  });
+
+
+
+
+  // Gráfica de pastel (doughnut)
+  const $graficaA2 = document.querySelector("#pastel");
+
+  // Generar colores aleatorios
+  // function generarColoresAleatorios(n) {
+  //     const colores = [];
+  //     for (let i = 0; i < n; i++) {
+  //         const color = `rgba(${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)}, 0.8)`;
+  //         colores.push(color);
+  //     }
+  //     return colores;
+
+  // }
+
+  function generarColoresA() {
+    const coloresA = [
+      //Morado
+      'rgba(128, 0, 128, 0.8)',
+      'rgba(160, 32, 240, 0.8)',
+      'rgba(192, 64, 255, 0.8)',
+
+      // Azul
+      'rgba(0, 0, 255, 0.8)',
+      'rgba(30, 144, 255, 0.8)',
+      'rgba(70, 130, 180, 0.8)',
+
+      // Verde
+      'rgba(0, 128, 0, 0.8)',
+      'rgba(50, 205, 50, 0.8)',
+      'rgba(173, 255, 47, 0.8)',
+
+      // Amarillo
+      'rgba(255, 247, 0, 1)',
+      'rgba(255, 215, 0, 0.8)',
+      'rgba(255, 235, 59, 0.8)',
+
+      // Naranja
+      'rgba(255, 165, 0, 0.8)',
+      'rgba(255, 135, 0, 1)',
+      'rgba(255, 99, 78, 1)',
+      'rgba(255, 59, 34, 1)',
+    ];
+    return coloresA;
   }
-});
 
 
 
+  const coloresAleatoriosA = generarColoresA(<?php echo count($etiquetas2); ?>);
 
-// Gráfica de pastel (doughnut)
-const $graficaA2 = document.querySelector("#pastel");
+  // Calcular el porcentaje en función de las 16 preguntas
+  const totalGeneral2 = <?php echo $totalGeneral2; ?>;
+  const porcentajesA = <?php echo json_encode($datosGrafica2); ?>.map(valor => (valor / totalGeneral2) * 100);
 
-// Generar colores aleatorios
-// function generarColoresAleatorios(n) {
-//     const colores = [];
-//     for (let i = 0; i < n; i++) {
-//         const color = `rgba(${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)}, 0.8)`;
-//         colores.push(color);
-//     }
-//     return colores;
+  const datosPastelA = {
+    labels: <?php echo json_encode($etiquetas2); ?>,
+    datasets: [{
+      data: porcentajesA,
+      backgroundColor: coloresAleatoriosA,
+    }],
+  };
 
-// }
-
-function generarColoresA() {
-  const coloresA = [
-    //Morado
-    'rgba(128, 0, 128, 0.8)',
-    'rgba(160, 32, 240, 0.8)',
-    'rgba(192, 64, 255, 0.8)',
-
-    // Azul
-    'rgba(0, 0, 255, 0.8)',
-    'rgba(30, 144, 255, 0.8)',
-    'rgba(70, 130, 180, 0.8)',
-
-    // Verde
-    'rgba(0, 128, 0, 0.8)',
-    'rgba(50, 205, 50, 0.8)',
-    'rgba(173, 255, 47, 0.8)',
-
-    // Amarillo
-    'rgba(255, 247, 0, 1)',
-    'rgba(255, 215, 0, 0.8)',
-    'rgba(255, 235, 59, 0.8)',
-
-    // Naranja
-    'rgba(255, 165, 0, 0.8)',
-    'rgba(255, 135, 0, 1)',
-    'rgba(255, 99, 78, 1)',
-    'rgba(255, 59, 34, 1)',
-  ];
-  return coloresA;
-}
-
-
-
-const coloresAleatoriosA = generarColoresA(<?php echo count($etiquetas2); ?>);
-
-// Calcular el porcentaje en función de las 16 preguntas
-const porcentajesA = <?php echo json_encode($datosGrafica2); ?>.map(valor => (valor / 16) * 100);
-
-const datosPastelA = {
-  labels: <?php echo json_encode($etiquetas2); ?>,
-  datasets: [{
-    data: porcentajesA,
-    backgroundColor: coloresAleatoriosA,
-  }],
-};
-
-new Chart($graficaA2, {
-  type: 'doughnut',
-  data: datosPastelA,
-  options: {
-    animation: {
-      animateRotate: true, // Habilitar animación de rotación
-      animateScale: true, // Habilitar animación de escala
-    },
-    tooltips: {
-      callbacks: {
-        label: function(tooltipItem, data) {
-          const label = data.labels[tooltipItem.index];
-          const valor = data.datasets[0].data[tooltipItem.index];
-          return `${label}: ${valor.toFixed(2)}%`;
+  new Chart($graficaA2, {
+    type: 'doughnut',
+    data: datosPastelA,
+    options: {
+      animation: {
+        animateRotate: true, // Habilitar animación de rotación
+        animateScale: true, // Habilitar animación de escala
+      },
+      tooltips: {
+        callbacks: {
+          label: function(tooltipItem, data) {
+            const label = data.labels[tooltipItem.index];
+            const valor = data.datasets[0].data[tooltipItem.index];
+            return `${label}: ${valor.toFixed(2)}%`;
+          },
+        },
+      },
+      legend: {
+        display: true,
+        position: 'right', // Coloca la leyenda en la parte derecha
+        labels: {
+          boxWidth: 20, // Ancho de la caja de color
+          padding: 10, // Espacio entre las cajas de color y el texto
+          fontStyle: 'bold', // Estilo de fuente
         },
       },
     },
-    legend: {
-      display: true,
-      position: 'right', // Coloca la leyenda en la parte derecha
-      labels: {
-        boxWidth: 20, // Ancho de la caja de color
-        padding: 10, // Espacio entre las cajas de color y el texto
-        fontStyle: 'bold', // Estilo de fuente
-      },
-    },
-  },
-});
+  });
 </script>
 
 </body>

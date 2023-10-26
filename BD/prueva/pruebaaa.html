@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Descargar contenido como PDF</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.5.0-beta4/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+</head>
+
+<body>
+
+    <button id="download">Descargar PDF</button>
+
+    <div id="content-to-capture" style="padding: 10px; margin: 10px; border: 1px solid black;">
+        <h1>Hola Mundo!</h1>
+        <p>Este es un ejemplo para capturar contenido con html2canvas y descargarlo como PDF.</p>
+    </div>
+
+    <script>
+        document.getElementById('download').addEventListener('click', function() {
+            // Obtenemos el elemento que queremos capturar
+            var element = document.getElementById('content-to-capture');
+
+            // Utilizamos html2canvas para obtener un canvas del elemento
+            html2canvas(element).then(function(canvas) {
+                // Una vez que el canvas ha sido generado, convertimos el canvas a imagen
+                var imgData = canvas.toDataURL('image/png');
+
+                // Inicializamos jsPDF
+                var pdf = new window.jspdf.jsPDF();
+
+
+                // Añadimos la imagen al PDF
+                pdf.addImage(imgData, 'PNG', 10, 10);
+
+                // Descargamos el PDF
+                pdf.save("download.pdf");
+            });
+        });
+    </script>
+
+</body>
+
+</html>
