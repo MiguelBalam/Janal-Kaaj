@@ -56,13 +56,18 @@ $userId = $_GET['userId']; // Obtener el ID de usuario de la URL
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.5.0-beta4/html2canvas.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.5.0-beta4/html2canvas.min.js"></script> -->
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script> -->
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.min.js"></script> -->
+
+
 
 
   <style>
     #map {
       width: 100%;
       height: 50vh;
-      /* esto utiliza el 30% de la altura de la ventana del navegador */
+      /* esto utiliza % de la altura de la ventana del navegador */
       margin-bottom: 50px;
     }
   </style>
@@ -221,7 +226,7 @@ $userId = $_GET['userId']; // Obtener el ID de usuario de la URL
           xhr.open('GET', '/BD/infoUser.php?id=' + userID, true);
 
           xhr.onreadystatechange = function() {
-            console.log(xhr.responseText);
+            console.log(xhr.responseText); 
             if (xhr.readyState === 4 && xhr.status === 200) {
               try {
                 var userInfo = JSON.parse(xhr.responseText);
@@ -511,6 +516,9 @@ mysqli_stmt_execute($stmt);
     <div class="text-center">
       <h5 class="py-4">Descargar Reporte Estadístico en PDF</h5><button id="download" class="btn btn-outline-warning py-3">Descargar PDF <i class="fa-solid fa-file-arrow-down"></i></button>
     </div>
+    
+
+
     <h4 class="py-4"></h4>
 
   </section>
@@ -624,6 +632,32 @@ mysqli_stmt_execute($stmt);
       'rgba(255, 159, 49, 0.8)',
       'rgba(215, 63, 9, 0.8)'
     ];
+//     Chart.plugins.register({
+//   afterDraw: function(chart) {
+//     const ctx = chart.ctx;
+//     const dataset = chart.data.datasets[0];
+//     const labels = chart.data.labels;
+
+//     const xLegend = chart.canvas.width - 150; // Ubicación en x para las leyendas
+//     const xValue = chart.canvas.width - 180;   // Ubicación en x para los porcentajes
+
+//     let y = 25;  // Iniciar la posición en y
+//     const yIncrement = 25;  // Incremento en y para cada entrada
+
+//     dataset.data.forEach((value, index) => {
+//       ctx.fillStyle = dataset.backgroundColor[index];
+//       ctx.fillRect(xLegend - 20, y - 10, 15, 15);
+//       ctx.font = "15px Arial";
+//       ctx.fillStyle = "#000";
+//       ctx.textAlign = "left";
+//       ctx.fillText(labels[index], xLegend, y);
+      
+//       ctx.textAlign = "right";
+//       ctx.fillText(value.toFixed(2) + "%", xValue, y);
+//       y += yIncrement;
+//     });
+//   }
+// });
 
     new Chart($grafica2, {
       type: 'doughnut',
@@ -872,8 +906,47 @@ mysqli_stmt_execute($stmt);
       }
 
     }
+    function generatePDF() {
+    // Usa html2canvas para tomar una captura de pantalla del contenido de tu página
+    html2canvas(document.body, { useCORS: true }).then(function(canvas) {
+      var imgData = canvas.toDataURL('image/png');
+
+// Usa jsPDF para crear el documento PDF
+var doc = new jsPDF('p', 'mm', [canvas.width, canvas.height]);
+
+// Añade la imagen al PDF
+var imgProps= doc.getImageProperties(imgData);
+var pdfWidth = doc.internal.pageSize.getWidth();
+var pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+doc.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+
+// Guarda el PDF
+doc.save('sample-file.pdf');
+});
+    
+}
 
 
+// document.getElementById('download').addEventListener('click', function() {
+//     var element = document.getElementById('pruebaxd');
+
+//     html2canvas(element, {
+//         useCORS: true
+//     }).then(function(canvas) {
+//         var imgData = canvas.toDataURL('image/png');
+
+//         // Establecer el PDF en formato horizontal
+//         var pdf = new window.jspdf.jsPDF('p', 'mm', [canvas.width, canvas.height]);
+
+//         // Ajustar el tamaño y posición de la imagen en el PDF
+//         var imgProps = pdf.getImageProperties(imgData);
+//         var pdfWidth = pdf.internal.pageSize.getWidth();
+//         var pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+//         pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+
+//         pdf.save("Análisis ELCSA.pdf");
+//     });
+// });
 
 
     document.getElementById('download').addEventListener('click', function() {
@@ -895,6 +968,7 @@ mysqli_stmt_execute($stmt);
 
         pdf.save("Análisis ELCSA.pdf");
       });
+      
     });
   </script>
   <!-- <div id="map"></div> -->

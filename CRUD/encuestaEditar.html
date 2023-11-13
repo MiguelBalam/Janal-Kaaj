@@ -161,7 +161,7 @@
 
             <div class="col-12 col-sm-10 col-md-8 col-lg-6 col-lg-6 p-3 shadow-lg mb-5 bg-white rounded">
 
-                <h1 class="bg-text-black text-center p-3 text-uppercase text-black">Editar Encuesta de Reactivos</h1>
+                <h1 class="bg-text-black text-center p-3 text-uppercase text-black">Editar Encuesta</h1>
 
                 <div class="row mb-4">
                     <label class="col-md-4 col-form-label px-5">Usuario: </label>
@@ -216,7 +216,7 @@
 
                                 <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza mb-2 w-100"
                                     type="button" id="boton_crear"
-                                    onclick="editarEncuesta()">Editar Reactivos</button>
+                                    onclick="verificarTablaYRedireccionar() ">Editar Reactivos/Variables</button>
                             </div>
                         </div>
                     </div>
@@ -308,7 +308,7 @@ async function DatosEncuesta(idEncuesta) {
 window.onload = llenarCamposEncuesta;
 </script>
 
-<script>
+<!-- <script>
     function editarEncuesta() {
         // Obtener el valor del parámetro "id" de la URL
         const urlParams = new URLSearchParams(window.location.search);
@@ -323,7 +323,41 @@ window.onload = llenarCamposEncuesta;
             alert('No se encontró un ID de encuesta válido en la URL');
         }
     }
+</script> -->
+<script>
+    async function verificarTablaYRedireccionar() {
+        // Obtener el valor del parámetro "id" de la URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const id = urlParams.get('id');
+        
+        // Verificar si se encontró un ID válido
+        if (!id) {
+            alert('No se encontró un ID de encuesta válido en la URL');
+            return;
+        }
+        
+        try {
+            // Realizar una consulta a la base de datos para verificar a qué tabla pertenece el ID
+            const response = await fetch(`/CRUD/idE.php?id=${id}`);
+            const data = await response.json();
+            
+            if (data.tabla === 'encuestas') {
+                // Redireccionar a la página de edición de reactivos
+                window.location.href = `/CRUD/editarReactivo.html?id=${id}`;
+            } else if (data.tabla === 'encuestasVariables') {
+                // Redireccionar a la página de edición de variables
+                window.location.href = `/CRUD/editVar.html?id=${id}`;
+            } else {
+                // Manejar el caso en el que el ID no pertenece a ninguna tabla conocida
+                alert('El ID de encuesta no pertenece a ninguna tabla conocida');
+            }
+        } catch (error) {
+            console.error('Error al verificar la tabla:', error);
+            alert('Ocurrió un error al verificar la tabla. Por favor, inténtalo de nuevo más tarde.');
+        }
+    }
 </script>
+
         <script>
             document.addEventListener('DOMContentLoaded', function () {
                 var userId = localStorage.getItem('user_id');
@@ -357,7 +391,7 @@ window.onload = llenarCamposEncuesta;
                      </script>
 
     
-<script>
+<!-- <script>
     function construirTabla(datosSeleccionados) {
         const resultadoDiv = document.getElementById("ReactivoDiv");
         const table = document.createElement("table");
@@ -402,7 +436,7 @@ window.onload = llenarCamposEncuesta;
   
     // Recupera los datos de la URL y construye la tabla
     construirTabla(datosSeleccionados);
-  </script>
+  </script> -->
 
         <div class="modal fade" id="Modal_vistaPrevia" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable ">

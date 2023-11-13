@@ -78,7 +78,11 @@
             </li>
 
             <li>
+<<<<<<< HEAD
                 <a onclick="redireccionarConUserId()">
+=======
+                <a href="/pestanas_Encuestado/Aplicador.php">
+>>>>>>> 15ba326ff04ffd668fbb9a2ce55c1ca82a7800e0
                     <i class='bx bx-book-add'></i>
                     <span class="link_name">Alta Aplicadores</span>
                 </a>
@@ -111,7 +115,11 @@
             </li>
 
             <li>
+<<<<<<< HEAD
                 <a onclick="redireccionarConUserId2()">
+=======
+                <a href="../BD/prueva/graficasELCSA.php" onclick="redireccionarConUserId2()">
+>>>>>>> 15ba326ff04ffd668fbb9a2ce55c1ca82a7800e0
                   <i class="bx bx-pie-chart-alt-2"></i>
                   <span class="link_name">Análisis</span>
                 </a>
@@ -122,7 +130,11 @@
         
         
               <li>
+<<<<<<< HEAD
                 <a onclick="redireccionarConUserId3()">
+=======
+                <a href="../BD/prueva/graficasELCSAClasi.php" onclick="redireccionarConUserId3()">
+>>>>>>> 15ba326ff04ffd668fbb9a2ce55c1ca82a7800e0
                   <i class="bx bx-line-chart"></i>
                   <span class="link_name">Graficas</span>
                 </a>
@@ -142,7 +154,11 @@
       </li> -->
 
 
+<<<<<<< HEAD
             <li>
+=======
+      <li>
+>>>>>>> 15ba326ff04ffd668fbb9a2ce55c1ca82a7800e0
                 <a href="/pestanas_Encuestador/perfil_Encuestador.html">
                     <i class="bx bx-user"></i>
                     <span class="link_name">Perfil</span>
@@ -256,7 +272,7 @@
     </script>
         <div class="container">
             <div class="row justify-content-center">
-                <div class="col-12 col-sm-10 col-md-8 col-lg-6 p-4 shadow-lg bg-light rounded">
+                <div class="col-12 col-sm-10 col-md-8 col-lg-6 p-4 shadow-lg bg-light rounded ">
                     <form action="asignar_encuesta.php" method="post">
                         <h2>Seleccionar Aplicador:</h2>
                         <table>

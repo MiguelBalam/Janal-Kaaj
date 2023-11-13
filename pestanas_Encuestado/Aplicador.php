@@ -34,6 +34,7 @@ $userId = $_GET['userId']; // Obtener el ID de usuario de la URL
     <!-- Boxiocns CDN Link -->
     <link href="https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css" rel="stylesheet" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="/CSS/SweetAlert.js"></script>
 </head>
 
 <body>
@@ -94,14 +95,22 @@ $userId = $_GET['userId']; // Obtener el ID de usuario de la URL
             </li>
 
             <li>
+<<<<<<< HEAD
                 <a onclick="redireccionarConUserId()">
+=======
+                <a href="/pestanas_Encuestado/Aplicador.php">
+>>>>>>> 15ba326ff04ffd668fbb9a2ce55c1ca82a7800e0
                     <i class="bx bx-book-add"></i>
                     <span class="link_name">Alta Aplicadores</span>
                 </a>
 
                 <ul class="sub-menu blank">
                     <li>
+<<<<<<< HEAD
                         <a class="link_name" onclick="redireccionarConUserId()">Alta Aplicadores</a>
+=======
+                        <a class="link_name" href="/pestanas_Encuestado/Aplicador.php">Alta Aplicadores</a>
+>>>>>>> 15ba326ff04ffd668fbb9a2ce55c1ca82a7800e0
                     </li>
                 </ul>
             </li>
@@ -132,22 +141,38 @@ $userId = $_GET['userId']; // Obtener el ID de usuario de la URL
             </li>
 
             <li>
+<<<<<<< HEAD
         <a onclick="redireccionarConUserId2()">
+=======
+        <a href="../BD/prueva/graficasELCSA.php" onclick="redireccionarConUserId2()">
+>>>>>>> 15ba326ff04ffd668fbb9a2ce55c1ca82a7800e0
           <i class="bx bx-pie-chart-alt-2"></i>
           <span class="link_name">Análisis</span>
         </a>
         <ul class="sub-menu blank">
+<<<<<<< HEAD
           <li><a class="link_name" onclick="redireccionarConUserId2()">Análisis</a></li>
+=======
+          <li><a class="link_name" href="../BD/prueva/graficasELCSA.php">Análisis</a></li>
+>>>>>>> 15ba326ff04ffd668fbb9a2ce55c1ca82a7800e0
         </ul>
       </li>
 
       <li>
+<<<<<<< HEAD
         <a onclick="redireccionarConUserId3()">
+=======
+        <a href="../BD/prueva/graficasELCSAClasi.php" onclick="redireccionarConUserId3()">
+>>>>>>> 15ba326ff04ffd668fbb9a2ce55c1ca82a7800e0
           <i class="bx bx-line-chart"></i>
           <span class="link_name">Graficas</span>
         </a>
         <ul class="sub-menu blank">
+<<<<<<< HEAD
           <li><a class="link_name" onclick="redireccionarConUserId3()">Graficas</a></li>
+=======
+          <li><a class="link_name" href="../BD/prueva/graficasELCSAClasi.php">Graficas</a></li>
+>>>>>>> 15ba326ff04ffd668fbb9a2ce55c1ca82a7800e0
         </ul>
       </li>
 
@@ -258,7 +283,11 @@ $userId = $_GET['userId']; // Obtener el ID de usuario de la URL
                     <div class="row mb-2">
                         <div class="d-grid gap-2 col-6 mx-auto">
                             <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" type="submit"
+<<<<<<< HEAD
                               onclick="enviarYLimpiarFormulario() "  id="boton-enviaru">
+=======
+                              onclick="enviarYLimpiarFormulario()"  id="boton-enviaru">
+>>>>>>> 15ba326ff04ffd668fbb9a2ce55c1ca82a7800e0
                                 Guardar
                             </button>
                         </div>
@@ -284,9 +313,18 @@ function enviarYLimpiarFormulario() {
 
     // Enviar el formulario
     formulario.submit();
+<<<<<<< HEAD
 
     // Limpiar el formulario después del envío
     formulario.reset();
+=======
+    //alert('Formulario enviado con éxito.');
+ 
+    // Limpiar el formulario después del envío
+    formulario.reset();
+    cargarApli()
+    
+>>>>>>> 15ba326ff04ffd668fbb9a2ce55c1ca82a7800e0
 }
 </script>
 
