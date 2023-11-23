@@ -143,13 +143,29 @@ if ($result->num_rows > 0) {
       </li>
 
       <li>
+<<<<<<< HEAD:pestanas_Encuestador/perfil_Encuestador.php
         <a onclick="redireccionarConUserId()">
+=======
+<<<<<<< HEAD
+        <a onclick="redireccionarConUserId()">
+=======
+        <a id="pruebaApli" href="/pestanas_Encuestado/Aplicador.php" onclick="redireccionarConUserId()">
+>>>>>>> 15ba326ff04ffd668fbb9a2ce55c1ca82a7800e0
+>>>>>>> 4daf80261a08805ce86e37c2ef3125b02ce8ea2b:pestanas_Encuestador/perfil_Encuestador.html
           <i class='bx bx-book-add'></i>
           <span class="link_name">Alta Aplicadores</span>
         </a>
 
         <ul class="sub-menu blank">
+<<<<<<< HEAD:pestanas_Encuestador/perfil_Encuestador.php
           <li><a class="link_name" onclick="redireccionarConUserId()">Alta Aplicadores</a></li>
+=======
+<<<<<<< HEAD
+          <li><a class="link_name" onclick="redireccionarConUserId()">Alta Aplicadores</a></li>
+=======
+          <li><a class="link_name" href="/pestanas_Encuestado/Aplicador.php">Alta Aplicadores</a></li>
+>>>>>>> 15ba326ff04ffd668fbb9a2ce55c1ca82a7800e0
+>>>>>>> 4daf80261a08805ce86e37c2ef3125b02ce8ea2b:pestanas_Encuestador/perfil_Encuestador.html
         </ul>
       </li>
 
@@ -315,6 +331,7 @@ if ($result->num_rows > 0) {
           window.location.href = '/BD/prueva/graficasELCSAClasi.php';
         }
       }
+<<<<<<< HEAD:pestanas_Encuestador/perfil_Encuestador.php
 
       function redireccionarConUserIdPEncuestador() {
     var userId = localStorage.getItem('user_id');
@@ -332,6 +349,9 @@ if ($result->num_rows > 0) {
 }
     </script>
     
+=======
+    </script>
+>>>>>>> 4daf80261a08805ce86e37c2ef3125b02ce8ea2b:pestanas_Encuestador/perfil_Encuestador.html
 
     <!--Perfil-->
 
@@ -569,6 +589,44 @@ if ($result->num_rows > 0) {
         }
       }
     }
+
+    function confirmarCerrarSesion() {
+    Swal.fire({
+        title: '¿Estás seguro?',
+        text: '¿Deseas cerrar la sesión?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí, cerrar sesión',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // Si el usuario confirma, eliminar los datos del usuario del almacenamiento local
+            localStorage.removeItem('user_correo');
+            localStorage.removeItem('user_id');
+            localStorage.removeItem('tipoUsuario');
+            console.log("Sesión cerrada correctamente.");
+            
+            // Mostrar una alerta con el mensaje de cierre en dos segundos
+            Swal.fire({
+                title: 'Cerrando sesión...',
+                icon: 'success',
+                timer: 2000,
+                timerProgressBar: true,
+                showConfirmButton: false
+            });
+
+            // Redireccionar a la página de inicio de sesión después de dos segundos
+            setTimeout(function() {
+                window.location.href = '/login.html';
+            }, 2000);
+        } else {
+            // Si el usuario cancela, no hacer nada
+        }
+    });
+}
+
   </script>
 
   <script>

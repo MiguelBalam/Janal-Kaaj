@@ -29,13 +29,13 @@
 
         <ul class="nav-links">
             <li>
-                <a href="/pestañas_Encuestador/dashboard.html">
+                <a href="/pestanas_Encuestador/dashboard.html">
                     <i class="bx bx-grid-alt"></i>
                     <span class="link_name">Dashboard</span>
                 </a>
 
                 <ul class="sub-menu blank">
-                    <li><a href="" id="mostrarSeccion1">Dashboard</a></li>
+                    <li><a href="/pestanas_Encuestador/dashboard.html" id="mostrarSeccion1">Dashboard</a></li>
                 </ul>
             </li>
 
@@ -55,12 +55,12 @@
 
             <li>
                 <div class="iocn-link">
-                    <a href="#" onclick="showAlert('variables')"> <!-- Llamamos a showAlert con el argumento 'variables' -->
+                    <a href="/pestanas_Encuestador/crear_Evariables.html" > <!-- Llamamos a showAlert con el argumento 'variables' -->
                         <i class='bx bx-file-blank'></i>
                         <span class="link_name">Crear variables</span>
                     </a>
                     <ul class="sub-menu blank">
-                        <a class="link_name" href="#" onclick="showAlert('variables')">Crear variables</a>
+                        <a class="link_name" href="/pestanas_Encuestador/crear_Evariables.html" >Crear variables</a>
                     </ul>
                 </div>
             </li>
@@ -78,24 +78,29 @@
             </li>
 
             <li>
-                <a href="/pestanas_Encuestado/Aplicador.html">
+<<<<<<< HEAD
+                <a onclick="redireccionarConUserId()">
+=======
+                <a href="/pestanas_Encuestado/Aplicador.php">
+>>>>>>> 15ba326ff04ffd668fbb9a2ce55c1ca82a7800e0
                     <i class='bx bx-book-add'></i>
                     <span class="link_name">Alta Aplicadores</span>
                 </a>
 
                 <ul class="sub-menu blank">
-                    <li><a class="link_name" href="/pestanas_Encuestado//Aplicador.html">Alta Aplicadores</a></li>
+                    <li><a class="link_name" href="/pestanas_Encuestado/Aplicador.php">Alta Aplicadores</a></li>
                 </ul>
             </li>
+
 
             <li>
                 <a href="/pestanas_Encuestado/asignarE.php">
                     <i class='bx bxs-user-check'></i>
-                    <span class="link_name">Asiganar</span>
+                    <span class="link_name">Asignar</span>
                 </a>
 
                 <ul class="sub-menu blank">
-                    <li><a class="link_name" href="/pestanas_Encuestado/asignarE.php">Asiganar</a></li>
+                    <li><a class="link_name" href="/pestanas_Encuestado/asignarE.php">Asignar</a></li>
                 </ul>
             </li>
 
@@ -110,25 +115,33 @@
             </li>
 
             <li>
-                <a href="#">
-                    <i class="bx bx-pie-chart-alt-2"></i>
-                    <span class="link_name">Análisis</span>
+<<<<<<< HEAD
+                <a onclick="redireccionarConUserId2()">
+=======
+                <a href="../BD/prueva/graficasELCSA.php" onclick="redireccionarConUserId2()">
+>>>>>>> 15ba326ff04ffd668fbb9a2ce55c1ca82a7800e0
+                  <i class="bx bx-pie-chart-alt-2"></i>
+                  <span class="link_name">Análisis</span>
                 </a>
                 <ul class="sub-menu blank">
-                    <li><a class="link_name" href="#">Análisis</a></li>
+                  <li><a class="link_name" href="../BD/prueva/graficasELCSA.php">Análisis</a></li>
                 </ul>
-            </li>
-
-
-            <li>
-                <a href="#">
-                    <i class="bx bx-line-chart"></i>
-                    <span class="link_name">Graficas</span>
+              </li>
+        
+        
+              <li>
+<<<<<<< HEAD
+                <a onclick="redireccionarConUserId3()">
+=======
+                <a href="../BD/prueva/graficasELCSAClasi.php" onclick="redireccionarConUserId3()">
+>>>>>>> 15ba326ff04ffd668fbb9a2ce55c1ca82a7800e0
+                  <i class="bx bx-line-chart"></i>
+                  <span class="link_name">Graficas</span>
                 </a>
                 <ul class="sub-menu blank">
-                    <li><a class="link_name" href="#">Graficas</a></li>
+                  <li><a class="link_name" href="../BD/prueva/graficasELCSAClasi.php">Graficas</a></li>
                 </ul>
-            </li>
+              </li>
 
             <!-- <li>
         <a href="#">
@@ -141,13 +154,19 @@
       </li> -->
 
 
+<<<<<<< HEAD
             <li>
-                <a href="perfil_Encuestador.html">
-                    <i class='bx bx-user'></i>
+=======
+      <li>
+>>>>>>> 15ba326ff04ffd668fbb9a2ce55c1ca82a7800e0
+                <a href="/pestanas_Encuestador/perfil_Encuestador.html">
+                    <i class="bx bx-user"></i>
                     <span class="link_name">Perfil</span>
                 </a>
                 <ul class="sub-menu blank">
-                    <li><a class="link_name" href="perfil_Encuestador.html">Perfil</a></li>
+                    <li>
+                        <a class="link_name" href="/pestanas_Encuestador/perfil_Encuestador.html">Perfil</a>
+                    </li>
                 </ul>
             </li>
 
@@ -171,9 +190,93 @@
             <span class="text">Asignar Encuestas</span>
         </div>
         <!-- Fin Dashboard -->
+        <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        //var userId = localStorage.getItem('user_id');
+        var userID = localStorage.getItem('user_id'); // Obtener el ID almacenado
+        var userCorreo = localStorage.getItem('user_correo');
+        if (userID) {
+          // Enviar una solicitud AJAX para recuperar los datos del usuario por su ID
+          var xhr = new XMLHttpRequest();
+          xhr.open('GET', '/BD/infoUser.php?id=' + userID, true);
+
+          xhr.onreadystatechange = function() {
+            console.log(xhr.responseText);
+            if (xhr.readyState === 4 && xhr.status === 200) {
+              try {
+                var userInfo = JSON.parse(xhr.responseText);
+                console.log(userInfo)
+                if (userInfo && userInfo.error) {
+                  console.error('Error obteniendo información del usuario:', userInfo.error);
+                } else {
+                  document.getElementById('aqui').value = userCorreo;
+
+                }
+              } catch (error) {
+                console.error('Error al analizar la respuesta JSON:', error);
+              }
+            } else {
+              console.error('Error en la solicitud AJAX para obtener información del usuario.');
+            }
+          }
+        };
+        xhr.send();
+
+        verificar()
+      })
+      //para enviar el id a agregar aplicador 
+      function redireccionarConUserId() {
+        var userId = localStorage.getItem('user_id');
+
+        if (userId) {
+          // Construir la URL con userId
+          var urlConUserId = `/pestanas_Encuestado/Aplicador.php?userId=${userId}`;
+
+          // Redirigir al usuario a la nueva URL
+          window.location.href = urlConUserId;
+        } else {
+          // Si userId no está disponible, simplemente redirigir sin él
+          window.location.href = '/pestanas_Encuestado/Aplicador.php';
+        }
+      }
+
+      function redireccionarConUserId2() {
+        var userId = localStorage.getItem('user_id');
+
+        if (userId) {
+          // Construir la URL con userId
+          var urlConUserId = `../BD/prueva/graficasELCSA.php?userId=${userId}`;
+
+          // Redirigir al usuario a la nueva URL
+          window.location.href = urlConUserId;
+        } else {
+          // Si userId no está disponible, simplemente redirigir sin él
+          window.location.href = '../BD/prueva/graficasELCSA.php';
+        }
+      }
+
+      function redireccionarConUserId3() {
+        var userId = localStorage.getItem('user_id');
+
+        if (userId) {
+          // Construir la URL con userId
+          var urlConUserId = `../BD/prueva/graficasELCSAClasi.php?userId=${userId}`;
+
+          // Redirigir al usuario a la nueva URL
+          window.location.href = urlConUserId;
+        } else {
+          // Si userId no está disponible, simplemente redirigir sin él
+          window.location.href = '../BD/prueva/graficasELCSAClasi.php';
+        }
+      }
+    </script>
         <div class="container">
             <div class="row justify-content-center">
+<<<<<<< HEAD
             <div class="col-12 col-md-10 col-lg-8 col-xl-10 p-3 shadow-lg mb-5 bg-white rounded">
+=======
+                <div class="col-12 col-sm-10 col-md-8 col-lg-6 p-4 shadow-lg bg-light rounded ">
+>>>>>>> 4daf80261a08805ce86e37c2ef3125b02ce8ea2b
                     <form action="asignar_encuesta.php" method="post">
                     <div class="table-responsive">
                         <h2>Seleccionar Aplicador:</h2>
@@ -267,7 +370,7 @@
                     </form>
                     <div class="row mb-3">
                         <div class="d-grid gap-2 col-6 mx-auto mt-3">
-                            <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" type="submit" id="boton-enviard" onclick="window.location.href='/pestañas_Encuestador/dashboard.html'">Volver al Dashboard</button>
+                            <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" type="submit" id="boton-enviard" onclick="window.location.href='/pestanas_Encuestador/dashboard.html'">Volver al Dashboard</button>
                         </div>
                     </div>
                 </div>
@@ -392,9 +495,9 @@
             } else {
                 // Redirigir a la página correspondiente
                 if (type === 'variables') {
-                    window.location.href = 'crear_Evariables.html';
+                    window.location.href = '/pestanas_Encuestador/crear_Evariables.html';
                 } else if (type === 'reactivos') {
-                    window.location.href = 'crear.html';
+                    window.location.href = '/pestanas_Encuestador/crear.html';
                 }
             }
         }

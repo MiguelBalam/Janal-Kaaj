@@ -809,3 +809,27 @@ function editarEncues() {
     confirmButtonText: 'Enterado',
   })
 }
+
+function cargarIndex() {
+  Swal.fire({
+    title: 'Datos Cargados',
+    text: 'Datos cargados.',
+    icon: 'success',
+    timer: 2000,
+    timerProgressBar: true,
+    confirmButtonColor: '#3085d6',
+    confirmButtonText: 'Okay',
+  });
+}
+
+function cargarApli() {
+  Swal.fire({
+    title: 'Aplicador Guardado',
+    text: 'Datos Guardados.',
+    icon: 'success',
+    timer: 3000,
+    timerProgressBar: true,
+    confirmButtonColor: '#3085d6',
+    confirmButtonText: 'Okay',
+  });
+}

@@ -77,7 +77,7 @@
           <h1 class="bg-text-black text-center py-3">Janal-Kaaj</h1>
 
           <form id="login" action="/BD/login.php" method="post" onsubmit="return controlLogin(event)">
-            <div class="row mb-3">
+            <!-- <div class="row mb-3">
               <label for="correo" class="col-sm-4 col-form-label px-4 text-dark">Usuario:</label>
               <div class="col-sm-8">
                 <input class="form-control" type="email" Placeholder="Usuario" name="correo" id="correo" required>
@@ -89,25 +89,64 @@
                 </div>
 
               </div>
-            </div>
+            </div> -->
+            <div class="container">
+              <div class="row mb-3">
+                <label for="correo" class="col-sm-4 col-form-label px-4 text-dark">Usuario:</label>
+                  <div class="col-md-8 col-sm-12">  
+                    <input class="form-control" type="email" Placeholder="Usuario" name="correo" id="correo" required>
+                    <div class="valid-feedback">
+                      Correcto
+                    </div>
+                    <div class="invalid-feedback">
+                      Llene el campo
+                    </div>
+                  </div>
+              </div>
+          </div>
 
-            <div class="row mb-3">
+            <!-- <div class="row mb-3">
               <label for="contraseniaL" class="col-sm-4 col-form-label px-4 text-dark">Contraseña:</label>
               <div class="col-sm-8">
                 <input class="form-control" type="password" placeholder="Contraseña" name="contraseniaL"
                   id="contraseniaL" required>
               </div>
-            </div>
-            <div class="row mb-3">
+            </div> -->
+
+            <div class="container">
+              <div class="row mb-3">
+                <label for="contraseniaL" class="col-sm-4 col-form-label px-4 text-dark">Contraseña:</label>
+                  <div class="col-md-8 col-sm-12">  
+                    <input class="form-control" type="password" placeholder="Contraseña" name="contraseniaL"
+                    id="contraseniaL" required>
+                  </div>
+              </div>
+          </div>
+
+            <!-- <div class="row mb-3">
               <label for="tipo_usuario" class="col-sm-4 col-form-label px-4 text-dark">Tipo de Usuario:</label>
               <div class="col-sm-8">
                 <select class="form-select" id="tipo_usuario" name="tipo_usuario" required>
                   <option value="encuestador">Encuestador</option>
                   <option value="aplicador">Aplicador</option>
                   <option value="encuestado">Encuestado</option>
+                  <option value="administrador">Administrador</option>
                 </select>
               </div>
-            </div>
+            </div> -->
+            <div class="container">
+              <div class="row mb-3">
+                <label for="tipo_usuario" class="col-md-4 col-sm-12 col-form-label px-4 text-dark">Tipo de Usuario:</label>
+                  <div class="col-md-8 col-sm-12">  
+                    <select class="form-select" id="tipo_usuario" name="tipo_usuario" required>
+                      <option value="encuestador">Encuestador</option>
+                      <option value="aplicador">Aplicador</option>
+                      <option value="encuestado">Encuestado</option>
+                      <option value="administrador">Administrador</option>
+                    </select>
+                  </div>
+              </div>
+          </div>
 
             <div class="row justify-content-center">
               <button type="submit" id="controlE" class="nav-link btnn2 btn-outline-warning text-white align">INICIAR

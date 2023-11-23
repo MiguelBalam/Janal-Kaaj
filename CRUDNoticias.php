@@ -1,3 +1,19 @@
+<?php
+
+$username  = "janalkaa_admin";
+$password = "janalkaaj2023";
+$servername = "162.241.60.169";
+$dbname = "janalkaa_kaaj";
+
+$con = new mysqli($servername, $username, $password, $dbname);
+mysqli_set_charset($con, "utf8");
+
+if ($con->connect_error) {
+  die("Conexión fallida: " . $con->connect_error);
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -120,35 +136,61 @@
         </ul>
       </div>
       
-    <section class="home-section">
-        <div class="home-content">
-          <i class="bx bx-menu"></i>
-          <span class="text">Noticias</span>
-        </div>
-      <!-- FIN Dashboard -->
-  
-    <section class="text-center sectionDash">
-      <div class="container p-5">
-        <h1 class="text-center text-black">Noticias General</h1>
+      <section class="text-center sectionDash">
+  <div class="container p-5">
+    <h1 class="text-center text-black">Noticias General</h1>
+    
+    <div class="row " id="editarNoticiass">
+      <div class="row align-items-center mb-3">
         
-        <div class="row " id="editarNoticiass">
-          <div class="row align-items-center mb-3">
-            
-            <div class="col-lg-11">
-             <input type="text" name="search" placeholder="Buscar" class="form-control" id="buscar-titulo" required>
-            </div>
-            <!-- <div class="col-lg-1">
-              <a onClick="" href="noticias.html" class="btn" type="submit" id="prueba4"><i class="fa-solid fa-magnifying-glass"></i> </a>             
-            </div> -->
-            <div class="col-lg-1">
-              <a onClick="" href="noticias.html" class="btn" type="submit" id="prueba4"><i class="fa-solid fa-file-circle-plus"></i></a>
-            </div>
-            
-             </div>
+        <div class="col-lg-11">
+          <input type="text" name="search" placeholder="Buscar" class="form-control" id="buscar-titulo" required>
+        </div>
+        
+        <div class="col-lg-1">
+          <a onClick="" href="noticias.html" class="btn" type="submit" id="prueba4"><i class="fa-solid fa-file-circle-plus"></i></a>
+        </div>
+      </div>
              
-             <div class="row crud" id="editarNoticias">
+      <div class="row crud" id="editarNoticias">
+      <?php
+$id = 25;
+$stmt = $con->prepare("SELECT imagen, titulo, cuerpo, id FROM Noticias WHERE id = ?");
+$stmt->bind_param("i", $id);
+$stmt->execute();
+$result = $stmt->get_result();
 
-             </div>
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        echo '<div class="col-lg-3">';
+        echo '    <div class="card">';
+        echo '        <div class="card-body">';
+        echo '            <img width="100" src="data:image/jpeg;base64,' . base64_encode($row['imagen']) . '">';
+        echo '            <div class="card-titulo">';
+        echo '                <p class="fs-6 fw-bold p_top">' . $row["titulo"] . '</p>';
+        echo '            </div>';
+        echo '            <div class="card-texto2"><p>' . $row["cuerpo"] . '</p></div>';
+        echo '            <div>';
+        echo '                <button id="btnup'.$row["id"].'" class="btn" value="Q" onclick="publicarNoticia(this.id);"><i class="fa-solid fa-file-arrow-up"></i></button>';
+        echo '                <a type="button" class="btn" onclick="boton();"><i class="fa-solid fa-file-pen"></i></a>';
+        echo '                <button class="btn" id="btn'.$row["id"].'" onclick="obtenerIdBoton(this.id);"><i class="fa-solid fa-trash"></i></button>';
+        echo '            </div>';
+        echo '        </div>';
+        echo '    </div>';
+        echo '</div>';
+    }
+} else {
+    echo "0 noticias disponibles";
+}
+
+$stmt->close();
+$con->close();
+?>
+      </div>
+    </div>
+  </div>
+</section>
+
 
           <!-- <div class="col-lg-3">
             <div class="card">
@@ -166,37 +208,7 @@
               </div>
             </div>
           </div> -->
-
-          
-        </div>
-      </div>
-    </section>
-  </section>
-
-  <!-- <footer class="footer">
-    <div class="container py-4">
-        <div class="row align-items-center">
-            <div class="col-sm-4 text-center "><img src="./Img/Oficial_JanalKaaj.png" width="180px" height="90px"></div>
-            <div class="col-sm-4 my-3 my-lg-0 text-center">
-                <h5 class="">Enlaces</h5>
-               
-                <a class="link-dark text-decoration-none" target="_blank" href="https://www.aecoc.es/actividad/seguridad-alimentaria-calidad/">AECOC</a><br>
-                <a class="link-dark text-decoration-none" target="_blank" href="https://www.gob.mx/segalmex">Segalmex</a><br>
-                <a class="link-dark text-decoration-none" target="_blank" href="https://www.gob.mx/agricultura">GOB MX</a><br>
-                <a class="link-dark text-decoration-none" target="_blank" href="https://www.fao.org/statistics/es/">FAO</a><br>
-                <a class="link-dark text-decoration-none" target="_blank" href="https://www.acnur.org/nutricion-y-seguridad-alimentaria.html">ACNUR</a>
-            </div>
-            <div class="col-sm-4 text-center">
-              <h5>Contacto</h5>
-              <p>Dudas e información a <br>iscproyectoslc@gmail.com</p>
-              <h5>Síguenos</h5>
-              <a class="btn btn-dark btn-social mx-2" target="_blank" href="https://www.facebook.com/profile.php?id=100093048912704" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-              <a class="btn btn-dark btn-social mx-2" target="_blank" href="https://instagram.com/janal_kaaj?igshid=MzNlNGNkZWQ4Mg==" aria-label="LinkedIn"><i class="fab fa-instagram"></i></a>
-            </div>
-        </div>
-    </div>
-    <div class="footerB fs-6 py-1">Copyright &copy; Janal Kaaj 2023</div>
-  </footer> -->
+ 
   <script>
       let arrow = document.querySelectorAll(".arrow");
       for (var i = 0; i < arrow.length; i++) {
@@ -228,7 +240,7 @@
   <script src="./node_modules/sweetalert2/dist/sweetalert2.all.js"></script>
   <script src="../CSS/SweetAlert.js"></script>
   <script src="./CSS/prueba.js"></script>
-  <script src="BD/app.js"></script>
+  <!-- <script src="BD/app.js"></script> -->
 </body>
 
 </html>

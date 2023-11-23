@@ -1,4 +1,3 @@
-
 if (!navigator.onLine) {
     var tipoUsuario = localStorage.getItem('tipoUsuario');
     if (tipoUsuario) {
@@ -50,9 +49,6 @@ function mostrarEncuestas() {
                     }else{
                         mostrar(IdEn)
                     }
-              
-                   // abrirPestanaConFormulario(IdEn);
-                ;
                 });
             }
         };
@@ -138,7 +134,11 @@ function mostrarEncuestasApli(aplicador) {
             for (let i = 0; i < btns.length; i++) {
                 btns[i].addEventListener("click", function (event) {
                     const IdEn = event.target.getAttribute("data-encuesta-id");
-                    abrirPestanaConFormulario(IdEn);
+                   if(IdEn <= 3){
+                        abrirPestanaConFormulario(IdEn);
+                    }else{
+                        mostrar(IdEn)
+                    }
 
                 });
             }
@@ -279,6 +279,16 @@ function mostrarEncuestasApli(aplicador) {
 <div class="col-sm-6 p-3">
 
 <div class="row mb-3">
+<label for="latitud">Latitud:</label>
+<div class="col-sm-8">
+<input type="text" class="form-control" name="latitud" id="latitud">
+</div>
+<div class="col-sm-8">
+<label for="longitud">Longitud:</label>
+<input type="text" class="form-control" name="longitud" id="longitud">
+</div>
+</div>
+<div class="row mb-3">
 <label for="nombrecompletos" class="col-sm-4 col-form-label px-4">Nombre:</label>
 <div class="col-sm-8">
 <input type="text" class="form-control" name="nombre" id="nombre">
@@ -323,7 +333,7 @@ function mostrarEncuestasApli(aplicador) {
                     <label for="observacion">Observaciones</label>
                     <textarea name="observacion" id="observacion" class="form-control" rows="3">No hay observación</textarea>
                 </div>
-                <button type="submit" class="btn btn-primary" id="btnSend">DEBES RESPONDER TODAS LAS PREGUNTAS</button>
+                <button type="submit" class="btn btn-primary" id="btnSend"> GUARDAR</button>
             </form>
             </div>
             
@@ -381,8 +391,7 @@ if (userCorreo) {
   
     nuevaPestana.document.write(dynamicHtml);
    
-        // Obtener el formulario por su identificador único
-     
+      
    
         // Ahora puedes ejecutar el código de IndexedDB aquí
         var request = indexedDB.open("miBaseDeDatos");
@@ -506,9 +515,12 @@ console.log(nuevaPestana.codigoValue,nuevaPestana.vigenciaValue)
         edad: nuevaPestana.document.getElementById('edad').value,
         codigo: nuevaPestana.codigoValue,
         id_encuesta: id_encuesta,
-        Aplicador: nuevaPestana.userCorreo 
+        Aplicador: nuevaPestana.userCorreo,
+        longitud: nuevaPestana.document.getElementById('longitud').value,
+        latitud: nuevaPestana.document.getElementById('latitud').value
     };
- 
+    
+      
     for (var i = 0; i < respuestas.length; i++) {
         var espuestaData = respuestas[i];
     guardarEnIndexedDB(espuestaData,id_encuesta);
@@ -589,10 +601,13 @@ console.log(nuevaPestana.codigoValue,nuevaPestana.vigenciaValue)
             <td class="col-sm-4 text-center">TIPO DE ENCUESTA</td>
             <td><small><strong>TIPO:</strong> <span id="tipo"></span></small></td>
         </tr>
+<<<<<<< HEAD
         <tr>
         <td class="col-sm-4 text-center">Instrucciones</td>
         <td>${Instrucciones}</td>
     </tr>
+=======
+>>>>>>> 4daf80261a08805ce86e37c2ef3125b02ce8ea2b
     </tbody>
 </table>
 
@@ -603,11 +618,19 @@ console.log(nuevaPestana.codigoValue,nuevaPestana.vigenciaValue)
 <div class="row mb-3">
 <label for="latitud">Latitud:</label>
 <div class="col-sm-8">
+<<<<<<< HEAD
 <input type="number" class="form-control" name="latitud" id="latitud">
 </div>
 <div class="col-sm-8">
 <label for="longitud">Longitud:</label>
 <input type="number" class="form-control" name="longitud" id="longitud">
+=======
+<input type="text" class="form-control" name="latitud" id="latitud">
+</div>
+<div class="col-sm-8">
+<label for="longitud">Longitud:</label>
+<input type="text" class="form-control" name="longitud" id="longitud">
+>>>>>>> 4daf80261a08805ce86e37c2ef3125b02ce8ea2b
 </div>
 </div>
 <div class="row mb-3">
@@ -651,7 +674,14 @@ console.log(nuevaPestana.codigoValue,nuevaPestana.vigenciaValue)
                         <!-- Preguntas se cargarán aquí desde IndexedDB -->
                     </tbody>
                 </table>
+<<<<<<< HEAD
                
+=======
+                <div class="form-group">
+                    <label for="observacion">Observaciones</label>
+                    <textarea name="observacion" id="observacion" class="form-control" rows="3">No hay observación</textarea>
+                </div>
+>>>>>>> 4daf80261a08805ce86e37c2ef3125b02ce8ea2b
                 <button type="submit" class="btn btn-primary" id="btnSend"> GUARDAR</button>
             </form>
             </div>
@@ -1056,8 +1086,11 @@ function confirmarCerrarSesion() {
         if (result.isConfirmed) {
             // Si el usuario confirma, eliminar el usuario activo del almacenamiento local
             localStorage.removeItem('user_correo');
+<<<<<<< HEAD
             localStorage.removeItem('user_id');
             localStorage.removeItem('tipoUsuario');
+=======
+>>>>>>> 4daf80261a08805ce86e37c2ef3125b02ce8ea2b
             console.log("Sesión cerrada correctamente.");
             
             // Mostrar una alerta con el mensaje de cierre en dos segundos
@@ -1078,5 +1111,9 @@ function confirmarCerrarSesion() {
         }
     });
 }
+<<<<<<< HEAD
 
+=======
+>>>>>>> 4daf80261a08805ce86e37c2ef3125b02ce8ea2b
 
+ 

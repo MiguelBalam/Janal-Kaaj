@@ -69,7 +69,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             VALUES ('$idAutenticacion', '$Nombre', '$ApellidoP', '$ApellidoM', '$idCorrespondiente')";
 
             if ($con->query($sql) === TRUE) {
-                echo "Datos registrados correctamente";
+               //echo "Datos registrados correctamente";
+               $con->close();
+           echo '<script type="text/javascript">
+               setTimeout(function () {
+                   window.location.href = "/pestanas_Encuestado/Aplicador.php?userId=' . $userId . '";
+               }, 100); // 2000 milisegundos (2 segundos) antes de redireccionar
+           </script>';
             } else {
                 echo "Error en la inserción en la tabla AplicadoresDeEncuestas: " . $sql . "<br>" . $con->error;
             }
@@ -77,7 +83,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             echo "Error en la inserción en la tabla AutenticacionApli: " . $sql2 . "<br>" . $con->error;
         }
         // // Cerrar la conexión
-        $con->close();
+     
     }
-    ob_end_flush();
+   // ob_end_flush();
     ?>

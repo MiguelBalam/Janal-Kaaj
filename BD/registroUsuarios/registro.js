@@ -46,7 +46,14 @@ document.formEncuestado.addEventListener('submit', (ev) => {
   xhr.onreadystatechange = function () {
       if (xhr.readyState === 4 && xhr.status === 200) {
           console.log(xhr.responseText);
-          window.location.href = "/login.html";
+          Swal.fire({
+            title: "¡Registro exitoso!",
+            text: "Tus datos se han registrado correctamente.",
+            icon: "success",
+        }).then(function () {
+            // Redireccionar al usuario después de hacer clic en el botón "OK"
+            window.location.href = "/login.html";
+        });
       }
   };
   xhr.send(formData);
@@ -78,7 +85,15 @@ document.formAplicador.addEventListener('submit', (ev) => {
   xhr.onreadystatechange = function () {
       if (xhr.readyState === 4 && xhr.status === 200) {
           console.log(xhr.responseText);
-          window.location.href = "/pestanas_Encuestado/Aplicador.html";
+          Swal.fire({
+            title: "¡Registro exitoso!",
+            text: "Tus datos se han registrado correctamente.",
+            icon: "success",
+        }).then(function () {
+            // Redireccionar al usuario después de hacer clic en el botón "OK"
+            window.location.href = "/pestanas_Encuestado/Aplicador.html";
+        });
+        
       }
   };
   xhr.send(formData);
@@ -441,6 +456,8 @@ function almacenarTokenEnIndexedDB(correo, token, tipoUsuario) {
         window.location.href = '/pestanas_Encuestado/dashAplicador.html';
       } else if (tipoUsuario === "encuestado") {
         window.location.href = '/pestanas_Encuestado/perfil.php?userId=' + userId; 
+      } else if (tipoUsuario === "administrador") {
+        window.location.href = '/pestanas_SuperUsuario/perfil_admin.php?userId=' + userId;
       }else {
         console.error('Tipo de usuario no reconocido:', tipoUsuario);
         // Puedes redirigir a una página de error o a una página predeterminada en caso de tipo de usuario desconocido.

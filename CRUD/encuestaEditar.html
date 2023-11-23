@@ -161,7 +161,7 @@
 
             <div class="col-12 col-sm-10 col-md-8 col-lg-6 col-lg-6 p-3 shadow-lg mb-5 bg-white rounded">
 
-                <h1 class="bg-text-black text-center p-3 text-uppercase text-black">Editar Encuesta de Reactivos</h1>
+                <h1 class="bg-text-black text-center p-3 text-uppercase text-black">Editar Encuesta</h1>
 
                 <div class="row mb-4">
                     <label class="col-md-4 col-form-label px-5">Usuario: </label>
@@ -170,7 +170,7 @@
                     </div>
                 </div>
 
-                <form name="for" id="formulario" action="/BD/prueva/guardar_encuesta.php" method="post">
+                <form name="for" id="form"  method="post">
                     <input type="hidden" name="fechaCreacionER" id="fechaCreacionER">
 
                     <div class="row mb-4">
@@ -209,28 +209,19 @@
                                 <h5>Opciones para Agregar, Crear y Editar los reactivos</h5>
                             </div>
 
+                            <div id="contenedor_reactivos">
+                                <!-- Aquí es donde se mostrarán los reactivos obtenidos desde la base de datos -->
+                            </div>
                             <div class="d-flex flex-column flex-sm-row justify-content-center align-items-center">
-
-                         
-
-
-                                <button
-                                    class="btn btn-outline-success bg-border-mostaza bg-text-mostaza mb-2 me-2 w-100"
-                                    id="boton_agregar" type="button"
-                                    onclick="window.location.href='../pestanas_Encuestador/reactivo_categoria.html'">
-                                    Agregar </button>
 
                                 <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza mb-2 w-100"
                                     type="button" id="boton_crear"
-                                    onclick="location.href='../pestanas_Encuestador/editR.html'">Editar</button>
+                                    onclick="verificarTablaYRedireccionar() ">Editar Reactivos/Variables</button>
                             </div>
                         </div>
                     </div>
 
                     <!-- tabla bd -->
-                    <div class="bg-text-black text-center p-3 text-uppercase text-black">
-                        <h5>Lista de reactivos que tienes agregadas o creadas</h5>
-                    </div>
 
                   
                     <div id="reactivosTable2"></div>
@@ -241,7 +232,7 @@
                             <div id="salidapredeSelec"></div>
                         </div>
                     </div>
-
+                    <input type="hidden" name="hidden_id_encuesta" id="hidden_id_encuesta" >
                 
                 </form>
                 <div class="row mb-4">
@@ -249,8 +240,15 @@
                         <button onclick="modificarDetallesEncuesta()"
                             class="btn btn-outline-success bg-border-mostaza bg-text-mostaza mb-2 w-100"
                             id="boton-crear-encuesta" type="submit" data-bs-toggle="modal"
-                            data-bs-target="#Modal_vistaPrevia" disabled>Modificar Encuesta</button>
-                            <input type="hidden" id="hidden_id_encuesta">
+                            data-bs-target="#Modal_vistaPrevia">Modificar Encuesta</button>
+                          
+                    </div>
+                </div>
+                <div class="row mb-4">
+                    <div class="col-sm-4 offset-sm-4 text-center">
+                        <button id="btnEliminar"
+                            class="btn btn-outline-success bg-border-mostaza bg-text-mostaza mb-2 w-100">
+                            Eliminar</button>
                     </div>
                 </div>
                 <div class="row mb-4">
@@ -262,7 +260,104 @@
                 </div>
             </div>
         </section>
-       
+        <script>
+               function obtenerElIdDeLaEncuesta() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const idEncuesta = urlParams.get('id');
+    return idEncuesta;
+}
+
+let idEncuesta = obtenerElIdDeLaEncuesta();
+console.log(idEncuesta)
+async function llenarCamposEncuesta() {
+    try {
+        const datosEncuesta = await DatosEncuesta(idEncuesta);
+      
+        if (datosEncuesta) {
+            // Llenar los campos del formulario con los valores de la encuesta
+            document.getElementById('modificar_titulo').value = datosEncuesta.titulo;
+            document.getElementById('modificar_descripcion').value = datosEncuesta.objetivo;
+            document.getElementById('modificar_instruccion').value = datosEncuesta.instrucciones;
+        } else {
+            alert('No se pudo obtener la encuesta');
+        }
+    } catch (error) {
+        console.error('Error al obtener y llenar los datos de la encuesta:', error);
+    }
+}
+
+async function DatosEncuesta(idEncuesta) {
+    const apiUrl = `/CRUD/mostrarD.php?id=${idEncuesta}`;
+    
+    try {
+        const response = await fetch(apiUrl);
+        console.log(response)
+        if (!response.ok) {
+            throw new Error('No se pudo obtener la encuesta');
+        }
+        const datosEncuesta = await response.json();
+        console.log(datosEncuesta)
+        return datosEncuesta;
+    } catch (error) {
+        console.error('Error al obtener los datos de la encuesta:', error);
+        return null;
+    }
+}
+
+
+window.onload = llenarCamposEncuesta;
+</script>
+
+<!-- <script>
+    function editarEncuesta() {
+        // Obtener el valor del parámetro "id" de la URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const id = urlParams.get('id');
+        
+        // Verificar si se encontró un ID válido
+        if (id) {
+            // Redireccionar a la página de edición con el ID
+            window.location.href = `/CRUD/editarReactivo.html?id=${id}`;
+        } else {
+            // Manejar el caso en el que no se encontró un ID válido
+            alert('No se encontró un ID de encuesta válido en la URL');
+        }
+    }
+</script> -->
+<script>
+    async function verificarTablaYRedireccionar() {
+        // Obtener el valor del parámetro "id" de la URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const id = urlParams.get('id');
+        
+        // Verificar si se encontró un ID válido
+        if (!id) {
+            alert('No se encontró un ID de encuesta válido en la URL');
+            return;
+        }
+        
+        try {
+            // Realizar una consulta a la base de datos para verificar a qué tabla pertenece el ID
+            const response = await fetch(`/CRUD/idE.php?id=${id}`);
+            const data = await response.json();
+            
+            if (data.tabla === 'encuestas') {
+                // Redireccionar a la página de edición de reactivos
+                window.location.href = `/CRUD/editarReactivo.html?id=${id}`;
+            } else if (data.tabla === 'encuestasVariables') {
+                // Redireccionar a la página de edición de variables
+                window.location.href = `/CRUD/editVar.html?id=${id}`;
+            } else {
+                // Manejar el caso en el que el ID no pertenece a ninguna tabla conocida
+                alert('El ID de encuesta no pertenece a ninguna tabla conocida');
+            }
+        } catch (error) {
+            console.error('Error al verificar la tabla:', error);
+            alert('Ocurrió un error al verificar la tabla. Por favor, inténtalo de nuevo más tarde.');
+        }
+    }
+</script>
+
         <script>
             document.addEventListener('DOMContentLoaded', function () {
                 var userId = localStorage.getItem('user_id');
@@ -294,6 +389,55 @@
             });
           
                      </script>
+
+    
+<!-- <script>
+    function construirTabla(datosSeleccionados) {
+        const resultadoDiv = document.getElementById("ReactivoDiv");
+        const table = document.createElement("table");
+  
+        table.className = "table table-bordered";
+        const thead = document.createElement("thead");
+        const tbody = document.createElement("tbody");
+        const headerRow = document.createElement("tr");
+  
+        // Agregar encabezados de columna
+        const thSeleccionar = document.createElement("th");
+        thSeleccionar.textContent = "Seleccionar";
+        const thDescripcion = document.createElement("th");
+        thDescripcion.textContent = "Descripción";
+  
+        headerRow.appendChild(thSeleccionar);
+        headerRow.appendChild(thDescripcion);
+        thead.appendChild(headerRow);
+        table.appendChild(thead);
+  
+        // Agregar filas de datos
+        datosSeleccionados.forEach((reactivo) => {
+            const row = document.createElement("tr");
+            const cellSeleccionar = document.createElement("td");
+            const cellDescripcion = document.createElement("td");
+  
+            cellSeleccionar.innerHTML = `<input type="checkbox" name="reactivoIds[]" value="${reactivo.id_reactivoC}")">`; 
+            cellDescripcion.textContent = reactivo.descripcion;
+  
+            row.appendChild(cellSeleccionar);
+            row.appendChild(cellDescripcion);
+            tbody.appendChild(row);
+        });
+  
+        table.appendChild(tbody);
+  
+        resultadoDiv.appendChild(table);
+    }
+  
+    const queryParams = new URLSearchParams(window.location.search);
+    const datosSeleccionados = JSON.parse(decodeURIComponent(queryParams.get("data")));
+  
+    // Recupera los datos de la URL y construye la tabla
+    construirTabla(datosSeleccionados);
+  </script> -->
+
         <div class="modal fade" id="Modal_vistaPrevia" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable ">
                 <div class="modal-content">
@@ -395,8 +539,9 @@ window.addEventListener('DOMContentLoaded', () => {
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="/CRUD/editE.js"></script>
      <script src="/BD/registroUsuarios/registro.js"></script>
+     <script src="/BD/prueva/encuesta.js"></script>
     <!-- <script src="../BD/app.js"></script> -->
-    <script src="../CSS/SweetAlert.js"></script>
+  
 </body>
 
 </html>
