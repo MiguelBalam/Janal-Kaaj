@@ -1,3 +1,63 @@
+
+
+<?php
+$username  = "janalkaa_admin";
+$password = "janalkaaj2023";
+$servername = "162.241.60.169";
+$dbname = "janalkaa_kaaj";
+
+$con = new mysqli($servername, $username, $password, $dbname);
+mysqli_set_charset($con, "utf8");
+
+if ($con->connect_error) {
+    die("Conexión fallida: " . $con->connect_error);
+}
+
+$userId = $_GET['userId']; // Obtener el ID de usuario de la URL
+
+$query = "SELECT nombre, apellidoPaterno, apellidoMaterno, edad, genero, Procedencia, logo, Telefono FROM UsuariosEncuestador WHERE id_Autenticacion = $userId";
+
+$queryA = "SELECT correo, contraseña FROM Autenticacion WHERE id = $userId";
+
+
+$result = $con->query($query);
+
+if ($result->num_rows > 0) {
+    $row = $result->fetch_assoc();
+    $nombreEncuestador = $row["nombre"];
+    $apellidoPaterno = $row["apellidoPaterno"];
+    $apellidoMaterno = $row["apellidoMaterno"];
+    $edad = $row["edad"];
+    $genero = $row["genero"];
+    $logoData = $row["logo"];
+    // Convierte los datos binarios a una cadena Base64
+    $logoBase64 = base64_encode($logoData);
+    $Procedencia =$row["Procedencia"];
+    $Telefono = $row["Telefono"];
+} else {
+    $nombreEncuestador= "";
+    $apellidoPaterno = "";
+    $apellidoMaterno = "";
+    $edad = "";
+    $genero = "";
+    $logo = "";
+    $Procedencia ="";
+    $telefono = "";
+}
+
+$result = $con->query($queryA);
+if ($result->num_rows > 0) {
+  $row = $result->fetch_assoc();
+  $correo = $row["correo"];
+  //$contraa = $row["contra"];
+}else {
+  $correo= "";
+  $contraa= "";
+}
+
+
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -16,6 +76,7 @@
 
   <link rel="stylesheet" href="../node_modules/@sweetalert2/themes/bootstrap-4/bootstrap-4.min.css">
   <script src="../node_modules/sweetalert2/dist/sweetalert2.all.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> 
 
   <!-- Boxiocns CDN Link -->
   <link href="https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css" rel="stylesheet" />
@@ -82,13 +143,13 @@
       </li>
 
       <li>
-        <a id="pruebaApli" href="/pestanas_Encuestado/Aplicador.html" onclick="redireccionarConUserId()">
+        <a onclick="redireccionarConUserId()">
           <i class='bx bx-book-add'></i>
           <span class="link_name">Alta Aplicadores</span>
         </a>
 
         <ul class="sub-menu blank">
-          <li><a class="link_name" href="/pestanas_Encuestado/Aplicador.html">Alta Aplicadores</a></li>
+          <li><a class="link_name" onclick="redireccionarConUserId()">Alta Aplicadores</a></li>
         </ul>
       </li>
 
@@ -114,23 +175,23 @@
       </li>
 
       <li>
-        <a href="#">
+        <a onclick="redireccionarConUserId2()">
           <i class="bx bx-pie-chart-alt-2"></i>
           <span class="link_name">Análisis</span>
         </a>
         <ul class="sub-menu blank">
-          <li><a class="link_name" href="#">Análisis</a></li>
+          <li><a class="link_name" onclick="redireccionarConUserId2()">Análisis</a></li>
         </ul>
       </li>
 
 
       <li>
-        <a href="#">
+        <a onclick="redireccionarConUserId3()">
           <i class="bx bx-line-chart"></i>
           <span class="link_name">Graficas</span>
         </a>
         <ul class="sub-menu blank">
-          <li><a class="link_name" href="#">Graficas</a></li>
+          <li><a class="link_name" onclick="redireccionarConUserId3()">Graficas</a></li>
         </ul>
       </li>
 
@@ -146,12 +207,12 @@
 
 
       <li>
-        <a href="perfil_Encuestador.html">
+        <a onclick="redireccionarConUserIdPEncuestador()">
           <i class='bx bx-user'></i>
           <span class="link_name">Perfil</span>
         </a>
         <ul class="sub-menu blank">
-          <li><a class="link_name" href="perfil_Encuestador.html">Perfil</a></li>
+          <li><a class="link_name" onclick="redireccionarConUserIdPEncuestador()">Perfil</a></li>
         </ul>
       </li>
 
@@ -175,7 +236,102 @@
       <span class="text">Dashboard</span>
     </div>
     <!-- Fin Dashboard -->
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        //var userId = localStorage.getItem('user_id');
+        var userID = localStorage.getItem('user_id'); // Obtener el ID almacenado
+        var userCorreo = localStorage.getItem('user_correo');
+        if (userID) {
+          // Enviar una solicitud AJAX para recuperar los datos del usuario por su ID
+          var xhr = new XMLHttpRequest();
+          xhr.open('GET', '/BD/infoUser.php?id=' + userID, true);
 
+          xhr.onreadystatechange = function() {
+            console.log(xhr.responseText);
+            if (xhr.readyState === 4 && xhr.status === 200) {
+              try {
+                var userInfo = JSON.parse(xhr.responseText);
+                console.log(userInfo)
+                if (userInfo && userInfo.error) {
+                  console.error('Error obteniendo información del usuario:', userInfo.error);
+                } else {
+                  document.getElementById('aqui').value = userCorreo;
+
+                }
+              } catch (error) {
+                console.error('Error al analizar la respuesta JSON:', error);
+              }
+            } else {
+              console.error('Error en la solicitud AJAX para obtener información del usuario.');
+            }
+          }
+        };
+        xhr.send();
+
+        verificar()
+      })
+      //para enviar el id a agregar aplicador 
+      function redireccionarConUserId() {
+        var userId = localStorage.getItem('user_id');
+
+        if (userId) {
+          // Construir la URL con userId
+          var urlConUserId = `/pestanas_Encuestado/Aplicador.php?userId=${userId}`;
+
+          // Redirigir al usuario a la nueva URL
+          window.location.href = urlConUserId;
+        } else {
+          // Si userId no está disponible, simplemente redirigir sin él
+          window.location.href = '/pestanas_Encuestado/Aplicador.php';
+        }
+      }
+
+      function redireccionarConUserId2() {
+        var userId = localStorage.getItem('user_id');
+
+        if (userId) {
+          // Construir la URL con userId
+          var urlConUserId = `/BD/prueva/graficasELCSA.php?userId=${userId}`;
+
+          // Redirigir al usuario a la nueva URL
+          window.location.href = urlConUserId;
+        } else {
+          // Si userId no está disponible, simplemente redirigir sin él
+          window.location.href = '/BD/prueva/graficasELCSA.php';
+        }
+      }
+
+      function redireccionarConUserId3() {
+        var userId = localStorage.getItem('user_id');
+
+        if (userId) {
+          // Construir la URL con userId
+          var urlConUserId = `/BD/prueva/graficasELCSAClasi.php?userId=${userId}`;
+
+          // Redirigir al usuario a la nueva URL
+          window.location.href = urlConUserId;
+        } else {
+          // Si userId no está disponible, simplemente redirigir sin él
+          window.location.href = '/BD/prueva/graficasELCSAClasi.php';
+        }
+      }
+
+      function redireccionarConUserIdPEncuestador() {
+    var userId = localStorage.getItem('user_id');
+    
+    if (userId) {
+        // Construir la URL con userId
+        var urlConUserId = `/pestanas_Encuestador/perfil_Encuestador.php?userId=${userId}`;
+        
+        // Redirigir al usuario a la nueva URL
+        window.location.href = urlConUserId;
+    } else {
+        // Si userId no está disponible, simplemente redirigir sin él
+        window.location.href = '/pestanas_Encuestador/perfil_Encuestador.php';
+    }
+}
+    </script>
+    
 
     <!--Perfil-->
 
@@ -183,28 +339,29 @@
       <div class="col-12 col-md-10 col-lg-8 col-xl-10 p-3 shadow-lg mb-5 bg-white rounded">
         <h2 class="main__title text-center text-dark py-3">Información Personal del Encuestador</h2>
         <div class="container py-4">
+          <form >
           <div class="row align-items-start">
             <div class="col-sm-6">
 
               <div class="row text-sm-start align-items-center">
 
                 <div class="col-sm-5 col-md-4 col- py-2 py-sm-3">
-                  <label for="nombrecompletos" class="col-form-label text-dark px-4">Nombre: </label>
+                  <label for="nombrecompletos" class="col-form-label text-dark px-4" >Nombre:  </label>
                 </div>
                 <div class="col-sm-7 col-md-8 py-2 py-sm-3">
-                  <input type="text" placeholder="Nombre" class="form-control" id="nombre" disabled>
+                  <input type="text" placeholder="Nombre" name="nombre" class="form-control" id="nombre" disabled value="<?php echo $nombreEncuestador; ?>">
                 </div>
                 <div class="col-sm-5 col-md-4 py-2 py-sm-3">
                   <label for="nombrecompletos" class="col-form-label px-4 text-dark">Apellido Paterno: </label>
                 </div>
                 <div class="col-sm-7 col-md-8 py-2 py-sm-3">
-                  <input type="text" placeholder="Apellido Paterno" class="form-control" id="apellidoPa" disabled>
+                  <input type="text" placeholder="Apellido Paterno" name="apellidoPaterno" class="form-control" id="apellidoPa" disabled value="<?php echo $apellidoPaterno; ?>">
                 </div>
                 <div class="col-sm-5 col-md-4 py-2 py-sm-3">
                   <label for="nombrecompletos" class="col-form-label px-4 text-dark">Apellido Materno: </label>
                 </div>
                 <div class="col-sm-7 col-md-8 py-2 py-sm-3">
-                  <input type="text" placeholder="Apellido Materno" class="form-control" id="apellidoMa" disabled>
+                  <input type="text" placeholder="Apellido Materno" class="form-control" name="apellidoMaterno" id="apellidoMa" disabled value="<?php echo $apellidoMaterno; ?>">
                 </div>
                 <div class="col-sm-5 col-md-4 py-2 py-sm-3">
                   <label for="nombrecompletos" class="col-form-label px-4 text-dark">Género: </label>
@@ -212,22 +369,22 @@
                 <div class="col-sm-7 col-md-8 py-2 py-sm-3">
                   <div class="col d-flex justify-content-between">
                     <label for="opcion1">Masculino</label>
-                    <input type="radio" id="genMas" name="opciones" value="Maculino" disabled>
+                    <input type="radio" id="genMas" name="genero" value="Masculino" <?php echo ($genero === 'Masculino') ? 'checked' : ''; ?> disabled>
                     <label for="opcion2">Femenino</label>
-                    <input type="radio" id="genfem" name="opciones" value="Femenino" disabled>
+                    <input type="radio" id="genfem" name="genero" value="Femenino" <?php echo ($genero === 'Femenino') ? 'checked' : ''; ?> disabled>
                   </div>
                 </div>
                 <div class="col-sm-5 col-md-4 py-2 py-sm-3">
                   <label for="nombrecompletos" class="col-form-label px-4 text-dark">Teléfono: </label>
                 </div>
                 <div class="col-sm-7 col-md-8 py-2 py-sm-3">
-                  <input type="tel" placeholder="Télefono" class="form-control" id="telefono" disabled>
+                  <input type="tel" placeholder="Télefono" name="telefono" class="form-control" id="telefono" disabled  value="<?php echo $Telefono; ?>">
                 </div>
                 <div class="col-sm-5 col-md-4 py-2 py-sm-3">
                   <label for="nombrecompletos" class="col-form-label px-4 text-dark">Edad: </label>
                 </div>
                 <div class="col-sm-7 col-md-8 py-2 py-sm-3">
-                  <input type="number" placeholder="Años" class="form-control" id="edad" disabled>
+                  <input type="number" placeholder="Años" class="form-control" name="edad" id="edad" disabled value="<?php echo $edad; ?>">
                 </div>
                 <div class="col-sm-5 col-md-4 py-2 py-sm-3">
                   <label for="nombrecompletos" class="col-form-label px-4 text-dark">Contraseña: </label>
@@ -255,7 +412,7 @@
                 </div>
                 <div class="col-sm-7 col-md-8 py-2 py-sm-3">
                   <input type="text" placeholder="Institución o lugar de procedencia" class="form-control"
-                    id="institucion" disabled>
+                    id="institucion" disabled value="<?php echo $Procedencia; ?>">
                 </div>
 
                 <div class="col-sm-5 col-md-4 py-2 py-sm-3">
@@ -263,7 +420,7 @@
                 </div>
                 <div class="col-sm-7 col-md-8 py-2 py-sm-3">
                   <!-- <input type="text" placeholder="Logo de la institución" class="form-control" id="logoInstitucion"> -->
-                  <img id="logoInstitucion" alt="Logo Institución">
+                  <img id="logoInstitucion" alt="Logo Institución" src="data:image/jpeg;base64,<?php echo $logoBase64; ?>">
 
                   <div class="modal" tabindex="-1" id="myModal">
                     <div class="modal-dialog modal-dialog-centered">
@@ -279,7 +436,7 @@
                             <label for="logo" class="col-sm-4 col-form-label px-4">Logotipo de la institución:</label>
                             <div class="col-sm-8 d-flex align-items-center">
                               <input type="file" class="form-control" id="imagenEditar" name="imagen" accept="image/png"
-                                required onchange="validarImagenLogo()">
+                                required onchange="validarImagenLogo2()">
                             </div>
                           </div>
                           <div id="grupo__procedenciaEditar" class="row mb-3">
@@ -303,7 +460,7 @@
                           <button type="button" class="btn btn-outline-success bg-border-mostaza bg-text-mostaza"
                             data-bs-dismiss="modal">Aceptar</button>
                           <button type="button" class="btn btn-outline-success bg-border-mostaza bg-text-mostaza"
-                            onclick=" guardarDatos()">Guardar</button>
+                            onclick="guardarDatos()" id="guardar-logo" data-action="updateLogo">Guardar</button>
                         </div>
 
                       </div>
@@ -327,10 +484,11 @@
                 <div class="col-sm-3 d-flex justify-content-center"><button class="btnn btn-outline-warning text-white"
                     type="submit" id="boton-editar" onclick="editarEncues()">Editar</button></div>
                 <div class="col-sm-3 d-flex justify-content-center"><button class="btnn btn-outline-warning text-white"
-                    type="submit" id="boton-guardar" onclick="miFuncionEditar()">Guardar</button></div>
+                    type="submit" id="boton-guardar" data-action="updateData" onclick="miFuncionEditar()">Guardar</button></div>
               </div>
             </div>
           </div>
+    </form>
         </div>
       </div>
     </section>
@@ -438,9 +596,107 @@
       habilitarInputsExcepto('aqui');
     });
   </script>
+<script>
+$(document).ready(function () {
+    $("#boton-guardar").click(function () {
+        var userId = <?php echo $userId; ?>;
+        var nombre = $("#nombre").val();
+        var apellidoPaterno = $("#apellidoPa").val();
+        var apellidoMaterno = $("#apellidoMa").val();
+        var genero = $("input[name='genero']:checked").val();
+        var edad = $("#edad").val();
+        var telefono = $("#telefono").val();
+        var contra = $("#contra").val();
 
+        $.ajax({
+            type: "POST",
+            url: "Editar_Perfil.php",
+            data: {
+                userId: userId,
+                action: 'updateData',
+                nombre: nombre,
+                apellidoPaterno: apellidoPaterno,
+                apellidoMaterno: apellidoMaterno,
+                genero: genero,
+                edad: edad,
+                telefono: telefono,
+                contra: contra
+            },
+            success: function (response) {
+                alert(response);
+                location.reload(); // Recarga la página
+            },
+            error: function (xhr, status, error) {
+                console.error("Error al actualizar los datos: " + error);
+            }
+        });
+    });
+});
+</script>
+<script>
+$(document).ready(function () {
+    $("#guardar-logo").click(function () {
+        var userId = <?php echo $userId; ?>;
+        var formData = new FormData();
+        var imagenInput = $('input[name="imagen"]')[0];
+
+        if (imagenInput && imagenInput.files && imagenInput.files[0]) {
+            formData.append('imagen', imagenInput.files[0]);
+            formData.append('userId', userId);
+            formData.append('Procedencia', $("#procedenciaEditar").val());
+            formData.append('action', 'updateLogo');
+
+            $.ajax({
+                type: "POST",
+                url: "Editar_Perfil.php",
+                data: formData,
+                contentType: false,  // Obligatorio para FormData
+                processData: false,  // Obligatorio para FormData
+                success: function (response) {
+                    alert(response);
+                    location.reload(); // Recarga la página
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error al actualizar los datos: " + error);
+                }
+            });
+        } else {
+            alert("No se ha seleccionado una imagen.");
+        }
+    });
+});
+</script>
+<script>
+function validarImagenLogo2() {
+  const input = document.getElementById('imagenEditar');
+  const archivo = input.files[0];
+
+  if (archivo) {
+    const reader = new FileReader();
+
+    reader.onload = function(e) {
+      const img = new Image();
+
+      img.onload = function() {
+        const ancho = img.width;
+        const alto = img.height;
+
+        if (ancho > 115 || alto > 115) {
+          alert('La imagen debe tener un tamaño máximo de 115x115 píxeles');
+          input.value = ''; // Limpia el campo de entrada
+        }
+      };
+
+      img.src = e.target.result;
+    };
+
+    reader.readAsDataURL(archivo);
+  }
+}
+</script>
   <script src="../BD/app.js"></script>
   <script src="../CSS/SweetAlert.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 </body>
 

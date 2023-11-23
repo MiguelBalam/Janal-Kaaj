@@ -47,7 +47,7 @@ while ($row = $resultado->fetch_assoc()) {
         <tbody>
             <tr>
                 <td>' . $row["id_encuesta"] . '</td>
-                <td width="100">' . mb_strimwidth($row['titulo'], 0, 20, "...") . '</a></td>
+                <td width="100" id="titulo">' . mb_strimwidth($row['titulo'], 0, 20, "...") . '</a></td>
                 <td>' . $row["estado"] . '</td>
                 <td>' . $row["fecha_inicio"] . '</td>
                 <td>

@@ -114,13 +114,13 @@
 
 
         <div class="container">
-            <h1>Mi Presentación de Datos</h1>
+            <!-- <h1>Mi Presentación de Datos</h1> -->
     
-            <h2>Tabla "cola"</h2>
+            <h2>Tabla Datos del encuestado</h2>
             <table>
                 <thead>
                     <tr>
-                        <th>Columna1</th>
+                        <!-- <th>Columna1</th> -->
 
                         <!-- Agrega más columnas según tus datos -->
                     </tr>
@@ -130,11 +130,11 @@
                 </tbody>
             </table>
     
-            <h2>Tabla "RespuestasCola"</h2>
+            <h2>Tabla Respuestas del encuestado</h2>
             <table>
                 <thead>
                     <tr>
-                        <th>Columna1</th>
+                        <!-- <th>Columna1</th> -->
 
                         <!-- Agrega más columnas según tus datos -->
                     </tr>
@@ -147,53 +147,94 @@
     
     </section>
     <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const dbName = 'miBaseDeDatos';
-            const colaObjectStoreName = 'cola';
-            const respuestasColaObjectStoreName = 'RespuestasCola';
+ document.addEventListener("DOMContentLoaded", () => {
+    const dbName = 'miBaseDeDatos';
+    const colaObjectStoreName = 'cola';
+    const respuestasColaObjectStoreName = 'RespuestasCola';
 
-            // Función para mostrar datos en una tabla
-            function showData(objectStoreName, containerId) {
-                const request = indexedDB.open(dbName);
+    function capitalizeFirstLetter(string) {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    }
 
-                request.onsuccess = (event) => {
-                    const db = event.target.result;
-                    const transaction = db.transaction(objectStoreName, 'readonly');
-                    const objectStore = transaction.objectStore(objectStoreName);
+    function showData(objectStoreName, containerId, encuestadoHeaders, respuestasHeaders) {
+        const request = indexedDB.open(dbName);
 
-                    const cursorRequest = objectStore.openCursor();
+        request.onsuccess = (event) => {
+            const db = event.target.result;
+            const transaction = db.transaction(objectStoreName, 'readonly');
+            const objectStore = transaction.objectStore(objectStoreName);
 
-                    cursorRequest.onsuccess = (e) => {
-                        const cursor = e.target.result;
-                        if (cursor) {
-                            const dataContainer = document.getElementById(containerId);
-                            const dataElement = document.createElement('div');
-                            dataElement.textContent = JSON.stringify(cursor.value);
-                            dataContainer.appendChild(dataElement);
+            const dataContainer = document.getElementById(containerId);
+            let prevCodigo = null;
 
-                            cursor.continue();
+            const cursorRequest = objectStore.openCursor();
+
+            cursorRequest.onsuccess = (e) => {
+                const cursor = e.target.result;
+                if (cursor) {
+                    const encuestadoData = cursor.value.encuestadoData || {};
+                    const respuestaData = cursor.value.espuestaData || {};
+
+                    // Verificar si 'codigo' ha cambiado y agregar los encabezados nuevamente si es necesario
+                    if (prevCodigo !== respuestaData['codigo']) {
+                        const headerRow = document.createElement('tr');
+                        encuestadoHeaders.forEach(header => {
+                            const th = document.createElement('th');
+                            th.textContent = header === 'id_encuesta' ? 'Tipo de encuesta' : capitalizeFirstLetter(header);
+                            headerRow.appendChild(th);
+                        });
+                        respuestasHeaders.forEach(header => {
+                            const th = document.createElement('th');
+                            th.textContent = capitalizeFirstLetter(header);
+                            headerRow.appendChild(th);
+                        });
+                        dataContainer.appendChild(headerRow);
+                        prevCodigo = respuestaData['codigo'];
+                    }
+
+                    // Agregar datos
+                    const row = document.createElement('tr');
+                    encuestadoHeaders.forEach(header => {
+                        const cell = document.createElement('td');
+                        if (header === 'id_encuesta' && encuestadoData[header] === '2') {
+                            cell.textContent = 'Inseguridad Alimentaria';
+                        } else {
+                            cell.textContent = encuestadoData[header] || '';
                         }
-                    };
+                        row.appendChild(cell);
+                    });
 
-                    cursorRequest.onerror = (e) => {
-                        console.error('Error al abrir el cursor:', e.target.error);
-                    };
-                };
+                    respuestasHeaders.forEach(header => {
+                        const cell = document.createElement('td');
+                        cell.textContent = respuestaData[header] || '';
+                        row.appendChild(cell);
+                    });
 
-                request.onerror = (event) => {
-                    console.error('Error al abrir la base de datos:', event.target.error);
-                };
-            }
+                    dataContainer.appendChild(row);
+                    cursor.continue();
+                }
+            };
 
-            // Mostrar datos de la tabla "cola"
-            showData(colaObjectStoreName, 'cola-data');
+            cursorRequest.onerror = (e) => {
+                console.error('Error al abrir el cursor:', e.target.error);
+            };
+        };
 
-            // Mostrar datos de la tabla "RespuestasCola"
-            showData(respuestasColaObjectStoreName, 'respuestas-cola-data');
-        });
+        request.onerror = (event) => {
+            console.error('Error al abrir la base de datos:', event.target.error);
+        };
+    }
+
+    const colaHeaders = ['nombre', 'localidad', 'genero', 'edad', 'codigo', 'id_encuesta', 'Aplicador'];
+    const respuestasColaHeaders = ['Aplicador', 'codigo', 'created', 'observacion', 'id_encuesta', 'respuesta'];
+
+    showData(colaObjectStoreName, 'cola-data', colaHeaders, []);
+    showData(respuestasColaObjectStoreName, 'respuestas-cola-data', [],  respuestasColaHeaders);
+});
     </script>
 
     <script>
+        
         // Guardar el estado de la barra lateral en el localStorage
         function saveSidebarState(state) {
             localStorage.setItem('sidebarState', state);

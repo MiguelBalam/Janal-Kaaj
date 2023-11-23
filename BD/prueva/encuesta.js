@@ -596,7 +596,7 @@ function aplicarEncuesta(id_encuesta) {
         }
 
         // Agregar el ID de la encuesta y el ID de usuario a la URL y redirigir
-        window.location.href ='&id_usuario=' + idUsuario+ baseUrl + '?id_encuesta=' + id_encuesta ;
+        window.location.href = baseUrl;
     }
 }
 

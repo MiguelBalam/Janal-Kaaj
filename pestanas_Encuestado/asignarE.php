@@ -173,92 +173,94 @@
         <!-- Fin Dashboard -->
         <div class="container">
             <div class="row justify-content-center">
-                <div class="col-12 col-sm-10 col-md-8 col-lg-6 p-4 shadow-lg bg-light rounded">
+            <div class="col-12 col-md-10 col-lg-8 col-xl-10 p-3 shadow-lg mb-5 bg-white rounded">
                     <form action="asignar_encuesta.php" method="post">
+                    <div class="table-responsive">
                         <h2>Seleccionar Aplicador:</h2>
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Aplicador</th>
-                                    <th>Seleccionar</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php
-                                // Conexión a la base de datos (reemplaza con tus propios datos)
-                                $servername = "162.241.60.169";
-                                $username  = "janalkaa_admin";
-                                $password = "janalkaaj2023";
-                                $dbname = "janalkaa_kaaj";
-                                $conn = new mysqli($servername, $username, $password, $dbname);
+                        <table class="table table-striped table-bordered table-sm">
+    <thead class="thead-dark">
+        <tr>
+            <th>Aplicador</th>
+            <th>Seleccionar</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php
+        // Conexión a la base de datos (reemplaza con tus propios datos)
+        $servername = "162.241.60.169";
+        $username  = "janalkaa_admin";
+        $password = "janalkaaj2023";
+        $dbname = "janalkaa_kaaj";
+        $conn = new mysqli($servername, $username, $password, $dbname);
 
-                                if ($conn->connect_error) {
-                                    die("Conexión fallida: " . $conn->connect_error);
-                                }
+        if ($conn->connect_error) {
+            die("Conexión fallida: " . $conn->connect_error);
+        }
 
-                                // Consulta SQL para obtener los nombres de los aplicadores desde la base de datos
-                                $sql = "SELECT correo FROM AutenticacionApli";
-                                $result = $conn->query($sql);
+        // Consulta SQL para obtener los nombres de los aplicadores desde la base de datos
+        $sql = "SELECT correo FROM AutenticacionApli";
+        $result = $conn->query($sql);
 
-                                if ($result->num_rows > 0) {
-                                    while ($row = $result->fetch_assoc()) {
-                                        echo "<tr>";
-                                        echo "<td>" . $row['correo'] . "</td>";
-                                        echo "<td><input type='checkbox' name='aplicadores[]' value='" . $row['correo'] . "'></td>";
-                                        echo "</tr>";
-                                    }
-                                } else {
-                                    echo "<tr>";
-                                    echo "<td colspan='2'>No hay aplicadores disponibles</td>";
-                                    echo "</tr>";
-                                }
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                echo "<tr>";
+                echo "<td>" . $row['correo'] . "</td>";
+                echo "<td><input type='checkbox' name='aplicadores[]' value='" . $row['correo'] . "'></td>";
+                echo "</tr>";
+            }
+        } else {
+            echo "<tr>";
+            echo "<td colspan='2'>No hay aplicadores disponibles</td>";
+            echo "</tr>";
+        }
 
-                                $conn->close();
-                                ?>
-
-
-                            </tbody>
-                        </table>
+        $conn->close();
+        ?>
+    </tbody>
+</table>
+                        </div>
                         <h2>Seleccionar Encuestas:</h2>
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Encuesta</th>
-                                    <th>Seleccionar</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php
-                                // Conexión a la base de datos (reemplaza con tus propios datos)
-                                $servername = "162.241.60.169";
-                                $username  = "janalkaa_admin";
-                                $password = "janalkaaj2023";
-                                $dbname = "janalkaa_kaaj";
-                                $conn = new mysqli($servername, $username, $password, $dbname);
+<div class="table-responsive">
+    <table class="table table-striped table-bordered table-sm">
+        <thead class="thead-dark">
+            <tr>
+                <th>Encuesta</th>
+                <th>Seleccionar</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php
+            // Conexión a la base de datos (reemplaza con tus propios datos)
+            $servername = "162.241.60.169";
+            $username  = "janalkaa_admin";
+            $password = "janalkaaj2023";
+            $dbname = "janalkaa_kaaj";
+            $conn = new mysqli($servername, $username, $password, $dbname);
 
-                                if ($conn->connect_error) {
-                                    die("Conexión fallida: " . $conn->connect_error);
-                                }
+            if ($conn->connect_error) {
+                die("Conexión fallida: " . $conn->connect_error);
+            }
 
-                                // Consulta SQL para obtener los nombres de las encuestas desde la base de datos
-                                $sql = "SELECT id_encuesta, titulo FROM encuestas";
-                                $result = $conn->query($sql);
+            // Consulta SQL para obtener los nombres de las encuestas desde la base de datos
+            $sql = "SELECT id_encuesta, titulo FROM encuestas";
+            $result = $conn->query($sql);
 
-                                if ($result->num_rows > 0) {
-                                    while ($row = $result->fetch_assoc()) {
-                                        echo "<tr>";
-                                        echo "<td>" . $row['titulo'] . "</td>";
-                                        echo "<td><input type='checkbox' name='encuestas[]' value='" . $row['id_encuesta'] . "'></td>";
-                                        echo "</tr>";
-                                    }
-                                } else {
-                                    echo "<tr><td colspan='2'>No hay encuestas disponibles</td></tr>";
-                                }
+            if ($result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
+                    echo "<tr>";
+                    echo "<td>" . $row['titulo'] . "</td>";
+                    echo "<td><input type='checkbox' name='encuestas[]' value='" . $row['id_encuesta'] . "'></td>";
+                    echo "</tr>";
+                }
+            } else {
+                echo "<tr><td colspan='2'>No hay encuestas disponibles</td></tr>";
+            }
 
-                                $conn->close();
-                                ?>
-                            </tbody>
-                        </table>
+            $conn->close();
+            ?>
+        </tbody>
+    </table>
+</div>
                         <div class="d-flex justify-content-center mt-3">
                             <input type="submit" class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" value="Asignar">
                         </div>

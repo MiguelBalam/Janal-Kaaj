@@ -4409,19 +4409,19 @@ function mostrarImagenEnDiv(claveGenerada) {
 // document.getElementById('boton_filtrar').addEventListener('click', 
 function realizarBusqueda() {
   var searchTerm = document.getElementById('filtrar').value.toLowerCase();
+  var elementosDivCrearEncuesta = document.querySelectorAll('#crear_encuesta td');
+  var elementosDivTablaEncuestas = document.querySelectorAll('#tabla_encuestas #titulo');
 
-  if (searchTerm.trim() !== '') {
-    var elementosDiv = document.querySelectorAll('#crear_encuesta td');
-    var resultados = buscarElementos(elementosDiv, searchTerm);
+  var resultadosCrearEncuesta = buscarElementos(elementosDivCrearEncuesta, searchTerm);
+  var resultadosTablaEncuestas = buscarElementos(elementosDivTablaEncuestas, searchTerm);
 
-    if (resultados.length > 0) {
-      mostrarResultados(resultados);
-    } else {
-      mostrarAlerta('Error: Ingresa un término de búsqueda válido.');
-    }}
-  // } else {
-  //   mostrarAlerta('Error: Ingresa un término de búsqueda válido.');
-  // }
+  var resultados = resultadosCrearEncuesta.concat(resultadosTablaEncuestas);
+
+  if (resultados.length > 0) {
+    mostrarResultados(resultados);
+  } else {
+    mostrarAlerta('Error: No se encontraron resultados para el término de búsqueda ingresado.');
+  }
 }
 
 function buscarElementos(elementos, searchTerm) {
@@ -4429,9 +4429,9 @@ function buscarElementos(elementos, searchTerm) {
 
   for (var i = 0; i < elementos.length; i++) {
     var elemento = elementos[i];
-    var texto = elemento.textContent.toLowerCase();
+    var contenidoCelda = elemento.innerText.toLowerCase();
 
-    if (texto.includes(searchTerm)) {
+    if (contenidoCelda.includes(searchTerm)) {
       resultados.push(elemento);
     }
   }
@@ -4440,6 +4440,13 @@ function buscarElementos(elementos, searchTerm) {
 }
 
 function mostrarResultados(resultados) {
+  // Eliminar resaltado de los elementos previamente resaltados
+  var elementosResaltados = document.querySelectorAll('.resaltado');
+  elementosResaltados.forEach(function(elemento) {
+    elemento.classList.remove('resaltado');
+  });
+
+  // Resaltar los nuevos resultados
   for (var i = 0; i < resultados.length; i++) {
     var resultado = resultados[i];
     var texto = resultado.textContent;
@@ -4462,7 +4469,6 @@ function mostrarAlerta(mensaje) {
   var alertaModal = new bootstrap.Modal(document.getElementById('alertaModal'), { backdrop: 'static' });
   alertaModal.show();
 }
-
 
 //Mostrar cual usuario esta logueado actualmente 
 function verificarUsuarioLogueado() {

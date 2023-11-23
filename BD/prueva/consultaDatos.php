@@ -11,6 +11,7 @@ if ($con->connect_error) {
     die("Conexión fallida: " . $con->connect_error);
 }
 
+$user_id = $_SESSION['user_id'];
 $codigoBusqueda = '';
 
 // Verificar si se proporcionó un código para la búsqueda
@@ -18,15 +19,15 @@ if (isset($_GET['codigo_busqueda'])) {
     $codigoBusqueda = $_GET['codigo_busqueda'];
 
     // Consultar en vista_personalizada
-    $sqlBusquedaInse = "SELECT * FROM vista_inseAlimen  WHERE codigo = '$codigoBusqueda'";
+    $sqlBusquedaInse = "SELECT * FROM vista_inseAlimentaria  WHERE codigo = '$codigoBusqueda' AND user_id = $user_id";
     $queryBusquedaInse = mysqli_query($con, $sqlBusquedaInse);
 
     // Consultar en vista_encuestaMiel
-    $sqlBusquedaEncuestaMiel = "SELECT * FROM vista_enMiel WHERE codigo = '$codigoBusqueda'";
+    $sqlBusquedaEncuestaMiel = "SELECT * FROM vista_enMieles WHERE codigo = '$codigoBusqueda'";
     $queryBusquedaEncuestaMiel = mysqli_query($con, $sqlBusquedaEncuestaMiel);
 
     // Consultar en vista_encuestaMiel
-    $sqlBusquedaEncuestaTextil = "SELECT * FROM vista_enTextil WHERE codigo = '$codigoBusqueda'";
+    $sqlBusquedaEncuestaTextil = "SELECT * FROM vista_enTextiles WHERE codigo = '$codigoBusqueda'";
     $queryBusquedaEncuestaTextil = mysqli_query($con, $sqlBusquedaEncuestaTextil);
 
     // Verificar en cuál de las vistas se encontró el código
@@ -87,7 +88,7 @@ if (isset($_GET['codigo_busqueda'])) {
                 </a>
 
                 <ul class="sub-menu blank">
-                    <li><a href="" id="mostrarSeccion1">Dashboard</a></li>
+                    <li><a href="/pestanas_Encuestador/dashboard.html" id="mostrarSeccion1">Dashboard</a></li>
                 </ul>
             </li>
 
@@ -107,7 +108,7 @@ if (isset($_GET['codigo_busqueda'])) {
 
             <li>
                 <div class="iocn-link">
-                    <a href="../../pestanas_Encuestador/crear_Evariables.html" > <!-- Llamamos a showAlert con el argumento 'variables' -->
+                    <a href="../../pestanas_Encuestador/crear_Evariables.html"> <!-- Llamamos a showAlert con el argumento 'variables' -->
                         <i class='bx bx-file-blank'></i>
                         <span class="link_name">Crear variables</span>
                     </a>
@@ -119,13 +120,13 @@ if (isset($_GET['codigo_busqueda'])) {
 
             <li>
                 <div class="iocn-link">
-                    <a href="../../pestanas_Encuestador/crear.html" > <!-- Llamamos a showAlert con el argumento 'reactivos' -->
+                    <a href="../../pestanas_Encuestador/crear.html"> <!-- Llamamos a showAlert con el argumento 'reactivos' -->
                         <i class='bx bx-file-blank'></i>
                         <span class="link_name">Crear reactivos</span>
                     </a>
                 </div>
                 <ul class="sub-menu blank">
-                    <a class="link_name" href="../../pestanas_Encuestador/crear.html" >Crear reactivos</a>
+                    <a class="link_name" href="../../pestanas_Encuestador/crear.html">Crear reactivos</a>
                 </ul>
             </li>
 
@@ -249,7 +250,7 @@ if (isset($_GET['codigo_busqueda'])) {
 
                 <!-- Mostrar códigos únicos -->
 
-                <div class="table-responsive" class="table-responsive" id="tablaCodigos">
+                <div class="table-responsive" id="tablaCodigos">
                     <h2>Encuestas Aplicadas</h2>
                     <table class="table table-striped table-bordered" id="encuestasTable" class="table table-striped table-bordered">
                         <thead>
@@ -264,13 +265,13 @@ if (isset($_GET['codigo_busqueda'])) {
                         </thead>
                         <tbody>
                             <?php
-                            $sqlCodigos = "SELECT codigo, nombre, localidad FROM vista_inseAlimen  GROUP BY codigo HAVING COUNT(*) > 1";
+                            $sqlCodigos = "SELECT codigo, nombre, localidad FROM vista_inseAlimentaria  GROUP BY codigo HAVING COUNT(*) > 1";
                             $queryCodigos = mysqli_query($con, $sqlCodigos);
 
-                            $sqlCodigoss = "SELECT codigo, nombre, localidad FROM vista_enMiel GROUP BY codigo HAVING COUNT(*) > 1";
+                            $sqlCodigoss = "SELECT codigo, nombre, localidad FROM vista_enMieles GROUP BY codigo HAVING COUNT(*) > 1";
                             $queryCodigoss = mysqli_query($con, $sqlCodigoss);
 
-                            $sqlCodigosss = "SELECT codigo, nombre, localidad FROM vista_enTextil GROUP BY codigo HAVING COUNT(*) > 1";
+                            $sqlCodigosss = "SELECT codigo, nombre, localidad FROM vista_enTextiles GROUP BY codigo HAVING COUNT(*) > 1";
                             $queryCodigosss = mysqli_query($con, $sqlCodigosss);
 
                             while ($row = mysqli_fetch_assoc($queryCodigos)) {
@@ -340,7 +341,27 @@ if (isset($_GET['codigo_busqueda'])) {
                         </tbody>
 
                     </table>
+                    <div class="container p-3">
+                        <div class="row justify-content-center mb-3 p-3">
+                            <div class="col-sm-6 col-md-4 text-center mb-2">
+
+                                <label class="col-form-label px-4 text-left">Descargar todos los datos</label>
+                            </div>
+                            <div class="col-sm-6 col-md-4 mb-2 text-center">
+                                <form method="post" action="descargarDatos_pdf.php">
+                                    <button type="submit" class="btn btn-outline-success bg-border-mostaza bg-text-mostaza">Descargar PDF</button>
+                                </form>
+                            </div>
+                            <!-- Agrega el botón de Descargar Excel -->
+                            <div class="col-sm-6 col-md-4 mb-2 text-center">
+                                <form method="post" action="descargarDatos_excel.php">
+                                    <button type="submit" class="btn btn-outline-success bg-border-mostaza bg-text-mostaza">Descargar Excel</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+
 
 
                 <?php if (!empty($resultados)) { ?>
@@ -420,7 +441,6 @@ if (isset($_GET['codigo_busqueda'])) {
                     </div>
 
 
-
                 <?php } elseif (isset($_GET['codigo_busqueda'])) { ?>
                     <script>
                         Swal.fire({
@@ -432,32 +452,41 @@ if (isset($_GET['codigo_busqueda'])) {
                     </script>
                 <?php } ?>
 
-                <div id="opcionesDescarga" <?php if (empty($resultados) && !isset($_GET['codigo_busqueda'])) {
+                <div id="opcionesDescarga" <?php if (!isset($resultados) || empty($resultados) && (!isset($_GET['codigo_busqueda']) || empty($_GET['codigo_busqueda']))) {
                                                 echo 'style="display: none;"';
                                             } ?>>
                     <?php if (!empty($resultados)) { ?>
                         <h2>Opciones: </h2>
                         <!-- Botón para descargar en Excel -->
                         <form method="post" action="descargar_excel.php">
-                            <input type="hidden" name="codigo_busqueda" value="<?php echo $codigoBusqueda; ?>">
+                            <input type="hidden" name="codigo_busqueda" value="<?php echo isset($_GET['codigo_busqueda']) ? $_GET['codigo_busqueda'] : ''; ?>">
                             <button type="submit" class="btn btn-outline-success bg-border-mostaza bg-text-mostaza">Descargar Resultados en Excel</button>
                         </form>
 
                         <!-- Botón para descargar en PDF -->
-                        <form method="post" action="descargar_pdf.php">
-                            <input type="hidden" name="codigo_busqueda" value="<?php echo $codigoBusqueda; ?>">
+                        <form method="post" action="descarga_pdf.php">
+                            <input type="hidden" name="codigo_busqueda" value="<?php echo isset($_GET['codigo_busqueda']) ? $_GET['codigo_busqueda'] : ''; ?>">
                             <button type="submit" class="btn btn-outline-success bg-border-mostaza bg-text-mostaza">Descargar Resultados en PDF</button>
-                            <!-- Agregar enlace o botón para descargar el PDF -->
-                            <?php if (!empty($resultados)) { ?>
-                                <a href="descargar_pdf.php?codigo_busqueda=<?php echo $codigoBusqueda; ?>" class="btn btn-outline-success bg-border-mostaza bg-text-mostaza">Descargar Resultados en PDF</a>
-                            <?php } ?>
-
                         </form>
-                    <?php } elseif (isset($_GET['codigo_busqueda'])) { ?>
-                        <!-- ... Tu script de error existente ... -->
                     <?php } ?>
                 </div>
 
+                <script>
+                    function redireccionarConUserId() {
+                        var userId = localStorage.getItem('user_id');
+
+                        if (userId) {
+                            // Construir la URL con userId
+                            var urlConUserId = `/BD/prueva/consultaDatos.php?userId=${userId}`;
+
+                            // Redirigir al usuario a la nueva URL
+                            window.location.href = urlConUserId;
+                        } else {
+                            // Si userId no está disponible, simplemente redirigir sin él
+                            window.location.href = '/BD/prueva/consultaDatos.php';
+                        }
+                    }
+                </script>
 
                 <script>
                     // Guardar el estado de la barra lateral en el localStorage
