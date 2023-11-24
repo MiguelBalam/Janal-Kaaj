@@ -85,69 +85,156 @@
         </div>
         <!-- Fin Dashboard -->
 
-        <h2>Datos Almacenados en IndexedDB</h2>
-        <div id="cola-container">
-            <h3>Tabla "cola"</h3>
-            <div id="cola-data">
-                <!-- Aquí se mostrarán los datos de la tabla "cola" -->
-            </div>
-        </div>
-
-        <div id="respuestas-cola-container">
-            <h3>Tabla "RespuestasCola"</h>
-            <div id="respuestas-cola-data">
-                <!-- Aquí se mostrarán los datos de la tabla "RespuestasCola" -->
-            </div>
-        </div>
-    </section>
-    <!-- <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const dbName = 'miBaseDeDatos';
-            const colaObjectStoreName = 'cola';
-            const respuestasColaObjectStoreName = 'RespuestasCola';
-
-            // Función para mostrar datos en una tabla
-            function showData(objectStoreName, containerId) {
-                const request = indexedDB.open(dbName);
-
-                request.onsuccess = (event) => {
-                    const db = event.target.result;
-                    const transaction = db.transaction(objectStoreName, 'readonly');
-                    const objectStore = transaction.objectStore(objectStoreName);
-
-                    const cursorRequest = objectStore.openCursor();
-
-                    cursorRequest.onsuccess = (e) => {
-                        const cursor = e.target.result;
-                        if (cursor) {
-                            const dataContainer = document.getElementById(containerId);
-                            const dataElement = document.createElement('div');
-                            dataElement.textContent = JSON.stringify(cursor.value);
-                            dataContainer.appendChild(dataElement);
-
-                            cursor.continue();
-                        }
-                    };
-
-                    cursorRequest.onerror = (e) => {
-                        console.error('Error al abrir el cursor:', e.target.error);
-                    };
-                };
-
-                request.onerror = (event) => {
-                    console.error('Error al abrir la base de datos:', event.target.error);
-                };
+        <title>Presentación de Datos</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
             }
+    
+            table {
+                border-collapse: collapse;
+                width: 100%;
+            }
+    
+            th, td {
+                border: 1px solid #ddd;
+                padding: 8px;
+                text-align: left;
+            }
+    
+            th {
+                background-color: #f2f2f2;
+            }
+    
+            .container {
+                margin: 20px;
+            }
+        </style>
 
-            // Mostrar datos de la tabla "cola"
-            showData(colaObjectStoreName, 'cola-data');
 
-            // Mostrar datos de la tabla "RespuestasCola"
-            showData(respuestasColaObjectStoreName, 'respuestas-cola-data');
-        });
-    </script> -->
+
+        <div class="container">
+            <!-- <h1>Mi Presentación de Datos</h1> -->
+    
+            <h2>Tabla Datos del encuestado</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <!-- <th>Columna1</th> -->
+
+                        <!-- Agrega más columnas según tus datos -->
+                    </tr>
+                </thead>
+                <tbody id="cola-data">
+                    <!-- Los datos se llenarán aquí dinámicamente -->
+                </tbody>
+            </table>
+    
+            <h2>Tabla Respuestas del encuestado</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <!-- <th>Columna1</th> -->
+
+                        <!-- Agrega más columnas según tus datos -->
+                    </tr>
+                </thead>
+                <tbody id="respuestas-cola-data">
+                    <!-- Los datos se llenarán aquí dinámicamente -->
+                </tbody>
+            </table>
+        </div>
+    
+    </section>
+    <script>
+ document.addEventListener("DOMContentLoaded", () => {
+    const dbName = 'miBaseDeDatos';
+    const colaObjectStoreName = 'cola';
+    const respuestasColaObjectStoreName = 'RespuestasCola';
+
+    function capitalizeFirstLetter(string) {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    }
+
+    function showData(objectStoreName, containerId, encuestadoHeaders, respuestasHeaders) {
+        const request = indexedDB.open(dbName);
+
+        request.onsuccess = (event) => {
+            const db = event.target.result;
+            const transaction = db.transaction(objectStoreName, 'readonly');
+            const objectStore = transaction.objectStore(objectStoreName);
+
+            const dataContainer = document.getElementById(containerId);
+            let prevCodigo = null;
+
+            const cursorRequest = objectStore.openCursor();
+
+            cursorRequest.onsuccess = (e) => {
+                const cursor = e.target.result;
+                if (cursor) {
+                    const encuestadoData = cursor.value.encuestadoData || {};
+                    const respuestaData = cursor.value.espuestaData || {};
+
+                    // Verificar si 'codigo' ha cambiado y agregar los encabezados nuevamente si es necesario
+                    if (prevCodigo !== respuestaData['codigo']) {
+                        const headerRow = document.createElement('tr');
+                        encuestadoHeaders.forEach(header => {
+                            const th = document.createElement('th');
+                            th.textContent = header === 'id_encuesta' ? 'Tipo de encuesta' : capitalizeFirstLetter(header);
+                            headerRow.appendChild(th);
+                        });
+                        respuestasHeaders.forEach(header => {
+                            const th = document.createElement('th');
+                            th.textContent = capitalizeFirstLetter(header);
+                            headerRow.appendChild(th);
+                        });
+                        dataContainer.appendChild(headerRow);
+                        prevCodigo = respuestaData['codigo'];
+                    }
+
+                    // Agregar datos
+                    const row = document.createElement('tr');
+                    encuestadoHeaders.forEach(header => {
+                        const cell = document.createElement('td');
+                        if (header === 'id_encuesta' && encuestadoData[header] === '2') {
+                            cell.textContent = 'Inseguridad Alimentaria';
+                        } else {
+                            cell.textContent = encuestadoData[header] || '';
+                        }
+                        row.appendChild(cell);
+                    });
+
+                    respuestasHeaders.forEach(header => {
+                        const cell = document.createElement('td');
+                        cell.textContent = respuestaData[header] || '';
+                        row.appendChild(cell);
+                    });
+
+                    dataContainer.appendChild(row);
+                    cursor.continue();
+                }
+            };
+
+            cursorRequest.onerror = (e) => {
+                console.error('Error al abrir el cursor:', e.target.error);
+            };
+        };
+
+        request.onerror = (event) => {
+            console.error('Error al abrir la base de datos:', event.target.error);
+        };
+    }
+
+    const colaHeaders = ['nombre', 'localidad', 'genero', 'edad', 'codigo', 'id_encuesta', 'Aplicador'];
+    const respuestasColaHeaders = ['Aplicador', 'codigo', 'created', 'observacion', 'id_encuesta', 'respuesta'];
+
+    showData(colaObjectStoreName, 'cola-data', colaHeaders, []);
+    showData(respuestasColaObjectStoreName, 'respuestas-cola-data', [],  respuestasColaHeaders);
+});
+    </script>
 
     <script>
+        
         // Guardar el estado de la barra lateral en el localStorage
         function saveSidebarState(state) {
             localStorage.setItem('sidebarState', state);
@@ -188,6 +275,46 @@
             const newState = sidebar.classList.contains('close') ? 'collapsed' : 'expanded';
             saveSidebarState(newState);
         });
+
+    </script>
+
+    <script>
+        function confirmarCerrarSesion() {
+    Swal.fire({
+        title: '¿Estás seguro?',
+        text: '¿Deseas cerrar la sesión?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí, cerrar sesión',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // Si el usuario confirma, eliminar los datos del usuario del almacenamiento local
+            localStorage.removeItem('user_correo');
+            localStorage.removeItem('user_id');
+            localStorage.removeItem('tipoUsuario');
+            console.log("Sesión cerrada correctamente.");
+            
+            // Mostrar una alerta con el mensaje de cierre en dos segundos
+            Swal.fire({
+                title: 'Cerrando sesión...',
+                icon: 'success',
+                timer: 2000,
+                timerProgressBar: true,
+                showConfirmButton: false
+            });
+
+            // Redireccionar a la página de inicio de sesión después de dos segundos
+            setTimeout(function() {
+                window.location.href = '/login.html';
+            }, 2000);
+        } else {
+            // Si el usuario cancela, no hacer nada
+        }
+    });
+}
 
     </script>
 </body>

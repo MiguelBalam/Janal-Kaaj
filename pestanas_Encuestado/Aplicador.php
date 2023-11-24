@@ -47,13 +47,13 @@ $userId = $_GET['userId']; // Obtener el ID de usuario de la URL
 
         <ul class="nav-links">
             <li>
-                <a href="/pestañas_Encuestador/dashboard.html">
+                <a href="/pestanas_Encuestador/dashboard.html">
                     <i class="bx bx-grid-alt"></i>
                     <span class="link_name">Dashboard</span>
                 </a>
 
                 <ul class="sub-menu blank">
-                    <li><a href="" id="mostrarSeccion1">Dashboard</a></li>
+                    <li><a href="/pestanas_Encuestador/dashboard.html" id="mostrarSeccion1">Dashboard</a></li>
                 </ul>
             </li>
 
@@ -95,14 +95,22 @@ $userId = $_GET['userId']; // Obtener el ID de usuario de la URL
             </li>
 
             <li>
-                <a href="/pestanas_Encuestado/Aplicador.html">
+<<<<<<< HEAD
+                <a onclick="redireccionarConUserId()">
+=======
+                <a href="/pestanas_Encuestado/Aplicador.php">
+>>>>>>> 15ba326ff04ffd668fbb9a2ce55c1ca82a7800e0
                     <i class="bx bx-book-add"></i>
                     <span class="link_name">Alta Aplicadores</span>
                 </a>
 
                 <ul class="sub-menu blank">
                     <li>
-                        <a class="link_name" href="/pestanas_Encuestado//Aplicador.php">Alta Aplicadores</a>
+<<<<<<< HEAD
+                        <a class="link_name" onclick="redireccionarConUserId()">Alta Aplicadores</a>
+=======
+                        <a class="link_name" href="/pestanas_Encuestado/Aplicador.php">Alta Aplicadores</a>
+>>>>>>> 15ba326ff04ffd668fbb9a2ce55c1ca82a7800e0
                     </li>
                 </ul>
             </li>
@@ -110,12 +118,12 @@ $userId = $_GET['userId']; // Obtener el ID de usuario de la URL
             <li>
                 <a href="/pestanas_Encuestado/asignarE.php">
                     <i class="bx bxs-user-check"></i>
-                    <span class="link_name">Asiganar</span>
+                    <span class="link_name">Asignar</span>
                 </a>
 
                 <ul class="sub-menu blank">
                     <li>
-                        <a class="link_name" href="/pestanas_Encuestado/asignarE.php">Asiganar</a>
+                        <a class="link_name" href="/pestanas_Encuestado/asignarE.php">Asignar</a>
                     </li>
                 </ul>
             </li>
@@ -133,24 +141,40 @@ $userId = $_GET['userId']; // Obtener el ID de usuario de la URL
             </li>
 
             <li>
-                <a href="#">
-                    <i class="bx bx-pie-chart-alt-2"></i>
-                    <span class="link_name">Análisis</span>
-                </a>
-                <ul class="sub-menu blank">
-                    <li><a class="link_name" href="#">Análisis</a></li>
-                </ul>
-            </li>
+<<<<<<< HEAD
+        <a onclick="redireccionarConUserId2()">
+=======
+        <a href="../BD/prueva/graficasELCSA.php" onclick="redireccionarConUserId2()">
+>>>>>>> 15ba326ff04ffd668fbb9a2ce55c1ca82a7800e0
+          <i class="bx bx-pie-chart-alt-2"></i>
+          <span class="link_name">Análisis</span>
+        </a>
+        <ul class="sub-menu blank">
+<<<<<<< HEAD
+          <li><a class="link_name" onclick="redireccionarConUserId2()">Análisis</a></li>
+=======
+          <li><a class="link_name" href="../BD/prueva/graficasELCSA.php">Análisis</a></li>
+>>>>>>> 15ba326ff04ffd668fbb9a2ce55c1ca82a7800e0
+        </ul>
+      </li>
 
-            <li>
-                <a href="#">
-                    <i class="bx bx-line-chart"></i>
-                    <span class="link_name">Graficas</span>
-                </a>
-                <ul class="sub-menu blank">
-                    <li><a class="link_name" href="#">Graficas</a></li>
-                </ul>
-            </li>
+      <li>
+<<<<<<< HEAD
+        <a onclick="redireccionarConUserId3()">
+=======
+        <a href="../BD/prueva/graficasELCSAClasi.php" onclick="redireccionarConUserId3()">
+>>>>>>> 15ba326ff04ffd668fbb9a2ce55c1ca82a7800e0
+          <i class="bx bx-line-chart"></i>
+          <span class="link_name">Graficas</span>
+        </a>
+        <ul class="sub-menu blank">
+<<<<<<< HEAD
+          <li><a class="link_name" onclick="redireccionarConUserId3()">Graficas</a></li>
+=======
+          <li><a class="link_name" href="../BD/prueva/graficasELCSAClasi.php">Graficas</a></li>
+>>>>>>> 15ba326ff04ffd668fbb9a2ce55c1ca82a7800e0
+        </ul>
+      </li>
 
             <!-- <li>
         <a href="#">
@@ -163,13 +187,13 @@ $userId = $_GET['userId']; // Obtener el ID de usuario de la URL
       </li> -->
 
             <li>
-                <a href="perfil_Encuestador.html">
+                <a href="/pestanas_Encuestador/perfil_Encuestador.html">
                     <i class="bx bx-user"></i>
                     <span class="link_name">Perfil</span>
                 </a>
                 <ul class="sub-menu blank">
                     <li>
-                        <a class="link_name" href="perfil_Encuestador.html">Perfil</a>
+                        <a class="link_name" href="/pestanas_Encuestador/perfil_Encuestador.html">Perfil</a>
                     </li>
                 </ul>
             </li>
@@ -259,7 +283,11 @@ $userId = $_GET['userId']; // Obtener el ID de usuario de la URL
                     <div class="row mb-2">
                         <div class="d-grid gap-2 col-6 mx-auto">
                             <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" type="submit"
+<<<<<<< HEAD
+                              onclick="enviarYLimpiarFormulario() "  id="boton-enviaru">
+=======
                               onclick="enviarYLimpiarFormulario()"  id="boton-enviaru">
+>>>>>>> 15ba326ff04ffd668fbb9a2ce55c1ca82a7800e0
                                 Guardar
                             </button>
                         </div>
@@ -285,12 +313,18 @@ function enviarYLimpiarFormulario() {
 
     // Enviar el formulario
     formulario.submit();
+<<<<<<< HEAD
+
+    // Limpiar el formulario después del envío
+    formulario.reset();
+=======
     //alert('Formulario enviado con éxito.');
  
     // Limpiar el formulario después del envío
     formulario.reset();
     cargarApli()
     
+>>>>>>> 15ba326ff04ffd668fbb9a2ce55c1ca82a7800e0
 }
 </script>
     <script>
@@ -340,6 +374,36 @@ function enviarYLimpiarFormulario() {
                 : "expanded";
             saveSidebarState(newState);
         });
+
+        function redireccionarConUserId() {
+        var userId = localStorage.getItem('user_id');
+        if (userId) {
+          var urlConUserId = `/pestanas_Encuestado/Aplicador.php?userId=${userId}`;
+          window.location.href = urlConUserId;
+        } else {
+          window.location.href = '/pestanas_Encuestado/Aplicador.php';
+        }
+      }
+
+      function redireccionarConUserId2() {
+        var userId = localStorage.getItem('user_id');
+        if (userId) {
+          var urlConUserId = `../BD/prueva/graficasELCSA.php?userId=${userId}`;
+          window.location.href = urlConUserId;
+        } else {
+          window.location.href = '../BD/prueva/graficasELCSA.php';
+        }
+      }
+
+      function redireccionarConUserId3() {
+        var userId = localStorage.getItem('user_id');
+        if (userId) {
+          var urlConUserId = `../BD/prueva/graficasELCSAClasi.php?userId=${userId}`;
+          window.location.href = urlConUserId;
+        } else {
+          window.location.href = '../BD/prueva/graficasELCSAClasi.php';
+        }
+      }
     </script>
     <script>
         function redireccionarConUserId4() {
@@ -408,9 +472,9 @@ if (userID) {
             } else {
                 // Redirigir a la página correspondiente
                 if (type === "variables") {
-                    window.location.href = "crear_Evariables.html";
+                    window.location.href = "/pestanas_Encuestador/crear_Evariables.html";
                 } else if (type === "reactivos") {
-                    window.location.href = "crear.html";
+                    window.location.href = "/pestanas_Encuestador/crear.html";
                 }
             }
         }

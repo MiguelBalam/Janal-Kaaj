@@ -14,7 +14,7 @@ if ($con->connect_error) {
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Obtener datos del formulario
-    $id = $_POST['id']; // Asegúrate de tener un campo input hidden con el ID del usuario en tu formulario
+    $userId = $_POST['userId'];
     $nombre = $_POST['nombre'];
     $apellidoPa = $_POST['apellidoPa'];
     $apellidoMa = $_POST['apellidoMa'];
@@ -39,9 +39,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Actualizar en la base de datos
     $sql = "UPDATE Administrador 
             SET Nombre='$nombre', Apellido_Paterno='$apellidoPa', Apellido_Materno='$apellidoMa', 
-                Genero='$genero', Edad='$edad', Institucion='$instituto', Correo='$correo', 
-                Telefono='$telefono', Contrasena='$contra'
-            WHERE ID=$id";
+                Genero='$genero', Edad='$edad', Institucion='$instituto', correo='$correo', 
+                Telefono='$telefono', contraseña='$contra'
+                WHERE id=$userId";
     
     if ($con->query($sql) === TRUE) {
         echo "Registro actualizado con éxito";

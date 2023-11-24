@@ -37,7 +37,7 @@
         </a>
 
         <ul class="sub-menu blank">
-          <li><a href="" id="mostrarSeccion1">Dashboard</a></li>
+          <li><a href="/pestanas_Encuestador/dashboard.html" id="mostrarSeccion1">Dashboard</a></li>
         </ul>
       </li>
 
@@ -86,7 +86,7 @@
         </a>
 
         <ul class="sub-menu blank">
-          <li><a class="link_name" href="/pestanas_Encuestado//Aplicador.php">Alta Aplicadores</a></li>
+          <li><a class="link_name" onclick="redireccionarConUserId()">Alta Aplicadores</a></li>
         </ul>
       </li>
 
@@ -102,12 +102,12 @@
       </li>
 
       <li>
-        <a href="../BD/prueva/consultaDatos.php">
+        <a href="#" onclick="redireccionarConUserId()">
           <i class='bx bx-clipboard bx-tada'></i>
           <span class="link_name">Encuestas aplicadas</span>
         </a>
         <ul class="sub-menu blank">
-          <li><a class="link_name" href="../BD/prueva/consultaDatos.php">Encuestas aplicadas</a></li>
+          <li><a class="link_name" href="#" onclick="redireccionarConUserId()">Encuestas aplicadas</a></li>
         </ul>
       </li>
 
@@ -117,7 +117,7 @@
           <span class="link_name">Análisis</span>
         </a>
         <ul class="sub-menu blank">
-          <li><a class="link_name" href="../BD/prueva/graficasELCSA.php">Análisis</a></li>
+          <li><a class="link_name" onclick="redireccionarConUserId2()">Análisis</a></li>
         </ul>
       </li>
 
@@ -128,7 +128,7 @@
           <span class="link_name">Graficas</span>
         </a>
         <ul class="sub-menu blank">
-          <li><a class="link_name" href="../BD/prueva/graficasELCSAClasi.php">Graficas</a></li>
+          <li><a class="link_name" onclick="redireccionarConUserId3()">Graficas</a></li>
         </ul>
       </li>
 
@@ -144,12 +144,12 @@
 
 
       <li>
-        <a href="perfil_Encuestador.html">
+        <a onclick="redireccionarConUserIdPEncuestador()">
           <i class='bx bx-user'></i>
           <span class="link_name">Perfil</span>
         </a>
         <ul class="sub-menu blank">
-          <li><a class="link_name" href="perfil_Encuestador.html">Perfil</a></li>
+          <li><a class="link_name" onclick="redireccionarConUserIdPEncuestador()">Perfil</a></li>
         </ul>
       </li>
 
@@ -241,8 +241,44 @@ function redireccionarConUserId() {
         window.location.href = '/pestanas_Encuestado/Aplicador.php';
     }
 }
-function redireccionarConUserId2() {
+function redireccionarConUserIdPEncuestador() {
     var userId = localStorage.getItem('user_id');
+    
+    if (userId) {
+        // Construir la URL con userId
+        var urlConUserId = `/pestanas_Encuestador/perfil_Encuestador.php?userId=${userId}`;
+        
+        // Redirigir al usuario a la nueva URL
+        window.location.href = urlConUserId;
+    } else {
+        // Si userId no está disponible, simplemente redirigir sin él
+        window.location.href = '/pestanas_Encuestador/perfil_Encuestador.php';
+    }
+}
+
+
+
+                    function redireccionarConUserId() {
+                        var userId = localStorage.getItem('user_id');
+
+                        if (userId) {
+                            // Construir la URL con userId
+                            var urlConUserId = `/BD/prueva/consultaDatos.php?userId=${userId}`;
+
+                            // Redirigir al usuario a la nueva URL
+                            window.location.href = urlConUserId;
+                        } else {
+                            // Si userId no está disponible, simplemente redirigir sin él
+                            window.location.href = '/BD/prueva/consultaDatos.php';
+                        }
+                    }
+       
+
+
+
+//para enviar el id a agregar aplicador
+// function redireccionarConUserId() {
+//     var userId = localStorage.getItem('user_id');
     
     if (userId) {
         // Construir la URL con userId
@@ -254,7 +290,7 @@ function redireccionarConUserId2() {
         // Si userId no está disponible, simplemente redirigir sin él
         window.location.href = '../BD/prueva/graficasELCSA.php';
     }
-}
+
 function redireccionarConUserId3() {
     var userId = localStorage.getItem('user_id');
     
@@ -500,13 +536,8 @@ window.addEventListener('DOMContentLoaded', () => {
       }
     }
   </script>
-    <script>
-
-    </script>
-  <!-- <script>
-    const channel = new BroadcastChannel('miCanal');
-channel.postMessage('ejecutarCiclo');
-  </script> -->
+    
+    <script src="/BD/app.js"></script>
    <script src="/BD/src/jsSC.js"></script>
   <script src="/BD/src/sync.js"></script>
   <script src="/BD/registroUsuarios/registro.js"></script>

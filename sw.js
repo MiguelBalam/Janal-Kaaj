@@ -27,19 +27,18 @@ const APP_SHELL = [
   "/pestanas_Encuestador/EncuestasFinales.html",
   "/pestanas_Encuestador/perfil_Encuestador.html",
   "/pestanas_Encuestador/reactivo_categoria.html",
-  "/pestanas_Encuestador/reactivo_tipos_Encuestas.html",
   "/pestanas_Encuestador/variable_crear_variable.html",
   "/pestanas_Encuestador/variable_tipo_variable_NoEdit.html",
   "/pestanas_Encuestador/variable_tipo_variable.html",
   "/pestanas_Encuestado/perfil.html",
   "/pestanas_SuperUsuario/dashboard.html",
-  "/pestanas_SuperUsuario/perfil_admin.html",
   "/BD/registroUsuarios/registro.js",
   "/BD/registroUsuarios/registroEncuestado.js",
   "/BD/src/jsSC.js",
-  "/BD/src/sync.js",
+  // "/BD/src/sync.js",
   "/BD/src/App.js",
   "/pestanas_Encuestado/dashAplicador.html",
+  "/pestanas_Encuestado/enEspera.html"
 
 ];
 

@@ -668,7 +668,6 @@ console.log(nuevaPestana.codigoValue,nuevaPestana.vigenciaValue)
 
         };
     };
-
     function mostrar(id_encuesta,Instrucciones) {
         var dynamic = `
            <!DOCTYPE html>
@@ -732,10 +731,19 @@ console.log(nuevaPestana.codigoValue,nuevaPestana.vigenciaValue)
             <td class="col-sm-4 text-center">TIPO DE ENCUESTA</td>
             <td><small><strong>TIPO:</strong> <span id="tipo"></span></small></td>
         </tr>
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 29bdcc795c67de027761b25c0f3df7b911a44d82
         <tr>
         <td class="col-sm-4 text-center">Instrucciones</td>
         <td>${Instrucciones}</td>
     </tr>
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> 4daf80261a08805ce86e37c2ef3125b02ce8ea2b
+>>>>>>> 29bdcc795c67de027761b25c0f3df7b911a44d82
     </tbody>
 </table>
 
@@ -746,11 +754,27 @@ console.log(nuevaPestana.codigoValue,nuevaPestana.vigenciaValue)
 <div class="row mb-3">
 <label for="latitud">Latitud:</label>
 <div class="col-sm-8">
+<<<<<<< HEAD
 <input type="number" class="form-control" name="latitud" id="latitud">
 </div>
 <div class="col-sm-8">
 <label for="longitud">Longitud:</label>
 <input type="number" class="form-control" name="longitud" id="longitud">
+=======
+<<<<<<< HEAD
+<input type="number" class="form-control" name="latitud" id="latitud">
+</div>
+<div class="col-sm-8">
+<label for="longitud">Longitud:</label>
+<input type="number" class="form-control" name="longitud" id="longitud">
+=======
+<input type="text" class="form-control" name="latitud" id="latitud">
+</div>
+<div class="col-sm-8">
+<label for="longitud">Longitud:</label>
+<input type="text" class="form-control" name="longitud" id="longitud">
+>>>>>>> 4daf80261a08805ce86e37c2ef3125b02ce8ea2b
+>>>>>>> 29bdcc795c67de027761b25c0f3df7b911a44d82
 </div>
 </div>
 <div class="row mb-3">
@@ -794,10 +818,14 @@ console.log(nuevaPestana.codigoValue,nuevaPestana.vigenciaValue)
                         <!-- Preguntas se cargarán aquí desde IndexedDB -->
                     </tbody>
                 </table>
+<<<<<<< HEAD
+               
+=======
                 <div class="form-group">
                     <label for="observacion">Observaciones</label>
                     <textarea name="observacion" id="observacion" class="form-control" rows="3">No hay observación</textarea>
                 </div>
+>>>>>>> 4daf80261a08805ce86e37c2ef3125b02ce8ea2b
                 <button type="submit" class="btn btn-primary" id="btnSend"> GUARDAR</button>
             </form>
             </div>
@@ -1009,7 +1037,19 @@ if (userCorreo) {
                               
                             } 
                             cursor.continue();
-                        };
+                        } else {
+                            // Después de generar todas las preguntas, crea el elemento de observaciones
+                            var observacionesDiv = document.createElement("div");
+                            observacionesDiv.classList.add("form-group");
+                            observacionesDiv.innerHTML = `
+                                <label for="observacion">Observaciones</label>
+                                <textarea name="observacion" id="observacion" class="form-control" rows="3">No hay observación</textarea>
+                            `;
+                    
+                            // Agrega el elemento de observaciones al preguntasContainer
+                            preguntasContainer.appendChild(observacionesDiv);
+                        }
+                       
                        
                            
                     }
@@ -1247,6 +1287,10 @@ function confirmarCerrarSesion() {
         if (result.isConfirmed) {
             // Si el usuario confirma, eliminar el usuario activo del almacenamiento local
             localStorage.removeItem('user_correo');
+
+            localStorage.removeItem('user_id');
+            localStorage.removeItem('tipoUsuario');
+
             console.log("Sesión cerrada correctamente.");
             
             // Mostrar una alerta con el mensaje de cierre en dos segundos
@@ -1267,6 +1311,7 @@ function confirmarCerrarSesion() {
         }
     });
 }
+
 
 function abrir(id_encuesta) {
     var dynamicHtml = `

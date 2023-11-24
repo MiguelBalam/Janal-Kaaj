@@ -10,7 +10,9 @@ mysqli_set_charset($con, "utf8");
 if ($con->connect_error) {
   die("Conexión fallida: " . $con->connect_error);
 }
-$sql = "SELECT * FROM Administrador WHERE ID = 1";
+
+$userId = $_GET['userId']; // Obtener el ID de usuario de la URL
+$sql = "SELECT * FROM Administrador WHERE ID = $userId";
 $result = $con->query($sql);
 
 if ($result->num_rows > 0) {
@@ -182,7 +184,7 @@ if ($result->num_rows > 0) {
               <div class="col-sm-8 text-sm-start py-5 px-4">
                 <input type="number" placeholder="Años" class="form-control" id="edad" name="edad" value="<?php echo $row['Edad']; ?>">
               </div>
-              <input type="hidden" name="id" value="1">
+              <input type="hidden" name="userId" value="<?php echo $userId; ?>">
             </div>
           </div>
           <div class="col-sm-6">
@@ -199,7 +201,7 @@ if ($result->num_rows > 0) {
                 <label for="nombrecompletos" class="col-form-label px-4 text-dark">Correo: </label>
               </div>
               <div class="col-sm-8 text-sm-start py-5 px-4">
-                <input type="email" placeholder="correo@gmail.com" class="form-control" id="correo" name="correo" value="<?php echo $row['Correo']; ?>" readonly>
+                <input type="email" placeholder="correo@gmail.com" class="form-control" id="correo" name="correo" value="<?php echo $row['correo']; ?>" readonly>
               </div>
 
               <div class="col-sm-4 text-sm-start py-5">
@@ -212,7 +214,7 @@ if ($result->num_rows > 0) {
                 <label for="nombrecompletos" class="col-form-label px-4 text-dark">Contraseña: </label>
               </div>
               <div class="col-sm-8 text-sm-start py-5 px-4">
-                <input type="password" placeholder="Contraseña" class="form-control" id="contra" name="contra" value="<?php echo $row['Contrasena']; ?>" readonly>
+                <input type="password" placeholder="Contraseña" class="form-control" id="contra" name="contra" value="<?php echo $row['contraseña']; ?>" readonly>
               </div>
             </div>
           </div>
@@ -222,7 +224,7 @@ if ($result->num_rows > 0) {
           <div class="col-sm-6 text-center"></div>
           <div class="col-sm-6">
             <div class="row d-flex justify-content-between">
-              <div class="col-sm-3 d-flex justify-content-center ms-auto"><button class="btnn btn-outline-warning text-white" type="submit" onClick="" id="resmin">Restaurar</button></div>
+              <div class="col-sm-3 d-flex justify-content-center ms-auto"><button class="btnn btn-outline-warning text-white"  onClick="" id="resmin">Restaurar</button></div>
               <!-- <div class="col-sm-3 d-flex justify-content-center"><button class="btnn btn-outline-warning text-white" type="submit" id="editarAdmin" onclick="obtenerUsuario(3);">Editar</button></div> -->
               <button class="btnn btn-outline-warning text-white" type="button" id="editarAdmin" onclick="habilitarEdicion();">Editar</button>
               <div class="col-sm-3 d-flex justify-content-center"><button class="btnn btn-outline-warning text-white" type="submit" id="guardarAdmin" onclick="">Guardar</button></div>
