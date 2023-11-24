@@ -522,7 +522,6 @@ function crearEncuestaFinal2() {
             // Procesar la respuesta y obtener el ID de encuesta insertado
             const id_encuesta = parseInt(xhr.responseText);
 
-            // Insertar los reactivos seleccionados en la tabla 'encuesta_FinalReactivos'
             checkboxInputs.forEach((checkbox) => {
               //  const id_reactivo = parseInt(reactivo.value);
               const id_reactivo = checkbox.value

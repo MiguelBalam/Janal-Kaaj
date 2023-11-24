@@ -13,15 +13,10 @@ mysqli_set_charset($con, "utf8");
 if ($con->connect_error) {
     die("Conexión fallida: " . $con->connect_error);
 }
-// Obtener los datos enviados desde el formulario
-// Obtener los datos enviados desde el formulario
-// Obtener los valores enviados por la solicitud AJAX
 $id_variable = $_POST['id_variable'];
 $nuevoValorReactivoCre = $_POST['nuevoValorReactivoCre'];
 $nuevoValorCategoriaReactivos = $_POST['nuevoValorCategoriaReactivos'];
 $nuevoValorTipoRes = $_POST['nuevoValorTipoRes'];
-
-// Realizar las actualizaciones en las tablas correspondientes
 
 // Actualizar la tabla 'variable'
 $queryVariable = "UPDATE Variable

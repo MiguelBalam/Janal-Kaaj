@@ -375,6 +375,7 @@ function realizarSolicitudAlServidor(correo, contrasenia,tipoUsuario) {
     if (xhr.readyState === 4) {
       if (xhr.status === 200) {
         var response = JSON.parse(xhr.responseText);
+        console.log(response)
         if (response.success) {
           almacenarTokenEnIndexedDB(correo, response.token, response.tipoUsuario);
    

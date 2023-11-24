@@ -13,7 +13,6 @@ mysqli_set_charset($con, "utf8");
 if ($con->connect_error) {
     die("Conexión fallida: " . $con->connect_error);
 }
-// Función para eliminar la pregunta
 
 // Función para eliminar la pregunta
 function eliminarPregunta($reactivo_id, $con) {

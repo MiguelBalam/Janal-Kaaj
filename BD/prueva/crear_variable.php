@@ -31,7 +31,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $con->begin_transaction();
 
     if ($stmt->execute() && $stmt2->execute()) {
-        // Si las inserciones en ambas tablas tienen éxito, registrar la acción en RegistroVariables
         $id_variable = $stmt2->insert_id; // Obtener el ID de la variable insertada en Variable
 
         $sql3 = "INSERT INTO RegistroVariables (id_variable, Nobre_Var, FechaCreacion, FechaActualizacion) VALUES (?, ?, NOW(), NOW())";
@@ -39,11 +38,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt3->bind_param("is", $id_variable, $Nobre_Var);
 
         if ($stmt3->execute()) {
-            // Confirmar la transacción si todo ha salido bien
             $con->commit();
             echo "Variable creada y registrada exitosamente.";
         } else {
-            // Revertir la transacción si ocurre algún error
             $con->rollback();
             echo "Error al registrar la variable en RegistroVariables.";
         }

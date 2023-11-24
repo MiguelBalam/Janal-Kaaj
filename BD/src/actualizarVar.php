@@ -58,14 +58,15 @@ foreach ($updatesRespuestas as $updateRespuesta) {
 
 
     // Insertar respuesta en la tabla respuestas_encuesta
-    $insertRespuestaQuery = 'INSERT INTO respuestas_encuesta (id_encuesta, id_encuestado, codigo, id_pregunta, respuesta, observacion, created, Aplicador) VALUES (?, ?, ?, ?, ?, ?, ?,?)';
+    $insertRespuestaQuery = 'INSERT INTO respuesta_Encuesta_Variables (id_encuesta, id_encuestado, codigo, id_Variables, id_VariableE,respuesta,observacion, created, Aplicador) VALUES (?, ?, ?, ?, ?, ?,?,?,?)';
     $stmtRespuesta = $mysqli->prepare($insertRespuestaQuery);
     $stmtRespuesta->bind_param(
-        'ssssssss',
+        'sssssssss',
         $id_encuesta,
         $id_encuestado, // Debes obtener $id_encuestado del bucle anterior
         $respuestaData['codigo'],
-        $respuestaData['id_pregunta'],
+        $respuestaData['id_Variables'],
+        $respuestaData['id_VariableE'],
         $respuestaData['respuesta'],
         $respue['observacion'],
         $respuestaData['created'],

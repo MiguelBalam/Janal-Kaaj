@@ -91,7 +91,7 @@
       </li>
 
       <li>
-        <a href="/pestanas_Encuestado/asignarE.php">
+        <a href="#" onclick=" redireccionarConUserId4()">
           <i class='bx bxs-user-check'></i>
           <span class="link_name">Asignar</span>
         </a>
@@ -269,6 +269,38 @@ function redireccionarConUserId3() {
         window.location.href = '../BD/prueva/graficasELCSAClasi.php';
     }
 }
+
+function redireccionarConUserId4() {
+  var userID = localStorage.getItem('user_id'); // Obtener el ID almacenado
+    var userCorreo = localStorage.getItem('user_correo');
+if (userID) {
+    // Enviar una solicitud AJAX para recuperar los datos del usuario por su ID
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', '/BD/infoUser.php?id=' + userID, true);
+
+    xhr.onreadystatechange = function () {
+      console.log(xhr.responseText);
+        if (xhr.readyState === 4 && xhr.status === 200) {
+          try {
+                var userInfo = JSON.parse(xhr.responseText);
+                console.log(userInfo)
+                if (userInfo && userInfo.error) {
+                    console.error('Error obteniendo información del usuario:', userInfo.error);
+                } else {
+                  
+                  window.location.href = '/pestanas_Encuestado/asignarE.php?id=' + userInfo.id;
+
+                }
+            } catch (error) {
+                console.error('Error al analizar la respuesta JSON:', error);
+            }
+        } else {
+            console.error('Error en la solicitud AJAX para obtener información del usuario.');
+        }
+    }
+};
+        xhr.send();
+}
          </script>
 
           <div class="row justify-content-center p-3 ">
@@ -336,6 +368,7 @@ function redireccionarConUserId3() {
           </div>
           <div class="row justify-content-center">
             <div id="resultado2"></div>
+            <div id="resultado3"></div>
             <div id="tabla_encuestas"></div>
             <div id="crear_encuesta"></div>
             <div id="crear_encuestaVar"></div>
@@ -467,8 +500,13 @@ window.addEventListener('DOMContentLoaded', () => {
       }
     }
   </script>
-    
+    <script>
 
+    </script>
+  <!-- <script>
+    const channel = new BroadcastChannel('miCanal');
+channel.postMessage('ejecutarCiclo');
+  </script> -->
    <script src="/BD/src/jsSC.js"></script>
   <script src="/BD/src/sync.js"></script>
   <script src="/BD/registroUsuarios/registro.js"></script>

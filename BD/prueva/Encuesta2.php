@@ -92,6 +92,16 @@ echo $code;
                     <td class="col-sm-4 text-center">TIPO DE ENCUESTA</td>
                     <td><small><strong>TIPO:</strong> <?php echo 'Publico'; ?></small></td>
                 </tr>
+                <?php
+$idEncuesta = '1';
+      if ($idEncuesta === '1') {
+        echo '<tr>';
+        echo '<td class="col-sm-4 text-center">INSTRUCCIONES</td>';
+        echo '<td><small>Contestar toda las preguntas.
+       </small></td>';
+        echo '</tr>';
+    }
+?>
             </tbody>
         </table>
         <script>

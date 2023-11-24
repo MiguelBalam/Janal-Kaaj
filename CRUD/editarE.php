@@ -15,25 +15,6 @@ if ($con->connect_error) {
     die("Conexión fallida: " . $con->connect_error);
 }
 
-// if (isset($_POST)) {
-//     // Obtener valores
-//     $id_encuesta = $_POST['id_encuesta'];
-//     $titulo = $_POST['titulo'];
-//     $descripcion = $_POST['descripcion'];
-//     $instrucciones = $_POST['instrucciones'];
-
-//     // Modificar producto
-//     $query = "
-//         UPDATE encuestas SET
-//         titulo      = '$titulo',
-//         objetivo = '$descripcion',
-//         instrucciones ='$instrucciones'
-//         WHERE id_encuesta   = '$id_encuesta'
-//     ";
-//     if (!$result = mysqli_query($con, $query)) {
-//         exit(mysqli_error($con));
-//     }
-// }
 if (isset($_POST)) {
     // Obtener valores
     $id_encuesta = $_POST['id_encuesta'];

@@ -197,7 +197,13 @@
                                 }
 
                                 // Consulta SQL para obtener los nombres de los aplicadores desde la base de datos
-                                $sql = "SELECT correo FROM AutenticacionApli";
+                                $id_encuestador = $_GET['id']; // Obtén el ID del encuestador desde la URL
+                               
+                                  $sql = "SELECT AutenticacionApli.correo
+                                   FROM AutenticacionApli
+                                INNER JOIN AplicadoresDeEncuestas ON AutenticacionApli.id = AplicadoresDeEncuestas.id
+                                    WHERE AplicadoresDeEncuestas.id_encuestador = $id_encuestador";
+
                                 $result = $conn->query($sql);
 
                                 if ($result->num_rows > 0) {
@@ -241,7 +247,14 @@
                                 }
 
                                 // Consulta SQL para obtener los nombres de las encuestas desde la base de datos
-                                $sql = "SELECT id_encuesta, titulo FROM encuestas";
+                                $id_encuestador = $_GET['id']; // Obtén el ID del encuestador desde la URL
+                               
+                                $sql = "SELECT encuestas.id_encuesta, encuestas.titulo
+                                 FROM encuestas
+                              INNER JOIN UsuariosEncuestador ON encuestas.id_usuario = UsuariosEncuestador.id_Autenticacion OR encuestas.id_encuesta BETWEEN 1 AND 3
+                                  WHERE UsuariosEncuestador.id = $id_encuestador";
+
+                                // $sql = "SELECT id_encuesta, titulo FROM encuestas";
                                 $result = $conn->query($sql);
 
                                 if ($result->num_rows > 0) {
@@ -254,7 +267,21 @@
                                 } else {
                                     echo "<tr><td colspan='2'>No hay encuestas disponibles</td></tr>";
                                 }
+                                $sql2 = "SELECT encuestasVariables.id_encuesta, encuestasVariables.titulo
+                                FROM encuestasVariables
+                             INNER JOIN UsuariosEncuestador ON encuestasVariables.id_usuario = UsuariosEncuestador.id_Autenticacion 
+                                 WHERE UsuariosEncuestador.id = $id_encuestador";
 
+                                $result2 = $conn->query($sql2);
+                                
+                                if ($result2->num_rows > 0) {
+                                    while ($row2 = $result2->fetch_assoc()) {
+                                        echo "<tr>";
+                                        echo "<td>" . $row2['titulo'] . "</td>";
+                                        echo "<td><input type='checkbox' name='encuestas[]' value='" . $row2['id_encuesta'] . "'></td>";
+                                        echo "</tr>";
+                                    }
+                                }
                                 $conn->close();
                                 ?>
                             </tbody>
