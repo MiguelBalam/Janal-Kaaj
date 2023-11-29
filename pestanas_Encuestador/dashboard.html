@@ -89,12 +89,8 @@
           <li><a class="link_name" onclick="redireccionarConUserId()">Alta Aplicadores</a></li>
         </ul>
       </li>
-<<<<<<< HEAD
-       <li>
-=======
 
       <li>
->>>>>>> 42c52e6e68cdb2b1c251beeac20159d0fc5e80c7
         <a href="#" onclick=" redireccionarConUserId4()">
           <i class='bx bxs-user-check'></i>
           <span class="link_name">Asignar</span>
@@ -259,10 +255,6 @@ function redireccionarConUserIdPEncuestador() {
         window.location.href = '/pestanas_Encuestador/perfil_Encuestador.php';
     }
 }
-<<<<<<< HEAD
-function redireccionarConUserId2() {
-    var userId = localStorage.getItem('user_id');
-=======
 
 
 
@@ -287,7 +279,6 @@ function redireccionarConUserId2() {
 //para enviar el id a agregar aplicador
 // function redireccionarConUserId() {
 //     var userId = localStorage.getItem('user_id');
->>>>>>> 42c52e6e68cdb2b1c251beeac20159d0fc5e80c7
     
     if (userId) {
         // Construir la URL con userId
@@ -315,24 +306,6 @@ function redireccionarConUserId3() {
     }
 }
 
-<<<<<<< HEAD
-function redireccionarUSER() {
-    var userId = localStorage.getItem('user_id');
-    
-    if (userId) {
-        // Construir la URL con userId
-        var urlConUserId = `/BD/prueva/consultaDatos.php?userId=${userId}`;
-        // Redirigir al usuario a la nueva URL
-        window.location.href = urlConUserId;
-    } else {
-        // Si userId no está disponible, simplemente redirigir sin él
-        window.location.href = '/BD/prueva/consultaDatos.php';
-    }
-}
-
-
-=======
->>>>>>> 42c52e6e68cdb2b1c251beeac20159d0fc5e80c7
 function redireccionarConUserId4() {
   var userID = localStorage.getItem('user_id'); // Obtener el ID almacenado
     var userCorreo = localStorage.getItem('user_correo');
@@ -431,11 +404,7 @@ if (userID) {
           </div>
           <div class="row justify-content-center">
             <div id="resultado2"></div>
-<<<<<<< HEAD
-             <div id="resultado3"></div>
-=======
             <div id="resultado3"></div>
->>>>>>> 42c52e6e68cdb2b1c251beeac20159d0fc5e80c7
             <div id="tabla_encuestas"></div>
             <div id="crear_encuesta"></div>
             <div id="crear_encuestaVar"></div>
