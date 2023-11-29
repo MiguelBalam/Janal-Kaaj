@@ -21,7 +21,7 @@ if ($con->connect_error) {
 $userId = $_GET['id'];
 
 // Consulta para obtener información del usuario
-$sql = "SELECT nombre, apellidoPaterno,apellidoMaterno,edad,genero,Procedencia FROM UsuariosEncuestador WHERE id_Autenticacion =  '$userId'";
+$sql = "SELECT id, nombre, apellidoPaterno,apellidoMaterno,edad,genero,Procedencia FROM UsuariosEncuestador WHERE id_Autenticacion =  '$userId'";
 $result = $con->query($sql);
 
 if ($result) { // Verifica si la consulta fue exitosa

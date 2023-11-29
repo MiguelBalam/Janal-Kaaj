@@ -13,38 +13,25 @@ if ($con->connect_error) {
     die("Conexión fallida: " . $con->connect_error);
 }
 
-
-
 // Obtener el ID de la encuesta de la solicitud AJAX
 $idEncuesta = $_GET['id'];
 
 // Consulta SQL para obtener los reactivos de la encuesta específica
 $query = "SELECT id_reactivo FROM encuesta_FinalReactivos WHERE id_encuesta = ?";
-
-// Preparar la consulta
 $stmt = $con->prepare($query);
 if ($stmt === false) {
     die("Error en la preparación de la consulta: " . $con->error);
 }
-
-// Vincular el parámetro ID
 $stmt->bind_param("i", $idEncuesta);
-
-// Ejecutar la consulta
 if ($stmt->execute()) {
-    // Obtener el resultado
     $result = $stmt->get_result();
     
     if ($result) {
-        // Crear un arreglo para almacenar los ID de reactivos
         $reactivosIds = array();
 
         while ($row = $result->fetch_assoc()) {
-            // Agregar el ID del reactivo al arreglo
             $reactivosIds[] = $row['id_reactivo'];
         }
-
-        // Consulta SQL para obtener los detalles de los reactivos desde la tabla reactivosCreados
         $sql = "SELECT reactivosCreados.*, categorias.nombre_categoria, tiposRespuesta.nombre_tipo_respuesta
         FROM reactivosCreados
         LEFT JOIN categorias ON reactivosCreados.id_categoria = categorias.id_categoria
@@ -67,11 +54,8 @@ if ($stmt->execute()) {
                     'nombre_tipoRespuesta' => $row['nombre_tipo_respuesta'], // Agregar el nombre del tipo de respuesta
                     'obligatorio' => $row['obligatorio']
                 );
-                // Agregar el reactivo al arreglo
                 array_push($reactivos, $reactivo);
             }
-            
-            // Devolver los datos en formato JSON
             echo json_encode($reactivos);
         } else {
             echo "No se encontraron reactivos para la encuesta con ID $idEncuesta.";

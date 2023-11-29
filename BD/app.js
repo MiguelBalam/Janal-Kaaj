@@ -1838,25 +1838,17 @@ function manejadorValidacion(e) {
       // console.log ('borrar',e)
       var id = e.target.id;
       var llave = id.substr(1)
-
-
-      
       if(llave){
         db.transaction('Reactivos','readwrite')
         .objectStore('Reactivos')
         .delete(llave),
         
         borraactu2()
-       
         
       }
 
       request.onsuccess =function (e){
-     
-       
-       
-        // alert("eliminado"+llave)
-        
+
       };
       deleteRequest.onsuccess = function(event) {
         console.log("Registro eliminado con éxito");
@@ -2816,24 +2808,12 @@ function mostrarVarSelec() {
        }
 
          function CrearReactivo(){
-          //control();
-          // var url_string = window.location.href="/pestanas_Encuestador/reactivo_crear_reactivos.html"; //
-          // var url = new URL(url_string);
-          // var c = url.searchParams.get("Usuario");
-          // document.getElementById("aqui").value = c;
-
          var creador = document.getElementById("aqui").value; 
           var id = document.getElementById("ReactivoCre").value.trim();
           var CategoriaReactivo=document.getElementById("CategoriaReactivos").value.trim();
           var owned = document.getElementById('inlineCheckbox1').checked;
           var TipoRes = document.getElementById('TipoRes').selectedIndex;
           var fechaCreacionReactivo = document.getElementById("fechaCreacion");
-          
-          // var transaction = db.transaction(["Autenticasion"],"readonly");
-          // var store2 = transaction.objectStore("Autenticasion");
-          //var request2 = store2.get(Usuario)
-          
-          
           var Crear = {
            id,
            CategoriaReactivo,
@@ -2841,10 +2821,7 @@ function mostrarVarSelec() {
             TipoRes,
             creador,
             fechaCreacionReactivo:value= Date.now()
-            
-           // request2
           };
-
           let tx = makeTX('Reactivos','readwrite');
           tx.oncomplete = (ev) =>{
               console.log (ev);
@@ -2853,9 +2830,7 @@ function mostrarVarSelec() {
           let request = store.put(Crear);
 
           request.onsuccess = (ev) => {
-            //reactivoscrear();
             console.log('successfully added an object',ev); 
-
             Swal.fire({
               title: "Acción exitosa",
               text: "El reactivo se ha creado correctamente.",
@@ -2982,7 +2957,7 @@ function mostrarVarSelec() {
    // buscarLista()
   }
 
-  //crear una nueva variable
+
   function editarvariable(){
     var creV = document.getElementById("NomV").value.trim();
     var sigla = document.getElementById("SiglaV").value.trim();

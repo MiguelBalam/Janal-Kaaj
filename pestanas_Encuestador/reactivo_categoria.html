@@ -433,7 +433,15 @@
                 }
             }
         }
-
+    </script>
+      <script>
+        const channel = new BroadcastChannel('miCanal');
+channel.postMessage('ejecutarCiclo');
+      </script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+     <script src="/BD/src/sync.js"></script>
+     <script src="/BD/prueva/encuesta.js"></script>
+<script>
         function confirmarCerrarSesion() {
     Swal.fire({
         title: '¿Estás seguro?',

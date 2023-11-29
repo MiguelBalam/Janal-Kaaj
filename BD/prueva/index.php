@@ -101,7 +101,16 @@ echo $code;
                     <td class="col-sm-4 text-center">TIPO DE ENCUESTA</td>
                     <td><small><strong>TIPO:</strong> <?php echo 'Publico'; ?></small></td>
                 </tr>
-                
+<?php
+$idEncuesta = '2';
+      if ($idEncuesta === '2') {
+        echo '<tr>';
+        echo '<td class="col-sm-4 text-center">INSTRUCCIONES</td>';
+        echo '<td><small>Contestar toda las preguntas.
+        En caso de que en el hogar no exista menores de edad, contestar únicamente las preguntas del 1 al 9 y dejar en blanco o ignore las preguntas restantes.</small></td>';
+        echo '</tr>';
+    }
+?>
             </tbody>
         </table>
         <script>
@@ -197,6 +206,7 @@ if ($query) {
         "NO" => "NO",
     );
 }
+
     // Imprimir el código HTML del formulario
     ?>
 <p id="totalPreguntasBD" data-totalPreg="<?php echo mysqli_num_rows($query); ?>"></p>

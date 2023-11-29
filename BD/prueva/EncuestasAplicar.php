@@ -176,6 +176,10 @@ echo $code;
                     <td class="col-sm-4 text-center">TIPO DE ENCUESTA</td>
                     <td><small><strong>TIPO:</strong> <?php echo 'Publico'; ?></small></td>
                 </tr>
+                <tr>
+                    <td class="col-sm-4 text-center">Instrucciones</td>
+                    <td><small><strong></strong> <?php echo $datos_encuesta['encuesta']['instrucciones']; ?></small></td>
+                </tr>
             </tbody>
         </table>
         <script>

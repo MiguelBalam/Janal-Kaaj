@@ -14,7 +14,6 @@ if ($con->connect_error) {
     die("Conexión fallida: " . $con->connect_error);
 }
 // Obtener los datos enviados desde el formulario
-// Obtener los datos enviados desde el formulario
 $id_reactivoC = $_POST['id_reactivoC'];
 $nuevoValorReactivoCre = $_POST['nuevoValorReactivoCre'];
 $nuevoValorCategoriaReactivos = $_POST['nuevoValorCategoriaReactivos'];
@@ -22,9 +21,7 @@ $nuevoValorTipoRes = $_POST['nuevoValorTipoRes'];
 $nuevoValorObligatorio = $_POST['nuevoValorObligatorio'];
 $respuestas = json_decode($_POST['respuestas']);
 var_dump($_POST['respuestas']);
-// $respuestasCadena = implode($respuestas);
-// var_dump(implode($respuestas));
-// Consulta para obtener id_categoria e id_tipoRespuesta
+
 $sqlGetIds = "SELECT id_categoria, id_tipoRespuesta FROM reactivosCreados WHERE id_reactivoC = ?";
 $stmtGetIds = $con->prepare($sqlGetIds);
 if ($stmtGetIds === false) {
@@ -40,7 +37,6 @@ if ($stmtGetIds->execute() === false) {
 $stmtGetIds->bind_result($id_categoria, $id_tipoRespuesta);
 
 if ($stmtGetIds->fetch()) {
-    // Ahora que tienes los valores de id_categoria e id_tipoRespuesta, puedes realizar las actualizaciones
     $stmtGetIds->close();
 
     // Actualizar los valores en la tabla reactivosCreados

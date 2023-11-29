@@ -27,21 +27,9 @@ if (isset($_SESSION['id'])) {
     exit();
 }
 $aplicador_actual =  $_SESSION['id']; // Debes obtener el nombre del aplicador actual de alguna manera
-
-
-// $query = "SELECT e.* FROM encuesta_FinalReactivos ef
-//           INNER JOIN encuestas e ON ef.id_encuesta = e.id_encuesta
-//           WHERE ef.id_usuario = $aplicador_actual
-//           ";
-// $query = "SELECT DISTINCT e.* FROM encuesta_FinalReactivos ef
-//           INNER JOIN encuestas e ON ef.id_encuesta = e.id_encuesta
-//           WHERE ef.id_usuario = $aplicador_actual";
-
 $query = "SELECT DISTINCT e.* FROM encuesta_FinalReactivos ef
           RIGHT JOIN encuestas e ON ef.id_encuesta = e.id_encuesta
           WHERE ef.id_usuario = $aplicador_actual OR e.id_encuesta BETWEEN 1 AND 3";
-
-
 //$query = "SELECT * FROM encuestas ORDER BY id_encuesta DESC";
 $resultado = $con->query($query);
 
@@ -115,7 +103,10 @@ $data = '
         
 //         ';
 // }
-$query_otra_tabla = "SELECT * FROM encuestasVariables";
+
+$query_otra_tabla = "SELECT DISTINCT e.* FROM encuesta_FinalVariables ef
+RIGHT JOIN encuestasVariables e ON ef.id_encuesta = e.id_encuesta
+WHERE ef.id_usuario = $aplicador_actual OR e.id_encuesta BETWEEN 1 AND 3";
 $result_otra_tabla = $con->query($query_otra_tabla);
 while ($row = $result_otra_tabla->fetch_assoc()): {
   $data .= '

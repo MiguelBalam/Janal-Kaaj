@@ -296,7 +296,7 @@ $userId = $_GET['userId']; // Obtener el ID de usuario de la URL
                 <div class="row mb-3">
                     <div class="d-grid gap-2 col-6 mx-auto">
                         <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" type="submit"
-                            id="boton-enviard" onclick="window.location.href='/pestanas_Encuestado/asignarE.php'">
+                            id="boton-enviard" onclick="redireccionarConUserId4()">
                             Asignar
                         </button>
                     </div>
@@ -327,13 +327,6 @@ function enviarYLimpiarFormulario() {
 >>>>>>> 15ba326ff04ffd668fbb9a2ce55c1ca82a7800e0
 }
 </script>
-
-
-
-
-
-
-
     <script>
         const urlParams = new URLSearchParams(window.location.search);
         const userId = urlParams.get('userId');
@@ -411,6 +404,39 @@ function enviarYLimpiarFormulario() {
           window.location.href = '../BD/prueva/graficasELCSAClasi.php';
         }
       }
+    </script>
+    <script>
+        function redireccionarConUserId4() {
+  var userID = localStorage.getItem('user_id'); // Obtener el ID almacenado
+    var userCorreo = localStorage.getItem('user_correo');
+if (userID) {
+    // Enviar una solicitud AJAX para recuperar los datos del usuario por su ID
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', '/BD/infoUser.php?id=' + userID, true);
+
+    xhr.onreadystatechange = function () {
+      console.log(xhr.responseText);
+        if (xhr.readyState === 4 && xhr.status === 200) {
+          try {
+                var userInfo = JSON.parse(xhr.responseText);
+                console.log(userInfo)
+                if (userInfo && userInfo.error) {
+                    console.error('Error obteniendo información del usuario:', userInfo.error);
+                } else {
+                  
+                  window.location.href = '/pestanas_Encuestado/asignarE.php?id=' + userInfo.id;
+
+                }
+            } catch (error) {
+                console.error('Error al analizar la respuesta JSON:', error);
+            }
+        } else {
+            console.error('Error en la solicitud AJAX para obtener información del usuario.');
+        }
+    }
+};
+        xhr.send();
+}
     </script>
 
     <!-- desactivar los botones si no hay conexion a internet  -->

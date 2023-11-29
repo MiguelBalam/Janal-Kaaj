@@ -130,11 +130,7 @@
         
         
               <li>
-<<<<<<< HEAD
                 <a onclick="redireccionarConUserId3()">
-=======
-                <a href="../BD/prueva/graficasELCSAClasi.php" onclick="redireccionarConUserId3()">
->>>>>>> 15ba326ff04ffd668fbb9a2ce55c1ca82a7800e0
                   <i class="bx bx-line-chart"></i>
                   <span class="link_name">Graficas</span>
                 </a>
@@ -154,11 +150,7 @@
       </li> -->
 
 
-<<<<<<< HEAD
-            <li>
-=======
       <li>
->>>>>>> 15ba326ff04ffd668fbb9a2ce55c1ca82a7800e0
                 <a href="/pestanas_Encuestador/perfil_Encuestador.html">
                     <i class="bx bx-user"></i>
                     <span class="link_name">Perfil</span>
@@ -272,11 +264,7 @@
     </script>
         <div class="container">
             <div class="row justify-content-center">
-<<<<<<< HEAD
-            <div class="col-12 col-md-10 col-lg-8 col-xl-10 p-3 shadow-lg mb-5 bg-white rounded">
-=======
                 <div class="col-12 col-sm-10 col-md-8 col-lg-6 p-4 shadow-lg bg-light rounded ">
->>>>>>> 4daf80261a08805ce86e37c2ef3125b02ce8ea2b
                     <form action="asignar_encuesta.php" method="post">
                     <div class="table-responsive">
                         <h2>Seleccionar Aplicador:</h2>
@@ -300,9 +288,15 @@
             die("Conexión fallida: " . $conn->connect_error);
         }
 
-        // Consulta SQL para obtener los nombres de los aplicadores desde la base de datos
-        $sql = "SELECT correo FROM AutenticacionApli";
-        $result = $conn->query($sql);
+                                // Consulta SQL para obtener los nombres de los aplicadores desde la base de datos
+                                $id_encuestador = $_GET['id']; // Obtén el ID del encuestador desde la URL
+                               
+                                  $sql = "SELECT AutenticacionApli.correo
+                                   FROM AutenticacionApli
+                                INNER JOIN AplicadoresDeEncuestas ON AutenticacionApli.id = AplicadoresDeEncuestas.id
+                                    WHERE AplicadoresDeEncuestas.id_encuestador = $id_encuestador";
+
+                                $result = $conn->query($sql);
 
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
@@ -344,26 +338,46 @@
                 die("Conexión fallida: " . $conn->connect_error);
             }
 
-            // Consulta SQL para obtener los nombres de las encuestas desde la base de datos
-            $sql = "SELECT id_encuesta, titulo FROM encuestas";
-            $result = $conn->query($sql);
+                                // Consulta SQL para obtener los nombres de las encuestas desde la base de datos
+                                $id_encuestador = $_GET['id']; // Obtén el ID del encuestador desde la URL
+                               
+                                $sql = "SELECT encuestas.id_encuesta, encuestas.titulo
+                                 FROM encuestas
+                              INNER JOIN UsuariosEncuestador ON encuestas.id_usuario = UsuariosEncuestador.id_Autenticacion OR encuestas.id_encuesta BETWEEN 1 AND 3
+                                  WHERE UsuariosEncuestador.id = $id_encuestador";
 
-            if ($result->num_rows > 0) {
-                while ($row = $result->fetch_assoc()) {
-                    echo "<tr>";
-                    echo "<td>" . $row['titulo'] . "</td>";
-                    echo "<td><input type='checkbox' name='encuestas[]' value='" . $row['id_encuesta'] . "'></td>";
-                    echo "</tr>";
-                }
-            } else {
-                echo "<tr><td colspan='2'>No hay encuestas disponibles</td></tr>";
-            }
+                                // $sql = "SELECT id_encuesta, titulo FROM encuestas";
+                                $result = $conn->query($sql);
 
-            $conn->close();
-            ?>
-        </tbody>
-    </table>
-</div>
+                                if ($result->num_rows > 0) {
+                                    while ($row = $result->fetch_assoc()) {
+                                        echo "<tr>";
+                                        echo "<td>" . $row['titulo'] . "</td>";
+                                        echo "<td><input type='checkbox' name='encuestas[]' value='" . $row['id_encuesta'] . "'></td>";
+                                        echo "</tr>";
+                                    }
+                                } else {
+                                    echo "<tr><td colspan='2'>No hay encuestas disponibles</td></tr>";
+                                }
+                                $sql2 = "SELECT encuestasVariables.id_encuesta, encuestasVariables.titulo
+                                FROM encuestasVariables
+                             INNER JOIN UsuariosEncuestador ON encuestasVariables.id_usuario = UsuariosEncuestador.id_Autenticacion 
+                                 WHERE UsuariosEncuestador.id = $id_encuestador";
+
+                                $result2 = $conn->query($sql2);
+                                
+                                if ($result2->num_rows > 0) {
+                                    while ($row2 = $result2->fetch_assoc()) {
+                                        echo "<tr>";
+                                        echo "<td>" . $row2['titulo'] . "</td>";
+                                        echo "<td><input type='checkbox' name='encuestas[]' value='" . $row2['id_encuesta'] . "'></td>";
+                                        echo "</tr>";
+                                    }
+                                }
+                                $conn->close();
+                                ?>
+                            </tbody>
+                        </table>
                         <div class="d-flex justify-content-center mt-3">
                             <input type="submit" class="btn btn-outline-success bg-border-mostaza bg-text-mostaza" value="Asignar">
                         </div>
