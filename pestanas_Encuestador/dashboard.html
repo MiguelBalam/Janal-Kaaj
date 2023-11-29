@@ -89,9 +89,8 @@
           <li><a class="link_name" onclick="redireccionarConUserId()">Alta Aplicadores</a></li>
         </ul>
       </li>
-
-      <li>
-        <a href="/pestanas_Encuestado/asignarE.php">
+       <li>
+        <a href="#" onclick=" redireccionarConUserId4()">
           <i class='bx bxs-user-check'></i>
           <span class="link_name">Asignar</span>
         </a>
@@ -102,33 +101,33 @@
       </li>
 
       <li>
-        <a href="#" onclick="redireccionarConUserId()">
+        <a href="#" onclick="redireccionarUSER()">
           <i class='bx bx-clipboard bx-tada'></i>
           <span class="link_name">Encuestas aplicadas</span>
         </a>
         <ul class="sub-menu blank">
-          <li><a class="link_name" href="#" onclick="redireccionarConUserId()">Encuestas aplicadas</a></li>
+          <li><a class="link_name" href="#" onclick="redireccionarUSER()">Encuestas aplicadas</a></li>
         </ul>
       </li>
 
       <li>
-        <a href="#" onclick="redireccionarConUserId2()">
+        <a href="#" onclick="redireccionarConUserId3()">
           <i class="bx bx-pie-chart-alt-2"></i>
           <span class="link_name">Análisis</span>
         </a>
         <ul class="sub-menu blank">
-          <li><a class="link_name" onclick="redireccionarConUserId2()">Análisis</a></li>
+          <li><a class="link_name" onclick="redireccionarConUserId3()">Análisis</a></li>
         </ul>
       </li>
 
 
       <li>
-        <a href="#" onclick="redireccionarConUserId3()">
+        <a href="#" onclick="redireccionarConUserId2()">
           <i class="bx bx-line-chart"></i>
           <span class="link_name">Graficas</span>
         </a>
         <ul class="sub-menu blank">
-          <li><a class="link_name" onclick="redireccionarConUserId3()">Graficas</a></li>
+          <li><a class="link_name" onclick="redireccionarConUserId2()">Graficas</a></li>
         </ul>
       </li>
 
@@ -143,7 +142,7 @@
       </li> -->
 
 
-      <li>
+ <li>
         <a onclick="redireccionarConUserIdPEncuestador()">
           <i class='bx bx-user'></i>
           <span class="link_name">Perfil</span>
@@ -223,14 +222,9 @@ if (userID) {
     }
 };
         xhr.send();
-<<<<<<< HEAD
-    }
-);
-=======
        
    verificar()
  } )
->>>>>>> 4daf80261a08805ce86e37c2ef3125b02ce8ea2b
 //para enviar el id a agregar aplicador 
 function redireccionarConUserId() {
     var userId = localStorage.getItem('user_id');
@@ -246,7 +240,6 @@ function redireccionarConUserId() {
         window.location.href = '/pestanas_Encuestado/Aplicador.php';
     }
 }
-<<<<<<< HEAD
 function redireccionarConUserIdPEncuestador() {
     var userId = localStorage.getItem('user_id');
     
@@ -261,34 +254,8 @@ function redireccionarConUserIdPEncuestador() {
         window.location.href = '/pestanas_Encuestador/perfil_Encuestador.php';
     }
 }
-
-
-
-                    function redireccionarConUserId() {
-                        var userId = localStorage.getItem('user_id');
-
-                        if (userId) {
-                            // Construir la URL con userId
-                            var urlConUserId = `/BD/prueva/consultaDatos.php?userId=${userId}`;
-
-                            // Redirigir al usuario a la nueva URL
-                            window.location.href = urlConUserId;
-                        } else {
-                            // Si userId no está disponible, simplemente redirigir sin él
-                            window.location.href = '/BD/prueva/consultaDatos.php';
-                        }
-                    }
-       
-
-
-
-//para enviar el id a agregar aplicador
-// function redireccionarConUserId() {
-//     var userId = localStorage.getItem('user_id');
-=======
 function redireccionarConUserId2() {
     var userId = localStorage.getItem('user_id');
->>>>>>> 4daf80261a08805ce86e37c2ef3125b02ce8ea2b
     
     if (userId) {
         // Construir la URL con userId
@@ -314,6 +281,53 @@ function redireccionarConUserId3() {
         // Si userId no está disponible, simplemente redirigir sin él
         window.location.href = '../BD/prueva/graficasELCSAClasi.php';
     }
+}
+
+function redireccionarUSER() {
+    var userId = localStorage.getItem('user_id');
+    
+    if (userId) {
+        // Construir la URL con userId
+        var urlConUserId = `/BD/prueva/consultaDatos.php?userId=${userId}`;
+        // Redirigir al usuario a la nueva URL
+        window.location.href = urlConUserId;
+    } else {
+        // Si userId no está disponible, simplemente redirigir sin él
+        window.location.href = '/BD/prueva/consultaDatos.php';
+    }
+}
+
+
+function redireccionarConUserId4() {
+  var userID = localStorage.getItem('user_id'); // Obtener el ID almacenado
+    var userCorreo = localStorage.getItem('user_correo');
+if (userID) {
+    // Enviar una solicitud AJAX para recuperar los datos del usuario por su ID
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', '/BD/infoUser.php?id=' + userID, true);
+
+    xhr.onreadystatechange = function () {
+      console.log(xhr.responseText);
+        if (xhr.readyState === 4 && xhr.status === 200) {
+          try {
+                var userInfo = JSON.parse(xhr.responseText);
+                console.log(userInfo)
+                if (userInfo && userInfo.error) {
+                    console.error('Error obteniendo información del usuario:', userInfo.error);
+                } else {
+                  
+                  window.location.href = '/pestanas_Encuestado/asignarE.php?id=' + userInfo.id;
+
+                }
+            } catch (error) {
+                console.error('Error al analizar la respuesta JSON:', error);
+            }
+        } else {
+            console.error('Error en la solicitud AJAX para obtener información del usuario.');
+        }
+    }
+};
+        xhr.send();
 }
          </script>
 
@@ -382,6 +396,7 @@ function redireccionarConUserId3() {
           </div>
           <div class="row justify-content-center">
             <div id="resultado2"></div>
+             <div id="resultado3"></div>
             <div id="tabla_encuestas"></div>
             <div id="crear_encuesta"></div>
             <div id="crear_encuestaVar"></div>
@@ -514,7 +529,7 @@ window.addEventListener('DOMContentLoaded', () => {
     }
   </script>
     
-    <script src="/BD/app.js"></script>
+
    <script src="/BD/src/jsSC.js"></script>
   <script src="/BD/src/sync.js"></script>
   <script src="/BD/registroUsuarios/registro.js"></script>
