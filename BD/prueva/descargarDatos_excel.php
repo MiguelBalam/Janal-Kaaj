@@ -18,7 +18,7 @@ require '../../vendor/autoload.php';
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
-$sql = "SELECT * FROM vista_inseAlimentaria";
+$sql = "SELECT * FROM vista_AlimeAndAplicadores";
 $query = mysqli_query($con, $sql);
 $resultados = mysqli_fetch_all($query, MYSQLI_ASSOC);
 
