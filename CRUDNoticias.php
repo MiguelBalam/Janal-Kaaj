@@ -1,5 +1,4 @@
 <?php
-
 $username  = "janalkaa_admin";
 $password = "janalkaaj2023";
 $servername = "162.241.60.169";
@@ -10,6 +9,22 @@ mysqli_set_charset($con, "utf8");
 
 if ($con->connect_error) {
   die("Conexión fallida: " . $con->connect_error);
+}
+
+
+$sql = "SELECT id, titulo, cuerpo, imagen FROM Noticias";
+$result = $con->query($sql);
+
+$noticias = array();
+if ($result->num_rows > 0) {
+  $row = $result->fetch_assoc();
+  $titulo = $row["titulo"];
+  $cuerpo = $row["cuerpo"];
+  $logoData = $row["imagen"];
+  $logoBase64 = base64_encode($logoData);
+  
+} else {
+  echo "0 resultados";
 }
 
 ?>
@@ -26,11 +41,6 @@ if ($con->connect_error) {
   <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
   <link rel="stylesheet" href="CSS/bootstrap.min.css">
   <link rel="stylesheet" href="CSS/style.css">
-  <!-- <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> -->
-  <!-- <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@300&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300&display=swap" rel="stylesheet"> -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
@@ -154,61 +164,14 @@ if ($con->connect_error) {
              
       <div class="row crud" id="editarNoticias">
       <?php
-$id = 25;
-$stmt = $con->prepare("SELECT imagen, titulo, cuerpo, id FROM Noticias WHERE id = ?");
-$stmt->bind_param("i", $id);
-$stmt->execute();
-$result = $stmt->get_result();
-
-if ($result->num_rows > 0) {
-    while ($row = $result->fetch_assoc()) {
-        echo '<div class="col-lg-3">';
-        echo '    <div class="card">';
-        echo '        <div class="card-body">';
-        echo '            <img width="100" src="data:image/jpeg;base64,' . base64_encode($row['imagen']) . '">';
-        echo '            <div class="card-titulo">';
-        echo '                <p class="fs-6 fw-bold p_top">' . $row["titulo"] . '</p>';
-        echo '            </div>';
-        echo '            <div class="card-texto2"><p>' . $row["cuerpo"] . '</p></div>';
-        echo '            <div>';
-        echo '                <button id="btnup'.$row["id"].'" class="btn" value="Q" onclick="publicarNoticia(this.id);"><i class="fa-solid fa-file-arrow-up"></i></button>';
-        echo '                <a type="button" class="btn" onclick="boton();"><i class="fa-solid fa-file-pen"></i></a>';
-        echo '                <button class="btn" id="btn'.$row["id"].'" onclick="obtenerIdBoton(this.id);"><i class="fa-solid fa-trash"></i></button>';
-        echo '            </div>';
-        echo '        </div>';
-        echo '    </div>';
-        echo '</div>';
-    }
-} else {
-    echo "0 noticias disponibles";
-}
-
-$stmt->close();
-$con->close();
-?>
+  
+  ?>
       </div>
     </div>
   </div>
+  <img id="logoInstitucion" alt="Logo Institución" src="data:image/jpeg;base64,<?php echo $logoBase64; ?>">
 </section>
 
-
-          <!-- <div class="col-lg-3">
-            <div class="card">
-              <div class="card-body">
-                <img src="./pestanas_Encuestado/Img/2.jpg" class="img-fluid rounded">
-                <div class="card-titulo">
-                  <p class="fs-6 fw-bold p_top">La importancia de la seguridad alimentaria: ¿qué factores la ponen en peligro?</p>
-                </div>
-                <div class="card-texto2"><p>Dolor modi repudiandae quia beatae consectetur? ullafugit ullam, accusamus! Totam mollitia eveniet!</p></div>
-              <div>
-                <button id="btnup1" class="btn" value="Q" onclick="publicarNoticia(this.id);"><i class="fa-solid fa-file-arrow-up"></i></button>
-                <a type="button" class="btn" onclick="boton();"><i class="fa-solid fa-file-pen"></i></a>
-                <button class="btn" id="btn1" onclick="obtenerIdBoton(this.id);"><i class="fa-solid fa-trash"></i></button>
-              </div>
-              </div>
-            </div>
-          </div> -->
- 
   <script>
       let arrow = document.querySelectorAll(".arrow");
       for (var i = 0; i < arrow.length; i++) {
@@ -240,7 +203,25 @@ $con->close();
   <script src="./node_modules/sweetalert2/dist/sweetalert2.all.js"></script>
   <script src="../CSS/SweetAlert.js"></script>
   <script src="./CSS/prueba.js"></script>
-  <!-- <script src="BD/app.js"></script> -->
+  <!-- <script src="BD/app.js"></script>  -->
 </body>
 
 </html>
+
+
+          <!-- <div class="col-lg-3">
+            <div class="card">
+              <div class="card-body">
+                <img src="./pestanas_Encuestado/Img/2.jpg" class="img-fluid rounded">
+                <div class="card-titulo">
+                  <p class="fs-6 fw-bold p_top">La importancia de la seguridad alimentaria: ¿qué factores la ponen en peligro?</p>
+                </div>
+                <div class="card-texto2"><p>Dolor modi repudiandae quia beatae consectetur? ullafugit ullam, accusamus! Totam mollitia eveniet!</p></div>
+              <div>
+                <button id="btnup1" class="btn" value="Q" onclick="publicarNoticia(this.id);"><i class="fa-solid fa-file-arrow-up"></i></button>
+                <a type="button" class="btn" onclick="boton();"><i class="fa-solid fa-file-pen"></i></a>
+                <button class="btn" id="btn1" onclick="obtenerIdBoton(this.id);"><i class="fa-solid fa-trash"></i></button>
+              </div>
+              </div>
+            </div>
+          </div> -->
