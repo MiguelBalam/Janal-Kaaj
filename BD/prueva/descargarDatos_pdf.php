@@ -6,7 +6,7 @@ require '../../Library/fpdf.php';
 $servername = "162.241.60.169";
 $username = "janalkaa_admin";
 $password = "janalkaaj2023";
-$dbname = "janalkaa_kaaj"; 
+$dbname = "janalkaa_kaaj";
 
 // Crea la conexión a la base de datos
 $con = new mysqli($servername, $username, $password, $dbname);
@@ -18,8 +18,8 @@ if ($con->connect_error) {
 }
 
 // Consulta SQL para obtener todos los resultados de las encuestas
-$sqlEncuestas = "SELECT DISTINCT nombre, localidad, genero, edad, codigo, created FROM vista_inseAlimentaria";
-$sqlPreguntas = "SELECT descripcion, respuesta FROM vista_inseAlimentaria WHERE codigo = ?";
+$sqlEncuestas = "SELECT DISTINCT nombre, localidad, genero, edad, codigo, created, UE_logo FROM vista_AlimeAndAplicadores";
+$sqlPreguntas = "SELECT descripcion, respuesta FROM vista_AlimeAndAplicadores WHERE codigo = ?";
 
 $queryEncuestas = mysqli_query($con, $sqlEncuestas);
 
@@ -35,21 +35,38 @@ $stmtPreguntas->bind_param("s", $codigoEncuesta);
 
 // Itera sobre todas las encuestas y agrega los datos al PDF
 while ($encabezado = mysqli_fetch_assoc($queryEncuestas)) {
-    // Mostrar encabezado
+    // Guardar la imagen como un archivo temporal
+    $imageData = base64_decode($encabezado['UE_logo']);
+
+    // Generar un nombre de archivo único basado en la fecha y hora actual
+    $imageName = 'temp_image_' . time() . '.png';
+
+    // Guardar la imagen usando imagepng
+    $image = imagecreatefromstring($imageData);
+    imagepng($image, $imageName);
+    imagedestroy($image);
+
+    // Mostrar imagen del encabezado
+    $pdf->Image($imageName, 10, 10, 50, 0, 'PNG');
+
+    // Eliminar el archivo temporal después de usarlo
+    unlink($imageName);
+
+    // Mostrar otros datos en el PDF
     $pdf->Cell(0, 10, utf8_decode('Nombre del encuestado: ' . $encabezado['nombre']), 0, 1);
     $pdf->Cell(0, 10, utf8_decode('Localidad: ' . $encabezado['localidad']), 0, 1);
     $pdf->Cell(0, 10, utf8_decode('Género: ' . $encabezado['genero']), 0, 1);
     $pdf->Cell(0, 10, utf8_decode('Edad: ' . $encabezado['edad']), 0, 1);
     $pdf->Cell(0, 10, utf8_decode('Código: ' . $encabezado['codigo']), 0, 1);
     $pdf->Cell(0, 10, utf8_decode('Fecha de Creación: ' . $encabezado['created']), 0, 1);
-    
+
     $pdf->Ln(); // Agregar un salto de línea (separación vertical) después del encabezado
 
     // Obtener preguntas y respuestas para este encabezado
     $codigoEncuesta = $encabezado['codigo'];
     $stmtPreguntas->execute();
     $queryPreguntas = $stmtPreguntas->get_result();
-    
+
     // Mostrar preguntas y respuestas
     while ($preguntaRespuesta = mysqli_fetch_assoc($queryPreguntas)) {
         $pregunta = utf8_decode('Pregunta: ' . $preguntaRespuesta['descripcion']);

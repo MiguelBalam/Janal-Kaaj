@@ -73,21 +73,6 @@ $data = '
               </tr>';
       }
 
-<<<<<<< HEAD
-while ($row = $resultado->fetch_assoc()) {
-    $data .= '
-        <tbody>
-            <tr>
-                <td>' . $row["id_encuesta"] . '</td>
-                <td width="100" id="titulo">' . mb_strimwidth($row['titulo'], 0, 20, "...") . '</a></td>
-                <td>' . $row["estado"] . '</td>
-                <td>' . $row["fecha_inicio"] . '</td>
-                <td>
-                <a href="/BD/prueva/encuestaVista.php?id_encuesta=' . $row['id_encuesta'] . '"><button class="btn btn-info type="button">Detalles</button></a>  
-                <a href="#" onclick="aplicarEncuesta(' . $row['id_encuesta'] . ')"> 
-                <button class="btn btn-info" type="button">Aplicar</button>
-            </a>
-=======
 // while ($row = $resultado->fetch_assoc()) {
 //     $data .= '
 //         <tbody>
@@ -101,7 +86,6 @@ while ($row = $resultado->fetch_assoc()) {
 //                 <a href="#" onclick="aplicarEncuesta(' . $row['id_encuesta'] . ')"> 
 //                 <button class="btn btn-info" type="button">Aplicar</button>
 //             </a>
->>>>>>> 4daf80261a08805ce86e37c2ef3125b02ce8ea2b
             
 
 //                 </td>
