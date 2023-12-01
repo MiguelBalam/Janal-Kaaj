@@ -57,3 +57,16 @@ function setupImageUploader() {
       }
     })
   }
+
+  function addCard(div){
+    var url = $(div).attr('data-href');
+    var id = $(div).attr('data-id');
+    datos = 'id=' + id+ '&cantidad=1';
+
+    $_post (url, datos,
+      function(data){
+        var result = jQuery.parseJSON(data);
+          alert('Plan agregado');
+      } 
+      );
+  }
