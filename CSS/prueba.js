@@ -1,3 +1,51 @@
+var $ = jQuery; 
+
+jQuery( document ).ready(function() {
+	// "use strict";
+	// var LANG = 'es';
+	// var espere = 'Espere';
+	// var ancla='';
+		
+	
+	$.xhrPool = [];
+	$.xhrPool.abortAll = function() {
+		$(this).each(function(idx, jqXHR) {
+		jqXHR.abort();
+		});
+		$.xhrPool.length = 0
+	};
+		
+	$.ajaxSetup({
+		beforeSend: function(jqXHR) {
+		$.xhrPool.push(jqXHR);
+		},
+		complete: function(jqXHR) {
+		var index = $.xhrPool.indexOf(jqXHR);
+		if (index > -1) {
+		$.xhrPool.splice(index, 1);
+		}
+		}
+	});
+
+  $.fn.envDat = function (url, datos) {
+    $.post(url, datos,
+      function (data) {
+        var result = jQuery.parseJSON(data);
+        Swal.fire({
+          title: 'Agregar a carrito',
+          text: result.msg,
+          icon: result.status,
+          timer: 3500,
+          timerProgressBar: true,
+          confirmButtonColor: '#3085d6',
+          confirmButtonText: 'Confirmar',
+        });
+
+      }
+    );
+  };
+
+});
 
 window.onscroll = function(){miFuncion()};
 var navbar = document.getElementById("mainNav");
@@ -63,10 +111,5 @@ function setupImageUploader() {
     var id = $(div).attr('data-id');
     datos = 'id=' + id+ '&cantidad=1';
 
-    $_post (url, datos,
-      function(data){
-        var result = jQuery.parseJSON(data);
-          alert('Plan agregado');
-      } 
-      );
+    $(document).envDat(url, datos);
   }
