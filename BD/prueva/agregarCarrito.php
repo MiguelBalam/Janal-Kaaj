@@ -10,12 +10,7 @@ if(isset($_GET['addItem'])){
 	// 	echo json_encode($res);
 	// 	exit;
 
-	if(!isset($_SESSION['id'])){
-		$res->status = 'error-box';
-		$res->msg = 'Error - Producto no encontrado.';
-		echo json_encode($res);
-		exit;
-	}
+
 	if(!isset($_POST['id']) or !isset($_POST['cantidad'])){
 		$res->status = 'error-box';
 		$res->msg = 'Error - Producto no encontrado.';
