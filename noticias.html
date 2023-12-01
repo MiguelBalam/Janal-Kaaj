@@ -1,3 +1,6 @@
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -26,7 +29,7 @@
 
 
 <body>
-
+  
   <div class="sidebar close">
     <div class="logo-details">
       <i class="bx seleccionador"></i>
@@ -231,16 +234,20 @@
     });
 
     function enviarFormularioo() {
-      const formulario = document.getElementById('formularioNews');
+  const formulario = document.getElementById('formularioNews');
 
-      fetch('upload_noticia.php', {
-        method: 'POST',
-        body: new FormData(formulario)
-      })
-        .then(response => response.text())
-        .then(result => {
-          if (result === 'success') {
-            Swal.fire({
+  fetch('upload_noticia.php', {
+    method: 'POST',
+    body: new FormData(formulario)
+  })
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('La respuesta de la red no fue ok');
+    }
+    return response.text();
+  })
+  .then(result => {
+    Swal.fire({
               title: 'Se han enviado los datos',
               text: 'Datos enviados correctamente',
               icon: 'success',
@@ -253,27 +260,18 @@
             document.getElementById("formularioNews").reset();
 
             document.getElementById("img-result").src = "";
-          } else {
-            Swal.fire({
-              title: 'Error',
-              text: 'Hubo un error al enviar los datos',
-              icon: 'error',
-              confirmButtonColor: '#d33',
-              confirmButtonText: 'Entendido',
-            });
-          }
-        })
-        .catch(error => {
-          Swal.fire({
-            title: 'Error',
-            text: 'Hubo un error al realizar la petición',
-            icon: 'error',
-            confirmButtonColor: '#d33',
-            confirmButtonText: 'Entendido',
-          });
-        });
-    }
-
+  })
+  .catch(error => {
+    console.error('Error al realizar la petición:', error);
+    Swal.fire({
+      title: 'Error',
+      text: 'Hubo un error al realizar la petición: ' + error.message,
+      icon: 'error',
+      confirmButtonColor: '#d33',
+      confirmButtonText: 'Entendido',
+    });
+  });
+}
     // Vinculamos la función al evento submit del formulario
     document.addEventListener('DOMContentLoaded', function () {
       const formulario = document.getElementById('formularioNews');
@@ -283,9 +281,6 @@
         enviarFormulario();
       });
     });
-
-
-
   </script>
   <!-- BOOTSTRAP SCRIPTS -->
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"

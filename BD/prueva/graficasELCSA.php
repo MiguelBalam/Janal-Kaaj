@@ -303,9 +303,16 @@ $userId = $_GET['userId']; // Obtener el ID de usuario de la URL
       FROM vista_ELCSA
       WHERE id_pregunta >= 17 AND id_pregunta < 33 
       AND localidad = '$localidadSeleccionada' 
-      AND clasi_respuesta = 'Adulto'
-      AND id_autenticacion_encuestador = '$userId'
-      GROUP BY id_pregunta, descripcion";
+    AND clasi_respuesta = 'Adulto'
+                AND id_autenticacion_encuestador = '$userId'
+                AND codigo NOT IN (
+                    SELECT DISTINCT codigo 
+                    FROM vista_ELCSA
+                    WHERE localidad = '$localidadSeleccionada'
+                    AND clasi_respuesta = 'Menor'
+                    AND id_autenticacion_encuestador = '$userId'
+                )
+            GROUP BY id_pregunta, descripcion";
         echo '<h2 class="py-4">Hogares integrados solamente por personas adultas</h2>';
         echo '<table class="table table-bordered table-striped table-hover">';
 
@@ -380,6 +387,11 @@ FROM vista_ELCSA
 WHERE id_pregunta >= 17 AND id_pregunta < 33 
 AND localidad = '$localidadSeleccionada' 
 AND id_autenticacion_encuestador = '$userId'
+              AND codigo IN (
+                  SELECT DISTINCT codigo 
+                  FROM vista_ELCSA 
+                  WHERE id_pregunta > 25 AND id_pregunta < 33
+              )
 GROUP BY id_pregunta, descripcion";
   echo '<h2 class="py-4">Hogares integrados por personas adultas y menores de 18 años</h2>';
   echo '<table class="table table-bordered table-striped table-hover">';
@@ -597,6 +609,9 @@ GROUP BY id_pregunta, descripcion";
           boxWidth: 20, // Ancho de la caja de color
           padding: 10, // Espacio entre las cajas de color y el texto
           fontStyle: 'bold', // Estilo de fuente
+          generateLabels: function(chart) {
+              return legendLabels(chart);
+            }
         },
       },
     },
@@ -728,10 +743,34 @@ GROUP BY id_pregunta, descripcion";
           boxWidth: 20, // Ancho de la caja de color
           padding: 10, // Espacio entre las cajas de color y el texto
           fontStyle: 'bold', // Estilo de fuente
+          generateLabels: function(chart) {
+              return legendLabels(chart);
+            }
         },
       },
     },
   });
+
+  function legendLabels(chart) {
+      const datasets = chart.data.datasets[0];
+      const labels = chart.data.labels;
+
+      if (!datasets.data || !labels) {
+        return [];
+      }
+
+      return labels.map((label, index) => {
+        const percentage = datasets.data[index];
+        return {
+          text: `${label}: ${percentage.toFixed(2)}%`,
+          fillStyle: datasets.backgroundColor[index],
+          strokeStyle: datasets.borderColor ? datasets.borderColor[index] : '#fff',
+          lineWidth: 1,
+          hidden: isNaN(percentage),
+          index: index
+        };
+      });
+    }
 </script>
 
 </body>

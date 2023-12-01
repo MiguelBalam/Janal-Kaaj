@@ -25,7 +25,6 @@ const APP_SHELL = [
   "/pestanas_Encuestador/EncuestaFinalVariable.html",
   "/pestanas_Encuestador/EncuestaVariables.html",
   "/pestanas_Encuestador/EncuestasFinales.html",
-  "/pestanas_Encuestador/perfil_Encuestador.html",
   "/pestanas_Encuestador/reactivo_categoria.html",
   "/pestanas_Encuestador/variable_crear_variable.html",
   "/pestanas_Encuestador/variable_tipo_variable_NoEdit.html",
@@ -35,12 +34,12 @@ const APP_SHELL = [
   "/BD/registroUsuarios/registro.js",
   "/BD/registroUsuarios/registroEncuestado.js",
   "/BD/src/jsSC.js",
-  // "/BD/src/sync.js",
   "/BD/src/App.js",
   "/pestanas_Encuestado/dashAplicador.html",
-  "/pestanas_Encuestado/enEspera.html"
-
+  "/pestanas_Encuestado/enEspera.html",
+  
 ];
+
 
 // cosas que no van a cambiar
 const APP_SHELL_INMUTABLE = [

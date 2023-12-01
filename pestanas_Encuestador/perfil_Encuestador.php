@@ -143,29 +143,25 @@ if ($result->num_rows > 0) {
       </li>
 
       <li>
-<<<<<<< HEAD:pestanas_Encuestador/perfil_Encuestador.php
+
         <a onclick="redireccionarConUserId()">
-=======
-<<<<<<< HEAD
+
         <a onclick="redireccionarConUserId()">
-=======
+
         <a id="pruebaApli" href="/pestanas_Encuestado/Aplicador.php" onclick="redireccionarConUserId()">
->>>>>>> 15ba326ff04ffd668fbb9a2ce55c1ca82a7800e0
->>>>>>> 4daf80261a08805ce86e37c2ef3125b02ce8ea2b:pestanas_Encuestador/perfil_Encuestador.html
+
           <i class='bx bx-book-add'></i>
           <span class="link_name">Alta Aplicadores</span>
         </a>
 
         <ul class="sub-menu blank">
-<<<<<<< HEAD:pestanas_Encuestador/perfil_Encuestador.php
+
           <li><a class="link_name" onclick="redireccionarConUserId()">Alta Aplicadores</a></li>
-=======
-<<<<<<< HEAD
+
           <li><a class="link_name" onclick="redireccionarConUserId()">Alta Aplicadores</a></li>
-=======
+
           <li><a class="link_name" href="/pestanas_Encuestado/Aplicador.php">Alta Aplicadores</a></li>
->>>>>>> 15ba326ff04ffd668fbb9a2ce55c1ca82a7800e0
->>>>>>> 4daf80261a08805ce86e37c2ef3125b02ce8ea2b:pestanas_Encuestador/perfil_Encuestador.html
+
         </ul>
       </li>
 
@@ -331,7 +327,6 @@ if ($result->num_rows > 0) {
           window.location.href = '/BD/prueva/graficasELCSAClasi.php';
         }
       }
-<<<<<<< HEAD:pestanas_Encuestador/perfil_Encuestador.php
 
       function redireccionarConUserIdPEncuestador() {
     var userId = localStorage.getItem('user_id');
@@ -349,9 +344,9 @@ if ($result->num_rows > 0) {
 }
     </script>
     
-=======
+
     </script>
->>>>>>> 4daf80261a08805ce86e37c2ef3125b02ce8ea2b:pestanas_Encuestador/perfil_Encuestador.html
+
 
     <!--Perfil-->
 

@@ -4,13 +4,16 @@ var db;
 var ObjectStore;
 var ObjectStoreReac;
 
+if($('.formEncuestado').length){ 
+
+
  (function conectarDB() {
   let DBOpenReq = indexedDB.open('Janal', 1);
 
   DBOpenReq.addEventListener('error', (err) => {
     console.warn(err);
   });
-
+ 
   DBOpenReq.addEventListener('upgradeneeded', (ev) => {
     db = ev.target.result;
 
@@ -187,9 +190,10 @@ var ObjectStoreReac;
    
      
       EncuestaV()
-      
-    });
+    
+   });
  
+  
     
 document.formEncuestado.addEventListener('submit',(ev)=>{        
   ev.preventDefault();
@@ -306,7 +310,7 @@ if (genero1.checked) {
 
 
 });
-
+ 
 
 function makeTX(storeName, mode) {
   let tx = db.transaction(storeName, mode);
@@ -331,9 +335,9 @@ function makeTX3(storeName, mode) {
   return tx;
 }
  })();
+}
 
-
-function agregarUsuario() {
+ function agregarUsuario() {
   const formulario = document.getElementById('formEncuestado');
   formulario.addEventListener('submit', function(event) {
     event.preventDefault();
@@ -3714,19 +3718,20 @@ function refrescarAlmacen() {
   };
 }
 
+//Configurar  01/12/23
 // suscribirse al evento onchange del checkbox
-const checkbox = document.getElementById('b');
-checkbox.onchange = function(event) {
-  console.log('El checkbox ha cambiado');
-  refrescarAlmacen();
-};
+// const checkbox = document.getElementById('b');
+// checkbox.onchange = function(event) {
+//   console.log('El checkbox ha cambiado');
+//   refrescarAlmacen();
+// };
 
 // abrir el modal cuando se hace clic en el botón
-var miBoton = document.getElementById('boton-crear-encuesta');
-miBoton.onclick = function() {
-  var miModal = document.getElementById('Modal_vistaPrevia');
-  miModal.style.display = 'block';
-};
+// var miBoton = document.getElementById('boton-crear-encuesta');
+// miBoton.onclick = function() {
+//   var miModal = document.getElementById('Modal_vistaPrevia');
+//   miModal.style.display = 'block';
+// };
 
 
 // // cerrar el modal cuando se hace clic en la X

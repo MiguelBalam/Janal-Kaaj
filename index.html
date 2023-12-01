@@ -6,7 +6,7 @@ var swLocation = '/Janal-Kaaj/sw.js';
 
 if (navigator.serviceWorker){
 
-  if (url.includes('janalkaaj.com.mx')){
+  if (url.includes('localhost')){
         swLocation = '/sw.js';
     }
   navigator.serviceWorker.register(swLocation);
@@ -15,6 +15,7 @@ if (navigator.serviceWorker){
 
 <!DOCTYPE html>
 <html lang="en">
+
   <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -95,6 +96,7 @@ if (navigator.serviceWorker){
             </ul>      
       </div>
     </nav>
+    
     <div class="modal" tabindex="-1" id="myModal">
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content align-content-center">
@@ -270,6 +272,9 @@ if (navigator.serviceWorker){
           
         </script>
       </footer>
+
+      
+
 <script>
   
   // function ellipsis_box(elemento, max_chars){

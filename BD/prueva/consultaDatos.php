@@ -1,4 +1,44 @@
 <?php
+$userId = $_GET['userId'];
+?>
+
+<script>
+
+function redireccionarConUserId() {
+    var userId = localStorage.getItem('user_id');
+
+    if (!userId) {
+        // Obtener el userId del parámetro en la URL
+        const urlParams = new URLSearchParams(window.location.search);
+        userId = urlParams.get('userId');
+
+        // Almacenar el userId en el almacenamiento local si se encuentra en el URL
+        if (userId) {
+            localStorage.setItem('user_id', userId);
+        } else {
+            // Manejar el caso en el que el userId no está presente en el almacenamiento ni en el URL
+            console.error('ID de usuario no encontrado. Redirigiendo sin él.');
+            window.location.href = '/BD/prueva/consultaDatos.php';
+            return;
+        }
+    }
+
+    // Resto del código...
+    if (userId) {
+        // Construir la URL con userId
+        var urlConUserId = `/BD/prueva/consultaDatos.php?userId=${userId}`;
+
+        // Redirigir al usuario a la nueva URL
+        window.location.href = urlConUserId;
+    } else {
+        // Si userId no está disponible, simplemente redirigir sin él
+        window.location.href = '/BD/prueva/consultaDatos.php';
+    }
+}
+
+</script>
+
+<?php
 $username  = "janalkaa_admin";
 $password = "janalkaaj2023";
 $servername = "162.241.60.169";
@@ -11,7 +51,8 @@ if ($con->connect_error) {
     die("Conexión fallida: " . $con->connect_error);
 }
 
-$user_id = $_SESSION['user_id'];
+
+
 $codigoBusqueda = '';
 
 // Verificar si se proporcionó un código para la búsqueda
@@ -19,34 +60,44 @@ if (isset($_GET['codigo_busqueda'])) {
     $codigoBusqueda = $_GET['codigo_busqueda'];
 
     // Consultar en vista_personalizada
-    $sqlBusquedaInse = "SELECT * FROM vista_inseAlimentaria  WHERE codigo = '$codigoBusqueda'";
+    $sqlBusquedaInse = "SELECT * FROM vista_AlimeAndAplicadores  WHERE codigo = '$codigoBusqueda'";
     $queryBusquedaInse = mysqli_query($con, $sqlBusquedaInse);
 
     // Consultar en vista_encuestaMiel
-    $sqlBusquedaEncuestaMiel = "SELECT * FROM vista_enMieles WHERE codigo = '$codigoBusqueda'";
+    $sqlBusquedaEncuestaMiel = "SELECT * FROM vista_MielesAndAplicadores WHERE codigo = '$codigoBusqueda' ";
     $queryBusquedaEncuestaMiel = mysqli_query($con, $sqlBusquedaEncuestaMiel);
 
     // Consultar en vista_encuestaMiel
-    $sqlBusquedaEncuestaTextil = "SELECT * FROM vista_enTextiles WHERE codigo = '$codigoBusqueda'";
+    $sqlBusquedaEncuestaTextil = "SELECT * FROM vista_TextilAndAplicadores WHERE codigo = '$codigoBusqueda' ";
     $queryBusquedaEncuestaTextil = mysqli_query($con, $sqlBusquedaEncuestaTextil);
 
-        // Consultar en vista_encuestaMAiz
-        $sqlBusquedaEncuestaMaiz = "SELECT * FROM vista_Maiz WHERE codigo = '$codigoBusqueda'";
-        $queryBusquedaEncuestaMaiz = mysqli_query($con, $sqlBusquedaEncuestaMaiz);
+    // Consultar en vista_encuestaMAiz
+    $sqlBusquedaEncuestaMaiz = "SELECT * FROM vista_MaizAndAplicadores WHERE codigo = '$codigoBusqueda' ";
+    $queryBusquedaEncuestaMaiz = mysqli_query($con, $sqlBusquedaEncuestaMaiz);
 
     // Verificar en cuál de las vistas se encontró el código
     if (mysqli_num_rows($queryBusquedaInse) > 0) {
         $resultados = mysqli_fetch_all($queryBusquedaInse, MYSQLI_ASSOC);
-        $vistaUtilizada = 'vista_inseAlimen';
+        $vistaUtilizada = 'vista_AlimeAndAplicadores';
     } elseif (mysqli_num_rows($queryBusquedaEncuestaMiel) > 0) {
         $resultados = mysqli_fetch_all($queryBusquedaEncuestaMiel, MYSQLI_ASSOC);
-        $vistaUtilizada = 'vista_encuestaMiel';
+        $vistaUtilizada = 'vista_MielesAndAplicadores';
     } elseif ($queryBusquedaEncuestaTextil && mysqli_num_rows($queryBusquedaEncuestaTextil) > 0) {
         $resultados = mysqli_fetch_all($queryBusquedaEncuestaTextil, MYSQLI_ASSOC);
-        $vistaUtilizada = 'vista_enTextil';
+        $vistaUtilizada = 'vista_TextilAndAplicadores';
     } elseif ($queryBusquedaEncuestaMaiz && mysqli_num_rows($queryBusquedaEncuestaMaiz) > 0) {
         $resultados = mysqli_fetch_all($queryBusquedaEncuestaMaiz, MYSQLI_ASSOC);
-        $vistaUtilizada = 'vista_Maiz';
+        $vistaUtilizada = 'vista_MaizAndAplicadores';
+    }
+
+    if (mysqli_num_rows($queryBusquedaInse) > 0) {
+        $resultados = mysqli_fetch_all($queryBusquedaInse, MYSQLI_ASSOC);
+        $vistaUtilizada = 'vista_AlimeAndAplicadores';
+        // Agrega mensajes de depuración
+        echo "Código de encuesta encontrado en vista_AlimeAndAplicadores. Resultados: ";
+        var_dump($resultados);
+    } else {
+        // ... (Resto del código)
     }
 }
 ?>
@@ -232,85 +283,85 @@ if (isset($_GET['codigo_busqueda'])) {
         </div>
         <!-- Fin Dashboard -->
         <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        //var userId = localStorage.getItem('user_id');
-        var userID = localStorage.getItem('user_id'); // Obtener el ID almacenado
-        var userCorreo = localStorage.getItem('user_correo');
-        if (userID) {
-          // Enviar una solicitud AJAX para recuperar los datos del usuario por su ID
-          var xhr = new XMLHttpRequest();
-          xhr.open('GET', '/BD/infoUser.php?id=' + userID, true);
+            document.addEventListener('DOMContentLoaded', function() {
+                //var userId = localStorage.getItem('user_id');
+                var userID = localStorage.getItem('user_id'); // Obtener el ID almacenado
+                var userCorreo = localStorage.getItem('user_correo');
+                if (userID) {
+                    // Enviar una solicitud AJAX para recuperar los datos del usuario por su ID
+                    var xhr = new XMLHttpRequest();
+                    xhr.open('GET', '/BD/infoUser.php?id=' + userID, true);
 
-          xhr.onreadystatechange = function() {
-            console.log(xhr.responseText);
-            if (xhr.readyState === 4 && xhr.status === 200) {
-              try {
-                var userInfo = JSON.parse(xhr.responseText);
-                console.log(userInfo)
-                if (userInfo && userInfo.error) {
-                  console.error('Error obteniendo información del usuario:', userInfo.error);
+                    xhr.onreadystatechange = function() {
+                        console.log(xhr.responseText);
+                        if (xhr.readyState === 4 && xhr.status === 200) {
+                            try {
+                                var userInfo = JSON.parse(xhr.responseText);
+                                console.log(userInfo)
+                                if (userInfo && userInfo.error) {
+                                    console.error('Error obteniendo información del usuario:', userInfo.error);
+                                } else {
+                                    document.getElementById('aqui').value = userCorreo;
+
+                                }
+                            } catch (error) {
+                                console.error('Error al analizar la respuesta JSON:', error);
+                            }
+                        } else {
+                            console.error('Error en la solicitud AJAX para obtener información del usuario.');
+                        }
+                    }
+                };
+                xhr.send();
+
+                verificar()
+            })
+            //para enviar el id a agregar aplicador 
+            function redireccionarConUserId() {
+                var userId = localStorage.getItem('user_id');
+
+                if (userId) {
+                    // Construir la URL con userId
+                    var urlConUserId = `/pestanas_Encuestado/Aplicador.php?userId=${userId}`;
+
+                    // Redirigir al usuario a la nueva URL
+                    window.location.href = urlConUserId;
                 } else {
-                  document.getElementById('aqui').value = userCorreo;
-
+                    // Si userId no está disponible, simplemente redirigir sin él
+                    window.location.href = '/pestanas_Encuestado/Aplicador.php';
                 }
-              } catch (error) {
-                console.error('Error al analizar la respuesta JSON:', error);
-              }
-            } else {
-              console.error('Error en la solicitud AJAX para obtener información del usuario.');
             }
-          }
-        };
-        xhr.send();
 
-        verificar()
-      })
-      //para enviar el id a agregar aplicador 
-      function redireccionarConUserId() {
-        var userId = localStorage.getItem('user_id');
+            function redireccionarConUserId2() {
+                var userId = localStorage.getItem('user_id');
 
-        if (userId) {
-          // Construir la URL con userId
-          var urlConUserId = `/pestanas_Encuestado/Aplicador.php?userId=${userId}`;
+                if (userId) {
+                    // Construir la URL con userId
+                    var urlConUserId = `/BD/prueva/graficasELCSA.php?userId=${userId}`;
 
-          // Redirigir al usuario a la nueva URL
-          window.location.href = urlConUserId;
-        } else {
-          // Si userId no está disponible, simplemente redirigir sin él
-          window.location.href = '/pestanas_Encuestado/Aplicador.php';
-        }
-      }
+                    // Redirigir al usuario a la nueva URL
+                    window.location.href = urlConUserId;
+                } else {
+                    // Si userId no está disponible, simplemente redirigir sin él
+                    window.location.href = '/BD/prueva/graficasELCSA.php';
+                }
+            }
 
-      function redireccionarConUserId2() {
-        var userId = localStorage.getItem('user_id');
+            function redireccionarConUserId3() {
+                var userId = localStorage.getItem('user_id');
 
-        if (userId) {
-          // Construir la URL con userId
-          var urlConUserId = `/BD/prueva/graficasELCSA.php?userId=${userId}`;
+                if (userId) {
+                    // Construir la URL con userId
+                    var urlConUserId = `/BD/prueva/graficasELCSAClasi.php?userId=${userId}`;
 
-          // Redirigir al usuario a la nueva URL
-          window.location.href = urlConUserId;
-        } else {
-          // Si userId no está disponible, simplemente redirigir sin él
-          window.location.href = '/BD/prueva/graficasELCSA.php';
-        }
-      }
-
-      function redireccionarConUserId3() {
-        var userId = localStorage.getItem('user_id');
-
-        if (userId) {
-          // Construir la URL con userId
-          var urlConUserId = `/BD/prueva/graficasELCSAClasi.php?userId=${userId}`;
-
-          // Redirigir al usuario a la nueva URL
-          window.location.href = urlConUserId;
-        } else {
-          // Si userId no está disponible, simplemente redirigir sin él
-          window.location.href = '/BD/prueva/graficasELCSAClasi.php';
-        }
-      }
-    </script>
+                    // Redirigir al usuario a la nueva URL
+                    window.location.href = urlConUserId;
+                } else {
+                    // Si userId no está disponible, simplemente redirigir sin él
+                    window.location.href = '/BD/prueva/graficasELCSAClasi.php';
+                }
+            }
+        </script>
         <section class="container-fluid d-flex justify-content-center">
             <div class="col-12 col-md-10 col-lg-8 col-xl-10 p-3 shadow-lg mb-5 bg-white rounded">
 
@@ -352,20 +403,21 @@ if (isset($_GET['codigo_busqueda'])) {
                         </thead>
                         <tbody>
                             <?php
-                            $sqlCodigos = "SELECT codigo, nombre, localidad, aplicador FROM vista_inseAlimentaria  GROUP BY codigo HAVING COUNT(*) > 1";
-                            $queryCodigos = mysqli_query($con, $sqlCodigos);
 
-                            $sqlCodigoss = "SELECT codigo, nombre, localidad, aplicador FROM vista_enMieles GROUP BY codigo HAVING COUNT(*) > 1";
-                            $queryCodigoss = mysqli_query($con, $sqlCodigoss);
+                                $sqlCodigos = "SELECT codigo, nombre, localidad, aplicador FROM vista_AlimeAndAplicadores WHERE A_id = $userId  GROUP BY codigo HAVING COUNT(*) > 1 ";
+                                $queryCodigos = mysqli_query($con, $sqlCodigos);
 
-                            $sqlCodigosss = "SELECT codigo, nombre, localidad, aplicador FROM vista_enTextiles GROUP BY codigo HAVING COUNT(*) > 1";
-                            $queryCodigosss = mysqli_query($con, $sqlCodigosss);
+                                $sqlCodigoss = "SELECT codigo, nombre, localidad, aplicador FROM vista_MielesAndAplicadores WHERE A_id = $userId  GROUP BY codigo HAVING COUNT(*) > 1";
+                                $queryCodigoss = mysqli_query($con, $sqlCodigoss);
 
-                            $sqlCodigossss = "SELECT codigo, nombre, localidad, aplicador FROM vista_Maiz GROUP BY codigo HAVING COUNT(*) > 1";
-                            $queryCodigossss = mysqli_query($con, $sqlCodigossss);
+                                $sqlCodigosss = "SELECT codigo, nombre, loalidad, aplicador FROM vista_TextilAndAplicadores WHERE A_id = $userId  GROUP BY codigo HAVING COUNT(*) > 1";
+                                $queryCodigosss = mysqli_query($con, $sqlCodigosss);
 
-                            while ($row = mysqli_fetch_assoc($queryCodigos)) {
-                                echo '<td>' . $row['codigo'] . '</td>
+                                $sqlCodigossss = "SELECT codigo, nombre, localidad, aplicador FROM vista_MaizAndAplicadores WHERE A_id = $userId  GROUP BY codigo HAVING COUNT(*) > 1";
+                                $queryCodigossss = mysqli_query($con, $sqlCodigossss);
+
+                                while ($row = mysqli_fetch_assoc($queryCodigos)) {
+                                    echo '<td>' . $row['codigo'] . '</td>
                                         <td>' . $row['nombre'] . '</td>
                                         <td>' . $row['aplicador'] . '</td>
                                         <td>' . $row['localidad'] . '</td>
@@ -384,10 +436,10 @@ if (isset($_GET['codigo_busqueda'])) {
                                         </form>
                                         </td>
                                         </tr>';
-                            }
+                                }
 
-                            while ($row = mysqli_fetch_assoc($queryCodigoss)) {
-                                echo '<td>' . $row['codigo'] . '</td>
+                                while ($row = mysqli_fetch_assoc($queryCodigoss)) {
+                                    echo '<td>' . $row['codigo'] . '</td>
                                         <td>' . $row['nombre'] . '</td>
                                         <td>' . $row['aplicador'] . '</td>
                                         <td>' . $row['localidad'] . '</td>
@@ -406,13 +458,13 @@ if (isset($_GET['codigo_busqueda'])) {
                                         </form>
                                         </td>
                                         </tr>';
-                            }
+                                }
 
-                            while ($row = mysqli_fetch_assoc($queryCodigosss)) {
-                                echo '<td>' . $row['codigo'] . '</td>
+                                while ($row = mysqli_fetch_assoc($queryCodigosss)) {
+                                    echo '<td>' . $row['codigo'] . '</td>
                                         <td>' . $row['nombre'] . '</td>
                                         <td>' . $row['aplicador'] . '</td>
-                                        <td>' . $row['localidad'] . '</td>
+                                        <td>' . $row['loalidad'] . '</td>
                                         <td>Encuesta Pública de Textil</td>
                                         <td>
                                         <form method="get" action="">
@@ -428,10 +480,10 @@ if (isset($_GET['codigo_busqueda'])) {
                                         </form>
                                         </td>
                                         </tr>';
-                            }
+                                }
 
-                            while ($row = mysqli_fetch_assoc($queryCodigossss)) {
-                                echo '<td>' . $row['codigo'] . '</td>
+                                while ($row = mysqli_fetch_assoc($queryCodigossss)) {
+                                    echo '<td>' . $row['codigo'] . '</td>
                                         <td>' . $row['nombre'] . '</td>
                                         <td>' . $row['aplicador'] . '</td>
                                         <td>' . $row['localidad'] . '</td>
@@ -450,8 +502,7 @@ if (isset($_GET['codigo_busqueda'])) {
                                         </form>
                                         </td>
                                         </tr>';
-                            }
-
+                                }
                             ?>
                         </tbody>
 
@@ -564,35 +615,35 @@ if (isset($_GET['codigo_busqueda'])) {
 
 
 
-                          <?php } elseif (isset($_GET['codigo_busqueda'])) { ?>
-    <script>
-        Swal.fire({
-            icon: 'error',
-            title: 'Código No Encontrado',
-            text: 'El código ingresado no existe en la tabla de resultados.',
-            confirmButtonColor: '#218838'
-        });
-    </script>
-<?php } ?>
+                <?php } elseif (isset($_GET['codigo_busqueda'])) { ?>
+                    <script>
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Código No Encontrado',
+                            text: 'El código ingresado no existe en la tabla de resultados.',
+                            confirmButtonColor: '#218838'
+                        });
+                    </script>
+                <?php } ?>
 
-<div id="opcionesDescarga" <?php if (!isset($resultados) || empty($resultados) && (!isset($_GET['codigo_busqueda']) || empty($_GET['codigo_busqueda']))) {
-    echo 'style="display: none;"';
-} ?>>
-    <?php if (!empty($resultados)) { ?>
-        <h2>Opciones: </h2>
-        <!-- Botón para descargar en Excel -->
-        <form method="post" action="descargar_excel.php">
-            <input type="hidden" name="codigo_busqueda" value="<?php echo isset($_GET['codigo_busqueda']) ? $_GET['codigo_busqueda'] : ''; ?>">
-            <button type="submit" class="btn btn-outline-success bg-border-mostaza bg-text-mostaza">Descargar Resultados en Excel</button>
-        </form>
+                <div id="opcionesDescarga" <?php if (!isset($resultados) || empty($resultados) && (!isset($_GET['codigo_busqueda']) || empty($_GET['codigo_busqueda']))) {
+                                                echo 'style="display: none;"';
+                                            } ?>>
+                    <?php if (!empty($resultados)) { ?>
+                        <h2>Opciones: </h2>
+                        <!-- Botón para descargar en Excel -->
+                        <form method="post" action="descargar_excel.php">
+                            <input type="hidden" name="codigo_busqueda" value="<?php echo isset($_GET['codigo_busqueda']) ? $_GET['codigo_busqueda'] : ''; ?>">
+                            <button type="submit" class="btn btn-outline-success bg-border-mostaza bg-text-mostaza">Descargar Resultados en Excel</button>
+                        </form>
 
-        <!-- Botón para descargar en PDF -->
-        <form method="post" action="descarga_pdf.php">
-            <input type="hidden" name="codigo_busqueda" value="<?php echo isset($_GET['codigo_busqueda']) ? $_GET['codigo_busqueda'] : ''; ?>">
-            <button type="submit" class="btn btn-outline-success bg-border-mostaza bg-text-mostaza">Descargar Resultados en PDF</button>
-        </form>
-    <?php } ?>
-</div>
+                        <!-- Botón para descargar en PDF -->
+                        <form method="post" action="descarga_pdf.php">
+                            <input type="hidden" name="codigo_busqueda" value="<?php echo isset($_GET['codigo_busqueda']) ? $_GET['codigo_busqueda'] : ''; ?>">
+                            <button type="submit" class="btn btn-outline-success bg-border-mostaza bg-text-mostaza">Descargar Resultados en PDF</button>
+                        </form>
+                    <?php } ?>
+                </div>
 
                 <script>
                     // Guardar el estado de la barra lateral en el localStorage
