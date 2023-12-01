@@ -40,7 +40,7 @@ jQuery( document ).ready(function() {
           confirmButtonColor: '#3085d6',
           confirmButtonText: 'Confirmar',
         });
-
+        
       }
     );
   };
