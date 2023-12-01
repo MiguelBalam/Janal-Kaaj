@@ -89,6 +89,16 @@ if (isset($_GET['codigo_busqueda'])) {
         $resultados = mysqli_fetch_all($queryBusquedaEncuestaMaiz, MYSQLI_ASSOC);
         $vistaUtilizada = 'vista_MaizAndAplicadores';
     }
+
+    if (mysqli_num_rows($queryBusquedaInse) > 0) {
+        $resultados = mysqli_fetch_all($queryBusquedaInse, MYSQLI_ASSOC);
+        $vistaUtilizada = 'vista_AlimeAndAplicadores';
+        // Agrega mensajes de depuración
+        echo "Código de encuesta encontrado en vista_AlimeAndAplicadores. Resultados: ";
+        var_dump($resultados);
+    } else {
+        // ... (Resto del código)
+    }
 }
 ?>
 

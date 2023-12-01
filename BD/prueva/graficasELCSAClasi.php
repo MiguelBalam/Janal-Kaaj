@@ -56,18 +56,13 @@ $userId = $_GET['userId']; // Obtener el ID de usuario de la URL
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.5.0-beta4/html2canvas.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
-  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.5.0-beta4/html2canvas.min.js"></script> -->
-<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script> -->
-<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.min.js"></script> -->
-
-
 
 
   <style>
     #map {
       width: 100%;
       height: 50vh;
-      /* esto utiliza % de la altura de la ventana del navegador */
+      /* esto utiliza el 30% de la altura de la ventana del navegador */
       margin-bottom: 50px;
     }
   </style>
@@ -185,13 +180,13 @@ $userId = $_GET['userId']; // Obtener el ID de usuario de la URL
         </ul>
       </li>
 
-      <li>
-        <a href="../../pestanas_Encuestador/perfil_Encuestador.html">
+       <li>
+        <a onclick="redireccionarConUserIdPEncuestador()">
           <i class='bx bx-user'></i>
           <span class="link_name">Perfil</span>
         </a>
         <ul class="sub-menu blank">
-          <li><a class="link_name" href="../../pestanas_Encuestador/perfil_Encuestador.html">Perfil</a></li>
+          <li><a class="link_name" onclick="redireccionarConUserIdPEncuestador()">Perfil</a></li>
         </ul>
       </li>
 
@@ -226,7 +221,7 @@ $userId = $_GET['userId']; // Obtener el ID de usuario de la URL
           xhr.open('GET', '/BD/infoUser.php?id=' + userID, true);
 
           xhr.onreadystatechange = function() {
-            console.log(xhr.responseText); 
+            console.log(xhr.responseText);
             if (xhr.readyState === 4 && xhr.status === 200) {
               try {
                 var userInfo = JSON.parse(xhr.responseText);
@@ -294,6 +289,20 @@ $userId = $_GET['userId']; // Obtener el ID de usuario de la URL
           window.location.href = '../../BD/prueva/graficasELCSAClasi.php';
         }
       }
+      function redireccionarConUserIdPEncuestador() {
+    var userId = localStorage.getItem('user_id');
+    
+    if (userId) {
+        // Construir la URL con userId
+        var urlConUserId = `/pestanas_Encuestador/perfil_Encuestador.php?userId=${userId}`;
+        
+        // Redirigir al usuario a la nueva URL
+        window.location.href = urlConUserId;
+    } else {
+        // Si userId no está disponible, simplemente redirigir sin él
+        window.location.href = '/pestanas_Encuestador/perfil_Encuestador.php';
+    }
+}
     </script>
 
     <div class="container" id="pruebaxd">
@@ -333,7 +342,15 @@ $userId = $_GET['userId']; // Obtener el ID de usuario de la URL
                 WHERE localidad = '$localidadSeleccionada'
                 AND clasi_respuesta = 'Adulto'
                 AND id_autenticacion_encuestador = '$userId'
+                AND codigo NOT IN (
+                    SELECT DISTINCT codigo 
+                    FROM vista_ELCSA
+                    WHERE localidad = '$localidadSeleccionada'
+                    AND clasi_respuesta = 'Menor'
+                    AND id_autenticacion_encuestador = '$userId'
+                )
                 GROUP BY codigo";
+
         echo '<h2 class="py-4">Hogares integrados solamente por personas adultas</h2>';
         echo '<table class="table table-bordered table-striped table-hover">';
 
@@ -381,6 +398,17 @@ $userId = $_GET['userId']; // Obtener el ID de usuario de la URL
           echo '<td>' . $localidadSeleccionada . '</td>';
           echo '<td>' . $clasificacion2 . '</td>';
           echo '</tr>';
+        //Subir a la BD
+          $insertQuery2 = "INSERT INTO ELCSA_Completo (codigo, totalRespuestas, localidad, clasificacion) 
+                VALUES (?, ?, ?, ?) 
+                ON DUPLICATE KEY UPDATE 
+                totalRespuestas = VALUES(totalRespuestas), 
+                localidad = VALUES(localidad), 
+                clasificacion = VALUES(clasificacion)";
+
+$stmt = mysqli_prepare($con, $insertQuery2);
+mysqli_stmt_bind_param($stmt, 'iiss', $codigo2['codigo'], $totalRespuestas2, $localidadSeleccionada, $clasificacion2);
+mysqli_stmt_execute($stmt);
         }
         echo '</tbody>'; // Finaliza el cuerpo de la tabla
         echo '</table>'; // Finaliza la tabla
@@ -516,9 +544,6 @@ mysqli_stmt_execute($stmt);
     <div class="text-center">
       <h5 class="py-4">Descargar Reporte Estadístico en PDF</h5><button id="download" class="btn btn-outline-warning py-3">Descargar PDF <i class="fa-solid fa-file-arrow-down"></i></button>
     </div>
-    
-
-
     <h4 class="py-4"></h4>
 
   </section>
@@ -632,32 +657,6 @@ mysqli_stmt_execute($stmt);
       'rgba(255, 159, 49, 0.8)',
       'rgba(215, 63, 9, 0.8)'
     ];
-//     Chart.plugins.register({
-//   afterDraw: function(chart) {
-//     const ctx = chart.ctx;
-//     const dataset = chart.data.datasets[0];
-//     const labels = chart.data.labels;
-
-//     const xLegend = chart.canvas.width - 150; // Ubicación en x para las leyendas
-//     const xValue = chart.canvas.width - 180;   // Ubicación en x para los porcentajes
-
-//     let y = 25;  // Iniciar la posición en y
-//     const yIncrement = 25;  // Incremento en y para cada entrada
-
-//     dataset.data.forEach((value, index) => {
-//       ctx.fillStyle = dataset.backgroundColor[index];
-//       ctx.fillRect(xLegend - 20, y - 10, 15, 15);
-//       ctx.font = "15px Arial";
-//       ctx.fillStyle = "#000";
-//       ctx.textAlign = "left";
-//       ctx.fillText(labels[index], xLegend, y);
-      
-//       ctx.textAlign = "right";
-//       ctx.fillText(value.toFixed(2) + "%", xValue, y);
-//       y += yIncrement;
-//     });
-//   }
-// });
 
     new Chart($grafica2, {
       type: 'doughnut',
@@ -837,13 +836,13 @@ mysqli_stmt_execute($stmt);
       function getIconBasedOnClassification(classification) {
         switch (classification) {
           case 'Seguridad':
-            return '../../Img/menu.png';
+            return '../../Img/Seguridad.png';
           case 'Inseguridad Leve':
-            return '../../Img/acceso.png';
+            return '../../Img/IL.png';
           case 'Inseguridad Moderada':
-            return '../../Img/gmail.png';
+            return '../../Img/IM.png';
           case 'Inseguridad Severa':
-            return '../../Img/Negro.png';
+            return '../../Img/IS.png';
           default:
             return '../../Img/Oficial_JanalKaaj_simple.png'; // Ícono por defecto si no coincide ninguna clasificación
         }
@@ -877,7 +876,8 @@ mysqli_stmt_execute($stmt);
         (function(marker, item) {
           var infoWindow = new google.maps.InfoWindow({
             content: `
-            <strong>Nombre:</strong> ${item.nombre} <br>
+            <strong>Código:</strong> ${item.codigo} <br>
+            <strong>Clasificación:</strong> ${item.clasificacion} <br>
             <strong>Localidad:</strong> ${item.localidad} <br>
             <strong>Latitud:</strong> ${item.latitud} <br>
             <strong>Longitud:</strong> ${item.longitud}
@@ -886,6 +886,7 @@ mysqli_stmt_execute($stmt);
 
           marker.addListener('click', function() {
             // Si ya hay 2 InfoWindows abiertos, cierra el más antiguo
+            
             if (openInfoWindows.length == 2) {
               openInfoWindows[0].close();
               openInfoWindows.shift(); // Elimina el primer elemento del array
@@ -906,47 +907,8 @@ mysqli_stmt_execute($stmt);
       }
 
     }
-    function generatePDF() {
-    // Usa html2canvas para tomar una captura de pantalla del contenido de tu página
-    html2canvas(document.body, { useCORS: true }).then(function(canvas) {
-      var imgData = canvas.toDataURL('image/png');
-
-// Usa jsPDF para crear el documento PDF
-var doc = new jsPDF('p', 'mm', [canvas.width, canvas.height]);
-
-// Añade la imagen al PDF
-var imgProps= doc.getImageProperties(imgData);
-var pdfWidth = doc.internal.pageSize.getWidth();
-var pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
-doc.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
-
-// Guarda el PDF
-doc.save('sample-file.pdf');
-});
-    
-}
 
 
-// document.getElementById('download').addEventListener('click', function() {
-//     var element = document.getElementById('pruebaxd');
-
-//     html2canvas(element, {
-//         useCORS: true
-//     }).then(function(canvas) {
-//         var imgData = canvas.toDataURL('image/png');
-
-//         // Establecer el PDF en formato horizontal
-//         var pdf = new window.jspdf.jsPDF('p', 'mm', [canvas.width, canvas.height]);
-
-//         // Ajustar el tamaño y posición de la imagen en el PDF
-//         var imgProps = pdf.getImageProperties(imgData);
-//         var pdfWidth = pdf.internal.pageSize.getWidth();
-//         var pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
-//         pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
-
-//         pdf.save("Análisis ELCSA.pdf");
-//     });
-// });
 
 
     document.getElementById('download').addEventListener('click', function() {
@@ -968,11 +930,10 @@ doc.save('sample-file.pdf');
 
         pdf.save("Análisis ELCSA.pdf");
       });
-      
     });
   </script>
   <!-- <div id="map"></div> -->
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBY0fnUqDbcZ1dTOYqLHFxXBnTjyNKJquM&callback=initMap" async defer></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCLUCsRicJes1tNFIf3G7LBeJkhz37HaCI&callback=initMap" async defer></script>
 
 
 </body>

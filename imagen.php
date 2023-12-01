@@ -1,48 +1,47 @@
-<!doctype html>
-<html lang="en">
+<?php
+$username  = "janalkaa_admin";
+$password = "janalkaaj2023";
+$servername = "162.241.60.169";
+$dbname = "janalkaa_kaaj";
 
-<head>
-    <title>Subir Imagen</title>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-</head>
+$con = new mysqli($servername, $username, $password, $dbname);
+mysqli_set_charset($con, "utf8");
 
-<body>
-    <div class="container mt-3">
-        <div class="row">
-            <div class="col-12">
-                <?php
-                if (isset($_REQUEST['guardar'])) {
-                    if (isset($_FILES['foto']['name'])) {
-                        $tipoArchivo = $_FILES['foto']['type'];
-                        $permitido = array("image/png", "image/jpeg");
-                        if (!in_array($tipoArchivo, $permitido)) {
-                            die("Archivo no permitido");
-                        }
-                        $nombreArchivo = $_FILES['foto']['name'];
-                        $tamanoArchivo = $_FILES['foto']['size'];
-                        $imagenSubida = fopen($_FILES['foto']['tmp_name'], 'r');
-                        $binariosImagen = fread($imagenSubida, $tamanoArchivo);
+if ($con->connect_error) {
+  die("Conexión fallida: " . $con->connect_error);
+}
 
-                        $titulo = $_POST['titulo'];
-                        $cuerpo = $_POST['cuerpo'];
+$query = "SELECT id, cuerpo, titulo, imagen FROM Noticias"; // Selecciona todas las noticias
 
-                        include_once "db_empresa.php";
-                        $con = mysqli_connect($db_host, $db_user, $db_pass, $db_database);
-                        $binariosImagen = mysqli_escape_string($con, $binariosImagen);
-                        $query = "INSERT INTO Noticias (titulo, cuerpo, imagen) VALUES ('$titulo', '$cuerpo', '$binariosImagen');";
-                        $res = mysqli_query($con, $query);
-                        if ($res) {
-                            echo "<div class='alert alert-primary'>Registro insertado exitosamente</div>";
-                        } else {
-                            echo "<div class='alert alert-danger'>Error: " . mysqli_error($con) . "</div>";
-                        }
-                    }
-                }
-                ?>
-                <form method="post" enctype="multipart/form-data">
-                    <div class="form-group">
-                        <label>Título
+$result = $con->query($query);
+$noticias = []; // Array para almacenar las noticias
+
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $noticia = [
+            "id" => $row["id"],
+            "cuerpo" => $row["cuerpo"],
+            "titulo" => $row["titulo"],
+            // Convierte los datos binarios a una cadena Base64 si es necesario
+            "imagenBase64" => base64_encode($row["imagen"])
+        ];
+        array_push($noticias, $noticia);
+    }
+} else {
+    echo "No se encontraron noticias.";
+}
+
+$con->close();
+?>
+
+<div>
+    <?php foreach ($noticias as $noticia): ?>
+        <div class="noticia">
+            <h2><?php echo $noticia["titulo"]; ?></h2>
+            <p><?php echo $noticia["cuerpo"]; ?></p>
+            <?php if (!empty($noticia["imagenBase64"])): ?>
+                <img src="data:image/jpeg;base64,<?php echo $noticia["imagenBase64"]; ?>" alt="Imagen Noticia">
+            <?php endif; ?>
+        </div>
+    <?php endforeach; ?>
+</div>
