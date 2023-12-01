@@ -2493,8 +2493,8 @@ jQuery( document ).ready(function() {
         OpenPay.setSandboxMode(true);*/
         
         //Produccion
-		OpenPay.setId('mpt8oex5py4zueveqv6l');
-        OpenPay.setApiKey('pk_760f72b2e6904007845d6cd2499c41d5');
+		OpenPay.setId('mwrp6ykkvonfelf7pypd');
+        OpenPay.setApiKey('pk_38785dfbe6f34895bf74b246683f1ae9');
 		
   		var deviceSessionId = OpenPay.deviceData.setup("frmAddCard", "deviceIdHiddenFieldName");
 		console.log(deviceSessionId);//*/
