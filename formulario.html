@@ -8,7 +8,8 @@
   <!-- Bootstrap -->
   <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
   <link rel="stylesheet" href="CSS/bootstrap.min.css">
-  <link rel="stylesheet" href="CSS/style3.css">
+  <link rel="stylesheet" href="CSS/card.css">
+  <link rel="stylesheet" href="CSS/style3.css?v1">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300&display=swap" rel="stylesheet">
@@ -19,6 +20,19 @@
 </head>
 
 <body class="IBM">
+  <?php 
+      require $_SERVER['DOCUMENT_ROOT'].'/BD/carrito.php';
+      $iduser = $_SESSION['id'];
+      $_tmp = planes($_SESSION['carrito'][0]['id']);
+      $mysqli = conexion();
+      $sql = $mysqli->query("SELECT * FROM UsuariosEncuestador WHERE id_Autenticacion='".$iduser."' ");
+      if($row = $sql->fetch_object()){
+        $nombre = $row->nombre.' '.$row->apellidoPaterno.' '.$row->apellidoMaterno;
+        $nombreC = $row->nombre;
+      }
+      $sql->close(); 
+      $mysqli->close();
+    ?>
   <nav class="navbar navbar-expand-lg fixed-top navbar-mi-colorLP" id="mainNav">
     <div class="container">
       <a class="navbar-brand" href="index.html">
@@ -35,8 +49,12 @@
             <li class="nav-item"><a class="nav-link" target="_blank" href="https://www.acnur.org/nutricion-y-seguridad-alimentaria.html">Seguridad-Alimentaria</a></li>
             <li class="nav-item"><a class="nav-link" href="Estadistica/index.html">Estadísticas</a></li>
             <li class="nav-item"><a class="nav-link" href="contactanos.html">Contáctanos</a></li>
+            <?php if(!isset($_SESSION['id'])): ?>
             <li class="nav-item"><a class="nav-link" href="login.html">Iniciar Sesión</a></li>
             <li class="nav-item"><button type="button" data-bs-toggle="modal" data-bs-target="#myModal" class="nav-link btnn btn-outline-warning text-white" data-bs-target="#myModal">Registrarse</button></li>
+            <?php else: ?>
+            <li class="nav-item"><a class="nav-link" href="login.html"><?= $nombreC?></a></li>
+            <?php endif ?>
           </ul>      
     </div>
   </nav>
@@ -58,23 +76,49 @@
     </div>
   </div>
    <!--Planes-->
-   <div class="container mt-5">
-    <div class="row">
-      <div class="col-md-6">
-        <label for="nombre" class="form-label">Nombre</label>
-        <input type="text" class="form-control" id="nombre" placeholder="Ingrese el nombre">
-      </div>
-      <div class="col-md-6">
-        <label for="precio" class="form-label">Precio</label>
-        <input type="text" class="form-control" id="precio" placeholder="Ingrese el precio">
-      </div>
-    </div>
-    <div class="row mt-3">
-      <div class="col-md-6">
-        <button class="btn btn-primary">Comprar</button>
-      </div>
-    </div>
-  </div>
+   <h2 class="main__title text-center text-dark py-3">Formulario de compra</h2>
+   <div class="container py-4">
+    
+    <form id="formResumen" method="post" action="/BD/carrito.php/?comprar">  
+      <section id="formulario">
+        <div id="formCarrito">
+          <section id="carrito" class="carrito2">
+              <div class="contentCart">
+                  <div class="itemCart1">
+                      <table class="table" id="tblResumen">
+                          <thead>
+                              <tr>
+                                  <th class="text-center encabezado" scope="col">Plan</th>
+                                  <th class="text-center encabezado" scope="col">Precio</th>
+                                  <th class="text-center encabezado" scope="col">TOTAL</th>
+                              </tr>
+                          </thead>
+                          <tbody>                         
+                            <tr>
+                              <td class="text-center"><?= $_tmp['nombre'] ?></td>
+                              <td class="text-center"><?= number_format($_tmp['costo'],2,'.',',') ?></td>
+                              <td class="text-center"><?= number_format($_tmp['costo'],2,'.',',') ?></td>
+                            </tr>
+                          </tbody>
+                      </table>
+                  </div>
+              </div>        
+          </section>   
+          <div id="formTop2">
+            <div>Hola <?= $nombre ?> gracias por realizar la compra</div>
+            <div>Por favor selecciona tu metodo de pago:</div>  
+            <div>
+              <a id="btnOpenP" data-href="/BD/carrito.php/?getPagoTarjeta" data-id="<?=$iduser?>" class="btn btn-pagarMetodo">Pagar con tarjeta</a>
+            </div>           
+          </div>
+              <div>
+                  <input class="btn btn-continuar btnSubmitResumen" value="CONTINUAR" type="submit">
+              </div>
+        </div>
+      </section> 
+  </form>
+   </div>
+ 
  
    <footer class="footer">
     <div class="container py-4">
@@ -102,9 +146,10 @@
   </footer>
    
    <!-- BOOTSTRAP SCRIPTS -->
-   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+   <!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-   crossorigin="anonymous"></script>
+   crossorigin="anonymous"></script> -->
+   <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
    integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
    crossorigin="anonymous"></script>
@@ -114,8 +159,9 @@
  <link rel="stylesheet" href="/node_modules/@sweetalert2/themes/bootstrap-4/bootstrap-4.min.css">
  <script src="/node_modules/sweetalert2/dist/sweetalert2.all.js"></script>
  <script src="/CSS/SweetAlert.js"></script>
- <script src="CSS/prueba.js"></script>
-   <script src="../BD/app.js"></script>
+ <script src="CSS/card.js"></script>
+ <script src="CSS/prueba.js?v1.2"></script>
+  <script src="../BD/app.js"></script>
  </body>
  
  </html>

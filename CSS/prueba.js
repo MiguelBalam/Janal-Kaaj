@@ -27,30 +27,46 @@ jQuery( document ).ready(function() {
 		}
 	});
 
-  $.fn.envDat = function (url, datos) {
-    $.post(url, datos,
-      function (data) {
-        var result = jQuery.parseJSON(data);
-        Swal.fire({
-          title: 'Agregar a carrito',
-          text: result.msg,
-          icon: result.status,
-          timer: 3500,
-          timerProgressBar: true,
-          confirmButtonColor: '#3085d6',
-          confirmButtonText: 'Confirmar',
-        });
-        
-      }
-    );
-  };
+  $.fn.envDat = function(url,datos){
+		$.post(url, datos,
+			function(data){	
+				var result = jQuery.parseJSON(data);	
+        if(result.status == 'success'){
+          Swal.fire({
+            title: 'Agregar a carrito',
+            text: result.msg,
+            icon: result.status,
+            timer: 3500,
+            timerProgressBar: true,
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'Confirmar',
+          });
+          location.href = '/formulario.html';
+        }else{
+          Swal.fire({
+            title: 'Agregar a carrito',
+            text: result.msg,
+            icon: result.status,
+            timer: 3500,
+            timerProgressBar: true,
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'Confirmar',
+          });
+          setTimeout(function () {
+            location.href = result.url;
+          }, 3500);
+          
+        }
+
+			}
+		);
+	};
 
 });
 
 window.onscroll = function(){miFuncion()};
 var navbar = document.getElementById("mainNav");
 var sticky= navbar.offsetTop;
-
 
 function miFuncion(){
     if(window.pageYOffset >= sticky){
