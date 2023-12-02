@@ -211,12 +211,12 @@ if(isset($_GET['ajax' ]) && $_GET['ajax'] == sha1('RPagoTarjetaV3')){
 							'tarjOk'=>'Pago Realizado Exitosamente!');
 	$v = $Langs->pagos;	
 
-	$nombre 		= limpiar($_POST['titular']);	
-	$ntarjeta 		= limpiar($_POST['tarjeta']);	
-	$expiram 		= limpiar($_POST['mes']);
-	$expiraa 		= limpiar($_POST['anio']);	
-	$codigo 		= limpiar($_POST['codigo']);		
-	$tokenPago 		= limpiar($_POST['tokenp']);
+	// $nombre 		= limpiar($_POST['titular']);	
+	// $ntarjeta 		= limpiar($_POST['tarjeta']);	
+	// $expiram 		= limpiar($_POST['mes']);
+	// $expiraa 		= limpiar($_POST['anio']);	
+	// $codigo 		= limpiar($_POST['codigo']);		
+	// $tokenPago 		= limpiar($_POST['tokenp']);
 
 	$_nombre = $nombre;
 	if($nombre == ''){
@@ -354,8 +354,8 @@ if(isset($_GET['ajax' ]) && $_GET['ajax'] == sha1('RPagoTarjetaV3')){
 	$adatos[] = array('campo'=>'Status de Pago:','valor'=>'<span style="color:#ff7500; ">Pendiente</span>');
 
 	//OpenPay	
-	$tokenCorrecto = cadena_aleatoria(100,'si','si','si', 'no');
-	$_OP = datOpenPay();
+	// $tokenCorrecto = cadena_aleatoria(100,'si','si','si', 'no');
+	// $_OP = datOpenPay();
 	try {		
 		Openpay::setProductionMode(true); 
 		$openpay = Openpay::getInstance($_OP->comercio, $_OP->token);
