@@ -2,7 +2,8 @@
     "require": {
 
         "firebase/php-jwt": "^6.9",
-        "phpoffice/phpspreadsheet": "^1.29"
+        "phpoffice/phpspreadsheet": "^1.29",
+        "mercadopago/dx-php": "^2.6"
 
     }
 }
