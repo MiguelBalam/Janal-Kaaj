@@ -18,7 +18,7 @@ function cancelar() {
   })
 
   function reenviar() {
-    window.location.href = "../pestañas_Encuestador/crear.html";
+    window.location.href = "../pestanas_Encuestador/crear.html";
   }
 
   function limpiar() {
@@ -48,7 +48,7 @@ function cancelar2() {
   })
 
   function reenviar2() {
-    window.location.href = "../pestañas_Encuestador/variable_tipo_variable.html";
+    window.location.href = "../pestanas_Encuestador/variable_tipo_variable.html";
   }
 
   function limpiar2() {
@@ -78,7 +78,7 @@ function cancelar3() {
   });
 
   function reenviar3() {
-    window.location.href = "../pestañas_Encuestador/crear_Evariables.html";
+    window.location.href = "../pestanas_Encuestador/crear_Evariables.html";
   }
 
   function limpiar3() {
@@ -209,12 +209,12 @@ function notiEditarVariables(){
   }).then((result) => {
     if (result.isConfirmed) {
       // Redirect to the desired location after the timer has finished
-      window.location.href = '../pestañas_Encuestador/crear.html';
+      window.location.href = '../pestanas_Encuestador/crear.html';
     }
   });
 
   setTimeout(function () {
-    window.location.href = '../pestañas_Encuestador/crear.html';
+    window.location.href = '../pestanas_Encuestador/crear.html';
   }, 4000); // 4000 milliseconds (4 seconds)
   
 }
@@ -232,7 +232,7 @@ function cancelarReactivo() {
     cancelButtonText: 'Cancelar',
   }).then((result) => {
     if (result.isConfirmed) {
-      window.location.href = "../pestañas_Encuestador/crear.html";
+      window.location.href = "../pestanas_Encuestador/crear.html";
 
     }
   });
@@ -252,12 +252,12 @@ function GuardarReactivosPre(){
   }).then((result) => {
     if (result.isConfirmed) {
       // Redirect to the desired location after the timer has finished
-      window.location.href='../pestañas_Encuestador/crear.html'
+      window.location.href='../pestanas_Encuestador/crear.html'
     }
   });
 
   setTimeout(function () {
-    window.location.href='../pestañas_Encuestador/crear.html'
+    window.location.href='../pestanas_Encuestador/crear.html'
   }, 4000); // 4000 milliseconds (4 seconds)
   
 }
@@ -793,7 +793,7 @@ function CanEncues() {
   });
 
   function ree() {
-    window.location.href = "../pestañas_Encuestador/dashboard.html";
+    window.location.href = "../pestanas_Encuestador/dashboard.html";
   }
 
 }
@@ -808,4 +808,28 @@ function editarEncues() {
     confirmButtonColor: '#3085d6',
     confirmButtonText: 'Enterado',
   })
+}
+
+function cargarIndex() {
+  Swal.fire({
+    title: 'Datos Cargados',
+    text: 'Datos cargados.',
+    icon: 'success',
+    timer: 2000,
+    timerProgressBar: true,
+    confirmButtonColor: '#3085d6',
+    confirmButtonText: 'Okay',
+  });
+}
+
+function cargarApli() {
+  Swal.fire({
+    title: 'Aplicador Guardado',
+    text: 'Datos Guardados.',
+    icon: 'success',
+    timer: 3000,
+    timerProgressBar: true,
+    confirmButtonColor: '#3085d6',
+    confirmButtonText: 'Okay',
+  });
 }

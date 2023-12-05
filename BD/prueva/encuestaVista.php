@@ -262,6 +262,21 @@ $variables_encuesta = obtenerVariablesEncuesta($id_encuestaVar);
                 echo '</div>';
                
             }
+            elseif ($tipoRespuesta['nombre_tipo_respuesta'] == 3) {
+                $queryOpciones = "SELECT id_opcion, descripcion_opcion FROM opciones_respuesta WHERE id_reactivoC = " . $reactivo['id_reactivoC'];
+               $resultOpciones = $con->query($queryOpciones);
+    
+               if ($resultOpciones->num_rows > 0) {
+                while ($opcion = $resultOpciones->fetch_assoc()) {
+                    echo '<div class="col-4">';
+                    echo '<label class="form-check-label" for="reactivo_' . $reactivo['id_reactivoC'] . '_opcion_' . $opcion['id_opcion'] . '">' . $opcion['descripcion_opcion'] . '</label>';
+                    echo '<input class="form-check-input" type="checkbox" name="reactivo_' . $reactivo['id_reactivoC'] . '_opcion_' . $opcion['id_opcion'] . '" id="reactivo_' . $reactivo['id_reactivoC'] . '_opcion_' . $opcion['id_opcion'] . '" value="' . $opcion['id_opcion'] . '" ' . ($reactivo['obligatorio'] ? 'required' : '') . '>';
+                    echo '</div>';
+                }
+            }else {
+                echo 'No se encontraron opciones de respuesta para este reactivo.';
+            }
+            }
         ?>
             </div>
             </td>
@@ -311,11 +326,27 @@ $variables_encuesta = obtenerVariablesEncuesta($id_encuestaVar);
     </form>
     <div class="row mb-2">
         <div class="d-grid gap-2 col-6 mx-auto">
-        <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza " type="submit">Editar</button>
-        <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza " type="button"  onclick="window.location.href='/pestañas_Encuestador/dashboard.html'">Guardar</button>
+        <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza " type="submit" onclick="editarEncuesta()">Editar</button>
+        <button class="btn btn-outline-success bg-border-mostaza bg-text-mostaza " type="button"  onclick="window.location.href='/pestanas_Encuestador/dashboard.html'">Guardar</button>
          </div>
         </div>
       </div>
+      <script>
+    function editarEncuesta() {
+        // Obtener el valor del parámetro "id" de la URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const id = urlParams.get('id_encuesta');
+        
+        // Verificar si se encontró un ID válido
+        if (id) {
+            // Redireccionar a la página de edición con el ID
+            window.location.href = `/CRUD/encuestaEditar.html?id=${id}`;
+        } else {
+            // Manejar el caso en el que no se encontró un ID válido
+            alert('No se encontró un ID de encuesta válido en la URL');
+        }
+    }
+</script>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>

@@ -20,6 +20,7 @@ echo $code;
 ?>
 
 
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -82,7 +83,7 @@ echo $code;
     <table class= 'table table-bordered' id="header">
             <tbody class="color-fondo IBM">
                 <tr>
-                    <td rowspan="4" style="text-align:center"><img src="/Img/lOGOCONACYT.png" class="col-sm-4 my-3 my-lg-0 text-center"></td>
+                    <td rowspan="5" style="text-align:center"><img src="/Img/lOGOCONACYT.png" class="col-sm-4 my-3 my-lg-0 text-center"></td>
                     <td rowspan="3" class="col-sm-4 text-center">DATOS ENCUESTA</td>
                     <td><small><strong>CÓDIGO:</strong> <span name="codigo" id="codigo"><?php echo $code; ?></span></small></td>
                 </tr>
@@ -93,14 +94,54 @@ echo $code;
                     <td><small><strong>VIGENCIA:</strong> <?php echo date('Y-m-d'); ?></small></td>
                 </tr>
                 <tr>
+                    <td class="col-sm-4 text-center">APLICADOR</td>
+                    <td><small><strong>CORREO:</strong><span name="userCorreo" id="userCorreo"></span></small></td>
+                </tr>
+                <tr>
                     <td class="col-sm-4 text-center">TIPO DE ENCUESTA</td>
                     <td><small><strong>TIPO:</strong> <?php echo 'Publico'; ?></small></td>
                 </tr>
+<?php
+$idEncuesta = '2';
+      if ($idEncuesta === '2') {
+        echo '<tr>';
+        echo '<td class="col-sm-4 text-center">INSTRUCCIONES</td>';
+        echo '<td><small>Contestar toda las preguntas.
+        En caso de que en el hogar no exista menores de edad, contestar únicamente las preguntas del 1 al 9 y dejar en blanco o ignore las preguntas restantes.</small></td>';
+        echo '</tr>';
+    }
+?>
             </tbody>
         </table>
+        <script>
+            if ("geolocation" in navigator) {
+  navigator.geolocation.getCurrentPosition(function(position) {
+    var lat = position.coords.latitude;
+    var lon = position.coords.longitude;
+    var ubicacion = lat + ',' + lon;
+    // Poner los valores en los inputs
+    document.getElementById('latitud').value = lat;
+   document.getElementById('longitud').value = lon;
 
+    // Haz algo con las coordenadas (lat y lon) aquí
+  });
+} else {
+  console.log("Geolocalización no es compatible en este dispositivo.");
+}
 
+        </script>
         <div class="col-sm-6 p-3">
+        <div class="row mb-3">
+ <label for="latitud">Latitud:</label>
+<div class="col-sm-8">
+<input type="text" class="form-control" name="latitud" id="latitud">
+</div>
+
+<label for="longitud">Longitud:</label>
+<div class="col-sm-8">
+<input type="text" class="form-control" name="longitud" id="longitud">
+</div>
+ </div>
 
 <div class="row mb-3">
 <label for="nombrecompletos" class="col-sm-4 col-form-label px-4">Nombre:</label>
@@ -165,13 +206,14 @@ if ($query) {
         "NO" => "NO",
     );
 }
+
     // Imprimir el código HTML del formulario
     ?>
 <p id="totalPreguntasBD" data-totalPreg="<?php echo mysqli_num_rows($query); ?>"></p>
 <br><br>
         <h4 class="text-center">Encuesta (In)Seguridad Alimentaria: <hr></h1>
 
-        <form id="formFormatoGS" onsubmit=" GuardarRes(); return false;">
+        <form id="formFormatoGS" onsubmit="GuardarRes(); return false;">
             <table>
                 <thead >
                     <tr id="cabecera">    
@@ -231,10 +273,20 @@ while ($dataRow = mysqli_fetch_array($query)) {
             </div>
         </div>
     </div>
+    <script>
+document.addEventListener('DOMContentLoaded', function () {
+   // var userId = localStorage.getItem('user_id');
+    var userCorreo = localStorage.getItem('user_correo');
+   // document.getElementById('aqui').value = userCorreo;
+ document.getElementById('userCorreo').textContent = userCorreo;
+                 // document.getElementById('Institucion').value = userCorreo;
+});
+         </script>
+            <script src="/BD/prueva/encuesta.js"></script>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script>
-<script src="../prueva/encuesta.js"></script>
+ 
 </body>
 </html>

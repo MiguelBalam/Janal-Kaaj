@@ -28,16 +28,19 @@ foreach ($updatesEncuestado as $updateEncuestado) {
     $encuestadoData = $updateEncuestado['encuestadoData'];
 
     // Insertar encuestado en la tabla encuestado_respuesta
-    $insertQuery = 'INSERT INTO encuestado_respuesta (nombre, localidad, genero, edad, codigo, id_encuesta) VALUES (?, ?, ?, ?, ?, ?)';
+    $insertQuery = 'INSERT INTO encuestado_respuesta (nombre, localidad, genero, edad, codigo, id_encuesta, longitud,latitud, Aplicador) VALUES (?, ?, ?, ?, ?, ?,?,?,?)';
     $stmt = $mysqli->prepare($insertQuery);
     $stmt->bind_param(
-        'ssssss',
+        'sssssssss',
         $encuestadoData['nombre'],
         $encuestadoData['localidad'],
         $encuestadoData['genero'],
         $encuestadoData['edad'],
         $encuestadoData['codigo'],
-        $id_encuesta
+        $id_encuesta,
+        $encuestadoData['longitud'],
+        $encuestadoData['latitud'],
+        $encuestadoData['Aplicador'],
     );
 
     if ($stmt->execute()) {
@@ -51,19 +54,22 @@ foreach ($updatesEncuestado as $updateEncuestado) {
 foreach ($updatesRespuestas as $updateRespuesta) {
     $id_encuesta = $updateRespuesta['id_encuesta'];
     $respuestaData = $updateRespuesta['espuestaData'];
+    $respue = $updateRespuesta['rr'];
+
 
     // Insertar respuesta en la tabla respuestas_encuesta
-    $insertRespuestaQuery = 'INSERT INTO respuestas_encuesta (id_encuesta, id_encuestado, codigo, id_pregunta, respuesta, observacion, created) VALUES (?, ?, ?, ?, ?, ?, ?)';
+    $insertRespuestaQuery = 'INSERT INTO respuestas_encuesta (id_encuesta, id_encuestado, codigo, id_pregunta, respuesta, observacion, created, Aplicador) VALUES (?, ?, ?, ?, ?, ?, ?,?)';
     $stmtRespuesta = $mysqli->prepare($insertRespuestaQuery);
     $stmtRespuesta->bind_param(
-        'sssssss',
+        'ssssssss',
         $id_encuesta,
         $id_encuestado, // Debes obtener $id_encuestado del bucle anterior
         $respuestaData['codigo'],
         $respuestaData['id_pregunta'],
         $respuestaData['respuesta'],
-        $respuestaData['observacion'],
-        $respuestaData['created']
+        $respue['observacion'],
+        $respuestaData['created'],
+        $respuestaData['Aplicador']
     );
 
     if ($stmtRespuesta->execute()) {

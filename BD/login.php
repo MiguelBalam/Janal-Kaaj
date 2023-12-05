@@ -1,4 +1,5 @@
 <?php
+
 session_start();
 
 
@@ -24,44 +25,59 @@ if ($con->connect_error) {
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $correo = $_POST["correo"];
     $contraseniaL = $_POST["contraseniaL"];
+    $tipoUsuario = $_POST["tipo_usuario"];
+    
+    $sql = "SELECT * FROM ";
+    
+    if ($tipoUsuario === "aplicador") {
+        $sql .= "AutenticacionApli";
+    } elseif ($tipoUsuario === "encuestador") {
+        $sql .= "Autenticacion";
+    } elseif ($tipoUsuario === "encuestado") {
+        $sql .= "Encuestado_A";
+    } elseif ($tipoUsuario === "administrador") {
+        $sql .= "Administrador";
+    } else {
+        echo json_encode(["success" => false, "error" => "Tipo de usuario no válido"]);
+        exit;
+    }
 
-    // Conexión a la base de datos
-
-    // Consulta para verificar el inicio de sesión
-    $sql = "SELECT * FROM Autenticacion WHERE correo = '$correo'";
+    $sql .= " WHERE correo = '$correo'";
 
     $result = $con->query($sql);
     if ($result->num_rows == 1) {
         $row = $result->fetch_assoc();
         $storedContrasenia = $row["contraseña"];
-
+      
         // Verificar la contraseña usando password_verify()
         if (password_verify($contraseniaL, $storedContrasenia)) {
-            // Después de verificar la contraseña exitosamente
-            $_SESSION['id'] = $row['id']; // Donde $row['id_Autenticacion'] es el ID de usuario
+            $_SESSION['id'] = $row['id']; 
             $_SESSION['correo'] = $correo;
-            // Crear un token JWT con los datos del usuario
+      
             $payload = array(
-                "id" => $row['id'], // Donde $row['id_Autenticacion'] es el ID de usuario
-                
+                "id" => $row['id'],   
             );
 
-            $clave_secreta = "jk"; // Debes tener una clave secreta segura
+            $clave_secreta = "jk"; 
 
             // Generar el token JWT
             $token = JWT::encode($payload, $clave_secreta, 'HS256');
 
             // Devolver el token al cliente
-            echo json_encode(["success" => true, "id" => $row['id'], "token" => $token]);
+            echo json_encode(["success" => true, "id" => $row['id'], "token" => $token, "tipoUsuario" => $tipoUsuario]);
+           // echo json_encode(["success" => true, "id" => $row['id'], "token" => $token]);
+           
         } else {
-            echo json_encode(["success" => false, "error" => "Contraseña incorrecta"]);
+            echo json_encode(["success" => false, "error" => "Contraseña incorrecta" . $storedContrasenia]);
         }
+       
     } else {
         echo json_encode(["success" => false, "error" => "Usuario no encontrado"]);
-    }
+    } 
 }
 // Cerrar la conexión
 $con->close();
+
 ?>
 
 

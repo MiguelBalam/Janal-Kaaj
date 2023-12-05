@@ -1,4 +1,6 @@
 <?php
+ob_start(); // Inicia el almacenamiento en búfer de salida
+
 $username  = "janalkaa_admin";
 $password = "janalkaaj2023";
 $servername = "162.241.60.169";
@@ -23,7 +25,7 @@ if (isset($_POST['codigo_busqueda'])) {
     $resultados = [];
 
     // Check if the code exists in each table and fetch results
-    $tables = ['vista_inseAlimen', 'vista_enMiel', 'vista_enTextil'];
+    $tables = ['vista_inseAlimentaria', 'vista_enMieles', 'vista_enTextiles'];
     foreach ($tables as $table) {
         $sqlBusqueda = "SELECT * FROM $table WHERE codigo = '$codigoBusqueda'";
         $queryBusqueda = mysqli_query($con, $sqlBusqueda);
@@ -88,11 +90,19 @@ if (isset($_POST['codigo_busqueda'])) {
 
     // Save the Excel file
     $writer = new Xlsx($spreadsheet);
+    ob_clean(); // Limpia el búfer de salida sin enviar el contenido al navegador
+
+    // Definir las cabeceras para descargar el Excel
     header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
     header('Content-Disposition: attachment;filename="resultados_encuesta.xlsx"');
-    header('Cache-Control: max-age=0');
+
+    // Genera y envía el Excel al navegador
     $writer->save('php://output');
+
+    ob_end_flush(); // Finaliza el búfer de salida
+    exit();
 } else {
-    header('Location: index.php'); // Change this to the name of your main file
+    header('Location: index.php'); // Cambia esto al nombre de tu archivo principal
     exit();
 }
+?>

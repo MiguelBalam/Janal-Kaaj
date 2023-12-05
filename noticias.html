@@ -1,31 +1,35 @@
+
+
+
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Janal-Kaaj</title>
-    <!-- Bootstrap -->
-    <link rel="stylesheet" href="CSS/styleDashboard.css" />
-    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
-    <link rel="stylesheet" href="CSS/bootstrap.min.css">
-    <link rel="stylesheet" href="CSS/style.css">
 
-    
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="../node_modules/@sweetalert2/themes/bootstrap-4/bootstrap-4.min.css">
-    <script src="../node_modules/sweetalert2/dist/sweetalert2.all.js"></script>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Janal-Kaaj</title>
+  <!-- Bootstrap -->
+  <link rel="stylesheet" href="CSS/styleDashboard.css" />
+  <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+  <link rel="stylesheet" href="CSS/bootstrap.min.css">
+  <link rel="stylesheet" href="CSS/style.css">
+
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="../node_modules/@sweetalert2/themes/bootstrap-4/bootstrap-4.min.css">
+  <script src="../node_modules/sweetalert2/dist/sweetalert2.all.js"></script>
+
+  <!-- Boxiocns CDN Link -->
+  <link href="https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css" rel="stylesheet" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+
+
+
+<body>
   
-    <!-- Boxiocns CDN Link -->
-    <link href="https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css" rel="stylesheet" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  </head>
-
-
-  
-  <body>
-    
   <div class="sidebar close">
     <div class="logo-details">
       <i class="bx seleccionador"></i>
@@ -43,13 +47,13 @@
       </li>
       <li>
         <div class="iocn-link">
-          <a href="pestañas_SuperUsuario/perfil_admin.html">
+          <a href="pestanas_SuperUsuario/perfil_admin.html">
             <i class="bx bx-collection"></i>
             <span class="link_name">Perfil</span>
           </a>
         </div>
         <ul class="sub-menu blank">
-          <li><a class="link_name" href="pestañas_SuperUsuario/perfil_admin.html">Perfil</a></li>
+          <li><a class="link_name" href="pestanas_SuperUsuario/perfil_admin.html">Perfil</a></li>
         </ul>
       </li>
       <li>
@@ -113,50 +117,54 @@
       </li>
     </ul>
   </div>
-  
-<section class="home-section">
+
+  <section class="home-section">
     <div class="home-content">
       <i class="bx bx-menu"></i>
       <span class="text">Noticias</span>
     </div>
-  <!-- FIN Dashboard -->
-  <header class="">
-    <div class="container">
-      <section class="d-flex justify-content-center py-5">
-        <div class="col-sm-6 p-3 shadow-lg mb-5 bg-white rounded">
+    <!-- FIN Dashboard -->
+    <header class="">
+      <div class="container">
+        <section class="d-flex justify-content-center py-5">
+          <div class="col-sm-6 p-3 shadow-lg mb-5 bg-white rounded">
             <h2 class="main__title text-center text-dark py-3">Crear Noticias</h2>
-            <form class="needs-validation" id="formularioNews" name="prueba">
+
+            <form class="needs-validation" id="formularioNews" name="prueba" method="post" action="upload_noticia.php"
+              enctype="multipart/form-data">
+
               <div id="grupo__nombrecompletos" class="row mb-3">
                 <label for="nombrecompletos" class="col-sm-4 col-form-label px-4 text-dark">Título: </label>
-                <div  class="col-sm-8">
+                <div class="col-sm-8">
                   <input type="text" name="titulo" placeholder="Título" class="form-control" id="titulo" required>
-                    <div class="valid-feedback">
-                        Correcto
-                    </div>
-                    <div class="invalid-feedback">
-                        Llene el campo
-                    </div>
+                  <div class="valid-feedback">
+                    Correcto
+                  </div>
+                  <div class="invalid-feedback">
+                    Llene el campo
+                  </div>
                 </div>
               </div>
               <div id="grupo__nombrecompletos" class="row mb-3">
                 <label for="nombrecompletos" class="col-sm-4 col-form-label px-4 text-dark">Cuerpo: </label>
-                <div  class="col-sm-8">
-                  <textarea placeholder="Noticia" name="noticia" class="form-control text-dark" id="noticia" required></textarea>
-                    <div class="valid-feedback">
-                        Correcto
-                    </div>
-                    <div class="invalid-feedback">
-                        Llene el campo
-                    </div>
+                <div class="col-sm-8">
+                  <textarea placeholder="Noticia" name="noticia" class="form-control text-dark" id="noticia"
+                    required></textarea>
+                  <div class="valid-feedback">
+                    Correcto
+                  </div>
+                  <div class="invalid-feedback">
+                    Llene el campo
+                  </div>
                 </div>
               </div>
 
               <div id="grupo__image" class="row mb-3 ">
                 <label for="image" class="col-sm-4 col-form-label px-4 text-dark">Imagen: </label>
-                <div  class="col-sm-8 ">
+                <div class="col-sm-8 ">
                   <div class="">
-                  <input class="py-3 form-control" type="file" name="imagen" id="image"  accept="image/*" required>
-                     <!--<div class="valid-feedback">
+                    <input class="py-3 form-control" type="file" name="imagen" id="image" accept="image/*" required>
+                    <!--<div class="valid-feedback">
                         Correcto
                     </div>
                     <div class="invalid-feedback">
@@ -164,65 +172,116 @@
                     </div> -->
                     <label class="col-form-label sugerencia">Sugerencia: Usar imágenes horizontales</label>
                   </div>
-                    <div class="form-file__result" id="result-image">
-                      <img id="img-result" alt=""/>
-                    </div>
-                </div>  
+                  <div class="form-file__result" id="result-image">
+                    <img id="img-result" alt="" />
+                  </div>
+                </div>
               </div>
-              
+
               <div class="row justify-content-center py-4">
-                <button onClick="limpiarFormNoticias();" type="button" class="nav-link btnn btn-outline-warning text-white align">Cancelar</button>
-                <button onClick="agregarEventoFormulario();" class="btnn btn-outline-warning text-white"
-                type="submit" id="enviarNoticia">Guardar</button>
-              </div>      
-                 
+                <button onClick="limpiarFormNoticias();" type="button"
+                  class="nav-link btnn btn-outline-warning text-white align">Cancelar</button>
+                <button onClick="enviarFormularioo();" class="btnn btn-outline-warning text-white" type="button"
+                  id="enviarNoticia">Guardar</button>
+              </div>
+
             </form>
           </div>
         </section>
       </div>
-    </div>
-  </header>
-</section>
+      </div>
+    </header>
+  </section>
 
   <script>
-    window.addEventListener('load', function() {
+
+
+    window.addEventListener('load', function () {
       // Aquí colocas el código de la función que deseas ejecutar al abrir la pestaña
       setupImageUploader();
+
     });
     (() => {
-        'use strict'
+      'use strict'
 
-        // Fetch all the forms we want to apply custom Bootstrap validation styles to
-        const forms = document.querySelectorAll('.needs-validation')
+      // Fetch all the forms we want to apply custom Bootstrap validation styles to
+      const forms = document.querySelectorAll('.needs-validation')
 
-        // Loop over them and prevent submission
-        Array.from(forms).forEach(form => {
-            form.addEventListener('submit', event => {
-                if (!form.checkValidity()) {
-                    event.preventDefault()
-                    event.stopPropagation()
-                }
+      // Loop over them and prevent submission
+      Array.from(forms).forEach(form => {
+        form.addEventListener('submit', event => {
+          if (!form.checkValidity()) {
+            event.preventDefault()
+            event.stopPropagation()
+          }
 
-                form.classList.add('was-validated')
-            }, false)
-        })
+          form.classList.add('was-validated')
+        }, false)
+      })
     })()
     let arrow = document.querySelectorAll(".arrow");
-      for (var i = 0; i < arrow.length; i++) {
-        arrow[i].addEventListener("click", (e) => {
-          let arrowParent = e.target.parentElement.parentElement; // seleccionando el padre principal de la flecha
-          arrowParent.classList.toggle("showMenu");
-        });
-      }
-
-      let sidebar = document.querySelector(".sidebar");
-      let sidebarBtn = document.querySelector(".bx-menu");
-      sidebarBtn.addEventListener("click", () => {
-        sidebar.classList.toggle("close");
+    for (var i = 0; i < arrow.length; i++) {
+      arrow[i].addEventListener("click", (e) => {
+        let arrowParent = e.target.parentElement.parentElement; // seleccionando el padre principal de la flecha
+        arrowParent.classList.toggle("showMenu");
       });
-  
+    }
 
-</script>
+    let sidebar = document.querySelector(".sidebar");
+    let sidebarBtn = document.querySelector(".bx-menu");
+    sidebarBtn.addEventListener("click", () => {
+      sidebar.classList.toggle("close");
+    });
+
+    function enviarFormularioo() {
+  const formulario = document.getElementById('formularioNews');
+
+  fetch('upload_noticia.php', {
+    method: 'POST',
+    body: new FormData(formulario)
+  })
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('La respuesta de la red no fue ok');
+    }
+    return response.text();
+  })
+  .then(result => {
+    Swal.fire({
+              title: 'Se han enviado los datos',
+              text: 'Datos enviados correctamente',
+              icon: 'success',
+              timer: 2000,
+              timerProgressBar: true,
+              confirmButtonColor: '#3085d6',
+              confirmButtonText: 'Confirmar',
+
+            });
+            document.getElementById("formularioNews").reset();
+
+            document.getElementById("img-result").src = "";
+  })
+  .catch(error => {
+    console.error('Error al realizar la petición:', error);
+    Swal.fire({
+      title: 'Error',
+      text: 'Hubo un error al realizar la petición: ' + error.message,
+      icon: 'error',
+      confirmButtonColor: '#d33',
+      confirmButtonText: 'Entendido',
+    });
+  });
+}
+    // Vinculamos la función al evento submit del formulario
+    document.addEventListener('DOMContentLoaded', function () {
+      const formulario = document.getElementById('formularioNews');
+
+      formulario.addEventListener('submit', function (event) {
+        event.preventDefault();  // Evitar que el formulario se envíe de la manera tradicional
+        enviarFormulario();
+      });
+    });
+  </script>
   <!-- BOOTSTRAP SCRIPTS -->
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
     integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
@@ -237,7 +296,7 @@
   <script src="./node_modules/sweetalert2/dist/sweetalert2.all.js"></script>
   <script src="../CSS/SweetAlert.js"></script>
   <script src="./CSS/prueba.js"></script>
-  <script src="BD/app.js"></script>
+  <!-- <script src="BD/app.js"></script> -->
 </body>
 
 </html>

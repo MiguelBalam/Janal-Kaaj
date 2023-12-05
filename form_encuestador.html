@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -72,7 +73,7 @@
             </div>
 
 
-            <form name="formEncuestado" action="guardar.php" method="post" class="needs-validation" id="EncuestadoForm">
+            <form name="formEncuestado" action="/BD/guardar.php" method="post" class="needs-validation" id="EncuestadoForm">
                 <div id="grupo__nombrecompletos" class="row mb-3">
                     <label for="nombrecompletos" class="col-sm-4 col-form-label px-4">Nombres: </label>
                     <div  class="col-sm-8">
@@ -276,9 +277,6 @@
                                 
                             </div>
                         </div>
-
-                        
-
             </form>
         </div>
     </section>
@@ -339,8 +337,10 @@
             return false;
         }
     </script>
+    <script src="/BD/registroUsuarios/registro.js"></script>
+  <script src="/BD/sw-utils.js"></script>
+  <script src="sw.js"></script>
 
-<script src="/BD/registroUsuarios/registro.js"></script>
   <script  src="BD/app.js"></script>
   <script src="CSS/SweetAlert.js"></script>
   
@@ -353,11 +353,7 @@
   <script src="node_modules/sweetalert2/dist/sweetalert2.all.js"></script>    
   <!-- <script src="CSS/SweetAlert.js"></script> -->
   <script src="CSS/prueba.js"></script>
-  
- 
   <script src="/BD/guardar.php"></script>
-
-
 </body>
 
-</html>
+</html>  

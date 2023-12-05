@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-C:\xampp\php
-=======
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -98,11 +95,14 @@ if (isset($_GET['id_encuesta'])) {
         };
     
         // Consulta para obtener datos de las variables
+                                         
         $query_variables = "SELECT * FROM Variable WHERE id_variable IN (SELECT id_variable FROM encuesta_FinalVariables WHERE id_encuesta = $id_encuesta)";
         $result_variables = $con->query($query_variables);
         $variables = [];
+        
         while ($row = $result_variables->fetch_assoc()) {
             $variables[] = $row;
+           
         }
     
         $arrayRespuestas = array(
@@ -156,7 +156,9 @@ echo $code;
         <table class= 'table table-bordered' id="header">
             <tbody class="color-fondo IBM">
                 <tr>
-                    <td rowspan="4" style="text-align:center"><img src="/Img/lOGOCONACYT.png" class="col-sm-4 my-3 my-lg-0 text-center"></td>
+                <td rowspan="5" style="text-align:center">
+                    <img id="imagenUsuario" class="col-sm-4 my-3 my-lg-0 text-center">
+                </td>
                     <td rowspan="3" class="col-sm-4 text-center">DATOS ENCUESTA</td>
                     <td><small><strong>CÓDIGO:</strong> <span name="codigo" id="codigo"><?php echo $code; ?></span></small></td>
                 </tr>
@@ -167,12 +169,49 @@ echo $code;
                     <td><small><strong>VIGENCIA:</strong> <?php echo date('Y-m-d'); ?></small></td>
                 </tr>
                 <tr>
+                    <td class="col-sm-4 text-center">APLICADOR</td>
+                    <td><small><strong>CORREO:</strong><span name="userCorreo" id="userCorreo"></span></small></td>
+                </tr>
+                <tr>
                     <td class="col-sm-4 text-center">TIPO DE ENCUESTA</td>
                     <td><small><strong>TIPO:</strong> <?php echo 'Publico'; ?></small></td>
                 </tr>
+                <tr>
+                    <td class="col-sm-4 text-center">Instrucciones</td>
+                    <td><small><strong></strong> <?php echo $datos_encuesta['encuesta']['instrucciones']; ?></small></td>
+                </tr>
             </tbody>
         </table>
+        <script>
+            if ("geolocation" in navigator) {
+  navigator.geolocation.getCurrentPosition(function(position) {
+    var lat = position.coords.latitude;
+    var lon = position.coords.longitude;
+    var ubicacion = lat + ',' + lon;
+    // Poner los valores en los inputs
+    document.getElementById('latitud').value = lat;
+   document.getElementById('longitud').value = lon;
+
+    // Haz algo con las coordenadas (lat y lon) aquí
+  });
+} else {
+  console.log("Geolocalización no es compatible en este dispositivo.");
+}
+
+        </script>
         <div class="col-sm-6 p-3">
+        <div class="row mb-3">
+ <label for="latitud">Latitud:</label>
+<div class="col-sm-8">
+<input type="text" class="form-control" name="latitud" id="latitud">
+</div>
+
+<label for="longitud">Longitud:</label>
+<div class="col-sm-8">
+<input type="text" class="form-control" name="longitud" id="longitud">
+</div>
+ </div>
+  
 
 <div class="row mb-3">
 <label for="nombrecompletos" class="col-sm-4 col-form-label px-4">Nombre:</label>
@@ -226,31 +265,50 @@ echo $code;
        ?>
        
        <tr id="reactivos_<?php echo $questionId; ?>">
-           <td><?php echo $questionId; ?></td>
-           <td><?php echo strtoupper($dataRow['descripcion']); ?></td>
-           <td class="centered-inputs"> <!-- Apply a class for centering -->
-               <div class="conteFlex">
-                   <?php if ($tipoRespuesta['nombre_tipo_respuesta']== 2 ) { ?>
-                       
-                       <?php foreach ($arrayRespuestas as $clave => $valor) { ?>
-                           <label class="class_<?php echo $questionId; ?>" id="spanId_<?php echo $questionId . '_' . $clave; ?>" onclick="respuesta('<?php echo $questionId; ?>','<?php echo $clave; ?>')">
-                               <input type="radio" name="respuesta[<?php echo $questionId; ?>]" id="idResp_<?php echo $questionId . $clave; ?>" value="<?php echo $clave; ?>">
-                               <?php echo ($valor); ?>
-                           </label>
-                       <?php } ?>
-                   <?php } elseif ($tipoRespuesta['nombre_tipo_respuesta']== 1) {  ?>
-                           <!-- Create text input or text area -->
-                       <?php if ($tipoRespuesta['nombre_tipo_respuesta'] == 1) { ?>
-                           <textarea class="form-control" name="respuesta[<?php echo $questionId; ?>]" id="idResp_<?php echo $questionId; ?>"></textarea>
-                       <?php } else { ?>
-                           <input class="form-control" type="text" name="respuesta[<?php echo $questionId; ?>]" id="idResp_<?php echo $questionId; ?>">
-                       <?php } ?>
-                   <?php } ?>
-               </div>
-           </td>
-       </tr>
-       
-       <?php } ?>
+        <td><?php echo $questionId; ?></td>
+        <td><?php echo strtoupper($dataRow['descripcion']); ?></td>
+        <td class="centered-inputs">
+            <div class="conteFlex">
+                <?php if ($tipoRespuesta['nombre_tipo_respuesta'] == 2) { ?>
+                    <?php foreach ($arrayRespuestas as $clave => $valor) { ?>
+                        <label class="class_<?php echo $questionId; ?>" id="spanId_<?php echo $questionId . '_' . $clave; ?>" onclick="respuesta('<?php echo $questionId; ?>','<?php echo $clave; ?>')">
+                            <input type="radio" name="respuesta[<?php echo $questionId; ?>]" id="idResp_<?php echo $questionId . $clave; ?>" value="<?php echo $clave; ?>">
+                            <?php echo ($valor); ?>
+                        </label>
+                    <?php } ?>
+                <?php } elseif ($tipoRespuesta['nombre_tipo_respuesta'] == 1) { ?>
+                    <!-- Create text input or text area -->
+                    <?php if ($tipoRespuesta['nombre_tipo_respuesta'] == 1) { ?>
+                        <textarea class="form-control" name="respuesta[<?php echo $questionId; ?>]" id="idResp_<?php echo $questionId; ?>"></textarea>
+                    <?php } else { ?>
+                        <input class="form-control" type="text" name="respuesta[<?php echo $questionId; ?>]" id="idResp_<?php echo $questionId; ?>">
+                    <?php } ?>
+                <?php } elseif ($tipoRespuesta['nombre_tipo_respuesta'] == 3) { ?>
+                    <!-- Consultar opciones de respuesta y crear elementos checkbox -->
+                    <?php
+                    $queryOpciones = "SELECT id_opcion, descripcion_opcion FROM opciones_respuesta WHERE id_reactivoC = $questionId";
+                    $resultOpciones = $con->query($queryOpciones);
+                    
+                    if ($resultOpciones->num_rows > 0) {
+                        while ($opcion = $resultOpciones->fetch_assoc()) {
+                            ?>
+                           
+                            <label>
+                                <input type="checkbox" name="respuesta[<?php echo $questionId; ?>]"id="idResp_<?php echo $questionId . $opcion; ?>" value="<?php echo $opcion['descripcion_opcion']; ?>">
+                                <?php echo $opcion['descripcion_opcion']; ?>
+                            </label>
+                            <?php
+                        }
+                    } else {
+                        echo 'No se encontraron opciones de respuesta para este reactivo.';
+                    }
+                    ?>
+                <?php } ?>
+            </div>
+        </td>
+    </tr>
+    
+<?php } ?>
        
                    <div class="form-group">
                        <label for="observacion">Observaciones</label>
@@ -272,7 +330,9 @@ echo $code;
          <table class= 'table table-bordered' id="header">
             <tbody class="color-fondo IBM">
                 <tr>
-                    <td rowspan="4" style="text-align:center"><img src="/Img/lOGOCONACYT.png" class="col-sm-4 my-3 my-lg-0 text-center"></td>
+                <td rowspan="5" style="text-align:center">
+                    <img id="imagenUsuario" class="col-sm-4 my-3 my-lg-0 text-center">
+                </td>
                     <td rowspan="3" class="col-sm-4 text-center">DATOS ENCUESTA</td>
                     <td><small><strong>CÓDIGO:</strong> <span name="codigo2" id="codigo2"><?php echo rand(); ?></span></small></td>
                 </tr>
@@ -283,11 +343,44 @@ echo $code;
                     <td><small><strong>VIGENCIA:</strong> <?php echo date('Y-m-d'); ?></small></td>
                 </tr>
                 <tr>
+                    <td class="col-sm-4 text-center">APLICADOR</td>
+                    <td><small><strong>CORREO:</strong><span name="userCorreo" id="userCorreo"></span></small></td>
+                </tr>
+                <tr>
                     <td class="col-sm-4 text-center">TIPO DE ENCUESTA</td>
                     <td><small><strong>TIPO:</strong> <?php echo 'Publico'; ?></small></td>
                 </tr>
             </tbody>
         </table>
+        <script>
+            if ("geolocation" in navigator) {
+  navigator.geolocation.getCurrentPosition(function(position) {
+    var lat = position.coords.latitude;
+    var lon = position.coords.longitude;
+    var ubicacion = lat + ',' + lon;
+    // Poner los valores en los inputs
+    document.getElementById('latitud').value = lat;
+   document.getElementById('longitud').value = lon;
+
+    // Haz algo con las coordenadas (lat y lon) aquí
+  });
+} else {
+  console.log("Geolocalización no es compatible en este dispositivo.");
+}
+
+        </script>
+      
+        <div class="row mb-3">
+ <label for="latitud">Latitud:</label>
+<div class="col-sm-8">
+<input type="text" class="form-control" name="latitud" id="latitud">
+</div>
+
+<label for="longitud">Longitud:</label>
+<div class="col-sm-8">
+<input type="text" class="form-control" name="longitud" id="longitud">
+</div>
+ </div>
         <div class="col-sm-6 p-3">
 
 <div class="row mb-3">
@@ -337,13 +430,26 @@ echo $code;
 <tr>
             <th>.INFLUENCIA.</th>
                 <?php foreach ($datos_encuesta['variables'] as $variable) : ?>
-                    <th><?= strtoupper($variable['Nobre_Var']) ?></th>
+                    <!-- //<th><?= strtoupper($variable['Nobre_Var']) ?></th> -->
+                    <th data-encabezados="<?= $variable['id_variable'] ?>"><?= strtoupper($variable['Nobre_Var']) ?></th>
+                 
                 <?php endforeach; ?>
             </tr>
             <?php foreach ($datos_encuesta['variables'] as $variable) : ?>
+                <?php $firstQuestionId = null; // Variable para almacenar el primer questionId en la fila ?>
                 <tr>
-                    <td><?= strtoupper($variable['Nobre_Var']) ?></td>
+              
+                    <td><?= strtoupper($variable['Nobre_Var']) ?>
+                    <?php  
+                   $questionId=$variable['id_variable'];
+                if ($firstQuestionId === null) {
+                            $firstQuestionId = $questionId;
+                        }
+                        ?>
+                </td>
+                   
                     <?php foreach ($datos_encuesta['variables'] as $otherVariable) : ?>
+                     
                         <td>
                             <?php
                            // $questionId = $otherVariable['id_Variables'];
@@ -351,7 +457,9 @@ echo $code;
                            $respuestaName = "respuesta[$questionId][" . $variable['Nobre_Var'] . "]";
                            $valorVariable = isset($arrayRespuestasVar[$questionId][$variable['Nobre_Var']]) ? $arrayRespuestasVar[$questionId][$variable['Nobre_Var']] : "0";
                             ?>
-                           <select name="<?php echo $respuestaName; ?>" data-id="<?php echo $questionId; ?>" onchange="handleSelectChange(this)">
+              
+                     
+                           <select name="<?php echo $respuestaName; ?>"  data-questionid="<?=$firstQuestionId?>" data-encabezados="<?= $otherVariable['id_variable'] ?>" onchange="handleSelectChange(this)">
                                 <option value="0" <?= ($valorVariable == "0" ? "selected" : "") ?>>0</option>
                                 <option value="1" <?= ($valorVariable == "1" ? "selected" : "") ?>>1</option>
                                 <option value="2" <?= ($valorVariable == "2" ? "selected" : "") ?>>2</option>
@@ -380,7 +488,50 @@ echo $code;
 }
 ?>
  
-      
+ <script>
+document.addEventListener('DOMContentLoaded', function () {
+   // var userId = localStorage.getItem('user_id');
+    var userCorreo = localStorage.getItem('user_correo');
+   // document.getElementById('aqui').value = userCorreo;
+ document.getElementById('userCorreo').textContent = userCorreo;
+
+
+ var idAutenticacion = localStorage.getItem('user_id');
+
+if (idAutenticacion) {
+  var xhr = new XMLHttpRequest();
+  xhr.open('GET', '/BD/prueva/obtener_imagen.php?id_usuario=' + idAutenticacion, true);
+
+  xhr.responseType = 'arraybuffer'; // Indicamos que esperamos una respuesta en formato binario
+
+  xhr.onreadystatechange = function() {
+    if (xhr.readyState === 4) {
+      if (xhr.status === 200) {
+        var img = document.getElementById('imagenUsuario');
+        var arrayBuffer = xhr.response; // Obtenemos los datos binarios
+
+        // Convertimos los datos binarios a una URL Base64
+        var base64Data = btoa(String.fromCharCode.apply(null, new Uint8Array(arrayBuffer)));
+        var imageUrl = 'data:image/png;base64,' + base64Data;
+
+        img.src = imageUrl;
+      } else {
+        console.error('Error al obtener la imagen del usuario.');
+      }
+    }
+  };
+
+  xhr.send();
+} else {
+  console.error('ID de autenticación no encontrado en el Local Storage.');
+}
+
+                 
+});
+
+
+         </script>
+
 
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
@@ -389,4 +540,3 @@ echo $code;
 <script src="../prueva/encuesta.js"></script>
 </body>
 </html>
->>>>>>> ba388961a6a0665e9401c733d0a1270f63ead1bc

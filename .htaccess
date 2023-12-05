@@ -1,0 +1,24 @@
+RewriteEngine on
+RewriteCond %{HTTPS} off
+RewriteCond %{HTTP:X-Forwarded-SSL} !on
+RewriteCond %{HTTP_HOST} ^janalkaaj\.com\.mx$ [OR]
+RewriteCond %{HTTP_HOST} ^www\.janalkaaj\.com\.mx$
+RewriteRule ^/?$ "https\:\/\/janalkaaj\.com\.mx\/" [R=301,L]
+
+AddType application/x-httpd-php .html
+
+# php -- BEGIN cPanel-generated handler, do not edit
+# Set the “ea-php81” package as the default “PHP” programming language.
+<IfModule mime_module>
+  AddHandler application/x-httpd-ea-php82___lsphp .php .php8 .phtml
+</IfModule>
+# php -- END cPanel-generated handler, do not edit
+<<<<<<< HEAD
+
+=======
+>>>>>>> 57e1c1de6339b01a405374d7a4c579f8f2836643
+
+
+
+
+# php -- END cPanel-generated handler, do not edit

@@ -10,7 +10,8 @@ if ($mysqli->connect_error) {
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     // Endpoint para obtener datos desde MySQL
-    $tables = ['reactivos', 'encuestas', 'respuestas_encuesta', 'encuestado_respuesta'];
+    $tables = ['reactivos', 'encuestas', 'respuestas_encuesta', 'encuestado_respuesta','encuesta_FinalReactivos',
+'reactivosCreados','tiposRespuesta','asignaciones','opciones_respuesta','Variable','Encuesta_Variables','VariableEncabezado','encuestasVariables','encuesta_FinalVariables'];
 
     $data = [];
 

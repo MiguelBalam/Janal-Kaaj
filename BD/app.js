@@ -1,19 +1,11 @@
-var url = window.location.href;
-var swLocation = '/Janal-Kaaj/sw.js';
-
-
-if (navigator.serviceWorker){
-
-  if (url.includes('localhost')){
-        swLocation = '/sw.js';
-    }
-  navigator.serviceWorker.register(swLocation);
-}
 
 // creacion de la base de datos
 var db;
 var ObjectStore;
 var ObjectStoreReac;
+
+if($('.formEncuestado').length){ 
+
 
  (function conectarDB() {
   let DBOpenReq = indexedDB.open('Janal', 1);
@@ -21,7 +13,7 @@ var ObjectStoreReac;
   DBOpenReq.addEventListener('error', (err) => {
     console.warn(err);
   });
-
+ 
   DBOpenReq.addEventListener('upgradeneeded', (ev) => {
     db = ev.target.result;
 
@@ -47,6 +39,7 @@ var ObjectStoreReac;
 
         ObjectStore = db.createObjectStore("EncuestaFinal", {autoIncrement: true});
         ObjectStore.createIndex("encuestaId","",{unique:true});
+        
         ObjectStore=db.createObjectStore("Autenticasion",{keyPath:"correo", autoIncrement: true});
         ObjectStore.createIndex("correo","correo",{unique:true});
 
@@ -197,9 +190,10 @@ var ObjectStoreReac;
    
      
       EncuestaV()
-      
-    });
+    
+   });
  
+  
     
 document.formEncuestado.addEventListener('submit',(ev)=>{        
   ev.preventDefault();
@@ -316,7 +310,7 @@ if (genero1.checked) {
 
 
 });
-
+ 
 
 function makeTX(storeName, mode) {
   let tx = db.transaction(storeName, mode);
@@ -341,9 +335,9 @@ function makeTX3(storeName, mode) {
   return tx;
 }
  })();
+}
 
-
-function agregarUsuario() {
+ function agregarUsuario() {
   const formulario = document.getElementById('formEncuestado');
   formulario.addEventListener('submit', function(event) {
     event.preventDefault();
@@ -1550,7 +1544,7 @@ function manejadorValidacion(e) {
                 if (!request.result) {
                   mostrarAlertaCorreo();
                 } else if (Contrasenia == request.result.Contrasenia) {
-                  control(window.location.href = 'pestañas_Encuestador/dashboard.html');
+                  control(window.location.href = 'pestanas_Encuestador/dashboard.html');
                 } else {
                   mostrarAlerta();
                 }
@@ -1848,25 +1842,17 @@ function manejadorValidacion(e) {
       // console.log ('borrar',e)
       var id = e.target.id;
       var llave = id.substr(1)
-
-
-      
       if(llave){
         db.transaction('Reactivos','readwrite')
         .objectStore('Reactivos')
         .delete(llave),
         
         borraactu2()
-       
         
       }
 
       request.onsuccess =function (e){
-     
-       
-       
-        // alert("eliminado"+llave)
-        
+
       };
       deleteRequest.onsuccess = function(event) {
         console.log("Registro eliminado con éxito");
@@ -2429,7 +2415,7 @@ function mostrarVarSelec() {
       function redireccionarPagina(encuestaId) {
         // Aquí puedes redirigir a la página deseada utilizando el ID de la encuesta
         // Por ejemplo:
-        window.location.href = "../pestañas_Encuestador/EncuestaApi.html";
+        window.location.href = "../pestanas_Encuestador/EncuestaApi.html";
       }
       
 
@@ -2780,7 +2766,7 @@ function mostrarVarSelec() {
       function redireccionarPaginaVar(encuestaIdVar) {
         // Aquí puedes redirigir a la página deseada utilizando el ID de la encuesta
         // Por ejemplo:
-        window.location.href = "../pestañas_Encuestador/EncuestaFinalVariable.html";
+        window.location.href = "../pestanas_Encuestador/EncuestaFinalVariable.html";
       }
 
      
@@ -2826,24 +2812,12 @@ function mostrarVarSelec() {
        }
 
          function CrearReactivo(){
-          //control();
-          // var url_string = window.location.href="/pestañas_Encuestador/reactivo_crear_reactivos.html"; //
-          // var url = new URL(url_string);
-          // var c = url.searchParams.get("Usuario");
-          // document.getElementById("aqui").value = c;
-
          var creador = document.getElementById("aqui").value; 
           var id = document.getElementById("ReactivoCre").value.trim();
           var CategoriaReactivo=document.getElementById("CategoriaReactivos").value.trim();
           var owned = document.getElementById('inlineCheckbox1').checked;
           var TipoRes = document.getElementById('TipoRes').selectedIndex;
           var fechaCreacionReactivo = document.getElementById("fechaCreacion");
-          
-          // var transaction = db.transaction(["Autenticasion"],"readonly");
-          // var store2 = transaction.objectStore("Autenticasion");
-          //var request2 = store2.get(Usuario)
-          
-          
           var Crear = {
            id,
            CategoriaReactivo,
@@ -2851,10 +2825,7 @@ function mostrarVarSelec() {
             TipoRes,
             creador,
             fechaCreacionReactivo:value= Date.now()
-            
-           // request2
           };
-
           let tx = makeTX('Reactivos','readwrite');
           tx.oncomplete = (ev) =>{
               console.log (ev);
@@ -2863,9 +2834,7 @@ function mostrarVarSelec() {
           let request = store.put(Crear);
 
           request.onsuccess = (ev) => {
-            //reactivoscrear();
             console.log('successfully added an object',ev); 
-
             Swal.fire({
               title: "Acción exitosa",
               text: "El reactivo se ha creado correctamente.",
@@ -2992,7 +2961,7 @@ function mostrarVarSelec() {
    // buscarLista()
   }
 
-  //crear una nueva variable
+
   function editarvariable(){
     var creV = document.getElementById("NomV").value.trim();
     var sigla = document.getElementById("SiglaV").value.trim();
@@ -3749,19 +3718,20 @@ function refrescarAlmacen() {
   };
 }
 
+//Configurar  01/12/23
 // suscribirse al evento onchange del checkbox
-const checkbox = document.getElementById('b');
-checkbox.onchange = function(event) {
-  console.log('El checkbox ha cambiado');
-  refrescarAlmacen();
-};
+// const checkbox = document.getElementById('b');
+// checkbox.onchange = function(event) {
+//   console.log('El checkbox ha cambiado');
+//   refrescarAlmacen();
+// };
 
 // abrir el modal cuando se hace clic en el botón
-var miBoton = document.getElementById('boton-crear-encuesta');
-miBoton.onclick = function() {
-  var miModal = document.getElementById('Modal_vistaPrevia');
-  miModal.style.display = 'block';
-};
+// var miBoton = document.getElementById('boton-crear-encuesta');
+// miBoton.onclick = function() {
+//   var miModal = document.getElementById('Modal_vistaPrevia');
+//   miModal.style.display = 'block';
+// };
 
 
 // // cerrar el modal cuando se hace clic en la X
@@ -4408,19 +4378,19 @@ function mostrarImagenEnDiv(claveGenerada) {
 // document.getElementById('boton_filtrar').addEventListener('click', 
 function realizarBusqueda() {
   var searchTerm = document.getElementById('filtrar').value.toLowerCase();
+  var elementosDivCrearEncuesta = document.querySelectorAll('#crear_encuesta td');
+  var elementosDivTablaEncuestas = document.querySelectorAll('#tabla_encuestas #titulo');
 
-  if (searchTerm.trim() !== '') {
-    var elementosDiv = document.querySelectorAll('#crear_encuesta td');
-    var resultados = buscarElementos(elementosDiv, searchTerm);
+  var resultadosCrearEncuesta = buscarElementos(elementosDivCrearEncuesta, searchTerm);
+  var resultadosTablaEncuestas = buscarElementos(elementosDivTablaEncuestas, searchTerm);
 
-    if (resultados.length > 0) {
-      mostrarResultados(resultados);
-    } else {
-      mostrarAlerta('Error: Ingresa un término de búsqueda válido.');
-    }}
-  // } else {
-  //   mostrarAlerta('Error: Ingresa un término de búsqueda válido.');
-  // }
+  var resultados = resultadosCrearEncuesta.concat(resultadosTablaEncuestas);
+
+  if (resultados.length > 0) {
+    mostrarResultados(resultados);
+  } else {
+    mostrarAlerta('Error: No se encontraron resultados para el término de búsqueda ingresado.');
+  }
 }
 
 function buscarElementos(elementos, searchTerm) {
@@ -4428,9 +4398,9 @@ function buscarElementos(elementos, searchTerm) {
 
   for (var i = 0; i < elementos.length; i++) {
     var elemento = elementos[i];
-    var texto = elemento.textContent.toLowerCase();
+    var contenidoCelda = elemento.innerText.toLowerCase();
 
-    if (texto.includes(searchTerm)) {
+    if (contenidoCelda.includes(searchTerm)) {
       resultados.push(elemento);
     }
   }
@@ -4439,6 +4409,13 @@ function buscarElementos(elementos, searchTerm) {
 }
 
 function mostrarResultados(resultados) {
+  // Eliminar resaltado de los elementos previamente resaltados
+  var elementosResaltados = document.querySelectorAll('.resaltado');
+  elementosResaltados.forEach(function(elemento) {
+    elemento.classList.remove('resaltado');
+  });
+
+  // Resaltar los nuevos resultados
   for (var i = 0; i < resultados.length; i++) {
     var resultado = resultados[i];
     var texto = resultado.textContent;
@@ -4461,7 +4438,6 @@ function mostrarAlerta(mensaje) {
   var alertaModal = new bootstrap.Modal(document.getElementById('alertaModal'), { backdrop: 'static' });
   alertaModal.show();
 }
-
 
 //Mostrar cual usuario esta logueado actualmente 
 function verificarUsuarioLogueado() {
@@ -4610,7 +4586,7 @@ function contieneCheckboxIdVAR(checkboxes, id) {
 
 function mostrarTablaEnOtraPestana(encuestaVarId) {
  
-  var nuevaVentana = window.open('/pestañas_Encuestador/EncuestaVariables.html');
+  var nuevaVentana = window.open('/pestanas_Encuestador/EncuestaVariables.html');
 
   // Cuando la ventana se haya cargado, llama a la función EncuestaVarMostrar para mostrar la tabla
   nuevaVentana.onload = function () {
@@ -4848,7 +4824,7 @@ function miFuncionEditar() {
                       });
 
                       setTimeout(function () {
-                        window.location.href = '../pestañas_Encuestador/dashboard.html';
+                        window.location.href = '../pestanas_Encuestador/dashboard.html';
                       }, 4000); // 4000 milisegundos (4 segundos)
                   };
                 } else {

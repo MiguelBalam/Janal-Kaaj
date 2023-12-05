@@ -40,9 +40,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $stmt = $con->prepare($sql);
             $stmt->bind_param("siii", $descripcion, $idCategoria, $idTipoRespuesta, $obligatorio);
             $stmt->execute();
+            $idReactivo = mysqli_insert_id($con);
             $stmt->close();
 
-            $idReactivo = mysqli_insert_id($con);   
+            //$idReactivo = mysqli_insert_id($con);   
             $numRespuestas = $_POST["numRespuestas"];
             for ($i = 1; $i <= $numRespuestas; $i++) {
                 if (isset($_POST["respuesta$i"])) {
@@ -53,9 +54,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
             
 
-            // ... Más código para insertar en otras tablas si es necesario ...
-
-            // Enviar una respuesta a JavaScript si es necesario
+            $sql3 = "INSERT INTO RegistroReactivos (id_reactivoC, descripcion, FechaCreacion, FechaActualizacion) VALUES (?, ?, NOW(), NOW())";
+            $stmt3 = $con->prepare($sql3);
+            $stmt3->bind_param("is", $idReactivo, $descripcion);
+    
+            if ($stmt3->execute()) {
+                // Confirmar la transacción si todo ha salido bien
+                $con->commit();
+                echo "Variable creada y registrada exitosamente.";
+            } else {
+                // Revertir la transacción si ocurre algún error
+                $con->rollback();
+                echo "Error al registrar la variable en RegistroVariables.";
+            }
+            
+            $stmt3->close();
             echo "Reactivo guardado exitosamente.";
         } else {
             echo "Error en la inserción del tipo de respuesta.";

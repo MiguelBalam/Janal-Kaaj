@@ -1,4 +1,6 @@
+
 <html lang="en">
+
 
 <head>
   <meta charset="UTF-8">
@@ -72,65 +74,117 @@
 
   <header class="section">
     <div class="container">
-  <section class="d-flex justify-content-center py-5" id="contact">
-      <div class="col-sm-6 p-3 shadow-lg mb-5 bg-white rounded py-5">
-      <h1 class="bg-text-black text-center py-3">Janal-Kaaj</h1>
+      <section class="d-flex justify-content-center py-5" id="contact">
+        <div class="col-sm-6 p-3 shadow-lg mb-5 bg-white rounded py-5">
+          <h1 class="bg-text-black text-center py-3">Janal-Kaaj</h1>
 
-      <form id="login" action="/BD/login.php" method="post" onsubmit="return controlLogin(event)">
-        <div class="row mb-3">
-          <label for="Usuario" class="col-sm-4 col-form-label px-4 text-dark">Usuario:</label>
-          <div  class="col-sm-8">
-          <input class="form-control" type="email" Placeholder="Usuario" name="Usuario" id="Usuario" required>
-          <div class="valid-feedback">
-            Correcto
-        </div>
-        <div class="invalid-feedback">
-            Llene el campo
-        </div>
+          <form id="login" action="/BD/login.php" method="post" onsubmit="return controlLogin(event)">
+            <!-- <div class="row mb-3">
+              <label for="correo" class="col-sm-4 col-form-label px-4 text-dark">Usuario:</label>
+              <div class="col-sm-8">
+                <input class="form-control" type="email" Placeholder="Usuario" name="correo" id="correo" required>
+                <div class="valid-feedback">
+                  Correcto
+                </div>
+                <div class="invalid-feedback">
+                  Llene el campo
+                </div>
 
-        </div>
-        </div>
-        
-        <div class="row mb-3">
-          <label for="contraseniaL" class="col-sm-4 col-form-label px-4 text-dark">Contraseña:</label>
-          <div  class="col-sm-8">
-          <input class="form-control" type="password" placeholder="Contraseña" name="contraseniaL" id="contraseniaL" required>
+              </div>
+            </div> -->
+            <div class="container">
+              <div class="row mb-3">
+                <label for="correo" class="col-sm-4 col-form-label px-4 text-dark">Usuario:</label>
+                  <div class="col-md-8 col-sm-12">  
+                    <input class="form-control" type="email" Placeholder="Usuario" name="correo" id="correo" required>
+                    <div class="valid-feedback">
+                      Correcto
+                    </div>
+                    <div class="invalid-feedback">
+                      Llene el campo
+                    </div>
+                  </div>
+              </div>
+          </div>
+
+            <!-- <div class="row mb-3">
+              <label for="contraseniaL" class="col-sm-4 col-form-label px-4 text-dark">Contraseña:</label>
+              <div class="col-sm-8">
+                <input class="form-control" type="password" placeholder="Contraseña" name="contraseniaL"
+                  id="contraseniaL" required>
+              </div>
+            </div> -->
+
+            <div class="container">
+              <div class="row mb-3">
+                <label for="contraseniaL" class="col-sm-4 col-form-label px-4 text-dark">Contraseña:</label>
+                  <div class="col-md-8 col-sm-12">  
+                    <input class="form-control" type="password" placeholder="Contraseña" name="contraseniaL"
+                    id="contraseniaL" required>
+                  </div>
+              </div>
+          </div>
+
+            <!-- <div class="row mb-3">
+              <label for="tipo_usuario" class="col-sm-4 col-form-label px-4 text-dark">Tipo de Usuario:</label>
+              <div class="col-sm-8">
+                <select class="form-select" id="tipo_usuario" name="tipo_usuario" required>
+                  <option value="encuestador">Encuestador</option>
+                  <option value="aplicador">Aplicador</option>
+                  <option value="encuestado">Encuestado</option>
+                  <option value="administrador">Administrador</option>
+                </select>
+              </div>
+            </div> -->
+            <div class="container">
+              <div class="row mb-3">
+                <label for="tipo_usuario" class="col-md-4 col-sm-12 col-form-label px-4 text-dark">Tipo de Usuario:</label>
+                  <div class="col-md-8 col-sm-12">  
+                    <select class="form-select" id="tipo_usuario" name="tipo_usuario" required>
+                      <option value="encuestador">Encuestador</option>
+                      <option value="aplicador">Aplicador</option>
+                      <option value="encuestado">Encuestado</option>
+                      <option value="administrador">Administrador</option>
+                    </select>
+                  </div>
+              </div>
+          </div>
+
+            <div class="row justify-content-center">
+              <button type="submit" id="controlE" class="nav-link btnn2 btn-outline-warning text-white align">INICIAR
+                SESIÓN</button>
+            </div>
+          </form>
+          <span>
+            <div class="row mb-3">
+              <div class="col-sm-8">
+                <input type="checkbox" class="m-2">Recordar
+              </div>
+            </div>
+            <div class="control">
+          </span>
+
+          <div class="row justify-content-center">
+            <button type="button" class="nav-link btnn2 btn-outline-warning text-white align" data-bs-toggle="modal"
+              data-bs-target="#myModal" data-bs-target="#myModal">REGISTRARSE</button>
+          </div>
+          <div class="link">
+            <a href="https://drive.google.com/drive/u/0/shared-with-me"> ¿Olvidaste tu Contraseña?</a>
+            <div id="alerta" class="alerta"></div>
+            <div id="alertaCorreo" class="alerta"></div>
           </div>
         </div>
-        <div class="row justify-content-center">
-          <button type="submit" id="controlE" class="nav-link btnn2 btn-outline-warning text-white align">INICIAR SESIÓN</button>
-        </div>
-      </form>
-      <span>  <div class="row mb-3"> 
-        <div  class="col-sm-8">
-          <input type="checkbox" class="m-2">Recordar 
-      </div> 
-      </div>
-      <div class="control">
-      </span>
-     
-      <div class="row justify-content-center">
-        <button type="button" class="nav-link btnn2 btn-outline-warning text-white align"  
-        data-bs-toggle="modal" data-bs-target="#myModal" 
-        data-bs-target="#myModal">REGISTRARSE</button>
-      </div>
-      <div class="link">
-        <a href="https://drive.google.com/drive/u/0/shared-with-me"> ¿Olvidaste tu Contraseña?</a>
-        <div id="alerta" class="alerta"></div>
-        <div id="alertaCorreo" class="alerta"></div>
-      </div>
+
+      </section>
     </div>
-
-  </section>
-</div>
-</header>
+  </header>
 
 
-<script src="/BD/registroUsuarios/registro.js"></script>
-<script src="/BD/src/jsSC.js"></script>
-<script src="/BD/src/sync.js"></script>
-
+  <script src="/BD/registroUsuarios/registro.js"></script>
+  <script src="/BD/src/jsSC.js"></script>
  
+
+
 
 
   <footer class="footer">
@@ -177,10 +231,9 @@
   <script src="/node_modules/sweetalert2/dist/sweetalert2.all.js"></script>
   <script src="/CSS/SweetAlert.js"></script>
   <script src="CSS/prueba.js"></script>
-  <script src="/BD/login.php"></script>
- 
-    <script src="/BD/src/sincronizar.php"></script>
-  
+
+
 
 </body>
+
 </html>

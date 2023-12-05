@@ -4,7 +4,11 @@
 
 namespace Composer\Autoload;
 
+<<<<<<< HEAD
 class ComposerStaticInita7e291e0352b28c4a4ed41a5b67bcf59
+=======
+class ComposerStaticInit9f1e9b09fb025d4bdb49dd18d8122afe
+>>>>>>> 556cce75ceffd7761c48dd746710c85b13161276
 {
     public static $files = array (
         '2cffec82183ee1cea088009cef9a6fc3' => __DIR__ . '/..' . '/ezyang/htmlpurifier/library/HTMLPurifier.composer.php',
@@ -20,16 +24,26 @@ class ComposerStaticInita7e291e0352b28c4a4ed41a5b67bcf59
             'Psr\\SimpleCache\\' => 16,
             'Psr\\Http\\Message\\' => 17,
             'Psr\\Http\\Client\\' => 16,
+            'Psr\\Cache\\' => 10,
             'PhpOffice\\PhpSpreadsheet\\' => 25,
             'PHPMailer\\PHPMailer\\' => 20,
         ),
         'M' => 
         array (
+            'MercadoPago\\' => 12,
             'Matrix\\' => 7,
         ),
         'F' => 
         array (
             'Firebase\\JWT\\' => 13,
+        ),
+        'D' => 
+        array (
+            'Doctrine\\Persistence\\' => 21,
+            'Doctrine\\Deprecations\\' => 22,
+            'Doctrine\\Common\\Lexer\\' => 22,
+            'Doctrine\\Common\\Annotations\\' => 28,
+            'Doctrine\\Common\\' => 16,
         ),
         'C' => 
         array (
@@ -55,13 +69,27 @@ class ComposerStaticInita7e291e0352b28c4a4ed41a5b67bcf59
         array (
             0 => __DIR__ . '/..' . '/psr/http-client/src',
         ),
+        'Psr\\Cache\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/cache/src',
+        ),
         'PhpOffice\\PhpSpreadsheet\\' => 
         array (
             0 => __DIR__ . '/..' . '/phpoffice/phpspreadsheet/src/PhpSpreadsheet',
         ),
+<<<<<<< HEAD
         'PHPMailer\\PHPMailer\\' => 
         array (
             0 => __DIR__ . '/..' . '/phpmailer/phpmailer/src',
+=======
+        'MercadoPago\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/mercadopago/dx-php/src/MercadoPago',
+            1 => __DIR__ . '/..' . '/mercadopago/dx-php/tests',
+            2 => __DIR__ . '/..' . '/mercadopago/dx-php/src/MercadoPago/Generic',
+            3 => __DIR__ . '/..' . '/mercadopago/dx-php/src/MercadoPago/Entities',
+            4 => __DIR__ . '/..' . '/mercadopago/dx-php/src/MercadoPago/Entities/Shared',
+>>>>>>> 556cce75ceffd7761c48dd746710c85b13161276
         ),
         'Matrix\\' => 
         array (
@@ -70,6 +98,27 @@ class ComposerStaticInita7e291e0352b28c4a4ed41a5b67bcf59
         'Firebase\\JWT\\' => 
         array (
             0 => __DIR__ . '/..' . '/firebase/php-jwt/src',
+        ),
+        'Doctrine\\Persistence\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/doctrine/persistence/src/Persistence',
+        ),
+        'Doctrine\\Deprecations\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/doctrine/deprecations/lib/Doctrine/Deprecations',
+        ),
+        'Doctrine\\Common\\Lexer\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/doctrine/lexer/src',
+        ),
+        'Doctrine\\Common\\Annotations\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/doctrine/annotations/lib/Doctrine/Common/Annotations',
+        ),
+        'Doctrine\\Common\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/doctrine/event-manager/src',
+            1 => __DIR__ . '/..' . '/doctrine/common/src',
         ),
         'Complex\\' => 
         array (
@@ -94,10 +143,17 @@ class ComposerStaticInita7e291e0352b28c4a4ed41a5b67bcf59
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
+<<<<<<< HEAD
             $loader->prefixLengthsPsr4 = ComposerStaticInita7e291e0352b28c4a4ed41a5b67bcf59::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInita7e291e0352b28c4a4ed41a5b67bcf59::$prefixDirsPsr4;
             $loader->prefixesPsr0 = ComposerStaticInita7e291e0352b28c4a4ed41a5b67bcf59::$prefixesPsr0;
             $loader->classMap = ComposerStaticInita7e291e0352b28c4a4ed41a5b67bcf59::$classMap;
+=======
+            $loader->prefixLengthsPsr4 = ComposerStaticInit9f1e9b09fb025d4bdb49dd18d8122afe::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit9f1e9b09fb025d4bdb49dd18d8122afe::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInit9f1e9b09fb025d4bdb49dd18d8122afe::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInit9f1e9b09fb025d4bdb49dd18d8122afe::$classMap;
+>>>>>>> 556cce75ceffd7761c48dd746710c85b13161276
 
         }, null, ClassLoader::class);
     }

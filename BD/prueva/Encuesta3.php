@@ -60,7 +60,7 @@
     <table class= 'table table-bordered' id="header">
             <tbody class="color-fondo IBM">
                 <tr>
-                    <td rowspan="4" style="text-align:center"><img src="/Img/lOGOCONACYT.png" class="col-sm-4 my-3 my-lg-0 text-center"></td>
+                    <td rowspan="5" style="text-align:center"><img src="/Img/lOGOCONACYT.png" class="col-sm-4 my-3 my-lg-0 text-center"></td>
                     <td rowspan="3" class="col-sm-4 text-center">DATOS ENCUESTA</td>
                     <td><small><strong>CÓDIGO:</strong> <span name="codigo2" id="codigo2"><?php echo rand(); ?></span></small></td>
                 </tr>
@@ -71,14 +71,56 @@
                     <td><small><strong>VIGENCIA:</strong> <?php echo date('Y-m-d'); ?></small></td>
                 </tr>
                 <tr>
+                    <td class="col-sm-4 text-center">APLICADOR</td>
+                    <td><small><strong>CORREO:</strong><span name="userCorreo" id="userCorreo"></span></small></td>
+                </tr>
+                <tr>
                     <td class="col-sm-4 text-center">TIPO DE ENCUESTA</td>
                     <td><small><strong>TIPO:</strong> <?php echo 'Publico'; ?></small></td>
                 </tr>
+                <?php
+$idEncuesta = '3';
+      if ($idEncuesta === '3') {
+        echo '<tr>';
+        echo '<td class="col-sm-4 text-center">INSTRUCCIONES</td>';
+        echo '<td><small>Contestar toda las preguntas.
+       </small></td>';
+        echo '</tr>';
+    }
+?>
             </tbody>
         </table>
 
+        <script>
+            if ("geolocation" in navigator) {
+  navigator.geolocation.getCurrentPosition(function(position) {
+    var lat = position.coords.latitude;
+    var lon = position.coords.longitude;
+    var ubicacion = lat + ',' + lon;
+    // Poner los valores en los inputs
+    document.getElementById('latitud').value = lat;
+   document.getElementById('longitud').value = lon;
 
+    // Haz algo con las coordenadas (lat y lon) aquí
+  });
+} else {
+  console.log("Geolocalización no es compatible en este dispositivo.");
+}
+
+        </script>
         <div class="col-sm-6 p-3">
+        <div class="row mb-3">
+ <label for="latitud">Latitud:</label>
+<div class="col-sm-8">
+<input type="text" class="form-control" name="latitud" id="latitud">
+</div>
+
+<label for="longitud">Longitud:</label>
+<div class="col-sm-8">
+<input type="text" class="form-control" name="longitud" id="longitud">
+</div>
+ </div>
+ 
 
 <div class="row mb-3">
 <label for="nombrecompletos" class="col-sm-4 col-form-label px-4">Nombre:</label>
@@ -132,16 +174,39 @@ if ($con->connect_error) {
 
 $idEncuesta = '3';
 
+$sqlEncabezado = "SELECT ve.id_variableE, ve.nombre_Var
+                 FROM VariableEncabezado ve
+                 INNER JOIN Encuesta_Variables ev ON ve.id_variableE = ev.id_VariableE
+                 WHERE ev.id_encuesta = '$idEncuesta'";
+
+$queryEncabezado = mysqli_query($con, $sqlEncabezado);
+
+// Verificar si se obtuvieron resultados de la consulta de encabezados
+if ($queryEncabezado) {
+    // Inicializa un arreglo asociativo para almacenar los valores de encabezado
+    $encabezados = array();
+    
+    // Recorre los resultados y almacena los valores en el arreglo
+    while ($encabezadoRow = mysqli_fetch_assoc($queryEncabezado)) {
+        $encabezados[$encabezadoRow['id_variableE']] = strtoupper($encabezadoRow['nombre_Var']);
+    }
+}
+
 // Consulta para seleccionar las preguntas que coinciden con el ID de la encuesta y tienen estatus '1'
-$sqlPreguntas = "SELECT ev.id_Variables, v.Nobre_Var
+// $sqlPreguntas = "SELECT ev.id_Variables, ev.id_VariableE, v.Nobre_Var
+//                  FROM Encuesta_Variables ev
+//                  JOIN Variable v ON ev.id_Variables = v.id_variable
+//                  WHERE ev.id_encuesta = '$idEncuesta'";
+$sqlPreguntas = "SELECT ev.id_Variables, ev.id_VariableE, v.Nobre_Var
                  FROM Encuesta_Variables ev
                  JOIN Variable v ON ev.id_Variables = v.id_variable
                  WHERE ev.id_encuesta = '$idEncuesta'";
 
-$query = mysqli_query($con, $sqlPreguntas);
 
-// Verificar si se obtuvieron resultados de la consulta
-if ($query) {
+$queryPreguntas = mysqli_query($con, $sqlPreguntas);
+
+// Verificar si se obtuvieron resultados de la consulta de preguntas
+if ($queryPreguntas) {
     $arrayRespuestas = array(
         "0" => "0",
         "1" => "1",
@@ -152,51 +217,53 @@ if ($query) {
 }
 ?>
 
-<p id="total" data-totalPreg="<?php echo mysqli_num_rows($query); ?>"></p>
+<p id="total" data-totalPreg="<?php echo mysqli_num_rows($queryEncabezado); ?>"></p>
 <br><br>
 <div class="table-responsive">
 <h4 class="text-center">Encuesta:</h4>
 <form id="formFormato" return false;>
-
 <table class='table table-bordered'>
-    <tr>
+    
         <th>Influencia</th>
         <?php
-        while ($dataRow = mysqli_fetch_array($query)) {
+        while ($dataRow = mysqli_fetch_array($queryPreguntas)) {
             $variableName = strtoupper($dataRow['Nobre_Var']);
-            echo "<th>$variableName</th>";
+           // $encabezadoId = $dataRow['id_VariableE'];
+            echo "<th> $variableName</th>";
         }
         ?>
-    </tr>
+    
     <?php
-    mysqli_data_seek($query, 0); // Reiniciar el puntero de resultados
-    while ($dataRow = mysqli_fetch_array($query)) {
+    mysqli_data_seek($queryPreguntas, 0); 
+    while ($dataRow = mysqli_fetch_array($queryPreguntas)) {
         $questionId = $dataRow['id_Variables'];
+       // $encabezadoId = $dataRow['id_VariableE'];
         ?>
-        <tr>
+       <tr>
+    
             <td><?php echo strtoupper($dataRow['Nobre_Var']); ?></td>
+
             <?php
-            // Mostrar celdas de respuesta
-            for ($i = 0; $i < 21; $i++) {
-                $respuestaName = "respuesta[$questionId]";
-                
-                $valorVariable = ($i < 21) ? array_search($i, $arrayRespuestas) : $arrayRespuestas[$i];
-                $valorVariable = "0";
-                echo "<td>
-                <select name='$respuestaName' data-id='$questionId' onchange='handleSelectChange(this)'>
-                <option value='0' " . ($valorVariable == "0" ? "selected" : "") . ">0</option>
-                <option value='1' " . ($valorVariable == "1" ? "selected" : "") . ">1</option>
-                <option value='2' " . ($valorVariable == "2" ? "selected" : "") . ">2</option>
-                <option value='3' " . ($valorVariable == "3" ? "selected" : "") . ">3</option>
-                <option value='P' " . ($valorVariable == "P" ? "selected" : "") . ">P</option>
-                </select>
-                </td>";
-            }
-            ?>
-        </tr>
+                for ($col=1;$col<22;$col++) { // Cambia 2 al número de columnas que necesites
+                   $respuestaName = "respuesta[$questionId][$col]";
+                  // $valorVariable = ($col < 21) ? array_search($col,$arrayRespuestas) : $arrayRespuestas[$col];
+                    $valorVariable = "0";
+                    echo "<td>
+                        <select name='$respuestaName' data-questionid='$questionId'  data-encabezados='$col' data-id-tr='$questionId' onchange='handleSelectChange(this)' >
+                            <option value='0' " . ($valorVariable == "0" ? "selected" : "") . ">0</option>
+                            <option value='1' " . ($valorVariable == "1" ? "selected" : "") . ">1</option>
+                            <option value='2' " . ($valorVariable == "2" ? "selected" : "") . ">2</option>
+                            <option value='3' " . ($valorVariable == "3" ? "selected" : "") . ">3</option>
+                            <option value='P' " . ($valorVariable == "P" ? "selected" : "") . ">P</option>
+                        </select>
+                    </td>";
+                }
+             ?>
+         </tr>
         <?php
     }
     ?>
+
 </table>
 </div>
 </form>
@@ -216,11 +283,19 @@ if ($query) {
             </div>
         </div> -->
     </div>
-
+    <script>
+document.addEventListener('DOMContentLoaded', function () {
+   // var userId = localStorage.getItem('user_id');
+    var userCorreo = localStorage.getItem('user_correo');
+   // document.getElementById('aqui').value = userCorreo;
+ document.getElementById('userCorreo').textContent = userCorreo;
+                 // document.getElementById('Institucion').value = userCorreo;
+});
+         </script>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script>
-<script src="../prueva/encuesta.js"></script>
+<script src="/BD/prueva/encuesta.js"></script>
 </body>
 </html>

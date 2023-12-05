@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear Variable</title>
+    <link rel="stylesheet" href="../CSS/bootstrap.min.css">
+    <link rel="stylesheet" href="../CSS/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@300&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+
+<body class="color-fondo IBM">
+    <!-- Barra de navegacion  -->
+    <nav class="navbar navbar-expand-lg bg-vo sticky-top">
+        <div class="container-fluid bg-vo">
+            <a class="navbar-brand">Janal-Kaaj</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="../login.html">Login</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="p-3">
+
+        <section class="d-flex justify-content-center my-4">
+
+            <div class="card col-sm-7 p-3 shadow-lg mb-5 bg-white rounded">
+
+                <h1 class="bg-text-black text-center p-3 text-uppercase text-black">Editar variable</h1>
+                <form id="formulario" action="">
+                    <div class="row mb-4">
+                        <label class="col-sm-4 col-form-label px-5">Nombre: </label>
+                        <div class="col-sm-8">
+                            <input id="NomV" type="text" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="row mb-4">
+                        <label class="col-sm-4 col-form-label px-5">Sigla: </label>
+                        <div class="col-sm-8">
+                            <input id="SiglaV" type="text" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="row mb-4">
+                        <label class="col-sm-4 col-form-label px-5">Descripción: </label>
+                        <div class="col-sm-8">
+                            <input id="desV" type="text" class="form-control">
+                        </div>
+                    </div>
+                </form>
+                <div class="row mb-4">
+
+                    <div class="col-sm-12 text-center">
+                        <button onclick="CrearVariable(), actuVariable()" id="boton_añadir"
+                            class="btn btn-outline-success bg-border-mostaza bg-text-mostaza">Actualizar</button>
+                        <button onclick="window.location.href='../pestanas_Encuestador/variable_tipo_variable.html'"
+                            id="boton_guardar"
+                            class="btn btn-outline-success bg-border-mostaza bg-text-mostaza">Guardar</button>
+                        <button onclick="return cancelar2()"
+                            class="btn btn-outline-success bg-border-mostaza bg-text-mostaza">Cancelar</button>
+                    </div>
+
+                </div>
+                <div id="salidaVarC"></div>
+
+                <!-- <h3 class="bg-text-black text-center p-3 text-uppercase text-black">Vista Variables</h3>
+                   
+                    <table id="tabla1" class="table align-middle">
+                        <tr>
+                       
+                          
+                        </tr>
+                        <tr>
+                            <td>
+                                <ol class="listV">
+                                build list here
+                              </ol></td>
+                        </tr>
+                            </table> -->
+            </div>
+    </div>
+    </section>
+    </div>
+    <script src="../BD/app.js"></script>
+    <link rel="stylesheet" href="../node_modules/@sweetalert2/themes/bootstrap-4/bootstrap-4.min.css">
+    <script src="../node_modules/sweetalert2/dist/sweetalert2.all.js"></script>
+    <script src="/CSS/SweetAlert.js"></script>
+</body>
+
+</html>
